@@ -1,0 +1,62 @@
+@extends('layouts.app', ['activePage' => 'kursus'])
+
+@section('title', $course['title'] . ' — 1Langkah')
+
+@section('content')
+@php
+    $c = $course;
+    $mentorInitials = implode('', array_map(fn($w) => $w[0] ?? '', explode(' ', $c['mentor'])));
+@endphp
+
+<a href="javascript:history.back()" class="btn btn-ghost btn-sm" style="margin-bottom:16px;text-decoration:none;display:inline-flex">&#8592; Kembali ke Kursus</a>
+
+<div class="grid-2" style="gap:32px">
+    <div>
+        <div style="width:100%;aspect-ratio:16/9;border-radius:var(--radius-xl);background:linear-gradient(135deg,{{ $c['color'] }},{{ $c['color'] }}cc);margin-bottom:20px;display:flex;align-items:center;justify-content:center">
+            <div style="width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:#fff"><x-icon name="play" /></div>
+        </div>
+        <div class="flex gap-2" style="margin-bottom:16px">
+            <x-badge :text="$c['category']" type="blue" />
+            <x-badge :text="$c['level']" type="dark" />
+            @if(! empty($c['badge']))
+                <x-badge :text="$c['badge']" type="gold" />
+            @endif
+        </div>
+        <h1 style="font-size:24px;font-weight:800;line-height:1.3;margin-bottom:12px">{{ $c['title'] }}</h1>
+        <div class="flex items-center gap-3" style="margin-bottom:16px">
+            <x-stars :rating="$c['rating']" />
+            <span style="font-size:13px;color:var(--text-muted)">{{ $c['rating'] }} ({{ number_format($c['students']) }} siswa)</span>
+        </div>
+        <p style="font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:24px">Kuasai skill praktis dari dasar hingga mahir dalam program intensif ini. Dirancang oleh {{ $c['mentor'] }} dari {{ $c['mentorCompany'] }} dengan materi yang langsung applicable di industri.</p>
+        <div class="flex gap-3" style="flex-wrap:wrap">
+            <a href="{{ route('pembayaran', ['id' => $c['id']]) }}" class="btn btn-primary btn-lg">Daftar Sekarang — {{ $c['price'] }}</a>
+            <button class="btn btn-outline btn-lg">Tambah ke Wishlist</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary)"><x-icon name="clock" /> 25 jam total</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary)"><x-icon name="play" /> 48 video lesson</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary)"><x-icon name="award" /> Sertifikat verifikasi</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary)"><x-icon name="zap" /> Akses selamanya</div>
+        </div>
+    </div>
+    <div>
+        <div class="card" style="padding:24px;margin-bottom:20px">
+            <div class="section-title" style="margin-bottom:16px">Tentang Mentor</div>
+            <a href="{{ route('profil-mentor', ['id' => 301]) }}" class="flex items-center gap-3" style="cursor:pointer;text-decoration:none;color:inherit">
+                <x-avatar :initials="$mentorInitials" size="avatar-lg" :style="'background:' . $c['color']" />
+                <div><div style="font-weight:600">{{ $c['mentor'] }}</div><div style="font-size:13px;color:var(--text-muted)">{{ $c['mentorCompany'] }}</div></div>
+            </a>
+        </div>
+        <div class="card" style="padding:24px">
+            <div class="section-title" style="margin-bottom:16px">Kurikulum</div>
+            @foreach($chapters as $i => $ch)
+                <div style="display:flex;align-items:center;gap:12px;padding:12px 0;{{ $i < count($chapters) - 1 ? 'border-bottom:1px solid var(--border-light)' : '' }}">
+                    <div style="width:28px;height:28px;border-radius:50%;background:var(--bg-gray);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text-muted)">{{ $i + 1 }}</div>
+                    <div style="flex:1"><div style="font-size:13px;font-weight:600">{{ $ch['title'] }}</div><div style="font-size:11px;color:var(--text-light)">{{ $ch['lessons'] }} lessons · {{ $ch['duration'] }}</div></div>
+                    <x-icon name="chevronRight" style="width:16px;height:16px;color:var(--text-light)" />
+                </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+@endsection
