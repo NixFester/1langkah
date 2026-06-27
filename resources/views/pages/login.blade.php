@@ -38,6 +38,11 @@
                 <button type="button" class="social-btn">in</button>
             </div>
             <div class="auth-divider">atau masuk dengan email</div>
+            @if ($errors->any())
+                <div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;color:#b91c1c;margin-bottom:8px">
+                    {{ $errors->first() }}
+                </div>
+            @endif
             <div class="input-group" style="margin-bottom:16px">
                 <label>Email</label>
                 <input class="input" type="email" name="email" placeholder="nama@email.com" required />

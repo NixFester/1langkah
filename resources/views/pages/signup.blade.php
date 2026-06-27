@@ -24,6 +24,15 @@
                 <button type="button" class="social-btn">in</button>
             </div>
             <div class="auth-divider">atau daftar dengan email</div>
+            @if ($errors->any())
+                <div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;color:#b91c1c;margin-bottom:8px">
+                    <ul style="margin:0;padding-left:16px">
+                        @foreach ($errors->all() as $e)
+                            <li>{{ $e }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
                 <div class="input-group"><label>Nama Depan</label><input class="input" name="first_name" placeholder="John" required /></div>
                 <div class="input-group"><label>Nama Belakang</label><input class="input" name="last_name" placeholder="Doe" required /></div>

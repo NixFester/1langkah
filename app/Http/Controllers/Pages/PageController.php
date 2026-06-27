@@ -7,6 +7,7 @@ use App\Services\CatalogService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
@@ -26,6 +27,10 @@ class PageController extends Controller
         ]);
     }
 
+    /* -----------------------------------------------------------------
+     * Login / signup / logout pages
+     * ----------------------------------------------------------------- */
+
     public function login(): View
     {
         return view('pages.login');
@@ -33,8 +38,19 @@ class PageController extends Controller
 
     public function loginSubmit(Request $request): RedirectResponse
     {
-        // Demo only — just redirect to dashboard regardless of input.
-        return redirect()->route('dashboard');
+        $credentials = $request->validate([
+            'email'    => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('dashboard'));
+        }
+
+        return back()
+            ->withErrors(['email' => 'Email atau password salah.'])
+            ->onlyInput('email');
     }
 
     public function signup(): View
@@ -44,7 +60,73 @@ class PageController extends Controller
 
     public function signupSubmit(Request $request): RedirectResponse
     {
-        return redirect()->route('dashboard');
+        $request->validate([
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name'  => ['required', 'string', 'max:255'],
+            'email'      => ['required', 'email', 'unique:users,email'],
+            'password'   => ['required', 'min:8'],
+        ]);
+
+        $user = \App\Models\User::create([
+            'name'     => $request->first_name . ' ' . $request->last_name,
+            'email'    => $request->email,
+            'password' => $request->password,   // cast auto-hashes it
+        ]);
+
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        return redirect()->intended(route('dashboard'));
+    }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('landing');
+    }
+
+    
+    /* -----------------------------------------------------------------
+     * pengaturan pages (sidebar + topbar)
+     * ----------------------------------------------------------------- */
+
+
+    public function pengaturan(): View
+    {
+        return view('pages.pengaturan', [
+            'authUser' => auth()->user(),
+        ]);
+    }
+
+    public function updatePengaturan(Request $request): RedirectResponse
+    {
+        $user = auth()->user();
+
+        $rules = [
+            'name'  => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
+        ];
+
+        if ($request->filled('password')) {
+            $rules['password']              = ['min:8'];
+            $rules['password_confirmation'] = ['same:password'];
+        }
+
+        $request->validate($rules);
+
+        $user->name  = $request->name;
+        $user->email = $request->email;
+
+        if ($request->filled('password')) {
+            $user->password = $request->password; // cast hashes it
+        }
+
+        $user->save();
+
+        return back()->with('success', 'Profil berhasil diperbarui.');
     }
 
     /* -----------------------------------------------------------------

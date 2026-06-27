@@ -3,36 +3,43 @@
     $activePage = $activePage ?? 'dashboard';
 
     // Each nav item maps to a named Laravel route.
+    $isAuth = auth()->check();
+
     $navGroups = [
-        [
+        ...($isAuth ? [[
             'title' => 'MENU UTAMA',
             'items' => [
-                ['id' => 'dashboard',       'icon' => 'home',      'label' => 'Dashboard',        'route' => 'dashboard'],
+                ['id' => 'dashboard', 'icon' => 'home', 'label' => 'Dashboard', 'route' => 'dashboard'],
             ],
-        ],
+        ]] : []),
         [
             'title' => 'BELAJAR',
             'items' => [
-                ['id' => 'kursus',          'icon' => 'book',      'label' => 'Kursus',           'route' => 'kursus'],
-                ['id' => 'kursus-saya',     'icon' => 'trophy',    'label' => 'Kursus Saya',      'route' => 'kursus-saya'],
-                ['id' => 'path',            'icon' => 'path',      'label' => 'Learning Path',    'route' => 'dashboard'],
-                ['id' => 'quiz',            'icon' => 'quiz',      'label' => 'Quiz',             'route' => 'dashboard'],
+                ['id' => 'kursus', 'icon' => 'book', 'label' => 'Kursus', 'route' => 'kursus'],
+                ...($isAuth ? [
+                    ['id' => 'kursus-saya', 'icon' => 'trophy',  'label' => 'Kursus Saya',   'route' => 'kursus-saya'],
+                    ['id' => 'path',        'icon' => 'path',    'label' => 'Learning Path', 'route' => 'dashboard'],
+                    ['id' => 'quiz',        'icon' => 'quiz',    'label' => 'Quiz',          'route' => 'dashboard'],
+                ] : []),
             ],
         ],
         [
             'title' => 'BOOTCAMP',
             'items' => [
-                ['id' => 'online-bootcamp',  'icon' => 'video',    'label' => 'Online Bootcamp',  'route' => 'online-bootcamp'],
-                ['id' => 'offline-bootcamp', 'icon' => 'mapPin',   'label' => 'Offline Bootcamp', 'route' => 'offline-bootcamp'],
+                ['id' => 'online-bootcamp',  'icon' => 'video',  'label' => 'Online Bootcamp',  'route' => 'online-bootcamp'],
+                ['id' => 'offline-bootcamp', 'icon' => 'mapPin', 'label' => 'Offline Bootcamp', 'route' => 'offline-bootcamp'],
             ],
         ],
         [
             'title' => 'LAINNYA',
             'items' => [
-                ['id' => 'ai-tools',  'icon' => 'ai',         'label' => 'AI Tools',   'route' => 'dashboard'],
-                ['id' => 'mentor',    'icon' => 'users',      'label' => 'Mentor',     'route' => 'mentor'],
-                ['id' => 'kalender',  'icon' => 'calendar',   'label' => 'Kalender',   'route' => 'kalender'],
-                ['id' => 'pembayaran','icon' => 'creditCard', 'label' => 'Pembayaran', 'route' => 'pembayaran'],
+                ...($isAuth ? [
+                    ['id' => 'ai-tools', 'icon' => 'ai',       'label' => 'AI Tools', 'route' => 'dashboard'],
+                ] : []),
+                ['id' => 'mentor',   'icon' => 'users',     'label' => 'Mentor',   'route' => 'mentor'],
+                ...($isAuth ? [
+                    ['id' => 'kalender', 'icon' => 'calendar', 'label' => 'Kalender', 'route' => 'kalender'],
+                ] : []),
             ],
         ],
     ];
@@ -73,14 +80,26 @@
             </div>
         @endforeach
     </div>
+    @auth
     <div class="sidebar-footer">
-        <a href="{{ route('profil-mentor', ['id' => 301]) }}" class="sidebar-user" style="text-decoration:none;color:inherit">
-            <x-avatar initials="AK" />
-            <div class="sidebar-user-info">
-                <div class="sidebar-user-name">{{ $user['name'] }}</div>
-                <div class="sidebar-user-role">{{ $user['role'] }}</div>
+        @php $authUser = auth()->user(); @endphp
+        <a href="{{ route('pengaturan') }}" class="sidebar-user" style="text-decoration:none;color:inherit">
+            <div class="avatar" style="background:linear-gradient(135deg,var(--primary),#b91c1c)">
+                {{ strtoupper(substr($authUser->name, 0, 1)) }}
             </div>
-            <x-icon name="chevronRight" />
+            <div class="sidebar-user-info">
+                <div class="sidebar-user-name">{{ $authUser->name }}</div>
+                <div class="sidebar-user-role">{{ $authUser->email }}</div>
+            </div>
+            <x-icon name="settings" />
         </a>
+        <form method="POST" action="{{ route('logout') }}" style="margin-top:8px">
+            @csrf
+            <button type="submit" class="nav-item" style="width:100%;background:none;border:none;cursor:pointer;color:var(--text-muted)">
+                <x-icon name="logout" />
+                <span>Keluar</span>
+            </button>
+        </form>
     </div>
+    @endauth
 </div>
