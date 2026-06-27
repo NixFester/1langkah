@@ -22,3 +22,11 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Laravel Boost
+/.agents/
+/AGENTS.md
+/boost.json
+/figma/
+compile_to_md.py
+context.md
