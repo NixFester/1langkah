@@ -12,9 +12,24 @@
 
 <div class="grid-2" style="gap:32px">
     <div>
-        <div style="width:100%;aspect-ratio:16/9;border-radius:var(--radius-xl);background:linear-gradient(135deg,{{ $c['color'] }},{{ $c['color'] }}cc);margin-bottom:20px;display:flex;align-items:center;justify-content:center">
-            <div style="width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:#fff"><x-icon name="play" /></div>
+        <div style="width:100%;aspect-ratio:16/9;border-radius:var(--radius-xl);background:linear-gradient(135deg,{{ $c['color'] }},{{ $c['color'] }}cc);margin-bottom:20px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden">
+            @if(!empty($c['thumbnail']))
+                <img src="{{ $c['thumbnail'] }}" alt="{{ $c['title'] }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+            @endif
+            <div style="position:relative;z-index:1;width:60px;height:60px;border-radius:50%;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;color:#fff"><x-icon name="play" /></div>
         </div>
+
+        {{-- Gallery strip --}}
+        @if(!empty($c['gallery']))
+            <div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:20px;padding-bottom:4px">
+                @foreach($c['gallery'] as $img)
+                    <img src="{{ $img }}" alt="{{ $c['title'] }}"
+                         style="flex-shrink:0;width:120px;height:72px;object-fit:cover;border-radius:var(--radius-sm);cursor:pointer;border:2px solid transparent;transition:border-color .2s"
+                         onmouseover="this.style.borderColor='var(--primary)'"
+                         onmouseout="this.style.borderColor='transparent'">
+                @endforeach
+            </div>
+        @endif
         <div class="flex gap-2" style="margin-bottom:16px">
             <x-badge :text="$c['category']" type="blue" />
             <x-badge :text="$c['level']" type="dark" />
@@ -50,11 +65,28 @@
         <div class="card" style="padding:24px">
             <div class="section-title" style="margin-bottom:16px">Kurikulum</div>
             @foreach($chapters as $i => $ch)
-                <div style="display:flex;align-items:center;gap:12px;padding:12px 0;{{ $i < count($chapters) - 1 ? 'border-bottom:1px solid var(--border-light)' : '' }}">
-                    <div style="width:28px;height:28px;border-radius:50%;background:var(--bg-gray);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text-muted)">{{ $i + 1 }}</div>
-                    <div style="flex:1"><div style="font-size:13px;font-weight:600">{{ $ch['title'] }}</div><div style="font-size:11px;color:var(--text-light)">{{ $ch['lessons'] }} lessons · {{ $ch['duration'] }}</div></div>
-                    <x-icon name="chevronRight" style="width:16px;height:16px;color:var(--text-light)" />
-                </div>
+                @php $hasVideo = !empty($ch['video_url']); @endphp
+                @if($hasVideo)
+                    <a href="{{ $ch['video_url'] }}" target="_blank" rel="noopener"
+                       style="display:flex;align-items:center;gap:12px;padding:12px 0;text-decoration:none;color:inherit;{{ $i < count($chapters) - 1 ? 'border-bottom:1px solid var(--border-light)' : '' }}">
+                @else
+                    <div style="display:flex;align-items:center;gap:12px;padding:12px 0;{{ $i < count($chapters) - 1 ? 'border-bottom:1px solid var(--border-light)' : '' }}">
+                @endif
+                        <div style="width:28px;height:28px;border-radius:50%;background:{{ $hasVideo ? 'var(--primary-bg)' : 'var(--bg-gray)' }};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:{{ $hasVideo ? 'var(--primary)' : 'var(--text-muted)' }}">{{ $i + 1 }}</div>
+                        <div style="flex:1">
+                            <div style="font-size:13px;font-weight:600">{{ $ch['title'] }}</div>
+                            <div style="font-size:11px;color:var(--text-light)">{{ $ch['lessons'] }} lessons · {{ $ch['duration'] }}</div>
+                        </div>
+                        @if($hasVideo)
+                            <x-icon name="play" style="width:16px;height:16px;color:var(--primary)" />
+                        @else
+                            <x-icon name="chevronRight" style="width:16px;height:16px;color:var(--text-light)" />
+                        @endif
+                @if($hasVideo)
+                    </a>
+                @else
+                    </div>
+                @endif
             @endforeach
         </div>
     </div>

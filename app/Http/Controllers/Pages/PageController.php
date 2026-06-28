@@ -163,7 +163,7 @@ class PageController extends Controller
 
         return view('pages.detail-kursus', [
             'course'   => $course,
-            'chapters' => $this->catalog->chapters(),
+            'chapters' => $this->catalog->chapters($course['id']),
         ]);
     }
 
@@ -190,7 +190,7 @@ class PageController extends Controller
 
         return view('pages.detail-online-bootcamp', [
             'bootcamp' => $bootcamp,
-            'sessions' => $this->catalog->onlineSessions(),
+            'sessions' => $this->catalog->onlineSessions($bootcamp['id']),
         ]);
     }
 

@@ -9,9 +9,21 @@
 
 <div class="grid-2" style="gap:32px">
     <div>
-        <div style="width:100%;aspect-ratio:16/9;border-radius:var(--radius-xl);background:linear-gradient(135deg,{{ $b['color'] }},{{ $b['color'] }}cc);margin-bottom:20px;display:flex;align-items:center;justify-content:center">
-            <div style="color:#fff;font-size:14px;font-weight:600;background:rgba(0,0,0,.3);padding:6px 16px;border-radius:999px;display:inline-flex;align-items:center;gap:6px"><x-icon name="mapPin" style="width:14px;height:14px;color:#fff" /> {{ $b['location'] }}</div>
+        <div style="width:100%;aspect-ratio:16/9;border-radius:var(--radius-xl);background:linear-gradient(135deg,{{ $b['color'] }},{{ $b['color'] }}cc);margin-bottom:20px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden">
+            @if(!empty($b['thumbnail']))
+                <img src="{{ $b['thumbnail'] }}" alt="{{ $b['title'] }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+            @endif
+            <div style="position:relative;z-index:1;color:#fff;font-size:14px;font-weight:600;background:rgba(0,0,0,.4);padding:6px 16px;border-radius:999px;display:inline-flex;align-items:center;gap:6px"><x-icon name="mapPin" style="width:14px;height:14px;color:#fff" /> {{ $b['location'] }}</div>
         </div>
+
+        @if(!empty($b['gallery']))
+            <div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:20px;padding-bottom:4px">
+                @foreach($b['gallery'] as $img)
+                    <img src="{{ $img }}" alt="{{ $b['title'] }}"
+                         style="flex-shrink:0;width:120px;height:72px;object-fit:cover;border-radius:var(--radius-sm)">
+                @endforeach
+            </div>
+        @endif
         <h1 style="font-size:24px;font-weight:800;margin-bottom:12px">{{ $b['title'] }}</h1>
         <div class="flex gap-3" style="margin-bottom:16px">
             <x-badge text="Offline" type="purple" />

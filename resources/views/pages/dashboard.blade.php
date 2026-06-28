@@ -35,7 +35,11 @@
         <x-section-header title="Lanjutkan Belajar" linkText="Lihat semua" :linkHref="route('kursus-saya')" />
         @foreach($activeCourses as $c)
             <a href="{{ route('detail-kursus', ['id' => $c['id']]) }}" class="card" style="display:flex;gap:14px;padding:14px;margin-bottom:12px;cursor:pointer;text-decoration:none;color:inherit">
-                <div style="width:80px;height:60px;border-radius:var(--radius-sm);background:linear-gradient(135deg,{{ $c['color'] }},{{ $c['color'] }}cc);flex-shrink:0"></div>
+                <div style="width:80px;height:60px;border-radius:var(--radius-sm);background:linear-gradient(135deg,{{ $c['color'] }},{{ $c['color'] }}cc);flex-shrink:0;position:relative;overflow:hidden">
+                    @if(!empty($c['thumbnail']))
+                        <img src="{{ $c['thumbnail'] }}" alt="{{ $c['title'] }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+                    @endif
+                </div>
                 <div style="flex:1;min-width:0">
                     <div style="font-size:13px;font-weight:600;margin-bottom:2px">{{ $c['title'] }}</div>
                     <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">{{ $c['mentor'] }}</div>

@@ -21,13 +21,17 @@
     $badges[] = view('components.badge', ['text' => $c['level'], 'type' => 'dark'])->render();
 @endphp
 <a href="{{ $detailUrl }}" class="card course-card" style="text-decoration:none;color:inherit">
-    <div class="course-card-img" style="background:linear-gradient(135deg,{{ $c['color'] }},{{ $c['color'] }}dd)">
+    <div class="course-card-img" style="background:linear-gradient(135deg,{{ $c['color'] }},{{ $c['color'] }}dd);position:relative;overflow:hidden">
+        @if(!empty($c['thumbnail']))
+            <img src="{{ $c['thumbnail'] }}" alt="{{ $c['title'] }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        @endif
         <div class="badges">{!! implode('', $badges) !!}</div>
         @if($c['progress'] > 0)
             <span style="position:absolute;bottom:10px;right:10px;color:#fff;font-size:12px;font-weight:600">{{ $c['progress'] }}% done</span>
         @else
             <span class="price-tag">{{ $c['price'] }}</span>
         @endif
+    {{-- badges and price sit on top of the image --}}
     </div>
     <div class="course-card-body">
         <div class="course-card-title">{{ $c['title'] }}</div>

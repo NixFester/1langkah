@@ -30,3 +30,5 @@ Thumbs.db
 /figma/
 compile_to_md.py
 context.md
+compiledb.py
+db.md
