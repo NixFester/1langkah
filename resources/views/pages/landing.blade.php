@@ -59,30 +59,30 @@
 </nav>
 
 <!-- Hero & Partners Full Screen Wrapper -->
-<div class="min-h-screen w-full flex flex-col overflow-x-hidden bg-[#050304]">
+<div class="h-[100svh] min-h-[800px] xl:min-h-[850px] w-full flex flex-col overflow-x-hidden bg-[#050304]">
     
     <!-- Hero -->
     <section class="relative flex-1 w-full flex flex-col justify-center px-6 md:px-12 pt-[90px] lg:pt-[100px] pb-8 z-10">
     <!-- Red gradient glow in background -->
     <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#D10000]/15 rounded-full blur-[100px] -translate-y-1/2 pointer-events-none"></div>
 
-    <div class="max-w-[1400px] mx-auto w-full relative z-10 flex flex-col flex-1 justify-center gap-8 lg:gap-12">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 xl:gap-8 items-center flex-1">
+    <div class="max-w-[1400px] mx-auto w-full relative z-10 flex flex-col flex-1 justify-center min-h-0">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 xl:gap-8 items-end">
             
             <!-- Left side: Text Content -->
             <div class="relative z-10 flex flex-col items-start justify-center">
                 
                 <!-- Badge -->
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-red-900/40 bg-[#D10000]/10 mb-3 lg:mb-4">
-                    <svg class="w-3.5 h-3.5 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.6h8l-6.4 4.8 2.4 7.6-6.4-4.8-6.4 4.8 2.4-7.6-6.4-4.8h8z"/></svg>
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#D10000]/30 bg-[#D10000]/10 mb-3 lg:mb-4">
+                    <svg class="w-3.5 h-3.5 text-[#ef4444]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0L13.8 8.2L22 10L13.8 11.8L12 20L10.2 11.8L2 10L10.2 8.2L12 0Z"/></svg>
                     <span class="text-[10px] sm:text-xs font-bold tracking-[0.15em] text-[#ef4444] uppercase">AI-POWERED LEARNING EXPERIENCE PLATFORM</span>
                 </div>
 
                 <!-- Title -->
                 <h1 class="text-5xl sm:text-6xl lg:text-[54px] xl:text-[70px] font-extrabold leading-[1.05] tracking-tight text-white mb-3 lg:mb-4">
                     Satu Langkah<br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF3333] to-[#cc0000]">Menuju Masa</span><br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF3333] to-[#cc0000]">Depan</span><br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Menuju Masa</span><br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Depan</span><br>
                     Lebih Baik.
                 </h1>
 
@@ -92,12 +92,12 @@
                 </p>
 
                 <!-- Buttons Row -->
-                <div class="flex flex-wrap items-center gap-3 lg:gap-4 xl:gap-5 mb-2 lg:mb-3">
-                    <a href="{{ route('signup') }}" class="inline-flex items-center gap-2 px-6 py-3 lg:px-7 lg:py-3.5 xl:px-8 xl:py-4 bg-[#D10000] text-white font-bold text-[14px] xl:text-[16px] rounded-2xl hover:bg-[#b30000] transition-all shadow-[0_0_30px_rgba(209,0,0,0.5)]">
+                <div class="flex flex-wrap items-center gap-3 lg:gap-4 xl:gap-5 mb-4 lg:mb-6">
+                    <a href="{{ route('signup') }}" class="inline-flex items-center gap-2 px-6 py-3 lg:px-7 lg:py-3.5 xl:px-8 xl:py-4 bg-[#D10000] text-white font-bold text-[14px] xl:text-[16px] rounded-full hover:bg-[#b30000] transition-all shadow-[0_0_30px_rgba(209,0,0,0.5)]">
                         Mulai Belajar Gratis 
                         <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                     </a>
-                    <a href="{{ route('kursus') }}" class="inline-flex items-center justify-center px-6 py-3 lg:px-7 lg:py-3.5 xl:px-8 xl:py-4 border border-white/10 bg-transparent text-white font-bold text-[14px] xl:text-[16px] rounded-2xl hover:bg-white/5 transition-colors">
+                    <a href="{{ route('kursus') }}" class="inline-flex items-center justify-center px-6 py-3 lg:px-7 lg:py-3.5 xl:px-8 xl:py-4 border border-white/20 bg-transparent text-white font-bold text-[14px] xl:text-[16px] rounded-full hover:bg-white/5 transition-colors">
                         Jelajahi Kursus
                     </a>
                 </div>
@@ -109,11 +109,13 @@
                     </div>
                     <span class="font-medium text-[15px]">Watch Demo</span>
                 </button>
+
+
             </div>
 
             <!-- Right side: Illustrative Dashboard Mockup -->
             <div class="relative z-10 hidden lg:flex items-center justify-center w-full min-h-0">
-                <div class="relative w-full max-w-[500px] xl:max-w-[650px] mx-auto origin-center lg:mt-10 xl:mt-14">
+                <div class="relative w-full max-w-[500px] xl:max-w-[650px] mx-auto origin-center lg:mt-4 xl:mt-8 -mb-16 lg:-mb-24 xl:-mb-28">
                     <!-- Floating Pills -->
                     <div class="absolute left-[2%] top-[25%] px-4 py-1.5 lg:px-5 lg:py-2 bg-[#171313]/90 backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_7s_ease-in-out_infinite]">React</div>
                     <div class="absolute left-[5%] top-[45%] px-4 py-1.5 lg:px-5 lg:py-2 bg-[#171313]/90 backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_8s_ease-in-out_infinite_reverse]">Python</div>
@@ -130,32 +132,35 @@
                     <!-- Skill Passport (Bottom Right) -->
                     <img src="{{ asset('images/hero/hero-skills.png') }}" alt="Skill Passport" class="absolute right-[2%] bottom-[12%] w-[222px] z-20 animate-[float_7s_ease-in-out_infinite_1s]">
                 </div>
+
+                </div>
             </div>
-        </div>
 
         <!-- Bottom Stats Row -->
-        <div class="mt-4 lg:mt-auto mb-2 flex flex-col md:flex-row items-center justify-between gap-4 lg:gap-6 w-full">
-            <div class="flex flex-wrap items-center justify-center md:justify-start gap-8 lg:gap-10 xl:gap-14">
-                <div class="text-center md:text-left">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 xl:gap-8 items-center w-full relative z-20 pt-6 lg:pt-8">
+            
+            <!-- Stats (Left Column) -->
+            <div class="flex items-center justify-center lg:justify-start gap-4 lg:gap-8 xl:gap-14 whitespace-nowrap w-full">
+                <div class="text-center lg:text-left">
                     <div class="text-[20px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0.5 lg:mb-1 tracking-tight">100K+</div>
                     <div class="text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Pelajar Aktif</div>
                 </div>
-                <div class="text-center md:text-left">
+                <div class="text-center lg:text-left">
                     <div class="text-[20px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0.5 lg:mb-1 tracking-tight">800+</div>
                     <div class="text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Kursus Premium</div>
                 </div>
-                <div class="text-center md:text-left">
+                <div class="text-center lg:text-left">
                     <div class="text-[20px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0.5 lg:mb-1 tracking-tight">500+</div>
-                    <div class="text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Mentor Ahli</div>
+                    <div class="text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Mentor Berpengalaman</div>
                 </div>
-                <div class="text-center md:text-left">
+                <div class="text-center lg:text-left">
                     <div class="text-[20px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0.5 lg:mb-1 tracking-tight">95%</div>
-                    <div class="text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Completion</div>
+                    <div class="text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Course Completion</div>
                 </div>
             </div>
-            
-            <!-- Ratings -->
-            <div class="flex items-center gap-4">
+
+            <!-- Ratings (Right Column) -->
+            <div class="flex items-center justify-center gap-4 whitespace-nowrap w-full">
                 <div class="flex -space-x-3">
                     <img class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=A&background=random" alt="User">
                     <img class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=B&background=random" alt="User">
@@ -163,8 +168,8 @@
                     <img class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=D&background=random" alt="User">
                     <div class="w-10 h-10 rounded-full border-2 border-[#070707] bg-[#dc2626] flex items-center justify-center text-[10px] font-bold text-white z-10">+99K</div>
                 </div>
-                <div>
-                    <div class="flex items-center gap-1 text-[#eab308] mb-1">
+                <div class="text-left">
+                    <div class="flex items-center gap-1 text-[#eab308] mb-0.5">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
@@ -174,6 +179,7 @@
                     </div>
                     <div class="text-[#6b7280] text-[11px] font-medium">dari 100,000+ pelajar aktif di seluruh Indonesia</div>
                 </div>
+
             </div>
         </div>
     </div>

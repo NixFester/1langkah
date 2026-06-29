@@ -141,18 +141,28 @@
     @auth
     <div class="sidebar-footer">
         @php $authUser = auth()->user(); @endphp
-        <a href="{{ route('pengaturan') }}" class="sidebar-user" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px;">
-            <div class="avatar" style="background:linear-gradient(135deg,var(--primary),#b91c1c);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:16px;">
-                {{ strtoupper(substr($authUser->name ?? 'A', 0, 2)) }}
+        <div class="sidebar-user" style="display:flex;align-items:center;gap:12px;width:100%;">
+            <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px;flex:1;">
+                <div class="avatar" style="background:linear-gradient(135deg,var(--primary),#b91c1c);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:16px;">
+                    {{ strtoupper(substr($authUser->name ?? 'A', 0, 2)) }}
+                </div>
+                <div class="sidebar-user-info" style="flex:1;">
+                    <div class="sidebar-user-name" style="font-weight:700;font-size:14px;">{{ $authUser->name ?? 'Atta Ul Karim' }}</div>
+                    <div class="sidebar-user-role" style="font-size:12px;color:var(--text-light);">Full-Stack Dev</div>
+                </div>
+            </a>
+            <div class="flex items-center gap-3">
+                <a href="{{ route('pengaturan') }}" class="text-gray-400 hover:text-gray-600 transition-colors" title="Pengaturan">
+                    <x-icon name="settings" style="width:16px;height:16px;" />
+                </a>
+                <form action="{{ route('logout') }}" method="POST" class="m-0 p-0 flex">
+                    @csrf
+                    <button type="submit" class="text-gray-400 hover:text-[#cc0000] transition-colors bg-transparent border-none p-0 cursor-pointer" title="Keluar">
+                        <svg style="width:16px;height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    </button>
+                </form>
             </div>
-            <div class="sidebar-user-info" style="flex:1;">
-                <div class="sidebar-user-name" style="font-weight:700;font-size:14px;">{{ $authUser->name ?? 'Atta Ul Karim' }}</div>
-                <div class="sidebar-user-role" style="font-size:12px;color:var(--text-light);">Full-Stack Dev</div>
-            </div>
-            <div class="text-gray-400 hover:text-gray-600 transition-colors">
-                <x-icon name="settings" style="width:16px;height:16px;" />
-            </div>
-        </a>
+        </div>
     </div>
     @endauth
 </div>
