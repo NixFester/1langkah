@@ -95,6 +95,7 @@
         
     </div>
     </div>
+    </div>
 </div>
 
 <!-- DESKTOP & TABLET VIEW (Shown on md and up) -->

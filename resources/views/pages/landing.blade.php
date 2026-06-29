@@ -59,15 +59,15 @@
 </nav>
 
 <!-- Hero & Partners Full Screen Wrapper -->
-<div class="min-h-screen lg:h-screen w-full flex flex-col overflow-x-hidden bg-[#050304]">
+<div class="min-h-screen w-full flex flex-col overflow-x-hidden bg-[#050304]">
     
     <!-- Hero -->
-    <section class="relative flex-1 w-full flex flex-col justify-center px-6 md:px-12 pt-[90px] lg:pt-[70px] pb-2 z-10 min-h-0">
+    <section class="relative flex-1 w-full flex flex-col justify-center px-6 md:px-12 pt-[90px] lg:pt-[100px] pb-8 z-10">
     <!-- Red gradient glow in background -->
     <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#D10000]/15 rounded-full blur-[100px] -translate-y-1/2 pointer-events-none"></div>
 
-    <div class="max-w-[1400px] mx-auto w-full relative z-10 flex flex-col h-full justify-center min-h-0">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 xl:gap-8 items-center flex-1 min-h-0">
+    <div class="max-w-[1400px] mx-auto w-full relative z-10 flex flex-col flex-1 justify-center gap-8 lg:gap-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 xl:gap-8 items-center flex-1">
             
             <!-- Left side: Text Content -->
             <div class="relative z-10 flex flex-col items-start justify-center">

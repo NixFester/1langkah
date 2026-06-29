@@ -34,8 +34,6 @@
     @auth
     <!-- Kanan -->
     <div class="topbar-right" style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:12px;">
-        {{-- XP Badge --}}
-        <div class="xp-badge">&#9889; {{ $catalogUser['xp'] }}</div>
 
         {{-- Bell + Notification Overlay --}}
         <div style="position:relative">
@@ -76,14 +74,18 @@
             </div>
         </div>
 
-        {{-- Settings → pengaturan page --}}
-        <a href="{{ route('pengaturan') }}" class="topbar-icon" style="text-decoration:none;color:inherit">
-            <x-icon name="settings" />
+        {{-- Message icon --}}
+        <a href="#" class="topbar-icon" style="text-decoration:none;color:inherit">
+            <x-icon name="message" />
         </a>
 
-        {{-- Avatar → pengaturan page --}}
-        <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit">
-            <div class="avatar avatar-sm" style="background:linear-gradient(135deg,var(--primary),#b91c1c)">{{ $initials }}</div>
+        {{-- Avatar & User Info --}}
+        <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;margin-left:8px;">
+            <div class="avatar" style="background:#cc0000; width:32px; height:32px; font-size:13px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; flex-shrink:0;">{{ $initials }}</div>
+            <div style="display:flex; flex-direction:column; align-items:flex-start; justify-content:center;">
+                <span style="font-size:15px;font-weight:800;color:var(--text-primary);line-height:1.1;">{{ $authUser->name }}</span>
+                <span style="font-size:13px;font-weight:500;color:var(--text-light);line-height:1.1;margin-top:4px;">{{ number_format((int) $catalogUser['xp']) }} XP</span>
+            </div>
         </a>
     </div>
     @else

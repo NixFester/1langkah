@@ -10,17 +10,27 @@
     <style>
         .sidebar, .main-content, .topbar { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         
-        body.sidebar-collapsed .sidebar { width: 88px; }
-        body.sidebar-collapsed .main-content { margin-left: 88px; }
-        body.sidebar-collapsed .topbar { left: 88px; }
-        body.sidebar-collapsed .sidebar-text { display: none; }
-        body.sidebar-collapsed .sidebar-header { justify-content: center; padding: 16px 0; }
+        body.sidebar-collapsed .sidebar { width: 80px; }
+        body.sidebar-collapsed .main-content { margin-left: 80px; }
+        body.sidebar-collapsed .topbar { left: 80px; }
+        body.sidebar-collapsed .sidebar-text { display: none !important; }
+        body.sidebar-collapsed .sidebar-header { justify-content: center; padding: 24px 0; gap: 6px; }
         body.sidebar-collapsed .sidebar-logo-text { display: none; }
-        body.sidebar-collapsed .nav-item { justify-content: center; }
-        body.sidebar-collapsed .nav-section-title { text-align: center; font-size: 0; }
-        body.sidebar-collapsed .nav-section-title::after { content: '•••'; font-size: 14px; letter-spacing: 2px; }
-        body.sidebar-collapsed .sidebar-user { justify-content: center; }
+        
+        body.sidebar-collapsed .nav-item { 
+            justify-content: center !important; 
+            width: 44px !important; 
+            height: 44px !important; 
+            margin: 0 auto 12px !important; 
+            padding: 0 !important;
+            border-radius: 12px !important;
+        }
+        
+        body.sidebar-collapsed .nav-section-title { display: none; }
+        body.sidebar-collapsed .nav-sub-container { display: none !important; }
+        body.sidebar-collapsed .sidebar-user { justify-content: center; margin: 0 auto; width: 44px; height: 44px; padding: 0 !important; }
         body.sidebar-collapsed .sidebar-user-info { display: none; }
+        body.sidebar-collapsed .sidebar-user .text-gray-400 { display: none; }
         body.sidebar-collapsed .collapse-btn svg { transform: rotate(180deg); }
         
         @media (max-width: 1024px) {
@@ -31,15 +41,15 @@
             .collapse-btn { display: none !important; }
         }
         
-        body.sidebar-collapsed .sidebar-logo-link { width: 24px !important; overflow: hidden; }
-        body.sidebar-collapsed .sidebar-header { padding: 16px 20px; justify-content: space-between; }
+        body.sidebar-collapsed .sidebar-logo-link { width: 28px !important; overflow: hidden; display: flex; justify-content: flex-start; margin-left: 2px; }
+        body.sidebar-collapsed .sidebar-logo-link svg { flex-shrink: 0; }
     </style>
 </head>
 <body x-data="{ sidebarCollapsed: false, sidebarMobileOpen: false }" :class="{ 'sidebar-collapsed': sidebarCollapsed, 'sidebar-mobile-open': sidebarMobileOpen }">
     <!-- Mobile overlay -->
     <div x-show="sidebarMobileOpen" @click="sidebarMobileOpen = false" class="fixed inset-0 bg-gray-900/50 z-[95] lg:hidden" style="display: none;" x-transition.opacity></div>
 
-    <x-sidebar :active-page="$activePage ?? 'dashboard'" />
+    <x-sidebar :active-page="Route::currentRouteName() ?? 'dashboard'" />
 
     <div class="main-content">
         <x-topbar />

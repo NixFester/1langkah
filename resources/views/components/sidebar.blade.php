@@ -5,50 +5,42 @@
     // Each nav item maps to a named Laravel route.
     $isAuth = auth()->check();
 
-    $navGroups = [
-        ...($isAuth ? [[
-            'title' => 'MENU UTAMA',
-            'items' => [
-                ['id' => 'dashboard', 'icon' => 'home', 'label' => 'Dashboard', 'route' => 'dashboard'],
-            ],
-        ]] : []),
-        [
-            'title' => 'BELAJAR',
-            'items' => [
-                ['id' => 'kursus', 'icon' => 'book', 'label' => 'Kursus', 'route' => 'kursus'],
-                ...($isAuth ? [
-                    ['id' => 'kursus-saya', 'icon' => 'trophy',  'label' => 'Kursus Saya',   'route' => 'kursus-saya'],
-                    ['id' => 'path',        'icon' => 'path',    'label' => 'Learning Path', 'route' => 'dashboard'],
-                    ['id' => 'quiz',        'icon' => 'quiz',    'label' => 'Quiz',          'route' => 'dashboard'],
-                ] : []),
-            ],
-        ],
-        [
-            'title' => 'BOOTCAMP',
-            'items' => [
-                ['id' => 'online-bootcamp',  'icon' => 'video',  'label' => 'Online Bootcamp',  'route' => 'online-bootcamp'],
-                ['id' => 'offline-bootcamp', 'icon' => 'mapPin', 'label' => 'Offline Bootcamp', 'route' => 'offline-bootcamp'],
-            ],
-        ],
-        [
-            'title' => 'LAINNYA',
-            'items' => [
-                ...($isAuth ? [
-                    ['id' => 'ai-tools', 'icon' => 'ai',       'label' => 'AI Tools', 'route' => 'dashboard'],
-                ] : []),
-                ['id' => 'mentor',   'icon' => 'users',     'label' => 'Mentor',   'route' => 'mentor'],
-                ...($isAuth ? [
-                    ['id' => 'kalender', 'icon' => 'calendar', 'label' => 'Kalender', 'route' => 'kalender'],
-                ] : []),
-            ],
-        ],
+    $navItems = [];
+    if ($isAuth) {
+        $navItems[] = ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'dashboard'];
+    }
+
+    $navItems[] = [
+        'id' => 'belajar', 'icon' => 'book', 'label' => 'Belajar',
+        'subItems' => [
+            ['id' => 'kursus', 'icon' => 'book', 'label' => 'Kursus', 'route' => 'kursus'],
+            ...($isAuth ? [
+                ['id' => 'path', 'icon' => 'path', 'label' => 'Learning Path', 'route' => 'dashboard'],
+                ['id' => 'quiz', 'icon' => 'quiz', 'label' => 'Quiz', 'route' => 'dashboard'],
+            ] : []),
+            ['id' => 'online-bootcamp', 'icon' => 'video', 'label' => 'Online Bootcamp', 'route' => 'online-bootcamp'],
+            ['id' => 'offline-bootcamp', 'icon' => 'mapPin', 'label' => 'Offline Bootcamp', 'route' => 'offline-bootcamp'],
+        ]
     ];
+
+    if ($isAuth) {
+        $navItems[] = ['id' => 'ai-tools', 'icon' => 'ai', 'label' => 'AI Tools', 'subItems' => []];
+        $navItems[] = ['id' => 'karir', 'icon' => 'briefcase', 'label' => 'Karir', 'route' => 'dashboard'];
+        $navItems[] = ['id' => 'portofolio', 'icon' => 'layers', 'label' => 'Portofolio', 'subItems' => []];
+        $navItems[] = ['id' => 'komunitas', 'icon' => 'users', 'label' => 'Komunitas', 'route' => 'dashboard'];
+    }
+
+    $navItems[] = ['id' => 'mentor', 'icon' => 'heart', 'label' => 'Mentor', 'route' => 'mentor'];
+
+    if ($isAuth) {
+        $navItems[] = ['id' => 'kalender', 'icon' => 'calendar', 'label' => 'Kalender', 'route' => 'kalender'];
+    }
 
     $user = app(\App\Services\CatalogService::class)->user();
 @endphp
 <div class="sidebar">
-    <div class="sidebar-header" style="display:flex; align-items:center; justify-content:space-between; width:100%; padding: 16px 20px;">
-        <a href="{{ route('landing') }}" class="sidebar-logo-link" style="text-decoration:none;color:inherit;cursor:pointer; display:block; width:120px; flex-shrink:0; transition:width 0.3s cubic-bezier(0.4,0,0.2,1); overflow:hidden;">
+    <div class="sidebar-header" style="display:flex; align-items:center; justify-content:space-between; width:100%; height: var(--topbar-h, 64px); padding: 0 20px;">
+        <div class="sidebar-logo-link" style="color:inherit; display:block; width:120px; flex-shrink:0; transition:width 0.3s cubic-bezier(0.4,0,0.2,1); overflow:hidden;">
             <svg width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip_logo_sidebar)">
                 <path d="M22.3789 27.1026H16.3237V7.52808H22.3789V27.1026Z" fill="#D10000"/>
@@ -80,7 +72,7 @@
                 </clipPath>
             </defs>
         </svg>
-        </a>
+        </div>
         <button @click="sidebarCollapsed = !sidebarCollapsed" class="collapse-btn text-gray-400 hover:text-gray-600 cursor-pointer hidden md:flex items-center justify-center p-1 rounded hover:bg-gray-100 transition-colors">
             <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
@@ -88,54 +80,79 @@
         </button>
     </div>
     <div class="sidebar-nav">
-        @foreach($navGroups as $g)
-            <div class="nav-section">
-                <div class="nav-section-title">{{ $g['title'] }}</div>
-                @foreach($g['items'] as $item)
-                    @php
-                        $isActive = $activePage === $item['id'];
-                        // Treat "kursus-saya" & "detail-kursus" as part of the Kursus group
-                        if ($item['id'] === 'kursus' && in_array($activePage, ['kursus-saya', 'detail-kursus'])) {
-                            $isActive = true;
-                        }
-                        if ($item['id'] === 'online-bootcamp' && $activePage === 'detail-online-bootcamp') {
-                            $isActive = true;
-                        }
-                        if ($item['id'] === 'offline-bootcamp' && $activePage === 'detail-offline-bootcamp') {
-                            $isActive = true;
-                        }
-                        if ($item['id'] === 'mentor' && $activePage === 'profil-mentor') {
-                            $isActive = true;
-                        }
-                    @endphp
-                    <a href="{{ route($item['route']) }}" class="nav-item {{ $isActive ? 'active' : '' }}">
+        @foreach($navItems as $item)
+            @php
+                $hasSubItems = isset($item['subItems']) && count($item['subItems']) > 0;
+                $isDropdown = isset($item['subItems']);
+                
+                $isParentActive = false;
+                if ($hasSubItems) {
+                    foreach ($item['subItems'] as $subItem) {
+                        if ($subItem['id'] === $activePage) $isParentActive = true;
+                        if ($subItem['id'] === 'kursus' && in_array($activePage, ['kursus', 'kursus-saya', 'detail-kursus'])) $isParentActive = true;
+                        if ($subItem['id'] === 'online-bootcamp' && in_array($activePage, ['online-bootcamp', 'detail-online-bootcamp'])) $isParentActive = true;
+                        if ($subItem['id'] === 'offline-bootcamp' && in_array($activePage, ['offline-bootcamp', 'detail-offline-bootcamp'])) $isParentActive = true;
+                    }
+                }
+                
+                $isActive = $activePage === $item['id'];
+                if ($item['id'] === 'mentor' && $activePage === 'profil-mentor') $isActive = true;
+            @endphp
+            
+            @if($isDropdown)
+                <div x-data="{ open: {{ $isParentActive ? 'true' : 'false' }} }" class="nav-section" style="padding: 0 12px;">
+                    <button @click="open = !open" class="nav-item" style="width: 100%; justify-content: space-between; margin-bottom: 2px;">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <x-icon :name="$item['icon']" />
+                            <span class="sidebar-text" style="font-size: 14px; font-weight: 500;">{{ $item['label'] }}</span>
+                        </div>
+                        <svg class="sidebar-text transition-transform duration-200" :class="open ? 'rotate-180' : ''" style="width:16px; height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    
+                    @if($hasSubItems)
+                    <div x-show="open" style="display: {{ $isParentActive ? 'block' : 'none' }}" class="sidebar-text pt-1 pb-2 nav-sub-container">
+                        <div style="padding-left: 12px; display: flex; flex-direction: column; gap: 4px; border-left: 1px solid var(--border-light); margin-left: 20px; margin-top: 8px;">
+                            @foreach($item['subItems'] as $subItem)
+                                @php
+                                    $isSubActive = $activePage === $subItem['id'];
+                                    if ($subItem['id'] === 'kursus' && in_array($activePage, ['kursus', 'kursus-saya', 'detail-kursus'])) $isSubActive = true;
+                                    if ($subItem['id'] === 'online-bootcamp' && in_array($activePage, ['online-bootcamp', 'detail-online-bootcamp'])) $isSubActive = true;
+                                    if ($subItem['id'] === 'offline-bootcamp' && in_array($activePage, ['offline-bootcamp', 'detail-offline-bootcamp'])) $isSubActive = true;
+                                @endphp
+                                <a href="{{ route($subItem['route'] ?? 'dashboard') }}" class="nav-item" style="padding: 8px 14px; border-radius: 9999px; margin-bottom: 0; {{ $isSubActive ? 'background-color: #ffe4e6; color: #cc0000; font-weight: 600;' : 'color: inherit;' }}">
+                                    <x-icon :name="$subItem['icon']" style="width:15px;height:15px; {{ $isSubActive ? 'color: #cc0000;' : '' }}" />
+                                    <span style="font-size: 13px;">{{ $subItem['label'] }}</span>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+                </div>
+            @else
+                <div class="nav-section" style="padding: 0 12px;">
+                    <a href="{{ route($item['route'] ?? 'dashboard') }}" class="nav-item {{ $isActive ? 'active' : '' }}" style="margin-bottom: 2px;">
                         <x-icon :name="$item['icon']" />
-                        <span class="sidebar-text">{{ $item['label'] }}</span>
+                        <span class="sidebar-text" style="font-size: 14px; font-weight: 500;">{{ $item['label'] }}</span>
                     </a>
-                @endforeach
-            </div>
+                </div>
+            @endif
         @endforeach
     </div>
     @auth
     <div class="sidebar-footer">
         @php $authUser = auth()->user(); @endphp
-        <a href="{{ route('pengaturan') }}" class="sidebar-user" style="text-decoration:none;color:inherit">
-            <div class="avatar" style="background:linear-gradient(135deg,var(--primary),#b91c1c)">
-                {{ strtoupper(substr($authUser->name, 0, 1)) }}
+        <a href="{{ route('pengaturan') }}" class="sidebar-user" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px;">
+            <div class="avatar" style="background:linear-gradient(135deg,var(--primary),#b91c1c);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:16px;">
+                {{ strtoupper(substr($authUser->name ?? 'A', 0, 2)) }}
             </div>
-            <div class="sidebar-user-info">
-                <div class="sidebar-user-name">{{ $authUser->name }}</div>
-                <div class="sidebar-user-role">{{ $authUser->email }}</div>
+            <div class="sidebar-user-info" style="flex:1;">
+                <div class="sidebar-user-name" style="font-weight:700;font-size:14px;">{{ $authUser->name ?? 'Atta Ul Karim' }}</div>
+                <div class="sidebar-user-role" style="font-size:12px;color:var(--text-light);">Full-Stack Dev</div>
             </div>
-            <x-icon name="settings" />
+            <div class="text-gray-400 hover:text-gray-600 transition-colors">
+                <x-icon name="settings" style="width:16px;height:16px;" />
+            </div>
         </a>
-        <form method="POST" action="{{ route('logout') }}" style="margin-top:8px">
-            @csrf
-            <button type="submit" class="nav-item" style="width:100%;background:none;border:none;cursor:pointer;color:var(--text-muted)">
-                <x-icon name="logout" />
-                <span class="sidebar-text">Keluar</span>
-            </button>
-        </form>
     </div>
     @endauth
 </div>
