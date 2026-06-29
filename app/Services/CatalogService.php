@@ -16,6 +16,8 @@ class CatalogService
         return [
             'id'            => $c->id,
             'title'         => $c->title,
+            'description'   => $c->description, 
+            'short_description' => $c->short_description, 
             'mentor'        => $c->mentor_name,
             'mentorCompany' => $c->mentor_company,
             'category'      => $c->category,
@@ -84,13 +86,20 @@ class CatalogService
 
     public function user(): array
     {
+        $user = auth()->user();
+        if (!$user) {
+            return ['name' => 'Guest', 'initials' => 'G', 'role' => 'Visitor', 'xp' => '0 XP', 'streak' => 0, 'careerReady' => 0];
+        }
+        
+        $initials = implode('', array_map(fn($w) => $w[0] ?? '', explode(' ', $user->name)));
+        
         return [
-            'name'        => 'Atta Ul Karim',
-            'initials'    => 'AK',
-            'role'        => 'Full-Stack Dev',
-            'xp'          => '1,240 XP',
-            'streak'      => 12,
-            'careerReady' => 76,
+            'name'        => $user->name,
+            'initials'    => strtoupper(substr($initials, 0, 2)),
+            'role'        => ucfirst($user->role),
+            'xp'          => '1,240 XP', // Static for now, unless you add an XP column
+            'streak'      => 12,         // Static for now
+            'careerReady' => 76,         // Static for now
         ];
     }
 
@@ -197,13 +206,24 @@ class CatalogService
 
     public function activities(): array
     {
-        return [
-            ['text' => 'Completed Lesson 12: React Hooks',          'time' => '2 hours ago', 'color' => '#10b981'],
-            ['text' => 'Earned badge: Streak Master',               'time' => 'Yesterday',   'color' => '#ffb900'],
-            ['text' => 'Submitted assignment: UI Design Challenge',  'time' => '2 days ago',  'color' => '#3b82f6'],
-            ['text' => 'Replied to community post',                  'time' => '3 days ago',  'color' => '#8b5cf6'],
-            ['text' => 'Received certificate: Data Science',         'time' => '1 week ago',  'color' => '#d10000'],
-        ];
+        $logs = \App\Models\UserActivityLog::with('loggable')
+            ->where('user_id', auth()->id())
+            ->latest()
+            ->take(5)
+            ->get();
+
+        if ($logs->isEmpty()) {
+            return [['text' => 'No recent activity', 'time' => 'Just now', 'color' => '#6b7280']];
+        }
+
+        return $logs->map(function ($log) {
+            $loggableName = $log->loggable ? ($log->loggable->title ?? 'a course') : 'the platform';
+            return [
+                'text'  => ucfirst($log->action) . ' ' . $loggableName,
+                'time'  => $log->created_at->diffForHumans(),
+                'color' => '#3b82f6'
+            ];
+        })->toArray();
     }
 
     public function testimonials(): array
@@ -217,16 +237,37 @@ class CatalogService
 
     public function calendarEvents(): array
     {
-        return [
-            ['date' => 3,  'title' => 'React Hooks Live Session',  'time' => '10:00 - 12:00'],
-            ['date' => 7,  'title' => 'Assignment Due: UI Design', 'time' => '23:59'],
-            ['date' => 10, 'title' => 'Mentor Session: Rudi',      'time' => '14:00 - 15:00'],
-            ['date' => 14, 'title' => 'Quiz: Data Science Ch.3',   'time' => '09:00 - 10:00'],
-            ['date' => 18, 'title' => 'Bootcamp: Full-Stack #4',   'time' => '10:00 - 13:00'],
-            ['date' => 22, 'title' => 'Community Meetup',          'time' => '19:00 - 21:00'],
-            ['date' => 25, 'title' => 'Certificate Ceremony',      'time' => '16:00 - 17:00'],
-            ['date' => 28, 'title' => 'ML Workshop',               'time' => '10:00 - 12:00'],
-        ];
+        $events = \App\Models\Event::where('start_date', '>=', now()->startOfMonth())
+            ->where('start_date', '<=', now()->endOfMonth())
+            ->orderBy('start_date')
+            ->get();
+
+        $bootcamps = Bootcamp::where('start_date', '>=', now()->startOfMonth()->toDateTimeString())
+            ->where('start_date', '<=', now()->endOfMonth()->toDateTimeString())
+            ->orderBy('start_date')
+            ->get();
+
+        $mappedEvents = $events->map(function ($e) {
+            $dt = $e->start_date instanceof \Illuminate\Support\Carbon ? $e->start_date : \Carbon\Carbon::parse($e->start_date);
+            return [
+                'day'   => $dt->day,
+                'title' => $e->title,
+                'time'  => $dt->format('H:i') . ' WIB',
+                'type'  => $e->type,
+            ];
+        });
+
+        $mappedBootcamps = $bootcamps->map(function ($b) {
+            $dt = \Carbon\Carbon::parse($b->start_date);
+            return [
+                'day'   => $dt->day,
+                'title' => $b->title,
+                'time'  => $dt->format('H:i') . ' WIB',
+                'type'  => 'bootcamp',
+            ];
+        });
+
+        return $mappedEvents->merge($mappedBootcamps)->toArray();
     }
 
     public function categories(): array

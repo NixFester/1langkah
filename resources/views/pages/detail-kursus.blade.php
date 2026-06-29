@@ -57,7 +57,7 @@
     <div>
         <div class="card" style="padding:24px;margin-bottom:20px">
             <div class="section-title" style="margin-bottom:16px">Tentang Mentor</div>
-            <a href="{{ route('profil-mentor', ['id' => 301]) }}" class="flex items-center gap-3" style="cursor:pointer;text-decoration:none;color:inherit">
+            <a href="{{ route('profil-mentor', ['id' => $c['mentor_id'] ?? 1]) }}" class="flex items-center gap-3" style="cursor:pointer;text-decoration:none;color:inherit">
                 <x-avatar :initials="$mentorInitials" size="avatar-lg" :style="'background:' . $c['color']" />
                 <div><div style="font-weight:600">{{ $c['mentor'] }}</div><div style="font-size:13px;color:var(--text-muted)">{{ $c['mentorCompany'] }}</div></div>
             </a>

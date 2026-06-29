@@ -32,3 +32,4 @@ compile_to_md.py
 context.md
 compiledb.py
 db.md
+/tests

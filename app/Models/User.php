@@ -49,4 +49,37 @@ class User extends Authenticatable
             'role' => 'string',
         ];
     }
+
+    public function activityLogs()
+    {
+        return $this->hasMany(UserActivityLog::class);
+    }
+
+    public function chapterProgress()
+    {
+        return $this->hasMany(ChapterProgress::class);
+    }
+
+    public function testAttempts()
+    {
+        return $this->hasMany(TestAttempt::class);
+    }
+
+    public function completions()
+    {
+        return $this->hasMany(Completion::class);
+    }
+
+    public function eventRegistrations()
+    {
+        return $this->hasMany(EventRegistration::class);
+    }
+
+    public function hasCompletedCourse(Course $course): bool
+    {
+        return $this->completions()
+            ->where('completable_type', Course::class)
+            ->where('completable_id', $course->id)
+            ->exists();
+    }
 }

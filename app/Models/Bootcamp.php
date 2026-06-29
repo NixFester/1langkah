@@ -54,4 +54,19 @@ class Bootcamp extends Model
     {
         return $this->pictures()->gallery();
     }
+
+    public function testAttempts(): MorphMany
+    {
+        return $this->morphMany(TestAttempt::class, 'testable');
+    }
+
+    public function completions(): MorphMany
+    {
+        return $this->morphMany(Completion::class, 'completable');
+    }
+
+    public function activityLogs(): MorphMany
+    {
+        return $this->morphMany(UserActivityLog::class, 'loggable');
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Chapter extends Model
 {
@@ -25,5 +26,15 @@ class Chapter extends Model
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function progress(): HasMany
+    {
+        return $this->hasMany(ChapterProgress::class);
+    }
+
+    public function progressForUser(User $user)
+    {
+        return $this->progress()->where('user_id', $user->id)->first();
     }
 }

@@ -18,6 +18,13 @@ class UserSeeder extends Seeder
             'role' => 'student',
             'profile_photo' => 'https://i.pravatar.cc/150?img=1',
         ]);
+                User::create([
+            'name' => 'Admin',
+            'email' => 'admin@email.com',
+            'password' => Hash::make('admin'),
+            'role' => 'admin',
+            'profile_photo' => 'https://i.pravatar.cc/150?img=1',
+        ]);
 
         // Create 10 random users with avatars
         User::factory(10)->create();

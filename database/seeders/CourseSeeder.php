@@ -13,6 +13,8 @@ class CourseSeeder extends Seeder
             [
                 'id' => 1,
                 'title' => 'Full‑Stack Web Development Bootcamp',
+                'description' => 'Kuasai skill praktis dari dasar hingga mahir dalam program intensif ini. Dirancang oleh Rudi Yesaya dari Google dengan materi yang langsung applicable di industri.',
+                'short_description' => 'Belajar Full-Stack Web Development dari nol.',
                 'mentor_name' => 'Rudi Yesaya',
                 'mentor_company' => 'Google',
                 'category' => 'Programming',
@@ -28,6 +30,8 @@ class CourseSeeder extends Seeder
             [
                 'id' => 2,
                 'title' => 'Data Science & Machine Learning Masterclass',
+                'description' => 'Pelajari alur lengkap data science: pembersihan data, visualisasi, model ML, dan deployment. Studi kasus nyata dari industri e‑commerce.',
+                'short_description' => 'Dari data mentah sampai model siap produksi.',
                 'mentor_name' => 'Siti Rahayu',
                 'mentor_company' => 'Tokopedia',
                 'category' => 'Data Science',
@@ -43,6 +47,8 @@ class CourseSeeder extends Seeder
             [
                 'id' => 3,
                 'title' => 'Flutter & Firebase – Build Real Apps',
+                'description' => 'Bangun aplikasi mobile cross‑platform lengkap dengan backend Firebase, autentikasi, dan deployment ke Play Store / App Store.',
+                'short_description' => 'Buat aplikasi nyata dengan Flutter dan Firebase.',
                 'mentor_name' => 'Budi Santoso',
                 'mentor_company' => 'Startup Edukasi',
                 'category' => 'Mobile',
@@ -58,6 +64,8 @@ class CourseSeeder extends Seeder
             [
                 'id' => 4,
                 'title' => 'DevOps with Docker & Kubernetes',
+                'description' => 'Pelajari manajemen container, orkestrasi, CI/CD, dan best practice operasional untuk menjalankan aplikasi skala produksi.',
+                'short_description' => 'Implementasi Docker, K8s, dan pipeline CI/CD.',
                 'mentor_name' => 'Dewi Lestari',
                 'mentor_company' => 'Gojek',
                 'category' => 'DevOps',
@@ -73,6 +81,8 @@ class CourseSeeder extends Seeder
             [
                 'id' => 5,
                 'title' => 'Laravel 11 – Web Development Mudah',
+                'description' => 'Belajar Laravel 11 secara praktis: routing, Eloquent, API, dan deployment. Cocok untuk developer pemula yang ingin cepat produktif.',
+                'short_description' => 'Framework Laravel 11 untuk pembuatan aplikasi web cepat.',
                 'mentor_name' => 'Ahmad Fauzi',
                 'mentor_company' => 'Freelance',
                 'category' => 'Programming',
@@ -88,6 +98,8 @@ class CourseSeeder extends Seeder
             [
                 'id' => 6,
                 'title' => 'UI/UX Design for Mobile & Web',
+                'description' => 'Pelajari prinsip desain antarmuka, prototyping, dan user testing untuk membuat produk yang intuitif dan menarik.',
+                'short_description' => 'Desain UI/UX praktis untuk produk digital.',
                 'mentor_name' => 'Budi Santoso',
                 'mentor_company' => 'Startup Edukasi',
                 'category' => 'Design',
@@ -103,6 +115,8 @@ class CourseSeeder extends Seeder
             [
                 'id' => 7,
                 'title' => 'React JS – Dari Nol hingga Expert',
+                'description' => 'Kuasi React modern, hooks, state management, dan optimasi performa dengan proyek‑proyek nyata yang meningkatkan portofolio Anda.',
+                'short_description' => 'React dari dasar sampai tingkat mahir.',
                 'mentor_name' => 'Rudi Yesaya',
                 'mentor_company' => 'Google',
                 'category' => 'Programming',
@@ -118,6 +132,8 @@ class CourseSeeder extends Seeder
             [
                 'id' => 8,
                 'title' => 'SQL for Data Analysis',
+                'description' => 'Pelajari query SQL tingkat lanjut, optimasi, dan teknik analisis data untuk menyelesaikan problem bisnis secara efisien.',
+                'short_description' => 'SQL praktis untuk analis data.',
                 'mentor_name' => 'Siti Rahayu',
                 'mentor_company' => 'Tokopedia',
                 'category' => 'Data Science',
@@ -133,6 +149,8 @@ class CourseSeeder extends Seeder
             [
                 'id' => 9,
                 'title' => 'Python for Automation & Scripting',
+                'description' => 'Automasi tugas sehari‑hari dan pembuatan skrip efisien menggunakan Python: scraping, file processing, dan automation pipelines.',
+                'short_description' => 'Gunakan Python untuk otomatisasi pekerjaan rutin.',
                 'mentor_name' => 'Ahmad Fauzi',
                 'mentor_company' => 'Freelance',
                 'category' => 'Programming',
@@ -148,6 +166,8 @@ class CourseSeeder extends Seeder
             [
                 'id' => 10,
                 'title' => 'Cloud Computing with AWS',
+                'description' => 'Pelajari konsep cloud, layanan AWS utama, dan deployment aplikasi skala besar dengan praktik langsung dan studi kasus nyata.',
+                'short_description' => 'Dasar dan praktik AWS untuk penerapan produksi.',
                 'mentor_name' => 'Dewi Lestari',
                 'mentor_company' => 'Gojek',
                 'category' => 'DevOps',

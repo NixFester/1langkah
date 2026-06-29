@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
             ChapterSeeder::class,
             BootcampSessionSeeder::class,
             PictureSeeder::class,
+            EventSeeder::class,
+            UserActivityLogSeeder::class,
         ]);
     }
 }
