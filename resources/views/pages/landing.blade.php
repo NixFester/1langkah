@@ -113,7 +113,7 @@
 
             <!-- Right side: Illustrative Dashboard Mockup -->
             <div class="relative z-10 hidden lg:flex items-center justify-center w-full min-h-0">
-                <div class="relative w-full max-w-[500px] xl:max-w-[650px] mx-auto origin-center">
+                <div class="relative w-full max-w-[500px] xl:max-w-[650px] mx-auto origin-center lg:mt-10 xl:mt-14">
                     <!-- Floating Pills -->
                     <div class="absolute left-[2%] top-[25%] px-4 py-1.5 lg:px-5 lg:py-2 bg-[#171313]/90 backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_7s_ease-in-out_infinite]">React</div>
                     <div class="absolute left-[5%] top-[45%] px-4 py-1.5 lg:px-5 lg:py-2 bg-[#171313]/90 backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_8s_ease-in-out_infinite_reverse]">Python</div>

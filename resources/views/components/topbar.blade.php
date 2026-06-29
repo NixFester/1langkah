@@ -13,13 +13,27 @@
     $catalogUser = $authUser ? app(\App\Services\CatalogService::class)->user() : null;
 @endphp
 
-<div class="topbar">
-    <div class="topbar-search">
-        <input class="input input-search" placeholder="Cari kursus, mentor, proyek..." />
+<div class="topbar" style="display:flex;align-items:center;padding:0 32px;gap:24px;">
+    <!-- Kiri -->
+    <div style="flex:1;display:flex;align-items:center;gap:16px;">
+        <button @click="sidebarMobileOpen = true" class="lg:hidden text-gray-500 hover:text-gray-900 focus:outline-none flex items-center justify-center p-1 rounded-md hover:bg-gray-100 transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+        @hasSection('header_title')
+            <div style="font-size:20px;font-weight:700;color:var(--text-primary);" class="hidden sm:block">
+                @yield('header_title')
+            </div>
+        @endif
+    </div>
+    
+    <!-- Tengah -->
+    <div class="topbar-search" style="flex:0 1 auto;width:100%;max-width:480px;">
+        <input class="input input-search" placeholder="Cari kursus, mentor, proyek..." style="width:100%; height:42px; border-radius:999px; border:1px solid #e5e7eb; background-color:#ffffff; padding-left:44px; font-size:14px; color:#374151; box-shadow:0 1px 2px rgba(0,0,0,0.02); transition:all 0.2s;" onfocus="this.style.borderColor='#d10000';this.style.boxShadow='0 0 0 3px rgba(209,0,0,0.1)';" onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='0 1px 2px rgba(0,0,0,0.02)';" />
     </div>
 
     @auth
-    <div class="topbar-right">
+    <!-- Kanan -->
+    <div class="topbar-right" style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:12px;">
         {{-- XP Badge --}}
         <div class="xp-badge">&#9889; {{ $catalogUser['xp'] }}</div>
 
@@ -71,6 +85,12 @@
         <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit">
             <div class="avatar avatar-sm" style="background:linear-gradient(135deg,var(--primary),#b91c1c)">{{ $initials }}</div>
         </a>
+    </div>
+    @else
+    <!-- Kanan (Guest) -->
+    <div class="topbar-right" style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:12px;">
+        <a href="{{ route('login') }}" style="font-size:14px;font-weight:600;color:var(--text-secondary);text-decoration:none;padding:8px 16px;">Masuk</a>
+        <a href="{{ route('signup') }}" style="font-size:14px;font-weight:600;color:#fff;background:var(--primary);text-decoration:none;padding:8px 20px;border-radius:999px;">Daftar</a>
     </div>
     @endauth
 </div>

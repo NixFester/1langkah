@@ -3,7 +3,119 @@
 @section('title', 'Daftar — 1Langkah')
 
 @section('body')
-<div class="min-h-screen lg:h-screen w-full flex bg-[#f7f8f9] lg:overflow-hidden">
+<!-- MOBILE VIEW (Shown only on small screens) -->
+<div class="flex md:hidden h-[100dvh] w-full flex-col bg-gradient-to-br from-[#fff1f1] to-[#f7f8f9] overflow-hidden">
+    <div class="w-full h-full overflow-y-auto flex flex-col px-6 py-8 mx-auto items-center">
+        <div class="my-auto flex flex-col items-center justify-center w-full max-w-[440px] pb-8 pt-4">
+    <!-- Logo & Header -->
+    <div class="text-center mb-8">
+        <a href="{{ route('landing') }}" class="inline-block mb-6">
+            <svg width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_306_8219)">
+                    <path d="M22.3789 27.1026H16.3237V7.52808H22.3789V27.1026Z" fill="#D10000"/>
+                    <path d="M22.3746 7.57027C22.374 7.57183 22.3735 7.57359 22.373 7.57546C22.3719 7.57922 22.3705 7.58367 22.369 7.58868C22.366 7.59876 22.3622 7.61144 22.3576 7.62646C22.3484 7.65648 22.3362 7.69629 22.3206 7.7453C22.2894 7.84337 22.2451 7.9786 22.1872 8.14667C22.0716 8.48256 21.9009 8.95166 21.6697 9.51938C21.2088 10.651 20.4993 12.1959 19.4946 13.8706C17.5141 17.1718 14.2201 21.2532 9.16017 23.4218L6.7749 17.8562C10.1921 16.3917 12.6499 13.5095 14.302 10.7556C15.1136 9.40283 15.6905 8.14735 16.0619 7.23532C16.2468 6.78124 16.3787 6.41755 16.4618 6.17631C16.5032 6.05587 16.5322 5.96636 16.5496 5.91188C16.5582 5.8847 16.5639 5.86625 16.5667 5.8571L16.5681 5.85254C16.568 5.85317 16.5678 5.85399 16.5675 5.8549C16.5674 5.85534 16.5668 5.8568 16.5667 5.8571C16.5665 5.85753 16.5667 5.85723 16.9297 5.96429L22.0125 7.45993C22.3708 7.56565 22.3753 7.56754 22.3752 7.56806C22.375 7.56844 22.3748 7.56949 22.3746 7.57027Z" fill="#E50000"/>
+                    <path d="M29.6583 7.91772V23.195H36.7659V26.9803H25.8457V7.91772H29.6583Z" fill="#0f172a"/>
+                    <path d="M48.8093 15.2705H51.4236V27.0076H48.5371V25.8638C47.4477 26.7898 46.0317 27.3343 44.5067 27.3343C41.0482 27.3343 38.2705 24.5567 38.2705 21.1254C38.2705 17.6669 41.0482 14.9165 44.5067 14.9165C46.0317 14.9165 47.4477 15.4611 48.5371 16.387L48.8093 15.2705ZM47.0937 23.3857C47.6929 22.7594 47.9924 21.9696 47.9924 21.1254C47.9924 20.2812 47.6929 19.4643 47.0937 18.8652C46.5219 18.266 45.7593 17.9392 44.9424 17.9392C44.1255 17.9392 43.3629 18.266 42.7638 18.8652C42.1919 19.4643 41.8651 20.2812 41.8651 21.1254C41.8651 21.9696 42.1919 22.7594 42.7638 23.3857C43.3629 23.9848 44.1255 24.3116 44.9424 24.3116C45.7593 24.3116 46.5219 23.9848 47.0937 23.3857Z" fill="#0f172a"/>
+                    <path d="M55.2833 15.2704L55.828 16.3052C56.7539 15.4883 57.9793 14.9436 59.1775 14.9436C62.3365 14.9436 64.9235 17.7213 64.9235 21.1798V27.0075H61.6012V21.1798C61.6012 19.4914 60.4029 17.9936 58.7691 17.9936C57.1351 17.9936 55.9369 19.4914 55.9369 21.1798V27.0075H52.5056V15.2704H55.2833Z" fill="#0f172a"/>
+                    <path d="M78.5433 16.4688L76.5554 17.1223C77.3996 18.021 77.917 19.2192 77.917 20.5263C77.917 23.4674 75.33 25.8366 72.1165 25.8366C71.6808 25.8366 71.2723 25.7821 70.8639 25.7005C70.6188 26.1362 70.3737 26.6263 70.1831 27.1166C70.8095 27.0348 71.4902 26.9804 72.2527 26.9804C74.4313 26.9804 76.038 27.3344 77.1817 28.0425C78.38 28.805 79.0336 29.976 79.0336 31.3376C79.0336 32.7536 78.4344 33.8702 77.2635 34.6326C76.1469 35.3407 74.513 35.6947 72.2527 35.6947C69.9924 35.6947 68.3585 35.3407 67.242 34.6326C66.071 33.8702 65.4719 32.7536 65.4719 31.3376C65.4719 30.7929 65.5808 30.2755 65.7987 29.7853C66.3433 27.9608 67.596 25.9456 68.4947 24.6657C67.2148 23.6853 66.3706 22.1875 66.3706 20.5263C66.3706 17.5853 68.9576 15.216 72.1165 15.216C72.3889 15.216 72.6612 15.2433 72.9335 15.2705L78.5433 14.2085V16.4688ZM72.1165 18.2661C70.7277 18.2661 69.6657 19.3553 69.6657 20.5263C69.6657 21.8607 70.8911 22.7866 72.1165 22.7866C73.5327 22.7866 74.5947 21.6973 74.5947 20.5263C74.5947 19.2464 73.4781 18.2661 72.1165 18.2661ZM72.2527 32.5903C74.5947 32.5903 75.6839 32.2089 75.6839 31.3376C75.6839 30.5205 74.2952 30.0849 72.2527 30.0849C70.1013 30.0849 68.8214 30.6023 68.8214 31.3376C68.8214 32.2089 70.0742 32.5903 72.2527 32.5903Z" fill="#0f172a"/>
+                    <path d="M92.57 27.0076H88.104L84.1827 22.242L83.3929 23.0589V27.0076H79.5803V6.74683H83.3929V19.0558L86.8786 15.2705H91.535L86.7697 20.1724L92.57 27.0076Z" fill="#0f172a"/>
+                    <path d="M102.028 15.2705H104.643V27.0076H101.756V25.8638C100.667 26.7898 99.2509 27.3343 97.7254 27.3343C94.2667 27.3343 91.4893 24.5567 91.4893 21.1254C91.4893 17.6669 94.2667 14.9165 97.7254 14.9165C99.2509 14.9165 100.667 15.4611 101.756 16.387L102.028 15.2705ZM100.313 23.3857C100.911 22.7594 101.211 21.9696 101.211 21.1254C101.211 20.2812 100.911 19.4643 100.313 18.8652C99.7405 18.266 98.9782 17.9392 98.161 17.9392C97.3447 17.9392 96.5815 18.266 95.983 18.8652C95.4106 19.4643 95.0839 20.2812 95.0839 21.1254C95.0839 21.9696 95.4106 22.7594 95.983 23.3857C96.5815 23.9848 97.3447 24.3116 98.161 24.3116C98.9782 24.3116 99.7405 23.9848 100.313 23.3857Z" fill="#0f172a"/>
+                    <path d="M109.346 6.74683V16.0058C110.354 15.325 111.552 14.9165 112.86 14.9165C116.291 14.9165 119.068 17.7214 119.068 21.1527V27.0076H115.473V21.1527C115.473 20.3085 115.147 19.5188 114.575 18.8924C114.003 18.2933 113.241 17.9666 112.423 17.9666C111.607 17.9666 110.817 18.2933 110.245 18.8924C109.673 19.5188 109.346 20.3085 109.346 21.1527V27.0076H105.725V6.74683H109.346Z" fill="#0f172a"/>
+                </g>
+            </svg>
+        </a>
+        <h2 class="text-[24px] font-extrabold text-[#111827] mb-2 tracking-tight">Buat akun gratis 🚀</h2>
+        <p class="text-[14px] text-gray-500">Mulai perjalanan belajarmu bersama 1Langkah</p>
+    </div>
+
+    <!-- Sign Up Form Area -->
+    <div class="w-full bg-white rounded-3xl p-7 shadow-sm border border-gray-100">
+        
+        <!-- Form -->
+        <form method="POST" action="{{ route('signup.submit') }}">
+            @csrf
+            
+            @if ($errors->any())
+                <div class="bg-red-50 border border-red-200 rounded-2xl p-3 mb-5 text-[13px] text-red-600">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $e)
+                            <li>{{ $e }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <!-- Name Inputs (Grid) -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-[13px] font-bold text-[#374151] mb-2">Nama Depan</label>
+                    <input type="text" name="first_name" required placeholder="Ahmad" class="w-full px-4 py-3 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+                </div>
+                <div>
+                    <label class="block text-[13px] font-bold text-[#374151] mb-2">Nama Belakang</label>
+                    <input type="text" name="last_name" required placeholder="Fauzi" class="w-full px-4 py-3 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+                </div>
+            </div>
+
+            <!-- Email Input -->
+            <div class="mb-4">
+                <label class="block text-[13px] font-bold text-[#374151] mb-2">Email</label>
+                <input type="email" name="email" required placeholder="email@example.com" class="w-full px-5 py-3 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+            </div>
+
+            <!-- Password Input -->
+            <div class="mb-4">
+                <label class="block text-[13px] font-bold text-[#374151] mb-2">Password</label>
+                <input type="password" name="password" required placeholder="Min. 8 karakter" minlength="8" class="w-full px-5 py-3 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+            </div>
+            
+            <!-- Tujuan Belajar Input -->
+            <div class="mb-6">
+                <label class="block text-[13px] font-bold text-[#374151] mb-2">Tujuan Belajar</label>
+                <input type="text" name="purpose" required placeholder="" class="w-full px-5 py-3 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full py-3.5 bg-[#d10000] hover:bg-[#aa0000] text-white font-bold rounded-xl text-[15px] transition-colors mb-6 flex items-center justify-center">
+                Buat Akun Gratis
+            </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="flex items-center gap-4 mb-6">
+            <div class="flex-1 h-px bg-gray-100"></div>
+            <div class="text-[12px] font-medium text-gray-400">atau daftar dengan</div>
+            <div class="flex-1 h-px bg-gray-100"></div>
+        </div>
+
+        <!-- Google Sign Up -->
+        <button type="button" class="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors mb-6">
+            <svg class="w-5 h-5" viewBox="0 0 24 24">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+            <span class="text-[13px] font-bold text-[#374151]">Daftar dengan Google</span>
+        </button>
+        
+        <!-- Terms Disclaimer -->
+        <p class="text-[11px] text-gray-400 text-center leading-relaxed px-4 mb-6">
+            Dengan mendaftar, kamu menyetujui <a href="#" class="underline hover:text-gray-500 transition-colors">Syarat & Ketentuan</a> dan <a href="#" class="underline hover:text-gray-500 transition-colors">Kebijakan Privasi</a> kami.
+        </p>
+
+        <!-- Login Link -->
+        <div class="text-center text-[13px] text-gray-500 font-medium pb-8">
+            Sudah punya akun? <a href="{{ route('login') }}" class="text-[#cc0000] font-bold hover:underline">Masuk</a>
+        </div>
+        
+    </div>
+        </div>
+    </div>
+</div>
+
+<!-- DESKTOP & TABLET VIEW (Shown on md and up) -->
+<div class="hidden md:flex min-h-screen lg:h-screen w-full bg-[#f7f8f9] lg:overflow-hidden">
     
     <!-- Left Column (Dark Theme) -->
     <div class="hidden md:flex flex-col w-[50%] bg-[#080202] relative p-10 lg:p-14 overflow-hidden border-r border-white/5">

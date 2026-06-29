@@ -1,59 +1,223 @@
-@extends('layouts.app', ['activePage' => 'detail-offline-bootcamp'])
+@extends('layouts.app', ['activePage' => 'offline-bootcamp'])
 
 @section('title', $bootcamp['title'] . ' — 1Langkah')
+@section('header_title', 'Offline Bootcamp')
 
 @section('content')
-@php $b = $bootcamp; @endphp
+@inject('catalog', 'App\Services\CatalogService')
+@php
+    $b = $bootcamp;
+    $allBootcamps = $catalog->bootcamps()['offline'];
+@endphp
 
-<a href="javascript:history.back()" class="btn btn-ghost btn-sm" style="margin-bottom:16px;text-decoration:none;display:inline-flex">&#8592; Kembali</a>
+<div class="w-full px-2 pb-8">
+    <!-- Header (Same as Offline Bootcamp) -->
+    <div class="mb-8 -mt-2">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Offline Bootcamp</h1>
+        <p class="text-gray-500 text-base">Belajar tatap muka intensif di kampus 1Langkah — pengalaman immersive yang tak tergantikan</p>
+    </div>
 
-<div class="grid-2" style="gap:32px">
-    <div>
-        <div style="width:100%;aspect-ratio:16/9;border-radius:var(--radius-xl);background:linear-gradient(135deg,{{ $b['color'] }},{{ $b['color'] }}cc);margin-bottom:20px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden">
-            @if(!empty($b['thumbnail']))
-                <img src="{{ $b['thumbnail'] }}" alt="{{ $b['title'] }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            @endif
-            <div style="position:relative;z-index:1;color:#fff;font-size:14px;font-weight:600;background:rgba(0,0,0,.4);padding:6px 16px;border-radius:999px;display:inline-flex;align-items:center;gap:6px"><x-icon name="mapPin" style="width:14px;height:14px;color:#fff" /> {{ $b['location'] }}</div>
-        </div>
-
-        @if(!empty($b['gallery']))
-            <div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:20px;padding-bottom:4px">
-                @foreach($b['gallery'] as $img)
-                    <img src="{{ $img }}" alt="{{ $b['title'] }}"
-                         style="flex-shrink:0;width:120px;height:72px;object-fit:cover;border-radius:var(--radius-sm)">
-                @endforeach
+    <!-- Alert / Info Banner -->
+    <div class="bg-[#3e2723] rounded-2xl p-6 md:p-8 text-white mb-10 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-md">
+        <div class="flex items-center gap-5 md:gap-6">
+            <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
             </div>
-        @endif
-        <h1 style="font-size:24px;font-weight:800;margin-bottom:12px">{{ $b['title'] }}</h1>
-        <div class="flex gap-3" style="margin-bottom:16px">
-            <x-badge text="Offline" type="purple" />
-            <x-badge :text="$b['location']" type="dark" />
+            <div>
+                <h3 class="text-[22px] font-bold mb-1.5 tracking-tight">Tatap Muka · Belajar Langsung di Kampus</h3>
+                <p class="text-[#d7ccc8] text-[15px] leading-relaxed max-w-2xl font-medium">Fasilitas lengkap, networking nyata, dan pengalaman belajar intensif bersama instruktur & sesama peserta.</p>
+            </div>
         </div>
-        <div style="display:flex;gap:16px;font-size:13px;color:var(--text-muted);margin-bottom:20px;flex-wrap:wrap">
-            <span><x-icon name="users" style="width:16px;height:16px" /> {{ $b['participants'] }} peserta</span>
-            <span><x-icon name="calendar" style="width:16px;height:16px" /> Mulai {{ $b['startDate'] }}</span>
-        </div>
-        <div style="font-size:28px;font-weight:800;color:var(--dark);margin-bottom:20px">{{ $b['price'] }}</div>
-        <a href="{{ route('pembayaran', ['id' => $b['id']]) }}" class="btn btn-primary btn-lg btn-full" style="text-decoration:none;display:flex">Daftar Bootcamp</a>
-        <div style="margin-top:16px;display:flex;gap:16px;flex-wrap:wrap">
-            @foreach(['Makan Siang','Sertifikat','Laptop Station','Networking Event','Rekaman Sesi','Job Referral'] as $f)
-                <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)"><span style="color:var(--success);font-weight:700">&#10003;</span> {{ $f }}</div>
-            @endforeach
+        <div class="flex items-center gap-8 md:gap-10 lg:pr-6">
+            <div class="text-center">
+                <div class="text-[28px] font-extrabold leading-tight">3 Kota</div>
+                <div class="text-[13px] text-[#bcaaa4] font-medium mt-1">Tersedia</div>
+            </div>
+            <div class="text-center">
+                <div class="text-[28px] font-extrabold leading-tight">Max 20</div>
+                <div class="text-[13px] text-[#bcaaa4] font-medium mt-1">Peserta/batch</div>
+            </div>
+            <div class="text-center">
+                <div class="text-[28px] font-extrabold leading-tight">Sertifikat</div>
+                <div class="text-[13px] text-[#bcaaa4] font-medium mt-1">Terverifikasi</div>
+            </div>
         </div>
     </div>
-    <div>
-        <div class="card" style="padding:24px;margin-bottom:20px">
-            <div class="section-title" style="margin-bottom:16px">Lokasi</div>
-            <div style="width:100%;height:200px;background:var(--bg-gray);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;color:var(--text-light);font-size:14px;gap:8px"><x-icon name="mapPin" style="width:32px;height:32px" /> {{ $b['location'] }}</div>
-        </div>
-        <div class="card" style="padding:24px">
-            <div class="section-title" style="margin-bottom:16px">Yang Kamu Dapatkan</div>
-            @foreach($features as $i => $f)
-                <div style="display:flex;gap:10px;padding:10px 0;{{ $i < count($features) - 1 ? 'border-bottom:1px solid var(--border-light)' : '' }}">
-                    <span style="color:var(--success);font-weight:700;margin-top:1px">&#10003;</span>
-                    <span style="font-size:13px;color:var(--text-secondary)">{{ $f }}</span>
-                </div>
+
+    <!-- Master-Detail Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Left Column: Master List -->
+        <div class="lg:col-span-4 flex flex-col gap-5">
+            @foreach($allBootcamps as $item)
+                @php
+                    $isActive = $item['id'] == $b['id'];
+                    $totalSlots = 20;
+                    if ($loop->iteration == 2) $totalSlots = 16;
+                    if ($loop->iteration == 3) $totalSlots = 18;
+                    
+                    $sisa = 7;
+                    if ($loop->iteration == 2) $sisa = 7;
+                    if ($loop->iteration == 3) $sisa = 7;
+                    
+                    $percentage = (($totalSlots - $sisa) / $totalSlots) * 100;
+                    
+                    $colorClass = 'bg-[#f59e0b]'; // orange
+                    $textColor = 'text-[#f59e0b]';
+                    if ($loop->iteration == 2) {
+                        $colorClass = 'bg-[#10b981]'; // green
+                        $textColor = 'text-[#10b981]';
+                    }
+                @endphp
+                
+                <a href="{{ route('detail-offline-bootcamp', ['id' => $item['id']]) }}" class="block bg-white rounded-2xl p-5 border {{ $isActive ? 'border-red-600 shadow-[0_0_0_1px_#e11d48,0_4px_12px_rgb(0,0,0,0.05)]' : 'border-gray-200 shadow-sm hover:border-gray-300' }} transition-all">
+                    <!-- Top Badges -->
+                    <div class="flex gap-2 mb-3">
+                        <span class="px-2.5 py-0.5 {{ $isActive ? 'bg-[#d00000] text-white' : 'bg-red-50 text-[#d00000]' }} text-[11px] font-bold rounded-full">{{ $loop->first ? 'Paling Diminati' : ($loop->iteration == 2 ? 'Weekend Class' : 'Eksklusif') }}</span>
+                        <span class="px-2.5 py-0.5 bg-gray-100 text-gray-500 text-[11px] font-semibold rounded-full">{{ $loop->first ? 'All Level' : ($loop->iteration == 2 ? 'Beginner' : 'Intermediate') }}</span>
+                    </div>
+                    
+                    <h3 class="text-[15px] font-bold text-gray-900 leading-snug mb-1">{{ $item['title'] }}</h3>
+                    <p class="text-[12px] text-gray-500 mb-4">{{ $item['mentor'] }}</p>
+                    
+                    <div class="flex items-center gap-4 text-[11px] text-gray-500 font-medium mb-4">
+                        <div class="flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            {{ $loop->first ? '8 Minggu' : ($loop->iteration == 2 ? '8 Minggu' : '10 Minggu') }}
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            {{ $loop->first ? '2× seminggu' : ($loop->iteration == 2 ? 'Sabtu & Minggu' : '3× seminggu') }}
+                        </div>
+                    </div>
+
+                    <!-- Slots -->
+                    <div class="mb-4">
+                        <div class="flex items-center justify-between text-[11px] font-bold mb-1.5">
+                            <span class="text-gray-400">Sisa kursi</span>
+                            <span class="{{ $textColor }}">{{ $sisa }} dari {{ $totalSlots }}</span>
+                        </div>
+                        <div class="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="h-full {{ $colorClass }} rounded-full" style="width: {{ $percentage }}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full h-px bg-gray-100 mb-3"></div>
+                    
+                    <div class="flex items-end justify-between">
+                        <div>
+                            <div class="text-[11px] font-medium text-gray-400 mb-0.5">Mulai {{ $item['startDate'] }}</div>
+                            <div class="text-[15px] font-extrabold text-black">{{ $item['price'] }}</div>
+                        </div>
+                        <div>
+                            @php
+                                $badgeText = 'Soft Skills';
+                                if ($loop->iteration == 2) $badgeText = 'Seni & Musik';
+                                if ($loop->iteration == 3) $badgeText = 'Leadership';
+                            @endphp
+                            <span class="px-2.5 py-1 bg-red-50 text-red-600 text-[11px] font-bold rounded-full">{{ $badgeText }}</span>
+                        </div>
+                    </div>
+                </a>
             @endforeach
+        </div>
+
+        <!-- Right Column: Detail Pane -->
+        <div class="lg:col-span-8">
+            <div class="bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-sm lg:sticky lg:top-24">
+                
+                <!-- Hero Image -->
+                <div class="relative w-full h-[280px] bg-gray-900">
+                    @if(!empty($b['thumbnail']))
+                        <img src="{{ $b['thumbnail'] }}" alt="{{ $b['title'] }}" class="w-full h-full object-cover opacity-60">
+                    @else
+                        <div class="w-full h-full" style="background:linear-gradient(135deg,{{ $b['color'] }},{{ $b['color'] }}cc)"></div>
+                    @endif
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
+                    
+                    <!-- Close button -->
+                    <a href="{{ route('offline-bootcamp') }}" class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black/60 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </a>
+                    
+                    <!-- Title Overlay -->
+                    <div class="absolute bottom-6 left-8 right-8 text-white">
+                        <h1 class="text-2xl font-extrabold mb-2 text-white">{{ $b['title'] }}</h1>
+                        <div class="flex items-center gap-4 text-[13px] font-medium text-gray-200">
+                            <div class="flex items-center gap-1.5">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                {{ explode(',', $b['location'])[0] }}
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                Mulai {{ $b['startDate'] }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Content Body -->
+                <div class="p-8">
+                    <!-- Location Detailed -->
+                    <div class="flex items-center gap-3 text-gray-500 mb-8">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        <span class="text-[14px] font-medium">Gedung 1Langkah Hub, {{ $b['location'] }}</span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex flex-col sm:flex-row gap-4 pb-8 border-b border-gray-100 mb-8">
+                        <a href="{{ route('pembayaran', ['id' => $b['id']]) }}" class="flex-1 bg-[#d00000] hover:bg-red-700 text-white font-bold py-3.5 px-6 rounded-full text-center transition-colors shadow-sm">
+                            Daftar Sekarang — {{ $b['price'] }}
+                        </a>
+                        <button class="px-8 py-3.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-full hover:bg-gray-50 transition-colors shadow-sm">
+                            Simpan
+                        </button>
+                    </div>
+
+                    <!-- Jadwal & Fasilitas Layout -->
+                    <div class="flex flex-col md:flex-row gap-10">
+                        <!-- Jadwal Kelas -->
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-4">
+                                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                <h3 class="text-[17px] font-bold text-gray-900">Jadwal Kelas</h3>
+                            </div>
+                            <div class="flex flex-col gap-3">
+                                <div class="bg-gray-50 rounded-xl p-4 flex items-center gap-4">
+                                    <div class="text-[13px] font-bold text-gray-900 w-12">Selasa</div>
+                                    <div class="text-[12px] text-gray-500 font-medium flex items-center gap-1.5 border-l border-gray-200 pl-4 w-32">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        18.00–20.00 WIB
+                                    </div>
+                                    <div class="text-[13px] font-medium text-gray-700 flex-1">Vocal & Body Language</div>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4 flex items-center gap-4">
+                                    <div class="text-[13px] font-bold text-gray-900 w-12">Kamis</div>
+                                    <div class="text-[12px] text-gray-500 font-medium flex items-center gap-1.5 border-l border-gray-200 pl-4 w-32">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        18.00–20.00 WIB
+                                    </div>
+                                    <div class="text-[13px] font-medium text-gray-700 flex-1">Praktik & Feedback Langsung</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Yang Didapatkan -->
+                        <div class="flex-1">
+                            <h3 class="text-[17px] font-bold text-gray-900 mb-4 pt-1">Yang Didapatkan</h3>
+                            <div class="flex flex-col gap-3">
+                                @foreach($features as $f)
+                                <div class="flex items-center gap-3">
+                                    <div class="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-3.5 h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    </div>
+                                    <span class="text-[14px] text-gray-600 font-medium">{{ $f }}</span>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

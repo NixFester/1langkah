@@ -1,26 +1,21 @@
 @extends('layouts.app', ['activePage' => 'mentor'])
 
 @section('title', 'Mentor Marketplace — 1Langkah')
+@section('header_title', 'Mentor')
 
 @section('content')
-<div style="margin-bottom:24px">
-    <div class="page-title">Mentor Marketplace</div>
-    <p style="font-size:14px;color:var(--text-muted);margin-top:4px">500+ mentor berpengalaman siap membimbing kamu</p>
-</div>
+<div class="w-full px-2 pb-12">
+    <!-- Header -->
+    <div class="mb-10 -mt-2">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Mentor Marketplace</h1>
+        <p class="text-gray-500 text-base">500+ mentor dari perusahaan top Indonesia & global</p>
+    </div>
 
-<div class="chips" style="margin-bottom:24px" x-data="{ active: 'Semua' }">
-    @foreach($categories as $c)
-        <span class="chip" :class="{ 'active': active === '{{ $c }}' }" @click="active = '{{ $c }}'">{{ $c }}</span>
-    @endforeach
+    <!-- Mentor Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        @foreach($mentors as $m)
+            <x-mentor-card :mentor="$m" />
+        @endforeach
+    </div>
 </div>
-
-<div class="grid-3">
-    @foreach($mentors as $m)
-        <x-mentor-card :mentor="$m" />
-    @endforeach
-</div>
-
-@push('scripts')
-<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-@endpush
 @endsection
