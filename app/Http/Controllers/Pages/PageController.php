@@ -48,7 +48,7 @@ class PageController extends Controller
             
             // Add this check:
             if (Auth::user()->role === 'admin') {
-                return redirect()->route('admin.dashboard');
+                return redirect('http://0.0.0.0:8001/admin/dashboard');
             }
             
             return redirect()->intended(route('dashboard'));

@@ -4,36 +4,59 @@
 
     // Each nav item maps to a named Laravel route.
     $isAuth = auth()->check();
+    $isAdmin = $isAuth && auth()->user()->role === 'admin';
+    $isAdminRoute = request()->routeIs('admin.*');
 
     $navItems = [];
-    if ($isAuth) {
-        $navItems[] = ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'dashboard'];
-    }
+    
+    if ($isAdminRoute) {
+        // Admin Navigation
+        $navItems[] = ['id' => 'admin.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'admin.dashboard'];
+        $navItems[] = ['id' => 'admin.users', 'icon' => 'users', 'label' => 'Manage Users', 'route' => 'admin.users'];
+        $navItems[] = ['id' => 'admin.courses', 'icon' => 'book', 'label' => 'Manage Courses', 'route' => 'admin.courses'];
+        $navItems[] = ['id' => 'admin.bootcamps', 'icon' => 'award', 'label' => 'Manage Bootcamps', 'route' => 'admin.bootcamps'];
+        $navItems[] = ['id' => 'admin.events', 'icon' => 'calendar', 'label' => 'Manage Events', 'route' => 'admin.events'];
+        $navItems[] = ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Back to App', 'url' => '#'];
+    } else {
+        // User Navigation
+        if ($isAuth) {
+            $navItems[] = ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'dashboard'];
+        }
 
-    $navItems[] = [
-        'id' => 'belajar', 'icon' => 'book', 'label' => 'Belajar',
-        'subItems' => [
-            ['id' => 'kursus', 'icon' => 'book', 'label' => 'Kursus', 'route' => 'kursus'],
-            ...($isAuth ? [
-                ['id' => 'path', 'icon' => 'path', 'label' => 'Learning Path', 'route' => 'dashboard'],
-                ['id' => 'quiz', 'icon' => 'quiz', 'label' => 'Quiz', 'route' => 'dashboard'],
-            ] : []),
-            ['id' => 'online-bootcamp', 'icon' => 'video', 'label' => 'Online Bootcamp', 'route' => 'online-bootcamp'],
-            ['id' => 'offline-bootcamp', 'icon' => 'mapPin', 'label' => 'Offline Bootcamp', 'route' => 'offline-bootcamp'],
-        ]
-    ];
+        $navItems[] = [
+            'id' => 'belajar', 'icon' => 'book', 'label' => 'Belajar',
+            'subItems' => [
+                ['id' => 'kursus', 'icon' => 'book', 'label' => 'Kursus', 'route' => 'kursus'],
+                ...($isAuth ? [
+                    ['id' => 'path', 'icon' => 'path', 'label' => 'Learning Path', 'route' => 'dashboard'],
+                    ['id' => 'quiz', 'icon' => 'quiz', 'label' => 'Quiz', 'route' => 'dashboard'],
+                ] : []),
+                ['id' => 'online-bootcamp', 'icon' => 'video', 'label' => 'Online Bootcamp', 'route' => 'online-bootcamp'],
+                ['id' => 'offline-bootcamp', 'icon' => 'mapPin', 'label' => 'Offline Bootcamp', 'route' => 'offline-bootcamp'],
+            ]
+        ];
 
-    if ($isAuth) {
-        $navItems[] = ['id' => 'ai-tools', 'icon' => 'ai', 'label' => 'AI Tools', 'subItems' => []];
-        $navItems[] = ['id' => 'karir', 'icon' => 'briefcase', 'label' => 'Karir', 'route' => 'dashboard'];
-        $navItems[] = ['id' => 'portofolio', 'icon' => 'layers', 'label' => 'Portofolio', 'subItems' => []];
-        $navItems[] = ['id' => 'komunitas', 'icon' => 'users', 'label' => 'Komunitas', 'route' => 'dashboard'];
-    }
+        if ($isAuth) {
+            $navItems[] = ['id' => 'ai-tools', 'icon' => 'ai', 'label' => 'AI Tools', 'subItems' => []];
+            $navItems[] = ['id' => 'karir', 'icon' => 'briefcase', 'label' => 'Karir', 'route' => 'dashboard'];
+            $navItems[] = ['id' => 'portofolio', 'icon' => 'layers', 'label' => 'Portofolio', 'subItems' => []];
+            $navItems[] = ['id' => 'komunitas', 'icon' => 'users', 'label' => 'Komunitas', 'route' => 'dashboard'];
+        }
 
-    $navItems[] = ['id' => 'mentor', 'icon' => 'heart', 'label' => 'Mentor', 'route' => 'mentor'];
+        $navItems[] = ['id' => 'mentor', 'icon' => 'heart', 'label' => 'Mentor', 'route' => 'mentor'];
 
-    if ($isAuth) {
-        $navItems[] = ['id' => 'kalender', 'icon' => 'calendar', 'label' => 'Kalender', 'route' => 'kalender'];
+        if ($isAuth) {
+            $navItems[] = ['id' => 'kalender', 'icon' => 'calendar', 'label' => 'Kalender', 'route' => 'kalender'];
+        }
+        
+        if ($isAdmin) {
+            $navItems[] = [
+                'id' => 'admin-panel', 'icon' => 'settings', 'label' => 'Admin Panel',
+                'subItems' => [
+                    ['id' => 'admin.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'url' => 'http://0.0.0.0:8001/admin/dashboard'],
+                ]
+            ];
+        }
     }
 
     $user = app(\App\Services\CatalogService::class)->user();
@@ -118,8 +141,10 @@
                                     if ($subItem['id'] === 'kursus' && in_array($activePage, ['kursus', 'kursus-saya', 'detail-kursus'])) $isSubActive = true;
                                     if ($subItem['id'] === 'online-bootcamp' && in_array($activePage, ['online-bootcamp', 'detail-online-bootcamp'])) $isSubActive = true;
                                     if ($subItem['id'] === 'offline-bootcamp' && in_array($activePage, ['offline-bootcamp', 'detail-offline-bootcamp'])) $isSubActive = true;
+                                    
+                                    $linkHref = isset($subItem['url']) ? $subItem['url'] : route($subItem['route'] ?? 'dashboard');
                                 @endphp
-                                <a href="{{ route($subItem['route'] ?? 'dashboard') }}" class="nav-item" style="padding: 8px 14px; border-radius: 9999px; margin-bottom: 0; {{ $isSubActive ? 'background-color: #ffe4e6; color: #cc0000; font-weight: 600;' : 'color: inherit;' }}">
+                                <a href="{{ $linkHref }}" class="nav-item" style="padding: 8px 14px; border-radius: 9999px; margin-bottom: 0; {{ $isSubActive ? 'background-color: #ffe4e6; color: #cc0000; font-weight: 600;' : 'color: inherit;' }}">
                                     <x-icon :name="$subItem['icon']" style="width:15px;height:15px; {{ $isSubActive ? 'color: #cc0000;' : '' }}" />
                                     <span style="font-size: 13px;">{{ $subItem['label'] }}</span>
                                 </a>
@@ -130,7 +155,10 @@
                 </div>
             @else
                 <div class="nav-section" style="padding: 0 12px;">
-                    <a href="{{ route($item['route'] ?? 'dashboard') }}" class="nav-item {{ $isActive ? 'active' : '' }}" style="margin-bottom: 2px;">
+                    @php
+                        $linkHref = isset($item['url']) ? $item['url'] : route($item['route'] ?? 'dashboard');
+                    @endphp
+                    <a href="{{ $linkHref }}" class="nav-item {{ $isActive ? 'active' : '' }}" style="margin-bottom: 2px;">
                         <x-icon :name="$item['icon']" />
                         <span class="sidebar-text" style="font-size: 14px; font-weight: 500;">{{ $item['label'] }}</span>
                     </a>
@@ -147,17 +175,17 @@
                     {{ strtoupper(substr($authUser->name ?? 'A', 0, 2)) }}
                 </div>
                 <div class="sidebar-user-info" style="flex:1;">
-                    <div class="sidebar-user-name" style="font-weight:700;font-size:14px;">{{ $authUser->name ?? 'Atta Ul Karim' }}</div>
-                    <div class="sidebar-user-role" style="font-size:12px;color:var(--text-light);">Full-Stack Dev</div>
+                    <div class="sidebar-user-name" style="font-weight:700;font-size:14px;line-height:1.2;">{{ $authUser->name ?? 'Atta Ul Karim' }}</div>
+                    <div class="sidebar-user-role" style="font-size:12px;color:var(--text-light);margin-top:4px;">Full-Stack Dev</div>
                 </div>
             </a>
-            <div class="flex items-center gap-3">
-                <a href="{{ route('pengaturan') }}" class="text-gray-400 hover:text-gray-600 transition-colors" title="Pengaturan">
+            <div class="flex flex-col items-center gap-2 ml-auto shrink-0">
+                <a href="{{ route('pengaturan') }}" class="text-gray-400 hover:text-gray-600 transition-colors flex items-center justify-center" title="Pengaturan">
                     <x-icon name="settings" style="width:16px;height:16px;" />
                 </a>
-                <form action="{{ route('logout') }}" method="POST" class="m-0 p-0 flex">
+                <form action="{{ route('logout') }}" method="POST" class="m-0 p-0 flex items-center justify-center">
                     @csrf
-                    <button type="submit" class="text-gray-400 hover:text-[#cc0000] transition-colors bg-transparent border-none p-0 cursor-pointer" title="Keluar">
+                    <button type="submit" class="text-gray-400 hover:text-[#cc0000] transition-colors bg-transparent border-none p-0 cursor-pointer flex items-center justify-center" title="Keluar">
                         <svg style="width:16px;height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                     </button>
                 </form>
