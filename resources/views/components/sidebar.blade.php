@@ -167,28 +167,34 @@
         @endforeach
     </div>
     @auth
-    <div class="sidebar-footer">
+    <div class="sidebar-footer" style="padding: 16px 0 20px 0; border-top: none;">
         @php $authUser = auth()->user(); @endphp
-        <div class="sidebar-user" style="display:flex;align-items:center;gap:12px;width:100%;">
-            <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px;flex:1;">
-                <div class="avatar" style="background:linear-gradient(135deg,var(--primary),#b91c1c);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:16px;">
-                    {{ strtoupper(substr($authUser->name ?? 'A', 0, 2)) }}
-                </div>
-                <div class="sidebar-user-info" style="flex:1;">
-                    <div class="sidebar-user-name" style="font-weight:700;font-size:14px;line-height:1.2;">{{ $authUser->name ?? 'Atta Ul Karim' }}</div>
-                    <div class="sidebar-user-role" style="font-size:12px;color:var(--text-light);margin-top:4px;">Full-Stack Dev</div>
-                </div>
-            </a>
-            <div class="flex flex-col items-center gap-2 ml-auto shrink-0">
-                <a href="{{ route('pengaturan') }}" class="text-gray-400 hover:text-gray-600 transition-colors flex items-center justify-center" title="Pengaturan">
-                    <x-icon name="settings" style="width:16px;height:16px;" />
-                </a>
-                <form action="{{ route('logout') }}" method="POST" class="m-0 p-0 flex items-center justify-center">
+        <div class="flex flex-col w-full">
+            <!-- Logout Row (styled identically to nav-items) -->
+            <div class="nav-section" style="padding: 0 12px; margin-bottom: 8px;">
+                <form action="{{ route('logout') }}" method="POST" class="m-0 p-0 w-full">
                     @csrf
-                    <button type="submit" class="text-gray-400 hover:text-[#cc0000] transition-colors bg-transparent border-none p-0 cursor-pointer flex items-center justify-center" title="Keluar">
-                        <svg style="width:16px;height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    <button type="submit" class="nav-item logout-btn w-full bg-transparent border-none cursor-pointer text-left m-0 transition-colors">
+                        <svg class="transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:18px;height:18px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        <span class="sidebar-text transition-colors" style="font-size: 14px; font-weight: 500;">Keluar</span>
                     </button>
                 </form>
+            </div>
+            
+            <!-- User Profile Row -->
+            <div class="flex items-center w-full" style="padding: 0 16px;">
+                <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px;flex:1;">
+                    <div class="avatar" style="background:linear-gradient(135deg,var(--primary),#b91c1c);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:16px;">
+                        {{ strtoupper(substr($authUser->name ?? 'A', 0, 2)) }}
+                    </div>
+                    <div class="sidebar-user-info" style="flex:1;">
+                        <div class="sidebar-user-name" style="font-weight:700;font-size:14px;line-height:1.2;color:#1f2937;">{{ $authUser->name ?? 'Atta Ul Karim' }}</div>
+                        <div class="sidebar-user-role" style="font-size:12px;color:#9ca3af;margin-top:2px;">Full-Stack Dev</div>
+                    </div>
+                </a>
+                <a href="{{ route('pengaturan') }}" class="text-gray-400 transition-colors ml-auto shrink-0 flex items-center justify-center pl-2 settings-btn" title="Pengaturan">
+                    <x-icon name="settings" style="width:20px;height:20px;" class="transition-colors" />
+                </a>
             </div>
         </div>
     </div>
@@ -203,5 +209,17 @@
 .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+/* Force hover colors to red bypassing missing Tailwind classes */
+.logout-btn:hover,
+.logout-btn:hover .sidebar-text,
+.logout-btn:hover svg {
+    color: #cc0000 !important;
+}
+
+.settings-btn:hover,
+.settings-btn:hover svg {
+    color: #cc0000 !important;
 }
 </style>
