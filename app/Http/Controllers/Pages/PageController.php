@@ -200,8 +200,17 @@ class PageController extends Controller
     {
         $course = $this->catalog->course($id) ?? $this->catalog->courses()[0];
 
-        // Get gallery photos (type = array)
-        $photos = collect($course['gallery'] ?? [])->map(fn($url) => ['url' => $url, 'alt' => $course['title']])->toArray();
+        // Get gallery photos from database (pictures relationship)
+        $courseModel = Course::with('pictures')->find($id);
+        $photos = [];
+        if ($courseModel && $courseModel->pictures) {
+            $photos = $courseModel->pictures
+                ->where('type', 'array')
+                ->sortBy('order')
+                ->map(fn($pic) => ['url' => $pic->url, 'alt' => $pic->alt ?? $course['title']])
+                ->values()
+                ->toArray();
+        }
 
         $isEnrolled = auth()->check() && $this->isUserEnrolled(auth()->id(), 'course', $course['id']);
 

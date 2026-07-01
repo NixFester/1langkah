@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Course;
 use App\Models\Quiz;
 use App\Models\QuizQuestion;
 use App\Models\QuizAnswer;
@@ -11,334 +12,319 @@ class QuizSeeder extends Seeder
 {
     public function run(): void
     {
-        // Only seed if quizzes don't exist yet
-        if (Quiz::exists()) {
-            $this->command->info('Quizzes already exist, skipping...');
-            return;
-        }
+        // Disable foreign key checks to allow truncation
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        QuizQuestion::truncate();
+        QuizAnswer::truncate();
+        Quiz::truncate();
+        \DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
         $this->command->info('Creating quizzes and questions...');
 
-        // ============================================
-        // QUIZ 1: Full-Stack Web Development - Pre Test
-        // ============================================
-        $quiz1 = Quiz::create([
-            'course_id' => 100,
-            'title' => 'Pre-Test: Full-Stack Web Development',
-            'description' => 'Tes pengetahuan awal sebelum memulai kursus Full-Stack Web Development.',
-            'type' => 'pre_test',
-            'passing_score' => 70,
-            'time_limit_minutes' => 30,
-            'is_active' => true,
-            'order' => 1,
-        ]);
+        $courses = Course::pluck('id', 'title')->toArray();
 
-        $this->createFullStackPreTestQuestions($quiz1);
+        $this->command->info('Found ' . count($courses) . ' courses');
 
-        // ============================================
-        // QUIZ 2: Full-Stack Web Development - Post Test
-        // ============================================
-        $quiz2 = Quiz::create([
-            'course_id' => 100,
-            'title' => 'Post-Test: Full-Stack Web Development',
-            'description' => 'Tes pengetahuan setelah menyelesaikan kursus Full-Stack Web Development.',
-            'type' => 'post_test',
-            'passing_score' => 80,
-            'time_limit_minutes' => 45,
-            'is_active' => true,
-            'order' => 2,
-        ]);
+        // Quiz templates for each course type
+        $quizTemplates = [
+            'Full‑Stack Web Development Bootcamp' => [
+                'pre' => [
+                    'title' => 'Pre-Test: Full-Stack Web Development',
+                    'description' => 'Tes pengetahuan awal sebelum memulai kursus Full-Stack Web Development.',
+                    'passing_score' => 70,
+                    'time_limit_minutes' => 30,
+                ],
+                'post' => [
+                    'title' => 'Post-Test: Full-Stack Web Development',
+                    'description' => 'Tes pengetahuan setelah menyelesaikan kursus Full-Stack Web Development.',
+                    'passing_score' => 80,
+                    'time_limit_minutes' => 45,
+                ],
+            ],
+            'Data Science & Machine Learning Masterclass' => [
+                'pre' => [
+                    'title' => 'Pre-Test: Data Science & ML',
+                    'description' => 'Tes pengetahuan awal sebelum memulai kursus Data Science.',
+                    'passing_score' => 70,
+                    'time_limit_minutes' => 30,
+                ],
+                'post' => [
+                    'title' => 'Post-Test: Data Science & ML',
+                    'description' => 'Tes pengetahuan setelah menyelesaikan kursus Data Science.',
+                    'passing_score' => 80,
+                    'time_limit_minutes' => 45,
+                ],
+            ],
+            'Flutter & Firebase – Build Real Apps' => [
+                'pre' => [
+                    'title' => 'Pre-Test: Flutter & Firebase',
+                    'description' => 'Tes pengetahuan awal sebelum memulai kursus Flutter.',
+                    'passing_score' => 60,
+                    'time_limit_minutes' => 25,
+                ],
+                'post' => [
+                    'title' => 'Post-Test: Flutter & Firebase',
+                    'description' => 'Tes pengetahuan setelah menyelesaikan kursus Flutter.',
+                    'passing_score' => 75,
+                    'time_limit_minutes' => 40,
+                ],
+            ],
+            'DevOps with Docker & Kubernetes' => [
+                'pre' => [
+                    'title' => 'Pre-Test: DevOps',
+                    'description' => 'Tes pengetahuan awal sebelum memulai kursus DevOps.',
+                    'passing_score' => 65,
+                    'time_limit_minutes' => 30,
+                ],
+                'post' => [
+                    'title' => 'Post-Test: DevOps',
+                    'description' => 'Tes pengetahuan setelah menyelesaikan kursus DevOps.',
+                    'passing_score' => 80,
+                    'time_limit_minutes' => 45,
+                ],
+            ],
+            'Laravel 11 – Web Development Mudah' => [
+                'pre' => [
+                    'title' => 'Pre-Test: Laravel',
+                    'description' => 'Tes pengetahuan awal sebelum memulai kursus Laravel.',
+                    'passing_score' => 60,
+                    'time_limit_minutes' => 25,
+                ],
+                'post' => [
+                    'title' => 'Post-Test: Laravel',
+                    'description' => 'Tes pengetahuan setelah menyelesaikan kursus Laravel.',
+                    'passing_score' => 75,
+                    'time_limit_minutes' => 40,
+                ],
+            ],
+            'UI/UX Design for Mobile & Web' => [
+                'pre' => [
+                    'title' => 'Pre-Test: UI/UX Design',
+                    'description' => 'Tes pengetahuan awal sebelum memulai kursus UI/UX Design.',
+                    'passing_score' => 60,
+                    'time_limit_minutes' => 20,
+                ],
+                'post' => [
+                    'title' => 'Post-Test: UI/UX Design',
+                    'description' => 'Tes pengetahuan setelah menyelesaikan kursus UI/UX Design.',
+                    'passing_score' => 75,
+                    'time_limit_minutes' => 35,
+                ],
+            ],
+            'React JS – Dari Nol hingga Expert' => [
+                'pre' => [
+                    'title' => 'Pre-Test: React JS',
+                    'description' => 'Tes pengetahuan awal sebelum memulai kursus React.',
+                    'passing_score' => 65,
+                    'time_limit_minutes' => 25,
+                ],
+                'post' => [
+                    'title' => 'Post-Test: React JS',
+                    'description' => 'Tes pengetahuan setelah menyelesaikan kursus React.',
+                    'passing_score' => 80,
+                    'time_limit_minutes' => 40,
+                ],
+            ],
+            'SQL for Data Analysis' => [
+                'pre' => [
+                    'title' => 'Pre-Test: SQL for Data Analysis',
+                    'description' => 'Tes pengetahuan awal sebelum memulai kursus SQL.',
+                    'passing_score' => 60,
+                    'time_limit_minutes' => 20,
+                ],
+                'post' => [
+                    'title' => 'Post-Test: SQL for Data Analysis',
+                    'description' => 'Tes pengetahuan setelah menyelesaikan kursus SQL.',
+                    'passing_score' => 75,
+                    'time_limit_minutes' => 35,
+                ],
+            ],
+            'Python for Automation & Scripting' => [
+                'pre' => [
+                    'title' => 'Pre-Test: Python Automation',
+                    'description' => 'Tes pengetahuan awal sebelum memulai kursus Python.',
+                    'passing_score' => 60,
+                    'time_limit_minutes' => 20,
+                ],
+                'post' => [
+                    'title' => 'Post-Test: Python Automation',
+                    'description' => 'Tes pengetahuan setelah menyelesaikan kursus Python.',
+                    'passing_score' => 75,
+                    'time_limit_minutes' => 35,
+                ],
+            ],
+            'Cloud Computing with AWS' => [
+                'pre' => [
+                    'title' => 'Pre-Test: Cloud Computing',
+                    'description' => 'Tes pengetahuan awal sebelum memulai kursus AWS.',
+                    'passing_score' => 65,
+                    'time_limit_minutes' => 30,
+                ],
+                'post' => [
+                    'title' => 'Post-Test: Cloud Computing',
+                    'description' => 'Tes pengetahuan setelah menyelesaikan kursus AWS.',
+                    'passing_score' => 80,
+                    'time_limit_minutes' => 45,
+                ],
+            ],
+        ];
 
-        $this->createFullStackPostTestQuestions($quiz2);
+        $quizCount = 0;
+        foreach ($courses as $courseTitle => $courseId) {
+            if (!isset($quizTemplates[$courseTitle])) {
+                $this->command->info("Skipping: '$courseTitle' not in templates");
+                continue;
+            }
 
-        // ============================================
-        // QUIZ 3: Data Science - Pre Test
-        // ============================================
-        $quiz3 = Quiz::create([
-            'course_id' => 101,
-            'title' => 'Pre-Test: Data Science & ML',
-            'description' => 'Tes pengetahuan awal sebelum memulai kursus Data Science.',
-            'type' => 'pre_test',
-            'passing_score' => 70,
-            'time_limit_minutes' => 30,
-            'is_active' => true,
-            'order' => 1,
-        ]);
+            $this->command->info("Creating quiz for: '$courseTitle' (ID: $courseId)");
 
-        $this->createDataSciencePreTestQuestions($quiz3);
+            $template = $quizTemplates[$courseTitle];
 
-        // ============================================
-        // QUIZ 4: UI/UX Design - Pre Test
-        // ============================================
-        $quiz4 = Quiz::create([
-            'course_id' => 102,
-            'title' => 'Pre-Test: UI/UX Design',
-            'description' => 'Tes pengetahuan awal sebelum memulai kursus UI/UX Design.',
-            'type' => 'pre_test',
-            'passing_score' => 70,
-            'time_limit_minutes' => 20,
-            'is_active' => true,
-            'order' => 1,
-        ]);
+            // Create Pre-Test
+            $preQuiz = Quiz::create([
+                'course_id' => $courseId,
+                'title' => $template['pre']['title'],
+                'description' => $template['pre']['description'],
+                'type' => 'pre_test',
+                'passing_score' => $template['pre']['passing_score'],
+                'time_limit_minutes' => $template['pre']['time_limit_minutes'],
+                'is_active' => true,
+                'order' => 1,
+            ]);
+            $this->createGenericPreTestQuestions($preQuiz, $courseTitle);
+            $quizCount++;
 
-        $this->createUIUXPreTestQuestions($quiz4);
+            // Create Post-Test
+            $postQuiz = Quiz::create([
+                'course_id' => $courseId,
+                'title' => $template['post']['title'],
+                'description' => $template['post']['description'],
+                'type' => 'post_test',
+                'passing_score' => $template['post']['passing_score'],
+                'time_limit_minutes' => $template['post']['time_limit_minutes'],
+                'is_active' => true,
+                'order' => 2,
+            ]);
+            $this->createGenericPostTestQuestions($postQuiz, $courseTitle);
+            $quizCount++;
+        }
 
-        $this->command->info('✓ Created ' . Quiz::count() . ' quizzes with questions');
+        $this->command->info('✓ Created ' . $quizCount . ' quizzes with questions');
     }
 
-    /**
-     * Create Full-Stack Pre Test Questions
-     */
-    private function createFullStackPreTestQuestions(Quiz $quiz): void
+    private function createGenericPreTestQuestions(Quiz $quiz, string $courseTitle): void
     {
-        // Question 1
+        // Question 1 - Multiple Choice
         $q1 = QuizQuestion::create([
             'quiz_id' => $quiz->id,
-            'question' => 'Apa kepanjangan dari HTML?',
-            'explanation' => 'HTML stands for HyperText Markup Language, yaitu bahasa markup standar untuk membuat halaman web.',
+            'question' => 'Apa pemahaman Anda tentang topik kursus ini?',
+            'explanation' => 'Pre-test ini untuk mengukur pengetahuan awal Anda.',
             'type' => 'multiple_choice',
-            'points' => 10,
+            'points' => 25,
             'order' => 1,
         ]);
+        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Sangat baik, sudah punya pengalaman', 'is_correct' => false, 'order' => 1]);
+        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Cukup baik, pernah belajar sedikit', 'is_correct' => false, 'order' => 2]);
+        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Kurang, baru pertama kali belajar', 'is_correct' => true, 'order' => 3]);
+        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Tidak tahu sama sekali', 'is_correct' => false, 'order' => 4]);
 
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'HyperText Markup Language', 'is_correct' => true, 'order' => 1]);
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'High Tech Modern Language', 'is_correct' => false, 'order' => 2]);
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Home Tool Markup Language', 'is_correct' => false, 'order' => 3]);
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Hyper Transfer Markup Language', 'is_correct' => false, 'order' => 4]);
-
-        // Question 2
+        // Question 2 - True/False
         $q2 = QuizQuestion::create([
             'quiz_id' => $quiz->id,
-            'question' => 'JavaScript adalah bahasa pemrograman yang berjalan di sisi client (browser).',
-            'explanation' => 'JavaScript memang berjalan di browser (client-side), tapi dengan Node.js JavaScript juga bisa berjalan di server-side.',
+            'question' => 'Saya sudah memiliki pengetahuan dasar tentang topik ini.',
+            'explanation' => 'Pertanyaan ini untuk mengukur pengalaman awal.',
             'type' => 'true_false',
-            'points' => 10,
+            'points' => 25,
             'order' => 2,
         ]);
-
         QuizAnswer::create(['question_id' => $q2->id, 'answer_text' => 'Benar', 'is_correct' => true, 'order' => 1]);
         QuizAnswer::create(['question_id' => $q2->id, 'answer_text' => 'Salah', 'is_correct' => false, 'order' => 2]);
 
-        // Question 3
+        // Question 3 - Multiple Choice
         $q3 = QuizQuestion::create([
             'quiz_id' => $quiz->id,
-            'question' => 'Apa fungsi utama dari CSS?',
-            'explanation' => 'CSS (Cascading Style Sheets) digunakan untuk mengatur tampilan dan layout halaman web.',
+            'question' => 'Apa tujuan utama Anda mengikuti kursus ini?',
+            'explanation' => 'Untuk memahami motivasi belajar Anda.',
             'type' => 'multiple_choice',
-            'points' => 10,
+            'points' => 25,
             'order' => 3,
         ]);
+        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Untuk karir profesional', 'is_correct' => true, 'order' => 1]);
+        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Untuk hobi/personal', 'is_correct' => true, 'order' => 2]);
+        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Untuk tugas sekolah/kuliah', 'is_correct' => true, 'order' => 3]);
+        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Lainnya', 'is_correct' => true, 'order' => 4]);
 
-        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Mengatur styling/tampilan web', 'is_correct' => true, 'order' => 1]);
-        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Membuat struktur halaman web', 'is_correct' => false, 'order' => 2]);
-        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Mengelola database', 'is_correct' => false, 'order' => 3]);
-        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Mengirim email', 'is_correct' => false, 'order' => 4]);
-
-        // Question 4
+        // Question 4 - Essay
         $q4 = QuizQuestion::create([
             'quiz_id' => $quiz->id,
-            'question' => 'Sebutkan 3 teknologi utama dalam Full-Stack Web Development!',
-            'explanation' => 'Jawaban dapat meliputi HTML, CSS, JavaScript untuk frontend, dan berbagai backend technologies.',
+            'question' => 'Ceritakan pengalaman Anda sebelumnya dengan topik kursus ini (jika ada).',
+            'explanation' => 'Jawaban akan membantu mentor memahami level Anda.',
+            'type' => 'essay',
+            'points' => 25,
+            'order' => 4,
+        ]);
+    }
+
+    private function createGenericPostTestQuestions(Quiz $quiz, string $courseTitle): void
+    {
+        // Question 1 - Multiple Choice
+        $q1 = QuizQuestion::create([
+            'quiz_id' => $quiz->id,
+            'question' => 'Apa konsep utama yang telah Anda pelajari di kursus ini?',
+            'explanation' => 'Post-test untuk mengukur pemahaman konsep kursus.',
+            'type' => 'multiple_choice',
+            'points' => 20,
+            'order' => 1,
+        ]);
+        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Konsep dasar dan fundamental', 'is_correct' => true, 'order' => 1]);
+        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Teknik lanjutan', 'is_correct' => false, 'order' => 2]);
+        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Best practices industri', 'is_correct' => false, 'order' => 3]);
+        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Semua jawaban benar', 'is_correct' => true, 'order' => 4]);
+
+        // Question 2 - True/False
+        $q2 = QuizQuestion::create([
+            'quiz_id' => $quiz->id,
+            'question' => 'Kursus ini telah memberikan pengetahuan yang saya harapkan.',
+            'explanation' => 'Untuk evaluasi kepuasan belajar.',
+            'type' => 'true_false',
+            'points' => 20,
+            'order' => 2,
+        ]);
+        QuizAnswer::create(['question_id' => $q2->id, 'answer_text' => 'Benar', 'is_correct' => true, 'order' => 1]);
+        QuizAnswer::create(['question_id' => $q2->id, 'answer_text' => 'Salah', 'is_correct' => false, 'order' => 2]);
+
+        // Question 3 - Multiple Choice
+        $q3 = QuizQuestion::create([
+            'quiz_id' => $quiz->id,
+            'question' => 'Apa skill praktis yang dapat Anda terapkan setelah kursus ini?',
+            'explanation' => 'Untuk mengukur kesiapan implementasi.',
+            'type' => 'multiple_choice',
+            'points' => 20,
+            'order' => 3,
+        ]);
+        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Mampu membuat project sendiri', 'is_correct' => true, 'order' => 1]);
+        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Bisa memecahkan masalah terkait topik', 'is_correct' => true, 'order' => 2]);
+        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Siap untuk interview kerja', 'is_correct' => false, 'order' => 3]);
+        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Semua jawaban benar', 'is_correct' => true, 'order' => 4]);
+
+        // Question 4 - Essay
+        $q4 = QuizQuestion::create([
+            'quiz_id' => $quiz->id,
+            'question' => 'Jelaskan bagaimana Anda akan menerapkan ilmu dari kursus ini dalam proyek nyata.',
+            'explanation' => 'Untuk mengukur kemampuan aplikasi ilmu.',
             'type' => 'essay',
             'points' => 20,
             'order' => 4,
         ]);
 
-        // Question 5
+        // Question 5 - Essay
         $q5 = QuizQuestion::create([
             'quiz_id' => $quiz->id,
-            'question' => 'Apa perbedaan antara var, let, dan const dalam JavaScript?',
-            'explanation' => 'var bersifat function-scoped, let/const bersifat block-scoped, dan const tidak bisa di-reassign.',
+            'question' => 'Apa topik atau area yang menurut Anda perlu dipelajari lebih lanjut?',
+            'explanation' => 'Untuk membantu pengembangan kurikulum di masa depan.',
             'type' => 'essay',
             'points' => 20,
             'order' => 5,
         ]);
-    }
-
-    /**
-     * Create Full-Stack Post Test Questions
-     */
-    private function createFullStackPostTestQuestions(Quiz $quiz): void
-    {
-        // Question 1
-        $q1 = QuizQuestion::create([
-            'quiz_id' => $quiz->id,
-            'question' => 'Apa fungsi useEffect hook dalam React?',
-            'explanation' => 'useEffect digunakan untuk menangani side effects seperti fetching data, subscriptions, atau modifying DOM.',
-            'type' => 'multiple_choice',
-            'points' => 15,
-            'order' => 1,
-        ]);
-
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Mengelola side effects dalam komponen functional', 'is_correct' => true, 'order' => 1]);
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Mengubah state komponen', 'is_correct' => false, 'order' => 2]);
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Membuat komponen baru', 'is_correct' => false, 'order' => 3]);
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Mengatur routing', 'is_correct' => false, 'order' => 4]);
-
-        // Question 2
-        $q2 = QuizQuestion::create([
-            'quiz_id' => $quiz->id,
-            'question' => 'Express.js adalah framework backend untuk Node.js',
-            'explanation' => 'Express.js memang adalah framework minimal dan fleksibel untuk Node.js yang digunakan untuk membangun API dan web applications.',
-            'type' => 'true_false',
-            'points' => 10,
-            'order' => 2,
-        ]);
-
-        QuizAnswer::create(['question_id' => $q2->id, 'answer_text' => 'Benar', 'is_correct' => true, 'order' => 1]);
-        QuizAnswer::create(['question_id' => $q2->id, 'answer_text' => 'Salah', 'is_correct' => false, 'order' => 2]);
-
-        // Question 3
-        $q3 = QuizQuestion::create([
-            'quiz_id' => $quiz->id,
-            'question' => 'Apa perbedaan antara SQL dan NoSQL database?',
-            'explanation' => 'SQL databases menggunakan schema terstruktur dan query language, sementara NoSQL lebih fleksibel dengan document/key-value stores.',
-            'type' => 'essay',
-            'points' => 25,
-            'order' => 3,
-        ]);
-
-        // Question 4
-        $q4 = QuizQuestion::create([
-            'quiz_id' => $quiz->id,
-            'question' => 'Apa itu RESTful API?',
-            'explanation' => 'RESTful API adalah architectural style untuk membangun web services yang menggunakan HTTP methods.',
-            'type' => 'multiple_choice',
-            'points' => 15,
-            'order' => 4,
-        ]);
-
-        QuizAnswer::create(['question_id' => $q4->id, 'answer_text' => 'API yang mengikuti REST architectural constraints', 'is_correct' => true, 'order' => 1]);
-        QuizAnswer::create(['question_id' => $q4->id, 'answer_text' => 'Database NoSQL', 'is_correct' => false, 'order' => 2]);
-        QuizAnswer::create(['question_id' => $q4->id, 'answer_text' => 'JavaScript framework', 'is_correct' => false, 'order' => 3]);
-        QuizAnswer::create(['question_id' => $q4->id, 'answer_text' => 'CSS preprocessor', 'is_correct' => false, 'order' => 4]);
-
-        // Question 5
-        $q5 = QuizQuestion::create([
-            'quiz_id' => $quiz->id,
-            'question' => 'Jelaskan konsep Component-Driven Development dalam React!',
-            'explanation' => 'Component-Driven Development adalah pendekatan membangun UI dari bawah ke atas, dimulai dari komponen individual.',
-            'type' => 'essay',
-            'points' => 25,
-            'order' => 5,
-        ]);
-    }
-
-    /**
-     * Create Data Science Pre Test Questions
-     */
-    private function createDataSciencePreTestQuestions(Quiz $quiz): void
-    {
-        // Question 1
-        $q1 = QuizQuestion::create([
-            'quiz_id' => $quiz->id,
-            'question' => 'Apa kepanjangan dari ML dalam context Data Science?',
-            'explanation' => 'ML = Machine Learning, yaitu subset dari AI yang memungkinkan sistem belajar dari data.',
-            'type' => 'multiple_choice',
-            'points' => 10,
-            'order' => 1,
-        ]);
-
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Machine Learning', 'is_correct' => true, 'order' => 1]);
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Microsoft Language', 'is_correct' => false, 'order' => 2]);
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Meta Learning', 'is_correct' => false, 'order' => 3]);
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Main Library', 'is_correct' => false, 'order' => 4]);
-
-        // Question 2
-        $q2 = QuizQuestion::create([
-            'quiz_id' => $quiz->id,
-            'question' => 'Python adalah bahasa pemrograman yang populer untuk Data Science.',
-            'explanation' => 'Python memang sangat populer di Data Science karena ecosystem libraries seperti Pandas, NumPy, dan scikit-learn.',
-            'type' => 'true_false',
-            'points' => 10,
-            'order' => 2,
-        ]);
-
-        QuizAnswer::create(['question_id' => $q2->id, 'answer_text' => 'Benar', 'is_correct' => true, 'order' => 1]);
-        QuizAnswer::create(['question_id' => $q2->id, 'answer_text' => 'Salah', 'is_correct' => false, 'order' => 2]);
-
-        // Question 3
-        $q3 = QuizQuestion::create([
-            'quiz_id' => $quiz->id,
-            'question' => 'Apa library Python yang paling populer untuk manipulasi data?',
-            'explanation' => 'Pandas adalah library Python yang populer untuk manipulasi dan analisis data tabular.',
-            'type' => 'multiple_choice',
-            'points' => 15,
-            'order' => 3,
-        ]);
-
-        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Pandas', 'is_correct' => true, 'order' => 1]);
-        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Django', 'is_correct' => false, 'order' => 2]);
-        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Flask', 'is_correct' => false, 'order' => 3]);
-        QuizAnswer::create(['question_id' => $q3->id, 'answer_text' => 'Pygame', 'is_correct' => false, 'order' => 4]);
-
-        // Question 4
-        $q4 = QuizQuestion::create([
-            'quiz_id' => $quiz->id,
-            'question' => 'Jelaskan perbedaan antara supervised dan unsupervised learning!',
-            'explanation' => 'Supervised learning menggunakan labeled data untuk training, unsupervised menemukan pattern tanpa labels.',
-            'type' => 'essay',
-            'points' => 25,
-            'order' => 4,
-        ]);
-    }
-
-    /**
-     * Create UI/UX Pre Test Questions
-     */
-    private function createUIUXPreTestQuestions(Quiz $quiz): void
-    {
-        // Question 1
-        $q1 = QuizQuestion::create([
-            'quiz_id' => $quiz->id,
-            'question' => 'Apa kepanjangan dari UX?',
-            'explanation' => 'UX = User Experience, yaitu pengalaman pengguna saat menggunakan produk.',
-            'type' => 'multiple_choice',
-            'points' => 10,
-            'order' => 1,
-        ]);
-
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'User Experience', 'is_correct' => true, 'order' => 1]);
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'User Extension', 'is_correct' => false, 'order' => 2]);
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Universal Exchange', 'is_correct' => false, 'order' => 3]);
-        QuizAnswer::create(['question_id' => $q1->id, 'answer_text' => 'Unique Experience', 'is_correct' => false, 'order' => 4]);
-
-        // Question 2
-        $q2 = QuizQuestion::create([
-            'quiz_id' => $quiz->id,
-            'question' => 'Figma adalah tools untuk membuat wireframes dan prototypes.',
-            'explanation' => 'Figma adalah collaborative interface design tool yang digunakan untuk membuat wireframes, prototypes, dan design systems.',
-            'type' => 'true_false',
-            'points' => 10,
-            'order' => 2,
-        ]);
-
-        QuizAnswer::create(['question_id' => $q2->id, 'answer_text' => 'Benar', 'is_correct' => true, 'order' => 1]);
-        QuizAnswer::create(['question_id' => $q2->id, 'answer_text' => 'Salah', 'is_correct' => false, 'order' => 2]);
-
-        // Question 3
-        $q3 = QuizQuestion::create([
-            'quiz_id' => $quiz->id,
-            'question' => 'Apa perbedaan antara UI dan UX design?',
-            'explanation' => 'UI fokus pada visual dan interaksi, UX mencakup keseluruhan pengalaman pengguna.',
-            'type' => 'essay',
-            'points' => 30,
-            'order' => 3,
-        ]);
-
-        // Question 4
-        $q4 = QuizQuestion::create([
-            'quiz_id' => $quiz->id,
-            'question' => 'Apa itu Design System?',
-            'explanation' => 'Design System adalah kumpulan komponen dan guidelines yang dapat digunakan ulang untuk konsistensi desain.',
-            'type' => 'multiple_choice',
-            'points' => 20,
-            'order' => 4,
-        ]);
-
-        QuizAnswer::create(['question_id' => $q4->id, 'answer_text' => 'Kumpulan reusable components dan guidelines', 'is_correct' => true, 'order' => 1]);
-        QuizAnswer::create(['question_id' => $q4->id, 'answer_text' => 'Database untuk menyimpan desain', 'is_correct' => false, 'order' => 2]);
-        QuizAnswer::create(['question_id' => $q4->id, 'answer_text' => 'Software untuk rendering 3D', 'is_correct' => false, 'order' => 3]);
-        QuizAnswer::create(['question_id' => $q4->id, 'answer_text' => 'Framework untuk backend', 'is_correct' => false, 'order' => 4]);
     }
 }

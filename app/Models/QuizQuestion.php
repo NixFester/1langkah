@@ -36,7 +36,7 @@ class QuizQuestion extends Model
 
     public function answers(): HasMany
     {
-        return $this->hasMany(QuizAnswer::class)->orderBy('order');
+        return $this->hasMany(QuizAnswer::class, 'question_id')->orderBy('order');
     }
 
     // ── Helpers ──────────────────────────────────────────────────────────────

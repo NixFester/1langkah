@@ -129,61 +129,6 @@
         </form>
     </div>
 
-    @if(!isset($course))
-    <!-- ADD CHAPTERS SECTION (Only shown when creating new course) -->
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
-        <div class="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
-            <div>
-                <h3 class="text-lg font-bold text-gray-900">Tambah Bab Pembelajaran</h3>
-                <p class="text-xs text-gray-500 mt-1">Tambahkan bab untuk kursus ini (opsional)</p>
-            </div>
-            <button type="button" @click="addChapter()" class="bg-gray-900 hover:bg-black text-white text-sm font-bold py-2 px-4 rounded-full flex items-center gap-2 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                Tambah Bab
-            </button>
-        </div>
-
-        <!-- Dynamic Chapters List -->
-        <div class="p-6 space-y-4" x-show="chapters.length > 0">
-            <template x-for="(chapter, index) in chapters" :key="index">
-                <div class="border border-gray-200 rounded-xl p-4 bg-gray-50 relative">
-                    <button type="button" @click="removeChapter(index)" class="absolute top-2 right-2 text-gray-400 hover:text-red-500">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Judul Bab <span class="text-red-500">*</span></label>
-                            <input type="text" x-model="chapter.title" placeholder="Contoh: Pengenalan HTML" required class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-gray-900 focus:border-gray-900">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Jumlah Lesson <span class="text-red-500">*</span></label>
-                            <input type="number" x-model="chapter.lessons" min="1" placeholder="5" required class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-gray-900 focus:border-gray-900">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Durasi <span class="text-red-500">*</span></label>
-                            <input type="text" x-model="chapter.duration" placeholder="45 Menit" required class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-gray-900 focus:border-gray-900">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Video URL</label>
-                            <input type="url" x-model="chapter.video_url" placeholder="https://youtube.com/watch?v=xxx" class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-gray-900 focus:border-gray-900">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Deskripsi</label>
-                            <textarea x-model="chapter.description" rows="2" placeholder="Deskripsi singkat bab (opsional)" class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-gray-900 focus:border-gray-900 resize-none"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </template>
-        </div>
-
-        <div x-show="chapters.length === 0" class="p-8 text-center">
-            <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-            <p class="text-gray-500 text-sm">Klik "Tambah Bab" untuk menambahkan bab pembelajaran</p>
-        </div>
-    </div>
-    @endif
-
     @if(isset($course))
     <!-- CHAPTERS SECTION (Shown when editing existing course) -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

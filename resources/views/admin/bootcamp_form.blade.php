@@ -119,62 +119,7 @@
             </div>
         </form>
     </div>
-
-    @if(!isset($bootcamp))
-    <!-- ADD SESSIONS SECTION (Only shown when creating new bootcamp) -->
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
-        <div class="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
-            <div>
-                <h3 class="text-lg font-bold text-gray-900">Tambah Jadwal Sesi</h3>
-                <p class="text-xs text-gray-500 mt-1">Tambahkan jadwal sesi untuk bootcamp ini (opsional)</p>
-            </div>
-            <button type="button" @click="sessions.push({ date: '', topic: '', time: '', meeting_url: '', description: '' })" class="bg-gray-900 hover:bg-black text-white text-sm font-bold py-2 px-4 rounded-full flex items-center gap-2 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                Tambah Sesi
-            </button>
-        </div>
-
-        <!-- Dynamic Sessions List -->
-        <div class="p-6 space-y-4" x-show="sessions.length > 0">
-            <template x-for="(session, index) in sessions" :key="index">
-                <div class="border border-gray-200 rounded-xl p-4 bg-gray-50 relative">
-                    <button type="button" @click="sessions.splice(index, 1)" class="absolute top-2 right-2 text-gray-400 hover:text-red-500">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div>
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Tanggal Sesi <span class="text-red-500">*</span></label>
-                            <input type="text" x-model="session.date" placeholder="Contoh: 15 Agu 2026, 09:00 WIB" class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-gray-900 focus:border-gray-900">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Topik Sesi <span class="text-red-500">*</span></label>
-                            <input type="text" x-model="session.topic" placeholder="Contoh: Pengenalan React Native" class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-gray-900 focus:border-gray-900">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Waktu <span class="text-red-500">*</span></label>
-                            <input type="text" x-model="session.time" placeholder="Contoh: 14:00 - 16:00 WIB" class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-gray-900 focus:border-gray-900">
-                        </div>
-                        <div x-show="bootcampType === 'online'">
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Meeting URL</label>
-                            <input type="url" x-model="session.meeting_url" placeholder="https://zoom.us/j/xxx" class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-gray-900 focus:border-gray-900">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Deskripsi</label>
-                            <textarea x-model="session.description" rows="1" placeholder="Deskripsi singkat sesi (opsional)" class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg p-2.5 focus:ring-gray-900 focus:border-gray-900 resize-none"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </template>
-        </div>
-
-        <div x-show="sessions.length === 0" class="p-8 text-center">
-            <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-            <p class="text-gray-500 text-sm">Klik "Tambah Sesi" untuk menambahkan jadwal sesi</p>
-        </div>
-    </div>
-    @endif
-
+    
     @if(isset($bootcamp))
     <!-- SESSIONS SECTION (Shown when editing existing bootcamp) -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -296,6 +241,70 @@
             @endif
         </div>
 
+    </div>
+    @endif
+
+    @if(isset($bootcamp))
+    <!-- PICTURES SECTION -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+            <h3 class="text-lg font-bold text-gray-900">Gambar Bootcamp</h3>
+        </div>
+        <!-- ADD PICTURE FORM -->
+        <form method="POST" action="{{ route('admin.pictures.store', ['bootcamp', $bootcamp->id]) }}" enctype="multipart/form-data" class="p-6 border-b border-gray-100">
+            @csrf
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Gambar <span class="text-red-500">*</span></label>
+                    <input type="file" name="image" accept="image/*" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl p-3 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-600 hover:file:bg-red-100">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Tipe</label>
+                    <select name="type" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3">
+                        <option value="gallery">Gallery</option>
+                        <option value="thumbnail">Thumbnail</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Deskripsi</label>
+                    <input type="text" name="description" placeholder="Deskripsi gambar (opsional)" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3">
+                </div>
+            </div>
+            <div class="mt-4 flex justify-end">
+                <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-full text-sm transition-colors flex items-center gap-2">
+                    + Tambah Gambar
+                </button>
+            </div>
+        </form>
+
+        <!-- PICTURES GRID -->
+        @php $pictures = $bootcamp->pictures()->orderBy('type')->get() @endphp
+        @if(count($pictures) === 0)
+        <div class="p-8 text-center">
+            <p class="text-gray-500 text-sm">Belum ada gambar untuk bootcamp ini.</p>
+        </div>
+        @else
+        <div class="p-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            @foreach($pictures as $picture)
+            <div class="bg-white rounded-xl border border-gray-200 overflow-hidden relative group">
+                <div class="aspect-video bg-gray-100">
+                    <img src="{{ $picture->url }}" alt="{{ $picture->description ?? 'Bootcamp image' }}" class="w-full h-full object-cover">
+                </div>
+                <div class="p-2">
+                    <span class="inline-block px-2 py-1 text-xs font-bold rounded-full {{ $picture->type === 'thumbnail' ? 'bg-yellow-100 text-yellow-700' : 'bg-blue-100 text-blue-700' }}">
+                        {{ ucfirst($picture->type) }}
+                    </span>
+                </div>
+                <form method="POST" action="{{ route('admin.pictures.destroy', $picture) }}" onsubmit="return confirm('Hapus gambar ini?')" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-full shadow-lg">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </form>
+            </div>
+            @endforeach
+        </div>
+        @endif
     </div>
     @endif
 

@@ -26,13 +26,37 @@ class QrController extends Controller
     public function scan(?int $bootcampId = null): View
     {
         $bootcamp = null;
+        $userBootcamps = [];
 
         if ($bootcampId) {
             $bootcamp = Bootcamp::find($bootcampId);
         }
 
+        // Get user's registered bootcamps (offline bootcamps only for attendance)
+        if (auth()->check()) {
+            $userBootcamps = auth()->user()->enrollments()
+                ->where('purchasable_type', Bootcamp::class)
+                ->where('status', 'active')
+                ->with('purchasable')
+                ->get()
+                ->map(function ($enrollment) {
+                    $bootcamp = $enrollment->purchasable;
+                    if ($bootcamp && $bootcamp->type === 'offline') {
+                        return [
+                            'id' => $bootcamp->id,
+                            'title' => $bootcamp->title,
+                        ];
+                    }
+                    return null;
+                })
+                ->filter()
+                ->values()
+                ->toArray();
+        }
+
         return view('pages.scan-qr', [
             'bootcamp' => $bootcamp,
+            'userBootcamps' => $userBootcamps,
         ]);
     }
 

@@ -97,6 +97,11 @@ class Course extends Model
         return $this->morphMany(Enrollment::class, 'purchasable');
     }
 
+    public function resources(): HasMany
+    {
+        return $this->hasMany(Resource::class)->whereNull('chapter_id')->orderBy('order');
+    }
+
     // ── Helpers ──────────────────────────────────────────────────────────────
 
     /**

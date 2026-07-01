@@ -18,7 +18,11 @@
             <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Bootcamp</label>
             <select id="bootcampSelect" class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-transparent">
                 <option value="">-- Pilih Bootcamp --</option>
-                <!-- Options will be loaded via JS -->
+                @forelse($userBootcamps as $userBootcamp)
+                <option value="{{ $userBootcamp['id'] }}">{{ $userBootcamp['title'] }}</option>
+                @empty
+                <option value="" disabled>Tidak ada bootcamp yang terdaftar</option>
+                @endforelse
             </select>
         </div>
         @endif
@@ -82,7 +86,6 @@ let bootcampId = {{ $bootcamp?->id ?? 'null' }};
 
 document.addEventListener('DOMContentLoaded', function() {
     initQrScanner();
-    loadBootcamps();
 });
 
 async function initQrScanner() {
@@ -157,23 +160,6 @@ function submitManualCode() {
         resultDiv.className = 'mt-6 p-4 rounded-2xl text-center bg-red-100 text-red-800';
         resultDiv.innerHTML = '<span class="text-2xl">❌</span><br><strong>Error!</strong><br>Terjadi kesalahan koneksi';
     });
-}
-
-function loadBootcamps() {
-    if (bootcampId) return;
-
-    fetch('/api/bootcamps/offline')
-        .then(r => r.json())
-        .then(data => {
-            const select = document.getElementById('bootcampSelect');
-            data.forEach(b => {
-                const option = document.createElement('option');
-                option.value = b.id;
-                option.textContent = b.title;
-                select.appendChild(option);
-            });
-        })
-        .catch(err => console.error(err));
 }
 
 document.getElementById('bootcampSelect')?.addEventListener('change', function() {

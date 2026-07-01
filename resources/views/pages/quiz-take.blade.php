@@ -151,27 +151,11 @@
 @push('scripts')
 <script>
 document.getElementById('quizForm').addEventListener('submit', function(e) {
-    const requiredQuestions = document.querySelectorAll('input[type="radio"]:required');
-    let allAnswered = true;
-
-    // Check if all required questions are answered
-    const questionGroups = {};
-    requiredQuestions.forEach(radio => {
-        const name = radio.name;
-        if (!questionGroups[name]) questionGroups[name] = false;
-        if (radio.checked) questionGroups[name] = true;
-    });
-
-    for (const group in questionGroups) {
-        if (!questionGroups[group]) {
-            allAnswered = false;
-            break;
-        }
-    }
-
-    if (!allAnswered) {
+    // Check if at least one answer is selected
+    const selectedAnswers = document.querySelectorAll('input[type="radio"]:checked');
+    if (selectedAnswers.length === 0) {
         e.preventDefault();
-        alert('Pastikan semua pertanyaan wajib dijawab!');
+        alert('Pilih jawaban untuk setidaknya satu pertanyaan!');
         return false;
     }
 

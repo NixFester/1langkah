@@ -9,19 +9,20 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            OptionSeeder::class,
-            UserSeeder::class,
-            MentorSeeder::class,
-            CourseSeeder::class,
+            BootcampRatingSeeder::class,
             BootcampSeeder::class,
-            ChapterSeeder::class,
             BootcampSessionSeeder::class,
-            PictureSeeder::class,
+            ChapterSeeder::class,
+            CourseSeeder::class,
             EventSeeder::class,
+            FlowTestSeeder::class,
+            MentorSeeder::class,
+            OptionSeeder::class,
+            PictureSeeder::class,
+            QuizSeeder::class,
+            UserSeeder::class,
             UserActivityLogSeeder::class,
             UserProgressSeeder::class,
-            BootcampRatingSeeder::class,
-            FlowTestSeeder::class,
         ]);
     }
 }

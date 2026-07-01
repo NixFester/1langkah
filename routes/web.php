@@ -82,8 +82,24 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/courses', [App\Http\Controllers\Admin\AdminController::class, 'storeCourse'])->name('courses.store');
     Route::get('/courses/{course}/manage', [App\Http\Controllers\Admin\AdminController::class, 'manageCourse'])->name('courses.manage');
     Route::patch('/courses/{course}', [App\Http\Controllers\Admin\AdminController::class, 'updateCourse'])->name('courses.update');
-    Route::post('/courses/{course}/chapters', [App\Http\Controllers\Admin\AdminController::class, 'storeChapter'])->name('courses.chapters.store');
     Route::delete('/courses/{course}', [App\Http\Controllers\Admin\AdminController::class, 'destroyCourse'])->name('courses.destroy');
+
+    // Chapter management
+    Route::post('/courses/{course}/chapters', [App\Http\Controllers\Admin\AdminController::class, 'storeChapter'])->name('courses.chapters.store');
+    Route::patch('/courses/{course}/chapters/{chapter}', [App\Http\Controllers\Admin\AdminController::class, 'updateChapter'])->name('courses.chapters.update');
+    Route::delete('/courses/{course}/chapters/{chapter}', [App\Http\Controllers\Admin\AdminController::class, 'destroyChapter'])->name('courses.chapters.destroy');
+
+    // Chapter video management
+    Route::post('/courses/{course}/chapters/{chapter}/videos', [App\Http\Controllers\Admin\AdminController::class, 'storeChapterVideo'])->name('courses.chapters.videos.store');
+    Route::delete('/courses/{course}/chapters/{chapter}/videos/{video}', [App\Http\Controllers\Admin\AdminController::class, 'destroyChapterVideo'])->name('courses.chapters.videos.destroy');
+
+    // Course resource management
+    Route::post('/courses/{course}/resources', [App\Http\Controllers\Admin\AdminController::class, 'storeResource'])->name('courses.resources.store');
+    Route::delete('/courses/{course}/resources/{resource}', [App\Http\Controllers\Admin\AdminController::class, 'destroyResource'])->name('courses.resources.destroy');
+
+    // Picture management
+    Route::post('/pictures/{type}/{id}', [App\Http\Controllers\Admin\PictureController::class, 'store'])->name('pictures.store');
+    Route::delete('/pictures/{picture}', [App\Http\Controllers\Admin\PictureController::class, 'destroy'])->name('pictures.destroy');
 
     Route::get('/bootcamps', [App\Http\Controllers\Admin\AdminController::class, 'bootcamps'])->name('bootcamps');
     Route::get('/bootcamps/new', [App\Http\Controllers\Admin\AdminController::class, 'createBootcampForm'])->name('bootcamps.new');

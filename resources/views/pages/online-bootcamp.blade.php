@@ -137,10 +137,10 @@
                     <div class="mt-auto mb-5">
                         <div class="flex items-center justify-between text-xs font-bold mb-2.5">
                             <span class="text-gray-400">Slot tersedia</span>
-                            <span class="text-red-500">2 sisa dari 40</span>
+                            <span class="text-red-500" x-text="b.availableSlots + ' sisa dari ' + b.totalSlots"></span>
                         </div>
                         <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                            <div class="h-full bg-red-600 rounded-full" style="width: 95%"></div>
+                            <div class="h-full bg-red-600 rounded-full" :style="'width: ' + (100 - (b.availableSlots / b.totalSlots * 100)) + '%'"></div>
                         </div>
                     </div>
 

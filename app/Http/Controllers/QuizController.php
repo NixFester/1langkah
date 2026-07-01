@@ -20,15 +20,8 @@ class QuizController extends Controller
     {
         $user = Auth::user();
 
-        // Get user's enrolled courses
-        $enrolledCourseIds = $user->enrollments()
-            ->where('purchasable_type', Course::class)
-            ->pluck('purchasable_id')
-            ->toArray();
-
-        // Get quizzes for enrolled courses
-        $quizzes = Quiz::whereIn('course_id', $enrolledCourseIds)
-            ->where('is_active', true)
+        // Get quizzes with active status, grouped by course
+        $quizzes = Quiz::where('is_active', true)
             ->with('course')
             ->get()
             ->groupBy('course_id');
@@ -82,7 +75,6 @@ class QuizController extends Controller
     {
         $request->validate([
             'answers' => 'required|array',
-            'answers.*' => 'nullable|integer|exists:quiz_answers,id',
         ]);
 
         $user = Auth::user();
@@ -103,15 +95,18 @@ class QuizController extends Controller
         // Calculate score
         $answers = $request->input('answers', []);
         $correctCount = 0;
+        $totalQuestions = $quiz->questions->count();
         $totalScored = 0;
 
         foreach ($quiz->questions as $question) {
-            if (!$question->is_required && !isset($answers[$question->id])) {
-                continue; // Skip optional unanswered questions
+            $userAnswerId = $answers[$question->id] ?? null;
+
+            // Essay questions don't count towards score (manual grading)
+            if ($question->type === 'essay') {
+                continue;
             }
 
             $totalScored += $question->points;
-            $userAnswerId = $answers[$question->id] ?? null;
 
             if ($userAnswerId) {
                 // Check if answer is correct
@@ -127,9 +122,10 @@ class QuizController extends Controller
         }
 
         // Calculate percentage
-        $totalQuestions = $quiz->questions->where('is_required')->count();
-        $score = $totalQuestions > 0
-            ? round(($correctCount / $totalQuestions) * 100, 2)
+        // Only count questions that have correct answers (not essays)
+        $scoredQuestions = $quiz->questions->where('type', '!=', 'essay')->count();
+        $score = $scoredQuestions > 0
+            ? round(($correctCount / $scoredQuestions) * 100, 2)
             : 0;
         $passed = $score >= $quiz->passing_score;
 

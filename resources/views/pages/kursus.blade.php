@@ -269,6 +269,9 @@
                     <!-- Badges -->
                     <div class="absolute top-3 left-3 flex items-center gap-2 z-10">
                         <span class="bg-white text-gray-800 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm" x-text="course.level || 'Beginner'"></span>
+                        <template x-if="course.badge">
+                            <span class="bg-yellow-400 text-yellow-900 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm" x-text="course.badge"></span>
+                        </template>
                     </div>
                     <!-- Bottom Progress Bar (Only for Kursus Saya) -->
                     <template x-if="tab === 'saya'">

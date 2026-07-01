@@ -74,6 +74,29 @@
 
             <!-- Overview Tab -->
             <div x-show="activeTab === 'overview'">
+                <!-- Chapters (Only show when enrolled) -->
+                @if($isEnrolled && !empty($chapters))
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] mb-6">
+                    <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">Curriculum</h2>
+                    <div class="space-y-4">
+                        @foreach($chapters as $index => $chapter)
+                        <div class="border border-gray-100 rounded-xl overflow-hidden">
+                            <div class="flex items-center justify-between p-4 bg-gray-50">
+                                <div class="flex items-center gap-3">
+                                    <span class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-sm font-bold">{{ $index + 1 }}</span>
+                                    <span class="font-medium text-gray-900">{{ $chapter['title'] }}</span>
+                                </div>
+                                <div class="flex items-center gap-4 text-sm text-gray-500">
+                                    <span>{{ $chapter['lessons'] ?? 0 }} lessons</span>
+                                    <span>{{ $chapter['duration'] ?? '0h' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
                 <!-- Benefits -->
                 <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
                     <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">Benefits</h2>
@@ -243,7 +266,8 @@
             </div>
         </div>
 
-        <!-- Right Column (Sticky Sidebar) -->
+        <!-- Right Column (Sticky Sidebar) - Only show if not enrolled -->
+        @if(!$isEnrolled)
         <div class="lg:col-span-1">
             <div class="bg-white border border-gray-100 rounded-3xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.05)] lg:sticky lg:top-24">
 
@@ -262,15 +286,9 @@
                     @endif
                 </div>
 
-                @if($isEnrolled)
-                    <a href="{{ route('detail-kursus', ['id' => $c['id']]) }}" class="w-full inline-flex items-center justify-center py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-full transition-colors mb-3">
-                        Sudah Terdaftar — Mulai Belajar
-                    </a>
-                @else
-                    <a href="{{ route('pembayaran', ['id' => $c['id']]) }}" class="w-full inline-flex items-center justify-center py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors mb-3">
-                        Daftar Sekarang
-                    </a>
-                @endif
+                <a href="{{ route('pembayaran', ['id' => $c['id']]) }}" class="w-full inline-flex items-center justify-center py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors mb-3">
+                    Daftar Sekarang
+                </a>
                 <button class="w-full py-3.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-bold rounded-full transition-colors mb-8 shadow-sm">
                     Coba Gratis 7 Hari
                 </button>
@@ -310,6 +328,7 @@
                 </div>
             </div>
         </div>
+        @endif
 
     </div>
 </div>

@@ -2,6 +2,10 @@
 
 @section('title', 'Quizzes - 1Langkah')
 
+@php
+use App\Models\TestAttempt;
+@endphp
+
 @section('header_title', 'Quiz Saya')
 
 @section('content')

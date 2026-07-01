@@ -16,7 +16,9 @@
         $navItems[] = ['id' => 'admin.courses', 'icon' => 'book', 'label' => 'Manage Courses', 'route' => 'admin.courses'];
         $navItems[] = ['id' => 'admin.bootcamps', 'icon' => 'award', 'label' => 'Manage Bootcamps', 'route' => 'admin.bootcamps'];
         $navItems[] = ['id' => 'admin.events', 'icon' => 'calendar', 'label' => 'Manage Events', 'route' => 'admin.events'];
-        $navItems[] = ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Back to App', 'url' => '#'];
+        $navItems[] = ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => 'Manage Quizzes', 'route' => 'admin.quizzes'];
+        $navItems[] = ['id' => 'admin.options', 'icon' => 'settings', 'label' => 'Settings', 'route' => 'admin.options'];
+        $navItems[] = ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Back to App', 'route' => 'dashboard'];
     } else {
         // User Navigation
         if ($isAuth) {
@@ -28,7 +30,6 @@
             'subItems' => [
                 ['id' => 'kursus', 'icon' => 'book', 'label' => 'Kursus', 'route' => 'kursus'],
                 ...($isAuth ? [
-                    ['id' => 'path', 'icon' => 'path', 'label' => 'Learning Path', 'route' => 'dashboard'],
                     ['id' => 'quiz', 'icon' => 'quiz', 'label' => 'Quiz', 'route' => 'quiz.index'],
                 ] : []),
                 ['id' => 'online-bootcamp', 'icon' => 'video', 'label' => 'Online Bootcamp', 'route' => 'online-bootcamp'],
@@ -39,7 +40,6 @@
 
         if ($isAuth) {
             $navItems[] = ['id' => 'ai-tools', 'icon' => 'ai', 'label' => 'AI Tools', 'subItems' => []];
-            $navItems[] = ['id' => 'karir', 'icon' => 'briefcase', 'label' => 'Karir', 'route' => 'dashboard'];
             $navItems[] = ['id' => 'portofolio', 'icon' => 'layers', 'label' => 'Portofolio', 'route' => 'portofolio'];
             $navItems[] = ['id' => 'komunitas', 'icon' => 'users', 'label' => 'Komunitas', 'route' => 'dashboard'];
         }
@@ -52,11 +52,7 @@
         
         if ($isAdmin) {
             $navItems[] = [
-                'id' => 'admin-panel', 'icon' => 'settings', 'label' => 'Admin Panel',
-                'subItems' => [
-                    ['id' => 'admin.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'admin.dashboard'],
-                ]
-            ];
+                'id' => 'admin-panel', 'icon' => 'settings', 'label' => 'Admin Panel','route' => 'admin.dashboard'];
         }
     }
 

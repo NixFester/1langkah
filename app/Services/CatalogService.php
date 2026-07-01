@@ -72,6 +72,11 @@ class CatalogService
         // Ensure pictures relationship returns a collection
         $pictures = $b->pictures ?? collect();
 
+        // Calculate enrolled count
+        $enrolledCount = $b->enrollments()->count();
+        $totalSlots = $b->participants ?? 40;
+        $availableSlots = max(0, $totalSlots - $enrolledCount);
+
         return [
             'id'           => $b->id,
             'title'        => $b->title,
@@ -81,8 +86,11 @@ class CatalogService
             'sessions'     => $b->sessions_info,
             'price'        => $b->price,
             'color'        => $b->color,
-            'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url,
-            'gallery'   => $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray(),
+            'thumbnail'    => $pictures->where('type', 'thumbnail')->first()?->url,
+            'gallery'      => $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray(),
+            'enrolledCount' => $enrolledCount,
+            'availableSlots' => $availableSlots,
+            'totalSlots' => $totalSlots,
         ];
     }
 
@@ -111,6 +119,11 @@ class CatalogService
         // Ensure pictures relationship returns a collection
         $pictures = $b->pictures ?? collect();
 
+        // Calculate enrolled count
+        $enrolledCount = $b->enrollments()->count();
+        $totalSlots = $b->participants ?? 20;
+        $availableSlots = max(0, $totalSlots - $enrolledCount);
+
         return [
             'id'           => $b->id,
             'title'        => $b->title,
@@ -125,6 +138,9 @@ class CatalogService
             'jadwal_kelas' => $jadwalKelas,
             'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url,
             'gallery'   => $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray(),
+            'enrolledCount' => $enrolledCount,
+            'availableSlots' => $availableSlots,
+            'totalSlots' => $totalSlots,
         ];
     }
 

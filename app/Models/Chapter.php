@@ -38,6 +38,16 @@ class Chapter extends Model
         return $this->hasMany(ChapterProgress::class);
     }
 
+    public function videos(): HasMany
+    {
+        return $this->hasMany(ChapterVideo::class)->orderBy('order');
+    }
+
+    public function resources(): HasMany
+    {
+        return $this->hasMany(Resource::class);
+    }
+
     public function progressForUser(User $user)
     {
         return $this->progress()->where('user_id', $user->id)->first();

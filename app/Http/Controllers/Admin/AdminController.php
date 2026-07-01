@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Bootcamp;
 use App\Models\Chapter;
+use App\Models\ChapterVideo;
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\Option;
+use App\Models\Resource;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -169,9 +171,9 @@ class AdminController extends Controller
 
     public function manageCourse(Course $course): View
     {
-        $course->load('chapters');
+        $course->load(['chapters.videos', 'chapters.resources', 'resources']);
         $levels = $this->getOptions('course_level');
-        return view('admin.course_form', compact('course', 'levels'));
+        return view('admin.course_manage', compact('course', 'levels'));
     }
 
     public function updateCourse(Request $request, Course $course): RedirectResponse
@@ -203,13 +205,76 @@ class AdminController extends Controller
             'title' => 'required|string|max:255',
             'lessons' => 'required|integer|min:1',
             'duration' => 'required|string|max:100',
-            'video_url' => 'nullable|url|max:500',
-            'thumbnail_url' => 'nullable|url|max:500',
             'description' => 'nullable|string',
         ]);
 
         $course->chapters()->create($data);
         return redirect()->route('admin.courses.manage', $course)->with('success', 'Bab berhasil ditambahkan.');
+    }
+
+    public function updateChapter(Request $request, Course $course, Chapter $chapter): RedirectResponse
+    {
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'lessons' => 'required|integer|min:1',
+            'duration' => 'required|string|max:100',
+            'description' => 'nullable|string',
+        ]);
+
+        $chapter->update($data);
+        return redirect()->route('admin.courses.manage', $course)->with('success', 'Bab berhasil diperbarui.');
+    }
+
+    public function destroyChapter(Course $course, Chapter $chapter): RedirectResponse
+    {
+        $chapter->delete();
+        return back()->with('success', 'Bab berhasil dihapus.');
+    }
+
+    public function storeChapterVideo(Request $request, Course $course, Chapter $chapter): RedirectResponse
+    {
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'video_url' => 'required|url|max:500',
+            'thumbnail_url' => 'nullable|url|max:500',
+            'duration' => 'nullable|string|max:100',
+            'description' => 'nullable|string',
+        ]);
+
+        $data['chapter_id'] = $chapter->id;
+        $data['order'] = $chapter->videos()->max('order') + 1;
+
+        ChapterVideo::create($data);
+        return back()->with('success', 'Video berhasil ditambahkan.');
+    }
+
+    public function destroyChapterVideo(Course $course, Chapter $chapter, ChapterVideo $video): RedirectResponse
+    {
+        $video->delete();
+        return back()->with('success', 'Video berhasil dihapus.');
+    }
+
+    public function storeResource(Request $request, Course $course): RedirectResponse
+    {
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'type' => 'required|in:pdf,zip,video,link,github,file',
+            'url' => 'required|url|max:500',
+            'file_size' => 'nullable|integer|min:0',
+            'description' => 'nullable|string',
+        ]);
+
+        $data['course_id'] = $course->id;
+        $data['order'] = $course->resources()->max('order') + 1;
+
+        Resource::create($data);
+        return back()->with('success', 'Resource berhasil ditambahkan.');
+    }
+
+    public function destroyResource(Course $course, Resource $resource): RedirectResponse
+    {
+        $resource->delete();
+        return back()->with('success', 'Resource berhasil dihapus.');
     }
 
     public function destroyCourse(Course $course): RedirectResponse
