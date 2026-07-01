@@ -39,7 +39,7 @@
         if ($isAuth) {
             $navItems[] = ['id' => 'ai-tools', 'icon' => 'ai', 'label' => 'AI Tools', 'subItems' => []];
             $navItems[] = ['id' => 'karir', 'icon' => 'briefcase', 'label' => 'Karir', 'route' => 'dashboard'];
-            $navItems[] = ['id' => 'portofolio', 'icon' => 'layers', 'label' => 'Portofolio', 'subItems' => []];
+            $navItems[] = ['id' => 'portofolio', 'icon' => 'layers', 'label' => 'Portofolio', 'route' => 'portofolio'];
             $navItems[] = ['id' => 'komunitas', 'icon' => 'users', 'label' => 'Komunitas', 'route' => 'dashboard'];
         }
 

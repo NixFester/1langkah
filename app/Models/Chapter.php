@@ -16,11 +16,16 @@ class Chapter extends Model
         'title',
         'lessons',
         'duration',
+        'video_url',
+        'thumbnail_url',
+        'description',
+        'order',
     ];
 
     protected $casts = [
         'course_id' => 'integer',
         'lessons' => 'integer',
+        'order' => 'integer',
     ];
 
     public function course(): BelongsTo

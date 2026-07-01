@@ -81,9 +81,14 @@
                     <label>Nama Lengkap</label>
                     <input class="input" name="name" value="{{ old('name', $u->name) }}" required />
                 </div>
-                <div class="input-group" style="margin-bottom:0">
+                <div class="input-group" style="margin-bottom:16px">
                     <label>Email</label>
                     <input class="input" type="email" name="email" value="{{ old('email', $u->email) }}" required />
+                </div>
+                <div class="input-group" style="margin-bottom:0">
+                    <label>Bio / Deskripsi Diri</label>
+                    <textarea class="input" name="bio" rows="3" placeholder="Ceritakan tentang diri kamu, skill, atau tujuan karir...">{{ old('bio', $u->bio) }}</textarea>
+                    <small style="color:var(--text-muted);font-size:11px;margin-top:4px;display:block">Maks 500 karakter. Akan ditampilkan di portofolio kamu.</small>
                 </div>
             </div>
 

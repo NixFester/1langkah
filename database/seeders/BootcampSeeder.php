@@ -113,7 +113,24 @@ class BootcampSeeder extends Seeder
         ];
 
         foreach ($bootcamps as $b) {
-            Bootcamp::create($b);
+            $bootcampData = $b;
+
+            // Add new fields for offline bootcamps
+            if ($b['type'] === 'offline') {
+                $bootcampData['jadwal_kelas'] = json_encode([
+                    ['hari' => 'Sabtu', 'jam' => '09:00 - 12:00'],
+                    ['hari' => 'Minggu', 'jam' => '13:00 - 16:00'],
+                ]);
+                $bootcampData['benefits'] = json_encode([
+                    'Sertifikat completion',
+                    'Materi lengkap (PDF)',
+                    'Lunch & coffee break',
+                    'Networking dengan peserta lain',
+                ]);
+                $bootcampData['icon'] = 'graduation-cap'; // Default icon name
+            }
+
+            Bootcamp::create($bootcampData);
         }
     }
 }

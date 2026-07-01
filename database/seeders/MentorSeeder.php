@@ -78,7 +78,9 @@ class MentorSeeder extends Seeder
         ];
 
         foreach ($mentors as $m) {
-            Mentor::create($m);
+            $mentorData = $m;
+            $mentorData['linkedin_url'] = 'https://linkedin.com/in/' . strtolower(str_replace(' ', '-', $m['name']));
+            Mentor::create($mentorData);
         }
     }
 }

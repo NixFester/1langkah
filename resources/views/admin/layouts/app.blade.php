@@ -22,6 +22,7 @@
         <a href="{{ route('admin.courses') }}" class="{{ request()->routeIs('admin.courses') ? 'active' : '' }}">Manage Courses</a>
         <a href="{{ route('admin.bootcamps') }}" class="{{ request()->routeIs('admin.bootcamps') ? 'active' : '' }}">Manage Bootcamps</a>
         <a href="{{ route('admin.events') }}" class="{{ request()->routeIs('admin.events') ? 'active' : '' }}">Manage Events</a>
+        <a href="{{ route('admin.options') }}" class="{{ request()->routeIs('admin.options') ? 'active' : '' }}" style="margin-top: 20px;">Options / Settings</a>
         <a href="{{ route('dashboard') }}" style="margin-top: 40px; color: #9ca3af;">&larr; Back to App</a><form method="POST" action="{{ route('logout') }}" style="margin-top: 10px;">
             @csrf
             <button type="submit" style="background: none; border: none; color: #9ca3af; padding: 12px 24px; cursor: pointer; font-size: 14px; text-align: left; width: 100%;">Logout</button>

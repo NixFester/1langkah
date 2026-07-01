@@ -21,6 +21,7 @@ class Mentor extends Model
         'color',
         'expertise',
         'bio',
+        'linkedin_url',
     ];
 
     protected $casts = [
@@ -28,6 +29,8 @@ class Mentor extends Model
         'sessions_count' => 'integer',
         'expertise' => 'array',
     ];
+
+    // ── Relationships ────────────────────────────────────────────────────────
 
     public function courses(): HasMany
     {
@@ -37,5 +40,62 @@ class Mentor extends Model
     public function bootcamps(): HasMany
     {
         return $this->hasMany(Bootcamp::class);
+    }
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+
+    /**
+     * Get average rating across all courses and bootcamps
+     */
+    public function getAverageRatingAttribute(): float
+    {
+        $courseRatings = $this->courses->flatMap->ratings;
+        $bootcampRatings = $this->bootcamps->flatMap->ratings;
+        $allRatings = $courseRatings->concat($bootcampRatings);
+
+        return $allRatings->count() > 0 ? $allRatings->avg('rating') : ($this->rating ?? 0);
+    }
+
+    /**
+     * Get total students count
+     */
+    public function getTotalStudentsAttribute(): int
+    {
+        $courseStudents = $this->courses->sum('students_count');
+        $bootcampParticipants = $this->bootcamps->sum('participants');
+
+        return $courseStudents + $bootcampParticipants;
+    }
+
+    /**
+     * Get linkedin iframe embed URL
+     */
+    public function getLinkedinEmbedUrlAttribute(): ?string
+    {
+        if (!$this->linkedin_url) return null;
+
+        // Convert profile URL to embed URL
+        // Example: https://linkedin.com/in/username -> https://linkedin.com/embed/username
+        if (str_contains($this->linkedin_url, 'linkedin.com/in/')) {
+            return str_replace('linkedin.com/in/', 'linkedin.com/embed/', $this->linkedin_url);
+        }
+
+        return $this->linkedin_url;
+    }
+
+    /**
+     * Check if has LinkedIn
+     */
+    public function hasLinkedIn(): bool
+    {
+        return !empty($this->linkedin_url);
+    }
+
+    /**
+     * Get expertise as formatted list
+     */
+    public function getExpertiseListAttribute(): array
+    {
+        return $this->expertise ?? [];
     }
 }

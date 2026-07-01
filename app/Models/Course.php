@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Course extends Model
 {
@@ -25,6 +26,11 @@ class Course extends Model
         'progress',
         'color',
         'mentor_id',
+        'description',
+        'short_description',
+        'benefits',
+        'curriculum',
+        'resources',
     ];
 
     protected $casts = [
@@ -32,7 +38,12 @@ class Course extends Model
         'students_count' => 'integer',
         'progress' => 'integer',
         'mentor_id' => 'integer',
+        'benefits' => 'array',
+        'curriculum' => 'array',
+        'resources' => 'array',
     ];
+
+    // ── Relationships ────────────────────────────────────────────────────────
 
     public function mentor(): BelongsTo
     {
@@ -43,6 +54,7 @@ class Course extends Model
     {
         return $this->hasMany(Chapter::class);
     }
+
     public function pictures(): MorphMany
     {
         return $this->morphMany(Picture::class, 'pictureable');
@@ -73,5 +85,98 @@ class Course extends Model
     public function activityLogs(): MorphMany
     {
         return $this->morphMany(UserActivityLog::class, 'loggable');
+    }
+
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(CourseRating::class);
+    }
+
+    public function enrollments(): MorphMany
+    {
+        return $this->morphMany(Enrollment::class, 'purchasable');
+    }
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+
+    /**
+     * Get average rating from all user ratings
+     */
+    public function getAverageRatingAttribute(): float
+    {
+        return $this->ratings()->avg('rating') ?? $this->rating ?? 0;
+    }
+
+    /**
+     * Get total rating count
+     */
+    public function getRatingCountAttribute(): int
+    {
+        return $this->ratings()->count();
+    }
+
+    /**
+     * Get user's rating for this course
+     */
+    public function userRating(?int $userId): ?int
+    {
+        if (!$userId) return null;
+        return $this->ratings()->where('user_id', $userId)->value('rating');
+    }
+
+    /**
+     * Check if user is enrolled
+     */
+    public function isEnrolled(?int $userId): bool
+    {
+        if (!$userId) return false;
+        return $this->enrollments()->where('user_id', $userId)->exists();
+    }
+
+    /**
+     * Get benefits as array
+     */
+    public function getBenefitsListAttribute(): array
+    {
+        return $this->benefits ?? [];
+    }
+
+    /**
+     * Get curriculum sections
+     */
+    public function getCurriculumSectionsAttribute(): array
+    {
+        return $this->curriculum ?? [];
+    }
+
+    /**
+     * Get resources (paywall protected)
+     */
+    public function getResourcesAttribute(): ?array
+    {
+        return $this->resources;
+    }
+
+    /**
+     * Skills associated with this course
+     */
+    public function getSkillsAttribute(): array
+    {
+        // Extract skills from category and title
+        $skills = [];
+
+        if ($this->category) {
+            $skills[] = $this->category;
+        }
+
+        // Add title words as potential skills
+        $words = explode(' ', str_replace(['Course', 'Kursus'], '', $this->title));
+        foreach ($words as $word) {
+            if (strlen($word) > 3) {
+                $skills[] = $word;
+            }
+        }
+
+        return array_unique($skills);
     }
 }

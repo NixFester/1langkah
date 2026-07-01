@@ -33,3 +33,5 @@ context.md
 compiledb.py
 db.md
 /tests
+src.md
+PLAN.md

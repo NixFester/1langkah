@@ -1,100 +1,246 @@
-@extends('layouts.app', ['activePage' => 'kursus'])
+@php
+    /** @var \App\Services\CatalogService $catalog */
+    $activePage = 'kursus';
+@endphp
+
+@extends('layouts.app')
 
 @section('title', 'Kursus — 1Langkah')
-@section('header_title', 'Kursus')
 
 @section('content')
-<div class="px-2" x-data="{ tab: 'semua', activeCat: 'All' }">
+<div x-data="{
+    tab: 'semua',
+    activeCat: 'All',
+    searchQuery: '',
+    activeLevel: 'All',
+    sortBy: 'newest',
+    showFilter: false,
+    filteredCourses: {{ json_encode($courses) }},
+    get displayedCourses() {
+        let courses = this.tab === 'saya' ? {{ json_encode($myCourses) }} : this.filteredCourses;
+
+        // Filter by search
+        if (this.searchQuery) {
+            const query = this.searchQuery.toLowerCase();
+            courses = courses.filter(c =>
+                (c.title && c.title.toLowerCase().includes(query)) ||
+                (c.mentor && c.mentor.toLowerCase().includes(query)) ||
+                (c.category && c.category.toLowerCase().includes(query))
+            );
+        }
+
+        // Filter by category
+        if (this.activeCat !== 'All') {
+            courses = courses.filter(c => c.category === this.activeCat);
+        }
+
+        // Filter by level
+        if (this.activeLevel !== 'All') {
+            courses = courses.filter(c => c.level === this.activeLevel);
+        }
+
+        // Sort
+        if (this.sortBy === 'newest') {
+            courses = [...courses].reverse();
+        } else if (this.sortBy === 'rating') {
+            courses = [...courses].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+        } else if (this.sortBy === 'price_low') {
+            courses = [...courses].sort((a, b) => {
+                const priceA = parseInt((a.price || '0').toString().replace(/\D/g, '')) || 0;
+                const priceB = parseInt((b.price || '0').toString().replace(/\D/g, '')) || 0;
+                return priceA - priceB;
+            });
+        } else if (this.sortBy === 'price_high') {
+            courses = [...courses].sort((a, b) => {
+                const priceA = parseInt((a.price || '0').toString().replace(/\D/g, '')) || 0;
+                const priceB = parseInt((b.price || '0').toString().replace(/\D/g, '')) || 0;
+                return priceB - priceA;
+            });
+        }
+
+        return courses;
+    }
+}" class="px-6 sm:px-10 py-8 w-full space-y-8">
+
     <!-- Header -->
-    <div class="flex items-start justify-between mb-8 -mt-2">
+    <div class="flex items-start justify-between -mt-2">
         <div>
             <h1 class="text-3xl font-bold text-gray-900 mb-2">Kursus</h1>
             <p class="text-gray-500 text-base">800+ kursus praktis dari instruktur terbaik</p>
         </div>
-        <div class="flex items-center gap-2 mt-1">
-            <button class="w-10 h-10 flex items-center justify-center rounded-full bg-red-50 text-red-600 transition-colors">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+    </div>
+
+    <!-- Search & Filter Bar -->
+    <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
+        <div class="flex flex-col md:flex-row gap-4">
+            <!-- Search Input -->
+            <div class="flex-1 relative">
+                <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <input type="text" x-model="searchQuery" placeholder="Cari kursus, mentor, atau kategori..."
+                    class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
+            </div>
+
+            <!-- Sort Dropdown -->
+            <div class="relative">
+                <select x-model="sortBy" class="appearance-none bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 pr-10 text-sm text-gray-700 focus:ring-2 focus:ring-red-500 focus:border-red-500 cursor-pointer">
+                    <option value="newest">Terbaru</option>
+                    <option value="rating">Rating Tertinggi</option>
+                    <option value="price_low">Harga: Rendah ke Tinggi</option>
+                    <option value="price_high">Harga: Tinggi ke Rendah</option>
+                </select>
+                <svg class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+
+            <!-- Filter Toggle -->
+            <button @click="showFilter = !showFilter"
+                :class="showFilter ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-700 border-gray-200'"
+                class="px-4 py-3 border rounded-xl text-sm font-medium flex items-center gap-2 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+                Filter
             </button>
-            <button class="w-10 h-10 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-            </button>
+        </div>
+
+        <!-- Filter Panel -->
+        <div x-show="showFilter" x-collapse class="mt-4 pt-4 border-t border-gray-100">
+            <div class="flex flex-wrap gap-4">
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 mb-2">Level</label>
+                    <div class="flex flex-wrap gap-2">
+                        <template x-for="level in ['All', 'Beginner', 'Intermediate', 'Advanced']" :key="level">
+                            <button @click="activeLevel = level"
+                                :class="activeLevel === level ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                                class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
+                                x-text="level">
+                            </button>
+                        </template>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Tabs -->
-    <div class="inline-flex bg-slate-100 rounded-full p-1 mb-8 shadow-sm">
-        <button @click="tab = 'semua'" 
-                :class="tab === 'semua' ? 'bg-white shadow-sm ring-1 ring-black/5 font-bold' : 'font-semibold hover:text-slate-700'" 
-                :style="tab === 'semua' ? 'color: #cc0000; font-size: 15px;' : 'color: #64748b; font-size: 15px;'"
-                class="px-6 py-2 rounded-full transition-all">
+    <div class="inline-flex bg-slate-100 rounded-full p-1 shadow-sm">
+        <button @click="tab = 'semua'"
+            :class="tab === 'semua' ? 'bg-white shadow-sm ring-1 ring-black/5 font-bold' : 'font-semibold hover:text-slate-700'"
+            :style="tab === 'semua' ? 'color: #dc2626; font-size: 15px; padding: 8px 20px; border-radius: 9999px;' : 'color: #64748b; font-size: 15px; padding: 8px 20px; border-radius: 9999px;'"
+            class="px-6 py-2 rounded-full transition-all cursor-pointer">
             Semua Kursus
+            <span x-show="searchQuery || activeCat !== 'All' || activeLevel !== 'All'" class="ml-1 px-1.5 py-0.5 bg-red-100 text-red-600 text-xs rounded-full">Filtered</span>
         </button>
-        <button @click="tab = 'saya'" 
-                :class="tab === 'saya' ? 'bg-white shadow-sm ring-1 ring-black/5 font-bold' : 'font-semibold hover:text-slate-700'" 
-                :style="tab === 'saya' ? 'color: #cc0000; font-size: 15px;' : 'color: #64748b; font-size: 15px;'"
-                class="px-6 py-2 rounded-full flex items-center gap-2 transition-all">
-            Kursus Saya 
-            <span :class="tab === 'saya' ? 'px-2.5 py-0.5 rounded-full text-xs font-bold' : 'font-bold'" 
-                  :style="tab === 'saya' ? 'background-color: #ffe4e6; color: #cc0000;' : ''">3</span>
+        <button @click="tab = 'saya'"
+            :class="tab === 'saya' ? 'bg-white shadow-sm ring-1 ring-black/5 font-bold' : 'font-semibold hover:text-slate-700'"
+            :style="tab === 'saya' ? 'color: #dc2626; font-size: 15px; padding: 8px 20px; border-radius: 9999px;' : 'color: #64748b; font-size: 15px; padding: 20px; border-radius: 9999px;'"
+            class="px-6 py-2 rounded-full transition-all cursor-pointer flex items-center gap-2">
+            Kursus Saya
+            <span :class="tab === 'saya' ? 'px-2 py-0.5 rounded-full text-xs font-bold' : ''"
+                :style="tab === 'saya' ? 'background-color: #fee2e2; color: #dc2626;' : ''">
+                {{ count($myCourses) }}
+            </span>
         </button>
     </div>
 
-    <!-- Categories / Filters (Only for Semua Kursus) -->
-    <div x-show="tab === 'semua'" class="flex items-center gap-3 mb-8 overflow-x-auto pb-2 scrollbar-hide">
-        <button @click="activeCat = 'All'" 
-                :class="activeCat === 'All' ? 'text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'"
-                :style="activeCat === 'All' ? 'background-color: #cc0000;' : ''"
-                class="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">
+    <!-- Categories (Semua only) -->
+    <div x-show="tab === 'semua'" class="flex items-center gap-3 overflow-x-auto pb-2 -mt-4">
+        <button @click="activeCat = 'All'"
+            :class="activeCat === 'All' ? 'text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'"
+            :style="activeCat === 'All' ? 'background-color: #dc2626; padding: 8px 20px; border-radius: 9999px; font-size: 14px; font-weight: 500;' : 'padding: 8px 20px; border-radius: 9999px; font-size: 14px; font-weight: 500;'"
+            class="py-2 transition-colors whitespace-nowrap cursor-pointer">
             All
         </button>
-        
-        @foreach(['Programming', 'Design', 'AI', 'Marketing', 'Data', 'Leadership', 'Business'] as $c)
-        <button @click="activeCat = '{{ $c }}'" 
-                :class="activeCat === '{{ $c }}' ? 'text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'"
-                :style="activeCat === '{{ $c }}' ? 'background-color: #cc0000;' : ''"
-                class="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors">
-            {{ $c }}
-        </button>
+        @foreach(['Programming', 'Design', 'AI', 'Marketing', 'Data', 'Leadership', 'Business'] as $cat)
+            <button @click="activeCat = '{{ $cat }}'"
+                :class="activeCat === '{{ $cat }}' ? 'text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'"
+                :style="activeCat === '{{ $cat }}' ? 'background-color: #dc2626; padding: 8px 20px; border-radius: 9999px; font-size: 14px; font-weight: 500;' : 'padding: 8px 20px; border-radius: 9999px; font-size: 14px; font-weight: 500;'"
+                class="py-2 transition-colors whitespace-nowrap cursor-pointer">
+                {{ $cat }}
+            </button>
         @endforeach
-
-        <button class="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 flex items-center gap-2 shadow-sm">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-            Filter
-        </button>
     </div>
 
-    <!-- Red Banner (Only for Kursus Saya) -->
-    <div x-show="tab === 'saya'" style="display: none; background-color: #cc0000; border-radius: 20px; padding: 36px 40px;" class="text-white flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 shadow-md">
+    <!-- Red Banner (Kursus Saya only) -->
+    <div x-show="tab === 'saya'" x-cloak style="display: none;"
+        class="bg-gradient-to-r from-red-600 to-red-700 text-white rounded-3xl p-9 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div class="flex items-center gap-8 sm:gap-12">
-            <div class="border-r border-white/20" style="padding-right: 2rem;">
-                <div style="font-size: 36px; line-height: 1;" class="font-bold mb-1 tracking-tight">3</div>
-                <div style="font-size: 14px;" class="text-white/90 font-normal">Kursus aktif</div>
+            <div class="pr-8 border-r border-white/20">
+                <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['courses_enrolled'] ?? 0 }}</div>
+                <div class="text-white/90 text-sm">Kursus aktif</div>
             </div>
-            <div class="border-r border-white/20" style="padding-right: 2rem;">
-                <div style="font-size: 36px; line-height: 1;" class="font-bold mb-1 tracking-tight">45%</div>
-                <div style="font-size: 14px;" class="text-white/90 font-normal">Rata-rata progress</div>
+            <div class="pr-8 border-r border-white/20">
+                <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['courses_completed'] ?? 0 }}</div>
+                <div class="text-white/90 text-sm">Diselesaikan</div>
             </div>
             <div>
-                <div style="font-size: 36px; line-height: 1;" class="font-bold mb-1 tracking-tight">0</div>
-                <div style="font-size: 14px;" class="text-white/90 font-normal">Selesai</div>
+                <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['certificates'] ?? 0 }}</div>
+                <div class="text-white/90 text-sm">Sertifikat</div>
             </div>
         </div>
-        <button class="transition-colors text-white font-bold rounded-full flex items-center justify-center gap-2 whitespace-nowrap" style="background-color: rgba(255,255,255,0.15); font-size: 14px; padding: 12px 24px;">
+        <a href="{{ route('kursus-saya') }}"
+            class="bg-white/15 hover:bg-white/25 text-white font-bold rounded-full px-6 py-3 text-sm flex items-center gap-2 whitespace-nowrap transition-colors">
             Lihat Learning Path &rarr;
-        </button>
+        </a>
+    </div>
+    <script>document.querySelector('[x-cloak]')?.removeAttribute('x-cloak')</script>
+    <style>[x-cloak] { display: none !important; }</style>
+
+    <!-- Results Count -->
+    <div class="text-sm text-gray-500">
+        Menampilkan <span class="font-semibold text-gray-900" x-text="displayedCourses.length"></span> kursus
     </div>
 
     <!-- Course Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        @foreach($courses as $index => $c)
-            <div x-show="tab === 'semua' || (tab === 'saya' && {{ $index }} < 3)">
-                <x-course-card :course="$c" />
-            </div>
-        @endforeach
+        <template x-for="course in displayedCourses" :key="course.id">
+            <a :href="'/kursus/' + course.id" class="block bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 group">
+                <!-- Image -->
+                <div class="relative h-48 w-full bg-gray-100 overflow-hidden">
+                    <template x-if="course.thumbnail">
+                        <img :src="course.thumbnail" :alt="course.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </template>
+                    <template x-if="!course.thumbnail">
+                        <div class="w-full h-full" :style="'background:linear-gradient(135deg,' + course.color + ',' + course.color + 'dd);'"></div>
+                    </template>
+
+                    <!-- Badges -->
+                    <div class="absolute top-3 left-3 flex items-center gap-2 z-10">
+                        <span class="bg-white text-gray-800 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm" x-text="course.level || 'Beginner'"></span>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="p-4">
+                    <span class="inline-block px-2.5 py-0.5 rounded-md text-xs font-bold text-red-600 bg-red-50 mb-3" x-text="course.category || ''"></span>
+                    <h3 class="font-bold text-gray-900 text-base leading-tight mb-2 line-clamp-2" x-text="course.title"></h3>
+                    <p class="text-xs text-gray-500 mb-3" x-text="(course.mentor || '') + ' · ' + (course.mentorCompany || '')"></p>
+
+                    <!-- Rating -->
+                    <div class="flex items-center gap-1.5 mb-4">
+                        <div class="flex text-yellow-400">
+                            <template x-for="i in 5" :key="i">
+                                <svg :class="i <= Math.floor(course.rating || 0) ? 'text-yellow-400' : 'text-gray-300'" class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            </template>
+                        </div>
+                        <span class="text-xs font-semibold text-gray-700" x-text="course.rating ? course.rating.toFixed(1) : '0.0'"></span>
+                        <span class="text-xs text-gray-400" x-text="'(' + (course.students || 0).toLocaleString() + ')'"></span>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-base font-bold text-gray-900" x-text="course.price || 'Gratis'"></span>
+                    </div>
+                </div>
+            </a>
+        </template>
+    </div>
+
+    <!-- Empty State -->
+    <div x-show="displayedCourses.length === 0" class="text-center py-12">
+        <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Kursus tidak ditemukan</h3>
+        <p class="text-gray-500">Coba ubah kata kunci pencarian atau filter</p>
     </div>
 </div>
 
 @push('scripts')
-<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 @endpush
 @endsection

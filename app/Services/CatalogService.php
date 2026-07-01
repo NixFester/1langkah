@@ -16,25 +16,28 @@ class CatalogService
         return [
             'id'            => $c->id,
             'title'         => $c->title,
-            'description'   => $c->description, 
-            'short_description' => $c->short_description, 
-            'mentor'        => $c->mentor_name,
-            'mentorCompany' => $c->mentor_company,
-            'category'      => $c->category,
-            'level'         => $c->level,
-            'badge'         => $c->badge,
-            'rating'        => (float) $c->rating,
-            'students'      => $c->students_count,
-            'price'         => $c->price,
-            'progress'      => $c->progress,
-            'color'         => $c->color,
-            'thumbnail' => $c->pictures->where('type', 'thumbnail')->first()?->url,
-            'gallery'   => $c->pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray(),
+            'description'   => $c->description ?? '',
+            'short_description' => $c->short_description ?? '',
+            'mentor'        => $c->mentor_name ?? '',
+            'mentorCompany' => $c->mentor_company ?? '',
+            'category'      => $c->category ?? '',
+            'level'         => $c->level ?? 'Beginner',
+            'badge'         => $c->badge ?? '',
+            'rating'        => (float) ($c->rating ?? 0),
+            'students'      => $c->students_count ?? 0,
+            'price'         => $c->price ?? '',
+            'progress'      => $c->progress ?? 0,
+            'color'         => $c->color ?? '#dc2626',
+            'thumbnail'     => $c->pictures?->where('type', 'thumbnail')->first()?->url,
+            'gallery'       => $c->pictures?->where('type', 'gallery')->sortBy('order')->pluck('url')->values()->toArray() ?? [],
         ];
     }
 
     private function mapOnlineBootcamp(Bootcamp $b): array
     {
+        // Ensure pictures relationship returns a collection
+        $pictures = $b->pictures ?? collect();
+
         return [
             'id'           => $b->id,
             'title'        => $b->title,
@@ -44,13 +47,36 @@ class CatalogService
             'sessions'     => $b->sessions_info,
             'price'        => $b->price,
             'color'        => $b->color,
-            'thumbnail' => $b->pictures->where('type', 'thumbnail')->first()?->url,
-            'gallery'   => $b->pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray(),
+            'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url,
+            'gallery'   => $pictures->where('type', 'gallery')->sortBy('order')->pluck('url')->values()->toArray(),
         ];
     }
 
     private function mapOfflineBootcamp(Bootcamp $b): array
     {
+        // Safely get attributes that might not exist in older migrations
+        $attrs = $b->getAttributes();
+        $benefits = [];
+        if (isset($attrs['benefits'])) {
+            if (is_array($attrs['benefits'])) {
+                $benefits = $attrs['benefits'];
+            } elseif (is_string($attrs['benefits']) && !empty(trim($attrs['benefits']))) {
+                $decoded = json_decode($attrs['benefits'], true);
+                $benefits = is_array($decoded) ? $decoded : [$attrs['benefits']];
+            }
+        }
+        if (empty($benefits)) {
+            $benefits = $this->offlineFeatures();
+        }
+
+        $jadwalKelas = [];
+        if (isset($attrs['jadwal_kelas'])) {
+            $jadwalKelas = is_string($attrs['jadwal_kelas']) ? json_decode($attrs['jadwal_kelas'], true) : $attrs['jadwal_kelas'];
+        }
+
+        // Ensure pictures relationship returns a collection
+        $pictures = $b->pictures ?? collect();
+
         return [
             'id'           => $b->id,
             'title'        => $b->title,
@@ -60,8 +86,11 @@ class CatalogService
             'location'     => $b->location,
             'price'        => $b->price,
             'color'        => $b->color,
-            'thumbnail' => $b->pictures->where('type', 'thumbnail')->first()?->url,
-            'gallery'   => $b->pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray(),
+            'icon'         => $attrs['icon'] ?? 'graduation-cap',
+            'benefits'     => $benefits,
+            'jadwal_kelas' => $jadwalKelas,
+            'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url,
+            'gallery'   => $pictures->where('type', 'gallery')->sortBy('order')->pluck('url')->values()->toArray(),
         ];
     }
 
@@ -79,6 +108,7 @@ class CatalogService
             'color'     => $m->color,
             'expertise' => $m->expertise ?? [],
             'bio'       => $m->bio,
+            'linkedin_url' => $m->linkedin_url,
         ];
     }
 
@@ -119,13 +149,16 @@ class CatalogService
     public function chapters(int $courseId): array
     {
         return Chapter::where('course_id', $courseId)
+            ->orderBy('order')
             ->orderBy('id')
             ->get()
             ->map(fn ($ch) => [
-                'title'     => $ch->title,
-                'lessons'   => $ch->lessons,
-                'duration'  => $ch->duration,
-                'video_url' => $ch->video_url,
+                'title'        => $ch->title,
+                'lessons'      => $ch->lessons,
+                'duration'     => $ch->duration,
+                'video_url'    => $ch->video_url,
+                'thumbnail_url'=> $ch->thumbnail_url,
+                'description'  => $ch->description,
             ])
             ->toArray();
     }
@@ -156,12 +189,15 @@ class CatalogService
     public function onlineSessions(int $bootcampId): array
     {
         return BootcampSession::where('bootcamp_id', $bootcampId)
+            ->orderBy('order')
             ->orderBy('id')
             ->get()
             ->map(fn ($s) => [
-                'date'  => $s->date,
-                'topic' => $s->topic,
-                'time'  => $s->time,
+                'date'        => $s->date,
+                'topic'       => $s->topic,
+                'time'        => $s->time,
+                'meeting_url' => $s->meeting_url,
+                'description' => $s->description,
             ])
             ->toArray();
     }
@@ -189,6 +225,174 @@ class CatalogService
     {
         $m = Mentor::find($id);
         return $m ? $this->mapMentor($m) : null;
+    }
+
+    // ── User Enrollment Methods ───────────────────────────────────────────────
+
+    /**
+     * Get user's enrolled courses with progress
+     */
+    public function userEnrolledCourses(int $userId): array
+    {
+        $user = \App\Models\User::with([
+            'enrollments.purchasable.pictures',
+            'chapterProgress'
+        ])->find($userId);
+
+        if (!$user) {
+            return [];
+        }
+
+        $enrollments = $user->enrollments->filter(function ($e) {
+            return $e->purchasable_type === \App\Models\Course::class && $e->purchasable;
+        });
+
+        if ($enrollments->isEmpty()) {
+            return [];
+        }
+
+        $courseIds = $enrollments->pluck('purchasable_id')->filter();
+        $courses = Course::whereIn('id', $courseIds)
+            ->with('chapters', 'pictures')
+            ->get()
+            ->keyBy('id');
+
+        // Pre-load completions for this user
+        $completionRecords = $user->completions
+            ->where('completable_type', \App\Models\Course::class)
+            ->keyBy('completable_id');
+
+        return $enrollments->map(function ($enrollment) use ($user, $courses, $completionRecords) {
+            $course = $courses->get($enrollment->purchasable_id) ?? $enrollment->purchasable;
+            $chapters = $course->chapters ?? collect();
+            $totalChapters = $chapters->count();
+            $completedChapters = $user->chapterProgress
+                ->whereIn('chapter_id', $chapters->pluck('id'))
+                ->where('is_completed', true)
+                ->count();
+
+            $progress = $totalChapters > 0 ? round(($completedChapters / $totalChapters) * 100) : 0;
+
+            // Also consider explicit completions table record
+            $isCompleted = $completionRecords->has($course->id);
+
+            return [
+                'id'            => $course->id,
+                'title'         => $course->title,
+                'description'   => $course->description ?? '',
+                'short_description' => $course->short_description ?? '',
+                'mentor'        => $course->mentor_name ?? '',
+                'mentorCompany' => $course->mentor_company ?? '',
+                'category'      => $course->category ?? '',
+                'level'         => $course->level ?? 'Beginner',
+                'badge'         => $course->badge ?? '',
+                'rating'        => (float) ($course->rating ?? 0),
+                'students'      => $course->students_count ?? 0,
+                'price'         => $course->price ?? '',
+                'color'         => $course->color ?? '#dc2626',
+                'progress'      => $isCompleted ? 100 : $progress,
+                'is_completed'  => $isCompleted,
+                'completed'     => $completedChapters,
+                'total'         => $totalChapters,
+                'thumbnail'     => $course->pictures?->where('type', 'thumbnail')->first()?->url,
+                'enrolled_at'   => $enrollment->created_at,
+            ];
+        })->values()->toArray();
+    }
+
+    /**
+     * Get user's enrolled bootcamps with progress
+     */
+    public function userEnrolledBootcamps(int $userId): array
+    {
+        $user = \App\Models\User::with([
+            'enrollments.purchasable.pictures',
+            'sessionProgress'
+        ])->find($userId);
+
+        if (!$user) {
+            return [];
+        }
+
+        $enrollments = $user->enrollments->filter(function ($e) {
+            return $e->purchasable_type === \App\Models\Bootcamp::class && $e->purchasable;
+        });
+
+        return $enrollments->map(function ($enrollment) use ($user) {
+            $bootcamp = $enrollment->purchasable;
+            $pictures = $bootcamp->pictures ?? collect();
+            $sessions = $bootcamp->sessions ?? collect();
+            $totalSessions = $sessions->count();
+            $clickedSessions = $user->sessionProgress
+                ->whereIn('bootcamp_session_id', $sessions->pluck('id'))
+                ->filter(fn($p) => $p->clicked_at !== null)
+                ->count();
+
+            $progress = $totalSessions > 0 ? round(($clickedSessions / $totalSessions) * 100) : 0;
+
+            return [
+                'id'            => $bootcamp->id,
+                'title'         => $bootcamp->title,
+                'mentor'        => $bootcamp->mentor_name,
+                'type'          => $bootcamp->type,
+                'rating'        => (float) $bootcamp->rating,
+                'progress'      => $progress,
+                'sessions'       => $totalSessions,
+                'attended'      => $clickedSessions,
+                'thumbnail'     => $pictures->where('type', 'thumbnail')->first()?->url,
+                'enrolled_at'   => $enrollment->created_at,
+            ];
+        })->values()->toArray();
+    }
+
+    /**
+     * Get user's dashboard stats
+     */
+    public function userStats(int $userId): array
+    {
+        $user = \App\Models\User::with([
+            'enrollments',
+            'completions',
+            'chapterProgress',
+            'courseRatings',
+            'bootcampRatings',
+            'skills'
+        ])->find($userId);
+
+        if (!$user) {
+            return [
+                'courses_enrolled' => 0,
+                'bootcamps_enrolled' => 0,
+                'courses_completed' => 0,
+                'bootcamps_completed' => 0,
+                'certificates' => 0,
+                'xp' => 0,
+                'streak' => 0,
+                'skills_count' => 0,
+            ];
+        }
+
+        $courseEnrollments = $user->enrollments->where('purchasable_type', \App\Models\Course::class)->count();
+        $bootcampEnrollments = $user->enrollments->where('purchasable_type', \App\Models\Bootcamp::class)->count();
+        $coursesCompleted = $user->completions->where('completable_type', \App\Models\Course::class)->count();
+        $bootcampsCompleted = $user->completions->where('completable_type', \App\Models\Bootcamp::class)->count();
+
+        // Calculate XP
+        $xp = $user->completions->count() * 100
+            + $user->chapterProgress->count() * 10
+            + $user->courseRatings->count() * 50
+            + $user->bootcampRatings->count() * 50;
+
+        return [
+            'courses_enrolled' => $courseEnrollments,
+            'bootcamps_enrolled' => $bootcampEnrollments,
+            'courses_completed' => $coursesCompleted,
+            'bootcamps_completed' => $bootcampsCompleted,
+            'certificates' => $coursesCompleted + $bootcampsCompleted,
+            'xp' => $xp,
+            'streak' => $user->streak,
+            'skills_count' => $user->skills->pluck('skill_name')->filter()->unique()->count(),
+        ];
     }
 
     // ── Still hardcoded (no DB table yet) ────────────────────────────────────
@@ -255,7 +459,7 @@ class CatalogService
                 'time'  => $dt->format('H:i') . ' WIB',
                 'type'  => $e->type,
             ];
-        });
+        })->values();
 
         $mappedBootcamps = $bootcamps->map(function ($b) {
             $dt = \Carbon\Carbon::parse($b->start_date);
@@ -265,9 +469,9 @@ class CatalogService
                 'time'  => $dt->format('H:i') . ' WIB',
                 'type'  => 'bootcamp',
             ];
-        });
+        })->values();
 
-        return $mappedEvents->merge($mappedBootcamps)->toArray();
+        return $mappedEvents->concat($mappedBootcamps)->all();
     }
 
     public function categories(): array

@@ -8,6 +8,18 @@
 @php
     $b = $bootcamp;
     $allBootcamps = $catalog->bootcamps()['offline'];
+    $benefitsRaw = $b['benefits'] ?? null;
+    $benefits = [];
+    if (is_array($benefitsRaw)) {
+        $benefits = $benefitsRaw;
+    } elseif (is_string($benefitsRaw) && !empty(trim($benefitsRaw))) {
+        $decoded = json_decode($benefitsRaw, true);
+        $benefits = is_array($decoded) ? $decoded : [$benefitsRaw];
+    }
+    if (empty($benefits)) {
+        $benefits = $catalog->offlineFeatures();
+    }
+    $jadwalKelas = $b['jadwal_kelas'] ?? [];
 @endphp
 
 <div class="w-full px-2 pb-8">
@@ -205,7 +217,7 @@
                         <div class="flex-1">
                             <h3 class="text-[17px] font-bold text-gray-900 mb-4 pt-1">Yang Didapatkan</h3>
                             <div class="flex flex-col gap-3">
-                                @foreach($features as $f)
+                                @foreach($benefits as $f)
                                 <div class="flex items-center gap-3">
                                     <div class="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
                                         <svg class="w-3.5 h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -216,6 +228,29 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Jadwal Kelas Section -->
+                    @if(!empty($jadwalKelas))
+                    <div class="mt-8 pt-8 border-t border-gray-100">
+                        <h3 class="text-[17px] font-bold text-gray-900 mb-4">Detail Jadwal</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            @foreach($jadwalKelas as $jadwal)
+                            <div class="bg-gray-50 rounded-xl p-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center font-bold">
+                                        {{ substr($jadwal['hari'] ?? 'H', 0, 3) }}
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-900">{{ $jadwal['hari'] ?? 'Hari' }}</p>
+                                        <p class="text-sm text-gray-500">{{ $jadwal['waktu'] ?? '00:00' }} WIB</p>
+                                        <p class="text-sm text-gray-600">{{ $jadwal['topik'] ?? '' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>

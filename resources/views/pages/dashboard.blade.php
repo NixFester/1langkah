@@ -9,36 +9,31 @@
     <div class="bg-[#cc0000] rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between relative overflow-hidden shadow-xl">
         <!-- Glow effect -->
         <div class="absolute -right-20 -top-20 w-[400px] h-[400px] bg-red-600 rounded-full blur-[80px] pointer-events-none opacity-50"></div>
-        
+
         <div class="relative z-10 text-white w-full md:w-2/3 space-y-4">
             <div class="text-white/80 font-medium flex items-center gap-2">
                 Selamat datang kembali! 👋
             </div>
-            <h1 class="text-3xl sm:text-4xl font-bold">{{ auth()->user()->name ?? 'Atta Ul Karim' }}</h1>
-            <p class="text-white/80 text-sm sm:text-base">Chairman ICE - Full-Stack Developer</p>
-            
-            <div class="flex flex-wrap items-center gap-3 pt-2">
-                <div class="bg-red-800/50 backdrop-blur-sm border border-red-500/30 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2">
-                    <svg class="w-4 h-4 text-orange-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"></path></svg>
-                    12 hari streak
-                </div>
-                <div class="bg-red-800/50 backdrop-blur-sm border border-red-500/30 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2">
-                    <svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-                    Career: 76%
-                </div>
-            </div>
-            
+            <h1 class="text-3xl sm:text-4xl font-bold">{{ auth()->user()->name ?? 'User' }}</h1>
+            <p class="text-white/80 text-sm sm:text-base">{{ auth()->user()->bio ?? 'Belum ada bio. Tambahkan di pengaturan.' }}</p>
+
             <div class="pt-4">
-                <button class="bg-white text-red-700 hover:bg-gray-50 px-6 py-2.5 rounded-full font-bold text-sm transition-colors flex items-center gap-2 shadow-lg">
+                <a href="{{ route('kursus-saya') }}" class="bg-white text-red-700 hover:bg-gray-50 px-6 py-2.5 rounded-full font-bold text-sm transition-colors flex items-center gap-2 shadow-lg inline-flex">
                     Lanjutkan Belajar
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                </button>
+                </a>
             </div>
         </div>
-        
+
         <div class="relative z-10 mt-6 md:mt-0 hidden sm:block">
             <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white/20 p-1 relative">
-                <img src="https://i.pravatar.cc/300?img=11" alt="Profile" class="w-full h-full rounded-full object-cover bg-red-900">
+                @if(auth()->user()->profile_photo)
+                <img src="{{ auth()->user()->profile_photo }}" alt="Profile" class="w-full h-full rounded-full object-cover bg-red-900">
+                @else
+                <div class="w-full h-full rounded-full bg-red-800 flex items-center justify-center text-3xl font-bold">
+                    {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}
+                </div>
+                @endif
                 <div class="absolute bottom-2 right-2 w-5 h-5 bg-green-500 border-2 border-[#cc0000] rounded-full"></div>
             </div>
         </div>
@@ -46,135 +41,105 @@
 
     <!-- 4 STAT CARDS -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        <!-- Card 1 -->
+        <!-- Card 1: Kursus Aktif -->
         <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col justify-between hover:shadow-md transition-shadow">
             <div class="flex justify-between items-start mb-4">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-500">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                 </div>
-                <span class="bg-green-50 text-green-600 text-xs font-bold px-2 py-1 rounded-full">+2 baru</span>
             </div>
             <div>
-                <h3 class="text-3xl font-extrabold text-gray-900 mb-1">5</h3>
+                <h3 class="text-3xl font-extrabold text-gray-900 mb-1">{{ $userStats['courses_enrolled'] ?? 0 }}</h3>
                 <p class="text-sm font-medium text-gray-500">Kursus Aktif</p>
             </div>
         </div>
 
-        <!-- Card 2 -->
+        <!-- Card 2: Sertifikat -->
         <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col justify-between hover:shadow-md transition-shadow">
             <div class="flex justify-between items-start mb-4">
                 <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                 </div>
-                <span class="bg-green-50 text-green-600 text-xs font-bold px-2 py-1 rounded-full">+1 bln ini</span>
             </div>
             <div>
-                <h3 class="text-3xl font-extrabold text-gray-900 mb-1">3</h3>
+                <h3 class="text-3xl font-extrabold text-gray-900 mb-1">{{ ($userStats['courses_completed'] ?? 0) + ($userStats['bootcamps_completed'] ?? 0) }}</h3>
                 <p class="text-sm font-medium text-gray-500">Sertifikat</p>
             </div>
         </div>
 
-        <!-- Card 3 -->
+        <!-- Card 3: XP -->
         <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col justify-between hover:shadow-md transition-shadow">
             <div class="flex justify-between items-start mb-4">
                 <div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
-                <span class="bg-green-50 text-green-600 text-xs font-bold px-2 py-1 rounded-full">+8h minggu ini</span>
             </div>
             <div>
-                <h3 class="text-3xl font-extrabold text-gray-900 mb-1">48h</h3>
-                <p class="text-sm font-medium text-gray-500">Jam Belajar</p>
+                <h3 class="text-3xl font-extrabold text-gray-900 mb-1">{{ number_format($userStats['xp'] ?? 0) }}</h3>
+                <p class="text-sm font-medium text-gray-500">Total XP</p>
             </div>
         </div>
 
-        <!-- Card 4 -->
+        <!-- Card 4: Skills -->
         <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col justify-between hover:shadow-md transition-shadow">
             <div class="flex justify-between items-start mb-4">
                 <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
                 </div>
-                <span class="bg-green-50 text-green-600 text-xs font-bold px-2 py-1 rounded-full">+5% bulan ini</span>
             </div>
             <div>
-                <h3 class="text-3xl font-extrabold text-gray-900 mb-1">76%</h3>
-                <p class="text-sm font-medium text-gray-500">Career Readiness</p>
+                <h3 class="text-3xl font-extrabold text-gray-900 mb-1">{{ $userStats['skills_count'] ?? 0 }}</h3>
+                <p class="text-sm font-medium text-gray-500">Skills</p>
             </div>
         </div>
     </div>
 
     <!-- MAIN GRID SECTION -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+
         <!-- COLUMN 1 -->
         <div class="space-y-6">
             <!-- Lanjutkan Belajar -->
             <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="font-bold text-gray-900 text-lg">Lanjutkan Belajar</h3>
-                    <a href="#" class="text-xs font-bold text-red-600 hover:text-red-700">Lihat semua</a>
+                    <a href="{{ route('kursus-saya') }}" class="text-xs font-bold text-red-600 hover:text-red-700">Lihat semua</a>
                 </div>
-                
+
                 <div class="space-y-5">
-                    @foreach(array_slice($activeCourses ?? [], 0, 3) as $course)
-                    <div class="flex gap-4 items-center">
+                    @forelse(array_slice($activeCourses ?? [], 0, 3) as $course)
+                    <a href="{{ route('detail-kursus', $course['id']) }}" class="flex gap-4 items-center hover:bg-gray-50 p-2 -mx-2 rounded-xl transition-colors">
                         <div class="w-12 h-12 rounded-xl bg-gray-100 flex-shrink-0 overflow-hidden">
-                            <img src="{{ $course['image'] ?? '/images/hero/hero-main.png' }}" class="w-full h-full object-cover" alt="">
+                            @if(!empty($course['thumbnail']))
+                            <img src="{{ $course['thumbnail'] }}" class="w-full h-full object-cover" alt="">
+                            @else
+                            <div class="w-full h-full" style="background: linear-gradient(135deg, {{ $course['color'] ?? '#dc2626' }}, {{ $course['color'] ?? '#dc2626' }}cc);"></div>
+                            @endif
                         </div>
                         <div class="flex-1 min-w-0">
                             <h4 class="text-sm font-bold text-gray-900 truncate">{{ $course['title'] }}</h4>
                             <p class="text-[11px] text-gray-500 mb-2 truncate">{{ $course['mentor'] ?? 'Mentor' }}</p>
                             <div class="flex items-center gap-2">
                                 <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                                    <div class="h-full bg-red-600 rounded-full" style="width: {{ $course['progress'] }}%"></div>
+                                    <div class="h-full bg-red-600 rounded-full" style="width: {{ $course['progress'] ?? 0 }}%"></div>
                                 </div>
                             </div>
-                            <p class="text-[10px] text-gray-500 font-medium mt-1">{{ $course['progress'] }}% selesai</p>
+                            <p class="text-[10px] text-gray-500 font-medium mt-1">{{ $course['progress'] ?? 0 }}% selesai</p>
                         </div>
+                    </a>
+                    @empty
+                    <div class="text-center py-8">
+                        <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        <p class="text-gray-500 text-sm">Belum ada kursus yang dimulai</p>
+                        <a href="{{ route('kursus') }}" class="inline-block mt-3 text-red-600 text-sm font-medium hover:underline">Browse Kursus</a>
                     </div>
-                    @endforeach
-                    
-                    @if(empty($activeCourses))
-                    <!-- Dummy items if no real data -->
-                    <div class="flex gap-4 items-center">
-                        <div class="w-12 h-12 rounded-xl bg-gray-100 flex-shrink-0 overflow-hidden"><img src="/images/hero/hero-main.png" class="w-full h-full object-cover"></div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="text-sm font-bold text-gray-900 truncate">Full-Stack Web Development Bootcamp</h4>
-                            <p class="text-[11px] text-gray-500 mb-2 truncate">Rudi Yesaya</p>
-                            <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                                <div class="h-full bg-red-600 rounded-full" style="width: 68%"></div>
-                            </div>
-                            <p class="text-[10px] text-gray-500 font-medium mt-1">68% selesai</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4 items-center">
-                        <div class="w-12 h-12 rounded-xl bg-gray-100 flex-shrink-0 overflow-hidden"><img src="/images/hero/hero-cert.png" class="w-full h-full object-cover"></div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="text-sm font-bold text-gray-900 truncate">AI & Machine Learning Fundamentals</h4>
-                            <p class="text-[11px] text-gray-500 mb-2 truncate">Andi Wijaya</p>
-                            <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                                <div class="h-full bg-red-600 rounded-full" style="width: 23%"></div>
-                            </div>
-                            <p class="text-[10px] text-gray-500 font-medium mt-1">23% selesai</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4 items-center">
-                        <div class="w-12 h-12 rounded-xl bg-gray-100 flex-shrink-0 overflow-hidden"><img src="/images/hero/hero-mentor.png" class="w-full h-full object-cover"></div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="text-sm font-bold text-gray-900 truncate">Data Science with Python</h4>
-                            <p class="text-[11px] text-gray-500 mb-2 truncate">Fajar Hidayat</p>
-                            <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                                <div class="h-full bg-red-600 rounded-full" style="width: 45%"></div>
-                            </div>
-                            <p class="text-[10px] text-gray-500 font-medium mt-1">45% selesai</p>
-                        </div>
-                    </div>
-                    @endif
+                    @endforelse
                 </div>
             </div>
-            
-            <!-- Skill Overview -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
+
+            <!-- ⛔ Skill Overview - GAMIFY NOTE -->
+            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] relative">
+                <div class="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-1 rounded-full">⚠️ Fitur gamify belum dibuat</div>
                 <h3 class="font-bold text-gray-900 text-lg mb-6">Skill Overview</h3>
                 <div class="relative w-full aspect-square max-w-[200px] mx-auto flex items-center justify-center">
                     <!-- SVG Radar Chart Mockup -->
@@ -187,7 +152,7 @@
                         <line x1="50" y1="50" x2="50" y2="90" stroke="currentColor" stroke-width="0.5"/>
                         <line x1="50" y1="50" x2="10" y2="70" stroke="currentColor" stroke-width="0.5"/>
                         <line x1="50" y1="50" x2="10" y2="30" stroke="currentColor" stroke-width="0.5"/>
-                        
+
                         <!-- Value Polygon -->
                         <polygon points="50,20 75,35 60,75 50,80 25,65 20,40" fill="rgba(204, 0, 0, 0.1)" stroke="#cc0000" stroke-width="1.5"/>
                         <circle cx="50" cy="20" r="1.5" fill="#cc0000"/>
@@ -210,13 +175,14 @@
 
         <!-- COLUMN 2 -->
         <div class="space-y-6">
-            <!-- Leaderboard -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] h-full">
+            <!-- ⛔ Leaderboard - GAMIFY NOTE -->
+            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] h-full relative">
+                <div class="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-1 rounded-full">⚠️ Fitur gamify belum dibuat</div>
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="font-bold text-gray-900 text-lg">Leaderboard</h3>
                     <span class="bg-yellow-50 text-yellow-700 text-[10px] font-bold px-2 py-1 rounded-full">Top 10%</span>
                 </div>
-                
+
                 <div class="space-y-1">
                     <!-- Rank 1 -->
                     <div class="flex items-center gap-3 p-3 rounded-2xl hover:bg-gray-50 transition-colors">
@@ -251,10 +217,10 @@
                     <!-- Rank 4 (You) -->
                     <div class="flex items-center gap-3 p-3 rounded-2xl bg-red-50/80 border border-red-100/50">
                         <span class="text-xs font-bold text-red-400 w-4">#4</span>
-                        <div class="w-9 h-9 rounded-full bg-red-600 text-white flex items-center justify-center text-xs font-bold">Y(</div>
+                        <div class="w-9 h-9 rounded-full bg-red-600 text-white flex items-center justify-center text-xs font-bold">{{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}</div>
                         <div class="flex-1 min-w-0">
-                            <h4 class="text-[13px] font-bold text-red-700 truncate">You ({{ explode(' ', auth()->user()->name ?? 'Reza')[0] }})</h4>
-                            <p class="text-[11px] text-red-500">9,840 XP</p>
+                            <h4 class="text-[13px] font-bold text-red-700 truncate">You ({{ explode(' ', auth()->user()->name ?? 'User')[0] }})</h4>
+                            <p class="text-[11px] text-red-500">{{ number_format($userStats['xp'] ?? 0) }} XP</p>
                         </div>
                         <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     </div>
@@ -273,10 +239,11 @@
 
         <!-- COLUMN 3 -->
         <div class="space-y-6">
-            <!-- Progress Minggu Ini -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
+            <!-- ⛔ Progress Minggu Ini - GAMIFY NOTE -->
+            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] relative">
+                <div class="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-1 rounded-full">⚠️ Fitur gamify belum dibuat</div>
                 <h3 class="font-bold text-gray-900 text-lg mb-6">Progress Minggu Ini</h3>
-                
+
                 <!-- Bar Chart Mockup -->
                 <div class="flex items-end justify-between h-32 mb-6 px-2 gap-2">
                     <div class="w-full flex flex-col items-center gap-2">
@@ -312,58 +279,25 @@
                 <div class="space-y-3">
                     <div class="flex justify-between items-center">
                         <span class="text-xs text-gray-500">Total jam minggu ini</span>
-                        <span class="text-sm font-bold text-gray-900">18.3h</span>
+                        <span class="text-sm font-bold text-gray-900">0h</span>
                     </div>
                     <div class="flex justify-between items-center mb-1">
                         <span class="text-xs text-gray-500">Target minggu ini</span>
                         <span class="text-sm font-bold text-gray-900">20h</span>
                     </div>
                     <div class="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                        <div class="h-full bg-green-500 rounded-full" style="width: 90%"></div>
+                        <div class="h-full bg-gray-300 rounded-full" style="width: 0%"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Aktivitas Terbaru -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
+            <!-- ⛔ Aktivitas Terbaru - GAMIFY NOTE -->
+            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] relative">
+                <div class="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-1 rounded-full">⚠️ Fitur gamify belum dibuat</div>
                 <h3 class="font-bold text-gray-900 text-lg mb-6">Aktivitas Terbaru</h3>
-                <div class="space-y-5">
-                    <div class="flex gap-4">
-                        <div class="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center text-red-500 flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                        </div>
-                        <div>
-                            <p class="text-[13px] font-medium text-gray-800">Completed Lesson 12: React Hooks</p>
-                            <span class="text-[11px] text-gray-400">2 hours ago</span>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="w-8 h-8 rounded-full bg-yellow-50 flex items-center justify-center text-yellow-600 flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
-                        </div>
-                        <div>
-                            <p class="text-[13px] font-medium text-gray-800">Earned badge: Streak Master 🔥</p>
-                            <span class="text-[11px] text-gray-400">Yesterday</span>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-green-500 flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </div>
-                        <div>
-                            <p class="text-[13px] font-medium text-gray-800">Submitted assignment: UI Design Challenge</p>
-                            <span class="text-[11px] text-gray-400">2 days ago</span>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center text-purple-500 flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                        </div>
-                        <div>
-                            <p class="text-[13px] font-medium text-gray-800">Replied to community post</p>
-                            <span class="text-[11px] text-gray-400">3 days ago</span>
-                        </div>
-                    </div>
+                <div class="text-center py-8">
+                    <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <p class="text-gray-500 text-sm">Belum ada aktivitas terbaru</p>
                 </div>
             </div>
         </div>
@@ -381,7 +315,7 @@
                 <p class="text-xs font-medium text-gray-500">Berdasarkan skill gaps dan tujuan karir kamu</p>
             </div>
         </div>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <!-- Rec 1 -->
             <div class="bg-white rounded-2xl p-5 border border-purple-100 hover:shadow-md transition-shadow cursor-pointer group">
@@ -403,6 +337,6 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 @endsection

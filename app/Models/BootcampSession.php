@@ -17,10 +17,14 @@ class BootcampSession extends Model
         'date',
         'topic',
         'time',
+        'meeting_url',
+        'description',
+        'order',
     ];
 
     protected $casts = [
         'bootcamp_id' => 'integer',
+        'order' => 'integer',
     ];
 
     public function bootcamp(): BelongsTo

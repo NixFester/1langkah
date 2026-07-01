@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Pages\PageController;
+use App\Http\Controllers\Pages\PortfolioController;
+use App\Http\Controllers\Pages\QrController;
 use Illuminate\Support\Facades\Route;
 
 // ── Guest-only (redirect to dashboard if already logged in) ──────────────────
@@ -31,11 +33,26 @@ Route::middleware('auth')->group(function () {
     Route::get('/kursus-saya',      [PageController::class, 'kursusSaya'])->name('kursus-saya');
     Route::get('/kalender',         [PageController::class, 'kalender'])->name('kalender');
     Route::get('/pembayaran/{id?}', [PageController::class, 'pembayaran'])->name('pembayaran');
+    Route::post('/pembayaran/proses', [PageController::class, 'processPayment'])->name('pembayaran.proses');
     Route::get('/pengaturan',  [PageController::class, 'pengaturan'])->name('pengaturan');
     Route::post('/pengaturan', [PageController::class, 'updatePengaturan'])->name('pengaturan.update');
 
+    // Portfolio
+    Route::get('/portofolio', [PortfolioController::class, 'index'])->name('portofolio');
+    Route::post('/portofolio/share', [PortfolioController::class, 'share'])->name('portofolio.share');
+
+    // QR Scan for offline bootcamp attendance
+    Route::get('/scan-qr/{bootcampId?}', [QrController::class, 'scan'])->name('scan-qr');
+    Route::post('/scan-qr/process', [QrController::class, 'processScan'])->name('scan-qr.process');
+
     Route::post('/logout', [PageController::class, 'logout'])->name('logout');
 });
+
+// ── Public portfolio (shareable link) ────────────────────────────────────────
+Route::get('/portfolio/{userId}', [PortfolioController::class, 'public'])->name('portfolio.public');
+
+// ── QR Display page (for admin to show QR to students) ───────────────────────
+Route::get('/qr/{code}', [QrController::class, 'display'])->name('scan.qr');
 
 // -- Admin-only (auth + admin middleware)
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -62,6 +79,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/bootcamps', [App\Http\Controllers\Admin\AdminController::class, 'storeBootcamp'])->name('bootcamps.store');
     Route::get('/bootcamps/{bootcamp}/manage', [App\Http\Controllers\Admin\AdminController::class, 'manageBootcamp'])->name('bootcamps.manage');
     Route::patch('/bootcamps/{bootcamp}', [App\Http\Controllers\Admin\AdminController::class, 'updateBootcamp'])->name('bootcamps.update');
+    Route::post('/bootcamps/{bootcamp}/sessions', [App\Http\Controllers\Admin\AdminController::class, 'storeSession'])->name('bootcamps.sessions.store');
     Route::delete('/bootcamps/{bootcamp}', [App\Http\Controllers\Admin\AdminController::class, 'destroyBootcamp'])->name('bootcamps.destroy');
 
     Route::get('/events', [App\Http\Controllers\Admin\AdminController::class, 'events'])->name('events');
@@ -70,4 +88,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/events/{event}/manage', [App\Http\Controllers\Admin\AdminController::class, 'manageEvent'])->name('events.manage');
     Route::patch('/events/{event}', [App\Http\Controllers\Admin\AdminController::class, 'updateEvent'])->name('events.update');
     Route::delete('/events/{event}', [App\Http\Controllers\Admin\AdminController::class, 'destroyEvent'])->name('events.destroy');
+
+    Route::get('/options', [App\Http\Controllers\Admin\OptionController::class, 'index'])->name('options');
+    Route::post('/options', [App\Http\Controllers\Admin\OptionController::class, 'store'])->name('options.store');
+    Route::patch('/options/{option}', [App\Http\Controllers\Admin\AdminController::class, 'updateOption'])->name('options.update');
+    Route::delete('/options/{option}', [App\Http\Controllers\Admin\OptionController::class, 'destroy'])->name('options.destroy');
 });

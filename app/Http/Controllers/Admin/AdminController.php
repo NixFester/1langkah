@@ -7,6 +7,7 @@ use App\Models\Bootcamp;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Event;
+use App\Models\Option;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,6 +15,14 @@ use Illuminate\View\View;
 
 class AdminController extends Controller
 {
+    /**
+     * Get options for select dropdowns
+     */
+    private function getOptions(string $category): array
+    {
+        return Option::getOptionsForSelect($category);
+    }
+
     /* ── Dashboard ─────────────────────────────────────────────────── */
 
     public function dashboard(): View
@@ -36,12 +45,14 @@ class AdminController extends Controller
     public function users(): View
     {
         $users = User::latest()->paginate(15);
-        return view('admin.users', compact('users'));
+        $roles = $this->getOptions('user_role');
+        return view('admin.users', compact('users', 'roles'));
     }
 
     public function createUserForm(): View
     {
-        return view('admin.user_form');
+        $roles = $this->getOptions('user_role');
+        return view('admin.user_form', compact('roles'));
     }
 
     public function storeUser(Request $request): RedirectResponse
@@ -50,7 +61,7 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:student,mentor,admin',
+            'role' => 'required|' . Option::getValidationRule('user_role'),
             'profile_photo' => 'nullable|string|max:255',
         ]);
 
@@ -61,7 +72,8 @@ class AdminController extends Controller
 
     public function manageUser(User $user): View
     {
-        return view('admin.user_form', compact('user'));
+        $roles = $this->getOptions('user_role');
+        return view('admin.user_form', compact('user', 'roles'));
     }
 
     public function updateUser(Request $request, User $user): RedirectResponse
@@ -70,7 +82,7 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
-            'role' => 'required|in:student,mentor,admin',
+            'role' => 'required|' . Option::getValidationRule('user_role'),
             'profile_photo' => 'nullable|string|max:255',
         ]);
 
@@ -95,7 +107,7 @@ class AdminController extends Controller
 
     public function updateUserRole(Request $request, User $user): RedirectResponse
     {
-        $request->validate(['role' => 'required|in:student,mentor,admin']);
+        $request->validate(['role' => 'required|' . Option::getValidationRule('user_role')]);
         $user->update(['role' => $request->role]);
         return back()->with('success', 'Role user berhasil diubah.');
     }
@@ -110,29 +122,56 @@ class AdminController extends Controller
 
     public function createCourseForm(): View
     {
-        return view('admin.course_form');
+        $levels = $this->getOptions('course_level');
+        return view('admin.course_form', compact('levels'));
     }
 
     public function storeCourse(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'title'          => 'required|string|max:255',
-            'mentor_name'    => 'required|string|max:255',
-            'mentor_company' => 'required|string|max:255',
-            'category'       => 'required|string|max:100',
-            'level'          => 'required|in:Beginner,Intermediate,Advanced',
-            'price'          => 'required|string|max:50',
-            'color'          => 'nullable|string|max:20',
+            'title'             => 'required|string|max:255',
+            'mentor_name'       => 'required|string|max:255',
+            'mentor_company'    => 'required|string|max:255',
+            'category'          => 'required|string|max:100',
+            'level'             => 'required|' . Option::getValidationRule('course_level'),
+            'price'             => 'required|string|max:50',
+            'color'             => 'nullable|string|max:20',
+            'badge'             => 'nullable|string|max:50',
+            'rating'            => 'nullable|numeric|min:0|max:5',
+            'students_count'    => 'nullable|integer|min:0',
+            'progress'          => 'nullable|integer|min:0|max:100',
+            'mentor_id'         => 'nullable|exists:mentors,id',
+            'description'       => 'nullable|string',
+            'short_description' => 'nullable|string|max:255',
         ]);
 
-        Course::create($data);
-        return redirect()->route('admin.courses')->with('success', 'Kursus berhasil ditambahkan.');
+        $course = Course::create($data);
+
+        // Create chapters if provided
+        if ($request->has('chapters')) {
+            $chapters = $request->input('chapters');
+            foreach ($chapters as $chapter) {
+                if (!empty($chapter['title'])) {
+                    $course->chapters()->create([
+                        'title' => $chapter['title'],
+                        'lessons' => $chapter['lessons'] ?? 1,
+                        'duration' => $chapter['duration'] ?? '',
+                        'video_url' => $chapter['video_url'] ?? null,
+                        'thumbnail_url' => $chapter['thumbnail_url'] ?? null,
+                        'description' => $chapter['description'] ?? null,
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->route('admin.courses.manage', $course)->with('success', 'Kursus berhasil ditambahkan.');
     }
 
     public function manageCourse(Course $course): View
     {
         $course->load('chapters');
-        return view('admin.course_form', compact('course'));
+        $levels = $this->getOptions('course_level');
+        return view('admin.course_form', compact('course', 'levels'));
     }
 
     public function updateCourse(Request $request, Course $course): RedirectResponse
@@ -142,9 +181,16 @@ class AdminController extends Controller
             'mentor_name'    => 'required|string|max:255',
             'mentor_company' => 'required|string|max:255',
             'category'       => 'required|string|max:100',
-            'level'          => 'required|in:Beginner,Intermediate,Advanced',
+            'level'          => 'required|' . Option::getValidationRule('course_level'),
             'price'          => 'required|string|max:50',
             'color'          => 'nullable|string|max:20',
+            'badge'          => 'nullable|string|max:50',
+            'rating'         => 'nullable|numeric|min:0|max:5',
+            'students_count' => 'nullable|integer|min:0',
+            'progress'       => 'nullable|integer|min:0|max:100',
+            'mentor_id'      => 'nullable|exists:mentors,id',
+            'description'    => 'nullable|string',
+            'short_description' => 'nullable|string|max:255',
         ]);
 
         $course->update($data);
@@ -157,6 +203,9 @@ class AdminController extends Controller
             'title' => 'required|string|max:255',
             'lessons' => 'required|integer|min:1',
             'duration' => 'required|string|max:100',
+            'video_url' => 'nullable|url|max:500',
+            'thumbnail_url' => 'nullable|url|max:500',
+            'description' => 'nullable|string',
         ]);
 
         $course->chapters()->create($data);
@@ -179,29 +228,53 @@ class AdminController extends Controller
 
     public function createBootcampForm(): View
     {
-        return view('admin.bootcamp_form');
+        $types = $this->getOptions('bootcamp_type');
+        return view('admin.bootcamp_form', compact('types'));
     }
 
     public function storeBootcamp(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'title'       => 'required|string|max:255',
-            'mentor_name' => 'required|string|max:255',
-            'type'        => 'required|in:online,offline',
-            'price'       => 'required|string|max:50',
-            'start_date'  => 'required|string|max:100',
-            'location'    => 'nullable|string|max:255',
-            'sessions_info' => 'nullable|string|max:255',
-            'color'       => 'nullable|string|max:20',
+            'title'             => 'required|string|max:255',
+            'mentor_name'       => 'required|string|max:255',
+            'type'              => 'required|' . Option::getValidationRule('bootcamp_type'),
+            'price'             => 'required|string|max:50',
+            'start_date'        => 'required|string|max:100',
+            'location'          => 'nullable|string|max:255',
+            'sessions_info'     => 'nullable|string|max:255',
+            'color'             => 'nullable|string|max:20',
+            'participants'      => 'nullable|integer|min:0',
+            'mentor_id'         => 'nullable|exists:mentors,id',
+            'description'       => 'nullable|string',
+            'short_description' => 'nullable|string|max:255',
         ]);
 
-        Bootcamp::create($data);
-        return redirect()->route('admin.bootcamps')->with('success', 'Bootcamp berhasil ditambahkan.');
+        $bootcamp = Bootcamp::create($data);
+
+        // Create sessions if provided
+        if ($request->has('sessions')) {
+            $sessions = $request->input('sessions');
+            foreach ($sessions as $session) {
+                if (!empty($session['topic'])) {
+                    $bootcamp->sessions()->create([
+                        'date' => $session['date'] ?? '',
+                        'topic' => $session['topic'],
+                        'time' => $session['time'] ?? '',
+                        'meeting_url' => $session['meeting_url'] ?? null,
+                        'description' => $session['description'] ?? null,
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->route('admin.bootcamps.manage', $bootcamp)->with('success', 'Bootcamp berhasil ditambahkan.');
     }
 
     public function manageBootcamp(Bootcamp $bootcamp): View
     {
-        return view('admin.bootcamp_form', compact('bootcamp'));
+        $bootcamp->load('sessions');
+        $types = $this->getOptions('bootcamp_type');
+        return view('admin.bootcamp_form', compact('bootcamp', 'types'));
     }
 
     public function updateBootcamp(Request $request, Bootcamp $bootcamp): RedirectResponse
@@ -209,16 +282,32 @@ class AdminController extends Controller
         $data = $request->validate([
             'title'       => 'required|string|max:255',
             'mentor_name' => 'required|string|max:255',
-            'type'        => 'required|in:online,offline',
+            'type'        => 'required|' . Option::getValidationRule('bootcamp_type'),
             'price'       => 'required|string|max:50',
             'start_date'  => 'required|string|max:100',
             'location'    => 'nullable|string|max:255',
             'sessions_info' => 'nullable|string|max:255',
             'color'       => 'nullable|string|max:20',
+            'participants' => 'nullable|integer|min:0',
+            'mentor_id' => 'nullable|exists:mentors,id',
+            'description' => 'nullable|string',
+            'short_description' => 'nullable|string|max:255',
         ]);
 
         $bootcamp->update($data);
         return redirect()->route('admin.bootcamps')->with('success', 'Bootcamp berhasil diperbarui.');
+    }
+
+    public function storeSession(Request $request, Bootcamp $bootcamp): RedirectResponse
+    {
+        $data = $request->validate([
+            'date' => 'required|string|max:100',
+            'topic' => 'required|string|max:255',
+            'time' => 'required|string|max:100',
+        ]);
+
+        $bootcamp->sessions()->create($data);
+        return redirect()->route('admin.bootcamps.manage', $bootcamp)->with('success', 'Sesi berhasil ditambahkan.');
     }
 
     public function destroyBootcamp(Bootcamp $bootcamp): RedirectResponse
@@ -237,20 +326,27 @@ class AdminController extends Controller
 
     public function createEventForm(): View
     {
-        return view('admin.event_form');
+        $types = $this->getOptions('event_type');
+        $statuses = $this->getOptions('event_status');
+        return view('admin.event_form', compact('types', 'statuses'));
     }
 
     public function storeEvent(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'title'      => 'required|string|max:255',
-            'type'       => 'required|in:online,offline,hybrid',
-            'start_date' => 'required|date',
-            'end_date'   => 'nullable|date|after_or_equal:start_date',
-            'status'     => 'required|in:draft,upcoming,ongoing,completed,cancelled',
-            'location'   => 'nullable|string|max:255',
-            'meeting_url'=> 'nullable|url|max:255',
-            'description'=> 'nullable|string',
+            'title'             => 'required|string|max:255',
+            'type'              => 'required|' . Option::getValidationRule('event_type'),
+            'start_date'        => 'required|date',
+            'end_date'          => 'nullable|date|after_or_equal:start_date',
+            'status'            => 'required|' . Option::getValidationRule('event_status'),
+            'location'          => 'nullable|string|max:255',
+            'meeting_url'       => 'nullable|url|max:255',
+            'description'       => 'nullable|string',
+            'short_description' => 'nullable|string|max:255',
+            'timezone'          => 'nullable|string|max:50',
+            'max_participants'  => 'nullable|integer|min:1',
+            'color'             => 'nullable|string|max:20',
+            'banner_url'        => 'nullable|url|max:255',
         ]);
 
         $data['slug']       = \Illuminate\Support\Str::slug($data['title']) . '-' . time();
@@ -262,20 +358,27 @@ class AdminController extends Controller
 
     public function manageEvent(Event $event): View
     {
-        return view('admin.event_form', compact('event'));
+        $types = $this->getOptions('event_type');
+        $statuses = $this->getOptions('event_status');
+        return view('admin.event_form', compact('event', 'types', 'statuses'));
     }
 
     public function updateEvent(Request $request, Event $event): RedirectResponse
     {
         $data = $request->validate([
             'title'      => 'required|string|max:255',
-            'type'       => 'required|in:online,offline,hybrid',
+            'type'       => 'required|' . Option::getValidationRule('event_type'),
             'start_date' => 'required|date',
             'end_date'   => 'nullable|date|after_or_equal:start_date',
-            'status'     => 'required|in:draft,upcoming,ongoing,completed,cancelled',
+            'status'     => 'required|' . Option::getValidationRule('event_status'),
             'location'   => 'nullable|string|max:255',
             'meeting_url'=> 'nullable|url|max:255',
             'description'=> 'nullable|string',
+            'short_description' => 'nullable|string|max:255',
+            'timezone'          => 'nullable|string|max:50',
+            'max_participants'  => 'nullable|integer|min:1',
+            'color'             => 'nullable|string|max:20',
+            'banner_url'        => 'nullable|url|max:255',
         ]);
 
         $data['slug']       = \Illuminate\Support\Str::slug($data['title']) . '-' . time();

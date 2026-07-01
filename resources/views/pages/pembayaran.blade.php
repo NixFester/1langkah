@@ -9,7 +9,29 @@
     $subtitle = $i['mentor'] ?? ($i['company'] ?? 'Kursus Online');
     $price = $i['price'] ?? 'Rp 599.000';
     $normalPrice = 'Rp 999.000';
+    $isEnrolled = $isEnrolled ?? false;
+    $itemId = $i['id'] ?? 0;
+    $itemKind = $i['kind'] ?? 'course';
 @endphp
+
+{{-- Success/Error/Info Messages --}}
+@if(session('success'))
+    <div style="background-color: #ecfdf5; border: 1px solid #10b981; color: #065f46; padding: 16px 20px; border-radius: 12px; margin-bottom: 24px; font-weight: 500;">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('info'))
+    <div style="background-color: #eff6ff; border: 1px solid #3b82f6; color: #1e40af; padding: 16px 20px; border-radius: 12px; margin-bottom: 24px; font-weight: 500;">
+        {{ session('info') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div style="background-color: #fef2f2; border: 1px solid #ef4444; color: #991b1b; padding: 16px 20px; border-radius: 12px; margin-bottom: 24px; font-weight: 500;">
+        {{ session('error') }}
+    </div>
+@endif
 
 <div class="w-full mx-auto space-y-6">
     <!-- Header -->
@@ -130,7 +152,40 @@
                     <span style="font-size: 22px; font-weight: 900; color: #cc0000;">{{ $price }}</span>
                 </div>
 
-                <button style="width: 100%; height: 52px; border-radius: 999px; background-color: #ed999c; color: white; font-weight: 700; font-size: 16px; border: none; cursor: pointer; transition: background-color 0.2s; margin-bottom: 28px;" onmouseover="this.style.backgroundColor='#e58487'" onmouseout="this.style.backgroundColor='#ed999c'">Pilih Metode Pembayaran</button>
+                @if($isEnrolled)
+                    {{-- Already enrolled - show button to go to course --}}
+                    @php
+                        $redirectUrl = match($itemKind) {
+                            'course' => route('detail-kursus', $itemId),
+                            'online' => route('detail-online-bootcamp', $itemId),
+                            'offline' => route('detail-offline-bootcamp', $itemId),
+                            default => route('kursus-saya'),
+                        };
+                    @endphp
+                    <a href="{{ $redirectUrl }}"
+                       style="display: flex; align-items: center; justify-content: center; width: 100%; height: 52px; border-radius: 999px; background-color: #10b981; color: white; font-weight: 700; font-size: 16px; text-decoration: none; transition: background-color 0.2s;"
+                       onmouseover="this.style.backgroundColor='#059669'"
+                       onmouseout="this.style.backgroundColor='#10b981'">
+                        <svg style="width: 20px; height: 20px; margin-right: 8px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Sudah Terdaftar — Mulai Belajar
+                    </a>
+                @else
+                    {{-- Not enrolled - show mock payment form --}}
+                    <form action="{{ route('pembayaran.proses') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="item_id" value="{{ $itemId }}">
+                        <input type="hidden" name="item_kind" value="{{ $itemKind }}">
+                        <button type="submit"
+                                style="width: 100%; height: 52px; border-radius: 999px; background-color: #cc0000; color: white; font-weight: 700; font-size: 16px; border: none; cursor: pointer; transition: background-color 0.2s;"
+                                onmouseover="this.style.backgroundColor='#a30000'"
+                                onmouseout="this.style.backgroundColor='#cc0000'">
+                            Bayar Sekarang (Mock)
+                        </button>
+                    </form>
+                    <p style="font-size: 12px; color: #9ca3af; text-align: center; margin-top: 12px;">
+                        ⚡ Demo: Klik untuk langsung terdaftar tanpa pembayaran
+                    </p>
+                @endif
 
                 <!-- Benefits -->
                 <div style="display: flex; flex-direction: column; gap: 12px;">

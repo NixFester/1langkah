@@ -183,7 +183,30 @@ class CourseSeeder extends Seeder
         ];
 
         foreach ($courses as $c) {
-            Course::create($c);
+            $courseData = $c;
+            unset($courseData['progress']); // Remove progress, it's from enrollment
+
+            $courseData['benefits'] = json_encode([
+                'Sertifikat penyelesaian',
+                'Akses seumur hidup',
+                '10+ proyek nyata',
+                'Mentoring 1-on-1',
+            ]);
+
+            $courseData['curriculum'] = json_encode([
+                'Modul 1: Pengenalan & Setup',
+                'Modul 2: Konsep Dasar',
+                'Modul 3: Studi Kasus',
+                'Modul 4: Project Akhir',
+            ]);
+
+            $courseData['resources'] = json_encode([
+                ['title' => 'Source Code', 'type' => 'zip'],
+                ['title' => 'E-Book PDF', 'type' => 'pdf'],
+                ['title' => 'Cheat Sheet', 'type' => 'pdf'],
+            ]);
+
+            Course::create($courseData);
         }
     }
 }
