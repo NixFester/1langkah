@@ -154,7 +154,7 @@ class Course extends Model
      */
     public function getResourcesAttribute(): ?array
     {
-        return $this->resources;
+        return $this->attributes['resources'] ?? [];
     }
 
     /**
