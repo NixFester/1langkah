@@ -71,9 +71,9 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Tipe Quiz</label>
                 <select name="type" required class="w-full rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500">
-                    <option value="pre_test" {{ (old('type', isset($quiz) ? $quiz->type : '') == 'pre_test' ? 'selected' : '' }}>Pre-Test</option>
-                    <option value="post_test" {{ (old('type', isset($quiz) ? $quiz->type : '') == 'post_test' ? 'selected' : '' }}>Post-Test</option>
-                    <option value="chapter_quiz" {{ (old('type', isset($quiz) ? $quiz->type : '') == 'chapter_quiz' ? 'selected' : '' }}>Chapter Quiz</option>
+                    <option value="pre_test" {{ (old('type', isset($quiz) ? $quiz->type : '') == 'pre_test' ? 'selected' : '') }}>Pre-Test</option>
+                    <option value="post_test" {{ (old('type', isset($quiz) ? $quiz->type : '') == 'post_test' ? 'selected' : '') }}>Post-Test</option>
+                    <option value="chapter_quiz" {{ (old('type', isset($quiz) ? $quiz->type : '') == 'chapter_quiz' ? 'selected' : '') }}>Chapter Quiz</option>
                 </select>
                 @error('type')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
