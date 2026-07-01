@@ -15,9 +15,31 @@
     activeLevel: 'All',
     sortBy: 'newest',
     showFilter: false,
+    myCourseTab: 'semua',
+    semuaCourseTab: 'semua',
     filteredCourses: {{ json_encode($courses) }},
+    allMyCourses: {{ json_encode($myCourses) }},
+    get inProgressCount() {
+        return this.allMyCourses.filter(c => (c.progress || 0) < 100).length;
+    },
+    get completedCount() {
+        return this.allMyCourses.filter(c => (c.progress || 0) >= 100).length;
+    },
+    get wishlistCount() {
+        return this.allMyCourses.filter(c => c.is_wishlist).length;
+    },
     get displayedCourses() {
-        let courses = this.tab === 'saya' ? {{ json_encode($myCourses) }} : this.filteredCourses;
+        let courses = this.tab === 'saya' ? this.allMyCourses : this.filteredCourses;
+
+        if (this.tab === 'saya' && this.myCourseTab !== 'semua') {
+            if (this.myCourseTab === 'sedang_berlangsung') {
+                courses = courses.filter(c => (c.progress || 0) < 100);
+            } else if (this.myCourseTab === 'selesai') {
+                courses = courses.filter(c => (c.progress || 0) >= 100);
+            }
+        } else if (this.tab === 'semua' && this.semuaCourseTab === 'wishlist') {
+            courses = this.otherCourses;
+        }
 
         // Filter by search
         if (this.searchQuery) {
@@ -70,6 +92,31 @@
         </div>
     </div>
 
+    <!-- Red Banner (Kursus Saya only) -->
+    <div x-show="tab === 'saya'" x-cloak style="display: none;"
+        class="bg-gradient-to-r from-red-600 to-red-700 text-white rounded-3xl p-9 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="flex items-center gap-8 sm:gap-12">
+            <div class="pr-8 border-r border-white/20">
+                <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['courses_enrolled'] ?? 0 }}</div>
+                <div class="text-white/90 text-sm">Kursus aktif</div>
+            </div>
+            <div class="pr-8 border-r border-white/20">
+                <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['courses_completed'] ?? 0 }}</div>
+                <div class="text-white/90 text-sm">Diselesaikan</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['certificates'] ?? 0 }}</div>
+                <div class="text-white/90 text-sm">Sertifikat</div>
+            </div>
+        </div>
+        <a href="{{ route('kursus-saya') }}"
+            class="bg-white/15 hover:bg-white/25 text-white font-bold rounded-full px-6 py-3 text-sm flex items-center gap-2 whitespace-nowrap transition-colors">
+            Lihat Learning Path &rarr;
+        </a>
+    </div>
+    <script>document.querySelector('[x-cloak]')?.removeAttribute('x-cloak')</script>
+    <style>[x-cloak] { display: none !important; }</style>
+
     <!-- Search & Filter Bar -->
     <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
         <div class="flex flex-col md:flex-row gap-4">
@@ -91,6 +138,8 @@
                 <svg class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
 
+
+
             <!-- Filter Toggle -->
             <button @click="showFilter = !showFilter"
                 :class="showFilter ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-700 border-gray-200'"
@@ -102,7 +151,7 @@
 
         <!-- Filter Panel -->
         <div x-show="showFilter" x-collapse class="mt-4 pt-4 border-t border-gray-100">
-            <div class="flex flex-wrap gap-4">
+            <div class="flex flex-col gap-4">
                 <div>
                     <label class="block text-xs font-medium text-gray-500 mb-2">Level</label>
                     <div class="flex flex-wrap gap-2">
@@ -113,6 +162,45 @@
                                 x-text="level">
                             </button>
                         </template>
+                    </div>
+                </div>
+
+                <!-- Tampilan Filter (Semua Kursus only) -->
+                <div x-show="tab === 'semua'" x-cloak>
+                    <label class="block text-xs font-medium text-gray-500 mb-2">Tampilan</label>
+                    <div class="flex flex-wrap gap-2">
+                        <button @click="semuaCourseTab = 'semua'"
+                            :class="semuaCourseTab === 'semua' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                            class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">
+                            Semua Tampilan
+                        </button>
+                        <button @click="semuaCourseTab = 'wishlist'"
+                            :class="semuaCourseTab === 'wishlist' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                            class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1">
+                            Wishlist <span x-show="semuaCourseTab !== 'wishlist'" class="bg-gray-200 text-gray-500 px-1.5 py-0.5 rounded text-[10px] font-bold" x-text="wishlistCount"></span><span x-show="semuaCourseTab === 'wishlist'" class="bg-white/20 text-white px-1.5 py-0.5 rounded text-[10px] font-bold" x-text="wishlistCount"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Status Filter (Kursus Saya only) -->
+                <div x-show="tab === 'saya'" x-cloak>
+                    <label class="block text-xs font-medium text-gray-500 mb-2">Status</label>
+                    <div class="flex flex-wrap gap-2">
+                        <button @click="myCourseTab = 'semua'"
+                            :class="myCourseTab === 'semua' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                            class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">
+                            Semua Status
+                        </button>
+                        <button @click="myCourseTab = 'sedang_berlangsung'"
+                            :class="myCourseTab === 'sedang_berlangsung' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                            class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1">
+                            Sedang Berlangsung <span x-show="myCourseTab !== 'sedang_berlangsung'" class="bg-gray-200 text-gray-500 px-1.5 py-0.5 rounded text-[10px] font-bold" x-text="inProgressCount"></span><span x-show="myCourseTab === 'sedang_berlangsung'" class="bg-white/20 text-white px-1.5 py-0.5 rounded text-[10px] font-bold" x-text="inProgressCount"></span>
+                        </button>
+                        <button @click="myCourseTab = 'selesai'"
+                            :class="myCourseTab === 'selesai' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                            class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1">
+                            Selesai <span x-show="myCourseTab !== 'selesai'" class="bg-gray-200 text-gray-500 px-1.5 py-0.5 rounded text-[10px] font-bold" x-text="completedCount"></span><span x-show="myCourseTab === 'selesai'" class="bg-white/20 text-white px-1.5 py-0.5 rounded text-[10px] font-bold" x-text="completedCount"></span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -158,30 +246,7 @@
         @endforeach
     </div>
 
-    <!-- Red Banner (Kursus Saya only) -->
-    <div x-show="tab === 'saya'" x-cloak style="display: none;"
-        class="bg-gradient-to-r from-red-600 to-red-700 text-white rounded-3xl p-9 flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div class="flex items-center gap-8 sm:gap-12">
-            <div class="pr-8 border-r border-white/20">
-                <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['courses_enrolled'] ?? 0 }}</div>
-                <div class="text-white/90 text-sm">Kursus aktif</div>
-            </div>
-            <div class="pr-8 border-r border-white/20">
-                <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['courses_completed'] ?? 0 }}</div>
-                <div class="text-white/90 text-sm">Diselesaikan</div>
-            </div>
-            <div>
-                <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['certificates'] ?? 0 }}</div>
-                <div class="text-white/90 text-sm">Sertifikat</div>
-            </div>
-        </div>
-        <a href="{{ route('kursus-saya') }}"
-            class="bg-white/15 hover:bg-white/25 text-white font-bold rounded-full px-6 py-3 text-sm flex items-center gap-2 whitespace-nowrap transition-colors">
-            Lihat Learning Path &rarr;
-        </a>
-    </div>
-    <script>document.querySelector('[x-cloak]')?.removeAttribute('x-cloak')</script>
-    <style>[x-cloak] { display: none !important; }</style>
+
 
     <!-- Results Count -->
     <div class="text-sm text-gray-500">
