@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             UserActivityLogSeeder::class,
             UserProgressSeeder::class,
             BootcampRatingSeeder::class,
+            FlowTestSeeder::class,
         ]);
     }
 }
