@@ -159,7 +159,8 @@ class Course extends Model
         }
 
         if (is_string($value) && $value !== '') {
-            return json_decode($value, true) ?: [];
+            $decoded = json_decode($value, true);
+            return is_array($decoded) ? $decoded : [];
         }
 
         return [];
