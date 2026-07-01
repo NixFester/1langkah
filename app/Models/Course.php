@@ -152,9 +152,17 @@ class Course extends Model
     /**
      * Get resources (paywall protected)
      */
-    public function getResourcesAttribute(): ?array
+    public function getResourcesAttribute($value): ?array
     {
-        return $this->attributes['resources'] ?? [];
+        if (is_array($value)) {
+            return $value;
+        }
+
+        if (is_string($value) && $value !== '') {
+            return json_decode($value, true) ?: [];
+        }
+
+        return [];
     }
 
     /**
