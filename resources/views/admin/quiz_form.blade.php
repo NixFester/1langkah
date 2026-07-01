@@ -33,7 +33,7 @@
             <select name="course_id" required class="w-full rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500">
                 <option value="">Pilih Kursus</option>
                 @foreach($courses as $course)
-                <option value="{{ $course->id }}" {{ (old('course_id', isset($quiz) ? $quiz->course_id : '') == $course->id ? 'selected' : '' }}>
+                <option value="{{ $course->id }}" {{ old('course_id', isset($quiz) ? $quiz->course_id : '') == $course->id ? 'selected' : '' }}>
                     {{ $course->title }}
                 </option>
                 @endforeach

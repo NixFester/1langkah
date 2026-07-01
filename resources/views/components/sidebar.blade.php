@@ -29,7 +29,7 @@
                 ['id' => 'kursus', 'icon' => 'book', 'label' => 'Kursus', 'route' => 'kursus'],
                 ...($isAuth ? [
                     ['id' => 'path', 'icon' => 'path', 'label' => 'Learning Path', 'route' => 'dashboard'],
-                    ['id' => 'quiz', 'icon' => 'quiz', 'label' => 'Quiz', 'route' => 'dashboard'],
+                    ['id' => 'quiz', 'icon' => 'quiz', 'label' => 'Quiz', 'route' => 'quiz.index'],
                 ] : []),
                 ['id' => 'online-bootcamp', 'icon' => 'video', 'label' => 'Online Bootcamp', 'route' => 'online-bootcamp'],
                 ['id' => 'offline-bootcamp', 'icon' => 'mapPin', 'label' => 'Offline Bootcamp', 'route' => 'offline-bootcamp'],
@@ -54,7 +54,7 @@
             $navItems[] = [
                 'id' => 'admin-panel', 'icon' => 'settings', 'label' => 'Admin Panel',
                 'subItems' => [
-                    ['id' => 'admin.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'url' => 'http://0.0.0.0:8001/admin/dashboard'],
+                    ['id' => 'admin.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'admin.dashboard'],
                 ]
             ];
         }

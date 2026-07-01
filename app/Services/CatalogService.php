@@ -13,6 +13,37 @@ class CatalogService
     // ── Private mappers ──────────────────────────────────────────────────────
     private function mapCourse(Course $c): array
     {
+        // Decode JSON resources/benefits if stored as string
+        $resources = [];
+        if (!empty($c->resources)) {
+            if (is_string($c->resources)) {
+                $decoded = json_decode($c->resources, true);
+                $resources = is_array($decoded) ? $decoded : [];
+            } elseif (is_array($c->resources)) {
+                $resources = $c->resources;
+            }
+        }
+
+        $benefits = [];
+        if (!empty($c->benefits)) {
+            if (is_string($c->benefits)) {
+                $decoded = json_decode($c->benefits, true);
+                $benefits = is_array($decoded) ? $decoded : [];
+            } elseif (is_array($c->benefits)) {
+                $benefits = $c->benefits;
+            }
+        }
+
+        $curriculum = [];
+        if (!empty($c->curriculum)) {
+            if (is_string($c->curriculum)) {
+                $decoded = json_decode($c->curriculum, true);
+                $curriculum = is_array($decoded) ? $decoded : [];
+            } elseif (is_array($c->curriculum)) {
+                $curriculum = $c->curriculum;
+            }
+        }
+
         return [
             'id'            => $c->id,
             'title'         => $c->title,
@@ -29,7 +60,10 @@ class CatalogService
             'progress'      => $c->progress ?? 0,
             'color'         => $c->color ?? '#dc2626',
             'thumbnail'     => $c->pictures?->where('type', 'thumbnail')->first()?->url,
-            'gallery'       => $c->pictures?->where('type', 'gallery')->sortBy('order')->pluck('url')->values()->toArray() ?? [],
+            'gallery'       => $c->pictures?->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray() ?? [],
+            'resources'     => $resources,
+            'benefits'      => $benefits,
+            'curriculum'    => $curriculum,
         ];
     }
 
@@ -48,7 +82,7 @@ class CatalogService
             'price'        => $b->price,
             'color'        => $b->color,
             'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url,
-            'gallery'   => $pictures->where('type', 'gallery')->sortBy('order')->pluck('url')->values()->toArray(),
+            'gallery'   => $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray(),
         ];
     }
 
@@ -90,7 +124,7 @@ class CatalogService
             'benefits'     => $benefits,
             'jadwal_kelas' => $jadwalKelas,
             'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url,
-            'gallery'   => $pictures->where('type', 'gallery')->sortBy('order')->pluck('url')->values()->toArray(),
+            'gallery'   => $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray(),
         ];
     }
 
