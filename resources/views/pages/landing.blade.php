@@ -64,7 +64,7 @@
     <!-- Hero -->
     <section class="relative flex-1 w-full flex flex-col justify-center px-6 md:px-12 pt-[90px] lg:pt-[100px] pb-8 z-10">
     <!-- Red gradient glow in background -->
-    <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#D10000]/15 rounded-full blur-[100px] -translate-y-1/2 pointer-events-none"></div>
+    <div class="absolute top-0 right-[15%] w-[600px] h-[600px] bg-[#FF0000]/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
 
     <div class="max-w-[1400px] mx-auto w-full relative z-10 flex flex-col flex-1 justify-center min-h-0">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 xl:gap-8 items-end">
@@ -92,12 +92,12 @@
                 </p>
 
                 <!-- Buttons Row -->
-                <div class="flex flex-wrap items-center gap-3 lg:gap-4 xl:gap-5 mb-4 lg:mb-6">
-                    <a href="{{ route('signup') }}" class="inline-flex items-center gap-2 px-6 py-3 lg:px-7 lg:py-3.5 xl:px-8 xl:py-4 bg-[#D10000] text-white font-bold text-[14px] xl:text-[16px] rounded-full hover:bg-[#b30000] transition-all shadow-[0_0_30px_rgba(209,0,0,0.5)]">
+                <div class="flex flex-wrap items-center gap-4 lg:gap-5 xl:gap-6 mb-4 lg:mb-6">
+                    <a href="{{ route('signup') }}" class="inline-flex items-center gap-2 px-6 py-3.5 lg:px-7 lg:py-4 xl:px-8 xl:py-4 bg-gradient-to-b from-[#e60000] to-[#880000] text-white font-bold text-[14px] xl:text-[16px] rounded-[18px] hover:from-[#ff0000] hover:to-[#990000] transition-all shadow-[0_4px_14px_rgba(209,0,0,0.4)]">
                         Mulai Belajar Gratis 
                         <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                     </a>
-                    <a href="{{ route('kursus') }}" class="inline-flex items-center justify-center px-6 py-3 lg:px-7 lg:py-3.5 xl:px-8 xl:py-4 border border-white/20 bg-transparent text-white font-bold text-[14px] xl:text-[16px] rounded-full hover:bg-white/5 transition-colors">
+                    <a href="{{ route('kursus') }}" class="inline-flex items-center justify-center px-6 py-3.5 lg:px-7 lg:py-4 xl:px-8 xl:py-4 border border-white/20 bg-transparent text-white font-bold text-[14px] xl:text-[16px] rounded-[18px] hover:bg-white/5 transition-colors">
                         Jelajahi Kursus
                     </a>
                 </div>
@@ -117,20 +117,21 @@
             <div class="relative z-10 hidden lg:flex items-center justify-center w-full min-h-0">
                 <div class="relative w-full max-w-[500px] xl:max-w-[650px] mx-auto origin-center lg:mt-4 xl:mt-8 -mb-16 lg:-mb-24 xl:-mb-28">
                     <!-- Floating Pills -->
-                    <div class="absolute left-[2%] top-[25%] px-4 py-1.5 lg:px-5 lg:py-2 bg-[#171313]/90 backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_7s_ease-in-out_infinite]">React</div>
-                    <div class="absolute left-[5%] top-[45%] px-4 py-1.5 lg:px-5 lg:py-2 bg-[#171313]/90 backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_8s_ease-in-out_infinite_reverse]">Python</div>
+                    <div class="absolute left-[2%] top-[25%] px-4 py-1.5 lg:px-5 lg:py-2 bg-transparent backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_7s_ease-in-out_infinite]">React</div>
+                    <div class="absolute left-[5%] top-[45%] px-4 py-1.5 lg:px-5 lg:py-2 bg-transparent backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_8s_ease-in-out_infinite_reverse]">Python</div>
+                    <div class="absolute right-[5%] top-[20%] px-4 py-1.5 lg:px-5 lg:py-2 bg-transparent backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_6s_ease-in-out_infinite]">AI/ML</div>
 
                     <!-- Main Dashboard Image -->
                     <img src="{{ asset('images/main_dashboard_image.svg') }}" alt="1Langkah Platform" class="w-full relative z-10">
                     
                     <!-- Sertifikat (Top Right) -->
-                    <img src="{{ asset('images/sertifikat.svg') }}" alt="Sertifikat" class="absolute right-[0%] top-[8%] w-[244px] z-20 animate-[float_6s_ease-in-out_infinite]">
+                    <img src="{{ asset('images/sertifikat.svg') }}" alt="Sertifikat" class="absolute right-[0%] top-[-4%] w-[244px] z-20 animate-[float_6s_ease-in-out_infinite]">
                     
                     <!-- Rudi Yesaya (Bottom Left) -->
-                    <img src="{{ asset('images/hero/hero-mentor.png') }}" alt="Mentor" class="absolute left-[2%] bottom-[20%] w-[232px] z-20 animate-[float_8s_ease-in-out_infinite_reverse]">
+                    <img src="{{ asset('images/hero/rudi-yesaya.svg') }}" alt="Mentor" class="absolute left-[2%] bottom-[12%] w-[232px] z-20 animate-[float_8s_ease-in-out_infinite_reverse]">
                     
                     <!-- Skill Passport (Bottom Right) -->
-                    <img src="{{ asset('images/hero/hero-skills.png') }}" alt="Skill Passport" class="absolute right-[2%] bottom-[12%] w-[222px] z-20 animate-[float_7s_ease-in-out_infinite_1s]">
+                    <img src="{{ asset('images/hero/skill-passport.svg') }}" alt="Skill Passport" class="absolute right-[2%] bottom-[18%] w-[222px] z-20 animate-[float_7s_ease-in-out_infinite_1s]">
                 </div>
 
                 </div>
@@ -216,7 +217,7 @@
             
             <h2 class="text-4xl md:text-[44px] font-extrabold text-[#0f172a] tracking-tight leading-[1.2] mb-4">
                 Bukan sekadar platform kursus.<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF3333] to-[#cc0000]">Ini ekosistem karir kamu.</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-br from-red-600 to-orange-500">Ini ekosistem karir kamu.</span>
             </h2>
             
             <p class="text-lg text-gray-500 leading-relaxed max-w-2xl mx-auto">
@@ -228,11 +229,8 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-10 lg:mb-12">
             <!-- Card 1 -->
             <div class="bg-white rounded-[2rem] p-6 lg:p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col items-start group cursor-pointer">
-                <div class="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-[#D10000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h.01M10 10h.01M19 16H5a2 2 0 01-2-2V8a2 2 0 012-2h14a2 2 0 012 2v6a2 2 0 01-2 2z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 6V4c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v2"></path>
-                    </svg>
+                <div class="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform p-3">
+                    <img src="{{ asset('images/features/AI-Learning-Assistant.svg') }}" alt="AI Learning Assistant" class="w-full h-full object-contain">
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">AI Learning Assistant</h3>
                 <p class="text-[15px] text-gray-500 leading-relaxed mb-8 flex-1">Tutor AI 24/7 yang siap menjelaskan topik sulit, meringkas materi, dan membuat quiz personal hanya dalam hitungan detik.</p>
@@ -244,10 +242,8 @@
 
             <!-- Card 2 -->
             <div class="bg-white rounded-[2rem] p-6 lg:p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col items-start group cursor-pointer">
-                <div class="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                    </svg>
+                <div class="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform p-3">
+                    <img src="{{ asset('images/features/Personalized-Learning-Path.svg') }}" alt="Personalized Learning Path" class="w-full h-full object-contain">
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">Personalized Learning Path</h3>
                 <p class="text-[15px] text-gray-500 leading-relaxed mb-8 flex-1">Jalur belajar yang dibentuk oleh AI berdasarkan tujuan karir, skill gaps, dan kecepatan belajarmu — bukan jalur generik.</p>
@@ -259,10 +255,8 @@
 
             <!-- Card 3 -->
             <div class="bg-white rounded-[2rem] p-6 lg:p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col items-start group cursor-pointer">
-                <div class="w-14 h-14 rounded-2xl bg-purple-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                    </svg>
+                <div class="w-14 h-14 rounded-2xl bg-purple-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform p-3">
+                    <img src="{{ asset('images/features/Verified-Skill-Passport.svg') }}" alt="Verified Skill Passport" class="w-full h-full object-contain">
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">Verified Skill Passport</h3>
                 <p class="text-[15px] text-gray-500 leading-relaxed mb-8 flex-1">Profil skill digital terverifikasi dengan QR code yang bisa langsung dibagikan ke rekruter dan diakui 300+ hiring partner.</p>
@@ -277,57 +271,57 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <!-- Pill 1 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-[#D10000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
+                    <img src="{{ asset('images/features/Interactive-Courses.svg') }}" alt="Interactive Courses" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Interactive Courses</span>
             </div>
             <!-- Pill 2 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-[#D10000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
+                    <img src="{{ asset('images/features/Certificates.svg') }}" alt="Certificates" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Certificates</span>
             </div>
             <!-- Pill 3 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-[#D10000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
+                    <img src="{{ asset('images/features/Portfolio-Builder.svg') }}" alt="Portfolio Builder" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Portfolio Builder</span>
             </div>
             <!-- Pill 4 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-[#D10000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
+                    <img src="{{ asset('images/features/Project-Marketplace.svg') }}" alt="Project Marketplace" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Project Marketplace</span>
             </div>
             <!-- Pill 5 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-[#D10000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
+                    <img src="{{ asset('images/features/Mentor-Marketplace.svg') }}" alt="Mentor Marketplace" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Mentor Marketplace</span>
             </div>
             <!-- Pill 6 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-[#D10000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
+                    <img src="{{ asset('images/features/Career-Center.svg') }}" alt="Career Center" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Career Center</span>
             </div>
             <!-- Pill 7 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-[#D10000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
+                    <img src="{{ asset('images/features/Community.svg') }}" alt="Community" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Community</span>
             </div>
             <!-- Pill 8 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-[#D10000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
+                    <img src="{{ asset('images/features/Learning-Analytics.svg') }}" alt="Learning Analytics" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Learning Analytics</span>
             </div>

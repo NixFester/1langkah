@@ -30,7 +30,7 @@
                 @if(auth()->user()->profile_photo)
                 <img src="{{ auth()->user()->profile_photo }}" alt="Profile" class="w-full h-full rounded-full object-cover bg-red-900">
                 @else
-                <div class="w-full h-full rounded-full bg-red-800 flex items-center justify-center text-3xl font-bold">
+                <div class="w-full h-full rounded-full bg-red-800 flex items-center justify-center text-white text-3xl font-bold">
                     {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}
                 </div>
                 @endif
