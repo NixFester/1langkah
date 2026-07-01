@@ -152,9 +152,15 @@
                     
                     <!-- Actions -->
                     <div class="flex gap-4 pb-8 border-b border-gray-100">
-                        <a href="{{ route('pembayaran', ['id' => $b['id']]) }}" class="flex-1 bg-[#d00000] hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full text-center transition-colors shadow-sm text-sm">
-                            Daftar Bootcamp — {{ $b['price'] }}
-                        </a>
+                        @if(!empty($isEnrolled))
+                            <a href="{{ route('bootcamps-saya') }}" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-full text-center transition-colors shadow-sm text-sm">
+                                Sudah Terdaftar — Lihat Bootcamp Saya
+                            </a>
+                        @else
+                            <a href="{{ route('pembayaran', ['id' => $b['id']]) }}" class="flex-1 bg-[#d00000] hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full text-center transition-colors shadow-sm text-sm">
+                                Daftar Bootcamp — {{ $b['price'] }}
+                            </a>
+                        @endif
                         <button class="px-8 py-3 bg-white border border-gray-200 text-gray-700 font-bold rounded-full hover:bg-gray-50 transition-colors shadow-sm text-sm">
                             Simpan
                         </button>
@@ -191,6 +197,11 @@
                                             {{ $s['time'] }} WIB
                                         </div>
                                     </div>
+                                    @if(!empty($s['password']))
+                                    <div class="mt-3 rounded-lg border border-red-100 bg-red-50 px-3 py-2 text-[11px] text-red-700">
+                                        <span class="font-semibold">Password sesi:</span> {{ $s['password'] }}
+                                    </div>
+                                    @endif
                                 </div>
                                 <div class="w-7 h-7 rounded-full bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0 mt-1">
                                     <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>

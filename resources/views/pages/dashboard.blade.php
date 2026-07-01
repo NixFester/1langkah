@@ -108,7 +108,7 @@
 
                 <div class="space-y-5">
                     @forelse(array_slice($activeCourses ?? [], 0, 3) as $course)
-                    <a href="{{ route('detail-kursus', $course['id']) }}" class="flex gap-4 items-center hover:bg-gray-50 p-2 -mx-2 rounded-xl transition-colors">
+                    <a href="{{ route('detail-kursus', ['id' => $course['id']]) }}" class="flex gap-4 items-center hover:bg-gray-50 p-2 -mx-2 rounded-xl transition-colors">
                         <div class="w-12 h-12 rounded-xl bg-gray-100 flex-shrink-0 overflow-hidden">
                             @if(!empty($course['thumbnail']))
                             <img src="{{ $course['thumbnail'] }}" class="w-full h-full object-cover" alt="">

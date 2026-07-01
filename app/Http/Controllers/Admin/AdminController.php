@@ -306,7 +306,9 @@ class AdminController extends Controller
             'time' => 'required|string|max:100',
         ]);
 
-        $bootcamp->sessions()->create($data);
+        $bootcamp->sessions()->create(array_merge($data, [
+            'password' => $bootcamp->isOnline() ? \App\Models\BootcampSession::generatePassword() : null,
+        ]));
         return redirect()->route('admin.bootcamps.manage', $bootcamp)->with('success', 'Sesi berhasil ditambahkan.');
     }
 

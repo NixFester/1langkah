@@ -10,6 +10,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/login',  [PageController::class, 'login'])->name('login');
     Route::post('/login', [PageController::class, 'loginSubmit'])->name('login.submit');
     Route::get('/signup',  [PageController::class, 'signup'])->name('signup');
+    Route::get('/register', [PageController::class, 'signup'])->name('register');
     Route::post('/signup', [PageController::class, 'signupSubmit'])->name('signup.submit');
 });
 
@@ -31,6 +32,7 @@ Route::get('/mentor/{id}', [PageController::class, 'profilMentor'])->name('profi
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard',        [PageController::class, 'dashboard'])->name('dashboard');
     Route::get('/kursus-saya',      [PageController::class, 'kursusSaya'])->name('kursus-saya');
+    Route::get('/bootcamp-saya',    [PageController::class, 'bootcampsSaya'])->name('bootcamps-saya');
     Route::get('/kalender',         [PageController::class, 'kalender'])->name('kalender');
     Route::get('/pembayaran/{id?}', [PageController::class, 'pembayaran'])->name('pembayaran');
     Route::post('/pembayaran/proses', [PageController::class, 'processPayment'])->name('pembayaran.proses');

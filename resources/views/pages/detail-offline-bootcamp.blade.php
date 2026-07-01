@@ -20,6 +20,13 @@
         $benefits = $catalog->offlineFeatures();
     }
     $jadwalKelas = $b['jadwal_kelas'] ?? [];
+    $ticketCode = null;
+    if (auth()->check() && $isEnrolled) {
+        $ticketCode = \App\Models\Enrollment::where('user_id', auth()->id())
+            ->where('purchasable_type', \App\Models\Bootcamp::class)
+            ->where('purchasable_id', $b['id'])
+            ->value('ticket_code');
+    }
 @endphp
 
 <div class="w-full px-2 pb-8">
@@ -177,13 +184,38 @@
 
                     <!-- Actions -->
                     <div class="flex flex-col sm:flex-row gap-4 pb-8 border-b border-gray-100 mb-8">
-                        <a href="{{ route('pembayaran', ['id' => $b['id']]) }}" class="flex-1 bg-[#d00000] hover:bg-red-700 text-white font-bold py-3.5 px-6 rounded-full text-center transition-colors shadow-sm">
-                            Daftar Sekarang — {{ $b['price'] }}
-                        </a>
+                        @if(!empty($isEnrolled))
+                            <a href="{{ route('bootcamps-saya') }}" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-full text-center transition-colors shadow-sm">
+                                Sudah Terdaftar — Lihat Bootcamp Saya
+                            </a>
+                        @else
+                            <a href="{{ route('pembayaran', ['id' => $b['id']]) }}" class="flex-1 bg-[#d00000] hover:bg-red-700 text-white font-bold py-3.5 px-6 rounded-full text-center transition-colors shadow-sm">
+                                Daftar Sekarang — {{ $b['price'] }}
+                            </a>
+                        @endif
                         <button class="px-8 py-3.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-full hover:bg-gray-50 transition-colors shadow-sm">
                             Simpan
                         </button>
                     </div>
+
+                    @if(!empty($ticketCode))
+                    <div class="mb-8 rounded-2xl border border-red-200 bg-red-50 p-5">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div>
+                                <p class="text-sm font-semibold text-red-700">Tiket Offline Bootcamp</p>
+                                <h3 class="text-lg font-bold text-gray-900 mt-1">Tunjukkan tiket ini saat masuk</h3>
+                                <p class="text-sm text-gray-600 mt-2">Admin dapat memindai kode ini melalui halaman scan untuk memastikan kamu adalah pemegang tiket yang sah.</p>
+                            </div>
+                            <div class="rounded-2xl bg-white p-3 border border-red-100 shadow-sm">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data={{ urlencode($ticketCode) }}" alt="Ticket QR" class="w-40 h-40 object-contain">
+                            </div>
+                        </div>
+                        <div class="mt-4 rounded-xl border border-red-100 bg-white/80 p-4">
+                            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">Kode tiket</p>
+                            <p class="mt-2 font-mono text-2xl font-bold tracking-[0.35em] text-gray-900">{{ $ticketCode }}</p>
+                        </div>
+                    </div>
+                    @endif
 
                     <!-- Jadwal & Fasilitas Layout -->
                     <div class="flex flex-col md:flex-row gap-10">

@@ -33,6 +33,7 @@
                 ] : []),
                 ['id' => 'online-bootcamp', 'icon' => 'video', 'label' => 'Online Bootcamp', 'route' => 'online-bootcamp'],
                 ['id' => 'offline-bootcamp', 'icon' => 'mapPin', 'label' => 'Offline Bootcamp', 'route' => 'offline-bootcamp'],
+                ['id' => 'bootcamps-saya', 'icon' => 'award', 'label' => 'Bootcamp Saya', 'route' => 'bootcamps-saya'],
             ]
         ];
 
@@ -141,6 +142,7 @@
                                     if ($subItem['id'] === 'kursus' && in_array($activePage, ['kursus', 'kursus-saya', 'detail-kursus'])) $isSubActive = true;
                                     if ($subItem['id'] === 'online-bootcamp' && in_array($activePage, ['online-bootcamp', 'detail-online-bootcamp'])) $isSubActive = true;
                                     if ($subItem['id'] === 'offline-bootcamp' && in_array($activePage, ['offline-bootcamp', 'detail-offline-bootcamp'])) $isSubActive = true;
+                                    if ($subItem['id'] === 'bootcamps-saya' && in_array($activePage, ['bootcamps-saya'])) $isSubActive = true;
                                     
                                     $linkHref = isset($subItem['url']) ? $subItem['url'] : route($subItem['route'] ?? 'dashboard');
                                 @endphp

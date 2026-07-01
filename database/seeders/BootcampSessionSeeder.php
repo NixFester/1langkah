@@ -55,8 +55,19 @@ class BootcampSessionSeeder extends Seeder
             ['bootcamp_id' => 203, 'date' => '25 Agu 2025', 'topic' => 'Data Cleaning with Pandas', 'time' => '13:00 - 15:00 WIB'],
         ];
 
+        $sesis = array_map(function (array $session, int $index): array {
+            $session['meeting_url'] = $session['meeting_url'] ?? 'https://meet.google.com/abc-defg-hij';
+            $session['description'] = $session['description'] ?? 'Sesi ' . ($index + 1) . ' untuk program bootcamp ini.';
+            $session['order'] = $session['order'] ?? ($index + 1);
+
+            return $session;
+        }, $sesis, array_keys($sesis));
+
         foreach ($sesis as $s) {
-            BootcampSession::create($s);
+            BootcampSession::updateOrCreate(
+                ['bootcamp_id' => $s['bootcamp_id'], 'topic' => $s['topic'], 'date' => $s['date']],
+                $s
+            );
         }
     }
 }

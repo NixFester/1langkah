@@ -80,7 +80,7 @@ class MentorSeeder extends Seeder
         foreach ($mentors as $m) {
             $mentorData = $m;
             $mentorData['linkedin_url'] = 'https://linkedin.com/in/' . strtolower(str_replace(' ', '-', $m['name']));
-            Mentor::create($mentorData);
+            Mentor::updateOrCreate(['id' => $mentorData['id']], $mentorData);
         }
     }
 }

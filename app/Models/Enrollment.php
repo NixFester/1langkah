@@ -16,7 +16,35 @@ class Enrollment extends Model
         'purchasable_type',
         'purchasable_id',
         'status',
+        'ticket_code',
+        'is_following',
+        'followed_at',
+        'completed_at',
     ];
+
+    protected $casts = [
+        'is_following' => 'boolean',
+        'followed_at' => 'datetime',
+        'completed_at' => 'datetime',
+    ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $enrollment): void {
+            if ($enrollment->purchasable_type === Bootcamp::class && $enrollment->purchasable_id && empty($enrollment->ticket_code)) {
+                $enrollment->ticket_code = self::generateTicketCode();
+            }
+        });
+    }
+
+    public static function generateTicketCode(): string
+    {
+        do {
+            $code = strtoupper(substr(str_replace(['+', '/', '='], '', base64_encode(random_bytes(8))), 0, 8));
+        } while (self::where('ticket_code', $code)->exists());
+
+        return $code;
+    }
 
     // ── Relationships ────────────────────────────────────────────────────────
 

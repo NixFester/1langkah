@@ -136,6 +136,10 @@ class OptionSeeder extends Seeder
             ],
         ];
 
+        foreach ($options as &$option) {
+            $option['is_active'] = $option['is_active'] ?? true;
+        }
+
         foreach ($options as $option) {
             Option::updateOrCreate(
                 ['category' => $option['category'], 'key' => $option['key']],

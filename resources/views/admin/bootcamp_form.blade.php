@@ -249,6 +249,7 @@
                                 <th class="px-6 py-4 font-bold">Waktu</th>
                                 @if($bootcamp->type === 'online')
                                 <th class="px-6 py-4 font-bold">Meeting URL</th>
+                                <th class="px-6 py-4 font-bold">Password</th>
                                 @endif
                             </tr>
                         </thead>
@@ -282,6 +283,9 @@
                                     @else
                                     <span class="text-xs text-gray-400">Belum ada URL</span>
                                     @endif
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="bg-amber-50 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-md">{{ $session->password ?? '—' }}</span>
                                 </td>
                                 @endif
                             </tr>

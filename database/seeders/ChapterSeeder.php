@@ -78,8 +78,20 @@ class ChapterSeeder extends Seeder
             ['course_id' => 10, 'title' => 'CloudFormation & Monitoring', 'lessons' => 6, 'duration' => '2h 50m', 'video_url' => $rickroll],
         ];
 
+        $chapters = array_map(function (array $chapter, int $index): array {
+            $chapter['video_url'] = $chapter['video_url'] ?? $rickroll;
+            $chapter['thumbnail_url'] = $chapter['thumbnail_url'] ?? 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=800&q=80';
+            $chapter['description'] = $chapter['description'] ?? 'Materi pembelajaran untuk ' . $chapter['title'];
+            $chapter['order'] = $chapter['order'] ?? ($index + 1);
+
+            return $chapter;
+        }, $chapters, array_keys($chapters));
+
         foreach ($chapters as $ch) {
-            Chapter::create($ch);
+            Chapter::updateOrCreate(
+                ['course_id' => $ch['course_id'], 'title' => $ch['title']],
+                $ch
+            );
         }
     }
 }

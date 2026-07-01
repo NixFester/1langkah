@@ -130,7 +130,7 @@ class BootcampSeeder extends Seeder
                 $bootcampData['icon'] = 'graduation-cap'; // Default icon name
             }
 
-            Bootcamp::create($bootcampData);
+            Bootcamp::updateOrCreate(['id' => $bootcampData['id']], $bootcampData);
         }
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\ProgressService;
 use App\Models\AttendanceRecord;
 use App\Models\Bootcamp;
+use App\Models\Enrollment;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\JsonResponse;
@@ -69,7 +70,28 @@ class QrController extends Controller
 
         $validated = $request->validate([
             'qr_code' => 'required|string',
+            'bootcamp_id' => 'nullable|integer|exists:bootcamps,id',
         ]);
+
+        $bootcampId = $validated['bootcamp_id'] ?? null;
+        $bootcamp = $bootcampId ? Bootcamp::find($bootcampId) : null;
+
+        if ($bootcamp && $bootcamp->type === 'offline') {
+            $enrollment = Enrollment::where('purchasable_type', Bootcamp::class)
+                ->where('purchasable_id', $bootcamp->id)
+                ->where('ticket_code', $validated['qr_code'])
+                ->where('status', 'active')
+                ->first();
+
+            if ($enrollment) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Tiket valid. Pemegang tiket terverifikasi.',
+                    'verified' => true,
+                    'mode' => 'ticket',
+                ]);
+            }
+        }
 
         // Find the attendance record
         $attendance = AttendanceRecord::where('qr_code', $validated['qr_code'])->first();

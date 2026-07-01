@@ -156,9 +156,9 @@
                     {{-- Already enrolled - show button to go to course --}}
                     @php
                         $redirectUrl = match($itemKind) {
-                            'course' => route('detail-kursus', $itemId),
-                            'online' => route('detail-online-bootcamp', $itemId),
-                            'offline' => route('detail-offline-bootcamp', $itemId),
+                            'course' => route('detail-kursus', ['id' => $itemId]),
+                            'online' => route('detail-online-bootcamp', ['id' => $itemId]),
+                            'offline' => route('detail-offline-bootcamp', ['id' => $itemId]),
                             default => route('kursus-saya'),
                         };
                     @endphp

@@ -198,6 +198,7 @@ class CatalogService
                 'time'        => $s->time,
                 'meeting_url' => $s->meeting_url,
                 'description' => $s->description,
+                'password'    => $s->password,
             ])
             ->toArray();
     }

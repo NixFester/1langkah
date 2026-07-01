@@ -206,7 +206,7 @@ class CourseSeeder extends Seeder
                 ['title' => 'Cheat Sheet', 'type' => 'pdf'],
             ]);
 
-            Course::create($courseData);
+            Course::updateOrCreate(['id' => $courseData['id']], $courseData);
         }
     }
 }

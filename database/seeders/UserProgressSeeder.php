@@ -50,6 +50,9 @@ class UserProgressSeeder extends Seeder
                 'purchasable_type' => Course::class,
                 'purchasable_id' => $course->id,
                 'status' => 'active',
+                'is_following' => false,
+                'followed_at' => null,
+                'completed_at' => null,
             ]);
         }
 
@@ -61,6 +64,9 @@ class UserProgressSeeder extends Seeder
                 'purchasable_type' => Bootcamp::class,
                 'purchasable_id' => $offlineBootcamp->id,
                 'status' => 'active',
+                'is_following' => false,
+                'followed_at' => null,
+                'completed_at' => null,
             ]);
         }
 
@@ -195,6 +201,12 @@ class UserProgressSeeder extends Seeder
                 'loggable_type' => $activity['type'],
                 'loggable_id' => $source->id,
                 'action' => $activity['action'],
+                'metadata' => [
+                    'source' => $activity['type'] === Course::class ? 'course' : 'bootcamp',
+                    'action' => $activity['action'],
+                ],
+                'ip_address' => '127.0.0.1',
+                'user_agent' => 'Seeder/1.0',
                 'created_at' => now()->subDays(rand(0, 14)),
             ]);
         }

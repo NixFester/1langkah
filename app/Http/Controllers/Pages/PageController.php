@@ -198,10 +198,13 @@ class PageController extends Controller
         // Get gallery photos (type = array)
         $photos = collect($course['gallery'] ?? [])->map(fn($url) => ['url' => $url, 'alt' => $course['title']])->toArray();
 
+        $isEnrolled = auth()->check() && $this->isUserEnrolled(auth()->id(), 'course', $course['id']);
+
         return view('pages.detail-kursus', [
-            'course'   => $course,
-            'chapters' => $this->catalog->chapters($course['id']),
-            'photos'   => $photos,
+            'course'     => $course,
+            'chapters'   => $this->catalog->chapters($course['id']),
+            'photos'     => $photos,
+            'isEnrolled' => $isEnrolled,
         ]);
     }
 
@@ -227,6 +230,15 @@ class PageController extends Controller
         ]);
     }
 
+    public function bootcampsSaya(): View
+    {
+        $userId = auth()->id();
+        return view('pages.bootcamps-saya', [
+            'myBootcamps' => $this->catalog->userEnrolledBootcamps($userId),
+            'userStats' => $this->catalog->userStats($userId),
+        ]);
+    }
+
     public function onlineBootcamp(): View
     {
         return view('pages.online-bootcamp', [
@@ -237,10 +249,12 @@ class PageController extends Controller
     public function detailOnlineBootcamp(int $id): View
     {
         $bootcamp = $this->catalog->onlineBootcamp($id) ?? $this->catalog->bootcamps()['online'][0];
+        $isEnrolled = auth()->check() && $this->isUserEnrolled(auth()->id(), 'online', $bootcamp['id']);
 
         return view('pages.detail-online-bootcamp', [
             'bootcamp' => $bootcamp,
             'sessions' => $this->catalog->onlineSessions($bootcamp['id']),
+            'isEnrolled' => $isEnrolled,
         ]);
     }
 
@@ -254,10 +268,12 @@ class PageController extends Controller
     public function detailOfflineBootcamp(int $id): View
     {
         $bootcamp = $this->catalog->offlineBootcamp($id) ?? $this->catalog->bootcamps()['offline'][0];
+        $isEnrolled = auth()->check() && $this->isUserEnrolled(auth()->id(), 'offline', $bootcamp['id']);
 
         return view('pages.detail-offline-bootcamp', [
             'bootcamp' => $bootcamp,
             'features' => $this->catalog->offlineFeatures(),
+            'isEnrolled' => $isEnrolled,
         ]);
     }
 
@@ -397,9 +413,9 @@ class PageController extends Controller
     private function getEnrollmentRedirectUrl(string $kind, int $itemId): string
     {
         return match ($kind) {
-            'course' => route('detail-kursus', $itemId),
-            'online' => route('detail-online-bootcamp', $itemId),
-            'offline' => route('detail-offline-bootcamp', $itemId),
+            'course' => route('detail-kursus', ['id' => $itemId]),
+            'online' => route('detail-online-bootcamp', ['id' => $itemId]),
+            'offline' => route('detail-offline-bootcamp', ['id' => $itemId]),
             default => route('dashboard'),
         };
     }

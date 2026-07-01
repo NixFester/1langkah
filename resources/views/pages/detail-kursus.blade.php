@@ -15,6 +15,7 @@
     ];
     $curriculum = $c['curriculum'] ?? [];
     $resources = $c['resources'] ?? [];
+    $isEnrolled = $isEnrolled ?? false;
 @endphp
 
 <!-- Hero Section -->
@@ -195,39 +196,49 @@
                 <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
                     <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">Resources</h2>
 
-                    @auth
-                    @if(!empty($resources))
-                    <div class="space-y-4">
-                        @foreach($resources as $resource)
-                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    @if(auth()->check() && $isEnrolled)
+                        @if(!empty($resources))
+                        <div class="space-y-4">
+                            @foreach($resources as $resource)
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 00-2-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-900">{{ $resource['name'] ?? 'Resource' }}</p>
+                                        <p class="text-xs text-gray-500">{{ $resource['type'] ?? 'PDF' }}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p class="font-medium text-gray-900">{{ $resource['name'] ?? 'Resource' }}</p>
-                                    <p class="text-xs text-gray-500">{{ $resource['type'] ?? 'PDF' }}</p>
-                                </div>
+                                <a href="{{ $resource['url'] ?? '#' }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors">
+                                    Download
+                                </a>
                             </div>
-                            <a href="{{ $resource['url'] ?? '#' }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors">
-                                Download
+                            @endforeach
+                        </div>
+                        @else
+                        <div class="text-center py-8">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <p class="text-gray-500">Resources belum tersedia untuk kursus ini.</p>
+                        </div>
+                        @endif
+                    @elseif(auth()->check())
+                        <div class="text-center py-8">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2V5a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <p class="text-gray-500 mb-4">Silakan daftar di kursus ini untuk melihat resources.</p>
+                            <a href="{{ route('pembayaran', ['id' => $c['id']]) }}" class="inline-flex items-center justify-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-full text-sm font-semibold transition-colors">
+                                Daftar Sekarang
                             </a>
                         </div>
-                        @endforeach
-                    </div>
                     @else
-                    <div class="text-center py-8">
-                        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        <div class="text-center py-8">
+                            <p class="text-gray-500">Silakan <a href="{{ route('login') }}" class="text-red-600 hover:underline">login</a> untuk melihat resources.</p>
                         </div>
-                        <p class="text-gray-500">Resources akan tersedia setelah kamu terdaftar di kursus ini.</p>
-                    </div>
                     @endif
-                    @else
-                    <div class="text-center py-8">
-                        <p class="text-gray-500">Silakan <a href="{{ route('login') }}" class="text-red-600 hover:underline">login</a> untuk melihat resources.</p>
-                    </div>
-                    @endauth
                 </div>
             </div>
         </div>
@@ -251,9 +262,15 @@
                     @endif
                 </div>
 
-                <button class="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors mb-3">
-                    Daftar Sekarang
-                </button>
+                @if($isEnrolled)
+                    <a href="{{ route('detail-kursus', ['id' => $c['id']]) }}" class="w-full inline-flex items-center justify-center py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-full transition-colors mb-3">
+                        Sudah Terdaftar — Mulai Belajar
+                    </a>
+                @else
+                    <a href="{{ route('pembayaran', ['id' => $c['id']]) }}" class="w-full inline-flex items-center justify-center py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors mb-3">
+                        Daftar Sekarang
+                    </a>
+                @endif
                 <button class="w-full py-3.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-bold rounded-full transition-colors mb-8 shadow-sm">
                     Coba Gratis 7 Hari
                 </button>

@@ -20,7 +20,26 @@ class BootcampSession extends Model
         'meeting_url',
         'description',
         'order',
+        'password',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $session): void {
+            if ($session->bootcamp_id && empty($session->password)) {
+                $session->password = self::generatePassword();
+            }
+        });
+    }
+
+    public static function generatePassword(): string
+    {
+        do {
+            $password = strtoupper(str_pad((string) random_int(100000, 999999), 6, '0', STR_PAD_LEFT));
+        } while (self::where('password', $password)->exists());
+
+        return $password;
+    }
 
     protected $casts = [
         'bootcamp_id' => 'integer',
