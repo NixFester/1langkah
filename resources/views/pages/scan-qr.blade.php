@@ -3,7 +3,7 @@
 @section('title', 'Scan QR Kehadiran')
 
 @section('content')
-<div class="px-6 py-8 sm:px-10 w-full">
+<div class="w-full px-2 pb-8">
     <div class="max-w-lg mx-auto">
 
         <!-- Header -->

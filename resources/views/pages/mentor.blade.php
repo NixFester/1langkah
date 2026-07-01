@@ -4,7 +4,7 @@
 @section('header_title', 'Mentor')
 
 @section('content')
-<div class="w-full px-2 pb-12">
+<div class="w-full px-2 pb-8">
     <!-- Header -->
     <div class="mb-10 -mt-2">
         <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Mentor Marketplace</h1>

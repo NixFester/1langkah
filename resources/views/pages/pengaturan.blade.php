@@ -4,6 +4,7 @@
 
 @section('content')
 @php $u = $authUser; @endphp
+<div class="w-full px-2 pb-8">
 
 <div class="page-title" style="margin-bottom:8px">Pengaturan Akun</div>
 <p style="font-size:14px;color:var(--text-muted);margin-bottom:28px">Kelola informasi profil dan keamanan akun kamu</p>
@@ -117,5 +118,6 @@
         </div>
     </div>
 
+</div>
 </div>
 @endsection

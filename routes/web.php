@@ -38,6 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/pembayaran/proses', [PageController::class, 'processPayment'])->name('pembayaran.proses');
     Route::get('/pengaturan',  [PageController::class, 'pengaturan'])->name('pengaturan');
     Route::post('/pengaturan', [PageController::class, 'updatePengaturan'])->name('pengaturan.update');
+    
+    Route::get('/pesan', [PageController::class, 'pesan'])->name('pesan');
 
     // Portfolio
     Route::get('/portofolio', [PortfolioController::class, 'index'])->name('portofolio');

@@ -60,7 +60,7 @@
 
         return courses;
     }
-}" class="px-6 sm:px-10 py-8 w-full space-y-8">
+}" class="w-full px-2 pb-8 space-y-8">
 
     <!-- Header -->
     <div class="flex items-start justify-between -mt-2">
@@ -122,18 +122,18 @@
     <!-- Tabs -->
     <div class="inline-flex bg-slate-100 rounded-full p-1 shadow-sm">
         <button @click="tab = 'semua'"
-            :class="tab === 'semua' ? 'bg-white shadow-sm ring-1 ring-black/5 font-bold' : 'font-semibold hover:text-slate-700'"
-            :style="tab === 'semua' ? 'color: #dc2626; font-size: 15px; padding: 8px 20px; border-radius: 9999px;' : 'color: #64748b; font-size: 15px; padding: 8px 20px; border-radius: 9999px;'"
-            class="px-6 py-2 rounded-full transition-all cursor-pointer">
+            :class="tab === 'semua' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'"
+            :style="tab === 'semua' ? 'color: #dc2626; padding: 8px 20px; border-radius: 9999px; font-weight: bold; font-size: 14px;' : 'color: #64748b; padding: 8px 20px; border-radius: 9999px; font-weight: 500; font-size: 14px;'"
+            class="transition-all cursor-pointer">
             Semua Kursus
-            <span x-show="searchQuery || activeCat !== 'All' || activeLevel !== 'All'" class="ml-1 px-1.5 py-0.5 bg-red-100 text-red-600 text-xs rounded-full">Filtered</span>
+            <span x-show="searchQuery || activeCat !== 'All' || activeLevel !== 'All'" style="display: none;" class="ml-1 px-1.5 py-0.5 bg-red-100 text-red-600 text-[10px] rounded-full">Filtered</span>
         </button>
         <button @click="tab = 'saya'"
-            :class="tab === 'saya' ? 'bg-white shadow-sm ring-1 ring-black/5 font-bold' : 'font-semibold hover:text-slate-700'"
-            :style="tab === 'saya' ? 'color: #dc2626; font-size: 15px; padding: 8px 20px; border-radius: 9999px;' : 'color: #64748b; font-size: 15px; padding: 20px; border-radius: 9999px;'"
-            class="px-6 py-2 rounded-full transition-all cursor-pointer flex items-center gap-2">
+            :class="tab === 'saya' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'"
+            :style="tab === 'saya' ? 'color: #dc2626; padding: 8px 20px; border-radius: 9999px; font-weight: bold; font-size: 14px;' : 'color: #64748b; padding: 8px 20px; border-radius: 9999px; font-weight: 500; font-size: 14px;'"
+            class="transition-all cursor-pointer">
             Kursus Saya
-            <span :class="tab === 'saya' ? 'px-2 py-0.5 rounded-full text-xs font-bold' : ''"
+            <span :class="tab === 'saya' ? 'ml-1 px-2 py-0.5 rounded-full text-[11px] font-bold' : 'ml-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-gray-200 text-gray-500'"
                 :style="tab === 'saya' ? 'background-color: #fee2e2; color: #dc2626;' : ''">
                 {{ count($myCourses) }}
             </span>

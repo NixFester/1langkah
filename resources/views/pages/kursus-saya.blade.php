@@ -58,7 +58,7 @@
         }
         return courses;
     }
-}" class="px-6 sm:px-10 py-8 w-full space-y-6">
+}" class="w-full px-2 pb-8 space-y-6">
 
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

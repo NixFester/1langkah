@@ -33,7 +33,7 @@
     </div>
 @endif
 
-<div class="w-full mx-auto space-y-6">
+<div class="w-full px-2 pb-8 space-y-6">
     <!-- Header -->
     <div style="margin-bottom: 28px;">
         <a href="javascript:history.back()" style="display: inline-flex; align-items: center; gap: 8px; color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 20px; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#111827'" onmouseout="this.style.color='#6b7280'">

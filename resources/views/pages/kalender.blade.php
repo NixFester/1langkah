@@ -3,7 +3,7 @@
 @section('title', 'Kalender')
 
 @section('content')
-<div class="w-full space-y-6">
+<div class="w-full px-2 pb-8 space-y-6">
 
     <!-- Header Section -->
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">

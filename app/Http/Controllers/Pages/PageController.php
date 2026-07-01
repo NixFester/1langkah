@@ -139,6 +139,11 @@ class PageController extends Controller
 
         return back()->with('success', 'Profil berhasil diperbarui.');
     }
+    
+    public function pesan(): View
+    {
+        return view('pages.pesan');
+    }
 
     /* -----------------------------------------------------------------
      * Dashboard pages (sidebar + topbar)

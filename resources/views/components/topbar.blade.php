@@ -40,7 +40,7 @@
             <button id="notif-btn" class="topbar-icon" style="background:none;border:none;cursor:pointer;position:relative" onclick="toggleNotif(event)">
                 <x-icon name="bell" />
                 @if($unreadCount > 0)
-                    <div class="dot" style="position:absolute;top:0;right:0;width:8px;height:8px;background:#f5576c;border-radius:50%;border:2px solid var(--bg-main)"></div>
+                    <div id="notif-dot" class="dot" style="position:absolute;top:0;right:0;width:8px;height:8px;background:#f5576c;border-radius:50%;border:2px solid var(--bg-main)"></div>
                 @endif
             </button>
 
@@ -75,9 +75,12 @@
         </div>
 
         {{-- Message icon --}}
-        <a href="#" class="topbar-icon" style="text-decoration:none;color:inherit">
-            <x-icon name="message" />
-        </a>
+        <div style="position:relative">
+            <a href="{{ route('pesan') }}" class="topbar-icon" style="background:none;border:none;cursor:pointer;position:relative;display:flex;color:inherit;text-decoration:none">
+                <x-icon name="message" />
+                <div class="dot" style="position:absolute;top:0;right:0;width:8px;height:8px;background:#f5576c;border-radius:50%;border:2px solid var(--bg-main)"></div>
+            </a>
+        </div>
 
         {{-- Avatar & User Info --}}
         <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;margin-left:8px;">
@@ -107,9 +110,15 @@ function toggleNotif(e) {
     const panel    = document.getElementById('notif-panel');
     const backdrop = document.getElementById('notif-backdrop');
     const isOpen   = panel.style.display !== 'none';
+    
     panel.style.display    = isOpen ? 'none' : 'block';
     backdrop.style.display = isOpen ? 'none' : 'block';
+    
+    // Nonaktifkan (sembunyikan) dot notifikasi saat diklik
+    const notifDot = document.getElementById('notif-dot');
+    if (notifDot) notifDot.style.display = 'none';
 }
+
 function closeNotif() {
     document.getElementById('notif-panel').style.display    = 'none';
     document.getElementById('notif-backdrop').style.display = 'none';

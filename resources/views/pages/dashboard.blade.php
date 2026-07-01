@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="px-6 py-8 sm:px-10 w-full space-y-6">
+<div class="w-full px-2 pb-8 space-y-6">
 
     <!-- HERO SECTION -->
     <div class="bg-[#cc0000] rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between relative overflow-hidden shadow-xl">
