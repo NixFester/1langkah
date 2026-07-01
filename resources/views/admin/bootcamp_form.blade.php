@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('title', isset($bootcamp) ? 'Kelola Bootcamp' : 'Tambah Bootcamp')
 
