@@ -230,7 +230,7 @@
                     </div>
 
                     <!-- Jadwal Kelas Section -->
-                    @if(!empty($jadwalKelas))
+                    @if(is_array($jadwalKelas) || is_object($jadwalKelas))
                     <div class="mt-8 pt-8 border-t border-gray-100">
                         <h3 class="text-[17px] font-bold text-gray-900 mb-4">Detail Jadwal</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
