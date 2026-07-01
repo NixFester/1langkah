@@ -3,6 +3,7 @@
 use App\Http\Controllers\Pages\PageController;
 use App\Http\Controllers\Pages\PortfolioController;
 use App\Http\Controllers\Pages\QrController;
+use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
 // ── Guest-only (redirect to dashboard if already logged in) ──────────────────
@@ -38,8 +39,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/pembayaran/proses', [PageController::class, 'processPayment'])->name('pembayaran.proses');
     Route::get('/pengaturan',  [PageController::class, 'pengaturan'])->name('pengaturan');
     Route::post('/pengaturan', [PageController::class, 'updatePengaturan'])->name('pengaturan.update');
-    
-    Route::get('/pesan', [PageController::class, 'pesan'])->name('pesan');
 
     // Portfolio
     Route::get('/portofolio', [PortfolioController::class, 'index'])->name('portofolio');
@@ -48,6 +47,14 @@ Route::middleware('auth')->group(function () {
     // QR Scan for offline bootcamp attendance
     Route::get('/scan-qr/{bootcampId?}', [QrController::class, 'scan'])->name('scan-qr');
     Route::post('/scan-qr/process', [QrController::class, 'processScan'])->name('scan-qr.process');
+
+    // Quiz for users
+    Route::get('/quiz', [QuizController::class, 'index'])->name('quiz.index');
+    Route::get('/quiz/history', [QuizController::class, 'history'])->name('quiz.history');
+    Route::get('/quiz/start/{quiz}', [QuizController::class, 'start'])->name('quiz.start');
+    Route::post('/quiz/submit/{quiz}', [QuizController::class, 'submit'])->name('quiz.submit');
+    Route::get('/quiz/result/{attempt}', [QuizController::class, 'result'])->name('quiz.result');
+    Route::get('/quiz/api/questions/{quiz}', [QuizController::class, 'apiQuestions'])->name('quiz.api.questions');
 
     Route::post('/logout', [PageController::class, 'logout'])->name('logout');
 });
@@ -97,4 +104,23 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/options', [App\Http\Controllers\Admin\OptionController::class, 'store'])->name('options.store');
     Route::patch('/options/{option}', [App\Http\Controllers\Admin\AdminController::class, 'updateOption'])->name('options.update');
     Route::delete('/options/{option}', [App\Http\Controllers\Admin\OptionController::class, 'destroy'])->name('options.destroy');
+
+    // Quiz Management
+    Route::get('/quizzes', [App\Http\Controllers\Admin\QuizController::class, 'index'])->name('quizzes');
+    Route::get('/quizzes/create', [App\Http\Controllers\Admin\QuizController::class, 'create'])->name('quizzes.create');
+    Route::post('/quizzes', [App\Http\Controllers\Admin\QuizController::class, 'store'])->name('quizzes.store');
+    Route::get('/quizzes/{quiz}/edit', [App\Http\Controllers\Admin\QuizController::class, 'edit'])->name('quizzes.edit');
+    Route::put('/quizzes/{quiz}', [App\Http\Controllers\Admin\QuizController::class, 'update'])->name('quizzes.update');
+    Route::delete('/quizzes/{quiz}', [App\Http\Controllers\Admin\QuizController::class, 'destroy'])->name('quizzes.destroy');
+
+    // Quiz Questions Management
+    Route::get('/quizzes/{quiz}/questions', [App\Http\Controllers\Admin\QuizController::class, 'questions'])->name('quizzes.questions');
+    Route::post('/quizzes/{quiz}/questions', [App\Http\Controllers\Admin\QuizController::class, 'addQuestion'])->name('quizzes.questions.add');
+    Route::put('/quizzes/{quiz}/questions/{question}', [App\Http\Controllers\Admin\QuizController::class, 'updateQuestion'])->name('quizzes.questions.update');
+    Route::delete('/quizzes/{quiz}/questions/{question}', [App\Http\Controllers\Admin\QuizController::class, 'deleteQuestion'])->name('quizzes.questions.delete');
+
+    // Quiz Answers Management
+    Route::post('/quizzes/{quiz}/questions/{question}/answers', [App\Http\Controllers\Admin\QuizController::class, 'addAnswer'])->name('quizzes.answers.add');
+    Route::put('/quizzes/{quiz}/questions/{question}/answers/{answer}', [App\Http\Controllers\Admin\QuizController::class, 'updateAnswer'])->name('quizzes.answers.update');
+    Route::delete('/quizzes/{quiz}/questions/{question}/answers/{answer}', [App\Http\Controllers\Admin\QuizController::class, 'deleteAnswer'])->name('quizzes.answers.delete');
 });
