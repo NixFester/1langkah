@@ -205,11 +205,17 @@
                     <div class="absolute top-3 left-3 flex items-center gap-2 z-10">
                         <span class="bg-white text-gray-800 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm" x-text="course.level || 'Beginner'"></span>
                     </div>
+                    <!-- Bottom Progress Bar (Only for Kursus Saya) -->
+                    <template x-if="tab === 'saya'">
+                        <div class="absolute bottom-0 left-0 w-full h-1.5 bg-gray-200 z-10">
+                            <div class="h-full bg-emerald-500" :style="'width: ' + (course.progress || 0) + '%'"></div>
+                        </div>
+                    </template>
                 </div>
 
                 <!-- Body -->
-                <div class="p-4">
-                    <span class="inline-block px-2.5 py-0.5 rounded-md text-xs font-bold text-red-600 bg-red-50 mb-3" x-text="course.category || ''"></span>
+                <div class="p-4 flex flex-col flex-grow">
+                    <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold text-red-600 bg-red-50 mb-3 self-start" x-text="course.category || ''"></span>
                     <h3 class="font-bold text-gray-900 text-base leading-tight mb-2 line-clamp-2" x-text="course.title"></h3>
                     <p class="text-xs text-gray-500 mb-3" x-text="(course.mentor || '') + ' · ' + (course.mentorCompany || '')"></p>
 
@@ -224,8 +230,20 @@
                         <span class="text-xs text-gray-400" x-text="'(' + (course.students || 0).toLocaleString() + ')'"></span>
                     </div>
 
-                    <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
-                        <span class="text-base font-bold text-gray-900" x-text="course.price || 'Gratis'"></span>
+                    <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <template x-if="tab !== 'saya'">
+                            <span class="text-base font-bold text-gray-900" x-text="course.price || 'Gratis'"></span>
+                        </template>
+                        
+                        <template x-if="tab === 'saya'">
+                            <div class="flex items-center justify-between w-full">
+                                <div class="flex items-center text-gray-500 text-[13px]">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span x-text="(course.duration || '48') + 'h'"></span>
+                                </div>
+                                <span class="text-[13px] font-bold text-emerald-600" x-text="(course.progress || 0) + '% done'"></span>
+                            </div>
+                        </template>
                     </div>
                 </div>
             </a>

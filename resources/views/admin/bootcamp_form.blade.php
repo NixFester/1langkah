@@ -3,10 +3,10 @@
 @section('title', isset($bootcamp) ? 'Kelola Bootcamp' : 'Tambah Bootcamp')
 
 @section('content')
-<div x-data="{ bootcampType: '{{ old('type', $bootcamp->type ?? '') }}', sessions: [] }" class="px-6 py-8 sm:px-10 w-full max-w-5xl mx-auto space-y-6">
+<div x-data="{ bootcampType: '{{ old('type', $bootcamp->type ?? '') }}', sessions: [] }" class="w-full px-2 pb-8 space-y-6">
 
     <!-- PAGE HEADER -->
-    <div class="bg-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between shadow-[0_2px_10px_rgb(0,0,0,0.02)] border border-gray-100">
+    <div class="bg-white rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between shadow-[0_2px_10px_rgb(0,0,0,0.02)] border border-gray-100">
         <div>
             <h1 class="text-2xl font-bold text-gray-900">{{ isset($bootcamp) ? 'Kelola Bootcamp' : 'Tambah Bootcamp Baru' }}</h1>
             <p class="text-sm text-gray-500 mt-1">Form ini digunakan untuk menambah atau mengubah detail program bootcamp.</p>
@@ -38,8 +38,8 @@
     @endif
 
     <!-- FORM CARD -->
-    <div class="bg-white rounded-3xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
-        <form method="POST" action="{{ isset($bootcamp) ? route('admin.bootcamps.update', $bootcamp) : route('admin.bootcamps.store') }}" class="p-6 sm:p-8 space-y-6">
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
+        <form method="POST" action="{{ isset($bootcamp) ? route('admin.bootcamps.update', $bootcamp) : route('admin.bootcamps.store') }}" class="p-6 space-y-6">
             @csrf
             @if(isset($bootcamp))
                 @method('PATCH')
@@ -122,7 +122,7 @@
 
     @if(!isset($bootcamp))
     <!-- ADD SESSIONS SECTION (Only shown when creating new bootcamp) -->
-    <div class="bg-white rounded-3xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
         <div class="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
             <div>
                 <h3 class="text-lg font-bold text-gray-900">Tambah Jadwal Sesi</h3>
@@ -180,7 +180,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         <!-- ADD SESSION -->
-        <div class="bg-white rounded-3xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden lg:col-span-1 h-fit">
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden lg:col-span-1 h-fit">
             <div class="px-6 py-5 border-b border-gray-100 bg-gray-50/50">
                 <h3 class="text-lg font-bold text-gray-900">Tambah Jadwal Sesi</h3>
                 <p class="text-xs text-gray-500 mt-1">
@@ -225,7 +225,7 @@
         </div>
 
         <!-- LIST SESSIONS -->
-        <div class="bg-white rounded-3xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden lg:col-span-2">
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden lg:col-span-2">
             <div class="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
                 <h3 class="text-lg font-bold text-gray-900">Daftar Jadwal Sesi</h3>
                 <span class="bg-gray-200 text-gray-800 text-xs font-bold px-2.5 py-1 rounded-full">{{ $bootcamp->sessions->count() }} Sesi</span>

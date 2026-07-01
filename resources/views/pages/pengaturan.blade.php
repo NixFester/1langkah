@@ -22,8 +22,23 @@
     {{-- Left: avatar + stats --}}
     <div>
         <div class="card" style="padding:28px;text-align:center;margin-bottom:20px">
-            <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#b91c1c);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;margin:0 auto 16px">
-                {{ strtoupper(substr($u->name, 0, 1)) }}
+            <div style="position:relative; width:96px; height:96px; margin:0 auto 16px;">
+                <!-- Main Avatar -->
+                <div style="width:100%; height:100%; border-radius:50%; background:linear-gradient(135deg,var(--primary),#b91c1c); display:flex; align-items:center; justify-content:center; font-size:48px; font-weight:700; color:#fff; border:3px solid #fee2e2; overflow:hidden;">
+                    @if(isset($u->avatar) && $u->avatar)
+                        <img src="{{ Storage::url($u->avatar) }}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
+                    @else
+                        {{ strtoupper(substr($u->name, 0, 1)) }}
+                    @endif
+                </div>
+                <!-- Camera Upload Badge -->
+                <label for="avatar_upload_main" style="position:absolute; bottom:0; right:0; width:32px; height:32px; background-color:var(--primary); border:3px solid #fff; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; transition:transform 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                    <svg style="width:14px; height:14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                        <circle cx="12" cy="13" r="3"></circle>
+                    </svg>
+                </label>
+                <input type="file" id="avatar_upload_main" name="avatar" accept="image/jpeg,image/png,image/jpg" style="display:none;" form="profile-form">
             </div>
             <div style="font-size:18px;font-weight:700;margin-bottom:4px">{{ $u->name }}</div>
             <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">{{ $u->email }}</div>
@@ -64,7 +79,7 @@
 
     {{-- Right: edit form --}}
     <div>
-        <form method="POST" action="{{ route('pengaturan.update') }}">
+        <form id="profile-form" method="POST" action="{{ route('pengaturan.update') }}" enctype="multipart/form-data">
             @csrf
 
             {{-- Validation errors --}}
@@ -78,6 +93,7 @@
 
             <div class="card" style="padding:24px;margin-bottom:20px">
                 <div class="section-title" style="margin-bottom:18px">Informasi Profil</div>
+
                 <div class="input-group" style="margin-bottom:16px">
                     <label>Nama Lengkap</label>
                     <input class="input" name="name" value="{{ old('name', $u->name) }}" required />

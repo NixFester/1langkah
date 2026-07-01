@@ -29,8 +29,9 @@
         body.sidebar-collapsed .nav-section-title { display: none; }
         body.sidebar-collapsed .nav-sub-container { display: none !important; }
         body.sidebar-collapsed .sidebar-user { justify-content: center; margin: 0 auto; width: 44px; height: 44px; padding: 0 !important; }
-        body.sidebar-collapsed .sidebar-user-info { display: none; }
-        body.sidebar-collapsed .sidebar-user .text-gray-400 { display: none; }
+        body.sidebar-collapsed .sidebar-user-info { display: none !important; }
+        body.sidebar-collapsed .settings-btn { display: none !important; }
+        body.sidebar-collapsed .sidebar { overflow-x: hidden !important; }
         body.sidebar-collapsed .collapse-btn svg { transform: rotate(180deg); }
         
         @media (max-width: 1024px) {

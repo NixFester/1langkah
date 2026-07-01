@@ -3,10 +3,10 @@
 @section('title', isset($user) ? 'Kelola User' : 'Tambah User')
 
 @section('content')
-<div class="px-6 py-8 sm:px-10 w-full max-w-4xl mx-auto space-y-6">
+<div class="w-full px-2 pb-8 space-y-6">
 
     <!-- PAGE HEADER -->
-    <div class="bg-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between shadow-[0_2px_10px_rgb(0,0,0,0.02)] border border-gray-100">
+    <div class="bg-white rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between shadow-[0_2px_10px_rgb(0,0,0,0.02)] border border-gray-100">
         <div>
             <h1 class="text-2xl font-bold text-gray-900">{{ isset($user) ? 'Kelola User' : 'Tambah User Baru' }}</h1>
             <p class="text-sm text-gray-500 mt-1">Form ini dipakai untuk mengatur akun user, role, dan kredensial dasar.</p>
@@ -38,8 +38,8 @@
     @endif
 
     <!-- FORM CARD -->
-    <div class="bg-white rounded-3xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
-        <form method="POST" action="{{ isset($user) ? route('admin.users.update', $user) : route('admin.users.store') }}" class="p-6 sm:p-8 space-y-6">
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
+        <form method="POST" action="{{ isset($user) ? route('admin.users.update', $user) : route('admin.users.store') }}" class="p-6 space-y-6">
             @csrf
             @if(isset($user))
                 @method('PATCH')

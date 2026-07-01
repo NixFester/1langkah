@@ -3,10 +3,10 @@
 @section('title', 'Admin Dashboard')
 
 @section('content')
-<div class="px-6 py-8 sm:px-10 w-full space-y-6">
+<div class="w-full px-2 pb-8 space-y-6">
 
     <!-- HERO SECTION -->
-    <div class="bg-[#cc0000] rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between relative overflow-hidden shadow-xl">
+    <div class="bg-[#cc0000] rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between relative overflow-hidden shadow-xl">
         <!-- Glow effect -->
         <div class="absolute -right-20 -top-20 w-[400px] h-[400px] bg-red-600 rounded-full blur-[80px] pointer-events-none opacity-50"></div>
         
@@ -104,7 +104,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         <!-- COLUMN 1: Recent Users -->
-        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col">
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="font-bold text-gray-900 text-lg">Pendaftar Terbaru</h3>
                 <a href="{{ route('admin.users') }}" class="text-xs font-bold text-red-600 hover:text-red-700">Kelola User</a>
@@ -131,7 +131,7 @@
         </div>
         
         <!-- COLUMN 2: Recent Courses -->
-        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col">
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="font-bold text-gray-900 text-lg">Kursus Terbaru</h3>
                 <a href="{{ route('admin.courses') }}" class="text-xs font-bold text-red-600 hover:text-red-700">Kelola Kursus</a>

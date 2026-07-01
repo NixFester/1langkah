@@ -76,9 +76,9 @@
 
         {{-- Message icon --}}
         <div style="position:relative">
-            <a href="{{ route('pesan') }}" class="topbar-icon" style="background:none;border:none;cursor:pointer;position:relative;display:flex;color:inherit;text-decoration:none">
+            <a href="#" id="btn-pesan" class="topbar-icon" style="background:none;border:none;cursor:pointer;position:relative;display:flex;color:inherit;text-decoration:none" onclick="event.preventDefault(); const msgDot = document.getElementById('msg-dot'); if(msgDot) msgDot.style.display = 'none';">
                 <x-icon name="message" />
-                <div class="dot" style="position:absolute;top:0;right:0;width:8px;height:8px;background:#f5576c;border-radius:50%;border:2px solid var(--bg-main)"></div>
+                <div id="msg-dot" class="dot" style="position:absolute;top:0;right:0;width:8px;height:8px;background:#f5576c;border-radius:50%;border:2px solid var(--bg-main)"></div>
             </a>
         </div>
 

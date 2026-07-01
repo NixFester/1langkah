@@ -138,7 +138,8 @@
     <!-- Active Courses -->
     <div x-show="tab === 'active'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <template x-for="course in displayedActive" :key="course.id">
-            <a :href="'/kursus/' + course.id" class="bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 group flex flex-col h-full">
+            <a :href="'/kursus/' + course.id" class="block bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 group flex flex-col h-full">
+                <!-- Image -->
                 <div class="relative h-48 w-full bg-gray-100 overflow-hidden">
                     <template x-if="course.thumbnail">
                         <img :src="course.thumbnail" :alt="course.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -146,20 +147,53 @@
                     <template x-if="!course.thumbnail">
                         <div class="w-full h-full" :style="'background:linear-gradient(135deg,' + (course.color || '#dc2626') + ',' + (course.color || '#dc2626') + 'dd);'"></div>
                     </template>
-                    <div class="absolute bottom-0 left-0 w-full h-1.5 bg-gray-200">
+                    
+                    <!-- Top Badges -->
+                    <div class="absolute top-3 left-3 flex items-center gap-2 z-10">
+                        <!-- Bestseller badge -->
+                        <span x-show="course.bestseller !== false" class="bg-[#fff8e1] text-[#d97706] text-xs font-medium px-3 py-1 rounded-full shadow-sm">Bestseller</span>
+                        <span class="bg-white text-slate-700 text-xs font-medium px-3 py-1 rounded-full shadow-sm" x-text="course.level || 'Intermediate'"></span>
+                    </div>
+                    <!-- Right Icon -->
+                    <div class="absolute top-3 right-3 z-10">
+                        <div class="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center">
+                            <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="8" r="6"></circle>
+                                <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Progress Bar -->
+                    <div class="absolute bottom-0 left-0 w-full h-1.5 bg-gray-200 z-10">
                         <div class="h-full bg-emerald-500" :style="'width: ' + (course.progress || 0) + '%'"></div>
                     </div>
                 </div>
+
+                <!-- Body -->
                 <div class="p-4 flex flex-col flex-grow">
-                    <span class="inline-block px-2.5 py-0.5 rounded-md text-xs font-bold text-red-600 bg-red-50 mb-2" x-text="course.category || ''"></span>
-                    <h3 class="font-bold text-gray-900 text-base leading-tight mb-2 line-clamp-2" x-text="course.title"></h3>
-                    <p class="text-xs text-gray-500 mb-3" x-text="course.mentor || ''"></p>
-                    <div class="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between">
-                        <div class="flex items-center text-gray-400 text-xs">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <span x-text="(course.completed || 0) + '/' + (course.total || 0) + ' bab'"></span>
+                    <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold text-red-600 bg-red-50 mb-3 self-start" x-text="course.category || 'Programming'"></span>
+                    <h3 class="font-bold text-gray-900 text-[15px] leading-tight mb-2 line-clamp-2" x-text="course.title"></h3>
+                    <p class="text-xs text-gray-500 mb-3" x-text="(course.mentor || '') + ' · ' + (course.mentorCompany || 'Google')"></p>
+
+                    <!-- Rating -->
+                    <div class="flex items-center gap-1.5 mb-4">
+                        <div class="flex text-yellow-400">
+                            <template x-for="i in 5" :key="i">
+                                <svg :class="i <= Math.floor(course.rating || 0) ? 'text-yellow-400' : 'text-gray-300'" class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            </template>
                         </div>
-                        <span class="text-sm font-bold text-emerald-500" x-text="(course.progress || 0) + '% done'"></span>
+                        <span class="text-xs font-semibold text-gray-700" x-text="course.rating ? course.rating.toFixed(1) : '4.9'"></span>
+                        <span class="text-xs text-gray-400" x-text="'(' + (course.students || '12,840').toLocaleString() + ')'"></span>
+                    </div>
+
+                    <!-- Bottom row: Duration and Progress % -->
+                    <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <div class="flex items-center text-gray-500 text-[13px]">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span x-text="(course.duration || '48') + 'h'"></span>
+                        </div>
+                        <span class="text-[13px] font-bold text-emerald-600" x-text="(course.progress || 0) + '% done'"></span>
                     </div>
                 </div>
             </a>
