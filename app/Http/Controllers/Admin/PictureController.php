@@ -15,7 +15,7 @@ class PictureController extends Controller
     public function store(Request $request, string $type, int $id): RedirectResponse
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'image_url' => 'required|url|max:500',
             'type' => 'required|in:thumbnail,gallery',
             'description' => 'nullable|string|max:255',
         ]);
@@ -24,15 +24,11 @@ class PictureController extends Controller
         $modelType = $type === 'course' ? Course::class : Bootcamp::class;
         $model = $modelType::findOrFail($id);
 
-        // Handle file upload
-        $path = $request->file('image')->store('pictures', 'public');
-        $url = asset('storage/' . $path);
-
-        // Create picture
+        // Create picture with URL directly
         Picture::create([
             'pictureable_type' => $modelType,
             'pictureable_id' => $id,
-            'url' => $url,
+            'url' => trim($request->image_url),
             'type' => $request->type,
             'description' => $request->description,
             'order' => $model->pictures()->max('order') + 1,

@@ -13,6 +13,9 @@ class CatalogService
     // ── Private mappers ──────────────────────────────────────────────────────
     private function mapCourse(Course $c): array
     {
+        $enrolledCount = $c->enrollments()->count();
+        $studentCount = max((int) ($c->students_count ?? 0), $enrolledCount);
+
         // Decode JSON resources/benefits if stored as string
         $resources = [];
         if (!empty($c->resources)) {
@@ -55,7 +58,9 @@ class CatalogService
             'level'         => $c->level ?? 'Beginner',
             'badge'         => $c->badge ?? '',
             'rating'        => (float) ($c->rating ?? 0),
-            'students'      => $c->students_count ?? 0,
+            'students'      => $studentCount,
+            'enrolled_count' => $studentCount,
+            'enrolledCount' => $studentCount,
             'price'         => $c->price ?? '',
             'progress'      => $c->progress ?? 0,
             'color'         => $c->color ?? '#dc2626',
@@ -364,7 +369,9 @@ class CatalogService
                 'level'         => $course->level ?? 'Beginner',
                 'badge'         => $course->badge ?? '',
                 'rating'        => (float) ($course->rating ?? 0),
-                'students'      => $course->students_count ?? 0,
+                'students'      => max((int) ($course->students_count ?? 0), $course->enrollments()->count()),
+                'enrolled_count' => max((int) ($course->students_count ?? 0), $course->enrollments()->count()),
+                'enrolledCount' => max((int) ($course->students_count ?? 0), $course->enrollments()->count()),
                 'price'         => $course->price ?? '',
                 'color'         => $course->color ?? '#dc2626',
                 'progress'      => $isCompleted ? 100 : $progress,

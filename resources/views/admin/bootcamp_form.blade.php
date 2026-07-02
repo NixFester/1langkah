@@ -101,6 +101,18 @@
                 </div>
             </div>
 
+            <div class="grid grid-cols-1 gap-6">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Deskripsi Singkat</label>
+                    <input type="text" name="short_description" value="{{ old('short_description', $bootcamp->short_description ?? '') }}" placeholder="Ringkasan singkat bootcamp" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Deskripsi Lengkap</label>
+                    <textarea name="description" rows="4" placeholder="Deskripsi lengkap bootcamp" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors resize-none">{{ old('description', $bootcamp->description ?? '') }}</textarea>
+                </div>
+            </div>
+
             <!-- Hidden sessions data for submission -->
             <template x-for="(session, index) in sessions" :key="index">
                 <div>
@@ -251,12 +263,13 @@
             <h3 class="text-lg font-bold text-gray-900">Gambar Bootcamp</h3>
         </div>
         <!-- ADD PICTURE FORM -->
-        <form method="POST" action="{{ route('admin.pictures.store', ['bootcamp', $bootcamp->id]) }}" enctype="multipart/form-data" class="p-6 border-b border-gray-100">
+        <form method="POST" action="{{ route('admin.pictures.store', ['bootcamp', $bootcamp->id]) }}" class="p-6 border-b border-gray-100">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Gambar <span class="text-red-500">*</span></label>
-                    <input type="file" name="image" accept="image/*" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl p-3 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-600 hover:file:bg-red-100">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">URL Gambar <span class="text-red-500">*</span></label>
+                    <input type="url" name="image_url" placeholder="https://contoh.com/gambar.jpg" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl p-3">
+                    <p class="text-xs text-gray-500 mt-1">Masukkan URL gambar dari CDN</p>
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Tipe</label>
@@ -288,7 +301,7 @@
             @foreach($pictures as $picture)
             <div class="bg-white rounded-xl border border-gray-200 overflow-hidden relative group">
                 <div class="aspect-video bg-gray-100">
-                    <img src="{{ $picture->url }}" alt="{{ $picture->description ?? 'Bootcamp image' }}" class="w-full h-full object-cover">
+                    <img src="{{ $picture->url }}" alt="{{ $picture->description ?? 'Bootcamp image' }}" class="w-full h-full object-cover" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 60%27%3E%3Crect fill=%27%23f3f4f6%27 width=%27100%27 height=%2760%27/%3E%3Ctext x=%2750%27 y=%2735%27 text-anchor=%27middle%27 fill=%27%239ca3af%27 font-family=%27sans-serif%27 font-size=%2712%27%3EGambar tidak ditemukan%3C/text%3E%3C/svg%3E'">
                 </div>
                 <div class="p-2">
                     <span class="inline-block px-2 py-1 text-xs font-bold rounded-full {{ $picture->type === 'thumbnail' ? 'bg-yellow-100 text-yellow-700' : 'bg-blue-100 text-blue-700' }}">

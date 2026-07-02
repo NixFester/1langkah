@@ -53,6 +53,37 @@
     </div>
     @endif
 
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+            <h3 class="text-lg font-bold text-gray-900">Detail Kursus</h3>
+        </div>
+        <form method="POST" action="{{ route('admin.courses.update', $course) }}" class="p-6 space-y-4">
+            @csrf
+            @method('PATCH')
+            <input type="hidden" name="title" value="{{ $course->title }}">
+            <input type="hidden" name="mentor_name" value="{{ $course->mentor_name }}">
+            <input type="hidden" name="mentor_company" value="{{ $course->mentor_company }}">
+            <input type="hidden" name="category" value="{{ $course->category }}">
+            <input type="hidden" name="level" value="{{ $course->level }}">
+            <input type="hidden" name="price" value="{{ $course->price }}">
+            <input type="hidden" name="color" value="{{ $course->color }}">
+
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Deskripsi Singkat</label>
+                <input type="text" name="short_description" value="{{ old('short_description', $course->short_description ?? '') }}" placeholder="Ringkasan singkat kursus" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Deskripsi Lengkap</label>
+                <textarea name="description" rows="4" placeholder="Deskripsi lengkap kursus" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors resize-none">{{ old('description', $course->description ?? '') }}</textarea>
+            </div>
+            <div class="flex justify-end">
+                <button type="submit" class="bg-[#cc0000] hover:bg-red-700 text-white font-bold py-2.5 px-6 rounded-full text-sm transition-colors shadow-lg shadow-red-200">
+                    Simpan Perubahan
+                </button>
+            </div>
+        </form>
+    </div>
+
     <!-- TABS -->
     <div class="bg-gray-50 p-1.5 rounded-full flex w-full overflow-x-auto border border-gray-200">
         <button @click="activeTab = 'curriculum'" :class="activeTab === 'curriculum' ? 'bg-white text-red-600 shadow-sm border border-gray-100' : 'text-gray-500'" class="flex-1 px-6 py-3 rounded-full text-sm font-bold whitespace-nowrap transition-all">Curriculum</button>
@@ -303,7 +334,8 @@
         </div>
 
         <!-- RESOURCES LIST -->
-        @if(count($course->resources) === 0)
+        @php $courseResourcesList = $course->courseResources @endphp
+        @if($courseResourcesList->isEmpty())
         <div class="bg-white rounded-2xl border border-gray-100 p-12 text-center">
             <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 00-2-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -314,10 +346,10 @@
         @else
         <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                <h3 class="text-lg font-bold text-gray-900">Daftar Resource ({{ count($course->resources) }})</h3></h3>
+                <h3 class="text-lg font-bold text-gray-900">Daftar Resource ({{ $courseResourcesList->count() }})</h3></h3>
             </div>
             <div class="divide-y divide-gray-100">
-                @foreach($course->resources as $resource)
+                @foreach($courseResourcesList as $resource)
                 <div class="p-4 flex items-center justify-between hover:bg-gray-50">
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 rounded-xl @if($resource->type === 'pdf') bg-red-100 text-red-600 @elseif($resource->type === 'zip') bg-yellow-100 text-yellow-600 @elseif($resource->type === 'github') bg-gray-800 text-white @else bg-blue-100 text-blue-600 @endif flex items-center justify-center">
@@ -361,12 +393,13 @@
             <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
                 <h3 class="text-lg font-bold text-gray-900">Tambah Gambar</h3>
             </div>
-            <form method="POST" action="{{ route('admin.pictures.store', ['course', $course->id]) }}" enctype="multipart/form-data" class="p-6">
+            <form method="POST" action="{{ route('admin.pictures.store', ['course', $course->id]) }}" class="p-6">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Gambar <span class="text-red-500">*</span></label>
-                        <input type="file" name="image" accept="image/*" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl p-3 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-600 hover:file:bg-red-100">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">URL Gambar <span class="text-red-500">*</span></label>
+                        <input type="url" name="image_url" placeholder="https://contoh.com/gambar.jpg" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl p-3">
+                        <p class="text-xs text-gray-500 mt-1">Masukkan URL gambar dari CDN</p>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">Tipe</label>
@@ -403,7 +436,7 @@
             @foreach($pictures as $picture)
             <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden relative group">
                 <div class="aspect-video bg-gray-100">
-                    <img src="{{ $picture->url }}" alt="{{ $picture->description ?? 'Course image' }}" class="w-full h-full object-cover">
+                    <img src="{{ $picture->url }}" alt="{{ $picture->description ?? 'Course image' }}" class="w-full h-full object-cover" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 60%27%3E%3Crect fill=%27%23f3f4f6%27 width=%27100%27 height=%2760%27/%3E%3Ctext x=%2750%27 y=%2735%27 text-anchor=%27middle%27 fill=%27%239ca3af%27 font-family=%27sans-serif%27 font-size=%2712%27%3EGambar tidak ditemukan%3C/text%3E%3C/svg%3E'">
                 </div>
                 <div class="p-3">
                     <span class="inline-block px-2 py-1 text-xs font-bold rounded-full {{ $picture->type === 'thumbnail' ? 'bg-yellow-100 text-yellow-700' : 'bg-blue-100 text-blue-700' }}">

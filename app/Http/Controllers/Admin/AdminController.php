@@ -145,7 +145,13 @@ class AdminController extends Controller
             'mentor_id'         => 'nullable|exists:mentors,id',
             'description'       => 'nullable|string',
             'short_description' => 'nullable|string|max:255',
+            'thumbnail_url'     => 'nullable|url|max:500',
         ]);
+
+        // Handle thumbnail URL
+        if (!empty($data['thumbnail_url'])) {
+            $data['thumbnail_url'] = trim($data['thumbnail_url']);
+        }
 
         $course = Course::create($data);
 
@@ -171,7 +177,7 @@ class AdminController extends Controller
 
     public function manageCourse(Course $course): View
     {
-        $course->load(['chapters.videos', 'chapters.resources', 'resources']);
+        $course->load(['chapters.videos', 'chapters.resources', 'courseResources']);
         $levels = $this->getOptions('course_level');
         return view('admin.course_manage', compact('course', 'levels'));
     }
@@ -265,7 +271,8 @@ class AdminController extends Controller
         ]);
 
         $data['course_id'] = $course->id;
-        $data['order'] = $course->resources()->max('order') + 1;
+        $data['chapter_id'] = null; // Explicitly set to null for course-level resource
+        $data['order'] = $course->courseResources()->max('order') + 1;
 
         Resource::create($data);
         return back()->with('success', 'Resource berhasil ditambahkan.');

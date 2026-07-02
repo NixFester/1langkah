@@ -28,17 +28,17 @@ Route::middleware('auth')->prefix('progress')->name('api.progress.')->group(func
 
 // ── Rating API ──────────────────────────────────────────────────────────────
 Route::prefix('ratings')->name('api.ratings.')->group(function () {
-    // Auth-protected
+    // Auth-protected (POST)
     Route::middleware('auth')->group(function () {
-        Route::post('/course', [RatingController::class, 'rateCourse'])->name('course');
-        Route::post('/bootcamp', [RatingController::class, 'rateBootcamp'])->name('bootcamp');
-        Route::get('/course/{courseId}/user', [RatingController::class, 'getUserCourseRating'])->name('course.user');
-        Route::get('/bootcamp/{bootcampId}/user', [RatingController::class, 'getUserBootcampRating'])->name('bootcamp.user');
+        Route::post('/course', [RatingController::class, 'rateCourse'])->name('store.course');
+        Route::post('/bootcamp', [RatingController::class, 'rateBootcamp'])->name('store.bootcamp');
+        Route::get('/course/{courseId}/user', [RatingController::class, 'getUserCourseRating'])->name('user.course');
+        Route::get('/bootcamp/{bootcampId}/user', [RatingController::class, 'getUserBootcampRating'])->name('user.bootcamp');
     });
 
-    // Public
-    Route::get('/course/{courseId}', [RatingController::class, 'getCourseRating'])->name('course');
-    Route::get('/bootcamp/{bootcampId}', [RatingController::class, 'getBootcampRating'])->name('bootcamp');
+    // Public (GET)
+    Route::get('/course/{courseId}', [RatingController::class, 'getCourseRating'])->name('show.course');
+    Route::get('/bootcamp/{bootcampId}', [RatingController::class, 'getBootcampRating'])->name('show.bootcamp');
     Route::get('/top-courses', [RatingController::class, 'getTopCourses'])->name('top.courses');
     Route::get('/top-bootcamps', [RatingController::class, 'getTopBootcamps'])->name('top.bootcamps');
 });

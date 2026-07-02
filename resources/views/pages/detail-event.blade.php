@@ -3,11 +3,37 @@
 @section('title', $event['title'] . ' — 1Langkah')
 @section('header_title', 'Detail Event')
 
-@section('content')
 @php
-    $eventType = $event['type'] ?? 'online';
-    $status = $event['status'] ?? 'upcoming';
+$eventType = $event['type'] ?? 'online';
+$status = $event['status'] ?? 'upcoming';
+$ticketCode = null;
+if (auth()->check() && $isRegistered) {
+    $ticketCode = \App\Models\EventRegistration::where('user_id', auth()->id())
+        ->where('event_id', $event['id'])
+        ->value('ticket_code');
+}
 @endphp
+
+@section('content')
+<div x-data="{ showConfirm: false, copyLink: function() { navigator.clipboard.writeText(window.location.href).then(function() { var t = document.createElement('div'); t.className = 'fixed bottom-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-full text-sm font-medium shadow-lg z-50'; t.textContent = '✓ Link event berhasil disalin!'; document.body.appendChild(t); setTimeout(function() { t.remove(); }, 3000); }).catch(function() { alert('Gagal menyalin link'); }); } }">
+    <!-- Modal -->
+    <div x-show="showConfirm" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" @click="showConfirm = false" @keydown.escape.window="showConfirm = false">
+        <div x-show="showConfirm" x-transition class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl" @click.stop>
+            <div class="text-center">
+                <div class="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Konfirmasi Pendaftaran</h3>
+                <p class="text-gray-500 mb-6">Apakah kamu yakin ingin mendaftar event <strong>{{ $event['title'] }}</strong>?</p>
+                <div class="flex gap-3">
+                    <button @click="showConfirm = false" class="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-full transition-colors">Batal</button>
+                    <form method="POST" action="{{ route('event.register', $event['id']) }}" class="flex-1">@csrf<button type="submit" class="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors">Ya, Daftar</button></form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <!-- Hero Section -->
 <div class="-mx-7 -mt-7 relative bg-slate-900 pt-20 pb-28 px-12 overflow-hidden">
@@ -36,22 +62,31 @@
         <!-- Event Meta Info -->
         <div class="flex flex-wrap items-center gap-6 text-sm text-gray-300">
             <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
                 <span class="font-medium">{{ $event['date_display'] ?? 'TBA' }}</span>
             </div>
             <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
                 <span class="font-medium">{{ $event['start_time'] ?? '' }} {{ $event['end_time'] ? ' - ' . $event['end_time'] : '' }}</span>
             </div>
             @if(!empty($event['location']))
             <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
                 <span class="font-medium">{{ $event['location'] }}</span>
             </div>
             @endif
             @if(!empty($event['meeting_url']))
             <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                </svg>
                 <a href="{{ $event['meeting_url'] }}" target="_blank" class="font-medium hover:text-white transition-colors">Zoom / Google Meet</a>
             </div>
             @endif
@@ -86,7 +121,9 @@
                     <!-- Date & Time -->
                     <div class="flex items-start gap-4">
                         <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: {{ $event['color'] ?? '#cc0000' }}20;">
-                            <svg class="w-6 h-6" style="color: {{ $event['color'] ?? '#cc0000' }};" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <svg class="w-6 h-6" style="color: {{ $event['color'] ?? '#cc0000' }};" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
                         </div>
                         <div>
                             <h3 class="font-bold text-gray-900 mb-1">Tanggal & Waktu</h3>
@@ -101,9 +138,14 @@
                     <div class="flex items-start gap-4">
                         <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: {{ $event['color'] ?? '#cc0000' }}20;">
                             @if($eventType === 'online')
-                            <svg class="w-6 h-6" style="color: {{ $event['color'] ?? '#cc0000' }};" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            <svg class="w-6 h-6" style="color: {{ $event['color'] ?? '#cc0000' }};" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
                             @else
-                            <svg class="w-6 h-6" style="color: {{ $event['color'] ?? '#cc0000' }};" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <svg class="w-6 h-6" style="color: {{ $event['color'] ?? '#cc0000' }};" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
                             @endif
                         </div>
                         <div>
@@ -123,7 +165,9 @@
                     <!-- Timezone -->
                     <div class="flex items-start gap-4">
                         <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: {{ $event['color'] ?? '#cc0000' }}20;">
-                            <svg class="w-6 h-6" style="color: {{ $event['color'] ?? '#cc0000' }};" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <svg class="w-6 h-6" style="color: {{ $event['color'] ?? '#cc0000' }};" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
                         </div>
                         <div>
                             <h3 class="font-bold text-gray-900 mb-1">Zona Waktu</h3>
@@ -147,7 +191,8 @@
                 <div class="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 text-center">
                     <p class="font-bold text-red-600">Event ini dibatalkan</p>
                 </div>
-                @else
+                @endif
+
                 <!-- Participants Info -->
                 @if(isset($event['max_participants']))
                 <div class="mb-6">
@@ -169,33 +214,63 @@
                 </div>
                 @endif
 
+                <!-- Ticket for Registered Users -->
+                @if($isRegistered && $ticketCode)
+                <div class="mb-6 rounded-2xl border border-red-200 bg-red-50 p-5">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div>
+                            <p class="text-sm font-semibold text-red-700">Tiket Event</p>
+                            <h3 class="text-lg font-bold text-gray-900 mt-1">Tunjukkan tiket ini saat hadir</h3>
+                            <p class="text-sm text-gray-600 mt-2">Admin dapat memindai kode ini untuk mencatat kehadiran kamu.</p>
+                        </div>
+                        <div class="rounded-2xl bg-white p-3 border border-red-100 shadow-sm">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data={{ urlencode($ticketCode) }}" alt="Ticket QR" class="w-32 h-32 object-contain">
+                        </div>
+                    </div>
+                    <div class="mt-4 rounded-xl border border-red-100 bg-white/80 p-4">
+                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">Kode tiket</p>
+                        <p class="mt-2 font-mono text-2xl font-bold tracking-[0.35em] text-gray-900">{{ $ticketCode }}</p>
+                    </div>
+                </div>
+                @endif
+
                 <!-- Register Button -->
                 @auth
-                <form method="POST" action="{{ route('event.register', $event['id']) }}">
-                    @csrf
-                    <button type="submit" class="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors shadow-lg shadow-red-200 mb-3">
+                    @if($isRegistered)
+                    <a href="{{ route('dashboard') }}" class="w-full block py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-full transition-colors shadow-lg text-center mb-3">
+                        ✓ Sudah Terdaftar — Lihat Dashboard
+                    </a>
+                    @elseif($status === 'upcoming')
+                    <button @click="showConfirm = true" class="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors shadow-lg shadow-red-200 mb-3">
                         Daftar Event
                     </button>
-                </form>
+                    @else
+                    <button disabled class="w-full py-3.5 bg-gray-300 text-gray-500 font-bold rounded-full cursor-not-allowed mb-3">
+                        Pendaftaran Ditutup
+                    </button>
+                    @endif
                 @else
-                <a href="{{ route('login') }}" class="w-full inline-flex items-center justify-center py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors shadow-lg shadow-red-200 mb-3">
+                <a href="{{ route('login') }}" class="w-full block py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors shadow-lg shadow-red-200 mb-3 text-center">
                     Login untuk Daftar
                 </a>
                 @endauth
-                @endif
 
-                <button class="w-full py-3.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-bold rounded-full transition-colors mb-8 shadow-sm">
+                <button @click="copyLink()" class="w-full py-3.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-bold rounded-full transition-colors mb-8 shadow-sm">
                     Bagikan Event
                 </button>
 
                 <!-- Quick Info -->
                 <div class="space-y-4 mb-6">
                     <div class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
                         <span class="text-sm text-gray-600">{{ $event['day_name'] ?? '' }}, {{ $event['date_display'] ?? '' }}</span>
                     </div>
                     <div class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
                         <span class="text-sm text-gray-600">{{ $event['start_time'] ?? '' }}</span>
                     </div>
                 </div>
@@ -218,5 +293,4 @@
 
     </div>
 </div>
-
 @endsection

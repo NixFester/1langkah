@@ -109,6 +109,18 @@
                 </div>
             </div>
 
+            <div class="grid grid-cols-1 gap-6">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Deskripsi Singkat</label>
+                    <input type="text" name="short_description" value="{{ old('short_description', $course->short_description ?? '') }}" placeholder="Ringkasan singkat kursus" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Deskripsi Lengkap</label>
+                    <textarea name="description" rows="4" placeholder="Deskripsi lengkap kursus" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors resize-none">{{ old('description', $course->description ?? '') }}</textarea>
+                </div>
+            </div>
+
             <!-- Hidden chapters data for submission -->
             <template x-for="(chapter, index) in chapters" :key="index">
                 <div>
@@ -159,7 +171,14 @@
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Thumbnail URL</label>
-                    <input type="url" name="thumbnail_url" placeholder="https://contoh.com/thumbnail.jpg" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-gray-900 focus:border-gray-900 block p-3 transition-colors">
+                    <input type="url" name="thumbnail_url" value="{{ old('thumbnail_url', $course->thumbnail_url ?? '') }}" placeholder="https://contoh.com/thumbnail.jpg" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-gray-900 focus:border-gray-900 block p-3 transition-colors">
+                    <p class="text-xs text-gray-500 mt-1">Masukkan URL gambar thumbnail kursus</p>
+                    @if(isset($course) && $course->thumbnail_url)
+                    <div class="mt-2">
+                        <img src="{{ $course->thumbnail_url }}" alt="Current thumbnail" class="w-24 h-16 object-cover rounded-lg" onerror="this.style.display='none'">
+                        <p class="text-xs text-gray-500 mt-1">Thumbnail saat ini</p>
+                    </div>
+                    @endif
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Deskripsi</label>

@@ -53,8 +53,8 @@
                 <div class="text-[13px] text-[#bcaaa4] font-medium mt-1">Tersedia</div>
             </div>
             <div class="text-center">
-                <div class="text-[28px] font-extrabold leading-tight">Max 20</div>
-                <div class="text-[13px] text-[#bcaaa4] font-medium mt-1">Peserta/batch</div>
+                <div class="text-[28px] font-extrabold leading-tight">{{ $enrolledCount }}</div>
+                <div class="text-[13px] text-[#bcaaa4] font-medium mt-1">Siswa</div>
             </div>
             <div class="text-center">
                 <div class="text-[28px] font-extrabold leading-tight">Sertifikat</div>
@@ -70,22 +70,15 @@
             @foreach($allBootcamps as $item)
                 @php
                     $isActive = $item['id'] == $b['id'];
+                    // Get actual enrolled count from database
+                    $itemEnrolledCount = \App\Models\Enrollment::where('purchasable_type', \App\Models\Bootcamp::class)
+                        ->where('purchasable_id', $item['id'])
+                        ->count();
                     $totalSlots = 20;
-                    if ($loop->iteration == 2) $totalSlots = 16;
-                    if ($loop->iteration == 3) $totalSlots = 18;
-                    
-                    $sisa = 7;
-                    if ($loop->iteration == 2) $sisa = 7;
-                    if ($loop->iteration == 3) $sisa = 7;
-                    
-                    $percentage = (($totalSlots - $sisa) / $totalSlots) * 100;
-                    
-                    $colorClass = 'bg-[#f59e0b]'; // orange
-                    $textColor = 'text-[#f59e0b]';
-                    if ($loop->iteration == 2) {
-                        $colorClass = 'bg-[#10b981]'; // green
-                        $textColor = 'text-[#10b981]';
-                    }
+                    $sisa = max(0, $totalSlots - $itemEnrolledCount);
+                    $percentage = $totalSlots > 0 ? (($totalSlots - $sisa) / $totalSlots) * 100 : 0;
+                    $colorClass = $sisa > 5 ? 'bg-[#f59e0b]' : ($sisa > 2 ? 'bg-[#f59e0b]' : 'bg-red-500');
+                    $textColor = $sisa > 5 ? 'text-[#f59e0b]' : ($sisa > 2 ? 'text-[#f59e0b]' : 'text-red-500');
                 @endphp
                 
                 <a href="{{ route('detail-offline-bootcamp', ['id' => $item['id']]) }}" class="block bg-white rounded-2xl p-5 border {{ $isActive ? 'border-red-600 shadow-[0_0_0_1px_#e11d48,0_4px_12px_rgb(0,0,0,0.05)]' : 'border-gray-200 shadow-sm hover:border-gray-300' }} transition-all">
@@ -109,14 +102,11 @@
                         </div>
                     </div>
 
-                    <!-- Slots -->
+                    <!-- Enrolled Count -->
                     <div class="mb-4">
-                        <div class="flex items-center justify-between text-[11px] font-bold mb-1.5">
-                            <span class="text-gray-400">Sisa kursi</span>
-                            <span class="{{ $textColor }}">{{ $sisa }} dari {{ $totalSlots }}</span>
-                        </div>
-                        <div class="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
-                            <div class="h-full {{ $colorClass }} rounded-full" style="width: {{ $percentage }}%"></div>
+                        <div class="flex items-center gap-2 text-[11px] font-medium text-gray-500">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.196-2.196A3 3 0 007 18v-2m.232-.172a3 3 0 014.232 2.196A3 3 0 0013.536 16M7 8a3 3 0 100-6 3 3 0 000 6z"></path></svg>
+                            {{ $itemEnrolledCount }} siswa enrolled
                         </div>
                     </div>
                     

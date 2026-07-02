@@ -51,22 +51,10 @@
             @foreach($allBootcamps as $item)
                 @php
                     $isActive = $item['id'] == $b['id'];
-                    $totalSlots = 40;
-                    if ($loop->iteration == 2) $totalSlots = 30;
-                    if ($loop->iteration == 3) $totalSlots = 25;
-                    
-                    $sisa = 2;
-                    if ($loop->iteration == 2) $sisa = 5;
-                    if ($loop->iteration == 3) $sisa = 6;
-                    
-                    $percentage = (($totalSlots - $sisa) / $totalSlots) * 100;
-                    
-                    $colorClass = 'bg-[#e11d48]'; // red-600
-                    $textColor = 'text-[#e11d48]';
-                    if ($sisa > 4) {
-                        $colorClass = 'bg-[#f59e0b]'; // amber-500
-                        $textColor = 'text-[#f59e0b]';
-                    }
+                    // Get actual enrolled count from database
+                    $itemEnrolledCount = \App\Models\Enrollment::where('purchasable_type', \App\Models\Bootcamp::class)
+                        ->where('purchasable_id', $item['id'])
+                        ->count();
                 @endphp
                 
                 <a href="{{ route('detail-online-bootcamp', ['id' => $item['id']]) }}" class="block bg-white rounded-2xl p-5 border {{ $isActive ? 'border-red-600 shadow-[0_0_0_1px_#e11d48,0_4px_12px_rgb(0,0,0,0.05)]' : 'border-gray-200 shadow-sm hover:border-gray-300' }} transition-all">
@@ -79,14 +67,11 @@
                     <h3 class="text-[15px] font-bold text-gray-900 leading-snug mb-1">{{ $item['title'] }}</h3>
                     <p class="text-[12px] text-gray-500 mb-4">{{ $item['mentor'] }}</p>
                     
-                    <!-- Slots -->
+                    <!-- Enrolled Count -->
                     <div class="mb-4">
-                        <div class="flex items-center justify-between text-[11px] font-bold mb-1.5">
-                            <span class="text-gray-400">Slot tersedia</span>
-                            <span class="{{ $textColor }}">{{ $sisa }} sisa dari {{ $totalSlots }}</span>
-                        </div>
-                        <div class="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
-                            <div class="h-full {{ $colorClass }} rounded-full" style="width: {{ $percentage }}%"></div>
+                        <div class="flex items-center gap-2 text-[11px] font-medium text-gray-500">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.196-2.196A3 3 0 007 18v-2m.232-.172a3 3 0 014.232 2.196A3 3 0 0013.536 16M7 8a3 3 0 100-6 3 3 0 000 6z"></path></svg>
+                            {{ $itemEnrolledCount }} siswa enrolled
                         </div>
                     </div>
                     
@@ -146,7 +131,7 @@
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                            38/40 peserta
+                            {{ $enrolledCount }} siswa
                         </div>
                     </div>
                     

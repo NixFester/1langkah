@@ -203,7 +203,7 @@ class PageController extends Controller
         $course = $this->catalog->course($id) ?? $this->catalog->courses()[0];
 
         // Get gallery photos from database (pictures relationship)
-        $courseModel = Course::with(['pictures', 'chapters.videos', 'resources'])->find($id);
+        $courseModel = Course::with(['pictures', 'chapters.videos', 'chapters.resources'])->find($id);
         $photos = [];
         if ($courseModel && $courseModel->pictures) {
             $photos = $courseModel->pictures
@@ -214,22 +214,8 @@ class PageController extends Controller
                 ->toArray();
         }
 
-        // Get resources from course model (stored as JSON)
-        $resources = [];
-        if ($courseModel && !empty($courseModel->resources)) {
-            $resourcesData = is_string($courseModel->resources)
-                ? json_decode($courseModel->resources, true)
-                : $courseModel->resources;
-            if (is_array($resourcesData)) {
-                $resources = collect($resourcesData)->map(fn($r, $i) => [
-                    'id' => $i + 1,
-                    'name' => $r['title'] ?? 'Resource',
-                    'type' => $r['type'] ?? 'file',
-                    'url' => $r['url'] ?? '#',
-                    'file_size' => null,
-                ])->toArray();
-            }
-        }
+        // Get all resources for this course
+        $resources = \DB::select("SELECT id, title, type, url, file_size, chapter_id FROM resources WHERE course_id = ?", [$id]);
 
         // Get chapters with videos
         $chapters = [];
@@ -258,7 +244,27 @@ class PageController extends Controller
                 ->toArray();
         }
 
+        // Get reviews with pagination (server calculates average)
+        $reviewsQuery = \App\Models\CourseRating::where('course_id', $id)
+            ->with('user:id,name,profile_photo')
+            ->orderBy('created_at', 'desc');
+
+        $reviews = $reviewsQuery->paginate(5);
+
+        // Get user's own rating if logged in
+        $userRating = null;
+        if (auth()->check()) {
+            $userRating = \App\Models\CourseRating::where('user_id', auth()->id())
+                ->where('course_id', $id)
+                ->first();
+        }
+
         $isEnrolled = auth()->check() && $this->isUserEnrolled(auth()->id(), 'course', $course['id']);
+
+        // Get actual enrollment count from database
+        $enrolledCount = \App\Models\Enrollment::where('purchasable_type', Course::class)
+            ->where('purchasable_id', $id)
+            ->count();
 
         return view('pages.detail-kursus', [
             'course'     => $course,
@@ -266,6 +272,9 @@ class PageController extends Controller
             'photos'     => $photos,
             'resources'  => $resources,
             'isEnrolled' => $isEnrolled,
+            'reviews'    => $reviews,
+            'userRating' => $userRating,
+            'enrolledCount' => $enrolledCount,
         ]);
     }
 
@@ -302,8 +311,17 @@ class PageController extends Controller
 
     public function onlineBootcamp(): View
     {
+        $bootcamps = $this->catalog->bootcamps()['online'];
+
+        // Add enrolled count to each bootcamp
+        foreach ($bootcamps as &$bootcamp) {
+            $bootcamp['enrolled_count'] = \App\Models\Enrollment::where('purchasable_type', \App\Models\Bootcamp::class)
+                ->where('purchasable_id', $bootcamp['id'])
+                ->count();
+        }
+
         return view('pages.online-bootcamp', [
-            'bootcamps' => $this->catalog->bootcamps()['online'],
+            'bootcamps' => $bootcamps,
         ]);
     }
 
@@ -312,10 +330,16 @@ class PageController extends Controller
         $bootcamp = $this->catalog->onlineBootcamp($id) ?? $this->catalog->bootcamps()['online'][0];
         $isEnrolled = auth()->check() && $this->isUserEnrolled(auth()->id(), 'online', $bootcamp['id']);
 
+        // Get actual enrollment count from database
+        $enrolledCount = \App\Models\Enrollment::where('purchasable_type', \App\Models\Bootcamp::class)
+            ->where('purchasable_id', $bootcamp['id'])
+            ->count();
+
         return view('pages.detail-online-bootcamp', [
             'bootcamp' => $bootcamp,
             'sessions' => $this->catalog->onlineSessions($bootcamp['id']),
             'isEnrolled' => $isEnrolled,
+            'enrolledCount' => $enrolledCount,
         ]);
     }
 
@@ -331,10 +355,16 @@ class PageController extends Controller
         $bootcamp = $this->catalog->offlineBootcamp($id) ?? $this->catalog->bootcamps()['offline'][0];
         $isEnrolled = auth()->check() && $this->isUserEnrolled(auth()->id(), 'offline', $bootcamp['id']);
 
+        // Get actual enrollment count from database
+        $enrolledCount = \App\Models\Enrollment::where('purchasable_type', \App\Models\Bootcamp::class)
+            ->where('purchasable_id', $bootcamp['id'])
+            ->count();
+
         return view('pages.detail-offline-bootcamp', [
             'bootcamp' => $bootcamp,
             'features' => $this->catalog->offlineFeatures(),
             'isEnrolled' => $isEnrolled,
+            'enrolledCount' => $enrolledCount,
         ]);
     }
 
@@ -366,8 +396,17 @@ class PageController extends Controller
     {
         $event = $this->catalog->event($id);
 
+        // Check if user is registered
+        $isRegistered = false;
+        if (auth()->check()) {
+            $isRegistered = \App\Models\EventRegistration::where('user_id', auth()->id())
+                ->where('event_id', $id)
+                ->exists();
+        }
+
         return view('pages.detail-event', [
             'event' => $event,
+            'isRegistered' => $isRegistered,
         ]);
     }
 
@@ -381,15 +420,19 @@ class PageController extends Controller
 
         // Register user (check if already registered)
         $user = auth()->user();
-        $isRegistered = \App\Models\EventRegistration::where('user_id', $user->id)
+        $existingReg = \App\Models\EventRegistration::where('user_id', $user->id)
             ->where('event_id', $event->id)
-            ->exists();
+            ->first();
 
-        if (!$isRegistered) {
+        if (!$existingReg) {
+            // Generate unique ticket code
+            $ticketCode = 'EVT-' . strtoupper(uniqid()) . '-' . date('Ymd');
+
             \App\Models\EventRegistration::create([
                 'user_id' => $user->id,
                 'event_id' => $event->id,
                 'status' => 'registered',
+                'ticket_code' => $ticketCode,
                 'registered_at' => now(),
             ]);
 

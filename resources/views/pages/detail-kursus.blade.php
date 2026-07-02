@@ -14,7 +14,7 @@
         'Project portfolio',
     ];
     $curriculum = $c['curriculum'] ?? [];
-    $resources = $c['resources'] ?? [];
+    // $resources from controller (DB table) - do not overwrite!
     $isEnrolled = $isEnrolled ?? false;
 @endphp
 
@@ -128,6 +128,11 @@
 
                             <!-- Videos List -->
                             <div x-show="open" x-collapse class="border-t border-gray-100">
+                                @if(!empty($chapter['description']))
+                                <div class="p-4 bg-gray-50/50 border-b border-gray-100">
+                                    <p class="text-sm text-gray-600 leading-relaxed">{{ $chapter['description'] }}</p>
+                                </div>
+                                @endif
                                 @if(!empty($chapter['videos']))
                                 @foreach($chapter['videos'] as $video)
                                 <div class="flex items-center gap-4 p-4 {{ !$isEnrolled ? 'opacity-60' : '' }} hover:bg-gray-50 transition-colors {{ !$loop->last ? 'border-b border-gray-50' : '' }}">
@@ -217,24 +222,114 @@
                 <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
                     <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">Reviews & Ratings</h2>
 
-                    <!-- Rating Summary -->
-                    <div class="flex items-center gap-8 mb-8 p-6 bg-gray-50 rounded-2xl">
-                        <div class="text-center">
+                    <!-- Rating Summary + User Rating -->
+                    <div class="flex flex-col lg:flex-row gap-6 mb-8 p-6 bg-gray-50 rounded-2xl">
+                        <!-- Left: Rating Summary (Server calculated) -->
+                        <div class="flex-1 text-center lg:text-left">
                             <div class="text-5xl font-extrabold text-gray-900">{{ number_format((float) ($c['rating'] ?? 0), 1) }}</div>
-                            <div class="flex text-yellow-400 mt-2 justify-center">
+                            <div class="flex text-yellow-400 mt-2 justify-center lg:justify-start">
                                 @for($i = 1; $i <= 5; $i++)
                                 <svg class="w-5 h-5 {{ $i <= round($c['rating'] ?? 0) ? '' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                                 @endfor
                             </div>
-                            <p class="text-sm text-gray-500 mt-1">{{ number_format((int) ($c['students'] ?? 0)) }} reviews</p>
+                            <p class="text-sm text-gray-500 mt-1">{{ $reviews->total() }} reviews</p>
                         </div>
+
+                        <!-- Right: User's Own Rating -->
+                        @auth
+                        <div class="flex-1 border-t lg:border-t-0 lg:border-l border-gray-200 pt-4 lg:pt-0 lg:pl-6">
+                            <div class="text-center">
+                                <p class="text-sm text-gray-500 mb-2">Rating Kamu</p>
+                                @if($userRating)
+                                <div class="flex text-yellow-400 justify-center">
+                                    @for($i = 1; $i <= 5; $i++)
+                                    <svg class="w-5 h-5 {{ $i <= $userRating->rating ? '' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                    @endfor
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">Terima kasih sudah memberi rating!</p>
+                                @else
+                                <div class="flex text-gray-300 justify-center">
+                                    @for($i = 1; $i <= 5; $i++)
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                    @endfor
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">Belum memberikan rating</p>
+                                @endif
+                            </div>
+                        </div>
+                        @endauth
                     </div>
+
+                    <!-- Reviews List with Pagination -->
+                    @if($reviews->count() > 0)
+                    <div class="space-y-4 mb-6">
+                        @foreach($reviews as $review)
+                        <div class="flex gap-4 p-4 bg-gray-50 rounded-xl">
+                            <div class="flex-shrink-0">
+                                @if($review->user && $review->user->profile_photo)
+                                <img src="{{ $review->user->profile_photo }}" alt="{{ $review->user->name }}" class="w-10 h-10 rounded-full object-cover">
+                                @else
+                                <div class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-sm">
+                                    {{ strtoupper(substr($review->user->name ?? 'U', 0, 1)) }}
+                                </div>
+                                @endif
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-1">
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-semibold text-gray-900">{{ $review->user->name ?? 'Anonymous' }}</span>
+                                        <div class="flex text-yellow-400">
+                                            @for($i = 1; $i <= 5; $i++)
+                                            <svg class="w-3.5 h-3.5 {{ $i <= $review->rating ? '' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                            @endfor
+                                        </div>
+                                    </div>
+                                    <span class="text-xs text-gray-400">{{ $review->created_at->diffForHumans() }}</span>
+                                </div>
+                                @if($review->review_text)
+                                <p class="text-sm text-gray-600">{{ $review->review_text }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Pagination -->
+                    @if($reviews->hasPages())
+                    <div class="flex justify-center gap-2">
+                        @if($reviews->onFirstPage())
+                        <span class="px-3 py-1.5 rounded-full text-sm text-gray-400 bg-gray-100 cursor-not-allowed">&laquo; Prev</span>
+                        @else
+                        <a href="{{ $reviews->previousPageUrl() }}" class="px-3 py-1.5 rounded-full text-sm text-gray-600 bg-gray-100 hover:bg-gray-200">&laquo; Prev</a>
+                        @endif
+
+                        @foreach($reviews->getUrlRange(1, $reviews->lastPage()) as $page => $url)
+                            @if($page == $reviews->currentPage())
+                            <span class="px-3 py-1.5 rounded-full text-sm text-white bg-red-600">{{ $page }}</span>
+                            @else
+                            <a href="{{ $url }}" class="px-3 py-1.5 rounded-full text-sm text-gray-600 bg-gray-100 hover:bg-gray-200">{{ $page }}</a>
+                            @endif
+                        @endforeach
+
+                        @if($reviews->hasMorePages())
+                        <a href="{{ $reviews->nextPageUrl() }}" class="px-3 py-1.5 rounded-full text-sm text-gray-600 bg-gray-100 hover:bg-gray-200">Next &raquo;</a>
+                        @else
+                        <span class="px-3 py-1.5 rounded-full text-sm text-gray-400 bg-gray-100 cursor-not-allowed">Next &raquo;</span>
+                        @endif
+                    </div>
+                    @endif
+                    @else
+                    <div class="text-center py-8 text-gray-500">
+                        <p>Belum ada review untuk kursus ini.</p>
+                        <p class="text-sm mt-1">Jadilah yang pertama memberikan review!</p>
+                    </div>
+                    @endif
 
                     <!-- Rate This Course -->
                     @auth
                         @if($isEnrolled)
                     <div class="border-t border-gray-100 pt-6 mt-6">
-                        <h3 class="font-bold text-gray-900 mb-4">Rate Kursus Ini</h3>
+                        <h3 class="font-bold text-gray-900 mb-4">Berikan Rating</h3>
                         <div id="ratingForm">
                             <div class="flex items-center gap-2 mb-4">
                                 @for($i = 1; $i <= 5; $i++)
@@ -243,7 +338,7 @@
                             </div>
                             <textarea id="reviewText" class="w-full border border-gray-200 rounded-xl p-3 text-sm" rows="3" placeholder="Tulis review kamu (opsional)..."></textarea>
                             <button onclick="submitRating({{ $c['id'] }}, 'course')" class="mt-3 bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full text-sm font-bold transition-colors">
-                                Submit Rating
+                                {{ $userRating ? 'Update Rating' : 'Submit Rating' }}
                             </button>
                         </div>
                     </div>
@@ -258,7 +353,9 @@
                     </div>
                         @endif
                     @else
-                    <p class="text-gray-500 text-sm mt-4"><a href="{{ route('login') }}" class="text-red-600 hover:underline">Login</a> untuk memberikan rating.</p>
+                    <div class="border-t border-gray-100 pt-6 mt-6">
+                        <p class="text-gray-500 text-sm"><a href="{{ route('login') }}" class="text-red-600 hover:underline">Login</a> untuk memberikan rating.</p>
+                    </div>
                     @endauth
                 </div>
             </div>
@@ -269,20 +366,20 @@
                     <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">Resources</h2>
 
                     @if(auth()->check() && $isEnrolled)
-                        @if(!empty($resources))
+                        @if(count($resources) > 0)
                         <div class="space-y-4">
-                            @foreach($resources as $resource)
-                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                            @foreach($resources as $r)
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
                                 <div class="flex items-center gap-3">
                                     <div class="w-10 h-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 00-2-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                     </div>
                                     <div>
-                                        <p class="font-medium text-gray-900">{{ $resource['name'] ?? 'Resource' }}</p>
-                                        <p class="text-xs text-gray-500">{{ $resource['type'] ?? 'PDF' }}</p>
+                                        <p class="font-medium text-gray-900">{{ $r->title }}</p>
+                                        <p class="text-xs text-gray-500">{{ strtoupper($r->type ?? 'FILE') }}</p>
                                     </div>
                                 </div>
-                                <a href="{{ $resource['url'] ?? '#' }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors">
+                                <a href="{{ $r->url }}" target="_blank" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors">
                                     Download
                                 </a>
                             </div>
@@ -290,10 +387,7 @@
                         </div>
                         @else
                         <div class="text-center py-8">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
-                            </div>
-                            <p class="text-gray-500">Resources belum tersedia untuk kursus ini.</p>
+                            <p class="text-gray-500">Belum ada resource.</p>
                         </div>
                         @endif
                     @elseif(auth()->check())
@@ -386,7 +480,17 @@
 
 @push('scripts')
 <script>
-let selectedRating = 0;
+let selectedRating = {{ $userRating ? $userRating->rating : 0 }};
+
+// Pre-select stars based on existing rating
+if (selectedRating > 0) {
+    document.querySelectorAll('.star-btn').forEach((btn, index) => {
+        if (index < selectedRating) {
+            btn.classList.remove('text-gray-300');
+            btn.classList.add('text-yellow-400');
+        }
+    });
+}
 
 function setRating(rating) {
     selectedRating = rating;
@@ -403,13 +507,21 @@ function submitRating(itemId, type) {
     }
 
     const reviewText = document.getElementById('reviewText')?.value || '';
-    const endpoint = type === 'course' ? '/api/ratings/course' : '/api/ratings/bootcamp';
+    const endpoint = type === 'course' ? '/ratings/course' : '/ratings/bootcamp';
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+
+    if (!csrfToken) {
+        alert('Session expired. Silakan refresh halaman dan login ulang.');
+        return;
+    }
 
     fetch(endpoint, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json',
         },
         body: JSON.stringify({
             [type + '_id']: itemId,
@@ -423,10 +535,11 @@ function submitRating(itemId, type) {
             alert('Rating berhasil submitted!');
             location.reload();
         } else {
-            alert('Error: ' + data.message);
+            alert('Error: ' + (data.message || 'Terjadi kesalahan'));
         }
     })
     .catch(err => {
+        console.error('Rating error:', err);
         alert('Terjadi kesalahan. Pastikan kamu sudah login.');
     });
 }

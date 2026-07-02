@@ -45,6 +45,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/pengaturan',  [PageController::class, 'pengaturan'])->name('pengaturan');
     Route::post('/pengaturan', [PageController::class, 'updatePengaturan'])->name('pengaturan.update');
 
+    // Rating submission (web route with session auth)
+    Route::post('/ratings/course', [App\Http\Controllers\Api\RatingController::class, 'rateCourse'])->name('ratings.course');
+    Route::post('/ratings/bootcamp', [App\Http\Controllers\Api\RatingController::class, 'rateBootcamp'])->name('ratings.bootcamp');
+
     // Portfolio
     Route::get('/portofolio', [PortfolioController::class, 'index'])->name('portofolio');
     Route::post('/portofolio/share', [PortfolioController::class, 'share'])->name('portofolio.share');

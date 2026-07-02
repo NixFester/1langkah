@@ -151,14 +151,14 @@
                         </div>
                     </div>
 
-                    <!-- slot Progress -->
+                    <!-- Enrollment Progress -->
                     <div class="mt-auto mb-5">
                         <div class="flex items-center justify-between text-xs font-bold mb-2.5">
-                            <span class="text-gray-400">Sisa kursi</span>
-                            <span class="text-green-500" x-text="b.availableSlots + ' dari ' + b.totalSlots"></span>
+                            <span class="text-gray-400">Peserta terdaftar</span>
+                            <span class="text-green-500" x-text="((b.enrolledCount ?? b.enrolled_count ?? 0)) + ' dari ' + (b.totalSlots || 0)"></span>
                         </div>
                         <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                            <div class="h-full bg-green-500 rounded-full" :style="'width: ' + (100 - (b.availableSlots / b.totalSlots * 100)) + '%'"></div>
+                            <div class="h-full bg-green-500 rounded-full" :style="'width: ' + (((b.enrolledCount ?? b.enrolled_count ?? 0) / (b.totalSlots || 1)) * 100) + '%'"></div>
                         </div>
                     </div>
 
