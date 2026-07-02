@@ -197,7 +197,7 @@
                                             {{ $s['time'] }} WIB
                                         </div>
                                     </div>
-                                    @if(!empty($s['password']))
+                                    @if(!empty($s['password'] && $isEnrolled))
                                     <div class="mt-3 rounded-lg border border-red-100 bg-red-50 px-3 py-2 text-[11px] text-red-700">
                                         <span class="font-semibold">Password sesi:</span> {{ $s['password'] }}
                                     </div>

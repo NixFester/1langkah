@@ -98,15 +98,9 @@ class CatalogService
     {
         // Safely get attributes that might not exist in older migrations
         $attrs = $b->getAttributes();
-        $benefits = [];
-        if (isset($attrs['benefits'])) {
-            if (is_array($attrs['benefits'])) {
-                $benefits = $attrs['benefits'];
-            } elseif (is_string($attrs['benefits']) && !empty(trim($attrs['benefits']))) {
-                $decoded = json_decode($attrs['benefits'], true);
-                $benefits = is_array($decoded) ? $decoded : [$attrs['benefits']];
-            }
-        }
+        // Use property access ($b->benefits) so Laravel's 'array' cast is applied,
+        // rather than getAttributes() which returns raw database values
+        $benefits = $b->benefits;
         if (empty($benefits)) {
             $benefits = $this->offlineFeatures();
         }
@@ -159,6 +153,38 @@ class CatalogService
             'expertise' => $m->expertise ?? [],
             'bio'       => $m->bio,
             'linkedin_url' => $m->linkedin_url,
+        ];
+    }
+
+    private function mapEvent(\App\Models\Event $e): array
+    {
+        $startDt = $e->start_date instanceof \Illuminate\Support\Carbon ? $e->start_date : \Carbon\Carbon::parse($e->start_date);
+        $endDt = $e->end_date ? ($e->end_date instanceof \Illuminate\Support\Carbon ? $e->end_date : \Carbon\Carbon::parse($e->end_date)) : null;
+
+        return [
+            'id'          => $e->id,
+            'title'       => $e->title,
+            'slug'        => $e->slug,
+            'description' => $e->description,
+            'short_description' => $e->short_description ?? '',
+            'start_date'  => $e->start_date,
+            'end_date'    => $e->end_date,
+            'timezone'    => $e->timezone ?? 'Asia/Jakarta',
+            'type'        => $e->type,
+            'location'    => $e->location,
+            'meeting_url' => $e->meeting_url,
+            'status'      => $e->status,
+            'max_participants' => $e->max_participants,
+            'registered_count'  => $e->registered_count ?? 0,
+            'color'       => $e->color ?? '#cc0000',
+            'banner_url'  => $e->banner_url,
+            'start_day'   => $startDt->day,
+            'start_month' => $startDt->month,
+            'start_year'  => $startDt->year,
+            'start_time'  => $startDt->format('H:i') . ' WIB',
+            'end_time'    => $endDt ? $endDt->format('H:i') . ' WIB' : null,
+            'date_display'=> $startDt->format('d M Y'),
+            'day_name'    => $startDt->dayName,
         ];
     }
 
@@ -490,39 +516,76 @@ class CatalogService
         ];
     }
 
-    public function calendarEvents(): array
+    public function calendarEvents($year = null, $month = null): array
     {
-        $events = \App\Models\Event::where('start_date', '>=', now()->startOfMonth())
-            ->where('start_date', '<=', now()->endOfMonth())
+        $year = $year ?? now()->year;
+        $month = $month ?? now()->month;
+
+        $startOfMonth = \Carbon\Carbon::createFromDate($year, $month, 1)->startOfMonth();
+        $endOfMonth = \Carbon\Carbon::createFromDate($year, $month, 1)->endOfMonth();
+
+        $events = \App\Models\Event::where('start_date', '>=', $startOfMonth)
+            ->where('start_date', '<=', $endOfMonth)
             ->orderBy('start_date')
             ->get();
 
-        $bootcamps = Bootcamp::where('start_date', '>=', now()->startOfMonth()->toDateTimeString())
-            ->where('start_date', '<=', now()->endOfMonth()->toDateTimeString())
+        $bootcamps = Bootcamp::where('start_date', '>=', $startOfMonth->toDateTimeString())
+            ->where('start_date', '<=', $endOfMonth->toDateTimeString())
             ->orderBy('start_date')
             ->get();
 
         $mappedEvents = $events->map(function ($e) {
             $dt = $e->start_date instanceof \Illuminate\Support\Carbon ? $e->start_date : \Carbon\Carbon::parse($e->start_date);
             return [
-                'day'   => $dt->day,
-                'title' => $e->title,
-                'time'  => $dt->format('H:i') . ' WIB',
-                'type'  => $e->type,
+                'id'     => $e->id,
+                'day'    => $dt->day,
+                'title'  => $e->title,
+                'time'   => $dt->format('H:i') . ' WIB',
+                'type'   => $e->type,
+                'color'  => $e->color ?? '#cc0000',
+                'source' => 'event',
+                'url'    => route('detail-event', $e->id),
             ];
         })->values();
 
         $mappedBootcamps = $bootcamps->map(function ($b) {
             $dt = \Carbon\Carbon::parse($b->start_date);
             return [
-                'day'   => $dt->day,
-                'title' => $b->title,
-                'time'  => $dt->format('H:i') . ' WIB',
-                'type'  => 'bootcamp',
+                'id'     => $b->id,
+                'day'    => $dt->day,
+                'title'  => $b->title,
+                'time'   => $dt->format('H:i') . ' WIB',
+                'type'   => 'bootcamp',
+                'color'  => $b->color ?? '#cc0000',
+                'source' => 'bootcamp',
+                'url'    => $b->type === 'online' ? route('detail-online-bootcamp', $b->id) : route('detail-offline-bootcamp', $b->id),
             ];
         })->values();
 
         return $mappedEvents->concat($mappedBootcamps)->all();
+    }
+
+    public function userRegisteredEvents(int $userId): array
+    {
+        return \App\Models\EventRegistration::where('user_id', $userId)
+            ->pluck('event_id')
+            ->toArray();
+    }
+
+    public function events(): array
+    {
+        return \App\Models\Event::with('registeredUsers')
+            ->orderBy('start_date', 'desc')
+            ->get()
+            ->map(fn ($e) => $this->mapEvent($e))
+            ->values()
+            ->toArray();
+    }
+
+    public function event(int $id): ?array
+    {
+        $e = \App\Models\Event::find($id);
+        return $e ? $this->mapEvent($e) : null;
     }
 
     public function categories(): array

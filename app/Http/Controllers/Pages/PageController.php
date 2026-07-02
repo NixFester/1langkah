@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bootcamp;
+use App\Models\ChapterVideo;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\Resource;
 use App\Services\CatalogService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -201,14 +203,58 @@ class PageController extends Controller
         $course = $this->catalog->course($id) ?? $this->catalog->courses()[0];
 
         // Get gallery photos from database (pictures relationship)
-        $courseModel = Course::with('pictures')->find($id);
+        $courseModel = Course::with(['pictures', 'chapters.videos', 'resources'])->find($id);
         $photos = [];
         if ($courseModel && $courseModel->pictures) {
             $photos = $courseModel->pictures
-                ->where('type', 'array')
+                ->where('type', 'gallery')
                 ->sortBy('order')
-                ->map(fn($pic) => ['url' => $pic->url, 'alt' => $pic->alt ?? $course['title']])
+                ->map(fn($pic) => ['url' => $pic->url, 'alt' => $pic->description ?? $course['title']])
                 ->values()
+                ->toArray();
+        }
+
+        // Get resources from course model (stored as JSON)
+        $resources = [];
+        if ($courseModel && !empty($courseModel->resources)) {
+            $resourcesData = is_string($courseModel->resources)
+                ? json_decode($courseModel->resources, true)
+                : $courseModel->resources;
+            if (is_array($resourcesData)) {
+                $resources = collect($resourcesData)->map(fn($r, $i) => [
+                    'id' => $i + 1,
+                    'name' => $r['title'] ?? 'Resource',
+                    'type' => $r['type'] ?? 'file',
+                    'url' => $r['url'] ?? '#',
+                    'file_size' => null,
+                ])->toArray();
+            }
+        }
+
+        // Get chapters with videos
+        $chapters = [];
+        if ($courseModel) {
+            $chapters = $courseModel->chapters()
+                ->with('videos')
+                ->orderBy('order')
+                ->orderBy('id')
+                ->get()
+                ->map(fn($ch) => [
+                    'id' => $ch->id,
+                    'title' => $ch->title,
+                    'lessons' => $ch->videos->count(),
+                    'duration' => $ch->duration ?? '0h',
+                    'video_url' => $ch->video_url,
+                    'thumbnail_url' => $ch->thumbnail_url,
+                    'description' => $ch->description,
+                    'videos' => $ch->videos->map(fn($v) => [
+                        'id' => $v->id,
+                        'title' => $v->title,
+                        'video_url' => $v->video_url,
+                        'thumbnail_url' => $v->thumbnail_url,
+                        'duration' => $v->duration,
+                    ])->toArray(),
+                ])
                 ->toArray();
         }
 
@@ -216,8 +262,9 @@ class PageController extends Controller
 
         return view('pages.detail-kursus', [
             'course'     => $course,
-            'chapters'   => $this->catalog->chapters($course['id']),
+            'chapters'   => $chapters,
             'photos'     => $photos,
+            'resources'  => $resources,
             'isEnrolled' => $isEnrolled,
         ]);
     }
@@ -308,10 +355,66 @@ class PageController extends Controller
         ]);
     }
 
-    public function kalender(): View
+    public function event(): View
     {
+        return view('pages.event', [
+            'events' => $this->catalog->events(),
+        ]);
+    }
+
+    public function detailEvent(int $id): View
+    {
+        $event = $this->catalog->event($id);
+
+        return view('pages.detail-event', [
+            'event' => $event,
+        ]);
+    }
+
+    public function registerEvent(int $id): RedirectResponse
+    {
+        $event = \App\Models\Event::find($id);
+
+        if (!$event) {
+            return back()->with('error', 'Event tidak ditemukan.');
+        }
+
+        // Register user (check if already registered)
+        $user = auth()->user();
+        $isRegistered = \App\Models\EventRegistration::where('user_id', $user->id)
+            ->where('event_id', $event->id)
+            ->exists();
+
+        if (!$isRegistered) {
+            \App\Models\EventRegistration::create([
+                'user_id' => $user->id,
+                'event_id' => $event->id,
+                'status' => 'registered',
+                'registered_at' => now(),
+            ]);
+
+            // Update registered count
+            $event->increment('registered_count');
+        }
+
+        return back()->with('success', 'Berhasil mendaftar event!');
+    }
+
+    public function kalender(Request $request): View
+    {
+        $year = $request->input('year', now()->year);
+        $month = $request->input('month', now()->month);
+        $userId = auth()->id();
+
         return view('pages.kalender', [
-            'events' => $this->catalog->calendarEvents(),
+            // All events and bootcamps for client-side filtering
+            'allCalendarEvents' => $this->catalog->calendarEvents($year, $month),
+            // User's enrolled course IDs and bootcamp IDs for filtering
+            'userEnrolledCourses' => $this->catalog->userEnrolledCourses($userId),
+            'userEnrolledBootcamps' => $this->catalog->userEnrolledBootcamps($userId),
+            'userRegisteredEvents' => $this->catalog->userRegisteredEvents($userId),
+            'currentYear' => (int) $year,
+            'currentMonth' => (int) $month,
         ]);
     }
 

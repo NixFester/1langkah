@@ -3,6 +3,7 @@
 use App\Http\Controllers\Pages\PageController;
 use App\Http\Controllers\Pages\PortfolioController;
 use App\Http\Controllers\Pages\QrController;
+use App\Http\Controllers\Pages\ForumController;
 use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,10 @@ Route::get('/bootcamp/offline/{id}', [PageController::class, 'detailOfflineBootc
 Route::get('/mentor',      [PageController::class, 'mentor'])->name('mentor');
 Route::get('/mentor/{id}', [PageController::class, 'profilMentor'])->name('profil-mentor');
 
+Route::get('/event',      [PageController::class, 'event'])->name('event');
+Route::get('/event/{id}', [PageController::class, 'detailEvent'])->name('detail-event');
+Route::post('/event/{id}/register', [PageController::class, 'registerEvent'])->name('event.register')->middleware('auth');
+
 // ── Auth-protected ────────────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard',        [PageController::class, 'dashboard'])->name('dashboard');
@@ -43,6 +48,14 @@ Route::middleware('auth')->group(function () {
     // Portfolio
     Route::get('/portofolio', [PortfolioController::class, 'index'])->name('portofolio');
     Route::post('/portofolio/share', [PortfolioController::class, 'share'])->name('portofolio.share');
+
+    // Forum / Komunitas
+    Route::get('/komunitas', [ForumController::class, 'index'])->name('komunitas');
+    Route::get('/komunitas/create', [ForumController::class, 'create'])->name('komunitas.create');
+    Route::post('/komunitas', [ForumController::class, 'store'])->name('komunitas.store');
+    Route::get('/komunitas/{id}', [ForumController::class, 'show'])->name('komunitas.show');
+    Route::post('/komunitas/reply', [ForumController::class, 'reply'])->name('komunitas.reply');
+    Route::post('/komunitas/vote', [ForumController::class, 'vote'])->name('komunitas.vote');
 
     // QR Scan for offline bootcamp attendance
     Route::get('/scan-qr/{bootcampId?}', [QrController::class, 'scan'])->name('scan-qr');

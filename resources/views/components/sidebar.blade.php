@@ -39,9 +39,9 @@
         ];
 
         if ($isAuth) {
-            $navItems[] = ['id' => 'ai-tools', 'icon' => 'ai', 'label' => 'AI Tools', 'subItems' => []];
+            $navItems[] = ['id' => 'ai-tools', 'icon' => 'calendar', 'label' => 'Event', 'route' => 'event'];
             $navItems[] = ['id' => 'portofolio', 'icon' => 'layers', 'label' => 'Portofolio', 'route' => 'portofolio'];
-            $navItems[] = ['id' => 'komunitas', 'icon' => 'users', 'label' => 'Komunitas', 'route' => 'dashboard'];
+            $navItems[] = ['id' => 'komunitas', 'icon' => 'users', 'label' => 'Komunitas', 'route' => 'komunitas'];
         }
 
         $navItems[] = ['id' => 'mentor', 'icon' => 'heart', 'label' => 'Mentor', 'route' => 'mentor'];
@@ -114,9 +114,10 @@
                         if ($subItem['id'] === 'offline-bootcamp' && in_array($activePage, ['offline-bootcamp', 'detail-offline-bootcamp'])) $isParentActive = true;
                     }
                 }
-                
-                $isActive = $activePage === $item['id'];
+
+                $isActive = $item['id'] === $activePage;
                 if ($item['id'] === 'mentor' && $activePage === 'profil-mentor') $isActive = true;
+                if ($item['id'] === 'komunitas' && in_array($activePage, ['komunitas', 'komunitas.show', 'komunitas.create'])) $isActive = true;
             @endphp
             
             @if($isDropdown)

@@ -58,10 +58,10 @@
 
 <!-- Main Content -->
 <div class="w-full py-10">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
 
         <!-- Left Column -->
-        <div class="lg:col-span-2 space-y-8" x-data="{ activeTab: 'overview' }">
+        <div class="{{ $isEnrolled ? 'lg:col-span-4' : 'lg:col-span-2' }} space-y-8" x-data="{ activeTab: 'overview', openChapter: null }">
 
             <!-- Tabs -->
             <div class="bg-gray-50 p-1.5 rounded-full flex w-full overflow-x-auto scrollbar-hide shadow-inner border border-gray-100/50">
@@ -74,28 +74,7 @@
 
             <!-- Overview Tab -->
             <div x-show="activeTab === 'overview'">
-                <!-- Chapters (Only show when enrolled) -->
-                @if($isEnrolled && !empty($chapters))
-                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] mb-6">
-                    <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">Curriculum</h2>
-                    <div class="space-y-4">
-                        @foreach($chapters as $index => $chapter)
-                        <div class="border border-gray-100 rounded-xl overflow-hidden">
-                            <div class="flex items-center justify-between p-4 bg-gray-50">
-                                <div class="flex items-center gap-3">
-                                    <span class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-sm font-bold">{{ $index + 1 }}</span>
-                                    <span class="font-medium text-gray-900">{{ $chapter['title'] }}</span>
-                                </div>
-                                <div class="flex items-center gap-4 text-sm text-gray-500">
-                                    <span>{{ $chapter['lessons'] ?? 0 }} lessons</span>
-                                    <span>{{ $chapter['duration'] ?? '0h' }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-                @endif
+               
 
                 <!-- Benefits -->
                 <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
@@ -131,20 +110,79 @@
                     @if(!empty($chapters))
                     <div class="space-y-4">
                         @foreach($chapters as $index => $chapter)
-                        <div class="border border-gray-100 rounded-xl overflow-hidden">
-                            <div class="flex items-center justify-between p-4 bg-gray-50">
+                        <div class="border border-gray-100 rounded-xl overflow-hidden" x-data="{ open: openChapter === {{ $index }} }">
+                            <!-- Chapter Header -->
+                            <div @click="open = !open; openChapter = open ? {{ $index }} : null" class="flex items-center justify-between p-4 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
                                 <div class="flex items-center gap-3">
                                     <span class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-sm font-bold">{{ $index + 1 }}</span>
-                                    <span class="font-medium text-gray-900">{{ $chapter['title'] }}</span>
+                                    <div>
+                                        <span class="font-medium text-gray-900">{{ $chapter['title'] }}</span>
+                                        <span class="ml-2 text-xs text-gray-500">{{ count($chapter['videos'] ?? []) }} videos</span>
+                                    </div>
                                 </div>
                                 <div class="flex items-center gap-4 text-sm text-gray-500">
-                                    <span>{{ $chapter['lessons'] ?? 0 }} lessons</span>
                                     <span>{{ $chapter['duration'] ?? '0h' }}</span>
+                                    <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </div>
+                            </div>
+
+                            <!-- Videos List -->
+                            <div x-show="open" x-collapse class="border-t border-gray-100">
+                                @if(!empty($chapter['videos']))
+                                @foreach($chapter['videos'] as $video)
+                                <div class="flex items-center gap-4 p-4 {{ !$isEnrolled ? 'opacity-60' : '' }} hover:bg-gray-50 transition-colors {{ !$loop->last ? 'border-b border-gray-50' : '' }}">
+                                    @if($isEnrolled)
+                                        <!-- Enrolled: clickable video -->
+                                        <a href="{{ $video['video_url'] ?? '#' }}" target="_blank" class="flex items-center gap-4 flex-1 group">
+                                            <div class="w-24 h-14 rounded-lg bg-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                                @if(!empty($video['thumbnail_url']))
+                                                <img src="{{ $video['thumbnail_url'] }}" alt="{{ $video['title'] }}" class="w-full h-full object-cover">
+                                                @else
+                                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                @endif
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="font-medium text-gray-900 group-hover:text-red-600 transition-colors truncate">{{ $video['title'] }}</p>
+                                                <p class="text-xs text-gray-500">{{ $video['duration'] ?? '' }}</p>
+                                            </div>
+                                            <svg class="w-5 h-5 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                        </a>
+                                    @else
+                                        <!-- Not enrolled: locked video -->
+                                        <div class="flex items-center gap-4 flex-1">
+                                            <div class="w-24 h-14 rounded-lg bg-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden relative">
+                                                @if(!empty($video['thumbnail_url']))
+                                                <img src="{{ $video['thumbnail_url'] }}" alt="{{ $video['title'] }}" class="w-full h-full object-cover blur-sm">
+                                                @endif
+                                                <div class="absolute inset-0 flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                                </div>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="font-medium text-gray-900 truncate">{{ $video['title'] }}</p>
+                                                <p class="text-xs text-gray-500">{{ $video['duration'] ?? '' }}</p>
+                                            </div>
+                                            <span class="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full flex-shrink-0">Locked</span>
+                                        </div>
+                                    @endif
+                                </div>
+                                @endforeach
+                                @else
+                                <div class="p-4 text-center text-gray-500 text-sm">
+                                    Tidak ada video untuk chapter ini.
+                                </div>
+                                @endif
                             </div>
                         </div>
                         @endforeach
                     </div>
+                    @if(!$isEnrolled)
+                    <div class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                        <p class="text-sm text-amber-800 text-center">
+                            <a href="{{ route('pembayaran', ['id' => $c['id']]) }}" class="font-semibold text-red-600 hover:underline">Daftar sekarang</a> untuk mengakses semua video.
+                        </p>
+                    </div>
+                    @endif
                     @else
                     <p class="text-gray-500">Curriculum belum tersedia.</p>
                     @endif
@@ -194,6 +232,7 @@
 
                     <!-- Rate This Course -->
                     @auth
+                        @if($isEnrolled)
                     <div class="border-t border-gray-100 pt-6 mt-6">
                         <h3 class="font-bold text-gray-900 mb-4">Rate Kursus Ini</h3>
                         <div id="ratingForm">
@@ -208,6 +247,16 @@
                             </button>
                         </div>
                     </div>
+                        @else
+                    <div class="border-t border-gray-100 pt-6 mt-6">
+                        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-center">
+                            <p class="text-sm text-amber-800 mb-3">Kamu harus terdaftar di kursus ini untuk memberikan rating.</p>
+                            <a href="{{ route('pembayaran', ['id' => $c['id']]) }}" class="inline-flex items-center justify-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full text-sm font-semibold transition-colors">
+                                Daftar Sekarang
+                            </a>
+                        </div>
+                    </div>
+                        @endif
                     @else
                     <p class="text-gray-500 text-sm mt-4"><a href="{{ route('login') }}" class="text-red-600 hover:underline">Login</a> untuk memberikan rating.</p>
                     @endauth
@@ -268,7 +317,7 @@
 
         <!-- Right Column (Sticky Sidebar) - Only show if not enrolled -->
         @if(!$isEnrolled)
-        <div class="lg:col-span-1">
+        <div class="lg:col-span-2">
             <div class="bg-white border border-gray-100 rounded-3xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.05)] lg:sticky lg:top-24">
 
                 <div class="mb-6">
