@@ -56,7 +56,7 @@
             <div class="avatar" style="background:#cc0000; width:32px; height:32px; font-size:13px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; flex-shrink:0;">{{ $initials }}</div>
             <div style="display:flex; flex-direction:column; align-items:flex-start; justify-content:center;">
                 <span style="font-size:15px;font-weight:800;color:var(--text-primary);line-height:1.1;">{{ $authUser->name }}</span>
-                <span style="font-size:13px;font-weight:500;color:var(--text-light);line-height:1.1;margin-top:4px;">{{ number_format((int) ($authUser->xp ?? 0)) }} XP</span>
+                <span style="font-size:13px;font-weight:500;color:var(--text-light);line-height:1.1;margin-top:4px;">{{ ($authUser->role ?? '') === 'student' ? number_format((int) ($authUser->xp ?? 0)) . ' XP' : ucfirst($authUser->role ?? 'User') }}</span>
             </div>
         </a>
     </div>

@@ -50,6 +50,8 @@
     selectedEvents: [],
     currentYear: {{ $currentYear }},
     currentMonth: {{ $currentMonth }},
+    monthNames: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+    monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
     filterMode: 'all', // 'all' or 'mine'
 
     // User's enrolled IDs
@@ -148,7 +150,7 @@
         <button @click="prevMonth()" style="padding: 8px; color: #9ca3af; border-radius: 12px; cursor: pointer; background: transparent; border: none;" class="hover:bg-gray-100 transition-colors">
             <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
         </button>
-        <h2 class="font-extrabold text-gray-900 tracking-tight" style="font-size: 18px;" x-text="currentMonth + ' ' + currentYear">{{ $monthNameID }} {{ $currentYear }}</h2>
+        <h2 class="font-extrabold text-gray-900 tracking-tight" style="font-size: 18px;" x-text="monthNames[currentMonth - 1] + ' ' + currentYear">{{ $monthNameID }} {{ $currentYear }}</h2>
         <button @click="nextMonth()" style="padding: 8px; color: #9ca3af; border-radius: 12px; cursor: pointer; background: transparent; border: none;" class="hover:bg-gray-100 transition-colors">
             <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
         </button>
@@ -249,13 +251,13 @@
                 <div x-show="events.length > 0" style="display: none; display: flex; flex-direction: column; gap: 16px; max-height: 600px; overflow-y: auto;" class="agenda-list">
                     <template x-for="(event, index) in events" :key="index">
                         <a :href="event.url"
-                           class="flex items-start gap-4 group cursor-pointer p-4 rounded-2xl transition-all hover:shadow-md"
+                           class="flex items-start gap-4 group cursor-pointer p-4 rounded-2xl transition-all hover:shadow-md mb-4"
                            :style="'background-color: ' + (event.color ? event.color + '08' : '#fef2f2') + '; border: 1px solid ' + (event.color ? event.color + '20' : '#fecaca') + ';'"
                            x-transition>
                             <div class="w-14 h-14 rounded-2xl flex flex-col items-center justify-center text-white flex-shrink-0 group-hover:scale-105 transition-transform shadow-sm"
                                  :style="'background-color: ' + (event.color || '#cc0000') + ';'">
                                 <span class="font-extrabold leading-none" style="font-size: 22px;" x-text="event.day"></span>
-                                <span class="font-bold leading-none mt-0.5" style="font-size: 11px;" x-text="currentMonth"></span>
+                                <span class="font-bold leading-none mt-0.5" style="font-size: 11px;" x-text="monthNamesShort[currentMonth - 1]"></span>
                             </div>
                             <div class="flex-1 mt-1 min-w-0">
                                 <h4 class="font-bold text-gray-900 group-hover:text-red-600 transition-colors leading-tight mb-1" style="font-size: 15px;" x-text="event.title"></h4>

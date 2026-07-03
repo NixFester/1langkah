@@ -53,7 +53,27 @@
 
     $filled = in_array($name, ['star', 'compass']);
     $fillAttr = $filled ? 'currentColor' : 'none';
-    $paths = $icons[$name] ?? '';
+    $viewBox = '0 0 24 24';
+    $paths = '';
+
+    $customIconPath = public_path("assets/icons/{$name}.svg");
+    if (file_exists($customIconPath)) {
+        $content = file_get_contents($customIconPath);
+        if (preg_match("/viewBox=\"([^\"]+)\"/", $content, $match)) {
+            $viewBox = $match[1];
+        }
+        if (preg_match("/<svg[^>]*>(.*)<\/svg>/is", $content, $svgMatch)) {
+            $inner = $svgMatch[1];
+            $inner = preg_replace("/<defs>.*?<\/defs>/is", "", $inner);
+            $inner = preg_replace("/<g clip-path=\"[^\"]+\">/is", "", $inner);
+            $inner = preg_replace("/<\/g>/is", "", $inner);
+            $inner = preg_replace("/stroke=\"[^\"]+\"/", "stroke=\"currentColor\"", $inner);
+            $inner = preg_replace("/fill=\"(?!none)[^\"]+\"/", "fill=\"currentColor\"", $inner);
+            $paths = trim(preg_replace("/\s+/", " ", $inner));
+        }
+    } else {
+        $paths = $icons[$name] ?? '';
+    }
 
     // Pull user-supplied class/style out of the attribute bag (if present).
     $userClass = isset($attributes) ? $attributes->get('class') : '';
@@ -66,5 +86,5 @@
     }
 @endphp
 <span {{ $extraAttrs }} class="{{ $userClass }}" style="width:18px;height:18px;display:inline-flex;flex-shrink:0;{{ $userStyle }}" aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="{{ $fillAttr }}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%">{!! $paths !!}</svg>
+    <svg viewBox="{{ $viewBox }}" fill="{{ $fillAttr }}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%">{!! $paths !!}</svg>
 </span>

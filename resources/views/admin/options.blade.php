@@ -43,15 +43,15 @@
         <h3 style="font-size:16px;font-weight:700;margin:0;">{{ str_replace('_', ' ', ucfirst($category)) }}</h3>
         <span style="background:#f3f4f6;padding:4px 10px;border-radius:12px;font-size:12px;color:#6b7280;">{{ $categoryOptions->count() }} options</span>
     </div>
-    <table style="width:100%;border-collapse:collapse;">
+    <table style="width:100%;border-collapse:collapse;table-layout:fixed;">
         <thead>
             <tr style="text-align:left;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280;">
-                <th style="padding:8px;">Key</th>
-                <th style="padding:8px;">Label</th>
-                <th style="padding:8px;">Color</th>
-                <th style="padding:8px;">Sort</th>
-                <th style="padding:8px;">Status</th>
-                <th style="padding:8px;">Aksi</th>
+                <th style="padding:8px;width:20%;">Key</th>
+                <th style="padding:8px;width:25%;">Label</th>
+                <th style="padding:8px;width:20%;">Color</th>
+                <th style="padding:8px;width:10%;">Sort</th>
+                <th style="padding:8px;width:15%;">Status</th>
+                <th style="padding:8px;width:10%;">Aksi</th>
             </tr>
         </thead>
         <tbody>

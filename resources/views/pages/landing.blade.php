@@ -363,7 +363,7 @@
                     </div>
                     <!-- Bookmark -->
                     <button class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-400 shadow-sm hover:text-orange-600 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+                        <img src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="Bookmark">
                     </button>
                     <!-- Progress Bar (inside image bottom) -->
                     <div class="absolute bottom-0 left-0 h-2 bg-emerald-500 z-10" style="width: 68%;"></div>
@@ -409,7 +409,7 @@
                     </div>
                     <!-- Bookmark -->
                     <button class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-400 shadow-sm hover:text-orange-600 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+                        <img src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="Bookmark">
                     </button>
                 </div>
                 <!-- Card Body -->
@@ -453,7 +453,7 @@
                     </div>
                     <!-- Bookmark -->
                     <button class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-400 shadow-sm hover:text-orange-600 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+                        <img src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="Bookmark">
                     </button>
                     <!-- Progress Bar (inside image bottom) -->
                     <div class="absolute bottom-0 left-0 h-2 bg-emerald-500 z-10" style="width: 23%;"></div>
@@ -501,7 +501,7 @@
             <div class="w-full lg:w-[55%]">
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#2e1065]/50 border border-[#4c1d95]/50 mb-6">
-                    <svg class="w-3.5 h-3.5 text-[#d8b4fe]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <img src="{{ asset('assets/icons/online&offlinebootcamp.svg') }}" class="w-4 h-4" alt="Bootcamp">
                     <span class="text-[11px] font-bold tracking-[0.15em] text-[#d8b4fe] uppercase">ONLINE & OFFLINE BOOTCAMP</span>
                 </div>
                 
@@ -585,7 +585,7 @@
         <div class="text-center max-w-3xl mx-auto mb-16">
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-red-100 bg-red-50 mb-6">
-                <svg class="w-3.5 h-3.5 text-[#D10000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                <img src="{{ asset('images/features/Mentor-Marketplace.svg') }}" class="w-3.5 h-3.5" alt="Mentor Marketplace">
                 <span class="text-[11px] font-bold tracking-[0.15em] text-[#D10000] uppercase">MENTOR MARKETPLACE</span>
             </div>
             
@@ -764,7 +764,7 @@
             <div>
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#2d0a0a] border border-[#5c1a1a] mb-6">
-                    <svg class="w-3.5 h-3.5 text-[#f87171]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    <img src="{{ asset('assets/icons/enterprise&government.svg') }}" class="w-4 h-4" alt="Enterprise">
                     <span class="text-[11px] font-bold tracking-[0.15em] text-[#f87171] uppercase">ENTERPRISE & GOVERNMENT</span>
                 </div>
                 
@@ -782,23 +782,23 @@
                 <!-- Features List -->
                 <div class="flex flex-col gap-4 mb-12">
                     <div class="flex items-center gap-3.5">
-                        <svg class="w-5 h-5 text-[#ff3b30] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-5 h-5 flex-shrink-0" alt="Check">
                         <span class="text-[15px] text-gray-300 font-medium">Dashboard analytics karyawan & tim</span>
                     </div>
                     <div class="flex items-center gap-3.5">
-                        <svg class="w-5 h-5 text-[#ff3b30] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-5 h-5 flex-shrink-0" alt="Check">
                         <span class="text-[15px] text-gray-300 font-medium">Kurikulum custom sesuai kebutuhan bisnis</span>
                     </div>
                     <div class="flex items-center gap-3.5">
-                        <svg class="w-5 h-5 text-[#ff3b30] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-5 h-5 flex-shrink-0" alt="Check">
                         <span class="text-[15px] text-gray-300 font-medium">Sertifikasi massal yang terverifikasi</span>
                     </div>
                     <div class="flex items-center gap-3.5">
-                        <svg class="w-5 h-5 text-[#ff3b30] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-5 h-5 flex-shrink-0" alt="Check">
                         <span class="text-[15px] text-gray-300 font-medium">Integrasi dengan HR system perusahaan</span>
                     </div>
                     <div class="flex items-center gap-3.5">
-                        <svg class="w-5 h-5 text-[#ff3b30] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-5 h-5 flex-shrink-0" alt="Check">
                         <span class="text-[15px] text-gray-300 font-medium">Dedicated account manager</span>
                     </div>
                 </div>
@@ -919,7 +919,7 @@
 <!-- CTA Section (Section 8) -->
 <section id="cta" class="py-32 bg-[#0a0a0a] relative w-full overflow-hidden border-t border-white/5 flex flex-col items-center justify-center text-center">
     <!-- Subtle Red Glow Background -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[#cc0000]/10 blur-[120px] rounded-full pointer-events-none"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#FF0000]/20 blur-[120px] rounded-full pointer-events-none z-0"></div>
     
     <div class="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center">
         

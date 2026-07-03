@@ -165,68 +165,11 @@
                     </div>
                 </div>
 
-                <!-- Tampilan Filter (Semua Kursus only) -->
-                <div x-show="tab === 'semua'" x-cloak>
-                    <label class="block text-xs font-medium text-gray-500 mb-2">Tampilan</label>
-                    <div class="flex flex-wrap gap-2">
-                        <button @click="semuaCourseTab = 'semua'"
-                            :class="semuaCourseTab === 'semua' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
-                            class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">
-                            Semua Tampilan
-                        </button>
-                        <button @click="semuaCourseTab = 'wishlist'"
-                            :class="semuaCourseTab === 'wishlist' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
-                            class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1">
-                            Wishlist <span x-show="semuaCourseTab !== 'wishlist'" class="bg-gray-200 text-gray-500 px-1.5 py-0.5 rounded text-[10px] font-bold" x-text="wishlistCount"></span><span x-show="semuaCourseTab === 'wishlist'" class="bg-white/20 text-white px-1.5 py-0.5 rounded text-[10px] font-bold" x-text="wishlistCount"></span>
-                        </button>
-                    </div>
-                </div>
 
-                <!-- Status Filter (Kursus Saya only) -->
-                <div x-show="tab === 'saya'" x-cloak>
-                    <label class="block text-xs font-medium text-gray-500 mb-2">Status</label>
-                    <div class="flex flex-wrap gap-2">
-                        <button @click="myCourseTab = 'semua'"
-                            :class="myCourseTab === 'semua' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
-                            class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">
-                            Semua Status
-                        </button>
-                        <button @click="myCourseTab = 'sedang_berlangsung'"
-                            :class="myCourseTab === 'sedang_berlangsung' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
-                            class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1">
-                            Sedang Berlangsung <span x-show="myCourseTab !== 'sedang_berlangsung'" class="bg-gray-200 text-gray-500 px-1.5 py-0.5 rounded text-[10px] font-bold" x-text="inProgressCount"></span><span x-show="myCourseTab === 'sedang_berlangsung'" class="bg-white/20 text-white px-1.5 py-0.5 rounded text-[10px] font-bold" x-text="inProgressCount"></span>
-                        </button>
-                        <button @click="myCourseTab = 'selesai'"
-                            :class="myCourseTab === 'selesai' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
-                            class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1">
-                            Selesai <span x-show="myCourseTab !== 'selesai'" class="bg-gray-200 text-gray-500 px-1.5 py-0.5 rounded text-[10px] font-bold" x-text="completedCount"></span><span x-show="myCourseTab === 'selesai'" class="bg-white/20 text-white px-1.5 py-0.5 rounded text-[10px] font-bold" x-text="completedCount"></span>
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
-    <!-- Tabs -->
-    <div class="inline-flex bg-slate-100 rounded-full p-1 shadow-sm">
-        <button @click="tab = 'semua'"
-            :class="tab === 'semua' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'"
-            :style="tab === 'semua' ? 'color: #dc2626; padding: 8px 20px; border-radius: 9999px; font-weight: bold; font-size: 14px;' : 'color: #64748b; padding: 8px 20px; border-radius: 9999px; font-weight: 500; font-size: 14px;'"
-            class="transition-all cursor-pointer">
-            Semua Kursus
-            <span x-show="searchQuery || activeCat !== 'All' || activeLevel !== 'All'" style="display: none;" class="ml-1 px-1.5 py-0.5 bg-red-100 text-red-600 text-[10px] rounded-full">Filtered</span>
-        </button>
-        <button @click="tab = 'saya'"
-            :class="tab === 'saya' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'"
-            :style="tab === 'saya' ? 'color: #dc2626; padding: 8px 20px; border-radius: 9999px; font-weight: bold; font-size: 14px;' : 'color: #64748b; padding: 8px 20px; border-radius: 9999px; font-weight: 500; font-size: 14px;'"
-            class="transition-all cursor-pointer">
-            Kursus Saya
-            <span :class="tab === 'saya' ? 'ml-1 px-2 py-0.5 rounded-full text-[11px] font-bold' : 'ml-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-gray-200 text-gray-500'"
-                :style="tab === 'saya' ? 'background-color: #fee2e2; color: #dc2626;' : ''">
-                {{ count($myCourses) }}
-            </span>
-        </button>
-    </div>
 
     <!-- Categories (Semua only) -->
     <div x-show="tab === 'semua'" class="flex items-center gap-3 overflow-x-auto pb-2 -mt-4">
@@ -268,10 +211,20 @@
 
                     <!-- Badges -->
                     <div class="absolute top-3 left-3 flex items-center gap-2 z-10">
-                        <span class="bg-white text-gray-800 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm" x-text="course.level || 'Beginner'"></span>
                         <template x-if="course.badge">
-                            <span class="bg-yellow-400 text-yellow-900 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm" x-text="course.badge"></span>
+                            <span class="bg-red-50 text-red-600 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm" x-text="course.badge"></span>
                         </template>
+                        <span class="bg-white text-gray-800 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm" x-text="course.level || 'Beginner'"></span>
+                    </div>
+
+                    <!-- Bookmark Badge -->
+                    <div class="absolute top-3 right-3 z-10">
+                        <button @click.prevent="course.is_wishlist = !course.is_wishlist" class="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-orange-400 hover:text-orange-500 hover:bg-orange-50 transition-colors cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="8" r="6"></circle>
+                                <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"></path>
+                            </svg>
+                        </button>
                     </div>
                     <!-- Bottom Progress Bar (Only for Kursus Saya) -->
                     <template x-if="tab === 'saya'">
@@ -305,7 +258,10 @@
 
                     <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
                         <template x-if="tab !== 'saya'">
-                            <span class="text-base font-bold text-gray-900" x-text="course.price || 'Gratis'"></span>
+                            <span class="text-base font-bold"
+                                  :class="!course.price || course.price == 0 || course.price.toString().toLowerCase() === 'gratis' ? 'text-emerald-600' : 'text-gray-900'"
+                                  x-text="!course.price || course.price == 0 || course.price.toString().toLowerCase() === 'gratis' ? 'Gratis' : (!isNaN(course.price) ? 'Rp ' + new Intl.NumberFormat('id-ID').format(course.price) : course.price)">
+                            </span>
                         </template>
                         
                         <template x-if="tab === 'saya'">

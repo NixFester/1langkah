@@ -71,13 +71,18 @@
 
     <!-- Achievements -->
     @if(!empty($portfolio['achievements']))
-    <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
-        <h3 class="font-bold text-gray-900 text-lg mb-4">Achievements</h3>
+    <div class="bg-white rounded-xl p-5 border border-gray-200 mb-6">
+        <h3 class="font-bold text-slate-800 text-[15px] mb-4">Achievements</h3>
         <div class="flex flex-wrap gap-3">
             @foreach($portfolio['achievements'] as $achievement)
-            <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl px-4 py-3 flex items-center gap-3" title="{{ $achievement['desc'] }}">
-                <span class="text-2xl">{{ $achievement['icon'] }}</span>
-                <span class="text-sm font-medium text-gray-700">{{ $achievement['name'] }}</span>
+            <div class="bg-white border border-gray-200 rounded-lg px-3.5 py-2.5 flex items-center gap-3 w-[220px]">
+                <div class="w-9 h-9 bg-slate-50 rounded-full flex items-center justify-center text-lg flex-shrink-0">
+                    {{ $achievement['icon'] }}
+                </div>
+                <div class="min-w-0">
+                    <div class="text-[12px] font-bold text-slate-700 truncate">{{ $achievement['name'] }}</div>
+                    <div class="text-[10px] text-slate-400 mt-0.5 truncate" title="{{ $achievement['desc'] }}">{{ $achievement['desc'] }}</div>
+                </div>
             </div>
             @endforeach
         </div>
@@ -85,34 +90,39 @@
     @endif
 
     <!-- Skills Section -->
-    <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
-        <h3 class="font-bold text-gray-900 text-lg mb-4">Skills yang Dipelajari</h3>
+    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm mb-6">
+        <h3 class="font-bold text-gray-900 text-[16px] mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            Skills yang Dikuasai
+        </h3>
         @if(!empty($portfolio['skills']))
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-3">
             @foreach($portfolio['skills'] as $skill)
-            <div class="bg-gray-100 hover:bg-gray-200 rounded-full px-4 py-2 flex items-center gap-2 transition-colors">
-                <span class="text-sm font-medium text-gray-700">{{ $skill['name'] }}</span>
+            <div class="bg-white border border-gray-200 rounded-full pl-4 pr-1.5 py-1.5 flex items-center gap-3">
+                <span class="text-[13px] font-bold text-gray-800">{{ $skill['name'] }}</span>
                 @if($skill['rating'] > 0)
-                <span class="bg-yellow-100 text-yellow-700 text-xs font-bold px-2 py-0.5 rounded-full">
-                    {{ number_format((float) ($skill['rating'] ?? 0), 1) }}★
+                <span class="border border-gray-100 text-gray-400 text-[11px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 bg-gray-50/50">
+                    {{ number_format((float) ($skill['rating'] ?? 0), 1) }}
                 </span>
+                @else
+                <span class="border border-gray-100 bg-gray-50/50 w-8 h-5 rounded-full block"></span>
                 @endif
             </div>
             @endforeach
         </div>
         @else
-        <p class="text-gray-500 text-sm">Belum ada skills. Selesaikan kursus atau bootcamp untuk mendapatkan skills!</p>
+        <p class="text-gray-500 text-sm">Belum ada skills.</p>
         @endif
     </div>
 
     <!-- Courses Completed (Sorted by Rating) -->
-    <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
-        <h3 class="font-bold text-gray-900 text-lg mb-4">Kursus yang Telah Diselesaikan</h3>
+    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm mb-6">
+        <h3 class="font-bold text-gray-900 text-[16px] mb-4">Kursus yang Telah Diselesaikan</h3>
         @if(!empty($portfolio['courses']))
-        <div class="space-y-4">
+        <div class="space-y-3">
             @foreach($portfolio['courses'] as $course)
-            <div class="flex gap-4 items-center p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                <div class="w-16 h-12 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+            <div class="flex gap-4 items-center p-3 bg-gray-50/80 rounded-[14px]">
+                <div class="w-14 h-14 rounded-xl bg-gray-200 overflow-hidden flex-shrink-0">
                     @if($course['thumbnail'])
                     <img src="{{ $course['thumbnail'] }}" class="w-full h-full object-cover" alt="">
                     @else
@@ -122,35 +132,41 @@
                     @endif
                 </div>
                 <div class="flex-1 min-w-0">
-                    <h4 class="font-medium text-gray-900 truncate">{{ $course['title'] }}</h4>
-                    <p class="text-xs text-gray-500">{{ $course['category'] ?? '' }} • Selesai {{ $course['completed_at'] }}</p>
+                    <h4 class="font-medium text-gray-800 text-[14px] truncate">{{ $course['title'] }}</h4>
+                    <p class="text-[12px] text-gray-500">{{ $course['category'] ?? '' }} • Selesai {{ $course['completed_at'] }}</p>
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 pr-2">
                     @if($course['rating'] > 0)
-                    <span class="bg-yellow-100 text-yellow-700 text-sm font-bold px-2 py-1 rounded-full">
-                        {{ number_format((float) ($course['rating'] ?? 0), 1) }}★
-                    </span>
+                    <div class="flex items-center gap-1 bg-white border border-gray-100 text-gray-400 text-[10px] font-bold px-2 py-1 rounded-md">
+                        <span>{{ number_format((float) ($course['rating'] ?? 0), 1) }}</span>
+                        <svg class="w-2.5 h-2.5 text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    </div>
                     @endif
                     @if($course['user_rating'])
-                    <span class="text-xs text-gray-500">Kamu: {{ $course['user_rating'] }}★</span>
+                    <div class="flex items-center gap-1 bg-white border border-gray-200 text-gray-700 text-[10px] font-bold px-2 py-1 rounded-md shadow-sm">
+                        <span>Review: {{ $course['user_rating'] }}</span>
+                        <svg class="w-2.5 h-2.5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    </div>
                     @endif
                 </div>
             </div>
             @endforeach
         </div>
         @else
-        <p class="text-gray-500 text-sm">Belum ada kursus yang diselesaikan.</p>
+        <div class="bg-gray-50 rounded-2xl p-6 text-center">
+            <p class="text-gray-500 font-medium text-sm">Belum ada kursus yang diselesaikan.</p>
+        </div>
         @endif
     </div>
 
-    <!-- Bootcamps Completed (Sorted by Rating) -->
-    <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
-        <h3 class="font-bold text-gray-900 text-lg mb-4">Bootcamp yang Telah Diselesaikan</h3>
+    <!-- Bootcamps Completed -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm mb-6">
+        <h3 class="font-bold text-gray-900 text-[16px] mb-4">Bootcamp yang Telah Diselesaikan</h3>
         @if(!empty($portfolio['bootcamps']))
-        <div class="space-y-4">
+        <div class="space-y-3">
             @foreach($portfolio['bootcamps'] as $bootcamp)
-            <div class="flex gap-4 items-center p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                <div class="w-16 h-12 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+            <div class="flex gap-4 items-center p-3 bg-gray-50/80 rounded-[14px]">
+                <div class="w-14 h-14 rounded-xl bg-gray-200 overflow-hidden flex-shrink-0">
                     @if($bootcamp['thumbnail'])
                     <img src="{{ $bootcamp['thumbnail'] }}" class="w-full h-full object-cover" alt="">
                     @else
@@ -160,21 +176,24 @@
                     @endif
                 </div>
                 <div class="flex-1 min-w-0">
-                    <h4 class="font-medium text-gray-900 truncate">{{ $bootcamp['title'] }}</h4>
-                    <p class="text-xs text-gray-500">{{ ucfirst($bootcamp['type']) }} • Selesai {{ $bootcamp['completed_at'] }}</p>
+                    <h4 class="font-medium text-gray-800 text-[14px] truncate">{{ $bootcamp['title'] }}</h4>
+                    <p class="text-[12px] text-gray-500">{{ ucfirst($bootcamp['type']) }} • Selesai {{ $bootcamp['completed_at'] }}</p>
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 pr-2">
                     @if($bootcamp['rating'] > 0)
-                    <span class="bg-yellow-100 text-yellow-700 text-sm font-bold px-2 py-1 rounded-full">
-                        {{ number_format((float) ($bootcamp['rating'] ?? 0), 1) }}★
-                    </span>
+                    <div class="flex items-center gap-1 bg-white border border-gray-100 text-gray-400 text-[10px] font-bold px-2 py-1 rounded-md">
+                        <span>{{ number_format((float) ($bootcamp['rating'] ?? 0), 1) }}</span>
+                        <svg class="w-2.5 h-2.5 text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    </div>
                     @endif
                 </div>
             </div>
             @endforeach
         </div>
         @else
-        <p class="text-gray-500 text-sm">Belum ada bootcamp yang diselesaikan.</p>
+        <div class="bg-gray-50 rounded-2xl p-6 text-center">
+            <p class="text-gray-500 font-medium text-sm">Belum ada bootcamp yang diselesaikan.</p>
+        </div>
         @endif
     </div>
 

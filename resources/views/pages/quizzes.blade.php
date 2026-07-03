@@ -9,31 +9,31 @@ use App\Models\TestAttempt;
 @section('header_title', 'Quiz Saya')
 
 @section('content')
-<div class="px-6 py-8 sm:px-10 w-full space-y-6">
+<div class="w-full px-2 pb-8 space-y-8">
 
     <!-- Header -->
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 -mt-2">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">Quiz Kursus</h1>
-            <p class="text-sm text-gray-500 mt-1">Kumpulkan quiz untuk menyelesaikan kursus</p>
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Quiz Kursus</h1>
+            <p class="text-gray-500 text-base">Kumpulkan quiz untuk menyelesaikan kursus</p>
         </div>
-        <a href="{{ route('quiz.history') }}" class="text-sm text-red-600 hover:text-red-700 font-medium">
-            Lihat Riwayat →
+        <a href="{{ route('quiz.history') }}" class="bg-red-50 text-red-600 hover:bg-red-100 px-4 py-2 rounded-full text-sm font-bold transition-colors inline-flex w-max">
+            Lihat Riwayat &rarr;
         </a>
     </div>
 
     @if($quizzesByCourse->isEmpty())
     <!-- No quizzes available -->
-    <div class="bg-white rounded-2xl border border-gray-100 p-12 text-center">
-        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="bg-white rounded-3xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] p-12 text-center">
+        <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
             </svg>
         </div>
         <h3 class="text-lg font-bold text-gray-900 mb-2">Belum Ada Quiz Tersedia</h3>
-        <p class="text-gray-500 mb-4">Daftar kursus untuk mengakses quiz.</p>
-        <a href="{{ route('kursus') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-full transition-colors">
-            Browse Kursus
+        <p class="text-gray-500 mb-6">Daftar kursus untuk mengakses materi dan quiz.</p>
+        <a href="{{ route('kursus') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-full transition-colors shadow-lg shadow-red-200">
+            Browse Kursus &rarr;
         </a>
     </div>
     @endif
@@ -43,8 +43,8 @@ use App\Models\TestAttempt;
     @php
         $course = $courseQuizzes->first()->course;
     @endphp
-    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-        <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
+    <div class="bg-white rounded-3xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
+        <div class="bg-gray-50/50 px-6 py-5 border-b border-gray-100">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
                     @if($course->pictures->where('type', 'thumbnail')->first())
@@ -78,9 +78,9 @@ use App\Models\TestAttempt;
                     ->latest('completed_at')
                     ->first();
             @endphp
-            <div class="p-6 flex items-center justify-between gap-4">
+            <div class="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                 <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-2">
+                    <div class="flex flex-wrap items-center gap-3 mb-2">
                         <span class="px-2.5 py-0.5 rounded-full text-xs font-bold {{ $type['color'] }}">
                             {{ $type['label'] }}
                         </span>
@@ -111,20 +111,20 @@ use App\Models\TestAttempt;
                     @endif
                 </div>
 
-                <div class="flex items-center gap-2">
+                <div class="flex flex-wrap items-center gap-2 mt-4 sm:mt-0">
                     @if($lastAttempt?->passed)
                     <a href="{{ route('quiz.result', $lastAttempt) }}"
-                        class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-full transition-colors">
+                        class="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-bold rounded-full transition-colors">
                         Lihat Hasil
                     </a>
                     <a href="{{ route('quiz.start', $quiz) }}"
-                        class="px-4 py-2 bg-white border border-gray-200 hover:border-gray-300 text-gray-700 text-sm font-medium rounded-full transition-colors">
+                        class="px-5 py-2.5 bg-white border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-bold rounded-full transition-colors">
                         Ulangi Quiz
                     </a>
                     @else
                     <a href="{{ route('quiz.start', $quiz) }}"
-                        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-full transition-colors">
-                        Mulai Quiz →
+                        class="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-full transition-colors shadow-lg shadow-red-200">
+                        Mulai Quiz &rarr;
                     </a>
                     @endif
                 </div>

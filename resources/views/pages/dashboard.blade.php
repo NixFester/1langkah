@@ -99,17 +99,18 @@
 
     <!-- MAIN GRID SECTION -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-        <!-- COLUMN 1 -->
-        <div class="space-y-6">
+        
+        <!-- Left and Middle sections (2 Columns spanning 2 of the 3 columns) -->
+        <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+            
             <!-- Lanjutkan Belajar -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
+            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="font-bold text-gray-900 text-lg">Lanjutkan Belajar</h3>
                     <a href="{{ route('kursus-saya') }}" class="text-xs font-bold text-red-600 hover:text-red-700">Lihat semua</a>
                 </div>
 
-                <div class="space-y-5">
+                <div class="space-y-5 flex-1">
                     @forelse(array_slice($activeCourses ?? [], 0, 3) as $course)
                     <a href="{{ route('detail-kursus', ['id' => $course['id']]) }}" class="flex gap-4 items-center hover:bg-gray-50 p-2 -mx-2 rounded-xl transition-colors">
                         <div class="w-12 h-12 rounded-xl bg-gray-100 flex-shrink-0 overflow-hidden">
@@ -140,14 +141,45 @@
                 </div>
             </div>
 
+            <!-- Events Mendatang -->
+            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-gray-900 text-lg">Events Mendatang</h3>
+                    <a href="{{ route('event') }}" class="text-xs font-bold text-red-600 hover:text-red-700">Lihat semua</a>
+                </div>
+
+                <div class="space-y-4 flex-1">
+                    @forelse($upcomingEvents ?? [] as $event)
+                    <a href="{{ route('detail-event', ['id' => $event['id']]) }}" class="flex items-start gap-3 p-2 -mx-2 rounded-xl hover:bg-gray-50 transition-colors">
+                        <div class="w-12 h-12 rounded-xl flex flex-col items-center justify-center text-white" style="background-color: {{ $event['color'] ?? '#cc0000' }}">
+                            <span class="text-xs font-bold">{{ $event['date'] }}</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-gray-900 truncate">{{ $event['title'] }}</h4>
+                            <p class="text-[11px] text-gray-500">{{ $event['day'] }}, {{ $event['time'] }}</p>
+                            <span class="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">
+                                {{ ucfirst($event['type'] ?? 'webinar') }}
+                            </span>
+                        </div>
+                    </a>
+                    @empty
+                    <div class="text-center py-6">
+                        <svg class="w-10 h-10 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <p class="text-gray-500 text-sm">Tidak ada events mendatang</p>
+                        <a href="{{ route('event') }}" class="inline-block mt-2 text-red-600 text-sm font-medium hover:underline">Lihat Events</a>
+                    </div>
+                    @endforelse
+                </div>
+            </div>
+            
             <!-- Bootcamp Saya -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
+            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="font-bold text-gray-900 text-lg">Bootcamp Saya</h3>
                     <a href="{{ route('bootcamps-saya') }}" class="text-xs font-bold text-red-600 hover:text-red-700">Lihat semua</a>
                 </div>
 
-                <div class="space-y-4">
+                <div class="space-y-4 flex-1">
                     @forelse(array_slice($myBootcamps ?? [], 0, 3) as $bootcamp)
                     <a href="{{ $bootcamp['type'] === 'online' ? route('detail-online-bootcamp', ['id' => $bootcamp['id']]) : route('detail-offline-bootcamp', ['id' => $bootcamp['id']]) }}" class="flex gap-4 items-center hover:bg-gray-50 p-2 -mx-2 rounded-xl transition-colors">
                         <div class="w-12 h-12 rounded-xl bg-gray-100 flex-shrink-0 overflow-hidden">
@@ -184,73 +216,15 @@
                     @endforelse
                 </div>
             </div>
-        </div>
-
-        <!-- COLUMN 2 -->
-        <div class="space-y-6">
-            <!-- Aktivitas Terbaru -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] h-full">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-bold text-gray-900 text-lg">Aktivitas Terbaru</h3>
-                </div>
-
-                @forelse($recentActivities ?? [] as $activity)
-                <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
-                    <div class="w-2 h-2 rounded-full" style="background-color: {{ $activity['color'] ?? '#3b82f6' }}"></div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-[13px] text-gray-700 truncate">{{ $activity['text'] }}</p>
-                        <p class="text-[11px] text-gray-400">{{ $activity['time'] }}</p>
-                    </div>
-                </div>
-                @empty
-                <div class="text-center py-8">
-                    <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <p class="text-gray-500 text-sm">Belum ada aktivitas terbaru</p>
-                    <p class="text-gray-400 text-xs mt-1">Mulai belajar untuk melihat aktivitasmu</p>
-                </div>
-                @endforelse
-            </div>
-        </div>
-
-        <!-- COLUMN 3 -->
-        <div class="space-y-6">
-            <!-- Events Mendatang -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-bold text-gray-900 text-lg">Events Mendatang</h3>
-                    <a href="{{ route('event') }}" class="text-xs font-bold text-red-600 hover:text-red-700">Lihat semua</a>
-                </div>
-
-                @forelse($upcomingEvents ?? [] as $event)
-                <a href="{{ route('detail-event', ['id' => $event['id']]) }}" class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors mb-2">
-                    <div class="w-12 h-12 rounded-xl flex flex-col items-center justify-center text-white" style="background-color: {{ $event['color'] ?? '#cc0000' }}">
-                        <span class="text-xs font-bold">{{ $event['date'] }}</span>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h4 class="text-sm font-bold text-gray-900 truncate">{{ $event['title'] }}</h4>
-                        <p class="text-[11px] text-gray-500">{{ $event['day'] }}, {{ $event['time'] }}</p>
-                        <span class="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">
-                            {{ ucfirst($event['type'] ?? 'webinar') }}
-                        </span>
-                    </div>
-                </a>
-                @empty
-                <div class="text-center py-6">
-                    <svg class="w-10 h-10 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    <p class="text-gray-500 text-sm">Tidak ada events mendatang</p>
-                    <a href="{{ route('event') }}" class="inline-block mt-2 text-red-600 text-sm font-medium hover:underline">Lihat Events</a>
-                </div>
-                @endforelse
-            </div>
 
             <!-- Rekomendasi Kursus -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
+            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="font-bold text-gray-900 text-lg">Rekomendasi Kursus</h3>
                     <a href="{{ route('kursus') }}" class="text-xs font-bold text-red-600 hover:text-red-700">Lihat semua</a>
                 </div>
 
-                <div class="space-y-4">
+                <div class="space-y-4 flex-1">
                     @forelse($recommendedCourses ?? [] as $course)
                     <a href="{{ route('detail-kursus', ['id' => $course['id']]) }}" class="flex gap-3 items-center hover:bg-gray-50 p-2 -mx-2 rounded-xl transition-colors">
                         <div class="w-16 h-12 rounded-lg bg-gray-100 flex-shrink-0 overflow-hidden">
@@ -283,8 +257,36 @@
                     @endforelse
                 </div>
             </div>
+
         </div>
 
+        <!-- Right section (1 Column) -->
+        <div class="space-y-6">
+            <!-- Aktivitas Terbaru -->
+            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] h-full">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-gray-900 text-lg">Aktivitas Terbaru</h3>
+                </div>
+
+                <div class="space-y-4">
+                    @forelse($recentActivities ?? [] as $activity)
+                    <div class="flex items-center gap-3 p-3 -mx-2 rounded-xl hover:bg-gray-50 transition-colors">
+                        <div class="w-2 h-2 rounded-full" style="background-color: {{ $activity['color'] ?? '#3b82f6' }}"></div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[13px] text-gray-700 truncate">{{ $activity['text'] }}</p>
+                            <p class="text-[11px] text-gray-400">{{ $activity['time'] }}</p>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="text-center py-8">
+                        <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <p class="text-gray-500 text-sm">Belum ada aktivitas terbaru</p>
+                        <p class="text-gray-400 text-xs mt-1">Mulai belajar untuk melihat aktivitasmu</p>
+                    </div>
+                    @endforelse
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

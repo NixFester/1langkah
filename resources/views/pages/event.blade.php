@@ -16,9 +16,9 @@
 
     <!-- Events Grid -->
     @if(!empty($events))
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         @foreach($events as $event)
-        <a href="{{ route('detail-event', $event['id']) }}" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+        <a href="{{ route('detail-event', $event['id']) }}" class="group bg-white border border-gray-100 rounded-[24px] overflow-hidden shadow-[0_2px_12px_rgb(0,0,0,0.03)] hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
             <!-- Banner -->
             <div class="relative h-40 overflow-hidden" style="background-color: {{ $event['color'] ?? '#cc0000' }}20;">
                 @if(!empty($event['banner_url']))
@@ -45,8 +45,8 @@
             </div>
 
             <!-- Content -->
-            <div class="p-5">
-                <h3 class="font-bold text-gray-900 text-lg mb-2 line-clamp-2 group-hover:text-red-600 transition-colors">
+            <div class="p-6 flex flex-col flex-grow">
+                <h3 class="text-[19px] font-bold text-[#0f172a] mb-2 leading-tight line-clamp-2 group-hover:text-red-600 transition-colors">
                     {{ $event['title'] }}
                 </h3>
 
@@ -57,7 +57,8 @@
                 @endif
 
                 <!-- Meta Info -->
-                <div class="flex items-center gap-4 text-sm text-gray-500">
+                <div class="mt-auto pt-2 space-y-3">
+                    <div class="flex items-center gap-4 text-[13px] text-[#64748b]">
                     <div class="flex items-center gap-1.5">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         <span class="font-medium">{{ $event['date_display'] ?? 'TBA' }}</span>
@@ -70,21 +71,21 @@
 
                 <!-- Location/Meeting URL -->
                 @if(!empty($event['location']) || !empty($event['meeting_url']))
-                <div class="mt-3 flex items-center gap-1.5 text-sm text-gray-500">
+                <div class="flex items-center gap-1.5 text-[13px] text-[#64748b]">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     <span class="truncate">{{ $event['location'] ?? $event['meeting_url'] ?? '' }}</span>
                 </div>
                 @endif
 
-                <!-- Participants -->
                 @if(isset($event['registered_count']) || isset($event['max_participants']))
-                <div class="mt-3 flex items-center gap-1.5 text-sm text-gray-500">
+                <div class="flex items-center gap-1.5 text-[13px] text-[#64748b]">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     <span class="font-medium">
                         {{ $event['registered_count'] ?? 0 }} {{ isset($event['max_participants']) ? '/ ' . $event['max_participants'] . ' peserta' : 'terdaftar' }}
                     </span>
                 </div>
                 @endif
+                </div>
             </div>
         </a>
         @endforeach
