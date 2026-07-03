@@ -3,6 +3,123 @@
 @section('title', $bootcamp['title'] . ' — 1Langkah')
 @section('header_title', 'Online Bootcamp')
 
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Session cards script loaded');
+
+    // Event delegation for session cards
+    document.querySelectorAll('.session-card').forEach(function(card) {
+        card.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            var sessionId = this.dataset.sessionId;
+            var bootcampId = this.dataset.bootcampId;
+            var meetingUrl = this.dataset.meetingUrl;
+            var password = this.dataset.password;
+
+            console.log('Session clicked:', sessionId, meetingUrl);
+
+            // Only process if there's a meeting URL
+            if (!meetingUrl) {
+                console.log('No meeting URL');
+                return;
+            }
+
+            // Show password modal if needed
+            if (password) {
+                var passwordModal = document.createElement('div');
+                passwordModal.id = 'password-modal';
+                passwordModal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50';
+                passwordModal.innerHTML = '<div class="bg-white rounded-2xl p-6 max-w-sm mx-4 shadow-2xl">' +
+                    '<h3 class="text-lg font-bold text-gray-900 mb-2">Password Meeting</h3>' +
+                    '<p class="text-sm text-gray-500 mb-4">Gunakan password berikut untuk join meeting:</p>' +
+                    '<div class="bg-gray-100 rounded-lg p-4 text-center mb-4">' +
+                    '<code class="text-2xl font-bold text-gray-900 tracking-wider">' + password + '</code></div>' +
+                    '<div class="flex gap-3">' +
+                    '<button class="close-modal flex-1 px-4 py-2 border border-gray-200 rounded-full text-gray-700 font-medium hover:bg-gray-50 transition-colors">Tutup</button>' +
+                    '<button class="join-btn flex-1 px-4 py-2 bg-[#d00000] text-white rounded-full font-medium hover:bg-red-700 transition-colors">Join Meeting</button>' +
+                    '</div></div>';
+                document.body.appendChild(passwordModal);
+
+                // Close button handler
+                passwordModal.querySelector('.close-modal').addEventListener('click', function() {
+                    passwordModal.remove();
+                });
+
+                // Join button handler - track attendance then open URL
+                passwordModal.querySelector('.join-btn').addEventListener('click', function() {
+                    // Track the session attendance via API
+                    fetch('/api/session-progress', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({
+                            session_id: sessionId,
+                            bootcamp_id: bootcampId
+                        })
+                    })
+                    .then(function(response) { return response.json(); })
+                    .then(function(data) {
+                        console.log('Attendance tracked:', data);
+                        // Open meeting URL
+                        window.open(meetingUrl, '_blank');
+                        // Close modal and refresh to show attended status
+                        passwordModal.remove();
+                        setTimeout(function() { location.reload(); }, 300);
+                    })
+                    .catch(function(error) {
+                        console.error('Error tracking session:', error);
+                        // Still open meeting URL even if tracking fails
+                        window.open(meetingUrl, '_blank');
+                        passwordModal.remove();
+                    });
+                });
+
+                // Close on backdrop click
+                passwordModal.addEventListener('click', function(ev) {
+                    if (ev.target === passwordModal) {
+                        passwordModal.remove();
+                    }
+                });
+            } else {
+                // No password - track attendance and open URL directly
+                fetch('/api/session-progress', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        session_id: sessionId,
+                        bootcamp_id: bootcampId
+                    })
+                })
+                .then(function(response) { return response.json(); })
+                .then(function(data) {
+                    console.log('Attendance tracked:', data);
+                    // Open meeting URL
+                    window.open(meetingUrl, '_blank');
+                    // Refresh to show attended status
+                    setTimeout(function() { location.reload(); }, 300);
+                })
+                .catch(function(error) {
+                    console.error('Error tracking session:', error);
+                    // Still open meeting URL even if tracking fails
+                    window.open(meetingUrl, '_blank');
+                });
+            }
+
+            return false;
+        });
+    });
+});
+</script>
+@endpush
+
 @section('content')
 @inject('catalog', 'App\Services\CatalogService')
 @php
@@ -161,35 +278,84 @@
                             <span class="px-3 py-1 bg-gray-100 text-gray-500 text-[11px] font-bold rounded-full">{{ count($sessions) }} sesi</span>
                         </div>
                         
-                        <div class="space-y-0 relative">
+                        <div class="space-y-3 relative">
                             <!-- vertical line connecting timeline -->
-                            <div class="absolute top-4 bottom-4 left-4 w-px bg-gray-100 z-0"></div>
-                            
+                            <div class="absolute top-8 bottom-8 left-[18px] w-px bg-gray-100 z-0 pointer-events-none"></div>
+
                             @foreach($sessions as $i => $s)
-                            <div class="relative z-10 flex items-start gap-4 py-4 {{ !$loop->last ? 'border-b border-gray-50' : '' }}">
-                                <div class="w-8 h-8 rounded-full bg-[#d00000] text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-sm mt-0.5">
-                                    {{ $i + 1 }}
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h4 class="text-[13px] font-bold text-gray-900 mb-1">{{ $s['topic'] }}</h4>
-                                    <div class="flex items-center gap-4 text-[11px] text-gray-500 font-medium">
-                                        <div class="flex items-center gap-1.5">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                            {{ $s['date'] }}
-                                        </div>
-                                        <div class="flex items-center gap-1.5">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                            {{ $s['time'] }} WIB
-                                        </div>
+                            @php
+                                // Check if user has attended this session
+                                $hasAttended = isset($s['has_attended']) && $s['has_attended'];
+                                // Check if session has a meeting URL
+                                $hasMeetingUrl = !empty($s['meeting_url']);
+                                // Can join if enrolled and has meeting URL
+                                $canJoin = $isEnrolled && $hasMeetingUrl;
+                                $sessionId = $s['id'] ?? ($i + 1);
+                            @endphp
+                            <div class="relative z-10 {{ !$loop->last ? 'pb-3' : '' }}">
+                                <!-- Session Card -->
+                                <div class="session-card flex items-start gap-4 p-4 rounded-2xl border border-gray-100 bg-white hover:border-gray-200 hover:shadow-sm transition-all {{ $canJoin && !$hasAttended ? 'cursor-pointer' : '' }}"
+                                    data-session-id="{{ $sessionId }}"
+                                    data-bootcamp-id="{{ $bootcamp['id'] }}"
+                                    data-meeting-url="{{ $s['meeting_url'] ?? '' }}"
+                                    data-password="{{ $s['password'] ?? '' }}"
+                                >
+                                    <!-- Number Badge -->
+                                    <div class="w-9 h-9 rounded-full {{ $hasAttended ? 'bg-emerald-500' : 'bg-[#d00000]' }} text-white flex items-center justify-center font-bold text-sm flex-shrink-0 shadow-sm">
+                                        @if($hasAttended)
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                        @else
+                                            {{ $i + 1 }}
+                                        @endif
                                     </div>
-                                    @if(!empty($s['password'] && $isEnrolled))
-                                    <div class="mt-3 rounded-lg border border-red-100 bg-red-50 px-3 py-2 text-[11px] text-red-700">
-                                        <span class="font-semibold">Password sesi:</span> {{ $s['password'] }}
+
+                                    <!-- Content -->
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-start justify-between gap-2">
+                                            <div class="flex-1">
+                                                <h4 class="text-[14px] font-bold text-gray-900 mb-1">{{ $s['topic'] }}</h4>
+                                                <div class="flex items-center gap-3 text-[12px] text-gray-500">
+                                                    <span class="flex items-center gap-1">
+                                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                                        {{ $s['date'] }}
+                                                    </span>
+                                                    <span class="flex items-center gap-1">
+                                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                        {{ $s['time'] }} WIB
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Join Button -->
+                                            @if($canJoin && !$hasAttended)
+                                            <button class="px-4 py-1.5 bg-[#d00000] hover:bg-red-700 text-white text-xs font-bold rounded-full transition-colors flex items-center gap-1.5 flex-shrink-0">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                                Join
+                                            </button>
+                                            @elseif($hasAttended)
+                                            <span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full flex items-center gap-1 flex-shrink-0">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                                Selesai
+                                            </span>
+                                            @elseif(!$isEnrolled)
+                                            <span class="px-3 py-1 bg-gray-100 text-gray-500 text-xs font-medium rounded-full flex-shrink-0">
+                                                Login untuk join
+                                            </span>
+                                            @endif
+                                        </div>
+
+                                        <!-- Password Info -->
+                                        @if($hasAttended)
+                                        <div class="mt-2 inline-flex items-center gap-1.5 text-[11px] text-emerald-600">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            Sesi telah diikuti
+                                        </div>
+                                        @elseif($canJoin && !empty($s['password']))
+                                        <div class="mt-2 text-[11px] text-gray-400">
+                                            Password: <code class="bg-gray-100 px-1.5 py-0.5 rounded font-mono">{{ $s['password'] }}</code>
+                                        </div>
+                                        @endif
                                     </div>
-                                    @endif
-                                </div>
-                                <div class="w-7 h-7 rounded-full bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0 mt-1">
-                                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                                 </div>
                             </div>
                             @endforeach

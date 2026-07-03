@@ -4,45 +4,209 @@ namespace App\Services;
 
 use App\Models\Chapter;
 use App\Models\ChapterProgress;
+use App\Models\ChapterVideo;
 use App\Models\SessionProgress;
+use App\Models\VideoProgress;
 use App\Models\AttendanceRecord;
 use App\Models\UserSkill;
 use App\Models\Course;
 use App\Models\Bootcamp;
+use App\Models\Completion;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class ProgressService
 {
+    private ?NotificationService $notificationService = null;
+
+    /**
+     * Get notification service (lazy loaded)
+     */
+    private function getNotificationService(): NotificationService
+    {
+        if ($this->notificationService === null) {
+            $this->notificationService = app(NotificationService::class);
+        }
+        return $this->notificationService;
+    }
+
     // ── Course Progress ──────────────────────────────────────────────────────
 
     /**
-     * Mark a chapter as watched/clicked
+     * Mark a video as watched
      */
-    public function markChapterWatched(int $userId, int $chapterId, int $progressSeconds = 0): array
+    public function markChapterWatched(int $userId, int $chapterId, int $progressSeconds = 0, ?int $videoId = null, ?int $courseId = null): array
     {
-        $chapter = Chapter::find($chapterId);
+        $chapter = Chapter::with('videos')->find($chapterId);
 
         if (!$chapter) {
             return ['success' => false, 'message' => 'Chapter not found'];
         }
 
-        ChapterProgress::updateOrCreate(
-            ['user_id' => $userId, 'chapter_id' => $chapterId],
+        $user = User::find($userId);
+
+        // Get the video ID to track (should be passed from the view)
+        if (!$videoId) {
+            // If no videoId, get the first video from the chapter
+            $firstVideo = $chapter->videos->first();
+            if ($firstVideo) {
+                $videoId = $firstVideo->id;
+            }
+        }
+
+        // Get video for notification
+        $video = $chapter->videos->firstWhere('id', $videoId);
+        $videoTitle = $video ? $video->title : 'Video';
+        $courseId = $courseId ?? $chapter->course_id;
+
+        // Check if already completed using VideoProgress table
+        $existingProgress = VideoProgress::where('user_id', $userId)
+            ->where('video_id', $videoId)
+            ->where('is_completed', true)
+            ->exists();
+
+        if ($existingProgress) {
+            return [
+                'success' => true,
+                'message' => 'Video already completed',
+                'video_id' => $videoId,
+                'chapter_completed' => false,
+                'course_completed' => false,
+            ];
+        }
+
+        // Mark the specific video as watched in video_progress table
+        VideoProgress::updateOrCreate(
+            ['user_id' => $userId, 'video_id' => $videoId],
             [
                 'watched_at' => now(),
-                'progress_seconds' => $progressSeconds,
+                'watch_duration' => $progressSeconds,
+                'is_completed' => true,
             ]
         );
 
         // Log activity
-        $this->logActivity($userId, Chapter::class, $chapterId, 'watched');
+        $this->logActivity($userId, ChapterVideo::class, $videoId, 'watched');
+
+        // Send notification for video completed
+        if ($courseId) {
+            $course = Course::find($courseId);
+            if ($course) {
+                $this->getNotificationService()->videoCompleted($userId, $videoTitle, $course->title, $courseId);
+            }
+        }
+
+        // Check if chapter is completed
+        $chapterCompleted = $this->checkChapterCompleted($userId, $chapter);
+
+        // Check if course is completed
+        $courseCompleted = false;
+        if ($courseId) {
+            $courseCompleted = $this->checkAndMarkCourseCompleted($userId, $courseId);
+        }
 
         return [
             'success' => true,
-            'message' => 'Chapter marked as watched',
+            'message' => 'Video marked as watched',
             'chapter_id' => $chapterId,
+            'video_id' => $videoId,
+            'chapter_completed' => $chapterCompleted,
+            'course_completed' => $courseCompleted,
         ];
+    }
+
+    /**
+     * Check if all videos in a chapter are completed
+     */
+    private function checkChapterCompleted(int $userId, Chapter $chapter): bool
+    {
+        $videos = $chapter->videos;
+        if ($videos->isEmpty()) {
+            return false;
+        }
+
+        $videoIds = $videos->pluck('id')->toArray();
+        $totalVideos = count($videoIds);
+
+        // Count completed videos for this chapter using VideoProgress table
+        $completedCount = VideoProgress::where('user_id', $userId)
+            ->whereIn('video_id', $videoIds)
+            ->where('is_completed', true)
+            ->count();
+
+        // All videos must be completed
+        if ($completedCount >= $totalVideos) {
+            // Send notification for chapter completed
+            $course = Course::find($chapter->course_id);
+            if ($course) {
+                $this->getNotificationService()->chapterCompleted($userId, $chapter->title, $course->title, $course->id);
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if all chapters in a course are completed and mark course as completed
+     */
+    private function checkAndMarkCourseCompleted(int $userId, int $courseId): bool
+    {
+        $course = Course::with('chapters.videos')->find($courseId);
+
+        if (!$course) {
+            return false;
+        }
+
+        // Get all video IDs in this course
+        $allVideoIds = [];
+        foreach ($course->chapters as $chapter) {
+            foreach ($chapter->videos as $video) {
+                $allVideoIds[] = $video->id;
+            }
+        }
+
+        if (empty($allVideoIds)) {
+            return false;
+        }
+
+        // Count completed videos using VideoProgress table
+        $completedCount = VideoProgress::where('user_id', $userId)
+            ->whereIn('video_id', $allVideoIds)
+            ->where('is_completed', true)
+            ->count();
+
+        // If all videos are completed, mark the course as completed
+        if ($completedCount >= count($allVideoIds)) {
+            // Check if already marked as completed
+            $alreadyCompleted = Completion::where('user_id', $userId)
+                ->where('completable_type', Course::class)
+                ->where('completable_id', $courseId)
+                ->exists();
+
+            if (!$alreadyCompleted) {
+                Completion::firstOrCreate(
+                    [
+                        'user_id' => $userId,
+                        'completable_type' => Course::class,
+                        'completable_id' => $courseId,
+                    ],
+                    [
+                        'completed_at' => now(),
+                    ]
+                );
+
+                // Log completion activity
+                $this->logActivity($userId, Course::class, $courseId, 'completed');
+
+                // Send notification for course completed
+                $this->getNotificationService()->courseCompleted($userId, $course->title, $courseId);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -50,10 +214,9 @@ class ProgressService
      */
     public function getCourseProgress(int $userId, int $courseId): array
     {
-        $chapters = Chapter::where('course_id', $courseId)->get();
-        $totalChapters = $chapters->count();
+        $course = Course::with('chapters.videos')->find($courseId);
 
-        if ($totalChapters === 0) {
+        if (!$course) {
             return [
                 'completed' => 0,
                 'total' => 0,
@@ -62,28 +225,36 @@ class ProgressService
             ];
         }
 
-        $completedChapters = ChapterProgress::where('user_id', $userId)
-            ->whereIn('chapter_id', $chapters->pluck('id'))
+        $allVideoIds = [];
+        foreach ($course->chapters as $chapter) {
+            foreach ($chapter->videos as $video) {
+                $allVideoIds[] = $video->id;
+            }
+        }
+
+        $totalVideos = count($allVideoIds);
+
+        if ($totalVideos === 0) {
+            return [
+                'completed' => 0,
+                'total' => 0,
+                'percentage' => 0,
+                'chapters' => [],
+            ];
+        }
+
+        $completedVideos = ChapterProgress::where('user_id', $userId)
+            ->whereIn('chapter_id', $allVideoIds)
+            ->where('is_completed', true)
             ->count();
 
-        $percentage = round(($completedChapters / $totalChapters) * 100, 1);
-
-        $chapterProgress = ChapterProgress::where('user_id', $userId)
-            ->whereIn('chapter_id', $chapters->pluck('id'))
-            ->get()
-            ->keyBy('chapter_id');
+        $percentage = round(($completedVideos / $totalVideos) * 100, 1);
 
         return [
-            'completed' => $completedChapters,
-            'total' => $totalChapters,
+            'completed' => $completedVideos,
+            'total' => $totalVideos,
             'percentage' => $percentage,
-            'chapters' => $chapters->map(fn($ch) => [
-                'id' => $ch->id,
-                'title' => $ch->title,
-                'watched' => $chapterProgress->has($ch->id),
-                'watched_at' => $chapterProgress->get($ch->id)?->watched_at,
-                'progress_seconds' => $chapterProgress->get($ch->id)?->progress_seconds,
-            ]),
+            'chapters' => [],
         ];
     }
 
@@ -92,8 +263,10 @@ class ProgressService
      */
     public function isCourseCompleted(int $userId, int $courseId): bool
     {
-        $progress = $this->getCourseProgress($userId, $courseId);
-        return $progress['percentage'] >= 100;
+        return Completion::where('user_id', $userId)
+            ->where('completable_type', Course::class)
+            ->where('completable_id', $courseId)
+            ->exists();
     }
 
     // ── Online Bootcamp Progress ─────────────────────────────────────────────
@@ -103,10 +276,38 @@ class ProgressService
      */
     public function markSessionClicked(int $userId, int $sessionId): array
     {
+        // Check if already clicked
+        $existing = SessionProgress::where('user_id', $userId)
+            ->where('bootcamp_session_id', $sessionId)
+            ->whereNotNull('clicked_at')
+            ->exists();
+
+        if ($existing) {
+            return [
+                'success' => true,
+                'message' => 'Session already joined',
+                'session_id' => $sessionId,
+            ];
+        }
+
         $sessionProgress = SessionProgress::updateOrCreate(
             ['user_id' => $userId, 'bootcamp_session_id' => $sessionId],
             ['clicked_at' => now()]
         );
+
+        // Send notification
+        $session = \App\Models\BootcampSession::find($sessionId);
+        if ($session) {
+            $bootcamp = $session->bootcamp;
+            if ($bootcamp) {
+                $this->getNotificationService()->sessionJoined(
+                    $userId,
+                    $session->topic,
+                    $bootcamp->title,
+                    $bootcamp->id
+                );
+            }
+        }
 
         return [
             'success' => true,

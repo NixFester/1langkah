@@ -105,7 +105,15 @@
             <!-- Curriculum Tab -->
             <div x-show="activeTab === 'curriculum'" x-cloak>
                 <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
-                    <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">Curriculum</h2>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-[22px] font-bold text-gray-900 tracking-tight">Curriculum</h2>
+                        @if($isCompleted)
+                        <span class="px-4 py-2 bg-emerald-100 text-emerald-700 text-sm font-bold rounded-full flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Kursus Selesai
+                        </span>
+                        @endif
+                    </div>
 
                     @if(!empty($chapters))
                     <div class="space-y-4">
@@ -114,13 +122,27 @@
                             <!-- Chapter Header -->
                             <div @click="open = !open; openChapter = open ? {{ $index }} : null" class="flex items-center justify-between p-4 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
                                 <div class="flex items-center gap-3">
-                                    <span class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-sm font-bold">{{ $index + 1 }}</span>
+                                    <span class="w-8 h-8 rounded-full {{ ($chapter['is_completed'] ?? false) ? 'bg-emerald-500 text-white' : 'bg-red-100 text-red-600' }} flex items-center justify-center text-sm font-bold">
+                                        @if(($chapter['is_completed'] ?? false))
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                        @else
+                                        {{ $index + 1 }}
+                                        @endif
+                                    </span>
                                     <div>
                                         <span class="font-medium text-gray-900">{{ $chapter['title'] }}</span>
-                                        <span class="ml-2 text-xs text-gray-500">{{ count($chapter['videos'] ?? []) }} videos</span>
+                                        <span class="ml-2 text-xs text-gray-500 video-counter" data-total="{{ $chapter['total_videos'] ?? count($chapter['videos'] ?? []) }}">
+                                            {{ $chapter['completed_videos'] ?? 0 }}/{{ $chapter['total_videos'] ?? count($chapter['videos'] ?? []) }} videos
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-4 text-sm text-gray-500">
+                                    @if(($chapter['is_completed'] ?? false))
+                                    <span class="text-emerald-600 font-medium flex items-center gap-1">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        Selesai
+                                    </span>
+                                    @endif
                                     <span>{{ $chapter['duration'] ?? '0h' }}</span>
                                     <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </div>
@@ -135,23 +157,46 @@
                                 @endif
                                 @if(!empty($chapter['videos']))
                                 @foreach($chapter['videos'] as $video)
-                                <div class="flex items-center gap-4 p-4 {{ !$isEnrolled ? 'opacity-60' : '' }} hover:bg-gray-50 transition-colors {{ !$loop->last ? 'border-b border-gray-50' : '' }}">
+                                <div class="flex items-center gap-4 p-4 {{ !$isEnrolled ? 'opacity-60' : '' }} hover:bg-gray-50 transition-colors {{ !$loop->last ? 'border-b border-gray-50' : '' }}
+                                    {{ ($video['is_completed'] ?? false) ? 'video-completed' : '' }}"
+                                    data-video-id="{{ $video['id'] }}"
+                                    data-chapter-id="{{ $chapter['id'] }}"
+                                    data-course-id="{{ $course['id'] }}"
+                                    data-video-url="{{ $video['video_url'] ?? '' }}"
+                                >
                                     @if($isEnrolled)
                                         <!-- Enrolled: clickable video -->
-                                        <a href="{{ $video['video_url'] ?? '#' }}" target="_blank" class="flex items-center gap-4 flex-1 group">
-                                            <div class="w-24 h-14 rounded-lg bg-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                        <div class="flex items-center gap-4 flex-1 group video-item {{ ($video['is_completed'] ?? false) ? 'cursor-default' : 'cursor-pointer' }}">
+                                            <div class="w-24 h-14 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden relative {{ ($video['is_completed'] ?? false) ? 'bg-emerald-100' : 'bg-gray-200' }}">
                                                 @if(!empty($video['thumbnail_url']))
                                                 <img src="{{ $video['thumbnail_url'] }}" alt="{{ $video['title'] }}" class="w-full h-full object-cover">
-                                                @else
-                                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                                 @endif
+                                                <div class="absolute inset-0 flex items-center justify-center">
+                                                    @if(($video['is_completed'] ?? false))
+                                                    <div class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center">
+                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                                    </div>
+                                                    @else
+                                                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                    @endif
+                                                </div>
                                             </div>
                                             <div class="flex-1 min-w-0">
-                                                <p class="font-medium text-gray-900 group-hover:text-red-600 transition-colors truncate">{{ $video['title'] }}</p>
-                                                <p class="text-xs text-gray-500">{{ $video['duration'] ?? '' }}</p>
+                                                <p class="font-medium text-gray-900 group-hover:text-red-600 transition-colors truncate {{ ($video['is_completed'] ?? false) ? 'line-through text-gray-500' : '' }}">{{ $video['title'] }}</p>
+                                                <p class="text-xs text-gray-500">
+                                                    @if(($video['is_completed'] ?? false))
+                                                    <span class="text-emerald-600">Selesai ditonton</span>
+                                                    @else
+                                                    {{ $video['duration'] ?? '' }}
+                                                    @endif
+                                                </p>
                                             </div>
+                                            @if(($video['is_completed'] ?? false))
+                                            <svg class="w-5 h-5 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                            @else
                                             <svg class="w-5 h-5 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
-                                        </a>
+                                            @endif
+                                        </div>
                                     @else
                                         <!-- Not enrolled: locked video -->
                                         <div class="flex items-center gap-4 flex-1">
@@ -481,6 +526,192 @@
 @push('scripts')
 <script>
 let selectedRating = {{ $userRating ? $userRating->rating : 0 }};
+
+// Client-side tracking state
+var completedVideos = new Set();
+@foreach($chapters as $chapterIndex => $chapter)
+    @foreach($chapter['videos'] ?? [] as $video)
+        @if($video['is_completed'] ?? false)
+completedVideos.add({{ $video['id'] }});
+        @endif
+    @endforeach
+@endforeach
+
+// Video click tracking - immediate client-side + background server sync
+console.log('Initializing video tracking...');
+console.log('Completed videos from server:', Array.from(completedVideos));
+
+document.querySelectorAll('.video-item').forEach(function(item) {
+    item.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        var container = this.closest('[data-video-id]');
+        if (!container) {
+            console.error('Container not found');
+            return;
+        }
+
+        var videoId = parseInt(container.dataset.videoId);
+        var chapterId = parseInt(container.dataset.chapterId);
+        var courseId = parseInt(container.dataset.courseId);
+        var videoUrl = container.dataset.videoUrl;
+
+        console.log('Video clicked:', { videoId, chapterId, courseId, videoUrl });
+
+        // Check if already completed (from client-side tracking)
+        if (completedVideos.has(videoId)) {
+            console.log('Already tracked, opening video');
+            if (videoUrl) {
+                window.open(videoUrl, '_blank');
+            }
+            return;
+        }
+
+        // === CLIENT-SIDE: Immediately mark as completed ===
+        completedVideos.add(videoId);
+        updateVideoUI(container);
+
+        // Update chapter counter and check chapter completion
+        updateChapterProgress(container, function(chapterComplete) {
+            if (chapterComplete) {
+                updateChapterUI(container, true);
+            }
+        });
+
+        // === SERVER-SIDE: Track progress in background ===
+        var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+        console.log('CSRF Token exists:', !!csrfToken);
+
+        var url = '/api/progress/chapter/' + chapterId;
+        console.log('POST to:', url);
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({
+                video_id: videoId,
+                course_id: courseId,
+                progress_seconds: 0
+            })
+        })
+        .then(function(response) {
+            console.log('Response status:', response.status);
+            if (!response.ok) {
+                throw new Error('HTTP ' + response.status);
+            }
+            return response.json();
+        })
+        .then(function(data) {
+            console.log('Server response:', data);
+            if (data.course_completed) {
+                alert('🎉 Selamat! Kamu telah menyelesaikan kursus ini!');
+                location.reload();
+            }
+        })
+        .catch(function(error) {
+            console.error('Server tracking failed:', error);
+        });
+
+        // Open the video
+        if (videoUrl) {
+            window.open(videoUrl, '_blank');
+        }
+    });
+});
+
+// Update single video UI immediately
+function updateVideoUI(container) {
+    // Mark container
+    container.classList.add('video-completed');
+
+    // Update thumbnail
+    var thumbnail = container.querySelector('.w-24.h-14');
+    if (thumbnail) {
+        thumbnail.classList.remove('bg-gray-200');
+        thumbnail.classList.add('bg-emerald-100');
+        var iconContainer = thumbnail.querySelector('.absolute');
+        if (iconContainer) {
+            iconContainer.innerHTML = '<div class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>';
+        }
+    }
+
+    // Update title (strikethrough)
+    var title = container.querySelector('.font-medium.text-gray-900');
+    if (title) {
+        title.classList.add('line-through', 'text-gray-500');
+        title.classList.remove('group-hover:text-red-600');
+    }
+
+    // Update subtitle
+    var subtitle = container.querySelector('.text-xs.text-gray-500');
+    if (subtitle) {
+        subtitle.innerHTML = '<span class="text-emerald-600">Selesai ditonton</span>';
+    }
+
+    // Update play icon to checkmark
+    var playIcon = container.querySelector('.text-red-500.flex-shrink-0');
+    if (playIcon) {
+        playIcon.classList.remove('text-red-500');
+        playIcon.classList.add('text-emerald-500');
+        playIcon.innerHTML = '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>';
+    }
+
+    // Make non-clickable
+    var videoItem = container.querySelector('.video-item');
+    if (videoItem) {
+        videoItem.classList.remove('cursor-pointer');
+        videoItem.classList.add('cursor-default');
+    }
+}
+
+// Update chapter progress counter and check completion
+function updateChapterProgress(videoContainer, callback) {
+    var chapter = videoContainer.closest('.border.border-gray-100.rounded-xl');
+    if (!chapter) return;
+
+    // Update counter
+    var counter = chapter.querySelector('.video-counter');
+    if (counter) {
+        var total = parseInt(counter.dataset.total);
+        var current = parseInt(counter.textContent.split('/')[0]) || 0;
+        counter.textContent = (current + 1) + '/' + total;
+    }
+
+    // Check if chapter is complete
+    var videoItems = chapter.querySelectorAll('.video-item');
+    var total = videoItems.length;
+    var completed = chapter.querySelectorAll('.video-completed').length;
+
+    if (completed >= total && callback) {
+        callback(true);
+    }
+}
+
+// Update chapter UI when all videos are completed
+function updateChapterUI(videoContainer, isCompleted) {
+    var chapter = videoContainer.closest('.border.border-gray-100.rounded-xl');
+    if (!chapter || !isCompleted) return;
+
+    // Update chapter badge
+    var badge = chapter.querySelector('.w-8.h-8.rounded-full');
+    if (badge) {
+        badge.classList.remove('bg-red-100', 'text-red-600');
+        badge.classList.add('bg-emerald-500', 'text-white');
+        badge.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+    }
+
+    // Add Selesai badge in header
+    var headerRight = chapter.querySelector('.flex.items-center.gap-4.text-sm.text-gray-500');
+    if (headerRight && !headerRight.querySelector('.chapter-selesai')) {
+        var selesaiBadge = document.createElement('span');
+        selesaiBadge.className = 'chapter-selesai text-emerald-600 font-medium flex items-center gap-1';
+        selesaiBadge.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Selesai';
+        headerRight.insertBefore(selesaiBadge, headerRight.firstChild);
+    }
+}
 
 // Pre-select stars based on existing rating
 if (selectedRating > 0) {

@@ -156,16 +156,18 @@ class PageController extends Controller
         $userId = auth()->id();
         $userStats = $this->catalog->userStats($userId);
         $myCourses = $userId ? $this->catalog->userEnrolledCourses($userId) : [];
+        $myBootcamps = $userId ? $this->catalog->userEnrolledBootcamps($userId) : [];
+        $recentActivities = $userId ? $this->catalog->recentActivities($userId) : [];
+        $upcomingEvents = $this->catalog->upcomingEvents($userId);
+        $recommendedCourses = $userId ? $this->catalog->recommendedCourses($userId) : [];
 
         return view('pages.dashboard', [
-            'user'           => $this->catalog->user(),
-            'userStats'     => $userStats,
-            'activeCourses'  => $myCourses,
-            'newCourses'     => [],
-            'leaderboard'    => $this->catalog->leaderboard(),
-            'activities'     => $this->catalog->activities(),
-            'skills'         => $this->catalog->skills(),
-            'weeklyHours'    => $this->catalog->weeklyHours(),
+            'userStats'         => $userStats,
+            'activeCourses'     => $myCourses,
+            'myBootcamps'       => $myBootcamps,
+            'recentActivities'  => $recentActivities,
+            'upcomingEvents'    => $upcomingEvents,
+            'recommendedCourses'=> $recommendedCourses,
         ]);
     }
 
@@ -219,28 +221,73 @@ class PageController extends Controller
 
         // Get chapters with videos
         $chapters = [];
+        $completedVideoIds = [];
+        $isCompleted = false;
         if ($courseModel) {
+            // Get user's watched videos if logged in
+            if (auth()->check()) {
+                // First get all video IDs from all chapters
+                $allVideoIds = [];
+                foreach ($courseModel->chapters as $ch) {
+                    foreach ($ch->videos as $v) {
+                        $allVideoIds[] = $v->id;
+                    }
+                }
+
+                // Get completed video IDs from video_progress table
+                $completedVideoIds = \App\Models\VideoProgress::where('user_id', auth()->id())
+                    ->whereIn('video_id', $allVideoIds)
+                    ->where('is_completed', true)
+                    ->pluck('video_id')
+                    ->toArray();
+
+                // Check if course is completed
+                $isCompleted = \App\Models\Completion::where('user_id', auth()->id())
+                    ->where('completable_type', Course::class)
+                    ->where('completable_id', $id)
+                    ->exists();
+            }
+
             $chapters = $courseModel->chapters()
                 ->with('videos')
                 ->orderBy('order')
                 ->orderBy('id')
                 ->get()
-                ->map(fn($ch) => [
-                    'id' => $ch->id,
-                    'title' => $ch->title,
-                    'lessons' => $ch->videos->count(),
-                    'duration' => $ch->duration ?? '0h',
-                    'video_url' => $ch->video_url,
-                    'thumbnail_url' => $ch->thumbnail_url,
-                    'description' => $ch->description,
-                    'videos' => $ch->videos->map(fn($v) => [
-                        'id' => $v->id,
-                        'title' => $v->title,
-                        'video_url' => $v->video_url,
-                        'thumbnail_url' => $v->thumbnail_url,
-                        'duration' => $v->duration,
-                    ])->toArray(),
-                ])
+                ->map(function($ch) use ($completedVideoIds) {
+                    // Get all video IDs in this chapter
+                    $videoIds = $ch->videos->pluck('id')->toArray();
+
+                    // Mark which videos are completed
+                    $videos = $ch->videos->map(function($v) use ($completedVideoIds) {
+                        return [
+                            'id' => $v->id,
+                            'title' => $v->title,
+                            'video_url' => $v->video_url,
+                            'thumbnail_url' => $v->thumbnail_url,
+                            'duration' => $v->duration,
+                            'is_completed' => in_array($v->id, $completedVideoIds),
+                        ];
+                    })->toArray();
+
+                    // Check if all videos in chapter are completed
+                    $completedVideosInChapter = count(array_filter($videos, fn($v) => $v['is_completed']));
+                    $totalVideosInChapter = count($videos);
+                    $allVideosCompleted = $totalVideosInChapter > 0 && $completedVideosInChapter >= $totalVideosInChapter;
+
+                    return [
+                        'id' => $ch->id,
+                        'title' => $ch->title,
+                        'lessons' => $ch->videos->count(),
+                        'duration' => $ch->duration ?? '0h',
+                        'video_url' => $ch->video_url,
+                        'thumbnail_url' => $ch->thumbnail_url,
+                        'description' => $ch->description,
+                        'videos' => $videos,
+                        'is_completed' => $allVideosCompleted,
+                        'completed_videos' => $completedVideosInChapter,
+                        'total_videos' => $totalVideosInChapter,
+                    ];
+                })
                 ->toArray();
         }
 
@@ -275,6 +322,7 @@ class PageController extends Controller
             'reviews'    => $reviews,
             'userRating' => $userRating,
             'enrolledCount' => $enrolledCount,
+            'isCompleted' => $isCompleted,
         ]);
     }
 
@@ -335,9 +383,25 @@ class PageController extends Controller
             ->where('purchasable_id', $bootcamp['id'])
             ->count();
 
+        // Get sessions with attendance status
+        $sessions = $this->catalog->onlineSessions($bootcamp['id']);
+        if (auth()->check() && !empty($sessions)) {
+            $sessionIds = array_column($sessions, 'id');
+            $attendedSessionIds = \App\Models\SessionProgress::where('user_id', auth()->id())
+                ->whereIn('bootcamp_session_id', $sessionIds)
+                ->whereNotNull('clicked_at')
+                ->pluck('bootcamp_session_id')
+                ->toArray();
+
+            // Add has_attended flag to each session
+            foreach ($sessions as &$session) {
+                $session['has_attended'] = in_array($session['id'] ?? 0, $attendedSessionIds);
+            }
+        }
+
         return view('pages.detail-online-bootcamp', [
             'bootcamp' => $bootcamp,
-            'sessions' => $this->catalog->onlineSessions($bootcamp['id']),
+            'sessions' => $sessions,
             'isEnrolled' => $isEnrolled,
             'enrolledCount' => $enrolledCount,
         ]);
@@ -525,6 +589,9 @@ class PageController extends Controller
                 ->with('info', 'Kamu sudah terdaftar di item ini.');
         }
 
+        // Get item name for notification
+        $itemName = $this->getItemName($itemKind, $itemId);
+
         // Create enrollment (mock payment - always successful)
         Enrollment::create([
             'user_id' => $user->id,
@@ -534,13 +601,15 @@ class PageController extends Controller
         ]);
 
         // Log activity
-        $itemName = $this->getItemName($itemKind, $itemId);
         \App\Models\UserActivityLog::create([
             'user_id' => $user->id,
             'action' => 'enrolled',
             'loggable_type' => $purchasableType,
             'loggable_id' => $itemId,
         ]);
+
+        // Send notification
+        app(\App\Services\NotificationService::class)->enrolled($user->id, $itemName, $itemKind, $itemId);
 
         return redirect()->to($this->getEnrollmentRedirectUrl($itemKind, $itemId))
             ->with('success', "Berhasil terdaftar di {$itemName}! Selamat belajar 🎉");

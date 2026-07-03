@@ -27,7 +27,10 @@ class ProgressController extends Controller
         }
 
         $progressSeconds = $request->input('progress_seconds', 0);
-        $result = $this->progressService->markChapterWatched(auth()->id(), $chapterId, $progressSeconds);
+        $videoId = $request->input('video_id');
+        $courseId = $request->input('course_id');
+
+        $result = $this->progressService->markChapterWatched(auth()->id(), $chapterId, $progressSeconds, $videoId, $courseId);
 
         return response()->json($result);
     }
@@ -103,6 +106,28 @@ class ProgressController extends Controller
         }
 
         $result = $this->progressService->getDashboardStats(auth()->id());
+
+        return response()->json($result);
+    }
+
+    /**
+     * Track session attendance (clicked meeting link)
+     * POST /api/session-progress
+     */
+    public function trackSession(Request $request): JsonResponse
+    {
+        if (!auth()->check()) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+        }
+
+        $sessionId = $request->input('session_id');
+        $bootcampId = $request->input('bootcamp_id');
+
+        if (!$sessionId) {
+            return response()->json(['success' => false, 'message' => 'Session ID required'], 400);
+        }
+
+        $result = $this->progressService->markSessionClicked(auth()->id(), $sessionId);
 
         return response()->json($result);
     }

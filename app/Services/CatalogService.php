@@ -13,8 +13,8 @@ class CatalogService
     // ── Private mappers ──────────────────────────────────────────────────────
     private function mapCourse(Course $c): array
     {
+        // Use actual enrollment count from database
         $enrolledCount = $c->enrollments()->count();
-        $studentCount = max((int) ($c->students_count ?? 0), $enrolledCount);
 
         // Decode JSON resources/benefits if stored as string
         $resources = [];
@@ -58,9 +58,9 @@ class CatalogService
             'level'         => $c->level ?? 'Beginner',
             'badge'         => $c->badge ?? '',
             'rating'        => (float) ($c->rating ?? 0),
-            'students'      => $studentCount,
-            'enrolled_count' => $studentCount,
-            'enrolledCount' => $studentCount,
+            'students'      => $enrolledCount,
+            'enrolled_count' => $enrolledCount,
+            'enrolledCount' => $enrolledCount,
             'price'         => $c->price ?? '',
             'progress'      => $c->progress ?? 0,
             'color'         => $c->color ?? '#dc2626',
@@ -274,6 +274,7 @@ class CatalogService
             ->orderBy('id')
             ->get()
             ->map(fn ($s) => [
+                'id'          => $s->id,
                 'date'        => $s->date,
                 'topic'       => $s->topic,
                 'time'        => $s->time,
@@ -430,17 +431,13 @@ class CatalogService
     }
 
     /**
-     * Get user's dashboard stats
+     * Get user's dashboard stats (simplified, no gamification)
      */
     public function userStats(int $userId): array
     {
         $user = \App\Models\User::with([
             'enrollments',
             'completions',
-            'chapterProgress',
-            'courseRatings',
-            'bootcampRatings',
-            'skills'
         ])->find($userId);
 
         if (!$user) {
@@ -450,9 +447,6 @@ class CatalogService
                 'courses_completed' => 0,
                 'bootcamps_completed' => 0,
                 'certificates' => 0,
-                'xp' => 0,
-                'streak' => 0,
-                'skills_count' => 0,
             ];
         }
 
@@ -461,57 +455,105 @@ class CatalogService
         $coursesCompleted = $user->completions->where('completable_type', \App\Models\Course::class)->count();
         $bootcampsCompleted = $user->completions->where('completable_type', \App\Models\Bootcamp::class)->count();
 
-        // Calculate XP
-        $xp = $user->completions->count() * 100
-            + $user->chapterProgress->count() * 10
-            + $user->courseRatings->count() * 50
-            + $user->bootcampRatings->count() * 50;
-
         return [
             'courses_enrolled' => $courseEnrollments,
             'bootcamps_enrolled' => $bootcampEnrollments,
             'courses_completed' => $coursesCompleted,
             'bootcamps_completed' => $bootcampsCompleted,
             'certificates' => $coursesCompleted + $bootcampsCompleted,
-            'xp' => $xp,
-            'streak' => $user->streak,
-            'skills_count' => $user->skills->pluck('skill_name')->filter()->unique()->count(),
         ];
     }
 
-    // ── Still hardcoded (no DB table yet) ────────────────────────────────────
-
-    public function leaderboard(): array
-    {
-        return [
-            ['name' => 'Ahmad Fauzi',  'xp' => '12,480 XP', 'rank' => 1, 'initials' => 'AF'],
-            ['name' => 'Siti Rahma',   'xp' => '11,920 XP', 'rank' => 2, 'initials' => 'SR'],
-            ['name' => 'Dito Pratama', 'xp' => '10,750 XP', 'rank' => 3, 'initials' => 'DP'],
-            ['name' => 'You (Reza)',   'xp' => '9,840 XP',  'rank' => 4, 'initials' => 'AK', 'isMe' => true],
-            ['name' => 'Maya Sari',    'xp' => '8,920 XP',  'rank' => 5, 'initials' => 'MS'],
-        ];
-    }
-
-    public function activities(): array
+    /**
+     * Get recent activities for the user
+     */
+    public function recentActivities(int $userId): array
     {
         $logs = \App\Models\UserActivityLog::with('loggable')
-            ->where('user_id', auth()->id())
+            ->where('user_id', $userId)
             ->latest()
             ->take(5)
             ->get();
 
         if ($logs->isEmpty()) {
-            return [['text' => 'No recent activity', 'time' => 'Just now', 'color' => '#6b7280']];
+            return [];
         }
 
         return $logs->map(function ($log) {
-            $loggableName = $log->loggable ? ($log->loggable->title ?? 'a course') : 'the platform';
+            $loggableName = $log->loggable ? ($log->loggable->title ?? 'an item') : 'the platform';
+            $actionText = match ($log->action) {
+                'enrolled' => 'Enrolled in',
+                'completed' => 'Completed',
+                'started' => 'Started',
+                default => ucfirst($log->action),
+            };
             return [
-                'text'  => ucfirst($log->action) . ' ' . $loggableName,
+                'text'  => $actionText . ' ' . $loggableName,
                 'time'  => $log->created_at->diffForHumans(),
                 'color' => '#3b82f6'
             ];
         })->toArray();
+    }
+
+    /**
+     * Get upcoming events for the calendar widget
+     */
+    public function upcomingEvents(int $userId = null, int $limit = 3): array
+    {
+        $query = \App\Models\Event::where('start_date', '>=', now())
+            ->orderBy('start_date')
+            ->limit($limit);
+
+        return $query->get()->map(function ($e) {
+            $dt = $e->start_date instanceof \Illuminate\Support\Carbon ? $e->start_date : \Carbon\Carbon::parse($e->start_date);
+            return [
+                'id'    => $e->id,
+                'title' => $e->title,
+                'date'  => $dt->format('d M'),
+                'day'   => $dt->dayName,
+                'time'  => $dt->format('H:i') . ' WIB',
+                'type'  => $e->type,
+                'color' => $e->color ?? '#cc0000',
+            ];
+        })->toArray();
+    }
+
+    /**
+     * Get recommended courses based on user's enrolled categories
+     */
+    public function recommendedCourses(int $userId, int $limit = 3): array
+    {
+        // Get user's enrolled course categories
+        $enrolledCourseIds = \App\Models\Enrollment::where('user_id', $userId)
+            ->where('purchasable_type', \App\Models\Course::class)
+            ->pluck('purchasable_id');
+
+        $enrolledCategories = \App\Models\Course::whereIn('id', $enrolledCourseIds)
+            ->pluck('category')
+            ->filter()
+            ->unique()
+            ->toArray();
+
+        // Get courses not yet enrolled
+        $excludeIds = \App\Models\Enrollment::where('user_id', $userId)
+            ->where('purchasable_type', \App\Models\Course::class)
+            ->pluck('purchasable_id')
+            ->toArray();
+
+        $query = \App\Models\Course::with('pictures')
+            ->whereNotIn('id', $excludeIds)
+            ->orderByDesc('rating')
+            ->limit($limit);
+
+        // If user has enrolled courses, prioritize same category
+        if (!empty($enrolledCategories)) {
+            $query->orderByRaw("CASE WHEN category IN ('" . implode("','", $enrolledCategories) . "') THEN 0 ELSE 1 END");
+        }
+
+        return $query->get()
+            ->map(fn ($c) => $this->mapCourse($c))
+            ->values()
+            ->toArray();
     }
 
     public function testimonials(): array
@@ -610,28 +652,4 @@ class CatalogService
         return ['Semua', 'Programming', 'Design', 'Data Science', 'Marketing', 'Leadership', 'Cloud'];
     }
 
-    public function skills(): array
-    {
-        return [
-            ['name' => 'Frontend', 'pct' => 85, 'color' => 'var(--primary)'],
-            ['name' => 'Backend',  'pct' => 70, 'color' => 'var(--blue)'],
-            ['name' => 'Design',   'pct' => 45, 'color' => 'var(--purple)'],
-            ['name' => 'Data',     'pct' => 55, 'color' => 'var(--success)'],
-            ['name' => 'Cloud',    'pct' => 30, 'color' => 'var(--gold)'],
-            ['name' => 'AI/ML',    'pct' => 40, 'color' => '#f5576c'],
-        ];
-    }
-
-    public function weeklyHours(): array
-    {
-        return [
-            ['day' => 'Mon', 'hours' => 2.5],
-            ['day' => 'Tue', 'hours' => 3.1],
-            ['day' => 'Wed', 'hours' => 2.8],
-            ['day' => 'Thu', 'hours' => 4.2],
-            ['day' => 'Fri', 'hours' => 3.5],
-            ['day' => 'Sat', 'hours' => 1.2],
-            ['day' => 'Sun', 'hours' => 1.0],
-        ];
-    }
 }

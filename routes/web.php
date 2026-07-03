@@ -49,6 +49,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/ratings/course', [App\Http\Controllers\Api\RatingController::class, 'rateCourse'])->name('ratings.course');
     Route::post('/ratings/bootcamp', [App\Http\Controllers\Api\RatingController::class, 'rateBootcamp'])->name('ratings.bootcamp');
 
+    // Session progress tracking (for online bootcamp meeting links)
+    Route::post('/api/session-progress', [App\Http\Controllers\Api\ProgressController::class, 'trackSession'])->name('api.session-progress');
+
+    // Chapter/video progress tracking (for course curriculum)
+    Route::post('/api/progress/chapter/{chapterId}', [App\Http\Controllers\Api\ProgressController::class, 'markChapterWatched'])->name('api.progress.chapter');
+
     // Portfolio
     Route::get('/portofolio', [PortfolioController::class, 'index'])->name('portofolio');
     Route::post('/portofolio/share', [PortfolioController::class, 'share'])->name('portofolio.share');
@@ -72,6 +78,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/quiz/submit/{quiz}', [QuizController::class, 'submit'])->name('quiz.submit');
     Route::get('/quiz/result/{attempt}', [QuizController::class, 'result'])->name('quiz.result');
     Route::get('/quiz/api/questions/{quiz}', [QuizController::class, 'apiQuestions'])->name('quiz.api.questions');
+
+    // Notifications
+    Route::get('/api/notifications', [App\Http\Controllers\Api\NotificationController::class, 'index'])->name('api.notifications');
+    Route::get('/api/notifications/count', [App\Http\Controllers\Api\NotificationController::class, 'count'])->name('api.notifications.count');
+    Route::post('/api/notifications/{id}/read', [App\Http\Controllers\Api\NotificationController::class, 'markAsRead'])->name('api.notifications.read');
+    Route::post('/api/notifications/read-all', [App\Http\Controllers\Api\NotificationController::class, 'markAllAsRead'])->name('api.notifications.read-all');
 
     Route::post('/logout', [PageController::class, 'logout'])->name('logout');
 });
