@@ -115,7 +115,7 @@
                     <div class="flex items-end justify-between">
                         <div>
                             <div class="text-[11px] font-medium text-gray-400 mb-0.5">Mulai {{ $item['startDate'] }}</div>
-                            <div class="text-[15px] font-extrabold text-black">{{ $item['price'] }}</div>
+                            <div class="text-[15px] font-extrabold text-black">{{ is_numeric($item['price']) ? 'Rp ' . number_format((float) $item['price'], 0, ',', '.') : $item['price'] }}</div>
                         </div>
                         <div>
                             @php
@@ -180,7 +180,7 @@
                             </a>
                         @else
                             <a href="{{ route('pembayaran', ['id' => $b['id']]) }}" class="flex-1 bg-[#d00000] hover:bg-red-700 text-white font-bold py-3.5 px-6 rounded-full text-center transition-colors shadow-sm">
-                                Daftar Sekarang — {{ $b['price'] }}
+                                Daftar Sekarang — {{ is_numeric($b['price']) ? 'Rp ' . number_format((float) $b['price'], 0, ',', '.') : $b['price'] }}
                             </a>
                         @endif
                         <button class="px-8 py-3.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-full hover:bg-gray-50 transition-colors shadow-sm">

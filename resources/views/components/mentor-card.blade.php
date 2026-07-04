@@ -56,7 +56,8 @@
     <div class="flex items-end justify-between mt-auto pt-2">
         <div>
             <div class="text-[11px] text-[#94a3b8] mb-0.5 font-medium">per sesi</div>
-            <div class="text-[17px] font-extrabold text-[#0f172a] tracking-tight">{{ str_replace('/sesi', '', $m['price']) }}</div>
+        @php $priceRaw = trim(str_replace('/sesi', '', $m['price'] ?? '')); @endphp
+        <div class="text-[17px] font-extrabold text-[#0f172a] tracking-tight">{{ is_numeric($priceRaw) ? 'Rp ' . number_format((float) $priceRaw, 0, ',', '.') : $priceRaw }}</div>
         </div>
         <div class="flex items-center gap-2">
             <a href="{{ $profileUrl }}" class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:bg-gray-50 transition-colors">

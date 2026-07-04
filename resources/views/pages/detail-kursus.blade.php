@@ -457,12 +457,13 @@
         <!-- Right Column (Sticky Sidebar) - Only show if not enrolled -->
         @if(!$isEnrolled)
         <div class="lg:col-span-2">
-            <div class="bg-white border border-gray-100 rounded-3xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.05)] lg:sticky lg:top-24">
+            <div class="lg:sticky lg:top-24 space-y-6">
+                <div class="bg-white border border-gray-100 rounded-3xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.05)]">
 
-                <div class="mb-6">
+                    <div class="mb-6">
                     <div class="text-4xl font-extrabold text-gray-900 mb-1 tracking-tight">
                         @if(isset($c['price']) && is_numeric($c['price']))
-                            Rp {{ number_format((float) $c['price']) }}
+                            Rp {{ number_format((float) $c['price'], 0, ',', '.') }}
                         @elseif(isset($c['price']) && $c['price'])
                             {{ $c['price'] }}
                         @else
@@ -508,11 +509,12 @@
                 </div>
             </div>
 
-            <div class="bg-[#FFFDF3] border border-[#FDF0CD] rounded-xl p-4 flex gap-3 shadow-sm mt-6 lg:sticky lg:top-[500px]">
-                <span class="text-[18px]">🎉</span>
-                <div>
-                    <div class="text-[13px] font-bold text-orange-800 mb-0.5">Promo berlaku 2 hari lagi!</div>
-                    <div class="text-[12px] font-semibold text-orange-600">Hemat 40% dari harga normal</div>
+                <div class="bg-[#FFFDF3] border border-[#FDF0CD] rounded-xl p-4 flex gap-3 shadow-sm">
+                    <span class="text-[18px]">🎉</span>
+                    <div>
+                        <div class="text-[13px] font-bold text-orange-800 mb-0.5">Promo berlaku 2 hari lagi!</div>
+                        <div class="text-[12px] font-semibold text-orange-600">Hemat 40% dari harga normal</div>
+                    </div>
                 </div>
             </div>
         </div>
