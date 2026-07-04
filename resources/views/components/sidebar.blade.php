@@ -193,12 +193,16 @@
             <!-- User Profile Row -->
             <div class="flex items-center w-full" style="padding: 0 16px;">
                 <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px;flex:1;">
+                    @if($authUser && $authUser->profile_photo)
+                    <img src="{{ $authUser->profile_photo }}" alt="Profile" style="width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+                    @else
                     <div class="avatar" style="background:linear-gradient(135deg,var(--primary),#b91c1c);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:16px;">
                         {{ strtoupper(substr($authUser->name ?? 'A', 0, 2)) }}
                     </div>
+                    @endif
                     <div class="sidebar-user-info" style="flex:1;">
                         <div class="sidebar-user-name" style="font-weight:700;font-size:14px;line-height:1.2;color:#1f2937;">{{ $authUser->name ?? 'Atta Ul Karim' }}</div>
-                        <div class="sidebar-user-role" style="font-size:12px;color:#9ca3af;margin-top:2px;">{{ ($authUser->role ?? '') === 'student' ? 'Full-Stack Dev' : ucfirst($authUser->role ?? 'User') }}</div>
+                        <div class="sidebar-user-role" style="font-size:12px;color:#9ca3af;margin-top:2px;">{{ ($authUser->role ?? '') === 'student' ? 'Student' : ucfirst($authUser->role ?? 'User') }}</div>
                     </div>
                 </a>
                 <a href="{{ route('pengaturan') }}" class="text-gray-400 transition-colors ml-auto shrink-0 flex items-center justify-center pl-2 settings-btn" title="Pengaturan">

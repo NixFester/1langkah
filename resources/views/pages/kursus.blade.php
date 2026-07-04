@@ -259,8 +259,8 @@
                     <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
                         <template x-if="tab !== 'saya'">
                             <span class="text-base font-bold"
-                                  :class="!course.price || course.price == 0 || course.price.toString().toLowerCase() === 'gratis' ? 'text-emerald-600' : 'text-gray-900'"
-                                  x-text="!course.price || course.price == 0 || course.price.toString().toLowerCase() === 'gratis' ? 'Gratis' : (!isNaN(course.price) ? 'Rp ' + new Intl.NumberFormat('id-ID').format(course.price) : course.price)">
+                                  :class="course.formatted_price === 'Gratis' ? 'text-emerald-600' : 'text-gray-900'"
+                                  x-text="course.formatted_price">
                             </span>
                         </template>
                         

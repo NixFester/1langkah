@@ -30,6 +30,10 @@ class Mentor extends Model
         'expertise' => 'array',
     ];
 
+    protected $appends = [
+        'formatted_price',
+    ];
+
     // ── Relationships ────────────────────────────────────────────────────────
 
     public function courses(): HasMany
@@ -97,5 +101,22 @@ class Mentor extends Model
     public function getExpertiseListAttribute(): array
     {
         return $this->expertise ?? [];
+    }
+
+    /**
+     * Get neatly formatted price.
+     */
+    public function getFormattedPriceAttribute(): string
+    {
+        $priceRaw = trim(str_replace('/sesi', '', (string)$this->price));
+        if (empty($priceRaw) || $priceRaw == '0' || strtolower($priceRaw) === 'gratis') {
+            return 'Gratis';
+        }
+
+        if (is_numeric($priceRaw)) {
+            return 'Rp ' . number_format((float) $priceRaw, 0, ',', '.');
+        }
+
+        return (string) $this->price;
     }
 }

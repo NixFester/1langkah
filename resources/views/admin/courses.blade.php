@@ -79,7 +79,7 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="text-sm font-bold text-gray-900">
-                                {{ is_numeric($course->price) ? 'Rp ' . number_format((float)$course->price, 0, ',', '.') : $course->price }}
+                                {{ $course->formatted_price }}
                             </div>
                         </td>
                         <td class="px-6 py-4 text-right">

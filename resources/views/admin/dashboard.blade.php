@@ -35,7 +35,13 @@
         
         <div class="relative z-10 mt-6 md:mt-0 hidden sm:block">
             <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white/20 p-1 relative">
-                <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name ?? 'Admin') }}&background=7f1d1d&color=ffffff" alt="Admin Profile" class="w-full h-full rounded-full object-cover">
+                @if(auth()->user()->profile_photo)
+                <img src="{{ auth()->user()->profile_photo }}" alt="Admin Profile" class="w-full h-full rounded-full object-cover bg-red-900">
+                @else
+                <div class="w-full h-full rounded-full bg-[#7f1d1d] flex items-center justify-center text-white text-3xl md:text-5xl font-bold">
+                    {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 2)) }}
+                </div>
+                @endif
                 <div class="absolute bottom-2 right-2 w-5 h-5 bg-green-500 border-2 border-[#cc0000] rounded-full"></div>
             </div>
         </div>
@@ -150,7 +156,7 @@
                         </div>
                     </div>
                     <div class="text-right flex-shrink-0">
-                        <div class="text-[12px] font-bold text-gray-900">Rp {{ number_format((float) ($course->price ?? 0), 0, ',', '.') }}</div>
+                        <div class="text-[12px] font-bold text-gray-900">{{ $course->formatted_price }}</div>
                     </div>
                 </div>
                 @empty

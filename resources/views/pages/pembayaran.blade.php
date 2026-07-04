@@ -8,7 +8,7 @@
     $title = $i['title'] ?? ($i['name'] ?? 'Full-Stack Web Development Bootcamp');
     $subtitle = $i['mentor'] ?? ($i['company'] ?? 'Kursus Online');
     $rawPrice = $i['price'] ?? 599000;
-    $price = is_numeric($rawPrice) ? 'Rp ' . number_format((float) $rawPrice, 0, ',', '.') : $rawPrice;
+    $price = $i['formatted_price'] ?? (is_numeric($rawPrice) ? 'Rp ' . number_format((float) $rawPrice, 0, ',', '.') : $rawPrice);
     $normalPrice = 'Rp 999.000';
     $isEnrolled = $isEnrolled ?? false;
     $itemId = $i['id'] ?? 0;

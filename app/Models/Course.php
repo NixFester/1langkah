@@ -43,6 +43,10 @@ class Course extends Model
         'resources' => 'array',
     ];
 
+    protected $appends = [
+        'formatted_price',
+    ];
+
     // ── Relationships ────────────────────────────────────────────────────────
 
     public function mentor(): BelongsTo
@@ -198,5 +202,21 @@ class Course extends Model
         }
 
         return array_unique($skills);
+    }
+
+    /**
+     * Get neatly formatted price.
+     */
+    public function getFormattedPriceAttribute(): string
+    {
+        if (empty($this->price) || $this->price == 0 || strtolower(trim((string)$this->price)) === 'gratis') {
+            return 'Gratis';
+        }
+
+        if (is_numeric($this->price)) {
+            return 'Rp ' . number_format((float) $this->price, 0, ',', '.');
+        }
+
+        return (string) $this->price;
     }
 }

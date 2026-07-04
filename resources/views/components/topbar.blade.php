@@ -53,7 +53,11 @@
 
         {{-- Avatar & User Info --}}
         <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;margin-left:8px;">
+            @if($authUser && $authUser->profile_photo)
+            <img src="{{ $authUser->profile_photo }}" alt="Profile" style="width:32px; height:32px; border-radius:50%; object-fit:cover; flex-shrink:0; background:#cc0000;">
+            @else
             <div class="avatar" style="background:#cc0000; width:32px; height:32px; font-size:13px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; flex-shrink:0;">{{ $initials }}</div>
+            @endif
             <div style="display:flex; flex-direction:column; align-items:flex-start; justify-content:center;">
                 <span style="font-size:15px;font-weight:800;color:var(--text-primary);line-height:1.1;">{{ $authUser->name }}</span>
                 <span style="font-size:13px;font-weight:500;color:var(--text-light);line-height:1.1;margin-top:4px;">{{ ($authUser->role ?? '') === 'student' ? number_format((int) ($authUser->xp ?? 0)) . ' XP' : ucfirst($authUser->role ?? 'User') }}</span>

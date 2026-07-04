@@ -169,8 +169,8 @@
                         <div>
                             <div class="text-[11px] font-medium text-gray-400 mb-1" x-text="'Mulai ' + (b.startDate || '')"></div>
                             <div class="text-[16px] font-extrabold"
-                                 :class="!b.price || b.price == 0 || b.price.toString().toLowerCase() === 'gratis' ? 'text-emerald-600' : 'text-black'"
-                                 x-text="!b.price || b.price == 0 || b.price.toString().toLowerCase() === 'gratis' ? 'Gratis' : (!isNaN(b.price) ? 'Rp ' + new Intl.NumberFormat('id-ID').format(b.price) : b.price)"></div>
+                                 :class="b.formatted_price === 'Gratis' ? 'text-emerald-600' : 'text-black'"
+                                 x-text="b.formatted_price"></div>
                         </div>
                         <div>
                             <span class="px-3 py-1.5 bg-red-50 text-red-600 text-[11px] font-bold rounded-full">Soft Skills</span>

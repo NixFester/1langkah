@@ -6,8 +6,7 @@
 @section('content')
 @php
     $m = $mentor;
-    $priceRaw = trim(str_replace('/sesi', '', $m['price'] ?? ''));
-    $priceNumber = is_numeric($priceRaw) ? 'Rp ' . number_format((float) $priceRaw, 0, ',', '.') : $priceRaw;
+    $priceNumber = $m['formatted_price'] ?? 'Gratis';
     
     // Avatar Logic
     $firstName = explode(' ', $m['name'])[0];

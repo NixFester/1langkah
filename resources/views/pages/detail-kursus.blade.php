@@ -462,13 +462,7 @@
 
                     <div class="mb-6">
                     <div class="text-4xl font-extrabold text-gray-900 mb-1 tracking-tight">
-                        @if(isset($c['price']) && is_numeric($c['price']))
-                            Rp {{ number_format((float) $c['price'], 0, ',', '.') }}
-                        @elseif(isset($c['price']) && $c['price'])
-                            {{ $c['price'] }}
-                        @else
-                            Gratis
-                        @endif
+                        {{ $c['formatted_price'] ?? 'Gratis' }}
                     </div>
                     @if(($c['price'] ?? 0) > 0)
                     <div class="text-[15px] font-semibold text-gray-400 line-through">Rp 999.000</div>

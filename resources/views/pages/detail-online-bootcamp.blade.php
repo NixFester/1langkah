@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="text-right">
                             <div class="text-[11px] font-medium text-gray-400 mb-0.5">Harga</div>
-                            <div class="text-[15px] font-extrabold text-[#e11d48]">{{ is_numeric($item['price']) ? 'Rp ' . number_format((float) $item['price'], 0, ',', '.') : $item['price'] }}</div>
+                            <div class="text-[15px] font-extrabold text-[#e11d48]">{{ $item['formatted_price'] ?? 'Gratis' }}</div>
                         </div>
                     </div>
                 </a>
@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </a>
                         @else
                             <a href="{{ route('pembayaran', ['id' => $b['id']]) }}" class="flex-1 bg-[#d00000] hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full text-center transition-colors shadow-sm text-sm">
-                                Daftar Bootcamp — {{ is_numeric($b['price']) ? 'Rp ' . number_format((float) $b['price'], 0, ',', '.') : $b['price'] }}
+                                Daftar Bootcamp — {{ $b['formatted_price'] ?? 'Gratis' }}
                             </a>
                         @endif
                         <button class="px-8 py-3 bg-white border border-gray-200 text-gray-700 font-bold rounded-full hover:bg-gray-50 transition-colors shadow-sm text-sm">
