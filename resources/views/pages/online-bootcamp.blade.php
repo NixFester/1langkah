@@ -48,58 +48,35 @@
     </div>
 
     <!-- Search & Sort Bar -->
-    <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm mb-6">
-        <div class="flex flex-col md:flex-row gap-4">
-            <!-- Search Input -->
-            <div class="flex-1 relative">
-                <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" x-model="searchQuery" placeholder="Cari bootcamp atau mentor..."
-                    class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
-            </div>
-
-            <!-- Sort Dropdown -->
-            <div class="relative">
-                <select x-model="sortBy" class="appearance-none bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 pr-10 text-sm text-gray-700 focus:ring-2 focus:ring-red-500 focus:border-red-500 cursor-pointer">
-                    <option value="newest">Terbaru</option>
-                    <option value="price_low">Harga: Rendah ke Tinggi</option>
-                    <option value="price_high">Harga: Tinggi ke Rendah</option>
-                </select>
-                <svg class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-            </div>
-        </div>
-    </div>
+    <x-search-filter-bar
+        placeholder="Cari bootcamp atau mentor..."
+        :sort-options="[
+            'newest' => 'Terbaru',
+            'price_low' => 'Harga: Rendah ke Tinggi',
+            'price_high' => 'Harga: Tinggi ke Rendah'
+        ]"
+    />
 
     <!-- Alert / Info Banner -->
-    <div class="bg-[#b91c1c] rounded-2xl p-6 md:p-8 text-white mb-10 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-md">
-        <div class="flex items-center gap-5 md:gap-6">
-            <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-            </div>
-            <div>
-                <h3 class="text-[22px] font-bold mb-1.5 tracking-tight">Tatap Muka LIVE via Zoom</h3>
-                <p class="text-red-100 text-[15px] leading-relaxed max-w-2xl font-medium">Setiap sesi direkam dan tersedia selama 30 hari. Sertifikat kelulusan diberikan setelah menyelesaikan minimal 80% pertemuan.</p>
-            </div>
-        </div>
-        <div class="flex items-center gap-8 md:gap-10 lg:pr-6">
-            <div class="text-center">
-                <div class="text-[28px] font-extrabold leading-tight">7–10</div>
-                <div class="text-[13px] text-red-200 font-medium">Pertemuan</div>
-            </div>
-            <div class="text-center">
-                <div class="text-[28px] font-extrabold leading-tight">2 Jam</div>
-                <div class="text-[13px] text-red-200 font-medium">Per sesi</div>
-            </div>
-            <div class="text-center">
-                <div class="text-[28px] font-extrabold leading-tight">30 Hari</div>
-                <div class="text-[13px] text-red-200 font-medium">Akses rekaman</div>
-            </div>
-        </div>
-    </div>
+    <x-alert-banner
+        type="info"
+        title="Tatap Muka LIVE via Zoom"
+        message="Setiap sesi direkam dan tersedia selama 30 hari. Sertifikat kelulusan diberikan setelah menyelesaikan minimal 80% pertemuan."
+        :stats="[
+            ['value' => '7–10', 'label' => 'Pertemuan'],
+            ['value' => '2 Jam', 'label' => 'Per sesi'],
+            ['value' => '30 Hari', 'label' => 'Akses rekaman']
+        ]"
+    >
+        <x-slot name="icon">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+            </svg>
+        </x-slot>
+    </x-alert-banner>
 
     <!-- Results Count -->
-    <div class="text-sm text-gray-500 mb-4">
-        Menampilkan <span class="font-semibold text-gray-900" x-text="displayedBootcamps.length"></span> bootcamp
-    </div>
+    <x-results-count model="displayedBootcamps" label="bootcamp" />
 
     <!-- Bootcamp Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -165,10 +142,10 @@
     </div>
 
     <!-- Empty State -->
-    <div x-show="displayedBootcamps.length === 0" class="text-center py-12">
-        <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">Bootcamp tidak ditemukan</h3>
-        <p class="text-gray-500">Coba ubah kata kunci pencarian</p>
-    </div>
+    <x-empty-state
+        x-show="displayedBootcamps.length === 0"
+        title="Bootcamp tidak ditemukan"
+        message="Coba ubah kata kunci pencarian"
+    />
 </div>
 @endsection

@@ -4,21 +4,155 @@
 
     // Each nav item maps to a named Laravel route.
     $isAuth = auth()->check();
-    $isAdmin = $isAuth && auth()->user()->role === 'admin';
+    $user = $isAuth ? auth()->user() : null;
+    $isAdmin = $user && in_array($user->role, ['superadmin', 'admin', 'keuangan', 'marketing']);
+    $isSuperAdmin = $user && $user->role === 'superadmin';
+    $isKeuangan = $user && $user->role === 'keuangan';
+    $isMarketing = $user && $user->role === 'marketing';
+    $isMentor = $user && $user->role === 'mentor';
     $isAdminRoute = request()->routeIs('admin.*');
+    $isSuperAdminRoute = request()->routeIs('superadmin.*');
+    $isKeuanganRoute = request()->routeIs('keuangan.*');
+    $isMarketingRoute = request()->routeIs('marketing.*');
+    $isMentorRoute = request()->routeIs('mentor.*');
+
+    // Role label helper
+    $roleLabels = [
+        'superadmin' => 'Super Admin',
+        'admin'      => 'Admin',
+        'keuangan'   => 'Keuangan',
+        'marketing'  => 'Marketing',
+        'mentor'     => 'Mentor',
+        'student'    => 'Student',
+    ];
+    $roleLabel = $user ? ($roleLabels[$user->role] ?? ucfirst($user->role)) : 'User';
 
     $navItems = [];
-    
-    if ($isAdminRoute) {
-        // Admin Navigation
-        $navItems[] = ['id' => 'admin.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'admin.dashboard'];
-        $navItems[] = ['id' => 'admin.users', 'icon' => 'users', 'label' => 'Manage Users', 'route' => 'admin.users'];
-        $navItems[] = ['id' => 'admin.courses', 'icon' => 'book', 'label' => 'Manage Courses', 'route' => 'admin.courses'];
-        $navItems[] = ['id' => 'admin.bootcamps', 'icon' => 'award', 'label' => 'Manage Bootcamps', 'route' => 'admin.bootcamps'];
-        $navItems[] = ['id' => 'admin.events', 'icon' => 'calendar', 'label' => 'Manage Events', 'route' => 'admin.events'];
-        $navItems[] = ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => 'Manage Quizzes', 'route' => 'admin.quizzes'];
-        $navItems[] = ['id' => 'admin.options', 'icon' => 'settings', 'label' => 'Settings', 'route' => 'admin.options'];
-        $navItems[] = ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Back to App', 'route' => 'dashboard'];
+    $roleNavGroups = [];
+    $isSuperAdmin = $user && $user->role === 'superadmin';
+
+    // For superadmin, prepare all role navigation groups for accordion
+    if ($isSuperAdmin) {
+        $roleNavGroups = [
+            'superadmin' => [
+                'label' => 'Super Admin',
+                'icon' => 'shield',
+                'color' => '#7c3aed',
+                'items' => [
+                    ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'superadmin.dashboard'],
+                    ['id' => 'users', 'icon' => 'users', 'label' => 'Kelola User', 'route' => 'superadmin.users'],
+                    ['id' => 'audit-logs', 'icon' => 'shield', 'label' => 'Audit Log', 'route' => 'superadmin.audit-logs'],
+                    ['id' => 'system-stats', 'icon' => 'chart', 'label' => 'Statistik Sistem', 'route' => 'superadmin.system-stats'],
+                ]
+            ],
+            'admin' => [
+                'label' => 'Admin',
+                'icon' => 'settings',
+                'color' => '#ef4444',
+                'items' => [
+                    ['id' => 'admin.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'admin.dashboard'],
+                    ['id' => 'admin.users', 'icon' => 'users', 'label' => 'Manage Users', 'route' => 'admin.users'],
+                    ['id' => 'admin.courses', 'icon' => 'book', 'label' => 'Manage Courses', 'route' => 'admin.courses'],
+                    ['id' => 'admin.bootcamps', 'icon' => 'award', 'label' => 'Manage Bootcamps', 'route' => 'admin.bootcamps'],
+                    ['id' => 'admin.events', 'icon' => 'calendar', 'label' => 'Manage Events', 'route' => 'admin.events'],
+                    ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => 'Manage Quizzes', 'route' => 'admin.quizzes'],
+                    ['id' => 'admin.options', 'icon' => 'settings', 'label' => 'Settings', 'route' => 'admin.options'],
+                ]
+            ],
+            'keuangan' => [
+                'label' => 'Keuangan',
+                'icon' => 'credit-card',
+                'color' => '#f59e0b',
+                'items' => [
+                    ['id' => 'keuangan.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'keuangan.dashboard'],
+                    ['id' => 'keuangan.verifications', 'icon' => 'credit-card', 'label' => 'Verifikasi Pembayaran', 'route' => 'keuangan.verifications'],
+                    ['id' => 'keuangan.enrollments', 'icon' => 'users', 'label' => 'Enrollments', 'route' => 'keuangan.enrollments'],
+                    ['id' => 'keuangan.reports', 'icon' => 'chart', 'label' => 'Laporan Revenue', 'route' => 'keuangan.reports'],
+                ]
+            ],
+            'marketing' => [
+                'label' => 'Marketing',
+                'icon' => 'megaphone',
+                'color' => '#ec4899',
+                'items' => [
+                    ['id' => 'marketing.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'marketing.dashboard'],
+                    ['id' => 'marketing.promo-codes', 'icon' => 'ticket', 'label' => 'Kode Promo', 'route' => 'marketing.promo-codes'],
+                    ['id' => 'marketing.analytics', 'icon' => 'chart', 'label' => 'Analytics', 'route' => 'marketing.analytics'],
+                ]
+            ],
+            'mentor' => [
+                'label' => 'Mentor',
+                'icon' => 'user',
+                'color' => '#3b82f6',
+                'items' => [
+                    ['id' => 'mentor.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'mentor.dashboard'],
+                    ['id' => 'mentor.my-courses', 'icon' => 'book', 'label' => 'Kursus Saya', 'route' => 'mentor.my-courses'],
+                    ['id' => 'mentor.students', 'icon' => 'users', 'label' => 'Siswa Saya', 'route' => 'mentor.students'],
+                    ['id' => 'mentor.feedback', 'icon' => 'star', 'label' => 'Feedback & Rating', 'route' => 'mentor.feedback'],
+                ]
+            ],
+        ];
+
+        // Determine which group is active based on current route
+        $activeGroup = 'superadmin';
+        if (request()->routeIs('admin.*')) $activeGroup = 'admin';
+        elseif (request()->routeIs('keuangan.*')) $activeGroup = 'keuangan';
+        elseif (request()->routeIs('marketing.*')) $activeGroup = 'marketing';
+        elseif (request()->routeIs('mentor.*')) $activeGroup = 'mentor';
+
+        $navItems = $roleNavGroups[$activeGroup]['items'] ?? [];
+    }
+    // Superadmin routes
+    elseif ($isSuperAdminRoute) {
+        $navItems = [
+            ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'superadmin.dashboard'],
+            ['id' => 'users', 'icon' => 'users', 'label' => 'Kelola User', 'route' => 'superadmin.users'],
+            ['id' => 'audit-logs', 'icon' => 'shield', 'label' => 'Audit Log', 'route' => 'superadmin.audit-logs'],
+            ['id' => 'system-stats', 'icon' => 'chart', 'label' => 'Statistik Sistem', 'route' => 'superadmin.system-stats'],
+            ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Kembali ke App', 'route' => 'dashboard'],
+        ];
+    }
+    // Keuangan routes
+    elseif ($isKeuanganRoute) {
+        $navItems = [
+            ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'keuangan.dashboard'],
+            ['id' => 'verifications', 'icon' => 'credit-card', 'label' => 'Verifikasi Pembayaran', 'route' => 'keuangan.verifications'],
+            ['id' => 'enrollments', 'icon' => 'users', 'label' => 'Enrollments', 'route' => 'keuangan.enrollments'],
+            ['id' => 'reports', 'icon' => 'chart', 'label' => 'Laporan Revenue', 'route' => 'keuangan.reports'],
+            ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Kembali ke App', 'route' => 'dashboard'],
+        ];
+    }
+    // Marketing routes
+    elseif ($isMarketingRoute) {
+        $navItems = [
+            ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'marketing.dashboard'],
+            ['id' => 'promo-codes', 'icon' => 'ticket', 'label' => 'Kode Promo', 'route' => 'marketing.promo-codes'],
+            ['id' => 'analytics', 'icon' => 'chart', 'label' => 'Analytics', 'route' => 'marketing.analytics'],
+            ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Kembali ke App', 'route' => 'dashboard'],
+        ];
+    }
+    // Mentor routes
+    elseif ($isMentorRoute) {
+        $navItems = [
+            ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'mentor.dashboard'],
+            ['id' => 'my-courses', 'icon' => 'book', 'label' => 'Kursus Saya', 'route' => 'mentor.my-courses'],
+            ['id' => 'students', 'icon' => 'users', 'label' => 'Siswa Saya', 'route' => 'mentor.students'],
+            ['id' => 'feedback', 'icon' => 'star', 'label' => 'Feedback & Rating', 'route' => 'mentor.feedback'],
+            ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Kembali ke App', 'route' => 'dashboard'],
+        ];
+    }
+    // Admin routes
+    elseif ($isAdminRoute) {
+        $navItems = [
+            ['id' => 'admin.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'admin.dashboard'],
+            ['id' => 'admin.users', 'icon' => 'users', 'label' => 'Manage Users', 'route' => 'admin.users'],
+            ['id' => 'admin.courses', 'icon' => 'book', 'label' => 'Manage Courses', 'route' => 'admin.courses'],
+            ['id' => 'admin.bootcamps', 'icon' => 'award', 'label' => 'Manage Bootcamps', 'route' => 'admin.bootcamps'],
+            ['id' => 'admin.events', 'icon' => 'calendar', 'label' => 'Manage Events', 'route' => 'admin.events'],
+            ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => 'Manage Quizzes', 'route' => 'admin.quizzes'],
+            ['id' => 'admin.options', 'icon' => 'settings', 'label' => 'Settings', 'route' => 'admin.options'],
+            ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Back to App', 'route' => 'dashboard'],
+        ];
     } else {
         // User Navigation
         if ($isAuth) {
@@ -28,15 +162,15 @@
         $belajarSubItems = [
             ['id' => 'kursus', 'icon' => 'kursus', 'label' => 'Kursus', 'route' => 'kursus'],
         ];
-        
+
         if ($isAuth) {
             $belajarSubItems[] = ['id' => 'kursus-saya', 'icon' => 'award', 'label' => 'Kursus Saya', 'route' => 'kursus-saya'];
             $belajarSubItems[] = ['id' => 'quizzes', 'icon' => 'quiz', 'label' => 'Quiz', 'route' => 'quiz.index'];
         }
-        
+
         $belajarSubItems[] = ['id' => 'online-bootcamp', 'icon' => 'online_bootcamp', 'label' => 'Online Bootcamp', 'route' => 'online-bootcamp'];
         $belajarSubItems[] = ['id' => 'offline-bootcamp', 'icon' => 'offline_bootcamp', 'label' => 'Offline Bootcamp', 'route' => 'offline-bootcamp'];
-        
+
         if ($isAuth) {
             $belajarSubItems[] = ['id' => 'bootcamps-saya', 'icon' => 'award', 'label' => 'Bootcamp Saya', 'route' => 'bootcamps-saya'];
         }
@@ -57,15 +191,14 @@
         if ($isAuth) {
             $navItems[] = ['id' => 'kalender', 'icon' => 'calendar', 'label' => 'Kalender', 'route' => 'kalender'];
         }
-        
+
         if ($isAdmin) {
             $navItems[] = [
                 'id' => 'admin-panel', 'icon' => 'settings', 'label' => 'Admin Panel','route' => 'admin.dashboard'];
         }
     }
-
-    $user = app(\App\Services\CatalogService::class)->user();
 @endphp
+
 <div class="sidebar">
     <div class="sidebar-header" style="display:flex; align-items:center; justify-content:space-between; width:100%; height: var(--topbar-h, 64px); padding: 0 20px;">
         <div class="sidebar-logo-link" style="color:inherit; display:block; width:120px; flex-shrink:0; transition:width 0.3s cubic-bezier(0.4,0,0.2,1); overflow:hidden;">
@@ -75,7 +208,6 @@
                 <g filter="url(#filter_logo_sidebar)">
                     <path d="M22.3746 7.57027C22.374 7.57183 22.3735 7.57359 22.373 7.57546C22.3719 7.57922 22.3705 7.58367 22.369 7.58868C22.366 7.59876 22.3622 7.61144 22.3576 7.62646C22.3484 7.65648 22.3362 7.69629 22.3206 7.7453C22.2894 7.84337 22.2451 7.9786 22.1872 8.14667C22.0716 8.48256 21.9009 8.95166 21.6697 9.51938C21.2088 10.651 20.4993 12.1959 19.4946 13.8706C17.5141 17.1718 14.2201 21.2532 9.16017 23.4218L6.7749 17.8562C10.1921 16.3917 12.6499 13.5095 14.302 10.7556C15.1136 9.40283 15.6905 8.14735 16.0619 7.23532C16.2468 6.78124 16.3787 6.41755 16.4618 6.17631C16.5032 6.05587 16.5322 5.96636 16.5496 5.91188C16.5582 5.8847 16.5639 5.86625 16.5667 5.8571L16.5681 5.85254C16.568 5.85317 16.5678 5.85399 16.5675 5.8549C16.5674 5.85534 16.5668 5.8568 16.5667 5.8571C16.5665 5.85753 16.5667 5.85723 16.9297 5.96429L22.0125 7.45993C22.3708 7.56565 22.3753 7.56754 22.3752 7.56806C22.375 7.56844 22.3748 7.56949 22.3746 7.57027Z" fill="#E50000"/>
                 </g>
-                <!-- Text elements colored black for light background -->
                 <g class="sidebar-logo-text">
                     <path d="M29.6583 7.91772V23.195H36.7659V26.9803H25.8457V7.91772H29.6583Z" fill="#0f172a"/>
                     <path d="M48.8093 15.2705H51.4236V27.0076H48.5371V25.8638C47.4477 26.7898 46.0317 27.3343 44.5067 27.3343C41.0482 27.3343 38.2705 24.5567 38.2705 21.1254C38.2705 17.6669 41.0482 14.9165 44.5067 14.9165C46.0317 14.9165 47.4477 15.4611 48.5371 16.387L48.8093 15.2705ZM47.0937 23.3857C47.6929 22.7594 47.9924 21.9696 47.9924 21.1254C47.9924 20.2812 47.6929 19.4643 47.0937 18.8652C46.5219 18.266 45.7593 17.9392 44.9424 17.9392C44.1255 17.9392 43.3629 18.266 42.7638 18.8652C42.1919 19.4643 41.8651 20.2812 41.8651 21.1254C41.8651 21.9696 42.1919 22.7594 42.7638 23.3857C43.3629 23.9848 44.1255 24.3116 44.9424 24.3116C45.7593 24.3116 46.5219 23.9848 47.0937 23.3857Z" fill="#0f172a"/>
@@ -108,11 +240,59 @@
         </button>
     </div>
     <div class="sidebar-nav">
+        {{-- Superadmin Accordion Navigation --}}
+        @if($isSuperAdmin && !empty($roleNavGroups))
+            <div x-data="{ activeGroup: '{{ $activeGroup ?? 'superadmin' }}' }">
+                {{-- Role Navigation Groups as Accordion --}}
+                @foreach($roleNavGroups as $groupKey => $group)
+                    <div class="nav-section" style="padding: 0 12px;">
+                        {{-- Group Header --}}
+                        <button
+                            @click="activeGroup === '{{ $groupKey }}' ? activeGroup = null : activeGroup = '{{ $groupKey }}'"
+                            class="nav-item"
+                            style="width: 100%; justify-content: space-between; margin-bottom: 2px; {{ $activeGroup === $groupKey ? 'background-color: ' . $group['color'] . '20; border-left: 3px solid ' . $group['color'] . ';' : '' }}"
+                        >
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <x-icon :name="$group['icon']" style="color: {{ $group['color'] }};" />
+                                <span class="sidebar-text" style="font-size: 14px; font-weight: 500;">{{ $group['label'] }}</span>
+                            </div>
+                            <svg class="sidebar-text transition-transform duration-200" :class="activeGroup === '{{ $groupKey }}' ? 'rotate-180' : ''" style="width:16px; height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+
+                        {{-- Group Items --}}
+                        <div x-show="activeGroup === '{{ $groupKey }}'" style="display: none;" class="sidebar-text pt-1 pb-2 nav-sub-container">
+                            <div style="padding-left: 12px; display: flex; flex-direction: column; gap: 4px; border-left: 1px solid var(--border-light); margin-left: 20px; margin-top: 8px;">
+                                @foreach($group['items'] as $item)
+                                    @php
+                                        $isItemActive = ($activePage ?? 'dashboard') === ($item['id'] ?? '');
+                                    @endphp
+                                    <a href="{{ route($item['route'] ?? 'dashboard') }}"
+                                       class="nav-item"
+                                       style="padding: 8px 14px; border-radius: 9999px; margin-bottom: 0; {{ $isItemActive ? 'background-color: ' . $group['color'] . '; color: white; font-weight: 600;' : 'color: inherit;' }}">
+                                        <x-icon :name="$item['icon']" style="width:15px;height:15px; {{ $isItemActive ? 'color: white;' : '' }}" />
+                                        <span style="font-size: 13px;">{{ $item['label'] }}</span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+                {{-- Back to App --}}
+                <div class="nav-section" style="padding: 0 12px; margin-top: 16px;">
+                    <a href="{{ route('dashboard') }}" class="nav-item" style="margin-bottom: 2px;">
+                        <x-icon name="arrowRight" />
+                        <span class="sidebar-text" style="font-size: 14px; font-weight: 500;">Kembali ke App</span>
+                    </a>
+                </div>
+            </div>
+        @else
+        {{-- Regular Navigation --}}
         @foreach($navItems as $item)
             @php
                 $hasSubItems = isset($item['subItems']) && count($item['subItems']) > 0;
                 $isDropdown = isset($item['subItems']);
-                
+
                 $isParentActive = false;
                 if ($hasSubItems) {
                     foreach ($item['subItems'] as $subItem) {
@@ -128,7 +308,7 @@
                 if ($item['id'] === 'mentor' && $activePage === 'profil-mentor') $isActive = true;
                 if ($item['id'] === 'komunitas' && in_array($activePage, ['komunitas', 'komunitas.show', 'komunitas.create'])) $isActive = true;
             @endphp
-            
+
             @if($isDropdown)
                 <div x-data="{ open: {{ $isParentActive ? 'true' : 'false' }} }" class="nav-section" style="padding: 0 12px;">
                     <button @click="open = !open" class="nav-item" style="width: 100%; justify-content: space-between; margin-bottom: 2px;">
@@ -138,7 +318,7 @@
                         </div>
                         <svg class="sidebar-text transition-transform duration-200" :class="open ? 'rotate-180' : ''" style="width:16px; height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
-                    
+
                     @if($hasSubItems)
                     <div x-show="open" style="display: {{ $isParentActive ? 'block' : 'none' }}" class="sidebar-text pt-1 pb-2 nav-sub-container">
                         <div style="padding-left: 12px; display: flex; flex-direction: column; gap: 4px; border-left: 1px solid var(--border-light); margin-left: 20px; margin-top: 8px;">
@@ -150,7 +330,7 @@
                                     if ($subItem['id'] === 'offline-bootcamp' && in_array($activePage, ['offline-bootcamp', 'detail-offline-bootcamp'])) $isSubActive = true;
                                     if ($subItem['id'] === 'bootcamps-saya' && in_array($activePage, ['bootcamps-saya'])) $isSubActive = true;
                                     if (in_array($subItem['id'], ['quiz', 'quizzes']) && (Str::startsWith($activePage, 'quiz.') || Str::startsWith($activePage, 'quizzes'))) $isSubActive = true;
-                                    
+
                                     $linkHref = isset($subItem['url']) ? $subItem['url'] : route($subItem['route'] ?? 'dashboard');
                                 @endphp
                                 <a href="{{ $linkHref }}" class="nav-item" style="padding: 8px 14px; border-radius: 9999px; margin-bottom: 0; {{ $isSubActive ? 'background-color: #ffe4e6; color: #cc0000; font-weight: 600;' : 'color: inherit;' }}">
@@ -174,12 +354,12 @@
                 </div>
             @endif
         @endforeach
+        @endif
     </div>
     @auth
     <div class="sidebar-footer" style="padding: 16px 0 20px 0; border-top: none;">
         @php $authUser = auth()->user(); @endphp
         <div class="flex flex-col w-full">
-            <!-- Logout Row (styled identically to nav-items) -->
             <div class="nav-section" style="padding: 0 12px; margin-bottom: 8px;">
                 <form action="{{ route('logout') }}" method="POST" class="m-0 p-0 w-full">
                     @csrf
@@ -189,8 +369,7 @@
                     </button>
                 </form>
             </div>
-            
-            <!-- User Profile Row -->
+
             <div class="flex items-center w-full" style="padding: 0 16px;">
                 <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px;flex:1;">
                     @if($authUser && $authUser->profile_photo)
@@ -202,7 +381,7 @@
                     @endif
                     <div class="sidebar-user-info" style="flex:1;">
                         <div class="sidebar-user-name" style="font-weight:700;font-size:14px;line-height:1.2;color:#1f2937;">{{ $authUser->name ?? 'Atta Ul Karim' }}</div>
-                        <div class="sidebar-user-role" style="font-size:12px;color:#9ca3af;margin-top:2px;">{{ ($authUser->role ?? '') === 'student' ? 'Student' : ucfirst($authUser->role ?? 'User') }}</div>
+                        <div class="sidebar-user-role" style="font-size:12px;color:#9ca3af;margin-top:2px;">{{ $roleLabel }}</div>
                     </div>
                 </a>
                 <a href="{{ route('pengaturan') }}" class="text-gray-400 transition-colors ml-auto shrink-0 flex items-center justify-center pl-2 settings-btn" title="Pengaturan">
@@ -214,7 +393,6 @@
     @endauth
 </div>
 
-
 <style>
 .no-scrollbar::-webkit-scrollbar {
     display: none;
@@ -224,7 +402,6 @@
     scrollbar-width: none;
 }
 
-/* Force hover colors to red bypassing missing Tailwind classes */
 .logout-btn:hover,
 .logout-btn:hover .sidebar-text,
 .logout-btn:hover svg {

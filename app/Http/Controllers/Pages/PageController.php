@@ -50,13 +50,11 @@ class PageController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            
-            // Add this check:
-            if (Auth::user()->role === 'admin') {
-                return redirect()->route('admin.dashboard');
-            }
-            
-            return redirect()->intended(route('dashboard'));
+
+            // Redirect to role-specific dashboard (matches role-flow-diagrams.md section 1)
+            $user = Auth::user();
+
+            return redirect()->to($user->getDashboardRoute());
         }
 
         return back()

@@ -1,0 +1,66 @@
+@extends('layouts.mentor')
+
+@section('title', 'Siswa Saya')
+
+@section('header_title', 'Siswa Saya')
+
+@section('content')
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <table class="w-full">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Siswa</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kursus</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Selesai</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aktivitas Terakhir</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                @forelse($students as $data)
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                @if($data['user']?->profile_photo)
+                                    <img src="{{ $data['user']->profile_photo }}" class="w-10 h-10 rounded-full object-cover">
+                                @else
+                                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
+                                        {{ substr($data['user']->name ?? 'U', 0, 1) }}
+                                    </div>
+                                @endif
+                                <div>
+                                    <p class="font-medium text-gray-800">{{ $data['user']->name ?? 'Unknown' }}</p>
+                                    <p class="text-xs text-gray-400">{{ $data['user']->email ?? '' }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-gray-800">
+                            {{ $data['total_courses'] }} kursus
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-sm">
+                                {{ $data['completed_courses'] }} selesai
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            {{ $data['last_activity']?->diffForHumans() ?? 'Belum aktif' }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <a href="{{ route('mentor.student-detail', $data['user']) }}" class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                                Detail
+                            </a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-6 py-12 text-center text-gray-400">Tidak ada data siswa</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4">
+        {{ $students->links() }}
+    </div>
+@endsection

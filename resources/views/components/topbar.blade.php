@@ -2,6 +2,18 @@
     $authUser = auth()->user();
     $initials = $authUser ? strtoupper(substr($authUser->name, 0, 2)) : '';
     $unreadCount = $authUser ? \App\Models\Notification::where('user_id', $authUser->id)->where('is_read', false)->count() : 0;
+
+    // Role labels
+    $roleLabels = [
+        'superadmin' => 'Super Admin',
+        'admin'      => 'Admin',
+        'keuangan'   => 'Keuangan',
+        'marketing'  => 'Marketing',
+        'mentor'     => 'Mentor',
+        'student'    => 'Student',
+    ];
+    $roleLabel = $authUser ? ($roleLabels[$authUser->role] ?? ucfirst($authUser->role)) : 'User';
+    $isStudent = $authUser && $authUser->role === 'student';
 @endphp
 
 <div class="topbar" style="display:flex;align-items:center;padding:0 32px;gap:24px;">
@@ -60,7 +72,7 @@
             @endif
             <div style="display:flex; flex-direction:column; align-items:flex-start; justify-content:center;">
                 <span style="font-size:15px;font-weight:800;color:var(--text-primary);line-height:1.1;">{{ $authUser->name }}</span>
-                <span style="font-size:13px;font-weight:500;color:var(--text-light);line-height:1.1;margin-top:4px;">{{ ($authUser->role ?? '') === 'student' ? number_format((int) ($authUser->xp ?? 0)) . ' XP' : ucfirst($authUser->role ?? 'User') }}</span>
+                <span style="font-size:13px;font-weight:500;color:var(--text-light);line-height:1.1;margin-top:4px;">{{ $isStudent ? number_format((int) ($authUser->xp ?? 0)) . ' XP' : $roleLabel }}</span>
             </div>
         </a>
     </div>

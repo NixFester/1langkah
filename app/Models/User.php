@@ -108,6 +108,145 @@ class User extends Authenticatable
         return $this->hasMany(Enrollment::class);
     }
 
+    // ── Role Helpers ────────────────────────────────────────────────────────────
+
+    /**
+     * Role hierarchy levels
+     */
+    public const ROLE_LEVELS = [
+        'superadmin' => 6,
+        'admin'      => 5,
+        'keuangan'   => 4,
+        'marketing'  => 3,
+        'mentor'     => 2,
+        'student'    => 1,
+    ];
+
+    /**
+     * Roles that can access admin panel
+     */
+    public const ADMIN_ROLES = ['superadmin', 'admin', 'keuangan', 'marketing'];
+
+    /**
+     * Role display labels
+     */
+    public const ROLE_LABELS = [
+        'superadmin' => 'Super Admin',
+        'admin'      => 'Admin',
+        'keuangan'   => 'Keuangan',
+        'marketing'  => 'Marketing',
+        'mentor'     => 'Mentor',
+        'student'    => 'Student',
+    ];
+
+    /**
+     * Check if user has a specific role
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
+    }
+
+    /**
+     * Check if user has any of the given roles
+     */
+    public function hasAnyRole(array $roles): bool
+    {
+        return in_array($this->role, $roles);
+    }
+
+    /**
+     * Check if user has role level >= required level
+     */
+    public function hasRoleLevel(string $requiredRole): bool
+    {
+        $userLevel = self::ROLE_LEVELS[$this->role] ?? 0;
+        $requiredLevel = self::ROLE_LEVELS[$requiredRole] ?? 0;
+
+        return $userLevel >= $requiredLevel;
+    }
+
+    /**
+     * Check if user can access admin panel
+     */
+    public function canAccessAdmin(): bool
+    {
+        return in_array($this->role, self::ADMIN_ROLES);
+    }
+
+    /**
+     * Check if user is super admin
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'superadmin';
+    }
+
+    /**
+     * Check if user is admin (any level)
+     */
+    public function isAdmin(): bool
+    {
+        return $this->canAccessAdmin();
+    }
+
+    /**
+     * Check if user is mentor
+     */
+    public function isMentor(): bool
+    {
+        return $this->role === 'mentor';
+    }
+
+    /**
+     * Check if user is student
+     */
+    public function isStudent(): bool
+    {
+        return $this->role === 'student';
+    }
+
+    /**
+     * Check if user is keuangan
+     */
+    public function isKeuangan(): bool
+    {
+        return $this->role === 'keuangan';
+    }
+
+    /**
+     * Check if user is marketing
+     */
+    public function isMarketing(): bool
+    {
+        return $this->role === 'marketing';
+    }
+
+    /**
+     * Get role display label
+     */
+    public function getRoleLabel(): string
+    {
+        return self::ROLE_LABELS[$this->role] ?? ucfirst($this->role);
+    }
+
+    /**
+     * Get the dashboard route based on user role
+     * Matches the role-flow-diagrams.md redirect logic
+     */
+    public function getDashboardRoute(): string
+    {
+        return match ($this->role) {
+            'superadmin' => route('superadmin.dashboard'),
+            'admin' => route('admin.dashboard'),
+            'keuangan' => route('keuangan.dashboard'),
+            'marketing' => route('marketing.dashboard'),
+            'mentor' => route('mentor.dashboard'),
+            'student' => route('dashboard'),
+            default => route('dashboard'),
+        };
+    }
+
     // ── Helpers ──────────────────────────────────────────────────────────────
 
     public function hasCompletedCourse(Course $course): bool

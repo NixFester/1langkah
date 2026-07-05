@@ -13,10 +13,19 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectGuestsTo('/login');
-         $middleware->redirectUsersTo(fn () => auth()->check() && auth()->user()->role === 'admin' ? '/admin/dashboard' : '/dashboard');
-        // Register Admin middleware alias
+        // Redirect user based on role to their appropriate dashboard (matches role-flow-diagrams.md)
+        $middleware->redirectUsersTo(function () {
+            $user = auth()->user();
+            return $user?->getDashboardRoute() ?? '/dashboard';
+        });
+
+        // Register Role-specific middleware aliases
         $middleware->alias([
             'admin' => \App\Http\Middleware\IsAdmin::class,
+            'superadmin' => \App\Http\Middleware\IsSuperadmin::class,
+            'keuangan' => \App\Http\Middleware\IsKeuangan::class,
+            'marketing' => \App\Http\Middleware\IsMarketing::class,
+            'mentor' => \App\Http\Middleware\IsMentor::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -28,7 +28,8 @@ Route::get('/bootcamp/offline',      [PageController::class, 'offlineBootcamp'])
 Route::get('/bootcamp/offline/{id}', [PageController::class, 'detailOfflineBootcamp'])->name('detail-offline-bootcamp');
 
 Route::get('/mentor',      [PageController::class, 'mentor'])->name('mentor');
-Route::get('/mentor/{id}', [PageController::class, 'profilMentor'])->name('profil-mentor');
+Route::get('/mentor/{id}', [PageController::class, 'profilMentor'])->name('profil-mentor')
+    ->whereNumber('id');
 
 Route::get('/event',      [PageController::class, 'event'])->name('event');
 Route::get('/event/{id}', [PageController::class, 'detailEvent'])->name('detail-event');
@@ -168,4 +169,77 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/quizzes/{quiz}/questions/{question}/answers', [App\Http\Controllers\Admin\QuizController::class, 'addAnswer'])->name('quizzes.answers.add');
     Route::put('/quizzes/{quiz}/questions/{question}/answers/{answer}', [App\Http\Controllers\Admin\QuizController::class, 'updateAnswer'])->name('quizzes.answers.update');
     Route::delete('/quizzes/{quiz}/questions/{question}/answers/{answer}', [App\Http\Controllers\Admin\QuizController::class, 'deleteAnswer'])->name('quizzes.answers.delete');
+});
+
+// ── Superadmin-only ──────────────────────────────────────────────────────────
+Route::middleware(['auth', 'superadmin'])->prefix('superadmin')->name('superadmin.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Superadmin\DashboardController::class, 'index'])->name('dashboard');
+
+    // User Management
+    Route::get('/users', [App\Http\Controllers\Superadmin\DashboardController::class, 'users'])->name('users');
+    Route::get('/users/{user}/edit', [App\Http\Controllers\Superadmin\DashboardController::class, 'editUser'])->name('users.edit');
+    Route::put('/users/{user}', [App\Http\Controllers\Superadmin\DashboardController::class, 'updateUser'])->name('users.update');
+    Route::patch('/users/{user}/role', [App\Http\Controllers\Superadmin\DashboardController::class, 'changeRole'])->name('users.role');
+    Route::delete('/users/{user}', [App\Http\Controllers\Superadmin\DashboardController::class, 'destroyUser'])->name('users.destroy');
+
+    // Audit Logs
+    Route::get('/audit-logs', [App\Http\Controllers\Superadmin\DashboardController::class, 'auditLogs'])->name('audit-logs');
+    Route::get('/audit-logs/{log}', [App\Http\Controllers\Superadmin\DashboardController::class, 'auditLogDetail'])->name('audit-log-detail');
+
+    // System Stats
+    Route::get('/stats', [App\Http\Controllers\Superadmin\DashboardController::class, 'systemStats'])->name('system-stats');
+});
+
+// ── Keuangan-only ─────────────────────────────────────────────────────────────
+Route::middleware(['auth', 'keuangan'])->prefix('keuangan')->name('keuangan.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Keuangan\DashboardController::class, 'index'])->name('dashboard');
+
+    // Verifikasi Pembayaran
+    Route::get('/verifikasi', [App\Http\Controllers\Keuangan\DashboardController::class, 'verifications'])->name('verifications');
+    Route::get('/verifikasi/{verification}', [App\Http\Controllers\Keuangan\DashboardController::class, 'showVerification'])->name('verifications.show');
+    Route::post('/verifikasi/{verification}/approve', [App\Http\Controllers\Keuangan\DashboardController::class, 'approveVerification'])->name('verifications.approve');
+    Route::post('/verifikasi/{verification}/reject', [App\Http\Controllers\Keuangan\DashboardController::class, 'rejectVerification'])->name('verifications.reject');
+
+    // Laporan
+    Route::get('/laporan', [App\Http\Controllers\Keuangan\DashboardController::class, 'reports'])->name('reports');
+    Route::get('/laporan/export', [App\Http\Controllers\Keuangan\DashboardController::class, 'exportReport'])->name('reports.export');
+
+    // Enrollments
+    Route::get('/enrollments', [App\Http\Controllers\Keuangan\DashboardController::class, 'enrollments'])->name('enrollments');
+});
+
+// ── Marketing-only ─────────────────────────────────────────────────────────────
+Route::middleware(['auth', 'marketing'])->prefix('marketing')->name('marketing.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Marketing\DashboardController::class, 'index'])->name('dashboard');
+
+    // Promo Codes
+    Route::get('/promo-codes', [App\Http\Controllers\Marketing\DashboardController::class, 'promoCodes'])->name('promo-codes');
+    Route::get('/promo-codes/create', [App\Http\Controllers\Marketing\DashboardController::class, 'createPromoCode'])->name('promo-codes.create');
+    Route::post('/promo-codes', [App\Http\Controllers\Marketing\DashboardController::class, 'storePromoCode'])->name('promo-codes.store');
+    Route::get('/promo-codes/{promo}/edit', [App\Http\Controllers\Marketing\DashboardController::class, 'editPromoCode'])->name('promo-codes.edit');
+    Route::put('/promo-codes/{promo}', [App\Http\Controllers\Marketing\DashboardController::class, 'updatePromoCode'])->name('promo-codes.update');
+    Route::delete('/promo-codes/{promo}', [App\Http\Controllers\Marketing\DashboardController::class, 'destroyPromoCode'])->name('promo-codes.destroy');
+    Route::post('/promo-codes/{promo}/toggle', [App\Http\Controllers\Marketing\DashboardController::class, 'togglePromoCode'])->name('promo-codes.toggle');
+
+    // Analytics
+    Route::get('/analytics', [App\Http\Controllers\Marketing\DashboardController::class, 'analytics'])->name('analytics');
+
+    // API for code generation
+    Route::get('/promo-codes/generate', [App\Http\Controllers\Marketing\DashboardController::class, 'generateCode'])->name('promo-codes.generate');
+});
+
+// ── Mentor-only ───────────────────────────────────────────────────────────────
+Route::middleware(['auth', 'mentor'])->prefix('mentor')->name('mentor.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Mentor\DashboardController::class, 'index'])->name('dashboard');
+
+    // My Courses
+    Route::get('/courses', [App\Http\Controllers\Mentor\DashboardController::class, 'myCourses'])->name('my-courses');
+    Route::get('/courses/{course}', [App\Http\Controllers\Mentor\DashboardController::class, 'courseDetail'])->name('course-detail');
+
+    // My Students
+    Route::get('/students', [App\Http\Controllers\Mentor\DashboardController::class, 'myStudents'])->name('students');
+    Route::get('/students/{student}', [App\Http\Controllers\Mentor\DashboardController::class, 'studentDetail'])->name('student-detail');
+
+    // Feedback
+    Route::get('/feedback', [App\Http\Controllers\Mentor\DashboardController::class, 'feedback'])->name('feedback');
 });

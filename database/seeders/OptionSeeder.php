@@ -13,27 +13,48 @@ class OptionSeeder extends Seeder
     public function run(): void
     {
         $options = [
-            // User Roles
+            // User Roles (ordered by hierarchy: highest first)
             [
                 'category' => 'user_role',
-                'key' => 'student',
-                'label' => 'Student',
-                'color' => '#10b981',
+                'key' => 'superadmin',
+                'label' => 'Super Admin',
+                'color' => '#7c3aed',
                 'sort_order' => 1,
-            ],
-            [
-                'category' => 'user_role',
-                'key' => 'mentor',
-                'label' => 'Mentor',
-                'color' => '#3b82f6',
-                'sort_order' => 2,
             ],
             [
                 'category' => 'user_role',
                 'key' => 'admin',
                 'label' => 'Admin',
                 'color' => '#ef4444',
+                'sort_order' => 2,
+            ],
+            [
+                'category' => 'user_role',
+                'key' => 'keuangan',
+                'label' => 'Keuangan',
+                'color' => '#f59e0b',
                 'sort_order' => 3,
+            ],
+            [
+                'category' => 'user_role',
+                'key' => 'marketing',
+                'label' => 'Marketing',
+                'color' => '#ec4899',
+                'sort_order' => 4,
+            ],
+            [
+                'category' => 'user_role',
+                'key' => 'mentor',
+                'label' => 'Mentor',
+                'color' => '#3b82f6',
+                'sort_order' => 5,
+            ],
+            [
+                'category' => 'user_role',
+                'key' => 'student',
+                'label' => 'Student',
+                'color' => '#10b981',
+                'sort_order' => 6,
             ],
 
             // Course Levels
