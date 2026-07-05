@@ -122,16 +122,16 @@
                     <div class="absolute right-[5%] top-[20%] px-4 py-1.5 lg:px-5 lg:py-2 bg-transparent backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_6s_ease-in-out_infinite]">AI/ML</div>
 
                     <!-- Main Dashboard Image -->
-                    <img src="{{ asset('images/main_dashboard_image.svg') }}" alt="1Langkah Platform" class="w-full relative z-10">
+                    <img src="{{ asset('assets/icons/main_dashboard_image.svg') }}" alt="1Langkah Platform" class="w-full relative z-10">
                     
                     <!-- Sertifikat (Top Right) -->
-                    <img src="{{ asset('images/sertifikat.svg') }}" alt="Sertifikat" class="absolute right-[0%] top-[-4%] w-[244px] z-20 animate-[float_6s_ease-in-out_infinite]">
+                    <img src="{{ asset('assets/icons/sertifikat.svg') }}" alt="Sertifikat" class="absolute right-[0%] top-[-4%] w-[244px] z-20 animate-[float_6s_ease-in-out_infinite]">
                     
                     <!-- Rudi Yesaya (Bottom Left) -->
-                    <img src="{{ asset('images/hero/rudi-yesaya.svg') }}" alt="Mentor" class="absolute left-[2%] bottom-[12%] w-[232px] z-20 animate-[float_8s_ease-in-out_infinite_reverse]">
+                    <img src="{{ asset('assets/icons/rudi-yesaya.svg') }}" alt="Mentor" class="absolute left-[2%] bottom-[12%] w-[232px] z-20 animate-[float_8s_ease-in-out_infinite_reverse]">
                     
                     <!-- Skill Passport (Bottom Right) -->
-                    <img src="{{ asset('images/hero/skill-passport.svg') }}" alt="Skill Passport" class="absolute right-[2%] bottom-[18%] w-[222px] z-20 animate-[float_7s_ease-in-out_infinite_1s]">
+                    <img src="{{ asset('assets/icons/skill-passport.svg') }}" alt="Skill Passport" class="absolute right-[2%] bottom-[18%] w-[222px] z-20 animate-[float_7s_ease-in-out_infinite_1s]">
                 </div>
 
                 </div>
@@ -230,7 +230,7 @@
             <!-- Card 1 -->
             <div class="bg-white rounded-[2rem] p-6 lg:p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col items-start group cursor-pointer">
                 <div class="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform p-3">
-                    <img src="{{ asset('images/features/AI-Learning-Assistant.svg') }}" alt="AI Learning Assistant" class="w-full h-full object-contain">
+                    <img src="{{ asset('assets/icons/AI-Learning-Assistant.svg') }}" alt="AI Learning Assistant" class="w-full h-full object-contain">
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">AI Learning Assistant</h3>
                 <p class="text-[15px] text-gray-500 leading-relaxed mb-8 flex-1">Tutor AI 24/7 yang siap menjelaskan topik sulit, meringkas materi, dan membuat quiz personal hanya dalam hitungan detik.</p>
@@ -243,7 +243,7 @@
             <!-- Card 2 -->
             <div class="bg-white rounded-[2rem] p-6 lg:p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col items-start group cursor-pointer">
                 <div class="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform p-3">
-                    <img src="{{ asset('images/features/Personalized-Learning-Path.svg') }}" alt="Personalized Learning Path" class="w-full h-full object-contain">
+                    <img src="{{ asset('assets/icons/Personalized-Learning-Path.svg') }}" alt="Personalized Learning Path" class="w-full h-full object-contain">
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">Personalized Learning Path</h3>
                 <p class="text-[15px] text-gray-500 leading-relaxed mb-8 flex-1">Jalur belajar yang dibentuk oleh AI berdasarkan tujuan karir, skill gaps, dan kecepatan belajarmu — bukan jalur generik.</p>
@@ -256,7 +256,7 @@
             <!-- Card 3 -->
             <div class="bg-white rounded-[2rem] p-6 lg:p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col items-start group cursor-pointer">
                 <div class="w-14 h-14 rounded-2xl bg-purple-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform p-3">
-                    <img src="{{ asset('images/features/Verified-Skill-Passport.svg') }}" alt="Verified Skill Passport" class="w-full h-full object-contain">
+                    <img src="{{ asset('assets/icons/Verified-Skill-Passport.svg') }}" alt="Verified Skill Passport" class="w-full h-full object-contain">
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">Verified Skill Passport</h3>
                 <p class="text-[15px] text-gray-500 leading-relaxed mb-8 flex-1">Profil skill digital terverifikasi dengan QR code yang bisa langsung dibagikan ke rekruter dan diakui 300+ hiring partner.</p>
@@ -272,56 +272,56 @@
             <!-- Pill 1 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('images/features/Interactive-Courses.svg') }}" alt="Interactive Courses" class="w-full h-full object-contain">
+                    <img src="{{ asset('assets/icons/Interactive-Courses.svg') }}" alt="Interactive Courses" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Interactive Courses</span>
             </div>
             <!-- Pill 2 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('images/features/Certificates.svg') }}" alt="Certificates" class="w-full h-full object-contain">
+                    <img src="{{ asset('assets/icons/Certificates.svg') }}" alt="Certificates" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Certificates</span>
             </div>
             <!-- Pill 3 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('images/features/Portfolio-Builder.svg') }}" alt="Portfolio Builder" class="w-full h-full object-contain">
+                    <img src="{{ asset('assets/icons/Portfolio-Builder.svg') }}" alt="Portfolio Builder" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Portfolio Builder</span>
             </div>
             <!-- Pill 4 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('images/features/Project-Marketplace.svg') }}" alt="Project Marketplace" class="w-full h-full object-contain">
+                    <img src="{{ asset('assets/icons/Project-Marketplace.svg') }}" alt="Project Marketplace" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Project Marketplace</span>
             </div>
             <!-- Pill 5 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('images/features/Mentor-Marketplace.svg') }}" alt="Mentor Marketplace" class="w-full h-full object-contain">
+                    <img src="{{ asset('assets/icons/Mentor-Marketplace.svg') }}" alt="Mentor Marketplace" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Mentor Marketplace</span>
             </div>
             <!-- Pill 6 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('images/features/Career-Center.svg') }}" alt="Career Center" class="w-full h-full object-contain">
+                    <img src="{{ asset('assets/icons/Career-Center.svg') }}" alt="Career Center" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Career Center</span>
             </div>
             <!-- Pill 7 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('images/features/Community.svg') }}" alt="Community" class="w-full h-full object-contain">
+                    <img src="{{ asset('assets/icons/Community.svg') }}" alt="Community" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Community</span>
             </div>
             <!-- Pill 8 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('images/features/Learning-Analytics.svg') }}" alt="Learning Analytics" class="w-full h-full object-contain">
+                    <img src="{{ asset('assets/icons/Learning-Analytics.svg') }}" alt="Learning Analytics" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Learning Analytics</span>
             </div>
@@ -585,7 +585,7 @@
         <div class="text-center max-w-3xl mx-auto mb-16">
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-red-100 bg-red-50 mb-6">
-                <img src="{{ asset('images/features/Mentor-Marketplace.svg') }}" class="w-3.5 h-3.5" alt="Mentor Marketplace">
+                <img src="{{ asset('assets/icons/Mentor-Marketplace.svg') }}" class="w-3.5 h-3.5" alt="Mentor Marketplace">
                 <span class="text-[11px] font-bold tracking-[0.15em] text-[#D10000] uppercase">MENTOR MARKETPLACE</span>
             </div>
             
@@ -1068,7 +1068,7 @@
         <!-- Bottom Bar -->
         <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="text-[13px] text-gray-600">
-                &copy; {{ date('Y') }} 1Langkah Technologies. All rights reserved.
+                &copy; {{ date('Y') }} 1Langkah Technologies. All rights reserved. | Developed by ELCoding.id
             </div>
             <div class="text-[13px] text-gray-600">
                 AI-Powered Learning Experience Platform &middot; Made in Indonesia 🇮🇩
