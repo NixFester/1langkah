@@ -1,12 +1,13 @@
 @extends('layouts.marketing')
 
 @section('title', isset($promo) ? 'Edit Promo' : 'Buat Promo Baru')
-
 @section('header_title', isset($promo) ? 'Edit Promo' : 'Buat Promo Baru')
 
 @section('content')
+    <x-flash-messages />
+
     <div class="max-w-2xl mx-auto">
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <x-card-panel>
             <form action="{{ isset($promo) ? route('marketing.promo-codes.update', $promo) : route('marketing.promo-codes.store') }}" method="POST">
                 @csrf
                 @if(isset($promo))
@@ -87,7 +88,7 @@
                     </button>
                 </div>
             </form>
-        </div>
+        </x-card-panel>
     </div>
 
     @push('scripts')

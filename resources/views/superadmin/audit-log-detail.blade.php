@@ -1,21 +1,15 @@
 @extends('layouts.superadmin')
 
 @section('title', 'Detail Audit Log')
-
 @section('header_title', 'Detail Audit Log')
 
 @section('content')
-    <div class="max-w-3xl mx-auto">
-        <div class="mb-6">
-            <a href="{{ route('superadmin.audit-logs') }}" class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-800">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-                Kembali
-            </a>
-        </div>
+    <x-back-button route="{{ route('superadmin.audit-logs') }}" />
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+    <x-flash-messages />
+
+    <div class="max-w-3xl mx-auto">
+        <x-card-panel title="Detail Log">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-lg font-bold text-gray-800">Detail Log</h2>
                 <span class="px-3 py-1 rounded-full text-sm font-medium
@@ -42,13 +36,13 @@
                     <p class="font-medium text-gray-800">{{ $log->created_at->format('d/m/Y H:i:s') }}</p>
                 </div>
                 @if($log->model_type)
-                <div>
-                    <p class="text-sm text-gray-500 mb-1">Model</p>
-                    <p class="font-medium text-gray-800">{{ class_basename($log->model_type) }}</p>
-                    @if($log->model_id)
-                        <p class="text-sm text-gray-400">ID: {{ $log->model_id }}</p>
-                    @endif
-                </div>
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">Model</p>
+                        <p class="font-medium text-gray-800">{{ class_basename($log->model_type) }}</p>
+                        @if($log->model_id)
+                            <p class="text-sm text-gray-400">ID: {{ $log->model_id }}</p>
+                        @endif
+                    </div>
                 @endif
                 <div>
                     <p class="text-sm text-gray-500 mb-1">IP Address</p>
@@ -76,6 +70,6 @@
                     <pre class="bg-gray-50 p-4 rounded-lg text-sm overflow-auto">{{ json_encode($log->new_values, JSON_PRETTY_PRINT) }}</pre>
                 </div>
             @endif
-        </div>
+        </x-card-panel>
     </div>
 @endsection

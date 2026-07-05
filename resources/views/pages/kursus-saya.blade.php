@@ -202,13 +202,12 @@
 
     <!-- Empty Active -->
     <div x-show="tab === 'active' && displayedActive.length === 0" class="text-center py-12 bg-white rounded-2xl border border-gray-100">
-        <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">Belum ada kursus yang dimulai</h3>
-        <p class="text-gray-500 mb-4">Mulai belajar dengan browse kursus yang tersedia</p>
-        <a href="{{ route('kursus') }}" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-full text-sm font-bold transition-colors">
-            Browse Kursus
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-        </a>
+        <x-empty-state
+            message="Mulai belajar dengan browse kursus yang tersedia"
+            icon="book"
+            :actionRoute="route('kursus')"
+            actionLabel="Browse Kursus"
+        />
     </div>
 
     <!-- Completed Courses -->
@@ -243,9 +242,10 @@
 
     <!-- Empty Completed -->
     <div x-show="tab === 'done' && displayedCompleted.length === 0" style="display:none" class="text-center py-12 bg-white rounded-2xl border border-gray-100">
-        <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">Belum ada kursus yang selesai</h3>
-        <p class="text-gray-500">Selesaikan kursus yang sedang berlangsung untuk mendapatkan sertifikat</p>
+        <x-empty-state
+            message="Selesaikan kursus yang sedang berlangsung untuk mendapatkan sertifikat"
+            icon="success"
+        />
     </div>
 
     <!-- Wishlist / Other Courses -->
@@ -281,9 +281,10 @@
 
     <!-- Empty Wishlist -->
     <div x-show="tab === 'wishlist' && displayedWishlist.length === 0" style="display:none" class="text-center py-12 bg-white rounded-2xl border border-gray-100">
-        <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">Semua kursus sudah diikuti!</h3>
-        <p class="text-gray-500">Tidak ada kursus lain yang tersedia</p>
+        <x-empty-state
+            message="Tidak ada kursus lain yang tersedia"
+            icon="book"
+        />
     </div>
 
 </div>

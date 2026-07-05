@@ -24,18 +24,12 @@ use App\Models\TestAttempt;
 
     @if($quizzesByCourse->isEmpty())
     <!-- No quizzes available -->
-    <div class="bg-white rounded-3xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] p-12 text-center">
-        <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-            </svg>
-        </div>
-        <h3 class="text-lg font-bold text-gray-900 mb-2">Belum Ada Quiz Tersedia</h3>
-        <p class="text-gray-500 mb-6">Daftar kursus untuk mengakses materi dan quiz.</p>
-        <a href="{{ route('kursus') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-full transition-colors shadow-lg shadow-red-200">
-            Browse Kursus &rarr;
-        </a>
-    </div>
+    <x-empty-state
+        message="Daftar kursus untuk mengakses materi dan quiz."
+        icon="book"
+        :actionRoute="route('kursus')"
+        actionLabel="Browse Kursus"
+    />
     @endif
 
     <!-- Quizzes by Course -->

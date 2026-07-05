@@ -63,20 +63,17 @@
                     </div>
                 </a>
             @empty
-                <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm text-center">
-                    <h2 class="text-xl font-bold text-gray-900 mb-3">Belum ada bootcamp</h2>
-                    <p class="text-sm text-gray-500 mb-6">Kamu belum terdaftar di bootcamp manapun. Cari dan daftar bootcamp untuk mulai belajar intensif.</p>
-                    <a href="{{ route('online-bootcamp') }}" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full text-sm font-bold transition-colors">
-                        Temukan Bootcamp
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </a>
-                </div>
+                <x-empty-state
+                    message="Kamu belum terdaftar di bootcamp manapun. Cari dan daftar bootcamp untuk mulai belajar intensif."
+                    icon="users"
+                    :actionRoute="route('online-bootcamp')"
+                    actionLabel="Temukan Bootcamp"
+                />
             @endforelse
         </div>
 
         <div class="space-y-6">
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
-                <h3 class="font-bold text-gray-900 text-lg mb-4">Statistik Bootcamp</h3>
+            <x-card-panel title="Statistik Bootcamp">
                 <div class="grid grid-cols-2 gap-4 text-sm text-gray-700">
                     <div class="rounded-3xl bg-red-50 p-4">
                         <div class="text-3xl font-bold text-red-600">{{ $userStats['bootcamps_enrolled'] ?? 0 }}</div>
@@ -95,15 +92,14 @@
                         <div class="mt-1">Sertifikat</div>
                     </div>
                 </div>
-            </div>
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
-                <h3 class="font-bold text-gray-900 text-lg mb-4">Panduan Bootcamp</h3>
+            </x-card-panel>
+            <x-card-panel title="Panduan Bootcamp">
                 <ul class="space-y-3 text-sm text-gray-600">
                     <li class="flex gap-3"><span class="text-red-600">•</span> Pastikan hadir di setidaknya 80% sesi untuk dapat sertifikat.</li>
                     <li class="flex gap-3"><span class="text-red-600">•</span> Simpan link Zoom dan materi sebelum kelas dimulai.</li>
                     <li class="flex gap-3"><span class="text-red-600">•</span> Hubungi mentor jika ada kendala teknis.</li>
                 </ul>
-            </div>
+            </x-card-panel>
         </div>
     </div>
 </div>

@@ -20,18 +20,12 @@
 
     @if($attempts->isEmpty())
     <!-- No history -->
-    <div class="bg-white rounded-2xl border border-gray-100 p-12 text-center">
-        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-        </div>
-        <h3 class="text-lg font-bold text-gray-900 mb-2">Belum Ada Quiz</h3>
-        <p class="text-gray-500 mb-4">Kamu belum mengerjakan quiz apapun.</p>
-        <a href="{{ route('quiz.index') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-full transition-colors">
-            Mulai Quiz
-        </a>
-    </div>
+    <x-empty-state
+        message="Kamu belum mengerjakan quiz apapun."
+        icon="book"
+        :actionRoute="route('quiz.index')"
+        actionLabel="Mulai Quiz"
+    />
     @else
     <!-- History Table -->
     <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">

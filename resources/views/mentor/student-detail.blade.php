@@ -1,20 +1,14 @@
 @extends('layouts.mentor')
 
 @section('title', 'Detail Siswa')
-
 @section('header_title', $student->name)
 
 @section('content')
-    <div class="mb-6">
-        <a href="{{ route('mentor.students') }}" class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-800">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
-            Kembali ke Siswa Saya
-        </a>
-    </div>
+    <x-flash-messages />
+    <x-back-button route="{{ route('mentor.students') }}" />
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+    {{-- Student Info --}}
+    <x-card-panel class="mb-6">
         <div class="flex items-center gap-4">
             @if($student->profile_photo)
                 <img src="{{ $student->profile_photo }}" class="w-16 h-16 rounded-full object-cover">
@@ -28,13 +22,13 @@
                 <p class="text-gray-500">{{ $student->email }}</p>
             </div>
         </div>
-    </div>
+    </x-card-panel>
 
+    {{-- Progress Data --}}
     <div class="space-y-6">
         @forelse($progressData as $data)
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <x-card-panel :title="$data['course']->title">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-bold text-gray-800">{{ $data['course']->title }}</h3>
                     <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
                         {{ $data['progress_percent'] }}% Selesai
                     </span>
@@ -56,11 +50,11 @@
                         <p class="text-xs text-gray-500">Terakhir Aktif</p>
                     </div>
                 </div>
-            </div>
+            </x-card-panel>
         @empty
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center text-gray-400">
-                <p>Tidak ada progress kursus</p>
-            </div>
+            <x-card-panel>
+                <x-empty-state message="Tidak ada progress kursus" icon="book" />
+            </x-card-panel>
         @endforelse
     </div>
 @endsection

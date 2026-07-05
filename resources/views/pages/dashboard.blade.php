@@ -44,57 +44,10 @@
 
     <!-- 4 STAT CARDS -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        <!-- Card 1: Kursus Aktif -->
-        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div class="flex justify-between items-start mb-4">
-                <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-500">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                </div>
-            </div>
-            <div>
-                <h3 class="text-3xl font-extrabold text-gray-900 mb-1">{{ $userStats['courses_enrolled'] ?? 0 }}</h3>
-                <p class="text-sm font-medium text-gray-500">Kursus Aktif</p>
-            </div>
-        </div>
-
-        <!-- Card 2: Bootcamp Aktif -->
-        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div class="flex justify-between items-start mb-4">
-                <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                </div>
-            </div>
-            <div>
-                <h3 class="text-3xl font-extrabold text-gray-900 mb-1">{{ $userStats['bootcamps_enrolled'] ?? 0 }}</h3>
-                <p class="text-sm font-medium text-gray-500">Bootcamp Aktif</p>
-            </div>
-        </div>
-
-        <!-- Card 3: Kursus Selesai -->
-        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div class="flex justify-between items-start mb-4">
-                <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                </div>
-            </div>
-            <div>
-                <h3 class="text-3xl font-extrabold text-gray-900 mb-1">{{ $userStats['courses_completed'] ?? 0 }}</h3>
-                <p class="text-sm font-medium text-gray-500">Kursus Selesai</p>
-            </div>
-        </div>
-
-        <!-- Card 4: Bootcamp Selesai -->
-        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div class="flex justify-between items-start mb-4">
-                <div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                </div>
-            </div>
-            <div>
-                <h3 class="text-3xl font-extrabold text-gray-900 mb-1">{{ $userStats['bootcamps_completed'] ?? 0 }}</h3>
-                <p class="text-sm font-medium text-gray-500">Bootcamp Selesai</p>
-            </div>
-        </div>
+        <x-stat-card :value="$userStats['courses_enrolled'] ?? 0" label="Kursus Aktif" icon="book" color="red" />
+        <x-stat-card :value="$userStats['bootcamps_enrolled'] ?? 0" label="Bootcamp Aktif" icon="users" color="blue" />
+        <x-stat-card :value="$userStats['courses_completed'] ?? 0" label="Kursus Selesai" icon="check" color="green" />
+        <x-stat-card :value="$userStats['bootcamps_completed'] ?? 0" label="Bootcamp Selesai" icon="folder" color="purple" />
     </div>
 
     <!-- MAIN GRID SECTION -->
@@ -104,12 +57,7 @@
         <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
             
             <!-- Lanjutkan Belajar -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-bold text-gray-900 text-lg">Lanjutkan Belajar</h3>
-                    <a href="{{ route('kursus-saya') }}" class="text-xs font-bold text-red-600 hover:text-red-700">Lihat semua</a>
-                </div>
-
+            <x-card-panel title="Lanjutkan Belajar" :actionRoute="route('kursus-saya')" actionLabel="Lihat semua">
                 <div class="space-y-5 flex-1">
                     @forelse(array_slice($activeCourses ?? [], 0, 3) as $course)
                     <a href="{{ route('detail-kursus', ['id' => $course['id']]) }}" class="flex gap-4 items-center hover:bg-gray-50 p-2 -mx-2 rounded-xl transition-colors">
@@ -132,22 +80,13 @@
                         </div>
                     </a>
                     @empty
-                    <div class="text-center py-8">
-                        <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                        <p class="text-gray-500 text-sm">Belum ada kursus yang dimulai</p>
-                        <a href="{{ route('kursus') }}" class="inline-block mt-3 text-red-600 text-sm font-medium hover:underline">Browse Kursus</a>
-                    </div>
+                    <x-empty-state message="Belum ada kursus yang dimulai" icon="inbox" :actionRoute="route('kursus')" actionLabel="Browse Kursus" />
                     @endforelse
                 </div>
-            </div>
+            </x-card-panel>
 
             <!-- Events Mendatang -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-bold text-gray-900 text-lg">Events Mendatang</h3>
-                    <a href="{{ route('event') }}" class="text-xs font-bold text-red-600 hover:text-red-700">Lihat semua</a>
-                </div>
-
+            <x-card-panel title="Events Mendatang" :actionRoute="route('event')" actionLabel="Lihat semua">
                 <div class="space-y-4 flex-1">
                     @forelse($upcomingEvents ?? [] as $event)
                     <a href="{{ route('detail-event', ['id' => $event['id']]) }}" class="flex items-start gap-3 p-2 -mx-2 rounded-xl hover:bg-gray-50 transition-colors">
@@ -163,67 +102,33 @@
                         </div>
                     </a>
                     @empty
-                    <div class="text-center py-6">
-                        <svg class="w-10 h-10 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <p class="text-gray-500 text-sm">Tidak ada events mendatang</p>
-                        <a href="{{ route('event') }}" class="inline-block mt-2 text-red-600 text-sm font-medium hover:underline">Lihat Events</a>
-                    </div>
+                    <x-empty-state message="Tidak ada events mendatang" icon="calendar" :actionRoute="route('event')" actionLabel="Lihat Events" />
                     @endforelse
                 </div>
-            </div>
+            </x-card-panel>
             
             <!-- Bootcamp Saya -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-bold text-gray-900 text-lg">Bootcamp Saya</h3>
-                    <a href="{{ route('bootcamps-saya') }}" class="text-xs font-bold text-red-600 hover:text-red-700">Lihat semua</a>
-                </div>
-
+            <x-card-panel title="Bootcamp Saya" :actionRoute="route('bootcamps-saya')" actionLabel="Lihat semua">
                 <div class="space-y-4 flex-1">
                     @forelse(array_slice($myBootcamps ?? [], 0, 3) as $bootcamp)
-                    <a href="{{ $bootcamp['type'] === 'online' ? route('detail-online-bootcamp', ['id' => $bootcamp['id']]) : route('detail-offline-bootcamp', ['id' => $bootcamp['id']]) }}" class="flex gap-4 items-center hover:bg-gray-50 p-2 -mx-2 rounded-xl transition-colors">
-                        <div class="w-12 h-12 rounded-xl bg-gray-100 flex-shrink-0 overflow-hidden">
-                            @if(!empty($bootcamp['thumbnail']))
-                            <img src="{{ $bootcamp['thumbnail'] }}" class="w-full h-full object-cover" alt="">
-                            @else
-                            <div class="w-full h-full bg-blue-600 flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                            </div>
-                            @endif
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-2">
-                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full {{ $bootcamp['type'] === 'online' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700' }}">
-                                    {{ $bootcamp['type'] === 'online' ? 'Online' : 'Offline' }}
-                                </span>
-                            </div>
-                            <h4 class="text-sm font-bold text-gray-900 truncate mt-1">{{ $bootcamp['title'] }}</h4>
-                            <p class="text-[11px] text-gray-500 mb-2 truncate">{{ $bootcamp['mentor'] ?? 'Mentor' }}</p>
-                            <div class="flex items-center gap-2">
-                                <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                                    <div class="h-full bg-blue-600 rounded-full" style="width: {{ $bootcamp['progress'] ?? 0 }}%"></div>
-                                </div>
-                            </div>
-                            <p class="text-[10px] text-gray-500 font-medium mt-1">{{ $bootcamp['progress'] ?? 0 }}% ({{ $bootcamp['attended'] ?? 0 }}/{{ $bootcamp['sessions'] ?? 0 }} sesi)</p>
-                        </div>
-                    </a>
+                    <x-list-item
+                        :href="route($bootcamp['type'] === 'online' ? 'detail-online-bootcamp' : 'detail-offline-bootcamp', ['id' => $bootcamp['id']])"
+                        :thumbnail="$bootcamp['thumbnail'] ?? null"
+                        :title="$bootcamp['title']"
+                        :subtitle="$bootcamp['mentor'] ?? 'Mentor'"
+                        :progress="$bootcamp['progress'] ?? 0"
+                        progressColor="blue"
+                        :meta="($bootcamp['progress'] ?? 0) . '% (' . ($bootcamp['attended'] ?? 0) . '/' . ($bootcamp['sessions'] ?? 0) . ' sesi)'"
+                        :badge="['text' => $bootcamp['type'] === 'online' ? 'Online' : 'Offline', 'class' => $bootcamp['type'] === 'online' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700']"
+                    />
                     @empty
-                    <div class="text-center py-6">
-                        <svg class="w-10 h-10 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        <p class="text-gray-500 text-sm">Belum ada bootcamp</p>
-                        <a href="{{ route('online-bootcamp') }}" class="inline-block mt-2 text-red-600 text-sm font-medium hover:underline">Browse Bootcamp</a>
-                    </div>
+                    <x-empty-state message="Belum ada bootcamp" icon="users" :actionRoute="route('online-bootcamp')" actionLabel="Browse Bootcamp" />
                     @endforelse
                 </div>
-            </div>
+            </x-card-panel>
 
             <!-- Rekomendasi Kursus -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex flex-col">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-bold text-gray-900 text-lg">Rekomendasi Kursus</h3>
-                    <a href="{{ route('kursus') }}" class="text-xs font-bold text-red-600 hover:text-red-700">Lihat semua</a>
-                </div>
-
+            <x-card-panel title="Rekomendasi Kursus" :actionRoute="route('kursus')" actionLabel="Lihat semua">
                 <div class="space-y-4 flex-1">
                     @forelse($recommendedCourses ?? [] as $course)
                     <a href="{{ route('detail-kursus', ['id' => $course['id']]) }}" class="flex gap-3 items-center hover:bg-gray-50 p-2 -mx-2 rounded-xl transition-colors">
@@ -232,7 +137,7 @@
                             <img src="{{ $course['thumbnail'] }}" class="w-full h-full object-cover" alt="">
                             @else
                             <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, {{ $course['color'] ?? '#dc2626' }}, {{ $course['color'] ?? '#dc2626' }}cc);">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                <x-icon name="book" class="w-5 h-5 text-white" />
                             </div>
                             @endif
                         </div>
@@ -250,24 +155,17 @@
                         </div>
                     </a>
                     @empty
-                    <div class="text-center py-6">
-                        <svg class="w-10 h-10 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                        <p class="text-gray-500 text-sm">Tidak ada rekomendasi</p>
-                    </div>
+                    <x-empty-state message="Tidak ada rekomendasi" icon="sparkles" />
                     @endforelse
                 </div>
-            </div>
+            </x-card-panel>
 
         </div>
 
         <!-- Right section (1 Column) -->
         <div class="space-y-6">
             <!-- Aktivitas Terbaru -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] h-full">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-bold text-gray-900 text-lg">Aktivitas Terbaru</h3>
-                </div>
-
+            <x-card-panel title="Aktivitas Terbaru">
                 <div class="space-y-4">
                     @forelse($recentActivities ?? [] as $activity)
                     <div class="flex items-center gap-3 p-3 -mx-2 rounded-xl hover:bg-gray-50 transition-colors">
@@ -278,14 +176,10 @@
                         </div>
                     </div>
                     @empty
-                    <div class="text-center py-8">
-                        <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <p class="text-gray-500 text-sm">Belum ada aktivitas terbaru</p>
-                        <p class="text-gray-400 text-xs mt-1">Mulai belajar untuk melihat aktivitasmu</p>
-                    </div>
+                    <x-empty-state message="Belum ada aktivitas terbaru. Mulai belajar untuk melihat aktivitasmu." icon="clock" />
                     @endforelse
                 </div>
-            </div>
+            </x-card-panel>
         </div>
     </div>
 

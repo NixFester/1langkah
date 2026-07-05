@@ -14,45 +14,26 @@
 }" class="w-full px-2 pb-8 space-y-6">
 
     <!-- PAGE HEADER -->
-    <div class="bg-white rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between shadow-[0_2px_10px_rgb(0,0,0,0.02)] border border-gray-100">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-900">{{ isset($course) ? 'Kelola Kursus: ' . $course->title : 'Tambah Kursus Baru' }}</h1>
-            <p class="text-sm text-gray-500 mt-1">
-                {{ isset($course) ? 'Kelola detail kursus, informasi mentor, dan bab pembelajaran.' : 'Form ini menampung data kursus baru.' }}
-            </p>
-        </div>
-        <div class="mt-4 sm:mt-0">
-            <a href="{{ route('admin.courses') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2.5 px-5 rounded-full text-sm transition-colors flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+    <x-page-header
+        :title="isset($course) ? 'Kelola Kursus: ' . $course->title : 'Tambah Kursus Baru'"
+        :description="isset($course) ? 'Kelola detail kursus, informasi mentor, dan bab pembelajaran.' : 'Form ini menampung data kursus baru.'"
+    >
+        <x-slot:actionSlot>
+            <a href="{{ route('admin.courses') }}"
+               class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2.5 px-5 rounded-full text-sm transition-colors flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
                 Kembali
             </a>
-        </div>
-    </div>
+        </x-slot:actionSlot>
+    </x-admin-page-header>
 
-    @if(session('success'))
-    <div class="bg-green-50 border border-green-200 text-green-700 px-6 py-4 rounded-2xl flex items-center gap-3">
-        <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <span class="text-sm font-medium">{{ session('success') }}</span>
-    </div>
-    @endif
-
-    @if($errors->any())
-    <div class="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl flex items-start gap-3">
-        <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <ul class="text-sm font-medium list-disc list-inside">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
+    <x-flash-messages />
 
     <!-- COURSE DETAILS FORM CARD -->
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
-        <div class="px-6 py-5 border-b border-gray-100 bg-gray-50/50">
-            <h3 class="text-lg font-bold text-gray-900">Detail Kursus</h3>
-        </div>
-        <form method="POST" action="{{ isset($course) ? route('admin.courses.update', $course) : route('admin.courses.store') }}" class="p-6 space-y-6">
+    <x-form-card title="Detail Kursus">
+        <form method="POST" action="{{ isset($course) ? route('admin.courses.update', $course) : route('admin.courses.store') }}" class="space-y-6">
             @csrf
             @if(isset($course))
                 @method('PATCH')
@@ -61,64 +42,87 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Title -->
                 <div class="lg:col-span-2">
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Judul Kursus <span class="text-red-500">*</span></label>
-                    <input type="text" name="title" value="{{ old('title', $course->title ?? '') }}" placeholder="Masukkan judul kursus" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                    <x-form-input
+                        name="title"
+                        label="Judul Kursus"
+                        placeholder="Masukkan judul kursus"
+                        :required="true"
+                        :value="$course->title ?? null"
+                    />
                 </div>
 
                 <!-- Category -->
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Kategori <span class="text-red-500">*</span></label>
-                    <input type="text" name="category" value="{{ old('category', $course->category ?? '') }}" placeholder="Contoh: Programming" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
-                </div>
+                <x-form-input
+                    name="category"
+                    label="Kategori"
+                    placeholder="Contoh: Programming"
+                    :required="true"
+                    :value="$course->category ?? null"
+                />
 
                 <!-- Mentor Name -->
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Nama Mentor <span class="text-red-500">*</span></label>
-                    <input type="text" name="mentor_name" value="{{ old('mentor_name', $course->mentor_name ?? '') }}" placeholder="Nama mentor" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
-                </div>
+                <x-form-input
+                    name="mentor_name"
+                    label="Nama Mentor"
+                    placeholder="Nama mentor"
+                    :required="true"
+                    :value="$course->mentor_name ?? null"
+                />
 
                 <!-- Mentor Company -->
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Perusahaan Mentor <span class="text-red-500">*</span></label>
-                    <input type="text" name="mentor_company" value="{{ old('mentor_company', $course->mentor_company ?? '') }}" placeholder="Perusahaan mentor" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
-                </div>
+                <x-form-input
+                    name="mentor_company"
+                    label="Perusahaan Mentor"
+                    placeholder="Perusahaan mentor"
+                    :required="true"
+                    :value="$course->mentor_company ?? null"
+                />
 
                 <!-- Level -->
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Level <span class="text-red-500">*</span></label>
-                    <div class="relative">
-                        <select name="level" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
-                            <option value="">-- Pilih Level --</option>
-                            <option value="Beginner" {{ old('level', $course->level ?? '') === 'Beginner' ? 'selected' : '' }}>Beginner</option>
-                            <option value="Intermediate" {{ old('level', $course->level ?? '') === 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
-                            <option value="Advanced" {{ old('level', $course->level ?? '') === 'Advanced' ? 'selected' : '' }}>Advanced</option>
-                        </select>
-                    </div>
+                    <select name="level" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
+                        <option value="">-- Pilih Level --</option>
+                        <option value="Beginner" {{ old('level', $course->level ?? '') === 'Beginner' ? 'selected' : '' }}>Beginner</option>
+                        <option value="Intermediate" {{ old('level', $course->level ?? '') === 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
+                        <option value="Advanced" {{ old('level', $course->level ?? '') === 'Advanced' ? 'selected' : '' }}>Advanced</option>
+                    </select>
                 </div>
 
                 <!-- Price -->
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Harga <span class="text-red-500">*</span></label>
-                    <input type="text" name="price" value="{{ old('price', $course->price ?? '') }}" placeholder="Contoh: 799000 (tanpa Rp/titik)" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
-                </div>
+                <x-form-input
+                    name="price"
+                    label="Harga"
+                    placeholder="Contoh: 799000 (tanpa Rp/titik)"
+                    :required="true"
+                    :value="$course->price ?? null"
+                />
 
                 <!-- Color -->
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Warna (Opsional)</label>
-                    <input type="text" name="color" value="{{ old('color', $course->color ?? '') }}" placeholder="Kode hex, cth: #667eea" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
-                </div>
+                <x-form-input
+                    name="color"
+                    label="Warna (Opsional)"
+                    placeholder="Kode hex, cth: #667eea"
+                    :value="$course->color ?? null"
+                />
             </div>
 
             <div class="grid grid-cols-1 gap-6">
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Deskripsi Singkat</label>
-                    <input type="text" name="short_description" value="{{ old('short_description', $course->short_description ?? '') }}" placeholder="Ringkasan singkat kursus" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
-                </div>
+                <x-form-input
+                    name="short_description"
+                    label="Deskripsi Singkat"
+                    placeholder="Ringkasan singkat kursus"
+                    :value="$course->short_description ?? null"
+                />
 
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Deskripsi Lengkap</label>
-                    <textarea name="description" rows="4" placeholder="Deskripsi lengkap kursus" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors resize-none">{{ old('description', $course->description ?? '') }}</textarea>
-                </div>
+                <x-form-input
+                    name="description"
+                    type="textarea"
+                    label="Deskripsi Lengkap"
+                    :rows="4"
+                    placeholder="Deskripsi lengkap kursus"
+                    :value="$course->description ?? null"
+                />
             </div>
 
             <!-- Hidden chapters data for submission -->
@@ -139,51 +143,22 @@
                 </button>
             </div>
         </form>
-    </div>
+    </x-admin.form-card>
 
     @if(isset($course))
-    <!-- CHAPTERS SECTION (Shown when editing existing course) -->
+    <!-- CHAPTERS SECTION -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         <!-- ADD CHAPTER -->
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden lg:col-span-1 h-fit">
-            <div class="px-6 py-5 border-b border-gray-100 bg-gray-50/50">
-                <h3 class="text-lg font-bold text-gray-900">Tambah Bab Baru</h3>
-                <p class="text-xs text-gray-500 mt-1">Video URL dan Thumbnail bersifat opsional</p>
-            </div>
-            <form method="POST" action="{{ route('admin.courses.chapters.store', $course) }}" class="p-6 space-y-4">
+        <x-form-card title="Tambah Bab Baru" subtitle="Video URL dan Thumbnail bersifat opsional" class="lg:col-span-1 h-fit">
+            <form method="POST" action="{{ route('admin.courses.chapters.store', $course) }}" class="space-y-4">
                 @csrf
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Judul Bab <span class="text-red-500">*</span></label>
-                    <input type="text" name="title" placeholder="Contoh: Pengenalan HTML" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-gray-900 focus:border-gray-900 block p-3 transition-colors">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Jumlah Lesson <span class="text-red-500">*</span></label>
-                    <input type="number" name="lessons" min="1" placeholder="5" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-gray-900 focus:border-gray-900 block p-3 transition-colors">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Total Durasi <span class="text-red-500">*</span></label>
-                    <input type="text" name="duration" placeholder="Contoh: 45 Menit" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-gray-900 focus:border-gray-900 block p-3 transition-colors">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Video URL</label>
-                    <input type="url" name="video_url" placeholder="https://youtube.com/watch?v=xxx" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-gray-900 focus:border-gray-900 block p-3 transition-colors">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Thumbnail URL</label>
-                    <input type="url" name="thumbnail_url" value="{{ old('thumbnail_url', $course->thumbnail_url ?? '') }}" placeholder="https://contoh.com/thumbnail.jpg" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-gray-900 focus:border-gray-900 block p-3 transition-colors">
-                    <p class="text-xs text-gray-500 mt-1">Masukkan URL gambar thumbnail kursus</p>
-                    @if(isset($course) && $course->thumbnail_url)
-                    <div class="mt-2">
-                        <img src="{{ $course->thumbnail_url }}" alt="Current thumbnail" class="w-24 h-16 object-cover rounded-lg" onerror="this.style.display='none'">
-                        <p class="text-xs text-gray-500 mt-1">Thumbnail saat ini</p>
-                    </div>
-                    @endif
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Deskripsi</label>
-                    <textarea name="description" rows="2" placeholder="Deskripsi singkat bab (opsional)" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-gray-900 focus:border-gray-900 block p-3 transition-colors resize-none"></textarea>
-                </div>
+                <x-form-input name="title" label="Judul Bab" placeholder="Contoh: Pengenalan HTML" :required="true" />
+                <x-form-input name="lessons" type="number" label="Jumlah Lesson" placeholder="5" :required="true" />
+                <x-form-input name="duration" label="Total Durasi" placeholder="Contoh: 45 Menit" :required="true" />
+                <x-form-input name="video_url" type="url" label="Video URL" placeholder="https://youtube.com/watch?v=xxx" />
+                <x-form-input name="thumbnail_url" type="url" label="Thumbnail URL" placeholder="https://contoh.com/thumbnail.jpg" :value="$course->thumbnail_url ?? null" />
+                <x-form-input name="description" type="textarea" label="Deskripsi" :rows="2" placeholder="Deskripsi singkat bab (opsional)" />
                 <div class="pt-2">
                     <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-full text-sm transition-colors shadow-lg w-full flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
@@ -191,22 +166,12 @@
                     </button>
                 </div>
             </form>
-        </div>
+        </x-admin.form-card>
 
         <!-- LIST CHAPTERS -->
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden lg:col-span-2">
-            <div class="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
-                <h3 class="text-lg font-bold text-gray-900">Daftar Bab Pembelajaran</h3>
-                <span class="bg-gray-200 text-gray-800 text-xs font-bold px-2.5 py-1 rounded-full">{{ $course->chapters->count() }} Bab</span>
-            </div>
-
+        <x-form-card title="Daftar Bab Pembelajaran" class="lg:col-span-2">
             @if($course->chapters->isEmpty())
-                <div class="p-8 text-center flex flex-col items-center">
-                    <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 mb-3">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                    </div>
-                    <p class="text-gray-500 text-sm font-medium">Belum ada bab untuk kursus ini.</p>
-                </div>
+                <x-empty-state message="Belum ada bab untuk kursus ini." icon="book" />
             @else
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -225,9 +190,9 @@
                                 <td class="px-6 py-4">
                                     <div class="w-12 h-8 rounded bg-gray-100 overflow-hidden flex items-center justify-center">
                                         @if($chapter->thumbnail_url)
-                                        <img src="{{ $chapter->thumbnail_url }}" class="w-full h-full object-cover" alt="">
+                                            <img src="{{ $chapter->thumbnail_url }}" class="w-full h-full object-cover" alt="">
                                         @else
-                                        <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                            <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                         @endif
                                     </div>
                                 </td>
@@ -239,7 +204,7 @@
                                         <div>
                                             <div class="text-sm font-bold text-gray-900">{{ $chapter->title }}</div>
                                             @if($chapter->description)
-                                            <div class="text-xs text-gray-400 mt-0.5">{{ Str::limit($chapter->description, 40) }}</div>
+                                                <div class="text-xs text-gray-400 mt-0.5">{{ Str::limit($chapter->description, 40) }}</div>
                                             @endif
                                         </div>
                                     </div>
@@ -252,11 +217,11 @@
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     @if($chapter->video_url)
-                                    <a href="{{ $chapter->video_url }}" target="_blank" class="text-blue-600 hover:text-blue-800 inline-flex items-center justify-center">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    </a>
+                                        <a href="{{ $chapter->video_url }}" target="_blank" class="text-blue-600 hover:text-blue-800 inline-flex items-center justify-center">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        </a>
                                     @else
-                                    <span class="text-gray-300">-</span>
+                                        <span class="text-gray-300">-</span>
                                     @endif
                                 </td>
                             </tr>
@@ -265,7 +230,7 @@
                     </table>
                 </div>
             @endif
-        </div>
+        </x-admin.form-card>
 
     </div>
     @endif

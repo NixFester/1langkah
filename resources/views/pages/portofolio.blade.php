@@ -50,24 +50,26 @@
     </div>
 
     <!-- Stats Grid -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-            <div class="text-3xl font-bold text-[#cc0000]">{{ $portfolio['stats']['courses_completed'] ?? 0 }}</div>
-            <div class="text-sm text-gray-500 mt-1">Kursus Selesai</div>
+    <x-card-panel>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
+                <div class="text-3xl font-bold text-[#cc0000]">{{ $portfolio['stats']['courses_completed'] ?? 0 }}</div>
+                <div class="text-sm text-gray-500 mt-1">Kursus Selesai</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
+                <div class="text-3xl font-bold text-green-600">{{ $portfolio['stats']['bootcamps_completed'] ?? 0 }}</div>
+                <div class="text-sm text-gray-500 mt-1">Bootcamp Selesai</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
+                <div class="text-3xl font-bold text-purple-600">{{ $portfolio['stats']['skills_acquired'] ?? 0 }}</div>
+                <div class="text-sm text-gray-500 mt-1">Skills</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
+                <div class="text-3xl font-bold text-orange-500">{{ $portfolio['stats']['reviews_written'] ?? 0 }}</div>
+                <div class="text-sm text-gray-500 mt-1">Reviews</div>
+            </div>
         </div>
-        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-            <div class="text-3xl font-bold text-green-600">{{ $portfolio['stats']['bootcamps_completed'] ?? 0 }}</div>
-            <div class="text-sm text-gray-500 mt-1">Bootcamp Selesai</div>
-        </div>
-        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-            <div class="text-3xl font-bold text-purple-600">{{ $portfolio['stats']['skills_acquired'] ?? 0 }}</div>
-            <div class="text-sm text-gray-500 mt-1">Skills</div>
-        </div>
-        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-            <div class="text-3xl font-bold text-orange-500">{{ $portfolio['stats']['reviews_written'] ?? 0 }}</div>
-            <div class="text-sm text-gray-500 mt-1">Reviews</div>
-        </div>
-    </div>
+    </x-card-panel>
 
     <!-- Achievements -->
     @if(!empty($portfolio['achievements']))
@@ -90,11 +92,7 @@
     @endif
 
     <!-- Skills Section -->
-    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm mb-6">
-        <h3 class="font-bold text-gray-900 text-[16px] mb-4 flex items-center gap-2">
-            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            Skills yang Dikuasai
-        </h3>
+    <x-card-panel title="Skills yang Dikuasai">
         @if(!empty($portfolio['skills']))
         <div class="flex flex-wrap gap-3">
             @foreach($portfolio['skills'] as $skill)
@@ -111,13 +109,12 @@
             @endforeach
         </div>
         @else
-        <p class="text-gray-500 text-sm">Belum ada skills.</p>
+        <x-empty-state message="Belum ada skills." icon="sparkles" />
         @endif
-    </div>
+    </x-card-panel>
 
     <!-- Courses Completed (Sorted by Rating) -->
-    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm mb-6">
-        <h3 class="font-bold text-gray-900 text-[16px] mb-4">Kursus yang Telah Diselesaikan</h3>
+    <x-card-panel title="Kursus yang Telah Diselesaikan">
         @if(!empty($portfolio['courses']))
         <div class="space-y-3">
             @foreach($portfolio['courses'] as $course)
@@ -126,8 +123,8 @@
                     @if($course['thumbnail'])
                     <img src="{{ $course['thumbnail'] }}" class="w-full h-full object-cover" alt="">
                     @else
-                    <div class="w-full h-full flex items-center justify-center text-gray-400">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, {{ $course['color'] ?? '#dc2626' }}, {{ $course['color'] ?? '#dc2626' }}cc);">
+                        <x-icon name="book" class="w-6 h-6 text-white" />
                     </div>
                     @endif
                 </div>
@@ -153,11 +150,9 @@
             @endforeach
         </div>
         @else
-        <div class="bg-gray-50 rounded-2xl p-6 text-center">
-            <p class="text-gray-500 font-medium text-sm">Belum ada kursus yang diselesaikan.</p>
-        </div>
+        <x-empty-state message="Belum ada kursus yang diselesaikan." icon="book" />
         @endif
-    </div>
+    </x-card-panel>
 
     <!-- Bootcamps Completed -->
     <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm mb-6">

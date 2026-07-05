@@ -1,22 +1,19 @@
 @extends('layouts.keuangan')
 
 @section('title', 'Detail Verifikasi')
-
 @section('header_title', 'Detail Verifikasi Pembayaran')
 
 @section('content')
-    <div class="max-w-3xl mx-auto">
-        <a href="{{ route('keuangan.verifications') }}" class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-800 mb-6">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
-            Kembali
-        </a>
+    <x-back-button route="{{ route('keuangan.verifications') }}" theme="amber" />
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+    <x-flash-messages />
+
+    <div class="max-w-3xl mx-auto">
+        {{-- Payment Info --}}
+        <x-card-panel title="Informasi Pembayaran" class="mb-6">
+            @php $badge = $verification->status_badge; @endphp
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-lg font-bold text-gray-800">Informasi Pembayaran</h2>
-                @php $badge = $verification->status_badge; @endphp
                 <span class="px-3 py-1 rounded-full text-sm font-medium {{ $badge['class'] }}">
                     {{ $badge['label'] }}
                 </span>
@@ -61,19 +58,16 @@
                     <p class="font-medium text-gray-800">{{ $verification->created_at->format('d/m/Y H:i') }}</p>
                 </div>
             </div>
-        </div>
+        </x-card-panel>
 
-        {{-- Bukti Bayar --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
-            <h3 class="font-bold text-gray-800 mb-4">Bukti Pembayaran</h3>
+        {{-- Payment Proof --}}
+        <x-card-panel title="Bukti Pembayaran" class="mb-6">
             <img src="{{ $verification->proof_image }}" alt="Bukti Bayar" class="max-w-md rounded-lg border border-gray-200">
-        </div>
+        </x-card-panel>
 
         {{-- Verification Actions --}}
         @if($verification->isPending())
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                <h3 class="font-bold text-gray-800 mb-4">Verifikasi Pembayaran</h3>
-
+            <x-card-panel title="Verifikasi Pembayaran">
                 <div class="grid grid-cols-2 gap-4">
                     {{-- Approve Form --}}
                     <form action="{{ route('keuangan.verifications.approve', $verification) }}" method="POST">
@@ -105,7 +99,7 @@
                         </button>
                     </form>
                 </div>
-            </div>
+            </x-card-panel>
         @else
             <div class="bg-gray-50 rounded-xl p-6">
                 <div class="flex items-center gap-3 mb-4">

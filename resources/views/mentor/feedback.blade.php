@@ -1,10 +1,11 @@
 @extends('layouts.mentor')
 
 @section('title', 'Feedback & Rating')
-
 @section('header_title', 'Feedback & Rating')
 
 @section('content')
+    <x-flash-messages />
+
     {{-- Stats --}}
     <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-8">
         <div class="col-span-2 bg-gradient-to-br from-amber-400 to-amber-500 rounded-xl p-6 text-white">
@@ -30,7 +31,7 @@
     </div>
 
     {{-- Reviews List --}}
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <x-card-panel title="Reviews">
         @forelse($ratings as $rating)
             <div class="p-6 border-b border-gray-100 last:border-0">
                 <div class="flex items-start justify-between mb-2">
@@ -54,13 +55,13 @@
                 </div>
             </div>
         @empty
-            <div class="p-12 text-center text-gray-400">
-                <p>Belum ada feedback</p>
-            </div>
+            <x-empty-state message="Belum ada feedback" icon="rating" />
         @endforelse
-    </div>
+    </x-card-panel>
 
+    @if($ratings->hasPages())
     <div class="mt-4">
         {{ $ratings->links() }}
     </div>
+    @endif
 @endsection

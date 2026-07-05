@@ -1,24 +1,17 @@
 @extends('layouts.superadmin')
 
-@section('title', 'Edit User')
-
-@section('header_title', 'Edit User: ' . $user->name)
+@section('title', 'Edit User: ' . $user->name)
+@section('header_title', 'Edit User')
 
 @section('content')
-    <div class="max-w-2xl mx-auto">
-        <div class="mb-6">
-            <a href="{{ route('superadmin.users') }}" class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-800">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-                Kembali
-            </a>
-        </div>
+    <x-back-button route="{{ route('superadmin.users') }}" />
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+    <x-flash-messages />
+
+    <div class="max-w-2xl mx-auto">
+        <x-card-panel>
             <form action="{{ route('superadmin.users.update', $user) }}" method="POST">
-                @csrf
-                @method('PUT')
+                @csrf @method('PUT')
 
                 <div class="space-y-6">
                     <div>
@@ -58,6 +51,6 @@
                     </button>
                 </div>
             </form>
-        </div>
+        </x-card-panel>
     </div>
 @endsection

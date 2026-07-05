@@ -1,77 +1,17 @@
 @extends('layouts.keuangan')
 
 @section('title', 'Dashboard Keuangan')
-
 @section('header_title', 'Dashboard Keuangan')
 
 @section('content')
-    {{-- Flash Messages --}}
-    @if(session('success'))
-        <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3">
-            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            <span class="text-green-800">{{ session('success') }}</span>
-        </div>
-    @endif
+    <x-flash-messages />
 
     {{-- Stats Cards --}}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-500 mb-1">Menunggu Verifikasi</p>
-                    <p class="text-3xl font-bold text-amber-600">{{ $stats['pending'] }}</p>
-                </div>
-                <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-500 mb-1">Disetujui Hari Ini</p>
-                    <p class="text-3xl font-bold text-green-600">{{ $stats['approved_today'] }}</p>
-                </div>
-                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-500 mb-1">Ditolak Hari Ini</p>
-                    <p class="text-3xl font-bold text-red-600">{{ $stats['rejected_today'] }}</p>
-                </div>
-                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-500 mb-1">Total User</p>
-                    <p class="text-3xl font-bold text-blue-600">{{ $stats['total_users'] }}</p>
-                </div>
-                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
+        <x-stat-card label="Menunggu Verifikasi" :value="$stats['pending']" icon="clock" color="amber" />
+        <x-stat-card label="Disetujui Hari Ini" :value="$stats['approved_today']" icon="check" color="green" />
+        <x-stat-card label="Ditolak Hari Ini" :value="$stats['rejected_today']" icon="x" color="red" />
+        <x-stat-card label="Total User" :value="$stats['total_users']" icon="users" color="blue" />
     </div>
 
     {{-- Revenue Summary --}}
@@ -101,91 +41,67 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- Pending Payments --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-            <div class="p-6 border-b border-gray-100 flex items-center justify-between">
-                <h3 class="font-bold text-gray-800">Pembayaran Menunggu</h3>
-                <a href="{{ route('keuangan.verifications') }}" class="text-sm text-amber-600 hover:text-amber-700 font-medium">
-                    Lihat Semua →
-                </a>
-            </div>
-            <div class="p-6">
-                @if($recentPending->isEmpty())
-                    <div class="text-center py-8 text-gray-400">
-                        <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <p>Tidak ada pembayaran menunggu</p>
-                    </div>
-                @else
-                    <div class="space-y-4">
-                        @foreach($recentPending as $payment)
-                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
-                                        <span class="text-amber-600 font-bold">{{ substr($payment->user->name ?? 'U', 0, 1) }}</span>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium text-gray-800">{{ $payment->user->name ?? 'Unknown' }}</p>
-                                        <p class="text-sm text-gray-500">{{ $payment->course_title }}</p>
-                                    </div>
+        <x-card-panel title="Pembayaran Menunggu" :actionRoute="route('keuangan.verifications')" actionLabel="Lihat Semua">
+            @if($recentPending->isEmpty())
+                <x-empty-state message="Tidak ada pembayaran menunggu" icon="success" />
+            @else
+                <div class="space-y-4">
+                    @foreach($recentPending as $payment)
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+                                    <span class="text-amber-600 font-bold">{{ substr($payment->user->name ?? 'U', 0, 1) }}</span>
                                 </div>
-                                <div class="text-right">
-                                    <p class="font-bold text-gray-800">Rp {{ number_format($payment->amount, 0, ',', '.') }}</p>
-                                    <p class="text-xs text-gray-400">{{ $payment->created_at->diffForHumans() }}</p>
+                                <div>
+                                    <p class="font-medium text-gray-800">{{ $payment->user->name ?? 'Unknown' }}</p>
+                                    <p class="text-sm text-gray-500">{{ $payment->course_title }}</p>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
-                @endif
-            </div>
-        </div>
+                            <div class="text-right">
+                                <p class="font-bold text-gray-800">Rp {{ number_format($payment->amount, 0, ',', '.') }}</p>
+                                <p class="text-xs text-gray-400">{{ $payment->created_at->diffForHumans() }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        </x-card-panel>
 
         {{-- Recent Verified --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-            <div class="p-6 border-b border-gray-100 flex items-center justify-between">
-                <h3 class="font-bold text-gray-800">Pembayaran Terakhir</h3>
-            </div>
-            <div class="p-6">
-                @if($recentVerified->isEmpty())
-                    <div class="text-center py-8 text-gray-400">
-                        <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
-                        </svg>
-                        <p>Belum ada pembayaran diverifikasi</p>
-                    </div>
-                @else
-                    <div class="space-y-4">
-                        @foreach($recentVerified as $payment)
-                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full flex items-center justify-center
-                                        {{ $payment->isApproved() ? 'bg-green-100' : 'bg-red-100' }}">
-                                        @if($payment->isApproved())
-                                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                            </svg>
-                                        @else
-                                            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                            </svg>
-                                        @endif
-                                    </div>
-                                    <div>
-                                        <p class="font-medium text-gray-800">{{ $payment->user->name ?? 'Unknown' }}</p>
-                                        <p class="text-sm text-gray-500">{{ $payment->course_title }}</p>
-                                    </div>
+        <x-card-panel title="Pembayaran Terakhir">
+            @if($recentVerified->isEmpty())
+                <x-empty-state message="Belum ada pembayaran diverifikasi" icon="payment" />
+            @else
+                <div class="space-y-4">
+                    @foreach($recentVerified as $payment)
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center {{ $payment->isApproved() ? 'bg-green-100' : 'bg-red-100' }}">
+                                    @if($payment->isApproved())
+                                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    @else
+                                        <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    @endif
                                 </div>
-                                <div class="text-right">
-                                    <p class="font-bold {{ $payment->isApproved() ? 'text-green-600' : 'text-red-600' }}">
-                                        {{ $payment->isApproved() ? 'Disetujui' : 'Ditolak' }}
-                                    </p>
-                                    <p class="text-xs text-gray-400">{{ $payment->verified_at?->diffForHumans() ?? '-' }}</p>
+                                <div>
+                                    <p class="font-medium text-gray-800">{{ $payment->user->name ?? 'Unknown' }}</p>
+                                    <p class="text-sm text-gray-500">{{ $payment->course_title }}</p>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
-                @endif
-            </div>
-        </div>
+                            <div class="text-right">
+                                <p class="font-bold {{ $payment->isApproved() ? 'text-green-600' : 'text-red-600' }}">
+                                    {{ $payment->isApproved() ? 'Disetujui' : 'Ditolak' }}
+                                </p>
+                                <p class="text-xs text-gray-400">{{ $payment->verified_at?->diffForHumans() ?? '-' }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        </x-card-panel>
     </div>
 @endsection
