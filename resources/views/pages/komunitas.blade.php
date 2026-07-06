@@ -116,6 +116,10 @@
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                             <span class="font-medium">{{ $post->upvotes }}</span>
                         </span>
+                        <button onclick="showReportModal('post', {{ $post->id }})" class="flex items-center gap-1.5 hover:text-red-600 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            Report
+                        </button>
                     </div>
                 </div>
             </div>
@@ -187,6 +191,88 @@ async function votePost(postId, voteType, buttonElement) {
         alert('Terjadi kesalahan saat memberikan vote. Pastikan Anda sudah login.');
     }
 }
+
+// Report Modal Functions
+function showReportModal(type, id) {
+    document.getElementById('reportable_type').value = type;
+    document.getElementById('reportable_id').value = id;
+    document.getElementById('reportModal').classList.remove('hidden');
+}
+
+function hideReportModal() {
+    document.getElementById('reportModal').classList.add('hidden');
+}
+
+async function submitReport() {
+    const form = document.getElementById('reportForm');
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch('/api/reports', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert('Report submitted successfully. Thank you for helping keep our community safe.');
+            hideReportModal();
+            document.getElementById('report_reason').value = '';
+            document.getElementById('report_description').value = '';
+        } else {
+            alert(data.message || 'Failed to submit report');
+        }
+    } catch (error) {
+        console.error('Report error:', error);
+        alert('Terjadi kesalahan saat submit report.');
+    }
+}
 </script>
+
+<!-- Report Modal -->
+<div id="reportModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div class="fixed inset-0 bg-black/50" onclick="hideReportModal()"></div>
+    <div class="relative bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl">
+        <h3 class="text-xl font-bold text-gray-900 mb-4">Report Content</h3>
+        <p class="text-sm text-gray-600 mb-4">Help us maintain a safe community by reporting inappropriate content.</p>
+
+        <form id="reportForm">
+            <input type="hidden" name="reportable_type" id="reportable_type" value="">
+            <input type="hidden" name="reportable_id" id="reportable_id" value="">
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Reason</label>
+                <select name="reason" id="report_reason" class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                    <option value="">Select a reason</option>
+                    <option value="spam">Spam</option>
+                    <option value="harassment">Harassment / Bullying</option>
+                    <option value="inappropriate_content">Inappropriate Content</option>
+                    <option value="misinformation">Misinformation</option>
+                    <option value="copyright">Copyright Violation</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Description (optional)</label>
+                <textarea name="description" id="report_description" rows="3" class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Provide additional details..."></textarea>
+            </div>
+
+            <div class="flex gap-3">
+                <button type="button" onclick="hideReportModal()" class="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                    Cancel
+                </button>
+                <button type="button" onclick="submitReport()" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors">
+                    Submit Report
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 @endpush
 @endsection

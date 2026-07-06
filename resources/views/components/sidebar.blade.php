@@ -184,6 +184,7 @@
             $navItems[] = ['id' => 'event', 'icon' => 'calendar', 'label' => 'Event', 'route' => 'event'];
             $navItems[] = ['id' => 'portofolio', 'icon' => 'layers', 'label' => 'Portofolio', 'route' => 'portofolio'];
             $navItems[] = ['id' => 'komunitas', 'icon' => 'users', 'label' => 'Komunitas', 'route' => 'komunitas'];
+            $navItems[] = ['id' => 'achievement', 'icon' => 'trophy', 'label' => 'Prestasi', 'route' => 'achievement'];
         }
 
         $navItems[] = ['id' => 'mentor', 'icon' => 'mentor', 'label' => 'Mentor', 'route' => 'mentor'];

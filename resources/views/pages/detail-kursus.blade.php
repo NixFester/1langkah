@@ -362,46 +362,90 @@
             <!-- Resources Tab -->
             <div x-show="activeTab === 'resources'" x-cloak>
                 <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
-                    <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">Resources</h2>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-[22px] font-bold text-gray-900 tracking-tight">Resources</h2>
+                        @if(count($resources) > 0)
+                        <span class="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+                            {{ count($resources) }} file
+                        </span>
+                        @endif
+                    </div>
 
                     @if(auth()->check() && $isEnrolled)
                         @if(count($resources) > 0)
-                        <div class="space-y-4">
+                        <div class="space-y-3" x-data="{ downloading: null }">
                             @foreach($resources as $r)
-                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors group">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center">
+                                    <div class="w-10 h-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
+                                        @if(str_contains(strtolower($r->type ?? ''), 'pdf'))
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                        @elseif(str_contains(strtolower($r->type ?? ''), 'video'))
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                        @elseif(str_contains(strtolower($r->type ?? ''), 'zip') || str_contains(strtolower($r->type ?? ''), 'archive'))
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                                        @else
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 00-2-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                        @endif
                                     </div>
-                                    <div>
-                                        <p class="font-medium text-gray-900">{{ $r->title }}</p>
-                                        <p class="text-xs text-gray-500">{{ strtoupper($r->type ?? 'FILE') }}</p>
+                                    <div class="min-w-0">
+                                        <p class="font-medium text-gray-900 truncate">{{ $r->title }}</p>
+                                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                                            <span class="uppercase">{{ $r->type ?? 'file' }}</span>
+                                            @if($r->file_size)
+                                            <span>•</span>
+                                            <span>{{ number_format($r->file_size / 1024, 1) }} KB</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                                <a href="{{ $r->url }}" target="_blank" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors">
-                                    Download
-                                </a>
+                                <div class="flex items-center gap-2">
+                                    <button
+                                        @click="downloadResource({{ $r->id }}, '{{ $r->url }}', {{ $loop->index }})"
+                                        :disabled="downloading === {{ $loop->index }}"
+                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <template x-if="downloading === {{ $loop->index }}">
+                                            <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            </svg>
+                                        </template>
+                                        <template x-if="downloading !== {{ $loop->index }}">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                        </template>
+                                        <span x-text="downloading === {{ $loop->index }} ? 'Mengunduh...' : 'Download'"></span>
+                                    </button>
+                                </div>
                             </div>
                             @endforeach
                         </div>
                         @else
-                        <div class="text-center py-8">
-                            <p class="text-gray-500">Belum ada resource.</p>
+                        <div class="text-center py-12">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                            </div>
+                            <p class="text-gray-500 mb-2">Belum ada resource untuk kursus ini.</p>
+                            <p class="text-sm text-gray-400">Akan ditambahkan oleh mentor soon.</p>
                         </div>
                         @endif
                     @elseif(auth()->check())
-                        <div class="text-center py-8">
-                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2V5a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <div class="text-center py-12 bg-gradient-to-b from-gray-50 to-white rounded-2xl border border-gray-100">
+                            <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2V5a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                             </div>
-                            <p class="text-gray-500 mb-4">Silakan daftar di kursus ini untuk melihat resources.</p>
+                            <p class="text-gray-600 font-medium mb-2">Resource terkunci</p>
+                            <p class="text-gray-500 mb-4 text-sm">Daftar di kursus ini untuk mengunduh semua resource.</p>
                             <a href="{{ route('pembayaran', ['id' => $c['id']]) }}" class="inline-flex items-center justify-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-full text-sm font-semibold transition-colors">
                                 Daftar Sekarang
                             </a>
                         </div>
                     @else
-                        <div class="text-center py-8">
-                            <p class="text-gray-500">Silakan <a href="{{ route('login') }}" class="text-red-600 hover:underline">login</a> untuk melihat resources.</p>
+                        <div class="text-center py-12 bg-gradient-to-b from-gray-50 to-white rounded-2xl border border-gray-100">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2V5a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            </div>
+                            <p class="text-gray-600 font-medium mb-2">Login required</p>
+                            <p class="text-gray-500 text-sm">Silakan <a href="{{ route('login') }}" class="text-red-600 hover:underline font-medium">login</a> untuk melihat resources.</p>
                         </div>
                     @endif
                 </div>
@@ -678,6 +722,35 @@ function setRating(rating) {
     document.querySelectorAll('.star-btn').forEach((btn, index) => {
         btn.classList.toggle('text-yellow-400', index < rating);
         btn.classList.toggle('text-gray-300', index >= rating);
+    });
+}
+
+// Resource download tracking
+function downloadResource(resourceId, url, index) {
+    const alpineComponent = document.querySelector('[x-data]').__x.$data;
+    alpineComponent.downloading = index;
+
+    // Track download on server
+    fetch('/api/resources/' + resourceId + '/download', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        alpineComponent.downloading = null;
+        if (data.success) {
+            // Open the actual file download
+            window.open(url, '_blank');
+        }
+    })
+    .catch(error => {
+        alpineComponent.downloading = null;
+        console.error('Download tracking error:', error);
+        // Still open the download even if tracking fails
+        window.open(url, '_blank');
     });
 }
 

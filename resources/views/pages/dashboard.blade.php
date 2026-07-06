@@ -164,6 +164,27 @@
 
         <!-- Right section (1 Column) -->
         <div class="space-y-6">
+            <!-- Prestasi & Badge -->
+            <x-card-panel title="Prestasi & Badge" :actionRoute="route('achievement')" actionLabel="Lihat semua">
+                <div class="space-y-3">
+                    @if(!empty($userAchievements) && $userAchievements->count() > 0)
+                        @foreach($userAchievements->take(3) as $achievement)
+                        <div class="flex items-center gap-3 p-2 -mx-2 rounded-xl hover:bg-gray-50 transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow flex-shrink-0">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">{{ $achievement->achievement->name ?? 'Achievement' }}</p>
+                                <p class="text-xs text-gray-500">{{ $achievement->earned_at->diffForHumans() }}</p>
+                            </div>
+                        </div>
+                        @endforeach
+                    @else
+                        <x-empty-state message="Belum ada achievement. Mulai belajar untuk membuka badge!" icon="trophy" />
+                    @endif
+                </div>
+            </x-card-panel>
+
             <!-- Aktivitas Terbaru -->
             <x-card-panel title="Aktivitas Terbaru">
                 <div class="space-y-4">

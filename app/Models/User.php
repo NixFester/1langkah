@@ -108,6 +108,31 @@ class User extends Authenticatable
         return $this->hasMany(Enrollment::class);
     }
 
+    public function settings()
+    {
+        return $this->hasOne(UserSetting::class);
+    }
+
+    public function achievements()
+    {
+        return $this->hasMany(UserAchievement::class);
+    }
+
+    public function earnedAchievements()
+    {
+        return $this->hasMany(UserAchievement::class)->with('achievement');
+    }
+
+    public function certificates()
+    {
+        return $this->hasMany(Certificate::class);
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class, 'reporter_id');
+    }
+
     // ── Role Helpers ────────────────────────────────────────────────────────────
 
     /**
@@ -115,11 +140,11 @@ class User extends Authenticatable
      */
     public const ROLE_LEVELS = [
         'superadmin' => 6,
-        'admin'      => 5,
-        'keuangan'   => 4,
-        'marketing'  => 3,
-        'mentor'     => 2,
-        'student'    => 1,
+        'admin' => 5,
+        'keuangan' => 4,
+        'marketing' => 3,
+        'mentor' => 2,
+        'student' => 1,
     ];
 
     /**
@@ -132,11 +157,11 @@ class User extends Authenticatable
      */
     public const ROLE_LABELS = [
         'superadmin' => 'Super Admin',
-        'admin'      => 'Admin',
-        'keuangan'   => 'Keuangan',
-        'marketing'  => 'Marketing',
-        'mentor'     => 'Mentor',
-        'student'    => 'Student',
+        'admin' => 'Admin',
+        'keuangan' => 'Keuangan',
+        'marketing' => 'Marketing',
+        'mentor' => 'Mentor',
+        'student' => 'Student',
     ];
 
     /**
@@ -280,7 +305,7 @@ class User extends Authenticatable
             ->where('created_at', '>=', now()->subDays(30))
             ->max('created_at');
 
-        if (!$lastActivity) {
+        if (! $lastActivity) {
             return 0;
         }
 

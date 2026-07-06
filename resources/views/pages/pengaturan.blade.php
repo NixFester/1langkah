@@ -24,9 +24,9 @@
         <div class="card" style="padding:28px;text-align:center;margin-bottom:20px">
             <div style="position:relative; width:96px; height:96px; margin:0 auto 16px;">
                 <!-- Main Avatar -->
-                <div style="width:100%; height:100%; border-radius:50%; background:linear-gradient(135deg,var(--primary),#b91c1c); display:flex; align-items:center; justify-content:center; font-size:48px; font-weight:700; color:#fff; border:3px solid #fee2e2; overflow:hidden;">
-                    @if(isset($u->avatar) && $u->avatar)
-                        <img src="{{ Storage::url($u->avatar) }}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
+                <div style="width:100%; height:100%; border-radius:50%; background:linear-gradient(135deg,var(--primary),#b91c1c); display:flex; align-items:center; justify-content:center; font-size:48px; font-weight:700; color:#fff; border:3px solid #fee2e2; overflow:hidden;" id="avatar-display">
+                    @if(isset($u->settings->avatar) && $u->settings->avatar)
+                        <img src="{{ $u->settings->avatar_url }}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
                     @else
                         {{ strtoupper(substr($u->name, 0, 1)) }}
                     @endif
@@ -38,21 +38,21 @@
                         <circle cx="12" cy="13" r="3"></circle>
                     </svg>
                 </label>
-                <input type="file" id="avatar_upload_main" name="avatar" accept="image/jpeg,image/png,image/jpg" style="display:none;" form="profile-form">
+                <input type="file" id="avatar_upload_main" name="avatar" accept="image/jpeg,image/png,image/jpg" style="display:none;" onchange="uploadAvatar(this)">
             </div>
             <div style="font-size:18px;font-weight:700;margin-bottom:4px">{{ $u->name }}</div>
             <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">{{ $u->email }}</div>
             <div style="display:flex;justify-content:center;gap:24px">
                 <div style="text-align:center">
-                    <div style="font-size:20px;font-weight:700;color:var(--primary)">1,240</div>
+                    <div style="font-size:20px;font-weight:700;color:var(--primary)">{{ number_format($u->xp) }}</div>
                     <div style="font-size:11px;color:var(--text-light)">XP Total</div>
                 </div>
                 <div style="text-align:center">
-                    <div style="font-size:20px;font-weight:700;color:var(--gold)">12</div>
+                    <div style="font-size:20px;font-weight:700;color:var(--gold)">{{ $u->streak }}</div>
                     <div style="font-size:11px;color:var(--text-light)">Day Streak</div>
                 </div>
                 <div style="text-align:center">
-                    <div style="font-size:20px;font-weight:700;color:var(--success)">5</div>
+                    <div style="font-size:20px;font-weight:700;color:var(--success)">{{ $u->certificates->count() }}</div>
                     <div style="font-size:11px;color:var(--text-light)">Sertifikat</div>
                 </div>
             </div>
@@ -125,6 +125,79 @@
             <button type="submit" class="btn btn-primary btn-lg btn-full">Simpan Perubahan</button>
         </form>
 
+        {{-- Notification Preferences --}}
+        <div class="card" style="padding:24px;margin-top:20px">
+            <div class="section-title" style="margin-bottom:18px">Preferensi Notifikasi</div>
+
+            <div id="notification-feedback" style="display:none;padding:12px;border-radius:8px;margin-bottom:16px;font-size:13px;"></div>
+
+            {{-- Email Notifications --}}
+            <div style="margin-bottom:24px">
+                <div style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+                    <svg style="width:16px;height:16px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    Notifikasi Email
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                    @php
+                        $emailPrefs = $u->settings->notification_preferences ?? [
+                            'email_course_updates' => true,
+                            'email_bootcamp_reminders' => true,
+                            'email_event_announcements' => true,
+                            'email_forum_replies' => true,
+                            'email_achievements' => true,
+                            'email_weekly_progress' => false,
+                        ];
+                    @endphp
+                    <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
+                        <input type="checkbox" name="email_course_updates" value="1" {{ ($emailPrefs['email_course_updates'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
+                        <span>Update kursus baru & modul</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
+                        <input type="checkbox" name="email_bootcamp_reminders" value="1" {{ ($emailPrefs['email_bootcamp_reminders'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
+                        <span>Pengingat jadwal bootcamp</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
+                        <input type="checkbox" name="email_event_announcements" value="1" {{ ($emailPrefs['email_event_announcements'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
+                        <span>Pengumuman event baru</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
+                        <input type="checkbox" name="email_forum_replies" value="1" {{ ($emailPrefs['email_forum_replies'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
+                        <span>Balasan di forum</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
+                        <input type="checkbox" name="email_achievements" value="1" {{ ($emailPrefs['email_achievements'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
+                        <span>Pencapaian badge baru</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
+                        <input type="checkbox" name="email_weekly_progress" value="1" {{ ($emailPrefs['email_weekly_progress'] ?? false) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
+                        <span>Ringkasan mingguan progress</span>
+                    </label>
+                </div>
+            </div>
+
+            {{-- Privacy Settings --}}
+            <div>
+                <div style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+                    <svg style="width:16px;height:16px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    Privasi
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                    <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
+                        <input type="checkbox" name="show_profile_publicly" value="1" {{ ($u->settings->show_profile_publicly ?? true) ? 'checked' : '' }} onchange="updatePrivacyPref(this)" class="pref-checkbox">
+                        <span>Tampilkan profil secara publik</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
+                        <input type="checkbox" name="show_progress_publicly" value="1" {{ ($u->settings->show_progress_publicly ?? true) ? 'checked' : '' }} onchange="updatePrivacyPref(this)" class="pref-checkbox">
+                        <span>Tampilkan progress di portofolio</span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
+                        <input type="checkbox" name="allow_mentor_contact" value="1" {{ ($u->settings->allow_mentor_contact ?? true) ? 'checked' : '' }} onchange="updatePrivacyPref(this)" class="pref-checkbox">
+                        <span>Izinkan mentor menghubungi saya</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
         <div class="card" style="padding:24px;margin-top:20px;border:1px solid #fca5a5">
             <div class="section-title" style="margin-bottom:8px;color:#b91c1c">Zona Berbahaya</div>
             <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Tindakan di bawah ini tidak dapat dibatalkan.</p>
@@ -137,3 +210,113 @@
 </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+// CSRF token
+const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '{{ csrf_token() }}';
+
+// Show feedback message
+function showFeedback(message, type = 'success') {
+    const el = document.getElementById('notification-feedback');
+    el.textContent = message;
+    el.style.display = 'block';
+    el.style.backgroundColor = type === 'success' ? '#d1fae5' : '#fee2e2';
+    el.style.borderColor = type === 'success' ? '#6ee7b7' : '#fca5a5';
+    el.style.color = type === 'success' ? '#065f46' : '#b91c1c';
+
+    setTimeout(() => {
+        el.style.display = 'none';
+    }, 3000);
+}
+
+// Update notification preference
+async function updateNotificationPref(checkbox) {
+    const name = checkbox.name;
+    const value = checkbox.checked;
+
+    try {
+        const response = await fetch('/api/settings/notifications', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ [name]: value })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            showFeedback('Preferensi berhasil disimpan!');
+        }
+    } catch (error) {
+        showFeedback('Gagal menyimpan preferensi', 'error');
+        checkbox.checked = !value;
+    }
+}
+
+// Update privacy preference
+async function updatePrivacyPref(checkbox) {
+    const name = checkbox.name;
+    const value = checkbox.checked;
+
+    try {
+        const response = await fetch('/api/settings/privacy', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ [name]: value })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            showFeedback('Pengaturan privasi berhasil disimpan!');
+        }
+    } catch (error) {
+        showFeedback('Gagal menyimpan pengaturan', 'error');
+        checkbox.checked = !value;
+    }
+}
+
+// Upload avatar
+async function uploadAvatar(input) {
+    if (!input.files || !input.files[0]) return;
+
+    const formData = new FormData();
+    formData.append('avatar', input.files[0]);
+
+    try {
+        const response = await fetch('/api/settings/avatar', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json',
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            // Update avatar display
+            const display = document.getElementById('avatar-display');
+            display.innerHTML = `<img src="${data.data.avatar_url}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">`;
+            showFeedback('Avatar berhasil diupload!');
+
+            // Update topbar avatar too
+            const topbarAvatar = document.querySelector('.topbar-avatar');
+            if (topbarAvatar) {
+                topbarAvatar.src = data.data.avatar_url;
+            }
+        } else {
+            showFeedback(data.message || 'Gagal upload avatar', 'error');
+        }
+    } catch (error) {
+        showFeedback('Gagal upload avatar', 'error');
+    }
+}
+</script>
+@endpush

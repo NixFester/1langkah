@@ -4,15 +4,24 @@ namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bootcamp;
-use App\Models\ChapterVideo;
+use App\Models\Completion;
 use App\Models\Course;
+use App\Models\CourseRating;
 use App\Models\Enrollment;
-use App\Models\Resource;
+use App\Models\Event;
+use App\Models\EventRegistration;
+use App\Models\SessionProgress;
+use App\Models\User;
+use App\Models\UserAchievement;
+use App\Models\UserActivityLog;
+use App\Models\UserSetting;
+use App\Models\VideoProgress;
 use App\Services\CatalogService;
+use App\Services\NotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class PageController extends Controller
 {
@@ -25,10 +34,10 @@ class PageController extends Controller
     public function landing(): View
     {
         return view('pages.landing', [
-            'courses'     => $this->catalog->courses(),
-            'mentors'     => array_slice($this->catalog->mentors(), 0, 4),
-            'testimonials'=> $this->catalog->testimonials(),
-            'bootcamp'    => $this->catalog->onlineBootcamp(101),
+            'courses' => $this->catalog->courses(),
+            'mentors' => array_slice($this->catalog->mentors(), 0, 4),
+            'testimonials' => $this->catalog->testimonials(),
+            'bootcamp' => $this->catalog->onlineBootcamp(101),
         ]);
     }
 
@@ -44,7 +53,7 @@ class PageController extends Controller
     public function loginSubmit(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
-            'email'    => ['required', 'email'],
+            'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
@@ -71,14 +80,14 @@ class PageController extends Controller
     {
         $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
-            'last_name'  => ['required', 'string', 'max:255'],
-            'email'      => ['required', 'email', 'unique:users,email'],
-            'password'   => ['required', 'min:8'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'min:8'],
         ]);
 
-        $user = \App\Models\User::create([
-            'name'     => $request->first_name . ' ' . $request->last_name,
-            'email'    => $request->email,
+        $user = User::create([
+            'name' => $request->first_name.' '.$request->last_name,
+            'email' => $request->email,
             'password' => $request->password,   // cast auto-hashes it
         ]);
 
@@ -97,16 +106,25 @@ class PageController extends Controller
         return redirect()->route('landing');
     }
 
-    
     /* -----------------------------------------------------------------
      * pengaturan pages (sidebar + topbar)
      * ----------------------------------------------------------------- */
 
-
     public function pengaturan(): View
     {
+        $user = auth()->user();
+        // Load user settings with user relation
+        $user->load('settings');
+
+        // Create settings if not exists
+        if (! $user->settings) {
+            UserSetting::findOrCreateForUser($user->id);
+            $user->refresh();
+            $user->load('settings');
+        }
+
         return view('pages.pengaturan', [
-            'authUser' => auth()->user(),
+            'authUser' => $user,
         ]);
     }
 
@@ -115,21 +133,21 @@ class PageController extends Controller
         $user = auth()->user();
 
         $rules = [
-            'name'  => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
-            'bio'   => ['nullable', 'string', 'max:500'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email,'.$user->id],
+            'bio' => ['nullable', 'string', 'max:500'],
         ];
 
         if ($request->filled('password')) {
-            $rules['password']              = ['min:8'];
+            $rules['password'] = ['min:8'];
             $rules['password_confirmation'] = ['same:password'];
         }
 
         $request->validate($rules);
 
-        $user->name  = $request->name;
+        $user->name = $request->name;
         $user->email = $request->email;
-        $user->bio   = $request->bio;
+        $user->bio = $request->bio;
 
         if ($request->filled('password')) {
             $user->password = $request->password; // cast hashes it
@@ -139,7 +157,7 @@ class PageController extends Controller
 
         return back()->with('success', 'Profil berhasil diperbarui.');
     }
-    
+
     public function pesan(): View
     {
         return view('pages.pesan');
@@ -159,13 +177,24 @@ class PageController extends Controller
         $upcomingEvents = $this->catalog->upcomingEvents($userId);
         $recommendedCourses = $userId ? $this->catalog->recommendedCourses($userId) : [];
 
+        // Get user's achievements
+        $userAchievements = [];
+        if ($userId) {
+            $userAchievements = UserAchievement::where('user_id', $userId)
+                ->with('achievement')
+                ->orderBy('earned_at', 'desc')
+                ->limit(5)
+                ->get();
+        }
+
         return view('pages.dashboard', [
-            'userStats'         => $userStats,
-            'activeCourses'     => $myCourses,
-            'myBootcamps'       => $myBootcamps,
-            'recentActivities'  => $recentActivities,
-            'upcomingEvents'    => $upcomingEvents,
-            'recommendedCourses'=> $recommendedCourses,
+            'userStats' => $userStats,
+            'activeCourses' => $myCourses,
+            'myBootcamps' => $myBootcamps,
+            'recentActivities' => $recentActivities,
+            'upcomingEvents' => $upcomingEvents,
+            'recommendedCourses' => $recommendedCourses,
+            'userAchievements' => $userAchievements,
         ]);
     }
 
@@ -186,15 +215,15 @@ class PageController extends Controller
 
         // Courses not yet enrolled
         $enrolledIds = array_column($myCourses, 'id');
-        $otherCourses = array_values(array_filter($allCourses, fn ($c) => !in_array($c['id'], $enrolledIds)));
+        $otherCourses = array_values(array_filter($allCourses, fn ($c) => ! in_array($c['id'], $enrolledIds)));
 
         return view('pages.kursus', [
-            'courses'     => $allCourses,
-            'myCourses'   => $myCourses,
+            'courses' => $allCourses,
+            'myCourses' => $myCourses,
             'otherCourses' => $otherCourses,
-            'userStats'   => $userStats,
+            'userStats' => $userStats,
             'categories' => $this->catalog->categories(),
-            'levels'      => $this->catalog->levels(),
+            'levels' => $this->catalog->levels(),
         ]);
     }
 
@@ -209,13 +238,13 @@ class PageController extends Controller
             $photos = $courseModel->pictures
                 ->where('type', 'gallery')
                 ->sortBy('order')
-                ->map(fn($pic) => ['url' => $pic->url, 'alt' => $pic->description ?? $course['title']])
+                ->map(fn ($pic) => ['url' => $pic->url, 'alt' => $pic->description ?? $course['title']])
                 ->values()
                 ->toArray();
         }
 
         // Get all resources for this course
-        $resources = \DB::select("SELECT id, title, type, url, file_size, chapter_id FROM resources WHERE course_id = ?", [$id]);
+        $resources = \DB::select('SELECT id, title, type, url, file_size, chapter_id FROM resources WHERE course_id = ?', [$id]);
 
         // Get chapters with videos
         $chapters = [];
@@ -233,14 +262,14 @@ class PageController extends Controller
                 }
 
                 // Get completed video IDs from video_progress table
-                $completedVideoIds = \App\Models\VideoProgress::where('user_id', auth()->id())
+                $completedVideoIds = VideoProgress::where('user_id', auth()->id())
                     ->whereIn('video_id', $allVideoIds)
                     ->where('is_completed', true)
                     ->pluck('video_id')
                     ->toArray();
 
                 // Check if course is completed
-                $isCompleted = \App\Models\Completion::where('user_id', auth()->id())
+                $isCompleted = Completion::where('user_id', auth()->id())
                     ->where('completable_type', Course::class)
                     ->where('completable_id', $id)
                     ->exists();
@@ -251,12 +280,12 @@ class PageController extends Controller
                 ->orderBy('order')
                 ->orderBy('id')
                 ->get()
-                ->map(function($ch) use ($completedVideoIds) {
+                ->map(function ($ch) use ($completedVideoIds) {
                     // Get all video IDs in this chapter
                     $videoIds = $ch->videos->pluck('id')->toArray();
 
                     // Mark which videos are completed
-                    $videos = $ch->videos->map(function($v) use ($completedVideoIds) {
+                    $videos = $ch->videos->map(function ($v) use ($completedVideoIds) {
                         return [
                             'id' => $v->id,
                             'title' => $v->title,
@@ -268,7 +297,7 @@ class PageController extends Controller
                     })->toArray();
 
                     // Check if all videos in chapter are completed
-                    $completedVideosInChapter = count(array_filter($videos, fn($v) => $v['is_completed']));
+                    $completedVideosInChapter = count(array_filter($videos, fn ($v) => $v['is_completed']));
                     $totalVideosInChapter = count($videos);
                     $allVideosCompleted = $totalVideosInChapter > 0 && $completedVideosInChapter >= $totalVideosInChapter;
 
@@ -290,7 +319,7 @@ class PageController extends Controller
         }
 
         // Get reviews with pagination (server calculates average)
-        $reviewsQuery = \App\Models\CourseRating::where('course_id', $id)
+        $reviewsQuery = CourseRating::where('course_id', $id)
             ->with('user:id,name,profile_photo')
             ->orderBy('created_at', 'desc');
 
@@ -299,7 +328,7 @@ class PageController extends Controller
         // Get user's own rating if logged in
         $userRating = null;
         if (auth()->check()) {
-            $userRating = \App\Models\CourseRating::where('user_id', auth()->id())
+            $userRating = CourseRating::where('user_id', auth()->id())
                 ->where('course_id', $id)
                 ->first();
         }
@@ -307,17 +336,17 @@ class PageController extends Controller
         $isEnrolled = auth()->check() && $this->isUserEnrolled(auth()->id(), 'course', $course['id']);
 
         // Get actual enrollment count from database
-        $enrolledCount = \App\Models\Enrollment::where('purchasable_type', Course::class)
+        $enrolledCount = Enrollment::where('purchasable_type', Course::class)
             ->where('purchasable_id', $id)
             ->count();
 
         return view('pages.detail-kursus', [
-            'course'     => $course,
-            'chapters'   => $chapters,
-            'photos'     => $photos,
-            'resources'  => $resources,
+            'course' => $course,
+            'chapters' => $chapters,
+            'photos' => $photos,
+            'resources' => $resources,
             'isEnrolled' => $isEnrolled,
-            'reviews'    => $reviews,
+            'reviews' => $reviews,
             'userRating' => $userRating,
             'enrolledCount' => $enrolledCount,
             'isCompleted' => $isCompleted,
@@ -333,22 +362,23 @@ class PageController extends Controller
 
         // Courses not yet enrolled
         $enrolledIds = array_column($myCourses, 'id');
-        $otherCourses = array_values(array_filter($allCourses, fn ($c) => !in_array($c['id'], $enrolledIds)));
+        $otherCourses = array_values(array_filter($allCourses, fn ($c) => ! in_array($c['id'], $enrolledIds)));
 
         // Completed courses (marked complete in DB or progress = 100)
         $completedCourses = array_values(array_filter($myCourses, fn ($c) => ($c['is_completed'] ?? false) || ($c['progress'] ?? 0) >= 100));
 
         return view('pages.kursus-saya', [
-            'myCourses'       => $myCourses,
+            'myCourses' => $myCourses,
             'completedCourses' => $completedCourses,
-            'otherCourses'     => $otherCourses,
-            'userStats'        => $userStats,
+            'otherCourses' => $otherCourses,
+            'userStats' => $userStats,
         ]);
     }
 
     public function bootcampsSaya(): View
     {
         $userId = auth()->id();
+
         return view('pages.bootcamps-saya', [
             'myBootcamps' => $this->catalog->userEnrolledBootcamps($userId),
             'userStats' => $this->catalog->userStats($userId),
@@ -361,7 +391,7 @@ class PageController extends Controller
 
         // Add enrolled count to each bootcamp
         foreach ($bootcamps as &$bootcamp) {
-            $bootcamp['enrolled_count'] = \App\Models\Enrollment::where('purchasable_type', \App\Models\Bootcamp::class)
+            $bootcamp['enrolled_count'] = Enrollment::where('purchasable_type', Bootcamp::class)
                 ->where('purchasable_id', $bootcamp['id'])
                 ->count();
         }
@@ -377,15 +407,15 @@ class PageController extends Controller
         $isEnrolled = auth()->check() && $this->isUserEnrolled(auth()->id(), 'online', $bootcamp['id']);
 
         // Get actual enrollment count from database
-        $enrolledCount = \App\Models\Enrollment::where('purchasable_type', \App\Models\Bootcamp::class)
+        $enrolledCount = Enrollment::where('purchasable_type', Bootcamp::class)
             ->where('purchasable_id', $bootcamp['id'])
             ->count();
 
         // Get sessions with attendance status
         $sessions = $this->catalog->onlineSessions($bootcamp['id']);
-        if (auth()->check() && !empty($sessions)) {
+        if (auth()->check() && ! empty($sessions)) {
             $sessionIds = array_column($sessions, 'id');
-            $attendedSessionIds = \App\Models\SessionProgress::where('user_id', auth()->id())
+            $attendedSessionIds = SessionProgress::where('user_id', auth()->id())
                 ->whereIn('bootcamp_session_id', $sessionIds)
                 ->whereNotNull('clicked_at')
                 ->pluck('bootcamp_session_id')
@@ -418,7 +448,7 @@ class PageController extends Controller
         $isEnrolled = auth()->check() && $this->isUserEnrolled(auth()->id(), 'offline', $bootcamp['id']);
 
         // Get actual enrollment count from database
-        $enrolledCount = \App\Models\Enrollment::where('purchasable_type', \App\Models\Bootcamp::class)
+        $enrolledCount = Enrollment::where('purchasable_type', Bootcamp::class)
             ->where('purchasable_id', $bootcamp['id'])
             ->count();
 
@@ -433,7 +463,7 @@ class PageController extends Controller
     public function mentor(): View
     {
         return view('pages.mentor', [
-            'mentors'    => $this->catalog->mentors(),
+            'mentors' => $this->catalog->mentors(),
             'categories' => $this->catalog->mentorCategories(),
         ]);
     }
@@ -461,7 +491,7 @@ class PageController extends Controller
         // Check if user is registered
         $isRegistered = false;
         if (auth()->check()) {
-            $isRegistered = \App\Models\EventRegistration::where('user_id', auth()->id())
+            $isRegistered = EventRegistration::where('user_id', auth()->id())
                 ->where('event_id', $id)
                 ->exists();
         }
@@ -474,23 +504,23 @@ class PageController extends Controller
 
     public function registerEvent(int $id): RedirectResponse
     {
-        $event = \App\Models\Event::find($id);
+        $event = Event::find($id);
 
-        if (!$event) {
+        if (! $event) {
             return back()->with('error', 'Event tidak ditemukan.');
         }
 
         // Register user (check if already registered)
         $user = auth()->user();
-        $existingReg = \App\Models\EventRegistration::where('user_id', $user->id)
+        $existingReg = EventRegistration::where('user_id', $user->id)
             ->where('event_id', $event->id)
             ->first();
 
-        if (!$existingReg) {
+        if (! $existingReg) {
             // Generate unique ticket code
-            $ticketCode = 'EVT-' . strtoupper(uniqid()) . '-' . date('Ymd');
+            $ticketCode = 'EVT-'.strtoupper(uniqid()).'-'.date('Ymd');
 
-            \App\Models\EventRegistration::create([
+            EventRegistration::create([
                 'user_id' => $user->id,
                 'event_id' => $event->id,
                 'status' => 'registered',
@@ -577,7 +607,7 @@ class PageController extends Controller
             default => null,
         };
 
-        if (!$purchasableType) {
+        if (! $purchasableType) {
             return redirect()->back()->with('error', 'Jenis item tidak valid.');
         }
 
@@ -599,7 +629,7 @@ class PageController extends Controller
         ]);
 
         // Log activity
-        \App\Models\UserActivityLog::create([
+        UserActivityLog::create([
             'user_id' => $user->id,
             'action' => 'enrolled',
             'loggable_type' => $purchasableType,
@@ -607,7 +637,7 @@ class PageController extends Controller
         ]);
 
         // Send notification
-        app(\App\Services\NotificationService::class)->enrolled($user->id, $itemName, $itemKind, $itemId);
+        app(NotificationService::class)->enrolled($user->id, $itemName, $itemKind, $itemId);
 
         return redirect()->to($this->getEnrollmentRedirectUrl($itemKind, $itemId))
             ->with('success', "Berhasil terdaftar di {$itemName}! Selamat belajar 🎉");
@@ -624,7 +654,7 @@ class PageController extends Controller
             default => null,
         };
 
-        if (!$purchasableType) {
+        if (! $purchasableType) {
             return false;
         }
 

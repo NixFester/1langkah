@@ -22,7 +22,10 @@ return new class extends Migration
             // Indexes for performance
             $table->index(['user_id', 'created_at']);
             $table->index('created_at');
-            $table->fullText(['title', 'content']);
+            // Fulltext search - only for MySQL
+            if (config('database.default') !== 'sqlite') {
+                $table->fullText(['title', 'content']);
+            }
         });
     }
 

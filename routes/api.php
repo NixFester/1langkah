@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\ProgressController;
-use App\Http\Controllers\Api\RatingController;
 use App\Http\Controllers\Api\QrScanController;
+use App\Http\Controllers\Api\RatingController;
+use App\Http\Controllers\Student\ReportController;
+use App\Http\Controllers\Student\ResourceController;
+use App\Http\Controllers\Student\UserSettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,4 +56,24 @@ Route::middleware('auth')->prefix('qr')->name('api.qr.')->group(function () {
 // Admin QR generation
 Route::middleware(['auth', 'admin'])->prefix('qr/admin')->name('api.qr.admin.')->group(function () {
     Route::post('/generate', [QrScanController::class, 'generate'])->name('generate');
+});
+
+// ── User Settings API (auth required) ─────────────────────────────────────────
+Route::middleware('auth')->prefix('settings')->name('api.settings.')->group(function () {
+    Route::get('/', [UserSettingController::class, 'show'])->name('show');
+    Route::post('/notifications', [UserSettingController::class, 'updateNotifications'])->name('notifications');
+    Route::post('/privacy', [UserSettingController::class, 'updatePrivacy'])->name('privacy');
+    Route::post('/preferences', [UserSettingController::class, 'updatePreferences'])->name('preferences');
+    Route::post('/avatar', [UserSettingController::class, 'uploadAvatar'])->name('avatar.upload');
+    Route::delete('/avatar', [UserSettingController::class, 'deleteAvatar'])->name('avatar.delete');
+});
+
+// ── Reports API (auth required) ────────────────────────────────────────────────
+Route::middleware('auth')->prefix('reports')->name('api.reports.')->group(function () {
+    Route::post('/', [ReportController::class, 'store'])->name('store');
+});
+
+// ── Resources API (auth required) ──────────────────────────────────────────────
+Route::middleware('auth')->prefix('resources')->name('api.resources.')->group(function () {
+    Route::post('/{resource}/download', [ResourceController::class, 'trackDownload'])->name('download');
 });

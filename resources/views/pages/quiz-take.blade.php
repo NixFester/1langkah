@@ -5,7 +5,7 @@
 @section('header_title', $quiz->title)
 
 @section('content')
-<div class="px-6 py-8 sm:px-10 w-full max-w-3xl mx-auto space-y-6">
+<div class="px-6 py-8 sm:px-10 w-full max-w-3xl mx-auto space-y-6" x-data="quizTimer()">
 
     <!-- Quiz Header -->
     <div class="bg-white rounded-2xl border border-gray-100 p-6">
@@ -55,10 +55,38 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-                {{ $quiz->time_limit_minutes }} menit
+                <span id="timer-display" :class="{'text-red-600 font-bold': timeRemaining <= 60, 'text-gray-600': timeRemaining > 60}">
+                    <template x-if="timeRemaining > 0">
+                        <span x-text="formatTime(timeRemaining)"></span>
+                    </template>
+                    <template x-if="timeRemaining <= 0">
+                        <span>Waktu habis!</span>
+                    </template>
+                </span>
             </div>
             @endif
         </div>
+
+        <!-- Timer Progress Bar -->
+        @if($quiz->time_limit_minutes)
+        <div class="mt-4">
+            <div class="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+                <div
+                    id="timer-progress"
+                    class="h-full rounded-full transition-all duration-1000"
+                    :class="{
+                        'bg-green-500': timeRemaining > 300,
+                        'bg-yellow-500': timeRemaining <= 300 && timeRemaining > 60,
+                        'bg-red-500 animate-pulse': timeRemaining <= 60
+                    }"
+                    :style="'width: ' + ($quiz->time_limit_minutes * 60 > 0 ? Math.min(100, (timeRemaining / (' . ($quiz->time_limit_minutes * 60) . ')) * 100) : 100) + '%'">
+                </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-1" x-show="timeRemaining <= 60 && timeRemaining > 0" x-cloak>
+                ⚠️ Sisa waktu kurang dari 1 menit!
+            </p>
+        </div>
+        @endif
 
         <!-- Previous Attempt Warning -->
         @if($existingAttempt)
@@ -90,8 +118,14 @@
     </div>
 
     <!-- Quiz Form -->
-    <form action="{{ route('quiz.submit', $quiz) }}" method="POST" id="quizForm">
+    <form action="{{ route('quiz.submit', $quiz) }}" method="POST" id="quizForm" @submit="handleSubmit">
         @csrf
+
+        <!-- Hidden field for timer data -->
+        @if($quiz->time_limit_minutes)
+        <input type="hidden" name="started_at" :value="startedAt">
+        <input type="hidden" name="time_spent_seconds" :value="timeSpent">
+        @endif
 
         <div class="bg-white rounded-2xl border border-gray-100 divide-y divide-gray-50">
             @foreach($quiz->questions->sortBy('order') as $index => $question)
@@ -139,28 +173,156 @@
 
         <!-- Submit Button -->
         <div class="sticky bottom-6 mt-6">
-            <button type="submit"
-                class="w-full py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-colors shadow-lg">
-                Submit Quiz
-            </button>
+            <div class="bg-white rounded-xl shadow-lg p-4 border border-gray-100">
+                <div class="flex items-center justify-between gap-4">
+                    <div class="text-sm text-gray-500">
+                        <span id="answered-count">0</span>/{{ $quiz->questions->count() }} dijawab
+                    </div>
+                    @if($quiz->time_limit_minutes)
+                    <div class="text-sm" :class="{'text-red-600 font-bold': timeRemaining <= 60}">
+                        <span x-text="formatTime(timeRemaining)"></span>
+                    </div>
+                    @endif
+                    <button
+                        type="submit"
+                        class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-colors">
+                        Submit Quiz
+                    </button>
+                </div>
+            </div>
         </div>
     </form>
+
+    <!-- Time Warning Modal -->
+    <div x-show="showTimeWarning" x-cloak
+        class="fixed inset-0 z-50 flex items-center justify-center p-4"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0">
+        <div class="fixed inset-0 bg-black/50" @click="showTimeWarning = false"></div>
+        <div class="relative bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl" @click.stop>
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Waktu Hampir Habis!</h3>
+                <p class="text-gray-600 mb-6">
+                    Sisa waktu hanya <span class="font-bold text-red-600" x-text="formatTime(timeRemaining)"></span>.
+                    Segera submit jawaban kamu!
+                </p>
+                <button @click="showTimeWarning = false" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-colors">
+                    Lanjutkan Quiz
+                </button>
+            </div>
+        </div>
+    </div>
 
 </div>
 
 @push('scripts')
 <script>
-document.getElementById('quizForm').addEventListener('submit', function(e) {
-    // Check if at least one answer is selected
-    const selectedAnswers = document.querySelectorAll('input[type="radio"]:checked');
-    if (selectedAnswers.length === 0) {
-        e.preventDefault();
-        alert('Pilih jawaban untuk setidaknya satu pertanyaan!');
-        return false;
-    }
+function quizTimer() {
+    return {
+        timeRemaining: {{ $quiz->time_limit_minutes ? $quiz->time_limit_minutes * 60 : 0 }},
+        startedAt: new Date().toISOString(),
+        showTimeWarning: false,
+        timeSpent: 0,
+        interval: null,
 
-    return confirm('Yakin ingin submit quiz? Kamu tidak bisa mengubah jawaban setelah submit.');
+        init() {
+            // Only start timer if quiz has time limit
+            if (this.timeRemaining > 0) {
+                this.interval = setInterval(() => {
+                    this.timeRemaining--;
+                    this.timeSpent++;
+
+                    // Show warning at 5 minutes
+                    if (this.timeRemaining === 300) {
+                        this.showTimeWarning = true;
+                    }
+
+                    // Show warning at 1 minute
+                    if (this.timeRemaining === 60) {
+                        this.showTimeWarning = true;
+                    }
+
+                    // Auto submit when time expires
+                    if (this.timeRemaining <= 0) {
+                        this.submitQuiz();
+                    }
+                }, 1000);
+            }
+
+            // Update answered count
+            this.updateAnsweredCount();
+            document.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.addEventListener('change', () => this.updateAnsweredCount());
+            });
+        },
+
+        formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        },
+
+        updateAnsweredCount() {
+            const checked = document.querySelectorAll('input[type="radio"]:checked').length;
+            document.getElementById('answered-count').textContent = checked;
+        },
+
+        handleSubmit(e) {
+            // Check if at least one answer is selected
+            const selectedAnswers = document.querySelectorAll('input[type="radio"]:checked');
+            if (selectedAnswers.length === 0) {
+                e.preventDefault();
+                alert('Pilih jawaban untuk setidaknya satu pertanyaan!');
+                return false;
+            }
+
+            if (!confirm('Yakin ingin submit quiz? Kamu tidak bisa mengubah jawaban setelah submit.')) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Stop the timer
+            if (this.interval) {
+                clearInterval(this.interval);
+            }
+
+            return true;
+        },
+
+        submitQuiz() {
+            if (this.interval) {
+                clearInterval(this.interval);
+            }
+
+            // Show warning that quiz is being submitted
+            alert('Waktu quiz telah habis! Jawaban kamu akan disubmit otomatis.');
+
+            // Submit the form
+            document.getElementById('quizForm').submit();
+        }
+    }
+}
+
+// Update answered count on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const checked = document.querySelectorAll('input[type="radio"]:checked').length;
+    const countEl = document.getElementById('answered-count');
+    if (countEl) {
+        countEl.textContent = checked;
+    }
 });
 </script>
+
+<style>
+[x-cloak] { display: none !important; }
+</style>
 @endpush
-@endsection

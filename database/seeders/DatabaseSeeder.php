@@ -49,6 +49,9 @@ class DatabaseSeeder extends Seeder
 
             // ── Tier 11: Self-contained (creates its own users/courses/etc.) ─
             FlowTestSeeder::class,
+
+            // ── Tier 12: Standalone achievements ───────────────────────────────
+            AchievementSeeder::class,
         ]);
     }
 }

@@ -78,10 +78,23 @@ class NotificationService
     public function enrolled(int $userId, string $itemTitle, string $type, int $itemId): Notification
     {
         $link = $type === 'course' ? "/kursus/{$itemId}" : "/bootcamp/online/{$itemId}";
+
         return $this->create($userId, 'enrolled', 'Berhasil Terdaftar', "Kamu telah terdaftar di \"{$itemTitle}\"", [
             'icon' => 'user-plus',
             'color' => 'green',
             'link' => $link,
+        ]);
+    }
+
+    /**
+     * Create notification for achievement earned
+     */
+    public function achievementEarned(int $userId, string $achievementName, string $icon = '🏆'): Notification
+    {
+        return $this->create($userId, 'achievement_earned', 'Achievement Baru! 🎉', "Selamat! Kamu mendapat achievement \"{$achievementName}\"", [
+            'icon' => 'trophy',
+            'color' => 'yellow',
+            'link' => '/achievement',
         ]);
     }
 
@@ -104,7 +117,7 @@ class NotificationService
             ->orderBy('created_at', 'desc')
             ->limit($limit)
             ->get()
-            ->map(fn($n) => [
+            ->map(fn ($n) => [
                 'id' => $n->id,
                 'type' => $n->type,
                 'title' => $n->title,
