@@ -65,7 +65,7 @@
         </header>
 
         {{-- Page Content --}}
-        <main class="p-6 overflow-auto">
+        <main class="page-content p-6 overflow-auto fade-in">
             @yield('content')
         </main>
     </div>

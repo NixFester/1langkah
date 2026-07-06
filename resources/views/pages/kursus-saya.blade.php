@@ -58,7 +58,7 @@
         }
         return courses;
     }
-}" class="w-full px-2 pb-8 space-y-6">
+}" class="w-full px-0 sm:px-2 pb-8 space-y-4 sm:space-y-6">
 
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -69,44 +69,44 @@
     </div>
 
     <!-- Stats Banner -->
-    <div class="bg-gradient-to-r from-red-600 to-red-700 text-white rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div class="flex items-center gap-8">
-            <div class="pr-8 border-r border-white/20">
-                <div class="text-3xl font-bold">{{ $userStats['courses_enrolled'] ?? 0 }}</div>
-                <div class="text-white/90 text-sm">Kursus aktif</div>
+    <div class="bg-gradient-to-br from-[#cc0000] to-[#aa0000] text-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6 shadow-lg">
+        <div class="grid grid-cols-3 gap-2 sm:gap-8 w-full md:w-auto text-center sm:text-left divide-x divide-white/20">
+            <div class="px-1 sm:px-0 sm:pr-8">
+                <div class="text-2xl sm:text-3xl font-extrabold">{{ $userStats['courses_enrolled'] ?? 0 }}</div>
+                <div class="text-white/90 text-[11px] sm:text-sm font-medium mt-1 leading-tight">Kursus aktif</div>
             </div>
-            <div class="pr-8 border-r border-white/20">
-                <div class="text-3xl font-bold">{{ $userStats['courses_completed'] ?? 0 }}</div>
-                <div class="text-white/90 text-sm">Diselesaikan</div>
+            <div class="px-1 sm:px-8">
+                <div class="text-2xl sm:text-3xl font-extrabold">{{ $userStats['courses_completed'] ?? 0 }}</div>
+                <div class="text-white/90 text-[11px] sm:text-sm font-medium mt-1 leading-tight">Diselesaikan</div>
             </div>
-            <div>
-                <div class="text-3xl font-bold">{{ ($userStats['courses_completed'] ?? 0) + ($userStats['bootcamps_completed'] ?? 0) }}</div>
-                <div class="text-white/90 text-sm">Sertifikat</div>
+            <div class="px-1 sm:px-8">
+                <div class="text-2xl sm:text-3xl font-extrabold">{{ ($userStats['courses_completed'] ?? 0) + ($userStats['bootcamps_completed'] ?? 0) }}</div>
+                <div class="text-white/90 text-[11px] sm:text-sm font-medium mt-1 leading-tight">Sertifikat</div>
             </div>
         </div>
         <a href="{{ route('kursus') }}"
-            class="bg-white/15 hover:bg-white/25 text-white font-bold rounded-full px-6 py-2.5 text-sm flex items-center gap-2 whitespace-nowrap transition-colors">
+            class="bg-white/10 border border-white/20 hover:bg-white/20 text-white font-bold rounded-xl sm:rounded-full px-5 py-3 sm:py-2.5 text-[13px] sm:text-sm flex items-center justify-center gap-2 whitespace-nowrap transition-colors w-full md:w-auto mt-2 md:mt-0">
             Browse Kursus Baru
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </a>
     </div>
 
     <!-- Search & Sort Bar -->
-    <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
-        <div class="flex flex-col md:flex-row gap-4">
+    <div class="bg-white rounded-2xl p-3 sm:p-4 border border-gray-100 shadow-sm">
+        <div class="flex flex-col md:flex-row gap-3 sm:gap-4">
             <!-- Search Input -->
             <div class="flex-1 relative">
-                <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" x-model="searchQuery" placeholder="Cari kursus, mentor, atau kategori..."
-                    class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
+                <svg class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <input type="text" x-model="searchQuery" placeholder="Cari kursus..."
+                    class="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
             </div>
 
             <!-- Sort Dropdown -->
-            <div class="relative">
-                <select x-model="sortBy" class="appearance-none bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 pr-10 text-sm text-gray-700 focus:ring-2 focus:ring-red-500 focus:border-red-500 cursor-pointer">
+            <div class="relative min-w-[140px]">
+                <select x-model="sortBy" class="appearance-none w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 sm:py-3 pr-9 text-sm text-gray-700 focus:ring-2 focus:ring-red-500 focus:border-red-500 cursor-pointer">
                     <option value="newest">Terbaru</option>
-                    <option value="rating">Rating Tertinggi</option>
-                    <option value="progress">Progress Tertinggi</option>
+                    <option value="rating">Rating</option>
+                    <option value="progress">Progress</option>
                 </select>
                 <svg class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
@@ -114,26 +114,35 @@
     </div>
 
     <!-- Tabs -->
-    <div class="inline-flex bg-slate-100 rounded-full p-1 shadow-sm">
-        <button @click="tab = 'active'"
-            :class="tab === 'active' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'"
-            :style="tab === 'active' ? 'color: #dc2626; padding: 8px 20px; border-radius: 9999px; font-weight: bold; font-size: 14px;' : 'color: #64748b; padding: 8px 20px; border-radius: 9999px; font-weight: 500; font-size: 14px;'"
-            class="transition-all cursor-pointer">
-            Sedang Berlangsung (<span x-text="displayedActive.length"></span>)
-        </button>
-        <button @click="tab = 'done'"
-            :class="tab === 'done' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'"
-            :style="tab === 'done' ? 'color: #dc2626; padding: 8px 20px; border-radius: 9999px; font-weight: bold; font-size: 14px;' : 'color: #64748b; padding: 8px 20px; border-radius: 9999px; font-weight: 500; font-size: 14px;'"
-            class="transition-all cursor-pointer">
-            Selesai (<span x-text="displayedCompleted.length"></span>)
-        </button>
-        <button @click="tab = 'wishlist'"
-            :class="tab === 'wishlist' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'"
-            :style="tab === 'wishlist' ? 'color: #dc2626; padding: 8px 20px; border-radius: 9999px; font-weight: bold; font-size: 14px;' : 'color: #64748b; padding: 8px 20px; border-radius: 9999px; font-weight: 500; font-size: 14px;'"
-            class="transition-all cursor-pointer">
-            Wishlist (<span x-text="displayedWishlist.length"></span>)
-        </button>
+    <div class="w-full overflow-x-auto hide-scrollbar -mx-1 px-1">
+        <div class="inline-flex bg-slate-100 rounded-full p-1 shadow-sm w-max min-w-full sm:min-w-0 flex-nowrap">
+            <button @click="tab = 'active'"
+                :class="tab === 'active' ? 'bg-white shadow-sm text-[#cc0000] font-bold' : 'hover:bg-slate-200 text-slate-500 font-medium'"
+                class="transition-all cursor-pointer px-4 sm:px-5 py-2 rounded-full text-[13px] sm:text-sm whitespace-nowrap flex-1 text-center">
+                Berlangsung (<span x-text="displayedActive.length"></span>)
+            </button>
+            <button @click="tab = 'done'"
+                :class="tab === 'done' ? 'bg-white shadow-sm text-[#cc0000] font-bold' : 'hover:bg-slate-200 text-slate-500 font-medium'"
+                class="transition-all cursor-pointer px-4 sm:px-5 py-2 rounded-full text-[13px] sm:text-sm whitespace-nowrap flex-1 text-center">
+                Selesai (<span x-text="displayedCompleted.length"></span>)
+            </button>
+            <button @click="tab = 'wishlist'"
+                :class="tab === 'wishlist' ? 'bg-white shadow-sm text-[#cc0000] font-bold' : 'hover:bg-slate-200 text-slate-500 font-medium'"
+                class="transition-all cursor-pointer px-4 sm:px-5 py-2 rounded-full text-[13px] sm:text-sm whitespace-nowrap flex-1 text-center">
+                Wishlist (<span x-text="displayedWishlist.length"></span>)
+            </button>
+        </div>
     </div>
+    
+    <style>
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    </style>
 
     <!-- Active Courses -->
     <div x-show="tab === 'active'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

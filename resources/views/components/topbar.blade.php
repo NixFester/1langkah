@@ -16,10 +16,10 @@
     $isStudent = $authUser && $authUser->role === 'student';
 @endphp
 
-<div class="topbar" style="display:flex;align-items:center;padding:0 32px;gap:24px;">
+<div class="topbar px-3 sm:px-8 flex items-center gap-3 sm:gap-6">
     <!-- Kiri -->
     <div style="flex:1;display:flex;align-items:center;gap:16px;">
-        <button @click="sidebarMobileOpen = true" class="lg:hidden text-gray-500 hover:text-gray-900 focus:outline-none flex items-center justify-center p-1 rounded-md hover:bg-gray-100 transition-colors">
+        <button @click="sidebarMobileOpen = true" class="lg:hidden text-gray-500 hover:text-gray-900 focus:outline-none flex items-center justify-center p-1.5 sm:p-1 -ml-1.5 sm:ml-0 rounded-md hover:bg-gray-100 transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
         </button>
         @hasSection('header_title')
@@ -30,7 +30,7 @@
     </div>
 
     <!-- Tengah -->
-    <div class="topbar-search" style="flex:0 1 auto;width:100%;max-width:480px;">
+    <div class="topbar-search hidden md:block" style="flex:0 1 auto;width:100%;max-width:480px;">
         <input class="input input-search" placeholder="Cari kursus, mentor, proyek..." style="width:100%; height:42px; border-radius:999px; border:1px solid #e5e7eb; background-color:#ffffff; padding-left:44px; font-size:14px; color:#374151; box-shadow:0 1px 2px rgba(0,0,0,0.02); transition:all 0.2s;" onfocus="this.style.borderColor='#d10000';this.style.boxShadow='0 0 0 3px rgba(209,0,0,0.1)';" onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='0 1px 2px rgba(0,0,0,0.02)';" />
     </div>
 
@@ -46,19 +46,19 @@
             </button>
 
             {{-- Overlay panel --}}
-            <div id="notif-panel" style="display:none;position:absolute;top:calc(100% + 10px);right:0;width:360px;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.12);border:1px solid #f0f0f0;z-index:999">
-                <div style="padding:16px 20px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between">
-                    <div style="font-weight:700;font-size:14px">Notifikasi</div>
+            <div id="notif-panel" class="hidden absolute top-[calc(100%+12px)] -right-12 sm:right-0 w-[310px] sm:w-[360px] bg-white rounded-2xl shadow-xl border border-gray-100 z-[999] overflow-hidden">
+                <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/80">
+                    <div class="font-bold text-[14px] text-gray-900">Notifikasi</div>
                     <div id="notif-new-badge"></div>
                 </div>
-                <div id="notif-list" style="max-height:340px;overflow-y:auto">
-                    <div style="padding:40px 20px;text-align:center;color:#9ca3af">
-                        <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-                        <p style="font-size:13px">Memuat notifikasi...</p>
+                <div id="notif-list" class="max-h-[340px] overflow-y-auto">
+                    <div class="py-8 px-5 text-center text-gray-400">
+                        <svg class="w-10 h-10 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                        <p class="text-[13px] font-medium">Memuat notifikasi...</p>
                     </div>
                 </div>
-                <div style="padding:12px 20px;text-align:center;border-top:1px solid #f0f0f0">
-                    <button onclick="markAllNotificationsRead()" style="font-size:12px;color:#cc0000;cursor:pointer;font-weight:600;background:none;border:none;">Tandai semua sudah dibaca</button>
+                <div class="p-3 border-t border-gray-100 bg-gray-50/50 text-center">
+                    <button onclick="markAllNotificationsRead()" class="text-xs text-[#cc0000] font-semibold bg-transparent border-none cursor-pointer w-full py-1 hover:text-[#990000] transition-colors">Tandai semua sudah dibaca</button>
                 </div>
             </div>
         </div>
@@ -66,13 +66,13 @@
         {{-- Avatar & User Info --}}
         <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;margin-left:8px;">
             @if($authUser && $authUser->profile_photo)
-            <img src="{{ $authUser->profile_photo }}" alt="Profile" style="width:32px; height:32px; border-radius:50%; object-fit:cover; flex-shrink:0; background:#cc0000;">
+            <img src="{{ $authUser->profile_photo }}" alt="Profile" style="width:36px; height:36px; border-radius:50%; object-fit:cover; flex-shrink:0; background:#cc0000; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             @else
-            <div class="avatar" style="background:#cc0000; width:32px; height:32px; font-size:13px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; flex-shrink:0;">{{ $initials }}</div>
+            <div class="avatar" style="background:linear-gradient(135deg, #cc0000, #990000); width:36px; height:36px; font-size:14px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; flex-shrink:0; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">{{ $initials }}</div>
             @endif
-            <div style="display:flex; flex-direction:column; align-items:flex-start; justify-content:center;">
-                <span style="font-size:15px;font-weight:800;color:var(--text-primary);line-height:1.1;">{{ $authUser->name }}</span>
-                <span style="font-size:13px;font-weight:500;color:var(--text-light);line-height:1.1;margin-top:4px;">{{ $isStudent ? number_format((int) ($authUser->xp ?? 0)) . ' XP' : $roleLabel }}</span>
+            <div class="hidden sm:flex" style="flex-direction:column; align-items:flex-start; justify-content:center;">
+                <span style="font-size:14px;font-weight:700;color:var(--text-primary);line-height:1.2;">{{ $authUser->name }}</span>
+                <span style="font-size:12px;font-weight:600;color:var(--text-light);line-height:1.1;margin-top:2px;">{{ $isStudent ? number_format((int) ($authUser->xp ?? 0)) . ' XP' : $roleLabel }}</span>
             </div>
         </a>
     </div>
@@ -129,18 +129,20 @@ function toggleNotif(e) {
     e.stopPropagation();
     const panel = document.getElementById('notif-panel');
     const backdrop = document.getElementById('notif-backdrop');
-    const isOpen = panel.style.display !== 'none';
+    const isOpen = !panel.classList.contains('hidden');
 
-    panel.style.display = isOpen ? 'none' : 'block';
-    backdrop.style.display = isOpen ? 'none' : 'block';
-
-    if (!isOpen) {
+    if (isOpen) {
+        panel.classList.add('hidden');
+        backdrop.style.display = 'none';
+    } else {
+        panel.classList.remove('hidden');
+        backdrop.style.display = 'block';
         loadNotifications();
     }
 }
 
 function closeNotif() {
-    document.getElementById('notif-panel').style.display = 'none';
+    document.getElementById('notif-panel').classList.add('hidden');
     document.getElementById('notif-backdrop').style.display = 'none';
 }
 
@@ -161,7 +163,7 @@ function loadNotifications() {
     })
     .catch(err => {
         console.error('Error loading notifications:', err);
-        document.getElementById('notif-list').innerHTML = '<div style="padding:40px 20px;text-align:center;color:#9ca3af"><p style="font-size:13px">Gagal memuat notifikasi</p></div>';
+        document.getElementById('notif-list').innerHTML = '<div class="py-8 px-5 text-center text-gray-400"><p class="text-[13px] font-medium">Gagal memuat notifikasi</p></div>';
     });
 }
 
@@ -169,7 +171,7 @@ function renderNotifications() {
     const list = document.getElementById('notif-list');
 
     if (notifications.length === 0) {
-        list.innerHTML = '<div style="padding:40px 20px;text-align:center;color:#9ca3af"><svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0v-2a2 2 0 00-2-2H6a2 2 0 00-2 2"></path></svg><p style="font-size:13px">Tidak ada notifikasi</p></div>';
+        list.innerHTML = '<div class="py-8 px-5 text-center text-gray-400"><svg class="w-10 h-10 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0v-2a2 2 0 00-2-2H6a2 2 0 00-2 2"></path></svg><p class="text-[13px] font-medium">Tidak ada notifikasi</p></div>';
         return;
     }
 
@@ -177,19 +179,17 @@ function renderNotifications() {
         const colors = getColor(n.color);
         const icon = getIcon(n.icon);
         return `
-            <div style="display:flex;gap:12px;padding:14px 20px;border-bottom:1px solid #f0f0f0;${n.is_read ? '' : 'background:rgba(204,0,0,0.03)'};cursor:pointer;transition:background .15s"
-                 onclick="handleNotificationClick(${n.id}, '${n.link || ''}')"
-                 onmouseover="this.style.background='#f9fafb'"
-                 onmouseout="this.style.background='${n.is_read ? 'transparent' : 'rgba(204,0,0,0.03)'}'">
-                <div style="width:36px;height:36px;border-radius:50%;background:${colors.bg};display:flex;align-items:center;justify-content:center;flex-shrink:0;color:${colors.text}">
+            <div class="flex gap-3 p-3.5 border-b border-gray-50 hover:bg-gray-50 cursor-pointer transition-colors ${n.is_read ? 'bg-white' : 'bg-red-50/30'}"
+                 onclick="handleNotificationClick(${n.id}, '${n.link || ''}')">
+                <div class="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style="background:${colors.bg};color:${colors.text}">
                     ${icon}
                 </div>
-                <div style="flex:1;min-width:0">
-                    <div style="font-size:12px;line-height:1.5;${n.is_read ? 'color:#6b7280' : 'color:#1f2937;font-weight:500'}">${n.title}</div>
-                    <div style="font-size:11px;color:#9ca3af;margin-top:2px">${n.message}</div>
-                    <div style="font-size:11px;color:#9ca3af;margin-top:4px">${n.created_at}</div>
+                <div class="flex-1 min-w-0">
+                    <div class="text-[12.5px] leading-snug ${n.is_read ? 'text-gray-500' : 'text-gray-900 font-semibold'}">${n.title}</div>
+                    <div class="text-[11px] text-gray-400 mt-0.5 leading-tight">${n.message}</div>
+                    <div class="text-[10px] text-gray-400 mt-1.5 font-medium">${n.created_at}</div>
                 </div>
-                ${n.is_read ? '' : '<div style="width:7px;height:7px;border-radius:50%;background:#cc0000;flex-shrink:0;margin-top:5px"></div>'}
+                ${n.is_read ? '' : '<div class="w-1.5 h-1.5 rounded-full bg-[#cc0000] shrink-0 mt-1"></div>'}
             </div>
         `;
     }).join('');

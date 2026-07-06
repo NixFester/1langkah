@@ -79,8 +79,8 @@
                
 
                 <!-- Benefits -->
-                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
-                    <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">Benefits</h2>
+                <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
+                    <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">Benefits</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-y-5 gap-x-6">
                         @foreach($benefits as $benefit)
                         <div class="flex items-start gap-3">
@@ -95,8 +95,8 @@
 
                 <!-- Description -->
                 @if(!empty($c['description']))
-                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] mt-6">
-                    <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">Deskripsi</h2>
+                <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] mt-6">
+                    <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">Deskripsi</h2>
                     <div class="prose prose-sm max-w-none text-gray-600">
                         {!! nl2br(e($c['description'])) !!}
                     </div>
@@ -106,9 +106,9 @@
 
             <!-- Curriculum Tab -->
             <div x-show="activeTab === 'curriculum'" x-cloak>
-                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-[22px] font-bold text-gray-900 tracking-tight">Curriculum</h2>
+                <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
+                    <div class="flex items-center justify-between mb-4 sm:mb-6">
+                        <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 tracking-tight">Curriculum</h2>
                         @if($isCompleted)
                         <span class="px-4 py-2 bg-emerald-100 text-emerald-700 text-sm font-bold rounded-full flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -159,7 +159,7 @@
                                 @endif
                                 @if(!empty($chapter['videos']))
                                 @foreach($chapter['videos'] as $video)
-                                <div class="flex items-center gap-4 p-4 {{ !$isEnrolled ? 'opacity-60' : '' }} hover:bg-gray-50 transition-colors {{ !$loop->last ? 'border-b border-gray-50' : '' }}
+                                <div class="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 {{ !$isEnrolled ? 'opacity-60' : '' }} hover:bg-gray-50 transition-colors {{ !$loop->last ? 'border-b border-gray-50' : '' }}
                                     {{ ($video['is_completed'] ?? false) ? 'video-completed' : '' }}"
                                     data-video-id="{{ $video['id'] }}"
                                     data-chapter-id="{{ $chapter['id'] }}"
@@ -168,8 +168,8 @@
                                 >
                                     @if($isEnrolled)
                                         <!-- Enrolled: clickable video -->
-                                        <div class="flex items-center gap-4 flex-1 group video-item {{ ($video['is_completed'] ?? false) ? 'cursor-default' : 'cursor-pointer' }}">
-                                            <div class="w-24 h-14 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden relative {{ ($video['is_completed'] ?? false) ? 'bg-emerald-100' : 'bg-gray-200' }}">
+                                        <div class="flex items-center gap-3 sm:gap-4 flex-1 min-w-0 group video-item {{ ($video['is_completed'] ?? false) ? 'cursor-default' : 'cursor-pointer' }}">
+                                            <div class="w-20 sm:w-24 h-12 sm:h-14 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden relative {{ ($video['is_completed'] ?? false) ? 'bg-emerald-100' : 'bg-gray-200' }}">
                                                 @if(!empty($video['thumbnail_url']))
                                                 <img src="{{ $video['thumbnail_url'] }}" alt="{{ $video['title'] }}" class="w-full h-full object-cover">
                                                 @endif
@@ -243,8 +243,8 @@
 
             <!-- Photos Tab -->
             <div x-show="activeTab === 'photos'" x-cloak>
-                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
-                    <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">Photos</h2>
+                <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
+                    <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">Photos</h2>
                     @if(!empty($photos))
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                         @foreach($photos as $photo)
@@ -266,8 +266,8 @@
 
             <!-- Reviews Tab -->
             <div x-show="activeTab === 'reviews'" x-cloak>
-                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
-                    <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">Reviews & Ratings</h2>
+                <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
+                    <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">Reviews & Ratings</h2>
 
                     <!-- Rating Summary + User Rating -->
                     <div class="flex flex-col lg:flex-row gap-6 mb-8 p-6 bg-gray-50 rounded-2xl">
@@ -361,9 +361,9 @@
 
             <!-- Resources Tab -->
             <div x-show="activeTab === 'resources'" x-cloak>
-                <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-[22px] font-bold text-gray-900 tracking-tight">Resources</h2>
+                <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
+                    <div class="flex items-center justify-between mb-4 sm:mb-6">
+                        <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 tracking-tight">Resources</h2>
                         @if(count($resources) > 0)
                         <span class="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
                             {{ count($resources) }} file
@@ -375,9 +375,9 @@
                         @if(count($resources) > 0)
                         <div class="space-y-3" x-data="{ downloading: null }">
                             @foreach($resources as $r)
-                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors group">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors group gap-3 sm:gap-0">
+                                <div class="flex items-start sm:items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-0">
                                         @if(str_contains(strtolower($r->type ?? ''), 'pdf'))
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                                         @elseif(str_contains(strtolower($r->type ?? ''), 'video'))
@@ -388,8 +388,8 @@
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 00-2-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                         @endif
                                     </div>
-                                    <div class="min-w-0">
-                                        <p class="font-medium text-gray-900 truncate">{{ $r->title }}</p>
+                                    <div class="min-w-0 pr-2">
+                                        <p class="font-medium text-gray-900 truncate leading-tight mb-0.5">{{ $r->title }}</p>
                                         <div class="flex items-center gap-2 text-xs text-gray-500">
                                             <span class="uppercase">{{ $r->type ?? 'file' }}</span>
                                             @if($r->file_size)
@@ -399,11 +399,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-2 ml-13 sm:ml-0">
                                     <button
                                         @click="downloadResource({{ $r->id }}, '{{ $r->url }}', {{ $loop->index }})"
                                         :disabled="downloading === {{ $loop->index }}"
-                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                                        class="bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[13px] sm:text-sm font-medium transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto">
                                         <template x-if="downloading === {{ $loop->index }}">
                                             <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
                                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

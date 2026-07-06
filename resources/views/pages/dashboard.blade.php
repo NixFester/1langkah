@@ -3,26 +3,26 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="w-full px-2 pb-8 space-y-6">
+<div class="w-full px-0 sm:px-2 pb-8 space-y-4 sm:space-y-6">
 
     <!-- HERO SECTION -->
-    <div class="bg-[#cc0000] rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between relative overflow-hidden shadow-xl">
+    <div class="bg-gradient-to-br from-[#cc0000] to-[#aa0000] rounded-2xl sm:rounded-3xl p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between relative overflow-hidden shadow-lg sm:shadow-xl">
         <!-- Glow effect -->
-        <div class="absolute -right-20 -top-20 w-[400px] h-[400px] bg-red-600 rounded-full blur-[80px] pointer-events-none opacity-50"></div>
+        <div class="absolute -right-20 -top-20 w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] bg-red-500 rounded-full blur-[60px] sm:blur-[80px] pointer-events-none opacity-40"></div>
 
-        <div class="relative z-10 text-white w-full md:w-2/3 space-y-4">
-            <div class="text-white/80 font-medium flex items-center gap-2">
+        <div class="relative z-10 text-white w-full md:w-2/3 space-y-3 sm:space-y-4">
+            <div class="text-white/90 font-medium flex items-center gap-2 text-sm sm:text-base">
                 Selamat datang kembali! 👋
             </div>
-            <h1 class="text-3xl sm:text-4xl font-bold">{{ auth()->user()->name ?? 'User' }}</h1>
-            <p class="text-white/80 text-sm sm:text-base">{{ auth()->user()->bio ?? 'Belum ada bio. Tambahkan di pengaturan.' }}</p>
+            <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight">{{ auth()->user()->name ?? 'User' }}</h1>
+            <p class="text-white/80 text-[13px] sm:text-base leading-relaxed max-w-lg">{{ auth()->user()->bio ?? 'Belum ada bio. Tambahkan di pengaturan untuk memperbarui profil Anda.' }}</p>
 
-            <div class="pt-4 flex flex-wrap gap-3">
-                <a href="{{ route('kursus-saya') }}" class="bg-white text-red-700 hover:bg-gray-50 px-6 py-2.5 rounded-full font-bold text-sm transition-colors flex items-center gap-2 shadow-lg inline-flex">
+            <div class="pt-3 sm:pt-4 flex flex-col sm:flex-row gap-3">
+                <a href="{{ route('kursus-saya') }}" class="bg-white text-[#cc0000] hover:bg-gray-50 px-6 py-3 sm:py-2.5 rounded-xl sm:rounded-full font-bold text-sm transition-colors flex items-center justify-center sm:justify-start gap-2 shadow-sm inline-flex w-full sm:w-auto">
                     Lanjutkan Belajar
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
-                <a href="{{ route('kursus') }}" class="bg-white/20 hover:bg-white/30 text-white px-6 py-2.5 rounded-full font-bold text-sm transition-colors flex items-center gap-2 inline-flex">
+                <a href="{{ route('kursus') }}" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 px-6 py-3 sm:py-2.5 rounded-xl sm:rounded-full font-bold text-sm transition-colors flex items-center justify-center sm:justify-start gap-2 inline-flex w-full sm:w-auto">
                     Browse Kursus
                 </a>
             </div>

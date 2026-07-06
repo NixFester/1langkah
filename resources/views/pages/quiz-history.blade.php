@@ -5,16 +5,17 @@
 @section('header_title', 'Riwayat Quiz')
 
 @section('content')
-<div class="px-6 py-8 sm:px-10 w-full space-y-6">
+<div class="px-0 sm:px-2 py-4 sm:py-8 w-full space-y-6">
 
     <!-- Header -->
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">Riwayat Quiz</h1>
-            <p class="text-sm text-gray-500 mt-1">Semua quiz yang pernah kamu kerjakan</p>
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Riwayat Quiz</h1>
+            <p class="text-sm sm:text-base text-gray-500 mt-1">Semua quiz yang pernah kamu kerjakan</p>
         </div>
-        <a href="{{ route('quiz.index') }}" class="text-red-600 hover:text-red-700 font-medium">
-            Kembali ke Quiz →
+        <a href="{{ route('quiz.index') }}" class="group bg-white border border-gray-200 hover:border-red-200 hover:bg-red-50 text-gray-700 hover:text-red-600 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-[13px] sm:text-sm font-bold transition-all shadow-sm flex items-center gap-2 whitespace-nowrap w-max mt-2 sm:mt-0">
+            <span class="group-hover:-translate-x-1 transition-transform">&larr;</span>
+            Kembali ke Quiz
         </a>
     </div>
 

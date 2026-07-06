@@ -4,7 +4,7 @@
 
 @section('body')
 <!-- Navbar -->
-<nav class="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between">
+<nav class="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-3 md:py-4 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between">
     <!-- Logo -->
     <a href="{{ route('landing') }}" class="flex items-center">
         <svg width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,21 +48,22 @@
     </div>
 
     <!-- Actions -->
-    <div class="flex items-center gap-4">
-        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-6 py-2.5 text-[14px] font-medium text-[#d1d5db] border border-white/10 rounded-full hover:bg-white/5 transition-colors">
+    <div class="flex items-center gap-2 sm:gap-4">
+        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-2.5 text-[13px] sm:text-[14px] font-medium text-[#d1d5db] border border-white/10 rounded-full hover:bg-white/5 transition-colors">
             Masuk
         </a>
-        <a href="{{ route('signup') }}" class="inline-flex items-center justify-center px-6 py-2.5 text-[14px] font-semibold text-white bg-gradient-to-b from-[#D10000] to-[#8B0000] rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_20px_rgba(209,0,0,0.4)] hover:from-[#b30000] hover:to-[#6b0000] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_25px_rgba(209,0,0,0.6)] transition-all">
-            Daftar Gratis
+        <a href="{{ route('signup') }}" class="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-2.5 text-[13px] sm:text-[14px] font-semibold text-white bg-gradient-to-b from-[#D10000] to-[#8B0000] rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_20px_rgba(209,0,0,0.4)] whitespace-nowrap hover:from-[#b30000] hover:to-[#6b0000] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_25px_rgba(209,0,0,0.6)] transition-all">
+            <span class="hidden sm:inline">Daftar Gratis</span>
+            <span class="sm:hidden">Daftar</span>
         </a>
     </div>
 </nav>
 
 <!-- Hero & Partners Full Screen Wrapper -->
-<div class="h-[100svh] min-h-[800px] xl:min-h-[850px] w-full flex flex-col overflow-x-hidden bg-[#050304]">
+<div class="min-h-[100svh] lg:min-h-[800px] xl:min-h-[850px] w-full flex flex-col overflow-x-hidden bg-[#050304]">
     
     <!-- Hero -->
-    <section class="relative flex-1 w-full flex flex-col justify-center px-6 md:px-12 pt-[90px] lg:pt-[100px] pb-8 z-10">
+    <section class="relative flex-1 w-full flex flex-col justify-center px-6 md:px-12 pt-[75px] lg:pt-[120px] pb-4 lg:pb-8 z-10">
     <!-- Red gradient glow in background -->
     <div class="absolute top-0 right-[15%] w-[600px] h-[600px] bg-[#FF0000]/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
 
@@ -73,13 +74,13 @@
             <div class="relative z-10 flex flex-col items-start justify-center">
                 
                 <!-- Badge -->
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#D10000]/30 bg-[#D10000]/10 mb-3 lg:mb-4">
-                    <svg class="w-3.5 h-3.5 text-[#FF7070]" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_306_7921)"><path d="M4.96847 7.74988C4.92383 7.57684 4.83364 7.41893 4.70728 7.29257C4.58092 7.16621 4.42301 7.07602 4.24997 7.03138L1.18247 6.24038C1.13014 6.22553 1.08407 6.19401 1.05128 6.1506C1.01848 6.1072 1.00073 6.05428 1.00073 5.99988C1.00073 5.94548 1.01848 5.89256 1.05128 5.84916C1.08407 5.80575 1.13014 5.77423 1.18247 5.75938L4.24997 4.96788C4.42294 4.92328 4.58082 4.83317 4.70717 4.7069C4.83353 4.58063 4.92375 4.42282 4.96847 4.24988L5.75947 1.18238C5.77417 1.12984 5.80566 1.08355 5.84913 1.05058C5.8926 1.0176 5.94566 0.999756 6.00022 0.999756C6.05478 0.999756 6.10784 1.0176 6.15131 1.05058C6.19478 1.08355 6.22627 1.12984 6.24097 1.18238L7.03147 4.24988C7.07611 4.42292 7.1663 4.58083 7.29266 4.70719C7.41902 4.83355 7.57693 4.92374 7.74997 4.96838L10.8175 5.75888C10.8702 5.77343 10.9167 5.80488 10.9499 5.84842C10.983 5.89195 11.001 5.94516 11.001 5.99988C11.001 6.0546 10.983 6.10781 10.9499 6.15134C10.9167 6.19488 10.8702 6.22633 10.8175 6.24088L7.74997 7.03138C7.57693 7.07602 7.41902 7.16621 7.29266 7.29257C7.1663 7.41893 7.07611 7.57684 7.03147 7.74988L6.24047 10.8174C6.22577 10.8699 6.19428 10.9162 6.15081 10.9492C6.10734 10.9822 6.05428 11 5.99972 11C5.94516 11 5.8921 10.9822 5.84863 10.9492C5.80516 10.9162 5.77367 10.8699 5.75897 10.8174L4.96847 7.74988Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 1.5V3.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 2.5H9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 8.5V9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.5 9H1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_306_7921"><rect width="12" height="12" fill="white"/></clipPath></defs></svg>
-                    <span class="text-[10px] sm:text-xs font-bold tracking-[0.15em] text-[#FF7070] uppercase">AI-POWERED LEARNING EXPERIENCE PLATFORM</span>
+                <div class="inline-flex items-center gap-2 px-3 py-1 lg:py-1.5 rounded-full border border-[#D10000]/30 bg-[#D10000]/10 mb-2.5 lg:mb-4">
+                    <svg class="w-3 h-3 lg:w-3.5 lg:h-3.5 text-[#FF7070]" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_306_7921)"><path d="M4.96847 7.74988C4.92383 7.57684 4.83364 7.41893 4.70728 7.29257C4.58092 7.16621 4.42301 7.07602 4.24997 7.03138L1.18247 6.24038C1.13014 6.22553 1.08407 6.19401 1.05128 6.1506C1.01848 6.1072 1.00073 6.05428 1.00073 5.99988C1.00073 5.94548 1.01848 5.89256 1.05128 5.84916C1.08407 5.80575 1.13014 5.77423 1.18247 5.75938L4.24997 4.96788C4.42294 4.92328 4.58082 4.83317 4.70717 4.7069C4.83353 4.58063 4.92375 4.42282 4.96847 4.24988L5.75947 1.18238C5.77417 1.12984 5.80566 1.08355 5.84913 1.05058C5.8926 1.0176 5.94566 0.999756 6.00022 0.999756C6.05478 0.999756 6.10784 1.0176 6.15131 1.05058C6.19478 1.08355 6.22627 1.12984 6.24097 1.18238L7.03147 4.24988C7.07611 4.42292 7.1663 4.58083 7.29266 4.70719C7.41902 4.83355 7.57693 4.92374 7.74997 4.96838L10.8175 5.75888C10.8702 5.77343 10.9167 5.80488 10.9499 5.84842C10.983 5.89195 11.001 5.94516 11.001 5.99988C11.001 6.0546 10.983 6.10781 10.9499 6.15134C10.9167 6.19488 10.8702 6.22633 10.8175 6.24088L7.74997 7.03138C7.57693 7.07602 7.41902 7.16621 7.29266 7.29257C7.1663 7.41893 7.07611 7.57684 7.03147 7.74988L6.24047 10.8174C6.22577 10.8699 6.19428 10.9162 6.15081 10.9492C6.10734 10.9822 6.05428 11 5.99972 11C5.94516 11 5.8921 10.9822 5.84863 10.9492C5.80516 10.9162 5.77367 10.8699 5.75897 10.8174L4.96847 7.74988Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 1.5V3.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 2.5H9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 8.5V9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.5 9H1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_306_7921"><rect width="12" height="12" fill="white"/></clipPath></defs></svg>
+                    <span class="text-[9px] sm:text-[10px] lg:text-xs font-bold tracking-[0.15em] text-[#FF7070] uppercase">AI-POWERED LEARNING EXPERIENCE PLATFORM</span>
                 </div>
 
                 <!-- Title -->
-                <h1 class="text-5xl sm:text-6xl lg:text-[54px] xl:text-[70px] font-extrabold leading-[1.05] tracking-tight text-white mb-3 lg:mb-4">
+                <h1 class="text-[34px] leading-[1.05] sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[70px] font-extrabold sm:leading-[1.05] tracking-tight text-white mb-2 lg:mb-4">
                     Satu Langkah<br>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Menuju Masa</span><br>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Depan</span><br>
@@ -87,18 +88,17 @@
                 </h1>
 
                 <!-- Subtitle -->
-                <p class="text-[15px] lg:text-[16px] xl:text-lg text-[#9ca3af] mb-4 lg:mb-5 xl:mb-6 max-w-[500px] leading-relaxed">
+                <p class="text-[12.5px] sm:text-[13.5px] lg:text-[16px] xl:text-lg text-[#9ca3af] mb-3 lg:mb-5 xl:mb-6 max-w-[500px] leading-relaxed">
                     Kuasai skill praktis, bangun pengalaman nyata dari proyek perusahaan, raih sertifikat terverifikasi, dan percepat karir kamu bersama AI terdepan.
                 </p>
 
-                <!-- Buttons Row -->
-                <div class="flex flex-wrap items-center gap-4 lg:gap-5 xl:gap-6 mb-4 lg:mb-6">
-                    <a href="{{ route('signup') }}" class="inline-flex items-center gap-2 px-6 py-3.5 lg:px-7 lg:py-4 xl:px-8 xl:py-4 bg-gradient-to-b from-[#e60000] to-[#880000] text-white font-bold text-[14px] xl:text-[16px] rounded-[18px] hover:from-[#ff0000] hover:to-[#990000] transition-all shadow-[0_4px_14px_rgba(209,0,0,0.4)]">
-                        Mulai Belajar Gratis 
-                        <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                <div class="flex flex-row flex-wrap items-stretch sm:items-center gap-2 sm:gap-4 lg:gap-5 xl:gap-6 mb-3 lg:mb-6 w-full sm:w-auto">
+                    <a href="{{ route('signup') }}" class="flex-1 sm:w-auto justify-center inline-flex items-center gap-1.5 px-2 sm:px-5 py-2.5 lg:px-7 lg:py-4 xl:px-8 xl:py-4 bg-gradient-to-b from-[#e60000] to-[#880000] text-white font-bold text-[12px] sm:text-[13.5px] lg:text-[14px] xl:text-[16px] rounded-[12px] lg:rounded-[18px] hover:from-[#ff0000] hover:to-[#990000] transition-all shadow-[0_4px_14px_rgba(209,0,0,0.4)]">
+                        <span class="truncate">Mulai Belajar</span> 
+                        <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 stroke-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                     </a>
-                    <a href="{{ route('kursus') }}" class="inline-flex items-center justify-center px-6 py-3.5 lg:px-7 lg:py-4 xl:px-8 xl:py-4 border border-white/20 bg-transparent text-white font-bold text-[14px] xl:text-[16px] rounded-[18px] hover:bg-white/5 transition-colors">
-                        Jelajahi Kursus
+                    <a href="{{ route('kursus') }}" class="flex-1 sm:w-auto justify-center inline-flex items-center px-2 sm:px-5 py-2.5 lg:px-7 lg:py-4 xl:px-8 xl:py-4 border border-white/20 bg-transparent text-white font-bold text-[12px] sm:text-[13.5px] lg:text-[14px] xl:text-[16px] rounded-[12px] lg:rounded-[18px] hover:bg-white/5 transition-colors">
+                        <span class="truncate">Jelajahi Kursus</span>
                     </a>
                 </div>
 
@@ -138,30 +138,30 @@
             </div>
 
         <!-- Bottom Stats Row -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 xl:gap-8 items-center w-full relative z-20 pt-6 lg:pt-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-4 xl:gap-8 items-center w-full relative z-20 pt-2 lg:pt-8">
             
             <!-- Stats (Left Column) -->
-            <div class="flex items-center justify-center lg:justify-start gap-4 lg:gap-8 xl:gap-14 whitespace-nowrap w-full">
+            <div class="grid grid-cols-2 sm:flex items-center justify-center lg:justify-start gap-3 sm:gap-6 lg:gap-8 xl:gap-14 w-full">
                 <div class="text-center lg:text-left">
-                    <div class="text-[20px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0.5 lg:mb-1 tracking-tight">100K+</div>
-                    <div class="text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Pelajar Aktif</div>
+                    <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">100K+</div>
+                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Pelajar Aktif</div>
                 </div>
                 <div class="text-center lg:text-left">
-                    <div class="text-[20px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0.5 lg:mb-1 tracking-tight">800+</div>
-                    <div class="text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Kursus Premium</div>
+                    <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">800+</div>
+                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Kursus Premium</div>
                 </div>
                 <div class="text-center lg:text-left">
-                    <div class="text-[20px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0.5 lg:mb-1 tracking-tight">500+</div>
-                    <div class="text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Mentor Berpengalaman</div>
+                    <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">500+</div>
+                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Mentor Aktif</div>
                 </div>
                 <div class="text-center lg:text-left">
-                    <div class="text-[20px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0.5 lg:mb-1 tracking-tight">95%</div>
-                    <div class="text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Course Completion</div>
+                    <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">95%</div>
+                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Tingkat Lulus</div>
                 </div>
             </div>
 
             <!-- Ratings (Right Column) -->
-            <div class="flex items-center justify-center gap-4 whitespace-nowrap w-full">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 w-full">
                 <div class="flex -space-x-3">
                     <img class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=A&background=random" alt="User">
                     <img class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=B&background=random" alt="User">
@@ -169,8 +169,8 @@
                     <img class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=D&background=random" alt="User">
                     <div class="w-10 h-10 rounded-full border-2 border-[#070707] bg-[#dc2626] flex items-center justify-center text-[10px] font-bold text-white z-10">+99K</div>
                 </div>
-                <div class="text-left">
-                    <div class="flex items-center gap-1 text-[#eab308] mb-0.5">
+                <div class="text-center sm:text-left">
+                    <div class="flex items-center justify-center sm:justify-start gap-1 text-[#eab308] mb-0.5">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>

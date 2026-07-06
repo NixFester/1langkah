@@ -263,5 +263,6 @@ ul{list-style:none}button{cursor:pointer}
   .hero-stats{flex-direction:column;gap:24px}.auth-left{display:none}
   .landing-nav-links{display:none}.footer-grid{grid-template-columns:1fr;gap:32px}
   .enterprise-features{grid-template-columns:1fr}
+  .page-content{padding:16px 12px}
 }
 </style>
