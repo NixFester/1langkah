@@ -46,6 +46,8 @@ class Enrollment extends Model
                 self::class,
                 $enrollment->id
             );
+            app(AchievementService::class)->checkAndAward($enrollment->user, AchievementService::TRIGGER_COURSE_ENROLLED);
+            app(AchievementService::class)->checkAndAward($enrollment->user, AchievementService::TRIGGER_BOOTCAMP_ENROLLED);
         });
     }
 

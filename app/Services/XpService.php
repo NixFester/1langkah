@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Achievement;
 use App\Models\User;
+use App\Models\UserAchievement;
 use App\Models\UserXpTransaction;
 use App\Models\XpReward;
 use Illuminate\Support\Collection;
@@ -42,6 +44,9 @@ class XpService
         // Events
         'event_registered' => 10,
         'event_attended' => 20,
+
+        // Achievement
+        'achievement_bonus' => 0, // XP reward is set in achievement.xp_reward
     ];
 
     /**
@@ -56,6 +61,23 @@ class XpService
 
         $xpAmount = $this->getXpForAction($action);
 
+        return $this->awardXpDirectly($user, $action, $sourceType, $sourceId, $xpAmount);
+    }
+
+    /**
+     * Award XP directly with a specific amount without triggering achievement checks
+     * (used by AchievementService for achievement bonuses)
+     */
+    public function awardXpDirectly(User $user, string $action, string $sourceType, int $sourceId, int $xpAmount): ?UserXpTransaction
+    {
+        if (UserXpTransaction::alreadyAwarded($sourceType, $sourceId)) {
+            return null;
+        }
+
+        if ($xpAmount <= 0) {
+            return null;
+        }
+
         $transaction = UserXpTransaction::create([
             'user_id' => $user->id,
             'source_type' => $sourceType,
@@ -64,10 +86,35 @@ class XpService
             'xp_amount' => $xpAmount,
         ]);
 
-        // Update user's stored XP
-        $this->updateUserXp($user, $xpAmount);
+        // Update user's stored XP (without re-checking achievements to avoid infinite loop)
+        $this->addXpDirectly($user, $xpAmount);
 
         return $transaction;
+    }
+
+    /**
+     * Add XP directly without triggering achievement checks
+     */
+    private function addXpDirectly(User $user, int $additionalXp): void
+    {
+        $newXp = $user->xp + $additionalXp;
+        $newLevel = $this->calculateLevel($newXp);
+
+        $user->update([
+            'xp' => $newXp,
+            'level' => $newLevel,
+        ]);
+    }
+
+    /**
+     * Add XP directly to a user ID without triggering achievement checks
+     */
+    public function addXpToUserId(int $userId, int $xpAmount): void
+    {
+        $user = User::find($userId);
+        if ($user) {
+            $this->addXpDirectly($user, $xpAmount);
+        }
     }
 
     /**
@@ -105,11 +152,66 @@ class XpService
     {
         $newXp = $user->xp + $additionalXp;
         $newLevel = $this->calculateLevel($newXp);
+        $oldLevel = $user->level;
 
         $user->update([
             'xp' => $newXp,
             'level' => $newLevel,
         ]);
+
+        // Check for achievements after XP update
+        $this->checkXpAchievements($user, $newXp, $newLevel, $oldLevel);
+    }
+
+    /**
+     * Check and award XP/Level related achievements
+     */
+    public function checkXpAchievements(User $user, int $newXp, int $newLevel, int $oldLevel): void
+    {
+        // Check XP-based achievements via AchievementService
+        $achievementService = app(AchievementService::class);
+
+        // Check XP milestones
+        $achievementService->checkAndAward($user, AchievementService::TRIGGER_TOTAL_XP);
+
+        // Check level milestones
+        if ($newLevel > $oldLevel) {
+            $achievementService->checkAndAward($user, AchievementService::TRIGGER_LEVEL_REACHED);
+        }
+    }
+
+    /**
+     * Award an achievement to a user
+     */
+    private function awardAchievement(User $user, Achievement $achievement): void
+    {
+        // Check if already has achievement
+        $alreadyHas = UserAchievement::where('user_id', $user->id)
+            ->where('achievement_id', $achievement->id)
+            ->exists();
+
+        if ($alreadyHas) {
+            return;
+        }
+
+        // Award the achievement
+        UserAchievement::create([
+            'user_id' => $user->id,
+            'achievement_id' => $achievement->id,
+            'earned_at' => now(),
+            'is_notified' => false,
+        ]);
+
+        // Award XP bonus if specified
+        if ($achievement->xp_reward && $achievement->xp_reward > 0) {
+            // Use a unique source to prevent duplicate XP
+            $this->awardXp(
+                $user,
+                'achievement_bonus',
+                Achievement::class,
+                $achievement->id
+            );
+        }
     }
 
     /**
@@ -331,5 +433,38 @@ class XpService
     public static function getAvailableActions(): array
     {
         return array_keys(self::DEFAULT_XP_VALUES);
+    }
+
+    /**
+     * Award XP directly without triggering achievement checks (for achievement bonuses)
+     */
+    public function awardXpDirectly(User $user, string $action, string $sourceType, int $sourceId, int $xpAmount): ?UserXpTransaction
+    {
+        if (UserXpTransaction::alreadyAwarded($sourceType, $sourceId)) {
+            return null;
+        }
+
+        if ($xpAmount <= 0) {
+            return null;
+        }
+
+        $transaction = UserXpTransaction::create([
+            'user_id' => $user->id,
+            'source_type' => $sourceType,
+            'source_id' => $sourceId,
+            'action' => $action,
+            'xp_amount' => $xpAmount,
+        ]);
+
+        // Update user's XP and level
+        $newXp = $user->xp + $xpAmount;
+        $newLevel = $this->calculateLevel($newXp);
+
+        $user->update([
+            'xp' => $newXp,
+            'level' => $newLevel,
+        ]);
+
+        return $transaction;
     }
 }

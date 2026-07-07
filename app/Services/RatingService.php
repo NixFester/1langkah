@@ -6,6 +6,7 @@ use App\Models\Bootcamp;
 use App\Models\BootcampRating;
 use App\Models\Course;
 use App\Models\CourseRating;
+use App\Models\User;
 
 class RatingService
 {
@@ -48,6 +49,12 @@ class RatingService
                 CourseRating::class,
                 $courseRating->id
             );
+
+            // Check for review achievements
+            $user = User::find($userId);
+            if ($user) {
+                app(AchievementService::class)->checkAndAward($user, AchievementService::TRIGGER_REVIEW_WRITTEN);
+            }
         }
 
         return [
@@ -89,6 +96,12 @@ class RatingService
                 BootcampRating::class,
                 $bootcampRating->id
             );
+
+            // Check for review achievements
+            $user = User::find($userId);
+            if ($user) {
+                app(AchievementService::class)->checkAndAward($user, AchievementService::TRIGGER_REVIEW_WRITTEN);
+            }
         }
 
         return [

@@ -184,6 +184,12 @@ class MentorEventController extends Controller
             $registration->id
         );
 
+        // Check for event attendance achievements
+        app(AchievementService::class)->checkAndAward(
+            $registration->user,
+            AchievementService::TRIGGER_EVENT_ATTENDED
+        );
+
         return redirect()->back()->with('success', 'Peserta ditandai hadir dan mendapatkan 20 XP.');
     }
 

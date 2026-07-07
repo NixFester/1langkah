@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ForumPost;
 use App\Models\ForumReply;
 use App\Models\ForumVote;
+use App\Models\User;
 use App\Services\XpService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -149,6 +150,7 @@ class ForumController extends Controller
             ForumPost::class,
             $post->id
         );
+        app(AchievementService::class)->checkAndAward(Auth::user(), AchievementService::TRIGGER_FORUM_POST);
 
         return redirect()->route('komunitas.show', $post->id)
             ->with('success', 'Post berhasil dibuat!');
@@ -195,6 +197,9 @@ class ForumController extends Controller
             ForumReply::class,
             $reply->id
         );
+
+        // Check for forum reply achievements
+        app(AchievementService::class)->checkAndAward(Auth::user(), AchievementService::TRIGGER_FORUM_REPLY);
 
         // Increment post reply count
         ForumPost::find($validated['post_id'])->incrementReplyCount();
@@ -274,6 +279,12 @@ class ForumController extends Controller
                             $votableType,
                             $votableId
                         );
+
+                        // Check for vote received achievements
+                        $votableUser = User::find($votable->user_id);
+                        if ($votableUser) {
+                            app(AchievementService::class)->checkAndAward($votableUser, AchievementService::TRIGGER_FORUM_VOTE_RECEIVED);
+                        }
                     }
                 } else {
                     $votable->increment('downvotes');

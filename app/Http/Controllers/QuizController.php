@@ -159,6 +159,7 @@ class QuizController extends Controller
             TestAttempt::class,
             $attempt->id
         );
+        app(AchievementService::class)->checkAndAward($user, AchievementService::TRIGGER_QUIZ_PASSED);
 
         // If passed post-test and this is the final course completion requirement
         if ($passed && $quiz->type === 'post_test') {

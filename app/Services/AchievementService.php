@@ -8,6 +8,7 @@ use App\Models\Completion;
 use App\Models\Course;
 use App\Models\CourseRating;
 use App\Models\Enrollment;
+use App\Models\EventRegistration;
 use App\Models\ForumPost;
 use App\Models\ForumReply;
 use App\Models\TestAttempt;
@@ -44,11 +45,17 @@ class AchievementService
 
     public const TRIGGER_REVIEW_WRITTEN = 'review_written';
 
+    public const TRIGGER_EVENT_REGISTERED = 'event_registered';
+
+    public const TRIGGER_EVENT_ATTENDED = 'event_attended';
+
     public const TRIGGER_STREAK_DAYS = 'streak_days';
 
     public const TRIGGER_TOTAL_XP = 'total_xp';
 
     public const TRIGGER_MULTI_TYPE = 'multi_type';
+
+    public const TRIGGER_LEVEL_REACHED = 'level_reached';
 
     /**
      * Check and award achievements for a user
@@ -84,6 +91,13 @@ class AchievementService
         return $newAchievements;
     }
 
+    protected function checkLevelReached(User $user, array $conditions): bool
+    {
+        $required = $conditions['level'] ?? 1;
+
+        return $user->level >= $required;
+    }
+
     /**
      * Check if user is eligible and award achievement
      */
@@ -117,11 +131,18 @@ class AchievementService
             self::TRIGGER_BOOTCAMP_ENROLLED => $this->checkBootcampEnrollment($user, $conditions),
             self::TRIGGER_BOOTCAMP_COMPLETED => $this->checkBootcampCompleted($user, $conditions),
 
-            // Other achievements
+            // Review achievements
             self::TRIGGER_REVIEW_WRITTEN => $this->checkReviewsWritten($user, $conditions),
+
+            // Event achievements
+            self::TRIGGER_EVENT_REGISTERED => $this->checkEventRegistered($user, $conditions),
+            self::TRIGGER_EVENT_ATTENDED => $this->checkEventAttended($user, $conditions),
+
+            // Other achievements
             self::TRIGGER_STREAK_DAYS => $this->checkStreakDays($user, $conditions),
             self::TRIGGER_TOTAL_XP => $this->checkTotalXP($user, $conditions),
             self::TRIGGER_MULTI_TYPE => $this->checkMultiType($user, $conditions),
+            self::TRIGGER_LEVEL_REACHED => $this->checkLevelReached($user, $conditions),
 
             default => false,
         };
@@ -263,6 +284,24 @@ class AchievementService
         return $count >= $required;
     }
 
+    protected function checkEventRegistered(User $user, array $conditions): bool
+    {
+        $required = $conditions['count'] ?? 1;
+        $count = EventRegistration::where('user_id', $user->id)->count();
+
+        return $count >= $required;
+    }
+
+    protected function checkEventAttended(User $user, array $conditions): bool
+    {
+        $required = $conditions['count'] ?? 1;
+        $count = EventRegistration::where('user_id', $user->id)
+            ->whereNotNull('attended_at')
+            ->count();
+
+        return $count >= $required;
+    }
+
     protected function checkStreakDays(User $user, array $conditions): bool
     {
         $required = $conditions['days'] ?? 3;
@@ -316,31 +355,10 @@ class AchievementService
 
     protected function calculateUserXP(int $userId): int
     {
-        // XP breakdown:
-        // Course completed: 100 XP each
-        // Quiz passed: 25 XP each
-        // Bootcamp completed: 150 XP each
-        // Review written: 10 XP each
-        // Forum post: 5 XP each
-        // Forum reply: 2 XP each
+        // Use the stored XP value from the user
+        $user = User::find($userId);
 
-        $courseXP = Completion::where('user_id', $userId)
-            ->where('completable_type', Course::class)
-            ->count() * 100;
-
-        $quizXP = TestAttempt::where('user_id', $userId)
-            ->where('passed', true)
-            ->count() * 25;
-
-        $bootcampXP = Completion::where('user_id', $userId)
-            ->where('completable_type', Bootcamp::class)
-            ->count() * 150;
-
-        $reviewXP = CourseRating::where('user_id', $userId)->count() * 10;
-        $postXP = ForumPost::where('user_id', $userId)->count() * 5;
-        $replyXP = ForumReply::where('user_id', $userId)->count() * 2;
-
-        return $courseXP + $quizXP + $bootcampXP + $reviewXP + $postXP + $replyXP;
+        return $user ? $user->xp : 0;
     }
 
     protected function checkMultiType(User $user, array $conditions): bool

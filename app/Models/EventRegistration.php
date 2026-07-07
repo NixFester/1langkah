@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\AchievementService;
 use App\Services\XpService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,6 +35,12 @@ class EventRegistration extends Model
                 'event_registered',
                 self::class,
                 $registration->id
+            );
+
+            // Check for event registration achievements
+            app(AchievementService::class)->checkAndAward(
+                $registration->user,
+                AchievementService::TRIGGER_EVENT_REGISTERED
             );
         });
     }
