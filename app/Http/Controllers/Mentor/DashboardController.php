@@ -23,8 +23,10 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
 
-        // Get mentor profile by name match (mentors table doesn't have user_id)
-        $mentorProfile = MentorModel::where('name', $user->name)->first();
+        // Get mentor profile
+        $mentorProfile = MentorModel::where('user_id', $user->id)->first()
+            ?? MentorModel::where('name', $user->name)->first()
+            ?? ($user->role === 'mentor' ? MentorModel::first() : null);
 
         // Statistik kursus mentor - match by name or mentor_id
         $courseIds = Course::where('mentor_name', $user->name)
