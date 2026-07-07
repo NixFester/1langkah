@@ -133,37 +133,37 @@
 }">
 
     <!-- Header Section -->
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-            <h1 class="font-extrabold text-gray-900 tracking-tight" style="font-size: 28px;">Kalender</h1>
+            <h1 class="font-extrabold text-gray-900 tracking-tight text-2xl sm:text-[28px]">Kalender</h1>
             <p class="text-sm text-gray-500 mt-1 font-medium">Jadwal belajar & deadline kamu</p>
         </div>
-        <div style="display: flex; align-items: center; gap: 20px; font-weight: bold; font-size: 13px;">
-            <div style="display: flex; align-items: center; gap: 8px;"><div style="border-radius: 999px; width: 10px; height: 10px; background-color: #cc0000;"></div><span class="text-gray-600">Bootcamp</span></div>
-            <div style="display: flex; align-items: center; gap: 8px;"><div style="border-radius: 999px; width: 10px; height: 10px; background-color: #3b82f6;"></div><span class="text-gray-600">Event</span></div>
-            <div style="display: flex; align-items: center; gap: 8px;"><div style="border-radius: 999px; width: 10px; height: 10px; background-color: #10b981;"></div><span class="text-gray-600">Offline</span></div>
+        <div class="flex flex-wrap items-center gap-3 sm:gap-5 font-bold text-xs sm:text-[13px]">
+            <div class="flex items-center gap-1.5 sm:gap-2"><div class="rounded-full w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#cc0000]"></div><span class="text-gray-600">Bootcamp</span></div>
+            <div class="flex items-center gap-1.5 sm:gap-2"><div class="rounded-full w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#3b82f6]"></div><span class="text-gray-600">Event</span></div>
+            <div class="flex items-center gap-1.5 sm:gap-2"><div class="rounded-full w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#10b981]"></div><span class="text-gray-600">Offline</span></div>
         </div>
     </div>
 
     <!-- Month Navigation -->
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm" style="display: flex; align-items: center; justify-content: space-between; padding: 14px;">
-        <button @click="prevMonth()" style="padding: 8px; color: #9ca3af; border-radius: 12px; cursor: pointer; background: transparent; border: none;" class="hover:bg-gray-100 transition-colors">
-            <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between p-3 sm:p-3.5">
+        <button @click="prevMonth()" class="p-2 text-gray-400 rounded-xl hover:bg-gray-100 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
         </button>
-        <h2 class="font-extrabold text-gray-900 tracking-tight" style="font-size: 18px;" x-text="monthNames[currentMonth - 1] + ' ' + currentYear">{{ $monthNameID }} {{ $currentYear }}</h2>
-        <button @click="nextMonth()" style="padding: 8px; color: #9ca3af; border-radius: 12px; cursor: pointer; background: transparent; border: none;" class="hover:bg-gray-100 transition-colors">
-            <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        <h2 class="font-extrabold text-gray-900 tracking-tight text-[16px] sm:text-[18px]" x-text="monthNames[currentMonth - 1] + ' ' + currentYear">{{ $monthNameID }} {{ $currentYear }}</h2>
+        <button @click="nextMonth()" class="p-2 text-gray-400 rounded-xl hover:bg-gray-100 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
         </button>
     </div>
 
-    <div class="calendar-layout" style="display: flex; gap: 24px; align-items: flex-start;">
+    <div class="flex flex-col lg:flex-row gap-6 items-start w-full">
 
         <!-- Left: Calendar Grid -->
-        <div class="bg-white border border-gray-100 shadow-md overflow-hidden" style="flex: 1; min-width: 0; border-radius: 24px;">
+        <div class="bg-white border border-gray-100 shadow-md overflow-hidden flex-1 min-w-0 rounded-[20px] sm:rounded-[24px] w-full">
             <!-- Days header -->
-            <div style="display: grid; grid-template-columns: repeat(7, 1fr); border-bottom: 1px solid #f3f4f6;">
+            <div class="grid grid-cols-7 border-b border-gray-100">
                 @foreach(['MIN', 'SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB'] as $day)
-                    <div style="padding: 16px 0; text-align: center; font-weight: 800; color: #9ca3af; letter-spacing: 0.05em; font-size: 11px;">{{ $day }}</div>
+                    <div class="py-3 sm:py-4 text-center font-extrabold text-gray-400 tracking-wider text-[10px] sm:text-[11px]">{{ $day }}</div>
                 @endforeach
             </div>
 
@@ -171,7 +171,7 @@
             <div class="calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr);">
                 {{-- Empty cells before day 1 --}}
                 @for($i = 0; $i < $startDayOfWeek; $i++)
-                    <div class="border-r border-b border-gray-50" style="background-color: #fffafb;"></div>
+                    <div class="border-r border-b border-gray-50 bg-[#fffafb]"></div>
                 @endfor
 
                 {{-- Day 1 to daysInMonth --}}
@@ -183,11 +183,10 @@
                     <div class="border-r border-b border-gray-50 p-1 sm:p-2 flex flex-col relative hover:bg-gray-50 transition-colors cursor-pointer {{ $isToday ? 'bg-red-50' : '' }}"
                          :class="{ 'bg-red-50': {{ $isToday ? 'true' : 'false' }} }"
                          style="{{ $isSunday && !$isToday ? 'background-color: #fffafb;' : '' }}">
-                        <span class="font-extrabold text-gray-900 text-center mb-1"
-                              :class="{{ $isToday ? "'text-red-600'" : "'text-gray-900'" }}"
-                              style="font-size: 13px;">{{ $day }}</span>
+                        <span class="font-extrabold text-center mb-1 text-[11px] sm:text-[13px]"
+                              :class="{{ $isToday ? "'text-red-600'" : "'text-gray-900'" }}">{{ $day }}</span>
                         @if($isToday)
-                        <div class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></div>
+                        <div class="absolute top-1 right-1 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-500 rounded-full"></div>
                         @endif
 
                         {{-- Events rendered client-side via Alpine --}}
@@ -203,7 +202,7 @@
                     $remainingCells = (7 - ($totalCells % 7)) % 7;
                     if ($remainingCells > 0 && $remainingCells < 7) {
                         for ($i = 0; $i < $remainingCells; $i++) {
-                            echo '<div class="border-b border-gray-50' . ($i < $remainingCells - 1 ? ' border-r' : '') . '" style="background-color: #fffafb;"></div>';
+                            echo '<div class="border-b border-gray-50' . ($i < $remainingCells - 1 ? ' border-r' : '') . ' bg-[#fffafb]"></div>';
                         }
                     }
                 @endphp
@@ -211,67 +210,67 @@
         </div>
 
         <!-- Right: Agenda Panel -->
-        <div style="width: 380px; flex-shrink: 0; display: flex; flex-direction: column; gap: 24px;">
+        <div class="w-full lg:w-[360px] xl:w-[380px] shrink-0 flex flex-col gap-5 sm:gap-6">
 
             <!-- Filter Tabs -->
-            <div class="bg-white border border-gray-100 shadow-md rounded-2xl p-2">
-                <div style="display: flex; gap: 4px;">
+            <div class="bg-white border border-gray-100 shadow-md rounded-[16px] sm:rounded-2xl p-1.5 sm:p-2">
+                <div class="flex gap-1">
                     <button @click="filterMode = 'all'"
                             :class="filterMode === 'all' ? 'bg-red-600 text-white shadow-sm' : 'bg-transparent text-gray-500 hover:bg-gray-100'"
-                            class="flex-1 py-2.5 px-4 rounded-xl text-sm font-bold transition-all">
+                            class="flex-1 py-2 sm:py-2.5 px-3 sm:px-4 rounded-xl text-[13px] sm:text-sm font-bold transition-all">
                         Semua
                     </button>
                     <button @click="filterMode = 'mine'"
                             :class="filterMode === 'mine' ? 'bg-red-600 text-white shadow-sm' : 'bg-transparent text-gray-500 hover:bg-gray-100'"
-                            class="flex-1 py-2.5 px-4 rounded-xl text-sm font-bold transition-all">
+                            class="flex-1 py-2 sm:py-2.5 px-3 sm:px-4 rounded-xl text-[13px] sm:text-sm font-bold transition-all">
                         Milik Saya
                     </button>
                 </div>
             </div>
 
             <!-- Agenda Terdekat (Full Height) -->
-            <div class="bg-white border border-gray-100 shadow-md flex-1" style="border-radius: 24px; padding: 32px; min-height: 500px;">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
-                    <h3 class="font-extrabold text-gray-900 tracking-tight" style="font-size: 20px;">Agenda</h3>
-                    <span class="text-sm text-gray-500 font-medium" x-text="events.length + ' agenda'"></span>
+            <div class="bg-white border border-gray-100 shadow-md flex-1 rounded-[20px] sm:rounded-[24px] p-5 sm:p-7 min-h-[400px] sm:min-h-[500px]">
+                <div class="flex items-center justify-between mb-5 sm:mb-6">
+                    <h3 class="font-extrabold text-gray-900 tracking-tight text-[18px] sm:text-[20px]">Agenda</h3>
+                    <span class="text-xs sm:text-sm text-gray-500 font-medium" x-text="events.length + ' agenda'"></span>
                 </div>
 
                 <!-- Empty State -->
-                <div x-show="events.length === 0" class="flex flex-col items-center justify-center py-12">
-                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <div x-show="events.length === 0" class="flex flex-col items-center justify-center py-10 sm:py-12">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 sm:w-8 sm:h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </div>
-                    <p class="text-gray-500 text-center font-medium">
+                    <p class="text-gray-500 text-center font-medium text-[13px] sm:text-[14px]">
                         <span x-show="filterMode === 'all'">Tidak ada agenda bulan ini</span>
                         <span x-show="filterMode === 'mine'">Kamu belum terdaftar di agenda apapun. <a href="/kursus" class="text-red-600 hover:underline">Daftar kursus</a> atau <a href="/bootcamp/online" class="text-red-600 hover:underline">bootcamp</a> untuk melihat jadwalmu.</span>
                     </p>
                 </div>
 
                 <!-- Events List -->
-                <div x-show="events.length > 0" style="display: none; display: flex; flex-direction: column; gap: 16px; max-height: 600px; overflow-y: auto;" class="agenda-list">
+                <div x-show="events.length > 0" class="flex flex-col gap-3 sm:gap-4 max-h-[400px] sm:max-h-[600px] overflow-y-auto agenda-list" style="display: none;">
                     <template x-for="(event, index) in events" :key="index">
                         <a :href="event.url"
-                           class="flex items-start gap-4 group cursor-pointer p-4 rounded-2xl transition-all hover:shadow-md mb-4"
+                           class="flex items-start gap-3 sm:gap-4 group cursor-pointer p-3.5 sm:p-4 rounded-xl sm:rounded-2xl transition-all hover:shadow-md"
                            :style="'background-color: ' + (event.color ? event.color + '08' : '#fef2f2') + '; border: 1px solid ' + (event.color ? event.color + '20' : '#fecaca') + ';'"
                            x-transition>
-                            <div class="w-14 h-14 rounded-2xl flex flex-col items-center justify-center text-white flex-shrink-0 group-hover:scale-105 transition-transform shadow-sm"
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center text-white flex-shrink-0 group-hover:scale-105 transition-transform shadow-sm"
                                  :style="'background-color: ' + (event.color || '#cc0000') + ';'">
-                                <span class="font-extrabold leading-none" style="font-size: 22px;" x-text="event.day"></span>
-                                <span class="font-bold leading-none mt-0.5" style="font-size: 11px;" x-text="monthNamesShort[currentMonth - 1]"></span>
+                                <span class="font-extrabold leading-none text-[18px] sm:text-[22px]" x-text="event.day"></span>
+                                <span class="font-bold leading-none mt-0.5 text-[10px] sm:text-[11px]" x-text="monthNamesShort[currentMonth - 1]"></span>
                             </div>
-                            <div class="flex-1 mt-1 min-w-0">
-                                <h4 class="font-bold text-gray-900 group-hover:text-red-600 transition-colors leading-tight mb-1" style="font-size: 15px;" x-text="event.title"></h4>
-                                <p class="text-sm text-gray-500 font-medium" x-text="event.time || ''"></p>
-                                <div class="flex items-center gap-2 mt-2">
-                                    <span class="px-2 py-0.5 rounded-full text-xs font-bold"
+                            <div class="flex-1 mt-0.5 sm:mt-1 min-w-0">
+                                <h4 class="font-bold text-gray-900 group-hover:text-red-600 transition-colors leading-tight mb-1 text-[13px] sm:text-[15px]" x-text="event.title"></h4>
+                                <p class="text-[12px] sm:text-sm text-gray-500 font-medium" x-text="event.time || ''"></p>
+                                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-1.5 sm:mt-2">
+                                    <span class="px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold"
                                           :style="'background-color: ' + (event.color ? event.color + '15' : '#fef2f2') + '; color: ' + (event.color || '#cc0000') + ';'"
                                           x-text="event.type === 'bootcamp' ? 'Bootcamp' : (event.type || 'Event')">
                                     </span>
-                                    <span x-show="event.source === 'bootcamp' && enrolledBootcampIds.includes(event.id)" class="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700">Terdaftar</span>
-                                    <span x-show="event.source === 'event' && registeredEventIds.includes(event.id)" class="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700">Terdaftar</span>
+                                    <span x-show="event.source === 'bootcamp' && enrolledBootcampIds.includes(event.id)" class="px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold bg-green-100 text-green-700">Terdaftar</span>
+                                    <span x-show="event.source === 'event' && registeredEventIds.includes(event.id)" class="px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold bg-green-100 text-green-700">Terdaftar</span>
                                 </div>
                             </div>
-                            <svg class="w-5 h-5 text-gray-400 flex-shrink-0 mt-5 group-hover:text-red-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0 mt-3 sm:mt-5 group-hover:text-red-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </a>
                     </template>
                 </div>

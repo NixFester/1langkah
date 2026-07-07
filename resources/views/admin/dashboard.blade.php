@@ -60,17 +60,17 @@
 
         <!-- Recent Users -->
         <x-card-panel title="Pendaftar Terbaru" :actionRoute="route('admin.users')" actionLabel="Kelola User">
-            <div class="space-y-4 flex-1">
+            <div class="space-y-3 sm:space-y-4 flex-1">
                 @forelse($recentUsers ?? [] as $user)
-                <div class="flex items-center justify-between p-3 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
-                    <div class="flex items-center gap-3">
-                        <img src="{{ $user->profile_photo ?? 'https://ui-avatars.com/api/?name='.urlencode($user->name) }}" class="w-10 h-10 rounded-full object-cover" alt="">
-                        <div>
-                            <h4 class="text-[13px] font-bold text-gray-900">{{ $user->name }}</h4>
-                            <p class="text-[11px] text-gray-500">{{ $user->email }}</p>
+                <div class="flex items-center justify-between p-3 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100 gap-3">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <img src="{{ $user->profile_photo ?? 'https://ui-avatars.com/api/?name='.urlencode($user->name) }}" class="w-10 h-10 rounded-full object-cover flex-shrink-0" alt="">
+                        <div class="min-w-0">
+                            <h4 class="text-[13px] font-bold text-gray-900 truncate">{{ $user->name }}</h4>
+                            <p class="text-[11px] text-gray-500 truncate">{{ $user->email }}</p>
                         </div>
                     </div>
-                    <span class="px-2 py-1 bg-green-50 text-green-700 text-[10px] font-bold rounded-full">Aktif</span>
+                    <span class="px-2 py-1 bg-green-50 text-green-700 text-[10px] font-bold rounded-full flex-shrink-0">Aktif</span>
                 </div>
                 @empty
                 <x-empty-state message="Belum ada data pendaftar." icon="users" />
@@ -80,15 +80,15 @@
 
         <!-- Recent Courses -->
         <x-card-panel title="Kursus Terbaru" :actionRoute="route('admin.courses')" actionLabel="Kelola Kursus">
-            <div class="space-y-4 flex-1">
+            <div class="space-y-3 sm:space-y-4 flex-1">
                 @forelse($recentCourses ?? [] as $course)
-                <div class="flex items-center justify-between p-3 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
-                    <div class="flex items-center gap-4">
+                <div class="flex items-center justify-between p-3 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100 gap-3">
+                    <div class="flex items-center gap-3 sm:gap-4 min-w-0">
                         <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0 text-red-600">
                             <x-icon name="book" class="w-5 h-5" />
                         </div>
                         <div class="min-w-0">
-                            <h4 class="text-[13px] font-bold text-gray-900 truncate pr-4">{{ $course->title }}</h4>
+                            <h4 class="text-[13px] font-bold text-gray-900 truncate">{{ $course->title }}</h4>
                             <p class="text-[11px] text-gray-500 truncate">Mentor: {{ $course->mentor_name }}</p>
                         </div>
                     </div>

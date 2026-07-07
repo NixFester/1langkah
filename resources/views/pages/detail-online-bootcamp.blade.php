@@ -135,31 +135,22 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <!-- Alert / Info Banner -->
-    <div class="bg-[#b91c1c] rounded-2xl p-6 md:p-8 text-white mb-10 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-md">
-        <div class="flex items-center gap-5 md:gap-6">
-            <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-            </div>
-            <div>
-                <h3 class="text-[22px] font-bold mb-1.5 tracking-tight">Tatap Muka LIVE via Zoom</h3>
-                <p class="text-red-100 text-[15px] leading-relaxed max-w-2xl font-medium">Setiap sesi direkam dan tersedia selama 30 hari. Sertifikat kelulusan diberikan setelah menyelesaikan minimal 80% pertemuan.</p>
-            </div>
-        </div>
-        <div class="flex items-center gap-8 md:gap-10 lg:pr-6">
-            <div class="text-center">
-                <div class="text-[28px] font-extrabold leading-tight">7–10</div>
-                <div class="text-[13px] text-red-200 font-medium">Pertemuan</div>
-            </div>
-            <div class="text-center">
-                <div class="text-[28px] font-extrabold leading-tight">2 Jam</div>
-                <div class="text-[13px] text-red-200 font-medium">Per sesi</div>
-            </div>
-            <div class="text-center">
-                <div class="text-[28px] font-extrabold leading-tight">30 Hari</div>
-                <div class="text-[13px] text-red-200 font-medium">Akses rekaman</div>
-            </div>
-        </div>
-    </div>
+    <x-alert-banner
+        type="info"
+        title="Tatap Muka LIVE via Zoom"
+        message="Setiap sesi direkam dan tersedia selama 30 hari. Sertifikat kelulusan diberikan setelah menyelesaikan minimal 80% pertemuan."
+        :stats="[
+            ['value' => '7–10', 'label' => 'Pertemuan'],
+            ['value' => '2 Jam', 'label' => 'Per sesi'],
+            ['value' => '30 Hari', 'label' => 'Akses rekaman']
+        ]"
+    >
+        <x-slot name="icon">
+            <svg class="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+            </svg>
+        </x-slot>
+    </x-alert-banner>
 
     <!-- Master-Detail Layout -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -253,17 +244,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     
                     <!-- Actions -->
-                    <div class="flex gap-4 pb-8 border-b border-gray-100">
+                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 pb-8 border-b border-gray-100">
                         @if(!empty($isEnrolled))
-                            <a href="{{ route('bootcamps-saya') }}" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-full text-center transition-colors shadow-sm text-sm">
+                            <a href="{{ route('bootcamps-saya') }}" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 sm:py-3 px-6 rounded-xl sm:rounded-full text-center transition-colors shadow-sm text-[13.5px] sm:text-sm">
                                 Sudah Terdaftar — Lihat Bootcamp Saya
                             </a>
                         @else
-                            <a href="{{ route('pembayaran', ['id' => $b['id']]) }}" class="flex-1 bg-[#d00000] hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full text-center transition-colors shadow-sm text-sm">
+                            <a href="{{ route('pembayaran', ['id' => $b['id']]) }}" class="flex-1 bg-[#d00000] hover:bg-red-700 text-white font-bold py-3.5 sm:py-3 px-6 rounded-xl sm:rounded-full text-center transition-colors shadow-sm text-[13.5px] sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis">
                                 Daftar Bootcamp — {{ $b['formatted_price'] ?? 'Gratis' }}
                             </a>
                         @endif
-                        <button class="px-8 py-3 bg-white border border-gray-200 text-gray-700 font-bold rounded-full hover:bg-gray-50 transition-colors shadow-sm text-sm">
+                        <button class="w-full sm:w-auto px-8 py-3.5 sm:py-3 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl sm:rounded-full hover:bg-gray-50 transition-colors shadow-sm text-[13.5px] sm:text-sm">
                             Simpan
                         </button>
                     </div>
@@ -311,15 +302,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                     <!-- Content -->
                                     <div class="flex-1 min-w-0">
-                                        <div class="flex items-start justify-between gap-2">
+                                        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-2">
                                             <div class="flex-1">
-                                                <h4 class="text-[14px] font-bold text-gray-900 mb-1">{{ $s['topic'] }}</h4>
-                                                <div class="flex items-center gap-3 text-[12px] text-gray-500">
-                                                    <span class="flex items-center gap-1">
+                                                <h4 class="text-[14px] font-bold text-gray-900 mb-1.5">{{ $s['topic'] }}</h4>
+                                                <div class="flex flex-wrap items-center gap-2 sm:gap-3 text-[12px] text-gray-500">
+                                                    <span class="flex items-center gap-1 bg-gray-50 px-2 py-0.5 rounded-md border border-gray-100">
                                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                                         {{ $s['date'] }}
                                                     </span>
-                                                    <span class="flex items-center gap-1">
+                                                    <span class="flex items-center gap-1 bg-gray-50 px-2 py-0.5 rounded-md border border-gray-100">
                                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                                         {{ $s['time'] }} WIB
                                                     </span>
@@ -328,17 +319,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                             <!-- Join Button -->
                                             @if($canJoin && !$hasAttended)
-                                            <button class="px-4 py-1.5 bg-[#d00000] hover:bg-red-700 text-white text-xs font-bold rounded-full transition-colors flex items-center gap-1.5 flex-shrink-0">
+                                            <button class="w-full sm:w-auto justify-center px-4 py-2 sm:py-1.5 bg-[#d00000] hover:bg-red-700 text-white text-xs font-bold rounded-lg sm:rounded-full transition-colors flex items-center gap-1.5 flex-shrink-0 mt-1 sm:mt-0">
                                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                                                 Join
                                             </button>
                                             @elseif($hasAttended)
-                                            <span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full flex items-center gap-1 flex-shrink-0">
+                                            <span class="w-full sm:w-auto justify-center px-3 py-2 sm:py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-lg sm:rounded-full flex items-center gap-1 flex-shrink-0 mt-1 sm:mt-0">
                                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                                                 Selesai
                                             </span>
                                             @elseif(!$isEnrolled)
-                                            <span class="px-3 py-1 bg-gray-100 text-gray-500 text-xs font-medium rounded-full flex-shrink-0">
+                                            <span class="w-full sm:w-auto text-center px-3 py-2 sm:py-1 bg-gray-100 text-gray-500 text-xs font-medium rounded-lg sm:rounded-full flex-shrink-0 mt-1 sm:mt-0">
                                                 Login untuk join
                                             </span>
                                             @endif

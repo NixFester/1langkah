@@ -229,7 +229,7 @@ if (auth()->check() && $isRegistered) {
                     </div>
                     <div class="mt-4 rounded-xl border border-red-100 bg-white/80 p-4">
                         <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">Kode tiket</p>
-                        <p class="mt-2 font-mono text-2xl font-bold tracking-[0.35em] text-gray-900">{{ $ticketCode }}</p>
+                        <p class="mt-2 font-mono text-lg sm:text-2xl font-bold tracking-widest sm:tracking-[0.35em] text-gray-900 break-all">{{ $ticketCode }}</p>
                     </div>
                 </div>
                 @endif

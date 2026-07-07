@@ -30,27 +30,27 @@
             @csrf
             <div class="col-span-12 md:col-span-6">
                 <input type="text" name="question" required
-                    class="w-full rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    class="w-full min-w-0 rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     placeholder="Tulis pertanyaan...">
             </div>
-            <div class="col-span-6 md:col-span-2">
-                <select name="type" class="w-full rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500">
+            <div class="col-span-12 md:col-span-2">
+                <select name="type" class="w-full min-w-0 rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500">
                     <option value="multiple_choice">Multiple Choice</option>
                     <option value="true_false">True/False</option>
                     <option value="essay">Essay</option>
                 </select>
             </div>
-            <div class="col-span-3 md:col-span-1">
+            <div class="col-span-6 md:col-span-1">
                 <input type="number" name="points" value="1" min="1"
-                    class="w-full rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    class="w-full min-w-0 rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     placeholder="Pts">
             </div>
-            <div class="col-span-3 md:col-span-1">
+            <div class="col-span-6 md:col-span-1">
                 <input type="number" name="order" value="{{ $quiz->questions->count() + 1 }}" min="0"
-                    class="w-full rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    class="w-full min-w-0 rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     placeholder="Order">
             </div>
-            <div class="col-span-6 md:col-span-2">
+            <div class="col-span-12 md:col-span-2">
                 <button type="submit" class="w-full px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors">
                     Tambah
                 </button>
@@ -65,17 +65,17 @@
             <!-- Question Header -->
             <div class="p-6">
                 <div class="flex items-start justify-between gap-4">
-                    <div class="flex-1">
-                        <div class="flex items-center gap-3 mb-2">
-                            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-sm font-bold text-gray-600">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
+                            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-sm font-bold text-gray-600 flex-shrink-0">
                                 {{ $loop->iteration }}
                             </span>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 flex-shrink-0">
                                 {{ $question->type }}
                             </span>
-                            <span class="text-xs text-gray-500">{{ $question->points }} pts</span>
+                            <span class="text-xs text-gray-500 flex-shrink-0">{{ $question->points }} pts</span>
                             @if($question->is_required)
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800">Required</span>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800 flex-shrink-0">Required</span>
                             @endif
                         </div>
                         <p class="text-gray-900 font-medium">{{ $question->question }}</p>
@@ -100,36 +100,36 @@
             <div class="px-6 pb-6">
                 <div class="bg-gray-50 rounded-lg p-4 space-y-3">
                     @foreach($question->answers->sortBy('order') as $answer)
-                    <div class="flex items-center gap-3">
-                        <form action="{{ route('admin.quizzes.answers.update', [$quiz, $question, $answer]) }}" method="POST" class="flex-1 flex items-center gap-3">
+                    <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+                        <form action="{{ route('admin.quizzes.answers.update', [$quiz, $question, $answer]) }}" method="POST" class="flex-1 flex items-center gap-2 sm:gap-3 min-w-0">
                             @csrf
                             @method('PUT')
                             <input type="text" name="answer_text" value="{{ $answer->answer_text }}" required
-                                class="flex-1 rounded-lg border border-gray-200 px-3 py-1.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500">
-                            <label class="flex items-center gap-2 text-sm">
+                                class="flex-1 min-w-0 rounded-lg border border-gray-200 px-2 sm:px-3 py-1.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                            <label class="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm flex-shrink-0">
                                 <input type="checkbox" name="is_correct" value="1" {{ $answer->is_correct ? 'checked' : '' }}
                                     onchange="this.form.submit()"
-                                    class="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500">
+                                    class="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 flex-shrink-0">
                                 <span class="text-gray-600">Correct</span>
                             </label>
                         </form>
-                        <form action="{{ route('admin.quizzes.answers.delete', [$quiz, $question, $answer]) }}" method="POST" class="inline">
+                        <form action="{{ route('admin.quizzes.answers.delete', [$quiz, $question, $answer]) }}" method="POST" class="inline flex-shrink-0">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="p-1.5 text-gray-400 hover:text-red-600 transition-colors">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                             </button>
                         </form>
                     </div>
                     @endforeach
 
                     <!-- Add Answer -->
-                    <form action="{{ route('admin.quizzes.answers.add', [$quiz, $question]) }}" method="POST" class="flex items-center gap-2 pt-2 border-t border-gray-200">
+                    <form action="{{ route('admin.quizzes.answers.add', [$quiz, $question]) }}" method="POST" class="flex items-center gap-2 pt-2 border-t border-gray-200 min-w-0">
                         @csrf
                         <input type="text" name="answer_text" required
-                            class="flex-1 rounded-lg border border-gray-200 px-3 py-1.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                            class="flex-1 min-w-0 rounded-lg border border-gray-200 px-3 py-1.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500"
                             placeholder="Tambah opsi jawaban...">
-                        <button type="submit" class="px-3 py-1.5 bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium rounded-lg transition-colors">
+                        <button type="submit" class="px-3 py-1.5 bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium rounded-lg transition-colors flex-shrink-0">
                             +
                         </button>
                     </form>
