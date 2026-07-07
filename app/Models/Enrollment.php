@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\AchievementService;
 use App\Services\XpService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
