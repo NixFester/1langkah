@@ -27,7 +27,15 @@ class MentorBootcampController extends Controller
     {
         $user = auth()->user();
 
-        return MentorModel::where('name', $user->name)->first();
+        // First try to find by user_id (most reliable)
+        $mentor = MentorModel::where('user_id', $user->id)->first();
+
+        // Fallback to name matching if user_id not set
+        if (! $mentor) {
+            $mentor = MentorModel::where('name', $user->name)->first();
+        }
+
+        return $mentor;
     }
 
     /**

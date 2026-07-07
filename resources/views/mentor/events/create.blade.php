@@ -71,8 +71,12 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">
                         Tanggal Mulai <span class="text-red-500">*</span>
                     </label>
-                    <input type="datetime-local" name="start_date" value="{{ old('start_date') }}" required
-                           class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="date" name="start_date" value="{{ old('start_date') }}" required
+                               class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
+                        <input type="time" name="start_time" value="{{ old('start_time', '09:00') }}" required
+                               class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
+                    </div>
                     @error('start_date')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -83,8 +87,13 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">
                         Tanggal Selesai
                     </label>
-                    <input type="datetime-local" name="end_date" value="{{ old('end_date') }}"
-                           class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="date" name="end_date" value="{{ old('end_date') }}"
+                               class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
+                        <input type="time" name="end_time" value="{{ old('end_time', '17:00') }}"
+                               class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Opsional. Jika kosong, dianggap sama dengan tanggal mulai.</p>
                     @error('end_date')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror

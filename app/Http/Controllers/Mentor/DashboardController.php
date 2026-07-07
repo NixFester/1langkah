@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Mentor;
 
 use App\Http\Controllers\Controller;
-use App\Models\Chapter;
 use App\Models\ChapterProgress;
-use App\Models\ChapterVideo;
 use App\Models\Course;
 use App\Models\CourseRating;
 use App\Models\Enrollment;
 use App\Models\Mentor as MentorModel;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 /**
@@ -142,21 +139,29 @@ class DashboardController extends Controller
             ->whereNotNull('completed_at')
             ->count();
 
-        $avgProgress = ChapterProgress::whereIn('chapter_id', $course->chapters->pluck('id'))
-            ->avg('progress') ?? 0;
+        $chapterIds = $course->chapters->pluck('id');
+        $totalChapters = $chapterIds->count();
+
+        // Calculate average progress: completed chapters / total chapters per student, then average
+        $avgProgress = 0;
+        if ($totalChapters > 0 && $totalStudents > 0) {
+            $totalCompleted = ChapterProgress::whereIn('chapter_id', $chapterIds)
+                ->where('is_completed', true)
+                ->count();
+            // Average progress as a percentage
+            $avgProgress = round(($totalCompleted / ($totalStudents * $totalChapters)) * 100, 1);
+        }
 
         // Siswa yang enrollment
         $enrolledStudents = Enrollment::where('purchasable_id', $course->id)
             ->where('purchasable_type', Course::class)
             ->with('user')
             ->get()
-            ->map(function ($enrollment) use ($course) {
+            ->map(function ($enrollment) use ($chapterIds, $totalChapters) {
                 $completedChapters = ChapterProgress::where('user_id', $enrollment->user_id)
-                    ->whereIn('chapter_id', $course->chapters->pluck('id'))
-                    ->where('completed', true)
+                    ->whereIn('chapter_id', $chapterIds)
+                    ->where('is_completed', true)
                     ->count();
-
-                $totalChapters = $course->chapters->count();
 
                 return [
                     'user' => $enrollment->user,
@@ -164,7 +169,7 @@ class DashboardController extends Controller
                     'completed_chapters' => $completedChapters,
                     'total_chapters' => $totalChapters,
                     'last_activity' => ChapterProgress::where('user_id', $enrollment->user_id)
-                        ->whereIn('chapter_id', $course->chapters->pluck('id'))
+                        ->whereIn('chapter_id', $chapterIds)
                         ->latest()
                         ->first()?->updated_at,
                     'enrolled_at' => $enrollment->created_at,
@@ -210,7 +215,7 @@ class DashboardController extends Controller
             ->paginate(25);
 
         // Enrich dengan progress
-        $students->getCollection()->transform(function ($enrollment) use ($courseIds, $user) {
+        $students->getCollection()->transform(function ($enrollment) use ($courseIds) {
             $totalEnrollments = Enrollment::where('user_id', $enrollment->user_id)
                 ->whereIn('purchasable_id', $courseIds)
                 ->where('purchasable_type', Course::class)
@@ -262,14 +267,14 @@ class DashboardController extends Controller
         // Progress per kursus
         $progressData = $enrollments->map(function ($enrollment) {
             $course = $enrollment->purchasable;
-            if (!$course) {
+            if (! $course) {
                 return null;
             }
 
             $chapterIds = $course->chapters->pluck('id');
             $completedChapters = ChapterProgress::where('user_id', $enrollment->user_id)
                 ->whereIn('chapter_id', $chapterIds)
-                ->where('completed', true)
+                ->where('is_completed', true)
                 ->count();
 
             $totalChapters = $chapterIds->count();

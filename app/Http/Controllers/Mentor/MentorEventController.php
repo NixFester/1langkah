@@ -28,8 +28,7 @@ class MentorEventController extends Controller
      */
     public function index(): View
     {
-        $user = auth()->user();
-        $mentorProfile = $this->getMentorProfile($user);
+        $mentorProfile = $this->getMentorProfile();
 
         $events = Event::where('mentor_id', $mentorProfile?->id)
             ->where('is_mentor_created', true)
@@ -61,7 +60,9 @@ class MentorEventController extends Controller
             'description' => 'nullable|string',
             'type' => 'required|in:online,offline,hybrid',
             'start_date' => 'required|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'start_time' => 'required|date_format:H:i',
+            'end_date' => 'nullable|date',
+            'end_time' => 'nullable|date_format:H:i',
             'timezone' => 'nullable|string|max:50',
             'location' => 'nullable|string|max:255',
             'meeting_url' => 'nullable|url|max:500',
@@ -71,10 +72,17 @@ class MentorEventController extends Controller
         ]);
 
         $user = auth()->user();
-        $mentorProfile = $this->getMentorProfile($user);
+        $mentorProfile = $this->getMentorProfile();
 
         if (! $mentorProfile) {
             return redirect()->back()->with('error', 'Profil mentor tidak ditemukan.');
+        }
+
+        // Combine date and time
+        $startDateTime = $validated['start_date'].' '.$validated['start_time'].':00';
+        $endDateTime = null;
+        if (! empty($validated['end_date'])) {
+            $endDateTime = $validated['end_date'].' '.($validated['end_time'] ?? '23:59').':00';
         }
 
         $event = Event::create([
@@ -83,8 +91,8 @@ class MentorEventController extends Controller
             'short_description' => $validated['short_description'] ?? null,
             'description' => $validated['description'] ?? null,
             'type' => $validated['type'],
-            'start_date' => $validated['start_date'],
-            'end_date' => $validated['end_date'] ?? $validated['start_date'],
+            'start_date' => $startDateTime,
+            'end_date' => $endDateTime ?? $startDateTime,
             'timezone' => $validated['timezone'] ?? 'Asia/Jakarta',
             'location' => $validated['location'] ?? null,
             'meeting_url' => $validated['meeting_url'] ?? null,
@@ -126,7 +134,9 @@ class MentorEventController extends Controller
             'description' => 'nullable|string',
             'type' => 'required|in:online,offline,hybrid',
             'start_date' => 'required|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'start_time' => 'required|date_format:H:i',
+            'end_date' => 'nullable|date',
+            'end_time' => 'nullable|date_format:H:i',
             'timezone' => 'nullable|string|max:50',
             'location' => 'nullable|string|max:255',
             'meeting_url' => 'nullable|url|max:500',
@@ -136,7 +146,28 @@ class MentorEventController extends Controller
             'status' => 'required|in:draft,published,cancelled,completed',
         ]);
 
-        $event->update($validated);
+        // Combine date and time
+        $startDateTime = $validated['start_date'].' '.$validated['start_time'].':00';
+        $endDateTime = null;
+        if (! empty($validated['end_date'])) {
+            $endDateTime = $validated['end_date'].' '.($validated['end_time'] ?? '23:59').':00';
+        }
+
+        $event->update([
+            'title' => $validated['title'],
+            'short_description' => $validated['short_description'] ?? null,
+            'description' => $validated['description'] ?? null,
+            'type' => $validated['type'],
+            'start_date' => $startDateTime,
+            'end_date' => $endDateTime ?? $startDateTime,
+            'timezone' => $validated['timezone'] ?? 'Asia/Jakarta',
+            'location' => $validated['location'] ?? null,
+            'meeting_url' => $validated['meeting_url'] ?? null,
+            'max_participants' => $validated['max_participants'] ?? null,
+            'banner_url' => $validated['banner_url'] ?? null,
+            'color' => $validated['color'] ?? '#3B82F6',
+            'status' => $validated['status'],
+        ]);
 
         return redirect()->back()->with('success', 'Event berhasil diperbarui.');
     }
@@ -287,9 +318,19 @@ class MentorEventController extends Controller
     /**
      * Mendapatkan profil mentor dari user yang login
      */
-    private function getMentorProfile($user): ?MentorModel
+    private function getMentorProfile(): ?MentorModel
     {
-        return MentorModel::where('name', $user->name)->first();
+        $user = auth()->user();
+
+        // First try to find by user_id (most reliable)
+        $mentor = MentorModel::where('user_id', $user->id)->first();
+
+        // Fallback to name matching if user_id not set
+        if (! $mentor) {
+            $mentor = MentorModel::where('name', $user->name)->first();
+        }
+
+        return $mentor;
     }
 
     /**
@@ -297,8 +338,7 @@ class MentorEventController extends Controller
      */
     private function authorizeMentorOwnership(Event $event): void
     {
-        $user = auth()->user();
-        $mentorProfile = $this->getMentorProfile($user);
+        $mentorProfile = $this->getMentorProfile();
 
         if (! $mentorProfile || $event->mentor_id !== $mentorProfile->id) {
             abort(403, 'Anda tidak memiliki akses ke event ini.');

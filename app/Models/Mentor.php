@@ -11,6 +11,7 @@ class Mentor extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'name',
         'role',
         'company',
@@ -35,6 +36,11 @@ class Mentor extends Model
     ];
 
     // ── Relationships ────────────────────────────────────────────────────────
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function courses(): HasMany
     {
@@ -76,7 +82,9 @@ class Mentor extends Model
      */
     public function getLinkedinEmbedUrlAttribute(): ?string
     {
-        if (!$this->linkedin_url) return null;
+        if (! $this->linkedin_url) {
+            return null;
+        }
 
         // Convert profile URL to embed URL
         // Example: https://linkedin.com/in/username -> https://linkedin.com/embed/username
@@ -92,7 +100,7 @@ class Mentor extends Model
      */
     public function hasLinkedIn(): bool
     {
-        return !empty($this->linkedin_url);
+        return ! empty($this->linkedin_url);
     }
 
     /**
@@ -108,13 +116,13 @@ class Mentor extends Model
      */
     public function getFormattedPriceAttribute(): string
     {
-        $priceRaw = trim(str_replace('/sesi', '', (string)$this->price));
+        $priceRaw = trim(str_replace('/sesi', '', (string) $this->price));
         if (empty($priceRaw) || $priceRaw == '0' || strtolower($priceRaw) === 'gratis') {
             return 'Gratis';
         }
 
         if (is_numeric($priceRaw)) {
-            return 'Rp ' . number_format((float) $priceRaw, 0, ',', '.');
+            return 'Rp '.number_format((float) $priceRaw, 0, ',', '.');
         }
 
         return (string) $this->price;

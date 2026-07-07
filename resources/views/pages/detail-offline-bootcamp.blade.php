@@ -21,11 +21,18 @@
     }
     $jadwalKelas = $b['jadwal_kelas'] ?? [];
     $ticketCode = null;
+    $userAttendanceRecords = collect();
     if (auth()->check() && $isEnrolled) {
         $ticketCode = \App\Models\Enrollment::where('user_id', auth()->id())
             ->where('purchasable_type', \App\Models\Bootcamp::class)
             ->where('purchasable_id', $b['id'])
             ->value('ticket_code');
+
+        // Get attendance records for this user and bootcamp
+        $userAttendanceRecords = \App\Models\AttendanceRecord::where('user_id', auth()->id())
+            ->where('bootcamp_id', $b['id'])
+            ->orderBy('attendance_date', 'desc')
+            ->get();
     }
 @endphp
 
@@ -204,6 +211,55 @@
                             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">Kode tiket</p>
                             <p class="mt-2 font-mono text-2xl font-bold tracking-[0.35em] text-gray-900">{{ $ticketCode }}</p>
                         </div>
+                    </div>
+                    @endif
+
+                    {{-- Attendance Codes Section (for enrolled students) --}}
+                    @if($isEnrolled && $userAttendanceRecords->count() > 0)
+                    <div class="mb-8 rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <h3 class="text-[17px] font-bold text-gray-900">Kode Absensi Sesi</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">Kode ini digunakan untuk mencatat kehadiran kamu di setiap sesi. Mentor akan memberikan instruksi cara menggunakan kode.</p>
+
+                        <div class="space-y-3">
+                            @foreach($userAttendanceRecords as $record)
+                            <div class="bg-white rounded-xl p-4 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg {{ $record->verified ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-600' }} flex items-center justify-center">
+                                        @if($record->verified)
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                        @else
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        @endif
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">{{ \Carbon\Carbon::parse($record->attendance_date)->format('d M Y') }}</p>
+                                        <p class="text-xs text-gray-500">
+                                            @if($record->verified)
+                                                <span class="text-emerald-600">Hadir</span>
+                                            @else
+                                                <span class="text-amber-600">Belum absen</span>
+                                            @endif
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xs text-gray-400 uppercase tracking-wider">Kode</p>
+                                    <p class="font-mono text-xl font-bold tracking-widest {{ $record->verified ? 'text-emerald-600' : 'text-gray-900' }}">{{ $record->short_code ?? '—' }}</p>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @elseif($isEnrolled)
+                    <div class="mb-8 rounded-2xl border border-gray-200 bg-gray-50 p-5">
+                        <div class="flex items-center gap-2 mb-2">
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <h3 class="text-[17px] font-bold text-gray-900">Kode Absensi Belum Tersedia</h3>
+                        </div>
+                        <p class="text-sm text-gray-600">Mentor akan memberikan kode absensi sebelum sesi dimulai. Pastikan untuk selalu mengecek halaman ini sebelum kelas.</p>
                     </div>
                     @endif
 
