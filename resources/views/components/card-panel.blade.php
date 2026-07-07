@@ -8,9 +8,9 @@
     'class' => '',
 ])
 
-<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden {{ $class }}">
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col {{ $class }}">
     @if(isset($title) || isset($actionRoute))
-        <div class="p-5 md:p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+        <div class="p-5 md:p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 flex-shrink-0">
             <div class="min-w-0">
                 @if(isset($title))
                     <h3 class="font-bold text-gray-800 truncate">{{ $title }}</h3>
@@ -29,7 +29,7 @@
         </div>
     @endif
 
-    <div class="p-6 {{ !isset($title) && !isset($actionRoute) ? 'p-6' : '' }}">
+    <div class="p-6 flex-1 flex flex-col {{ !isset($title) && !isset($actionRoute) ? 'p-6' : '' }}">
         {{ $slot }}
     </div>
 </div>
