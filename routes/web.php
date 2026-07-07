@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\ProgressController;
 use App\Http\Controllers\Api\RatingController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Mentor\MentorAttendanceController;
+use App\Http\Controllers\Mentor\MentorBootcampController;
+use App\Http\Controllers\Mentor\MentorCourseController;
 use App\Http\Controllers\Mentor\MentorEventController;
 use App\Http\Controllers\Pages\AchievementController;
 use App\Http\Controllers\Pages\ForumController;
@@ -259,12 +261,51 @@ Route::middleware(['auth', 'mentor'])->prefix('mentor')->name('mentor.')->group(
     Route::get('/courses', [App\Http\Controllers\Mentor\DashboardController::class, 'myCourses'])->name('my-courses');
     Route::get('/courses/{course}', [App\Http\Controllers\Mentor\DashboardController::class, 'courseDetail'])->name('course-detail');
 
+    // Mentor Course Management (Create/Edit)
+    Route::get('/manage/courses', [MentorCourseController::class, 'index'])->name('courses.index');
+    Route::get('/manage/courses/create', [MentorCourseController::class, 'create'])->name('courses.create');
+    Route::post('/manage/courses', [MentorCourseController::class, 'store'])->name('courses.store');
+    Route::get('/manage/courses/{course}/edit', [MentorCourseController::class, 'edit'])->name('courses.edit');
+    Route::patch('/manage/courses/{course}', [MentorCourseController::class, 'update'])->name('courses.update');
+    Route::delete('/manage/courses/{course}', [MentorCourseController::class, 'destroy'])->name('courses.destroy');
+
+    // Course Chapter Management
+    Route::post('/manage/courses/{course}/chapters', [MentorCourseController::class, 'storeChapter'])->name('courses.chapters.store');
+    Route::patch('/manage/courses/{course}/chapters/{chapter}', [MentorCourseController::class, 'updateChapter'])->name('courses.chapters.update');
+    Route::delete('/manage/courses/{course}/chapters/{chapter}', [MentorCourseController::class, 'destroyChapter'])->name('courses.chapters.destroy');
+
+    // Course Video Management
+    Route::post('/manage/courses/{course}/chapters/{chapter}/videos', [MentorCourseController::class, 'storeChapterVideo'])->name('courses.chapters.videos.store');
+    Route::delete('/manage/courses/{course}/chapters/{chapter}/videos/{video}', [MentorCourseController::class, 'destroyChapterVideo'])->name('courses.chapters.videos.destroy');
+
+    // Course Resource Management
+    Route::post('/manage/courses/{course}/resources', [MentorCourseController::class, 'storeResource'])->name('courses.resources.store');
+    Route::delete('/manage/courses/{course}/resources/{resource}', [MentorCourseController::class, 'destroyResource'])->name('courses.resources.destroy');
+
     // My Students
     Route::get('/students', [App\Http\Controllers\Mentor\DashboardController::class, 'myStudents'])->name('students');
     Route::get('/students/{student}', [App\Http\Controllers\Mentor\DashboardController::class, 'studentDetail'])->name('student-detail');
 
     // Feedback
     Route::get('/feedback', [App\Http\Controllers\Mentor\DashboardController::class, 'feedback'])->name('feedback');
+
+    // Mentor Bootcamp Management
+    Route::get('/bootcamps', [MentorBootcampController::class, 'index'])->name('bootcamps.index');
+    Route::get('/bootcamps/create', [MentorBootcampController::class, 'create'])->name('bootcamps.create');
+    Route::post('/bootcamps', [MentorBootcampController::class, 'store'])->name('bootcamps.store');
+    Route::get('/bootcamps/{bootcamp}/edit', [MentorBootcampController::class, 'edit'])->name('bootcamps.edit');
+    Route::patch('/bootcamps/{bootcamp}', [MentorBootcampController::class, 'update'])->name('bootcamps.update');
+    Route::delete('/bootcamps/{bootcamp}', [MentorBootcampController::class, 'destroy'])->name('bootcamps.destroy');
+
+    // Bootcamp Session Management
+    Route::post('/bootcamps/{bootcamp}/sessions', [MentorBootcampController::class, 'storeSession'])->name('bootcamps.sessions.store');
+    Route::patch('/bootcamps/{bootcamp}/sessions/{session}', [MentorBootcampController::class, 'updateSession'])->name('bootcamps.sessions.update');
+    Route::delete('/bootcamps/{bootcamp}/sessions/{session}', [MentorBootcampController::class, 'destroySession'])->name('bootcamps.sessions.destroy');
+
+    // Bootcamp Attendance (Ticket Scanner)
+    Route::get('/bootcamps/{bootcamp}/attendance', [MentorBootcampController::class, 'attendance'])->name('bootcamps.attendance');
+    Route::post('/bootcamps/{bootcamp}/generate-codes', [MentorBootcampController::class, 'generateCodes'])->name('bootcamps.generate-codes');
+    Route::post('/bootcamps/scan-code', [MentorBootcampController::class, 'scanCode'])->name('bootcamps.scan-code');
 
     // Mentor Events
     Route::get('/events', [MentorEventController::class, 'index'])->name('events');
@@ -275,7 +316,11 @@ Route::middleware(['auth', 'mentor'])->prefix('mentor')->name('mentor.')->group(
     Route::get('/events/{event}/registrations', [MentorEventController::class, 'registrations'])->name('events.registrations');
     Route::post('/events/{event}/registrations/{registration}/attended', [MentorEventController::class, 'markAttended'])->name('events.registrations.attended');
 
-    // Mentor Attendance
+    // Event Ticket Scanner
+    Route::get('/events/{event}/scanner', [MentorEventController::class, 'ticketScanner'])->name('events.scanner');
+    Route::post('/events/{event}/scan-ticket', [MentorEventController::class, 'scanTicket'])->name('events.scan-ticket');
+
+    // Mentor Attendance (Legacy route for backward compatibility)
     Route::get('/attendance/{bootcampId}', [MentorAttendanceController::class, 'index'])->name('attendance');
     Route::post('/attendance/{bootcampId}/generate-codes', [MentorAttendanceController::class, 'generateCodes'])->name('attendance.generate-codes');
     Route::post('/attendance/scan-code', [MentorAttendanceController::class, 'scanCode'])->name('attendance.scan-code');

@@ -15,6 +15,7 @@ use Illuminate\View\View;
 /**
  * Controller untuk Manajemen Event oleh Mentor
  * Memungkinkan mentor membuat dan mengelola event mereka sendiri
+ * Termasuk fitur ticket scanning untuk event offline
  */
 class MentorEventController extends Controller
 {
@@ -191,6 +192,96 @@ class MentorEventController extends Controller
         );
 
         return redirect()->back()->with('success', 'Peserta ditandai hadir dan mendapatkan 20 XP.');
+    }
+
+    /* ── Ticket Scanner ─────────────────────────────────────────────── */
+
+    /**
+     * Menampilkan halaman ticket scanner untuk event
+     */
+    public function ticketScanner(Event $event): View
+    {
+        $this->authorizeMentorOwnership($event);
+
+        // Get recent attendance records
+        $recentAttendances = EventRegistration::where('event_id', $event->id)
+            ->whereNotNull('attended_at')
+            ->with('user')
+            ->latest('attended_at')
+            ->take(50)
+            ->get();
+
+        // Get statistics
+        $stats = [
+            'total_registrations' => EventRegistration::where('event_id', $event->id)->count(),
+            'attended_count' => EventRegistration::where('event_id', $event->id)->whereNotNull('attended_at')->count(),
+            'pending_count' => EventRegistration::where('event_id', $event->id)->whereNull('attended_at')->count(),
+        ];
+
+        return view('mentor.events.ticket-scanner', [
+            'event' => $event,
+            'recentAttendances' => $recentAttendances,
+            'stats' => $stats,
+        ]);
+    }
+
+    /**
+     * Scan ticket code untuk event
+     */
+    public function scanTicket(Request $request, Event $event): RedirectResponse
+    {
+        $this->authorizeMentorOwnership($event);
+
+        $validated = $request->validate([
+            'ticket_code' => 'required|string|max:50',
+        ]);
+
+        // Find registration by ticket code
+        $registration = EventRegistration::where('event_id', $event->id)
+            ->where('ticket_code', $validated['ticket_code'])
+            ->first();
+
+        // If no ticket_code match, try to find by user email or name
+        if (! $registration) {
+            $registration = EventRegistration::where('event_id', $event->id)
+                ->whereHas('user', function ($query) use ($validated) {
+                    $query->where('email', $validated['ticket_code'])
+                        ->orWhere('name', 'LIKE', '%'.$validated['ticket_code'].'%');
+                })
+                ->first();
+        }
+
+        if (! $registration) {
+            return redirect()->back()
+                ->with('error', 'Tiket tidak ditemukan. Pastikan kode tiket benar.');
+        }
+
+        if ($registration->attended_at) {
+            return redirect()->back()
+                ->with('warning', "Peserta {$registration->user->name} sudah hadir pada ".$registration->attended_at->format('H:i:s'));
+        }
+
+        // Mark as attended and award XP
+        $registration->update([
+            'attended_at' => now(),
+            'status' => 'attended',
+        ]);
+
+        $this->xpService->awardXp(
+            $registration->user,
+            'event_attended',
+            EventRegistration::class,
+            $registration->id
+        );
+
+        // Check for event attendance achievements
+        app(AchievementService::class)->checkAndAward(
+            $registration->user,
+            AchievementService::TRIGGER_EVENT_ATTENDED
+        );
+
+        return redirect()->back()
+            ->with('success', "Tiket {@$registration->user->name} berhasil discan! +XP awarded!");
     }
 
     /**

@@ -87,6 +87,9 @@
                 'items' => [
                     ['id' => 'mentor.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'mentor.dashboard'],
                     ['id' => 'mentor.my-courses', 'icon' => 'book', 'label' => 'Kursus Saya', 'route' => 'mentor.my-courses'],
+                    ['id' => 'mentor.courses.index', 'icon' => 'book', 'label' => 'Kelola Kursus', 'route' => 'mentor.courses.index'],
+                    ['id' => 'mentor.bootcamps.index', 'icon' => 'award', 'label' => 'Bootcamp Saya', 'route' => 'mentor.bootcamps.index'],
+                    ['id' => 'mentor.events', 'icon' => 'calendar', 'label' => 'Event Saya', 'route' => 'mentor.events'],
                     ['id' => 'mentor.students', 'icon' => 'users', 'label' => 'Siswa Saya', 'route' => 'mentor.students'],
                     ['id' => 'mentor.feedback', 'icon' => 'star', 'label' => 'Feedback & Rating', 'route' => 'mentor.feedback'],
                 ]
@@ -136,6 +139,9 @@
         $navItems = [
             ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'mentor.dashboard'],
             ['id' => 'my-courses', 'icon' => 'book', 'label' => 'Kursus Saya', 'route' => 'mentor.my-courses'],
+            ['id' => 'courses.index', 'icon' => 'book', 'label' => 'Kelola Kursus', 'route' => 'mentor.courses.index'],
+            ['id' => 'bootcamps.index', 'icon' => 'award', 'label' => 'Bootcamp Saya', 'route' => 'mentor.bootcamps.index'],
+            ['id' => 'events', 'icon' => 'calendar', 'label' => 'Event Saya', 'route' => 'mentor.events'],
             ['id' => 'students', 'icon' => 'users', 'label' => 'Siswa Saya', 'route' => 'mentor.students'],
             ['id' => 'feedback', 'icon' => 'star', 'label' => 'Feedback & Rating', 'route' => 'mentor.feedback'],
             ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Kembali ke App', 'route' => 'dashboard'],
