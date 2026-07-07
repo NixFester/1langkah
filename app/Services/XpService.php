@@ -435,36 +435,5 @@ class XpService
         return array_keys(self::DEFAULT_XP_VALUES);
     }
 
-    /**
-     * Award XP directly without triggering achievement checks (for achievement bonuses)
-     */
-    public function awardXpDirectly(User $user, string $action, string $sourceType, int $sourceId, int $xpAmount): ?UserXpTransaction
-    {
-        if (UserXpTransaction::alreadyAwarded($sourceType, $sourceId)) {
-            return null;
-        }
 
-        if ($xpAmount <= 0) {
-            return null;
-        }
-
-        $transaction = UserXpTransaction::create([
-            'user_id' => $user->id,
-            'source_type' => $sourceType,
-            'source_id' => $sourceId,
-            'action' => $action,
-            'xp_amount' => $xpAmount,
-        ]);
-
-        // Update user's XP and level
-        $newXp = $user->xp + $xpAmount;
-        $newLevel = $this->calculateLevel($newXp);
-
-        $user->update([
-            'xp' => $newXp,
-            'level' => $newLevel,
-        ]);
-
-        return $transaction;
-    }
 }
