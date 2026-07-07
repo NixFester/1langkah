@@ -12,7 +12,7 @@ class PictureSeeder extends Seeder
     public function run(): void
     {
         $imageUrl = function (string $keyword, int $lock = 1) {
-            return "https://loremflickr.com/800/600/{$keyword}?lock={$lock}";
+            return "https://picsum.photos/seed/{$keyword}-{$lock}/800/600";
         };
 
         $courseImages = [

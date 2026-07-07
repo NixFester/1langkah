@@ -118,21 +118,23 @@
         @if(!empty($portfolio['courses']))
         <div class="space-y-3">
             @foreach($portfolio['courses'] as $course)
-            <div class="flex gap-4 items-center p-3 bg-gray-50/80 rounded-[14px]">
-                <div class="w-14 h-14 rounded-xl bg-gray-200 overflow-hidden flex-shrink-0">
-                    @if($course['thumbnail'])
-                    <img src="{{ $course['thumbnail'] }}" class="w-full h-full object-cover" alt="">
-                    @else
-                    <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, {{ $course['color'] ?? '#dc2626' }}, {{ $course['color'] ?? '#dc2626' }}cc);">
-                        <x-icon name="book" class="w-6 h-6 text-white" />
+            <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-3 bg-gray-50/80 rounded-[14px]">
+                <div class="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gray-200 overflow-hidden flex-shrink-0">
+                        @if($course['thumbnail'])
+                        <img src="{{ $course['thumbnail'] }}" class="w-full h-full object-cover" alt="">
+                        @else
+                        <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, {{ $course['color'] ?? '#dc2626' }}, {{ $course['color'] ?? '#dc2626' }}cc);">
+                            <x-icon name="book" class="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                        </div>
+                        @endif
                     </div>
-                    @endif
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-medium text-gray-800 text-sm sm:text-[14px] truncate">{{ $course['title'] }}</h4>
+                        <p class="text-xs sm:text-[12px] text-gray-500 truncate sm:whitespace-normal">{{ $course['category'] ?? '' }} • Selesai {{ $course['completed_at'] }}</p>
+                    </div>
                 </div>
-                <div class="flex-1 min-w-0">
-                    <h4 class="font-medium text-gray-800 text-[14px] truncate">{{ $course['title'] }}</h4>
-                    <p class="text-[12px] text-gray-500">{{ $course['category'] ?? '' }} • Selesai {{ $course['completed_at'] }}</p>
-                </div>
-                <div class="flex items-center gap-2 pr-2">
+                <div class="flex items-center gap-2 pl-[60px] sm:pl-0 sm:pr-2">
                     @if($course['rating'] > 0)
                     <div class="flex items-center gap-1 bg-white border border-gray-100 text-gray-400 text-[10px] font-bold px-2 py-1 rounded-md">
                         <span>{{ number_format((float) ($course['rating'] ?? 0), 1) }}</span>

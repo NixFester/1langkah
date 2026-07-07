@@ -50,89 +50,156 @@
         <x-stat-card :value="$userStats['bootcamps_completed'] ?? 0" label="Bootcamp Selesai" icon="folder" color="purple" />
     </div>
 
-    <!-- MAIN GRID SECTION -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- MASONRY LAYOUT SECTION -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
         
-        <!-- Left and Middle sections (2 Columns spanning 2 of the 3 columns) -->
-        <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- COLUMN 1: Gamification (1 col) -->
+        <div class="flex flex-col gap-6 md:col-span-1 lg:col-span-1">
             
-            <!-- Lanjutkan Belajar -->
-            <x-card-panel title="Lanjutkan Belajar" :actionRoute="route('kursus-saya')" actionLabel="Lihat semua">
-                <div class="space-y-5 flex-1">
-                    @forelse(array_slice($activeCourses ?? [], 0, 3) as $course)
-                    <a href="{{ route('detail-kursus', ['id' => $course['id']]) }}" class="flex gap-4 items-center hover:bg-gray-50 p-2 -mx-2 rounded-xl transition-colors">
-                        <div class="w-12 h-12 rounded-xl bg-gray-100 flex-shrink-0 overflow-hidden">
-                            @if(!empty($course['thumbnail']))
-                            <img src="{{ $course['thumbnail'] }}" class="w-full h-full object-cover" alt="">
+            <!-- XP & Level Widget -->
+            <div class="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
+                <!-- Decorative circles -->
+                <div class="absolute -right-6 -top-6 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
+                
+                <div class="flex items-center justify-between mb-4 relative z-10">
+                    <div>
+                        <p class="text-white/80 text-xs font-medium">Level Saat Ini</p>
+                        <h3 class="text-3xl font-extrabold">{{ auth()->user()->level ?? 1 }}</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- XP Progress -->
+                <div class="mb-3 relative z-10">
+                    <div class="flex justify-between text-xs text-white/80 mb-1">
+                        <span>{{ number_format(auth()->user()->xp ?? 0) }} XP</span>
+                        <span>{{ number_format($xpToNextLevel ?? 100) }} XP lagi</span>
+                    </div>
+                    <div class="h-2 bg-white/20 rounded-full overflow-hidden">
+                        <div class="h-full bg-yellow-400 rounded-full transition-all duration-500" style="width: {{ $xpProgressPercent ?? 0 }}%"></div>
+                    </div>
+                </div>
+
+                <!-- XP Actions -->
+                <div class="flex gap-2 relative z-10 mt-4">
+                    <a href="{{ route('achievement') }}" class="flex-1 bg-white/20 hover:bg-white/30 text-white text-[11px] font-bold py-2 px-2 rounded-lg text-center transition-colors">
+                        Rank
+                    </a>
+                    <a href="{{ route('api.xp.details') }}" class="flex-1 bg-white/20 hover:bg-white/30 text-white text-[11px] font-bold py-2 px-2 rounded-lg text-center transition-colors">
+                        Riwayat
+                    </a>
+                </div>
+            </div>
+
+            <!-- Leaderboard -->
+            @if(!empty($leaderboard) && count($leaderboard) > 0)
+            <div class="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
+                <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+                    <h3 class="font-bold text-gray-900 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        Leaderboard
+                    </h3>
+                </div>
+                <div class="divide-y divide-gray-50 max-h-[300px] overflow-y-auto">
+                    @foreach($leaderboard as $index => $user)
+                    <div class="px-4 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors">
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0
+                            @if($index === 0) bg-yellow-100 text-yellow-700
+                            @elseif($index === 1) bg-gray-200 text-gray-600
+                            @elseif($index === 2) bg-orange-100 text-orange-700
+                            @else bg-gray-100 text-gray-500 @endif">
+                            {{ $index + 1 }}
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+                            @if($user['avatar'])
+                                <img src="{{ $user['avatar'] }}" alt="{{ $user['name'] }}" class="w-full h-full object-cover">
                             @else
-                            <div class="w-full h-full" style="background: linear-gradient(135deg, {{ $course['color'] ?? '#dc2626' }}, {{ $course['color'] ?? '#dc2626' }}cc);"></div>
+                                <span class="text-blue-600 font-bold text-xs">{{ substr($user['name'] ?? 'U', 0, 1) }}</span>
                             @endif
                         </div>
                         <div class="flex-1 min-w-0">
-                            <h4 class="text-sm font-bold text-gray-900 truncate">{{ $course['title'] }}</h4>
-                            <p class="text-[11px] text-gray-500 mb-2 truncate">{{ $course['mentor'] ?? 'Mentor' }}</p>
-                            <div class="flex items-center gap-2">
-                                <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                                    <div class="h-full bg-red-600 rounded-full" style="width: {{ $course['progress'] ?? 0 }}%"></div>
-                                </div>
-                            </div>
-                            <p class="text-[10px] text-gray-500 font-medium mt-1">{{ $course['progress'] ?? 0 }}% selesai</p>
+                            <p class="text-sm font-medium text-gray-900 truncate">{{ $user['name'] }}</p>
                         </div>
-                    </a>
-                    @empty
-                    <x-empty-state message="Belum ada kursus yang dimulai" icon="inbox" :actionRoute="route('kursus')" actionLabel="Browse Kursus" />
-                    @endforelse
+                        <div class="text-right flex-shrink-0">
+                            <p class="text-sm font-bold text-gray-900">{{ number_format($user['xp']) }}</p>
+                            <p class="text-[10px] text-gray-500">XP</p>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                <a href="{{ route('achievement') }}" class="block text-center text-xs font-bold text-blue-600 py-3 bg-gray-50 hover:bg-gray-100 transition-colors">
+                    Global Rank &rarr;
+                </a>
+            </div>
+            @endif
+
+            <!-- Prestasi & Badge -->
+            <x-card-panel title="Prestasi" :actionRoute="route('achievement')" actionLabel="Semua">
+                <div class="space-y-3">
+                    @if(!empty($userAchievements) && $userAchievements->count() > 0)
+                        @foreach($userAchievements->take(3) as $achievement)
+                        <div class="flex items-center gap-3 p-2 -mx-2 rounded-xl hover:bg-gray-50 transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow flex-shrink-0">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">{{ $achievement->achievement->name ?? 'Achievement' }}</p>
+                                <p class="text-[10px] text-gray-500">{{ $achievement->earned_at->diffForHumans() }}</p>
+                            </div>
+                        </div>
+                        @endforeach
+                    @else
+                        <x-empty-state message="Kumpulkan badge!" icon="trophy" />
+                    @endif
                 </div>
             </x-card-panel>
 
-            <!-- Events Mendatang -->
-            <x-card-panel title="Events Mendatang" :actionRoute="route('event')" actionLabel="Lihat semua">
-                <div class="space-y-4 flex-1">
-                    @forelse($upcomingEvents ?? [] as $event)
-                    <a href="{{ route('detail-event', ['id' => $event['id']]) }}" class="flex items-start gap-3 p-2 -mx-2 rounded-xl hover:bg-gray-50 transition-colors">
-                        <div class="w-12 h-12 rounded-xl flex flex-col items-center justify-center text-white" style="background-color: {{ $event['color'] ?? '#cc0000' }}">
-                            <span class="text-xs font-bold">{{ $event['date'] }}</span>
+        </div>
+
+        <!-- COLUMN 2: Main Content (2 cols) -->
+        <div class="flex flex-col gap-6 md:col-span-1 lg:col-span-2">
+            
+            <!-- Lanjutkan Belajar -->
+            <x-card-panel title="Lanjutkan Belajar" :actionRoute="route('kursus-saya')" actionLabel="Lihat semua">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    @forelse(array_slice($activeCourses ?? [], 0, 4) as $course)
+                    <a href="{{ route('detail-kursus', ['id' => $course['id']]) }}" class="block border border-gray-100 rounded-xl overflow-hidden hover:shadow-lg hover:border-gray-200 transition-all bg-gray-50/50 group">
+                        <div class="h-28 bg-gray-200 relative overflow-hidden">
+                            @if(!empty($course['thumbnail']))
+                            <img src="{{ $course['thumbnail'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="">
+                            @else
+                            <div class="w-full h-full group-hover:scale-105 transition-transform duration-500" style="background: linear-gradient(135deg, {{ $course['color'] ?? '#dc2626' }}, {{ $course['color'] ?? '#dc2626' }}cc);"></div>
+                            @endif
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="text-sm font-bold text-gray-900 truncate">{{ $event['title'] }}</h4>
-                            <p class="text-[11px] text-gray-500">{{ $event['day'] }}, {{ $event['time'] }}</p>
-                            <span class="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">
-                                {{ ucfirst($event['type'] ?? 'webinar') }}
-                            </span>
+                        <div class="p-4 bg-white">
+                            <h4 class="text-sm font-bold text-gray-900 truncate group-hover:text-red-600 transition-colors">{{ $course['title'] }}</h4>
+                            <p class="text-[11px] text-gray-500 mb-3 truncate">{{ $course['mentor'] ?? 'Mentor' }}</p>
+                            <div class="flex items-center gap-3">
+                                <div class="h-1.5 flex-1 bg-gray-100 rounded-full overflow-hidden">
+                                    <div class="h-full bg-red-600 rounded-full" style="width: {{ $course['progress'] ?? 0 }}%"></div>
+                                </div>
+                                <span class="text-[10px] font-bold text-gray-700">{{ $course['progress'] ?? 0 }}%</span>
+                            </div>
                         </div>
                     </a>
                     @empty
-                    <x-empty-state message="Tidak ada events mendatang" icon="calendar" :actionRoute="route('event')" actionLabel="Lihat Events" />
-                    @endforelse
-                </div>
-            </x-card-panel>
-            
-            <!-- Bootcamp Saya -->
-            <x-card-panel title="Bootcamp Saya" :actionRoute="route('bootcamps-saya')" actionLabel="Lihat semua">
-                <div class="space-y-4 flex-1">
-                    @forelse(array_slice($myBootcamps ?? [], 0, 3) as $bootcamp)
-                    <x-list-item
-                        :href="route($bootcamp['type'] === 'online' ? 'detail-online-bootcamp' : 'detail-offline-bootcamp', ['id' => $bootcamp['id']])"
-                        :thumbnail="$bootcamp['thumbnail'] ?? null"
-                        :title="$bootcamp['title']"
-                        :subtitle="$bootcamp['mentor'] ?? 'Mentor'"
-                        :progress="$bootcamp['progress'] ?? 0"
-                        progressColor="blue"
-                        :meta="($bootcamp['progress'] ?? 0) . '% (' . ($bootcamp['attended'] ?? 0) . '/' . ($bootcamp['sessions'] ?? 0) . ' sesi)'"
-                        :badge="['text' => $bootcamp['type'] === 'online' ? 'Online' : 'Offline', 'class' => $bootcamp['type'] === 'online' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700']"
-                    />
-                    @empty
-                    <x-empty-state message="Belum ada bootcamp" icon="users" :actionRoute="route('online-bootcamp')" actionLabel="Browse Bootcamp" />
+                    <div class="sm:col-span-2">
+                        <x-empty-state message="Belum ada kursus yang dimulai" icon="inbox" :actionRoute="route('kursus')" actionLabel="Browse Kursus" />
+                    </div>
                     @endforelse
                 </div>
             </x-card-panel>
 
             <!-- Rekomendasi Kursus -->
-            <x-card-panel title="Rekomendasi Kursus" :actionRoute="route('kursus')" actionLabel="Lihat semua">
-                <div class="space-y-4 flex-1">
-                    @forelse($recommendedCourses ?? [] as $course)
+            <x-card-panel title="Rekomendasi Kursus" :actionRoute="route('kursus')" actionLabel="Jelajahi">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    @forelse(array_slice($recommendedCourses ?? [], 0, 4) as $course)
                     <a href="{{ route('detail-kursus', ['id' => $course['id']]) }}" class="flex gap-3 items-center hover:bg-gray-50 p-2 -mx-2 rounded-xl transition-colors">
-                        <div class="w-16 h-12 rounded-lg bg-gray-100 flex-shrink-0 overflow-hidden">
+                        <div class="w-16 h-16 rounded-lg bg-gray-100 flex-shrink-0 overflow-hidden relative">
                             @if(!empty($course['thumbnail']))
                             <img src="{{ $course['thumbnail'] }}" class="w-full h-full object-cover" alt="">
                             @else
@@ -150,134 +217,82 @@
                                     <span class="text-[10px] font-medium text-gray-600 ml-0.5">{{ number_format($course['rating'], 1) }}</span>
                                 </div>
                                 <span class="text-[10px] text-gray-400">•</span>
-                                <span class="text-[10px] text-gray-500">{{ $course['enrolledCount'] ?? 0 }} peserta</span>
+                                <span class="text-[10px] text-gray-500">{{ $course['enrolledCount'] ?? 0 }} pt</span>
                             </div>
                         </div>
                     </a>
                     @empty
-                    <x-empty-state message="Tidak ada rekomendasi" icon="sparkles" />
+                    <div class="col-span-2">
+                        <x-empty-state message="Tidak ada rekomendasi" icon="sparkles" />
+                    </div>
                     @endforelse
                 </div>
             </x-card-panel>
 
         </div>
 
-        <!-- Right section (1 Column) -->
-        <div class="space-y-6">
-            <!-- XP & Level Widget -->
-            <div class="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-5 text-white shadow-lg">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <p class="text-white/80 text-xs font-medium">Level Saat Ini</p>
-                        <h3 class="text-3xl font-extrabold">{{ auth()->user()->level ?? 1 }}</h3>
-                    </div>
-                    <div class="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center">
-                        <svg class="w-7 h-7 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- XP Progress -->
-                <div class="mb-3">
-                    <div class="flex justify-between text-xs text-white/80 mb-1">
-                        <span>{{ number_format(auth()->user()->xp ?? 0) }} XP</span>
-                        <span>{{ number_format($xpToNextLevel ?? 100) }} XP ke Level {{ (auth()->user()->level ?? 1) + 1 }}</span>
-                    </div>
-                    <div class="h-2.5 bg-white/20 rounded-full overflow-hidden">
-                        <div class="h-full bg-yellow-400 rounded-full transition-all duration-500" style="width: {{ $xpProgressPercent ?? 0 }}%"></div>
-                    </div>
-                </div>
-
-                <!-- XP Actions -->
-                <div class="flex gap-2">
-                    <a href="{{ route('achievement') }}" class="flex-1 bg-white/20 hover:bg-white/30 text-white text-xs font-bold py-2 px-3 rounded-lg text-center transition-colors">
-                        Lihat Rank
-                    </a>
-                    <a href="{{ route('api.xp.details') }}" class="flex-1 bg-white/20 hover:bg-white/30 text-white text-xs font-bold py-2 px-3 rounded-lg text-center transition-colors">
-                        Detail XP
-                    </a>
-                </div>
-            </div>
-
-            <!-- Top 5 Leaderboard -->
-            @if(!empty($leaderboard) && count($leaderboard) > 0)
-            <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
-                <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
-                    <h3 class="font-bold text-gray-900 flex items-center gap-2">
-                        <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                        </svg>
-                        Leaderboard
-                    </h3>
-                </div>
-                <div class="divide-y divide-gray-50">
-                    @foreach($leaderboard as $index => $user)
-                    <div class="px-5 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors">
-                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold
-                            @if($index === 0) bg-yellow-100 text-yellow-700
-                            @elseif($index === 1) bg-gray-200 text-gray-600
-                            @elseif($index === 2) bg-orange-100 text-orange-700
-                            @else bg-gray-100 text-gray-500 @endif">
-                            {{ $index + 1 }}
-                        </div>
-                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden">
-                            @if($user['avatar'])
-                                <img src="{{ $user['avatar'] }}" alt="{{ $user['name'] }}" class="w-full h-full object-cover">
-                            @else
-                                <span class="text-blue-600 font-bold text-xs">{{ substr($user['name'] ?? 'U', 0, 1) }}</span>
-                            @endif
+        <!-- COLUMN 3: Schedules & Updates (1 col) -->
+        <div class="flex flex-col gap-6 md:col-span-2 lg:col-span-1">
+            
+            <!-- Events Mendatang -->
+            <x-card-panel title="Events Mendatang" :actionRoute="route('event')" actionLabel="Lihat">
+                <div class="space-y-4">
+                    @forelse($upcomingEvents ?? [] as $event)
+                    <a href="{{ route('detail-event', ['id' => $event['id']]) }}" class="flex items-start gap-3 p-2 -mx-2 rounded-xl hover:bg-gray-50 transition-colors">
+                        <div class="w-12 h-12 rounded-xl flex flex-col items-center justify-center text-white flex-shrink-0" style="background-color: {{ $event['color'] ?? '#cc0000' }}">
+                            <span class="text-xs font-bold">{{ $event['date'] }}</span>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-sm font-medium text-gray-900 truncate">{{ $user['name'] }}</p>
+                            <h4 class="text-sm font-bold text-gray-900 truncate">{{ $event['title'] }}</h4>
+                            <p class="text-[11px] text-gray-500">{{ $event['day'] }}, {{ $event['time'] }}</p>
+                            <span class="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">
+                                {{ ucfirst($event['type'] ?? 'webinar') }}
+                            </span>
                         </div>
-                        <div class="text-right">
-                            <p class="text-sm font-bold text-gray-900">{{ number_format($user['xp']) }}</p>
-                            <p class="text-[10px] text-gray-500">XP</p>
-                        </div>
-                    </div>
-                    @endforeach
+                    </a>
+                    @empty
+                    <x-empty-state message="Tidak ada events" icon="calendar" :actionRoute="route('event')" actionLabel="Browse" />
+                    @endforelse
                 </div>
-            </div>
-            @endif
+            </x-card-panel>
 
-            <!-- Prestasi & Badge -->
-            <x-card-panel title="Prestasi & Badge" :actionRoute="route('achievement')" actionLabel="Lihat semua">
-                <div class="space-y-3">
-                    @if(!empty($userAchievements) && $userAchievements->count() > 0)
-                        @foreach($userAchievements->take(3) as $achievement)
-                        <div class="flex items-center gap-3 p-2 -mx-2 rounded-xl hover:bg-gray-50 transition-colors">
-                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow flex-shrink-0">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium text-gray-900 truncate">{{ $achievement->achievement->name ?? 'Achievement' }}</p>
-                                <p class="text-xs text-gray-500">{{ $achievement->earned_at->diffForHumans() }}</p>
-                            </div>
-                        </div>
-                        @endforeach
-                    @else
-                        <x-empty-state message="Belum ada achievement. Mulai belajar untuk membuka badge!" icon="trophy" />
-                    @endif
+            <!-- Bootcamp Saya -->
+            <x-card-panel title="Bootcamp Saya" :actionRoute="route('bootcamps-saya')" actionLabel="Lihat">
+                <div class="space-y-4">
+                    @forelse(array_slice($myBootcamps ?? [], 0, 3) as $bootcamp)
+                    <x-list-item
+                        :href="route($bootcamp['type'] === 'online' ? 'detail-online-bootcamp' : 'detail-offline-bootcamp', ['id' => $bootcamp['id']])"
+                        :thumbnail="$bootcamp['thumbnail'] ?? null"
+                        :title="$bootcamp['title']"
+                        :subtitle="$bootcamp['mentor'] ?? 'Mentor'"
+                        :progress="$bootcamp['progress'] ?? 0"
+                        progressColor="blue"
+                        :meta="($bootcamp['progress'] ?? 0) . '% (' . ($bootcamp['attended'] ?? 0) . '/' . ($bootcamp['sessions'] ?? 0) . ')'"
+                        :badge="['text' => $bootcamp['type'] === 'online' ? 'Online' : 'Offline', 'class' => $bootcamp['type'] === 'online' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700']"
+                    />
+                    @empty
+                    <x-empty-state message="Belum ada bootcamp" icon="users" :actionRoute="route('online-bootcamp')" actionLabel="Browse" />
+                    @endforelse
                 </div>
             </x-card-panel>
 
             <!-- Aktivitas Terbaru -->
-            <x-card-panel title="Aktivitas Terbaru">
+            <x-card-panel title="Aktivitas">
                 <div class="space-y-4">
-                    @forelse($recentActivities ?? [] as $activity)
-                    <div class="flex items-center gap-3 p-3 -mx-2 rounded-xl hover:bg-gray-50 transition-colors">
-                        <div class="w-2 h-2 rounded-full" style="background-color: {{ $activity['color'] ?? '#3b82f6' }}"></div>
+                    @forelse(array_slice($recentActivities ?? [], 0, 4) as $activity)
+                    <div class="flex items-center gap-3 p-2 -mx-2 rounded-xl hover:bg-gray-50 transition-colors">
+                        <div class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: {{ $activity['color'] ?? '#3b82f6' }}"></div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-[13px] text-gray-700 truncate">{{ $activity['text'] }}</p>
-                            <p class="text-[11px] text-gray-400">{{ $activity['time'] }}</p>
+                            <p class="text-[12px] text-gray-700 leading-tight">{{ $activity['text'] }}</p>
+                            <p class="text-[10px] text-gray-400 mt-1">{{ $activity['time'] }}</p>
                         </div>
                     </div>
                     @empty
-                    <x-empty-state message="Belum ada aktivitas terbaru. Mulai belajar untuk melihat aktivitasmu." icon="clock" />
+                    <x-empty-state message="Belum ada aktivitas." icon="clock" />
                     @endforelse
                 </div>
             </x-card-panel>
+            
         </div>
     </div>
 

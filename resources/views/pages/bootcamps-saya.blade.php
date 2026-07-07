@@ -7,8 +7,8 @@
 @section('title', 'Bootcamp Saya — 1Langkah')
 
 @section('content')
-<div class="px-6 sm:px-10 py-8 w-full space-y-6">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+<div class="w-full px-2 pb-8 space-y-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 -mt-2">
         <div>
             <h1 class="text-2xl font-bold text-gray-900">Bootcamp Saya</h1>
             <p class="text-sm text-gray-500">{{ count($myBootcamps) }} bootcamp aktif</p>

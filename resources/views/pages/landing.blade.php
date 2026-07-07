@@ -732,13 +732,13 @@
 </section>
 
 <!-- Enterprise Section (Section 6) -->
-<section id="enterprise" class="py-24 bg-[#070707] relative w-full overflow-hidden border-t border-white/5">
+<section id="enterprise" class="py-16 md:py-24 bg-[#070707] relative w-full overflow-hidden border-t border-white/5">
     <div class="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
         
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div class="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             
             <!-- Left Column: Image with Floating Cards -->
-            <div class="relative w-full h-[450px] md:h-[540px] rounded-[2rem] overflow-hidden shadow-2xl">
+            <div class="relative w-full h-[350px] sm:h-[450px] md:h-[540px] rounded-[2rem] overflow-hidden shadow-2xl">
                 <!-- Base Image -->
                 <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&auto=format&fit=crop" alt="Enterprise Training" class="w-full h-full object-cover">
                 
@@ -748,67 +748,67 @@
                 <div class="absolute inset-0 bg-gradient-to-r from-[#070707]/90 via-[#070707]/40 to-transparent"></div>
                 
                 <!-- Floating Card 1: Hiring Partners (Top Left) -->
-                <div class="absolute top-8 left-8 bg-[#0a0a0a]/80 backdrop-blur-md rounded-2xl p-5 shadow-2xl border border-white/5 min-w-[140px]">
-                    <div class="text-3xl font-extrabold text-white mb-1">300+</div>
-                    <div class="text-[13px] text-gray-400 font-medium">Hiring Partners</div>
+                <div class="absolute top-6 left-6 md:top-8 md:left-8 bg-[#0a0a0a]/80 backdrop-blur-md rounded-2xl p-4 md:p-5 shadow-2xl border border-white/5 min-w-[130px] md:min-w-[140px]">
+                    <div class="text-2xl md:text-3xl font-extrabold text-white mb-1">300+</div>
+                    <div class="text-[12px] md:text-[13px] text-gray-400 font-medium">Hiring Partners</div>
                 </div>
                 
                 <!-- Floating Card 2: Completion Rate (Bottom Right) -->
-                <div class="absolute bottom-8 right-8 bg-[#0a0a0a]/80 backdrop-blur-md rounded-2xl p-5 shadow-2xl border border-white/5 min-w-[140px]">
-                    <div class="text-3xl font-extrabold text-white mb-1">95%</div>
-                    <div class="text-[13px] text-gray-400 font-medium">Completion Rate</div>
+                <div class="absolute bottom-6 right-6 md:bottom-8 md:right-8 bg-[#0a0a0a]/80 backdrop-blur-md rounded-2xl p-4 md:p-5 shadow-2xl border border-white/5 min-w-[130px] md:min-w-[140px]">
+                    <div class="text-2xl md:text-3xl font-extrabold text-white mb-1">95%</div>
+                    <div class="text-[12px] md:text-[13px] text-gray-400 font-medium">Completion Rate</div>
                 </div>
             </div>
             
             <!-- Right Column: Content -->
             <div>
                 <!-- Badge -->
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#2d0a0a] border border-[#5c1a1a] mb-6">
-                    <img src="{{ asset('assets/icons/enterprise&government.svg') }}" class="w-4 h-4" alt="Enterprise">
-                    <span class="text-[11px] font-bold tracking-[0.15em] text-[#f87171] uppercase">ENTERPRISE & GOVERNMENT</span>
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#2d0a0a] border border-[#5c1a1a] mb-5 lg:mb-6">
+                    <img src="{{ asset('assets/icons/enterprise&government.svg') }}" class="w-3.5 h-3.5 lg:w-4 lg:h-4" alt="Enterprise">
+                    <span class="text-[10px] lg:text-[11px] font-bold tracking-[0.15em] text-[#f87171] uppercase">ENTERPRISE & GOVERNMENT</span>
                 </div>
                 
                 <!-- Title -->
-                <h2 class="text-4xl md:text-[46px] font-extrabold text-white tracking-tight leading-[1.1] mb-5">
+                <h2 class="text-3xl sm:text-4xl md:text-[46px] font-extrabold text-white tracking-tight leading-[1.1] mb-4 lg:mb-5">
                     Solusi pelatihan<br>
                     <span class="text-[#ff3b30]">skala enterprise.</span>
                 </h2>
                 
                 <!-- Description -->
-                <p class="text-[17px] text-gray-400 leading-relaxed mb-10 max-w-[500px]">
+                <p class="text-[15px] sm:text-[16px] lg:text-[17px] text-gray-400 leading-relaxed mb-8 lg:mb-10 max-w-[500px]">
                     Tingkatkan kompetensi tim kamu dengan program pelatihan yang dipersonalisasi — dari startup hingga korporasi dan institusi pemerintah.
                 </p>
                 
                 <!-- Features List -->
-                <div class="flex flex-col gap-4 mb-12">
+                <div class="flex flex-col gap-3.5 lg:gap-4 mb-10 lg:mb-12">
                     <div class="flex items-center gap-3.5">
-                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-5 h-5 flex-shrink-0" alt="Check">
-                        <span class="text-[15px] text-gray-300 font-medium">Dashboard analytics karyawan & tim</span>
+                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
+                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Dashboard analytics karyawan & tim</span>
                     </div>
                     <div class="flex items-center gap-3.5">
-                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-5 h-5 flex-shrink-0" alt="Check">
-                        <span class="text-[15px] text-gray-300 font-medium">Kurikulum custom sesuai kebutuhan bisnis</span>
+                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
+                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Kurikulum custom sesuai kebutuhan bisnis</span>
                     </div>
                     <div class="flex items-center gap-3.5">
-                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-5 h-5 flex-shrink-0" alt="Check">
-                        <span class="text-[15px] text-gray-300 font-medium">Sertifikasi massal yang terverifikasi</span>
+                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
+                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Sertifikasi massal yang terverifikasi</span>
                     </div>
                     <div class="flex items-center gap-3.5">
-                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-5 h-5 flex-shrink-0" alt="Check">
-                        <span class="text-[15px] text-gray-300 font-medium">Integrasi dengan HR system perusahaan</span>
+                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
+                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Integrasi dengan HR system perusahaan</span>
                     </div>
                     <div class="flex items-center gap-3.5">
-                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-5 h-5 flex-shrink-0" alt="Check">
-                        <span class="text-[15px] text-gray-300 font-medium">Dedicated account manager</span>
+                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
+                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Dedicated account manager</span>
                     </div>
                 </div>
                 
                 <!-- Buttons -->
-                <div class="flex flex-wrap items-center gap-4">
-                    <button class="px-8 py-3.5 bg-[#cc0000] hover:bg-[#aa0000] text-white font-bold rounded-xl text-[15px] shadow-[0_0_30px_rgba(204,0,0,0.3)] hover:shadow-[0_0_40px_rgba(204,0,0,0.4)] transition-all">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 lg:gap-4 w-full sm:w-auto">
+                    <button class="w-full sm:w-auto px-8 py-3.5 bg-[#cc0000] hover:bg-[#aa0000] text-white font-bold rounded-xl text-[14px] lg:text-[15px] shadow-[0_0_30px_rgba(204,0,0,0.3)] hover:shadow-[0_0_40px_rgba(204,0,0,0.4)] transition-all">
                         Hubungi Sales
                     </button>
-                    <button class="px-8 py-3.5 bg-transparent hover:bg-white/5 border border-white/10 text-white font-bold rounded-xl text-[15px] transition-all">
+                    <button class="w-full sm:w-auto px-8 py-3.5 bg-transparent hover:bg-white/5 border border-white/10 text-white font-bold rounded-xl text-[14px] lg:text-[15px] transition-all">
                         Lihat Demo
                     </button>
                 </div>

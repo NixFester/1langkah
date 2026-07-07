@@ -43,19 +43,19 @@
             @endif
 
             <!-- Text Content -->
-            <div class="prose prose-gray max-w-none mb-6">
-                <p class="text-gray-700 whitespace-pre-wrap leading-relaxed">{{ $post->content }}</p>
+            <div class="prose prose-sm sm:prose-base prose-gray max-w-none mb-6">
+                <p class="text-gray-700 whitespace-pre-wrap break-words leading-relaxed">{{ $post->content }}</p>
             </div>
 
             <!-- Vote & Meta -->
-            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                <div class="flex items-center gap-3" x-data="{}">
+            <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-gray-100">
+                <div class="flex items-center gap-2 sm:gap-3" x-data="{}">
                     <button onclick="votePost({{ $post->id }}, 'up', this)"
                             class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors {{ isset($userVotes['post']) && $userVotes['post'] === true ? 'bg-red-100 text-red-600' : 'bg-gray-100 text-gray-600 hover:bg-red-50 hover:text-red-500' }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                         <span class="font-semibold text-sm" id="post-upvotes">{{ $post->upvotes }}</span>
                     </button>
-                    <span class="font-bold text-gray-700 px-2" id="post-score-{{ $post->id }}">{{ $post->score }}</span>
+                    <span class="font-bold text-gray-700 px-1 sm:px-2" id="post-score-{{ $post->id }}">{{ $post->score }}</span>
                     <button onclick="votePost({{ $post->id }}, 'down', this)"
                             class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors {{ isset($userVotes['post']) && $userVotes['post'] === false ? 'bg-gray-200 text-gray-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -63,12 +63,12 @@
                     </button>
                 </div>
 
-                <div class="flex items-center gap-4 text-sm text-gray-500">
-                    <span class="flex items-center gap-1.5">
+                <div class="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-500">
+                    <span class="flex items-center gap-1 sm:gap-1.5">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
                         {{ $post->reply_count }} komentar
                     </span>
-                    <button onclick="showReportModal('post', {{ $post->id }})" class="flex items-center gap-1.5 hover:text-red-600 transition-colors">
+                    <button onclick="showReportModal('post', {{ $post->id }})" class="flex items-center gap-1 sm:gap-1.5 hover:text-red-600 transition-colors">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                         Report
                     </button>
@@ -145,7 +145,7 @@
                 </div>
                 @endif
 
-                <p class="text-gray-700 whitespace-pre-wrap leading-relaxed mb-3">{{ $reply->content }}</p>
+                <p class="text-gray-700 whitespace-pre-wrap break-words leading-relaxed mb-3">{{ $reply->content }}</p>
 
                 <!-- Reply Vote -->
                 <div class="flex items-center gap-3" x-data="{}">
@@ -190,7 +190,7 @@
                         </div>
                         @endif
 
-                        <p class="text-gray-700 text-sm whitespace-pre-wrap leading-relaxed ml-11 mb-2">{{ $child->content }}</p>
+                        <p class="text-gray-700 text-sm whitespace-pre-wrap break-words leading-relaxed ml-11 mb-2">{{ $child->content }}</p>
 
                         <!-- Child Vote -->
                         <div class="flex items-center gap-2 ml-11" x-data="{}">
