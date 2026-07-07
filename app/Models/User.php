@@ -20,11 +20,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
         'role',
         'profile_photo',
         'bio',
+        'xp',
+        'level',
     ];
 
     /**
@@ -48,6 +51,8 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'role' => 'string',
+            'xp' => 'integer',
+            'level' => 'integer',
         ];
     }
 
@@ -121,6 +126,11 @@ class User extends Authenticatable
     public function earnedAchievements()
     {
         return $this->hasMany(UserAchievement::class)->with('achievement');
+    }
+
+    public function xpTransactions()
+    {
+        return $this->hasMany(UserXpTransaction::class);
     }
 
     public function certificates()
@@ -289,13 +299,8 @@ class User extends Authenticatable
 
     public function getXpAttribute(): int
     {
-        // Calculate XP from completions and activities
-        $completionXp = $this->completions()->count() * 100;
-        $activityXp = $this->activityLogs()->count() * 10;
-        $ratingXp = $this->courseRatings()->count() * 50;
-        $attendanceXp = $this->attendanceRecords()->where('verified', true)->count() * 25;
-
-        return $completionXp + $activityXp + $ratingXp + $attendanceXp;
+        // Use stored XP value (default 0)
+        return $this->attributes['xp'] ?? 0;
     }
 
     public function getStreakAttribute(): int

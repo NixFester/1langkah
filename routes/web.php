@@ -3,9 +3,13 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\OptionController;
 use App\Http\Controllers\Admin\PictureController;
+use App\Http\Controllers\Api\LeaderboardController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ProgressController;
 use App\Http\Controllers\Api\RatingController;
+use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\Mentor\MentorAttendanceController;
+use App\Http\Controllers\Mentor\MentorEventController;
 use App\Http\Controllers\Pages\AchievementController;
 use App\Http\Controllers\Pages\ForumController;
 use App\Http\Controllers\Pages\PageController;
@@ -22,6 +26,10 @@ Route::middleware('guest')->group(function () {
     Route::get('/signup', [PageController::class, 'signup'])->name('signup');
     Route::get('/register', [PageController::class, 'signup'])->name('register');
     Route::post('/signup', [PageController::class, 'signupSubmit'])->name('signup.submit');
+
+    // Google OAuth Routes
+    Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('auth.google');
+    Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('auth.google.callback');
 });
 
 // ── Publicly browsable (no auth required) ────────────────────────────────────
@@ -96,6 +104,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/api/notifications/count', [NotificationController::class, 'count'])->name('api.notifications.count');
     Route::post('/api/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('api.notifications.read');
     Route::post('/api/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('api.notifications.read-all');
+
+    // XP & Leaderboard API
+    Route::get('/api/leaderboard', [LeaderboardController::class, 'index'])->name('api.leaderboard');
+    Route::get('/api/xp/details', [LeaderboardController::class, 'details'])->name('api.xp.details');
 
     Route::post('/logout', [PageController::class, 'logout'])->name('logout');
 });
@@ -253,4 +265,18 @@ Route::middleware(['auth', 'mentor'])->prefix('mentor')->name('mentor.')->group(
 
     // Feedback
     Route::get('/feedback', [App\Http\Controllers\Mentor\DashboardController::class, 'feedback'])->name('feedback');
+
+    // Mentor Events
+    Route::get('/events', [MentorEventController::class, 'index'])->name('events');
+    Route::get('/events/create', [MentorEventController::class, 'create'])->name('events.create');
+    Route::post('/events', [MentorEventController::class, 'store'])->name('events.store');
+    Route::get('/events/{event}/edit', [MentorEventController::class, 'edit'])->name('events.edit');
+    Route::put('/events/{event}', [MentorEventController::class, 'update'])->name('events.update');
+    Route::get('/events/{event}/registrations', [MentorEventController::class, 'registrations'])->name('events.registrations');
+    Route::post('/events/{event}/registrations/{registration}/attended', [MentorEventController::class, 'markAttended'])->name('events.registrations.attended');
+
+    // Mentor Attendance
+    Route::get('/attendance/{bootcampId}', [MentorAttendanceController::class, 'index'])->name('attendance');
+    Route::post('/attendance/{bootcampId}/generate-codes', [MentorAttendanceController::class, 'generateCodes'])->name('attendance.generate-codes');
+    Route::post('/attendance/scan-code', [MentorAttendanceController::class, 'scanCode'])->name('attendance.scan-code');
 });

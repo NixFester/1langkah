@@ -6,14 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Models\ForumPost;
 use App\Models\ForumReply;
 use App\Models\ForumVote;
-use Illuminate\Http\Request;
+use App\Services\XpService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class ForumController extends Controller
 {
+    private XpService $xpService;
+
+    public function __construct(XpService $xpService)
+    {
+        $this->xpService = $xpService;
+    }
+
     /**
      * Display the forum listing with pagination and search
      */
@@ -114,12 +122,12 @@ class ForumController extends Controller
 
         // Parse image URLs from comma-separated string
         $imageUrls = null;
-        if (!empty($validated['image_urls'])) {
+        if (! empty($validated['image_urls'])) {
             $urls = array_filter(array_map('trim', explode(',', $validated['image_urls'])));
             $urls = array_filter($urls, function ($url) {
                 return filter_var($url, FILTER_VALIDATE_URL);
             });
-            if (!empty($urls)) {
+            if (! empty($urls)) {
                 $imageUrls = array_values($urls);
             }
         }
@@ -133,6 +141,14 @@ class ForumController extends Controller
             'downvotes' => 0,
             'reply_count' => 0,
         ]);
+
+        // Award XP for creating a forum post
+        $this->xpService->awardXp(
+            Auth::user(),
+            'forum_post_created',
+            ForumPost::class,
+            $post->id
+        );
 
         return redirect()->route('komunitas.show', $post->id)
             ->with('success', 'Post berhasil dibuat!');
@@ -152,12 +168,12 @@ class ForumController extends Controller
 
         // Parse image URLs
         $imageUrls = null;
-        if (!empty($validated['image_urls'])) {
+        if (! empty($validated['image_urls'])) {
             $urls = array_filter(array_map('trim', explode(',', $validated['image_urls'])));
             $urls = array_filter($urls, function ($url) {
                 return filter_var($url, FILTER_VALIDATE_URL);
             });
-            if (!empty($urls)) {
+            if (! empty($urls)) {
                 $imageUrls = array_values($urls);
             }
         }
@@ -171,6 +187,14 @@ class ForumController extends Controller
             'upvotes' => 0,
             'downvotes' => 0,
         ]);
+
+        // Award XP for creating a forum reply
+        $this->xpService->awardXp(
+            Auth::user(),
+            'forum_reply_created',
+            ForumReply::class,
+            $reply->id
+        );
 
         // Increment post reply count
         ForumPost::find($validated['post_id'])->incrementReplyCount();
@@ -240,6 +264,17 @@ class ForumController extends Controller
 
                 if ($isUpvote) {
                     $votable->increment('upvotes');
+
+                    // Award XP to the post/reply author for receiving an upvote
+                    if ($votable->user_id !== $userId) {
+                        $action = $votableType === ForumPost::class ? 'forum_post_upvoted' : 'forum_reply_upvoted';
+                        $this->xpService->awardXpToUserId(
+                            $votable->user_id,
+                            $action,
+                            $votableType,
+                            $votableId
+                        );
+                    }
                 } else {
                     $votable->increment('downvotes');
                 }

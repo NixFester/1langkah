@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\XpService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,6 +35,17 @@ class Enrollment extends Model
             if ($enrollment->purchasable_type === Bootcamp::class && $enrollment->purchasable_id && empty($enrollment->ticket_code)) {
                 $enrollment->ticket_code = self::generateTicketCode();
             }
+        });
+
+        static::created(function (self $enrollment): void {
+            // Award XP for enrollment
+            $action = $enrollment->isCourse() ? 'enrolled_course' : 'enrolled_bootcamp';
+            app(XpService::class)->awardXp(
+                $enrollment->user,
+                $action,
+                self::class,
+                $enrollment->id
+            );
         });
     }
 

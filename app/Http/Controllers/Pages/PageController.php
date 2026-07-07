@@ -18,6 +18,7 @@ use App\Models\UserSetting;
 use App\Models\VideoProgress;
 use App\Services\CatalogService;
 use App\Services\NotificationService;
+use App\Services\XpService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -187,6 +188,19 @@ class PageController extends Controller
                 ->get();
         }
 
+        // Get XP data for dashboard widget
+        $xpData = ['xp' => 0, 'level' => 1, 'xpToNextLevel' => 100, 'xpProgressPercent' => 0, 'leaderboard' => []];
+        if ($userId) {
+            $xpService = app(XpService::class);
+            $user = auth()->user();
+            $xpData['xp'] = $user->xp ?? 0;
+            $xpData['level'] = $user->level ?? 1;
+            $nextLevel = $xpService->getXpToNextLevel($userId);
+            $xpData['xpToNextLevel'] = $nextLevel['xp_needed'] ?? 100;
+            $xpData['xpProgressPercent'] = $nextLevel['progress_percent'] ?? 0;
+            $xpData['leaderboard'] = $xpService->getLeaderboard(5);
+        }
+
         return view('pages.dashboard', [
             'userStats' => $userStats,
             'activeCourses' => $myCourses,
@@ -195,6 +209,9 @@ class PageController extends Controller
             'upcomingEvents' => $upcomingEvents,
             'recommendedCourses' => $recommendedCourses,
             'userAchievements' => $userAchievements,
+            'xpToNextLevel' => $xpData['xpToNextLevel'],
+            'xpProgressPercent' => $xpData['xpProgressPercent'],
+            'leaderboard' => $xpData['leaderboard'],
         ]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\XpService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,7 @@ class AttendanceRecord extends Model
         'bootcamp_id',
         'attendance_date',
         'qr_code',
+        'short_code',
         'verified',
         'scanned_at',
     ];
@@ -52,7 +54,7 @@ class AttendanceRecord extends Model
             ->where('bootcamp_id', $bootcampId)
             ->first();
 
-        if (!$record) {
+        if (! $record) {
             return ['success' => false, 'message' => 'QR code not found for this bootcamp'];
         }
 
@@ -68,6 +70,17 @@ class AttendanceRecord extends Model
             'verified' => true,
             'scanned_at' => now(),
         ]);
+
+        // Award XP for attendance scanned
+        $user = User::find($userId);
+        if ($user) {
+            app(XpService::class)->awardXp(
+                $user,
+                'attendance_scanned',
+                self::class,
+                $record->id
+            );
+        }
 
         return ['success' => true, 'message' => 'Attendance verified successfully'];
     }

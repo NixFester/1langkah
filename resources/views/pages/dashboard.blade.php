@@ -164,6 +164,83 @@
 
         <!-- Right section (1 Column) -->
         <div class="space-y-6">
+            <!-- XP & Level Widget -->
+            <div class="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-5 text-white shadow-lg">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="text-white/80 text-xs font-medium">Level Saat Ini</p>
+                        <h3 class="text-3xl font-extrabold">{{ auth()->user()->level ?? 1 }}</h3>
+                    </div>
+                    <div class="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center">
+                        <svg class="w-7 h-7 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- XP Progress -->
+                <div class="mb-3">
+                    <div class="flex justify-between text-xs text-white/80 mb-1">
+                        <span>{{ number_format(auth()->user()->xp ?? 0) }} XP</span>
+                        <span>{{ number_format($xpToNextLevel ?? 100) }} XP ke Level {{ (auth()->user()->level ?? 1) + 1 }}</span>
+                    </div>
+                    <div class="h-2.5 bg-white/20 rounded-full overflow-hidden">
+                        <div class="h-full bg-yellow-400 rounded-full transition-all duration-500" style="width: {{ $xpProgressPercent ?? 0 }}%"></div>
+                    </div>
+                </div>
+
+                <!-- XP Actions -->
+                <div class="flex gap-2">
+                    <a href="{{ route('achievement') }}" class="flex-1 bg-white/20 hover:bg-white/30 text-white text-xs font-bold py-2 px-3 rounded-lg text-center transition-colors">
+                        Lihat Rank
+                    </a>
+                    <a href="{{ route('api.xp.details') }}" class="flex-1 bg-white/20 hover:bg-white/30 text-white text-xs font-bold py-2 px-3 rounded-lg text-center transition-colors">
+                        Detail XP
+                    </a>
+                </div>
+            </div>
+
+            <!-- Top 5 Leaderboard -->
+            @if(!empty($leaderboard) && count($leaderboard) > 0)
+            <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+                <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+                    <h3 class="font-bold text-gray-900 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        Leaderboard
+                    </h3>
+                </div>
+                <div class="divide-y divide-gray-50">
+                    @foreach($leaderboard as $index => $user)
+                    <div class="px-5 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors">
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold
+                            @if($index === 0) bg-yellow-100 text-yellow-700
+                            @elseif($index === 1) bg-gray-200 text-gray-600
+                            @elseif($index === 2) bg-orange-100 text-orange-700
+                            @else bg-gray-100 text-gray-500 @endif">
+                            {{ $index + 1 }}
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden">
+                            @if($user['avatar'])
+                                <img src="{{ $user['avatar'] }}" alt="{{ $user['name'] }}" class="w-full h-full object-cover">
+                            @else
+                                <span class="text-blue-600 font-bold text-xs">{{ substr($user['name'] ?? 'U', 0, 1) }}</span>
+                            @endif
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate">{{ $user['name'] }}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-bold text-gray-900">{{ number_format($user['xp']) }}</p>
+                            <p class="text-[10px] text-gray-500">XP</p>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
             <!-- Prestasi & Badge -->
             <x-card-panel title="Prestasi & Badge" :actionRoute="route('achievement')" actionLabel="Lihat semua">
                 <div class="space-y-3">

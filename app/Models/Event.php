@@ -28,6 +28,8 @@ class Event extends Model
         'color',
         'banner_url',
         'created_by',
+        'mentor_id',
+        'is_mentor_created',
     ];
 
     protected $casts = [
@@ -36,6 +38,8 @@ class Event extends Model
         'max_participants' => 'integer',
         'registered_count' => 'integer',
         'created_by' => 'integer',
+        'mentor_id' => 'integer',
+        'is_mentor_created' => 'boolean',
     ];
 
     public function registrations(): HasMany
@@ -46,5 +50,10 @@ class Event extends Model
     public function registeredUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'event_registrations');
+    }
+
+    public function mentor(): BelongsTo
+    {
+        return $this->belongsTo(Mentor::class);
     }
 }

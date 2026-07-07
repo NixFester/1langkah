@@ -2,14 +2,20 @@
 
 namespace App\Services;
 
-use App\Models\BootcampRating;
-use App\Models\CourseRating;
-use App\Models\Course;
 use App\Models\Bootcamp;
-use Illuminate\Support\Facades\DB;
+use App\Models\BootcampRating;
+use App\Models\Course;
+use App\Models\CourseRating;
 
 class RatingService
 {
+    private XpService $xpService;
+
+    public function __construct(XpService $xpService)
+    {
+        $this->xpService = $xpService;
+    }
+
     /**
      * Rate a course
      */
@@ -17,7 +23,7 @@ class RatingService
     {
         $course = Course::find($courseId);
 
-        if (!$course) {
+        if (! $course) {
             return ['success' => false, 'message' => 'Course not found'];
         }
 
@@ -34,8 +40,15 @@ class RatingService
         // Update course's average rating
         $this->updateCourseAverageRating($courseId);
 
-        // Add XP for rating
-        $this->addXpForRating($userId, 'course');
+        // Award XP for review (only if review text is provided)
+        if ($reviewText && trim($reviewText) !== '') {
+            $this->xpService->awardXpToUserId(
+                $userId,
+                'review_submitted',
+                CourseRating::class,
+                $courseRating->id
+            );
+        }
 
         return [
             'success' => true,
@@ -51,7 +64,7 @@ class RatingService
     {
         $bootcamp = Bootcamp::find($bootcampId);
 
-        if (!$bootcamp) {
+        if (! $bootcamp) {
             return ['success' => false, 'message' => 'Bootcamp not found'];
         }
 
@@ -68,8 +81,15 @@ class RatingService
         // Update bootcamp's average rating
         $this->updateBootcampAverageRating($bootcampId);
 
-        // Add XP for rating
-        $this->addXpForRating($userId, 'bootcamp');
+        // Award XP for review (only if review text is provided)
+        if ($reviewText && trim($reviewText) !== '') {
+            $this->xpService->awardXpToUserId(
+                $userId,
+                'review_submitted',
+                BootcampRating::class,
+                $bootcampRating->id
+            );
+        }
 
         return [
             'success' => true,
@@ -124,7 +144,7 @@ class RatingService
             'average' => round($avgRating, 1),
             'total' => $totalRatings,
             'distribution' => $distribution,
-            'reviews' => $ratings->map(fn($r) => [
+            'reviews' => $ratings->map(fn ($r) => [
                 'rating' => $r->rating,
                 'review' => $r->review_text,
                 'user' => $r->user ? [
@@ -161,7 +181,7 @@ class RatingService
             'average' => round($avgRating, 1),
             'total' => $totalRatings,
             'distribution' => $distribution,
-            'reviews' => $ratings->map(fn($r) => [
+            'reviews' => $ratings->map(fn ($r) => [
                 'rating' => $r->rating,
                 'review' => $r->review_text,
                 'user' => $r->user ? [
@@ -180,7 +200,7 @@ class RatingService
     {
         return Course::with('ratings')
             ->get()
-            ->map(fn($course) => [
+            ->map(fn ($course) => [
                 'id' => $course->id,
                 'title' => $course->title,
                 'average_rating' => $course->average_rating,
@@ -200,7 +220,7 @@ class RatingService
     {
         return Bootcamp::with('ratings')
             ->get()
-            ->map(fn($bootcamp) => [
+            ->map(fn ($bootcamp) => [
                 'id' => $bootcamp->id,
                 'title' => $bootcamp->title,
                 'type' => $bootcamp->type,
@@ -236,15 +256,5 @@ class RatingService
         Bootcamp::where('id', $bootcampId)->update([
             'rating' => round($avgRating ?? 0, 1),
         ]);
-    }
-
-    /**
-     * Add XP when user rates something
-     */
-    private function addXpForRating(int $userId, string $type): void
-    {
-        // XP is handled by the model's accessor in User model
-        // This method can be used for additional logic if needed
-        \Log::info("User {$userId} rated a {$type} and earned XP");
     }
 }

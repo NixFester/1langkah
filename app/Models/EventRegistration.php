@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\XpService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +19,24 @@ class EventRegistration extends Model
         'registered_at',
         'attended_at',
     ];
+
+    protected $casts = [
+        'registered_at' => 'datetime',
+        'attended_at' => 'datetime',
+    ];
+
+    protected static function booted(): void
+    {
+        static::created(function (self $registration): void {
+            // Award XP for event registration
+            app(XpService::class)->awardXp(
+                $registration->user,
+                'event_registered',
+                self::class,
+                $registration->id
+            );
+        });
+    }
 
     public function user(): BelongsTo
     {

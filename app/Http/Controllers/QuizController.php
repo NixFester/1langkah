@@ -5,14 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Quiz;
 use App\Models\TestAttempt;
-use Illuminate\Http\Request;
+use App\Services\XpService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class QuizController extends Controller
 {
+    private XpService $xpService;
+
+    public function __construct(XpService $xpService)
+    {
+        $this->xpService = $xpService;
+    }
+
     /**
      * Show available quizzes for enrolled courses
      */
@@ -45,7 +53,7 @@ class QuizController extends Controller
             ->where('purchasable_id', $quiz->course_id)
             ->exists();
 
-        if (!$isEnrolled) {
+        if (! $isEnrolled) {
             return redirect()->route('kursus')
                 ->with('error', 'Kamu harus terdaftar di kursus ini untuk mengikuti quiz.');
         }
@@ -85,7 +93,7 @@ class QuizController extends Controller
             ->where('purchasable_id', $quiz->course_id)
             ->exists();
 
-        if (!$isEnrolled) {
+        if (! $isEnrolled) {
             return redirect()->route('kursus')
                 ->with('error', 'Kamu harus terdaftar di kursus ini untuk mengikuti quiz.');
         }
@@ -144,6 +152,14 @@ class QuizController extends Controller
             'completed_at' => now(),
         ]);
 
+        // Award XP for quiz completion
+        $this->xpService->awardXp(
+            $user,
+            $passed ? 'quiz_passed' : 'quiz_failed',
+            TestAttempt::class,
+            $attempt->id
+        );
+
         // If passed post-test and this is the final course completion requirement
         if ($passed && $quiz->type === 'post_test') {
             // Could mark course as completed here
@@ -185,7 +201,7 @@ class QuizController extends Controller
             ->where('purchasable_id', $quiz->course_id)
             ->exists();
 
-        if (!$isEnrolled) {
+        if (! $isEnrolled) {
             return response()->json(['error' => 'Not enrolled'], 403);
         }
 

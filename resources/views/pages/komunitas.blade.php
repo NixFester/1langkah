@@ -18,7 +18,12 @@
             <h1 class="font-extrabold text-gray-900 tracking-tight" style="font-size: 28px;">Komunitas</h1>
             <p class="text-sm text-gray-500 mt-1 font-medium">Bagikan ide, tanya jawab, dan diskusikan topik menarik</p>
         </div>
+        <a href="{{ route('komunitas.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg font-semibold text-sm hover:bg-red-700 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            Buat Post
+        </a>
     </div>
+
 
     <!-- Search & Filter Section -->
     <div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">

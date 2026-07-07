@@ -2,22 +2,25 @@
 
 namespace App\Services;
 
+use App\Models\AttendanceRecord;
+use App\Models\Bootcamp;
+use App\Models\BootcampSession;
 use App\Models\Chapter;
 use App\Models\ChapterProgress;
 use App\Models\ChapterVideo;
-use App\Models\SessionProgress;
-use App\Models\VideoProgress;
-use App\Models\AttendanceRecord;
-use App\Models\UserSkill;
-use App\Models\Course;
-use App\Models\Bootcamp;
 use App\Models\Completion;
+use App\Models\Course;
+use App\Models\SessionProgress;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use App\Models\UserActivityLog;
+use App\Models\UserSkill;
+use App\Models\VideoProgress;
 
 class ProgressService
 {
     private ?NotificationService $notificationService = null;
+
+    private ?XpService $xpService = null;
 
     /**
      * Get notification service (lazy loaded)
@@ -27,7 +30,20 @@ class ProgressService
         if ($this->notificationService === null) {
             $this->notificationService = app(NotificationService::class);
         }
+
         return $this->notificationService;
+    }
+
+    /**
+     * Get XP service (lazy loaded)
+     */
+    private function getXpService(): XpService
+    {
+        if ($this->xpService === null) {
+            $this->xpService = app(XpService::class);
+        }
+
+        return $this->xpService;
     }
 
     // ── Course Progress ──────────────────────────────────────────────────────
@@ -39,14 +55,14 @@ class ProgressService
     {
         $chapter = Chapter::with('videos')->find($chapterId);
 
-        if (!$chapter) {
+        if (! $chapter) {
             return ['success' => false, 'message' => 'Chapter not found'];
         }
 
         $user = User::find($userId);
 
         // Get the video ID to track (should be passed from the view)
-        if (!$videoId) {
+        if (! $videoId) {
             // If no videoId, get the first video from the chapter
             $firstVideo = $chapter->videos->first();
             if ($firstVideo) {
@@ -83,6 +99,14 @@ class ProgressService
                 'watch_duration' => $progressSeconds,
                 'is_completed' => true,
             ]
+        );
+
+        // Award XP for video watched (first completion only)
+        $this->getXpService()->awardXp(
+            $user,
+            'video_watched',
+            VideoProgress::class,
+            $videoId
         );
 
         // Log activity
@@ -136,11 +160,20 @@ class ProgressService
 
         // All videos must be completed
         if ($completedCount >= $totalVideos) {
+            // Award XP for chapter completed
+            $this->getXpService()->awardXp(
+                User::find($userId),
+                'chapter_completed',
+                Chapter::class,
+                $chapter->id
+            );
+
             // Send notification for chapter completed
             $course = Course::find($chapter->course_id);
             if ($course) {
                 $this->getNotificationService()->chapterCompleted($userId, $chapter->title, $course->title, $course->id);
             }
+
             return true;
         }
 
@@ -154,7 +187,7 @@ class ProgressService
     {
         $course = Course::with('chapters.videos')->find($courseId);
 
-        if (!$course) {
+        if (! $course) {
             return false;
         }
 
@@ -184,7 +217,7 @@ class ProgressService
                 ->where('completable_id', $courseId)
                 ->exists();
 
-            if (!$alreadyCompleted) {
+            if (! $alreadyCompleted) {
                 Completion::firstOrCreate(
                     [
                         'user_id' => $userId,
@@ -216,7 +249,7 @@ class ProgressService
     {
         $course = Course::with('chapters.videos')->find($courseId);
 
-        if (!$course) {
+        if (! $course) {
             return [
                 'completed' => 0,
                 'total' => 0,
@@ -295,8 +328,19 @@ class ProgressService
             ['clicked_at' => now()]
         );
 
+        // Award XP for session clicked (first click only)
+        $user = User::find($userId);
+        if ($user) {
+            $this->getXpService()->awardXp(
+                $user,
+                'session_clicked',
+                SessionProgress::class,
+                $sessionProgress->id
+            );
+        }
+
         // Send notification
-        $session = \App\Models\BootcampSession::find($sessionId);
+        $session = BootcampSession::find($sessionId);
         if ($session) {
             $bootcamp = $session->bootcamp;
             if ($bootcamp) {
@@ -339,7 +383,7 @@ class ProgressService
     {
         $bootcamp = Bootcamp::with('sessions')->find($bootcampId);
 
-        if (!$bootcamp) {
+        if (! $bootcamp) {
             return ['success' => false, 'message' => 'Bootcamp not found'];
         }
 
@@ -360,7 +404,7 @@ class ProgressService
             ->get()
             ->keyBy('bootcamp_session_id');
 
-        $clickedCount = $sessionProgress->filter(fn($p) => $p->clicked_at !== null)->count();
+        $clickedCount = $sessionProgress->filter(fn ($p) => $p->clicked_at !== null)->count();
         $completedCount = $sessionProgress->where('completed', true)->count();
 
         return [
@@ -368,7 +412,7 @@ class ProgressService
             'completed' => $completedCount,
             'total' => $totalSessions,
             'percentage' => round(($clickedCount / $totalSessions) * 100, 1),
-            'sessions' => $sessions->map(fn($s) => [
+            'sessions' => $sessions->map(fn ($s) => [
                 'id' => $s->id,
                 'topic' => $s->topic,
                 'date' => $s->date,
@@ -406,7 +450,7 @@ class ProgressService
         return [
             'total' => $total,
             'verified' => $verified,
-            'records' => $records->map(fn($r) => [
+            'records' => $records->map(fn ($r) => [
                 'date' => $r->attendance_date,
                 'verified' => $r->verified,
                 'scanned_at' => $r->scanned_at,
@@ -416,24 +460,45 @@ class ProgressService
 
     /**
      * Generate QR code for attendance
+     * Optionally accepts userId for generating individual short codes
      */
-    public function generateAttendanceQrCode(int $bootcampId, string $date): string
+    public function generateAttendanceQrCode(int $bootcampId, string $date, ?int $userId = null): array
     {
-        $uniqueCode = md5("bootcamp_{$bootcampId}_date_{$date}_" . now()->timestamp);
+        $uniqueCode = md5("bootcamp_{$bootcampId}_date_{$date}_".now()->timestamp);
+
+        // Generate 4-char short code (no I, O, 0, 1)
+        $chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        $shortCode = '';
+        for ($i = 0; $i < 4; $i++) {
+            $shortCode .= $chars[random_int(0, strlen($chars) - 1)];
+        }
+
+        $createData = [
+            'bootcamp_id' => $bootcampId,
+            'attendance_date' => $date,
+            'qr_code' => $uniqueCode,
+            'short_code' => $shortCode,
+            'verified' => false,
+        ];
+
+        if ($userId) {
+            $createData['user_id'] = $userId;
+        }
 
         // Create attendance record if not exists
         AttendanceRecord::firstOrCreate(
             [
                 'bootcamp_id' => $bootcampId,
                 'attendance_date' => $date,
-                'qr_code' => $uniqueCode,
+                'user_id' => $userId,
             ],
-            [
-                'verified' => false,
-            ]
+            $createData
         );
 
-        return $uniqueCode;
+        return [
+            'qr_code' => $uniqueCode,
+            'short_code' => $shortCode,
+        ];
     }
 
     // ── Skills Tracking ──────────────────────────────────────────────────────
@@ -445,7 +510,7 @@ class ProgressService
     {
         $course = Course::find($courseId);
 
-        if (!$course) {
+        if (! $course) {
             return ['success' => false, 'message' => 'Course not found'];
         }
 
@@ -478,7 +543,7 @@ class ProgressService
     {
         $bootcamp = Bootcamp::find($bootcampId);
 
-        if (!$bootcamp) {
+        if (! $bootcamp) {
             return ['success' => false, 'message' => 'Bootcamp not found'];
         }
 
@@ -518,7 +583,7 @@ class ProgressService
                     'name' => $grouped->first()->skill_name,
                     'count' => $grouped->count(),
                     'best_rating' => $grouped->max('rating'),
-                    'sources' => $grouped->map(fn($s) => [
+                    'sources' => $grouped->map(fn ($s) => [
                         'type' => $s->source_type,
                         'id' => $s->source_id,
                     ]),
@@ -538,7 +603,7 @@ class ProgressService
      */
     public function logActivity(int $userId, string $loggableType, int $loggableId, string $action): void
     {
-        \App\Models\UserActivityLog::create([
+        UserActivityLog::create([
             'user_id' => $userId,
             'loggable_type' => $loggableType,
             'loggable_id' => $loggableId,
@@ -555,17 +620,17 @@ class ProgressService
     {
         $user = User::find($userId);
 
-        if (!$user) {
+        if (! $user) {
             return [];
         }
 
         $enrolledCourses = $user->enrolledCourses()->count();
         $enrolledBootcamps = $user->enrolledBootcamps()->count();
 
-        $courseProgress = Course::whereHas('enrollments', fn($q) => $q->where('user_id', $userId))
+        $courseProgress = Course::whereHas('enrollments', fn ($q) => $q->where('user_id', $userId))
             ->with('chapters')
             ->get()
-            ->map(fn($c) => $this->getCourseProgress($userId, $c->id)['percentage'])
+            ->map(fn ($c) => $this->getCourseProgress($userId, $c->id)['percentage'])
             ->avg() ?? 0;
 
         $totalSkills = UserSkill::where('user_id', $userId)->count();
@@ -588,11 +653,12 @@ class ProgressService
     {
         // Simple calculation based on skills and progress
         $skillsCount = UserSkill::where('user_id', $userId)->count();
-        $coursesCompleted = \App\Models\Completion::where('user_id', $userId)
+        $coursesCompleted = Completion::where('user_id', $userId)
             ->where('completable_type', Course::class)
             ->count();
 
         $score = ($skillsCount * 5) + ($coursesCompleted * 15);
+
         return min(100, $score);
     }
 }

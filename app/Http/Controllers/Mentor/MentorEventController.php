@@ -1,0 +1,210 @@
+<?php
+
+namespace App\Http\Controllers\Mentor;
+
+use App\Http\Controllers\Controller;
+use App\Models\Event;
+use App\Models\EventRegistration;
+use App\Models\Mentor as MentorModel;
+use App\Services\XpService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
+
+/**
+ * Controller untuk Manajemen Event oleh Mentor
+ * Memungkinkan mentor membuat dan mengelola event mereka sendiri
+ */
+class MentorEventController extends Controller
+{
+    public function __construct(
+        private XpService $xpService
+    ) {}
+
+    /**
+     * Menampilkan daftar event milik mentor
+     */
+    public function index(): View
+    {
+        $user = auth()->user();
+        $mentorProfile = $this->getMentorProfile($user);
+
+        $events = Event::where('mentor_id', $mentorProfile?->id)
+            ->where('is_mentor_created', true)
+            ->withCount('registrations')
+            ->latest()
+            ->paginate(12);
+
+        return view('mentor.events.index', [
+            'events' => $events,
+        ]);
+    }
+
+    /**
+     * Menampilkan form pembuatan event
+     */
+    public function create(): View
+    {
+        return view('mentor.events.create');
+    }
+
+    /**
+     * Menyimpan event baru
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'short_description' => 'nullable|string|max:300',
+            'description' => 'nullable|string',
+            'type' => 'required|in:online,offline,hybrid',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'timezone' => 'nullable|string|max:50',
+            'location' => 'nullable|string|max:255',
+            'meeting_url' => 'nullable|url|max:500',
+            'max_participants' => 'nullable|integer|min:1',
+            'banner_url' => 'nullable|url|max:500',
+            'color' => 'nullable|string|max:20',
+        ]);
+
+        $user = auth()->user();
+        $mentorProfile = $this->getMentorProfile($user);
+
+        if (! $mentorProfile) {
+            return redirect()->back()->with('error', 'Profil mentor tidak ditemukan.');
+        }
+
+        $event = Event::create([
+            'title' => $validated['title'],
+            'slug' => Str::slug($validated['title']).'-'.Str::random(5),
+            'short_description' => $validated['short_description'] ?? null,
+            'description' => $validated['description'] ?? null,
+            'type' => $validated['type'],
+            'start_date' => $validated['start_date'],
+            'end_date' => $validated['end_date'] ?? $validated['start_date'],
+            'timezone' => $validated['timezone'] ?? 'Asia/Jakarta',
+            'location' => $validated['location'] ?? null,
+            'meeting_url' => $validated['meeting_url'] ?? null,
+            'max_participants' => $validated['max_participants'] ?? null,
+            'banner_url' => $validated['banner_url'] ?? null,
+            'color' => $validated['color'] ?? '#3B82F6',
+            'status' => 'published',
+            'created_by' => $user->id,
+            'mentor_id' => $mentorProfile->id,
+            'is_mentor_created' => true,
+        ]);
+
+        return redirect()->route('mentor.events.edit', $event)
+            ->with('success', 'Event berhasil dibuat.');
+    }
+
+    /**
+     * Menampilkan form edit event
+     */
+    public function edit(Event $event): View
+    {
+        $this->authorizeMentorOwnership($event);
+
+        return view('mentor.events.edit', [
+            'event' => $event,
+        ]);
+    }
+
+    /**
+     * Memperbarui event
+     */
+    public function update(Request $request, Event $event): RedirectResponse
+    {
+        $this->authorizeMentorOwnership($event);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'short_description' => 'nullable|string|max:300',
+            'description' => 'nullable|string',
+            'type' => 'required|in:online,offline,hybrid',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'timezone' => 'nullable|string|max:50',
+            'location' => 'nullable|string|max:255',
+            'meeting_url' => 'nullable|url|max:500',
+            'max_participants' => 'nullable|integer|min:1',
+            'banner_url' => 'nullable|url|max:500',
+            'color' => 'nullable|string|max:20',
+            'status' => 'required|in:draft,published,cancelled,completed',
+        ]);
+
+        $event->update($validated);
+
+        return redirect()->back()->with('success', 'Event berhasil diperbarui.');
+    }
+
+    /**
+     * Menampilkan daftar registrasi event
+     */
+    public function registrations(Event $event): View
+    {
+        $this->authorizeMentorOwnership($event);
+
+        $registrations = EventRegistration::where('event_id', $event->id)
+            ->with('user')
+            ->latest()
+            ->paginate(25);
+
+        return view('mentor.events.registrations', [
+            'event' => $event,
+            'registrations' => $registrations,
+        ]);
+    }
+
+    /**
+     * Menandai peserta hadir dan memberikan XP
+     */
+    public function markAttended(EventRegistration $registration): RedirectResponse
+    {
+        $event = $registration->event;
+
+        $this->authorizeMentorOwnership($event);
+
+        if ($registration->attended_at) {
+            return redirect()->back()->with('warning', 'Peserta sudah ditandai hadir.');
+        }
+
+        $registration->update([
+            'attended_at' => now(),
+            'status' => 'attended',
+        ]);
+
+        // Award XP for attending event
+        $this->xpService->awardXp(
+            $registration->user,
+            'event_attended',
+            EventRegistration::class,
+            $registration->id
+        );
+
+        return redirect()->back()->with('success', 'Peserta ditandai hadir dan mendapatkan 20 XP.');
+    }
+
+    /**
+     * Mendapatkan profil mentor dari user yang login
+     */
+    private function getMentorProfile($user): ?MentorModel
+    {
+        return MentorModel::where('name', $user->name)->first();
+    }
+
+    /**
+     * Memeriksa kepemilikan event oleh mentor
+     */
+    private function authorizeMentorOwnership(Event $event): void
+    {
+        $user = auth()->user();
+        $mentorProfile = $this->getMentorProfile($user);
+
+        if (! $mentorProfile || $event->mentor_id !== $mentorProfile->id) {
+            abort(403, 'Anda tidak memiliki akses ke event ini.');
+        }
+    }
+}
