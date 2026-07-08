@@ -10,6 +10,7 @@ use App\Models\CourseRating;
 use App\Models\Enrollment;
 use App\Models\Event;
 use App\Models\EventRegistration;
+use App\Models\MentorSession;
 use App\Models\SessionProgress;
 use App\Models\User;
 use App\Models\UserAchievement;
@@ -19,6 +20,7 @@ use App\Models\VideoProgress;
 use App\Services\CatalogService;
 use App\Services\NotificationService;
 use App\Services\XpService;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -487,7 +489,11 @@ class PageController extends Controller
 
     public function profilMentor(int $id): View
     {
-        $mentor = $this->catalog->mentor($id) ?? $this->catalog->mentors()[0];
+        $mentor = $this->catalog->mentor($id);
+
+        if (! $mentor) {
+            abort(404, 'Mentor tidak ditemukan.');
+        }
 
         return view('pages.profil-mentor', [
             'mentor' => $mentor,
@@ -527,29 +533,48 @@ class PageController extends Controller
             return back()->with('error', 'Event tidak ditemukan.');
         }
 
-        // Register user (check if already registered)
+        // Check if user is already registered
         $user = auth()->user();
         $existingReg = EventRegistration::where('user_id', $user->id)
             ->where('event_id', $event->id)
             ->first();
 
-        if (! $existingReg) {
-            // Generate unique ticket code
-            $ticketCode = 'EVT-'.strtoupper(uniqid()).'-'.date('Ymd');
-
-            EventRegistration::create([
-                'user_id' => $user->id,
-                'event_id' => $event->id,
-                'status' => 'registered',
-                'ticket_code' => $ticketCode,
-                'registered_at' => now(),
-            ]);
-
-            // Update registered count
-            $event->increment('registered_count');
+        if ($existingReg) {
+            return redirect()->back()->with('info', 'Anda sudah terdaftar di event ini.');
         }
 
-        return back()->with('success', 'Berhasil mendaftar event!');
+        // Check if event is free or paid
+        // For now, redirect to pembayaran page with event data in session
+        if ($event->price && $event->price !== '0' && strtolower($event->price) !== 'gratis') {
+            // Store event registration data in session for post-payment processing
+            session([
+                'pending_event_registration' => [
+                    'event_id' => $event->id,
+                    'event_title' => $event->title,
+                    'event_date' => $event->start_date,
+                    'price' => $event->price,
+                    'formatted_price' => $event->formatted_price ?? $event->price,
+                ],
+            ]);
+
+            return redirect()->route('pembayaran')->with('pending_event_registration', true);
+        }
+
+        // For free events, register directly
+        $ticketCode = 'EVT-'.strtoupper(uniqid()).'-'.date('Ymd');
+
+        EventRegistration::create([
+            'user_id' => $user->id,
+            'event_id' => $event->id,
+            'status' => 'registered',
+            'ticket_code' => $ticketCode,
+            'registered_at' => now(),
+        ]);
+
+        // Update registered count
+        $event->increment('registered_count');
+
+        return redirect()->back()->with('success', 'Berhasil mendaftar event!');
     }
 
     public function kalender(Request $request): View
@@ -572,6 +597,46 @@ class PageController extends Controller
 
     public function pembayaran(?int $id = null): View
     {
+        // Check if there's a pending mentor session from booking flow
+        $pendingMentorSession = session('pending_mentor_session');
+
+        // If there's a pending mentor session, display it
+        if ($pendingMentorSession) {
+            return view('pages.pembayaran', [
+                'item' => [
+                    'id' => $pendingMentorSession['mentor_id'],
+                    'kind' => 'mentor_session',
+                    'title' => 'Sesi Mentoring dengan '.$pendingMentorSession['mentor_name'],
+                    'price' => $pendingMentorSession['price'],
+                    'formatted_price' => $pendingMentorSession['formatted_price'],
+                    'description' => 'Sesi mentoring pada '.Carbon::parse($pendingMentorSession['booked_date'])->format('d M Y').' pukul '.$pendingMentorSession['booked_time'],
+                    'subtitle' => 'Mentoring 1-on-1 via Google Meet / Zoom',
+                ],
+                'isEnrolled' => false,
+            ]);
+        }
+
+        // Check if there's a pending event registration from booking flow
+        $pendingEventRegistration = session('pending_event_registration');
+
+        if ($pendingEventRegistration) {
+            $event = Event::find($pendingEventRegistration['event_id']);
+            $eventDate = $event ? Carbon::parse($event->start_date)->format('d M Y H:i').' WIB' : $pendingEventRegistration['event_date'];
+
+            return view('pages.pembayaran', [
+                'item' => [
+                    'id' => $pendingEventRegistration['event_id'],
+                    'kind' => 'event_registration',
+                    'title' => 'Pendaftaran Event: '.$pendingEventRegistration['event_title'],
+                    'price' => $pendingEventRegistration['price'],
+                    'formatted_price' => $pendingEventRegistration['formatted_price'],
+                    'description' => $eventDate.($event && $event->location ? ' - '.$event->location : ''),
+                    'subtitle' => 'Akses event dan materi',
+                ],
+                'isEnrolled' => false,
+            ]);
+        }
+
         // Pembayaran can be triggered from course, bootcamp, or mentor.
         // We resolve a "display item" from whichever catalog matches.
         $item = null;
@@ -608,14 +673,93 @@ class PageController extends Controller
      */
     public function processPayment(Request $request): RedirectResponse
     {
+        $user = auth()->user();
+        $itemKind = $request->input('item_kind');
+        $itemId = $request->input('item_id');
+
+        // Handle mentor session booking
+        if ($itemKind === 'mentor_session') {
+            $bookingData = session('pending_mentor_session');
+
+            if (! $bookingData) {
+                return redirect()->route('dashboard')->with('error', 'Data booking tidak ditemukan. Silakan pesan ulang.');
+            }
+
+            // Check if user already has an active session
+            $existingSession = MentorSession::where('user_id', $user->id)
+                ->whereIn('status', [MentorSession::STATUS_PENDING, MentorSession::STATUS_ACTIVE])
+                ->first();
+
+            if ($existingSession) {
+                session()->forget('pending_mentor_session');
+
+                return redirect()->route('my-sessions')->with('error', 'Anda masih memiliki sesi mentoring yang aktif.');
+            }
+
+            // Create the mentor session
+            $session = MentorSession::create([
+                'user_id' => $user->id,
+                'mentor_id' => $bookingData['mentor_id'],
+                'booked_date' => $bookingData['booked_date'],
+                'booked_time' => $bookingData['booked_time'],
+                'notes' => $bookingData['notes'] ?? null,
+                'status' => MentorSession::STATUS_PENDING,
+            ]);
+
+            // Clear session data
+            session()->forget('pending_mentor_session');
+
+            return redirect()->route('my-sessions')->with('success', 'Sesi mentoring berhasil dipesan! Mentor akan segera menghubungi Anda.');
+        }
+
+        // Handle event registration
+        if ($itemKind === 'event_registration') {
+            $registrationData = session('pending_event_registration');
+
+            if (! $registrationData) {
+                return redirect()->route('dashboard')->with('error', 'Data pendaftaran tidak ditemukan. Silakan daftar ulang.');
+            }
+
+            $event = Event::find($registrationData['event_id']);
+            if (! $event) {
+                return redirect()->route('dashboard')->with('error', 'Event tidak ditemukan.');
+            }
+
+            // Check if already registered
+            $existingReg = EventRegistration::where('user_id', $user->id)
+                ->where('event_id', $event->id)
+                ->first();
+
+            if ($existingReg) {
+                session()->forget('pending_event_registration');
+
+                return redirect()->route('detail-event', $event->id)->with('info', 'Anda sudah terdaftar di event ini.');
+            }
+
+            // Create registration
+            $ticketCode = 'EVT-'.strtoupper(uniqid()).'-'.date('Ymd');
+            EventRegistration::create([
+                'user_id' => $user->id,
+                'event_id' => $event->id,
+                'status' => 'registered',
+                'ticket_code' => $ticketCode,
+                'registered_at' => now(),
+            ]);
+
+            // Update registered count
+            $event->increment('registered_count');
+
+            // Clear session data
+            session()->forget('pending_event_registration');
+
+            return redirect()->route('detail-event', $event->id)->with('success', 'Berhasil terdaftar di event!');
+        }
+
+        // Handle course/bootcamp enrollment
         $request->validate([
             'item_id' => ['required', 'integer'],
             'item_kind' => ['required', 'string', 'in:course,online,offline'],
         ]);
-
-        $user = auth()->user();
-        $itemId = $request->input('item_id');
-        $itemKind = $request->input('item_kind');
 
         // Determine the purchasable type
         $purchasableType = match ($itemKind) {

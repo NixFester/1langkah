@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Mentor extends Model
@@ -23,6 +24,7 @@ class Mentor extends Model
         'expertise',
         'bio',
         'linkedin_url',
+        'phone',
     ];
 
     protected $casts = [
@@ -50,6 +52,16 @@ class Mentor extends Model
     public function bootcamps(): HasMany
     {
         return $this->hasMany(Bootcamp::class);
+    }
+
+    public function sessions(): HasMany
+    {
+        return $this->hasMany(MentorSession::class);
+    }
+
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(MentorSchedule::class);
     }
 
     // ── Helpers ──────────────────────────────────────────────────────────────
@@ -109,6 +121,17 @@ class Mentor extends Model
     public function getExpertiseListAttribute(): array
     {
         return $this->expertise ?? [];
+    }
+
+    /**
+     * Get WhatsApp link
+     */
+    public function getWaLinkAttribute(): string
+    {
+        $phone = $this->phone ?? '08123456789';
+        $cleanPhone = preg_replace('/[^0-9]/', '', $phone);
+
+        return 'https://wa.me/'.$cleanPhone;
     }
 
     /**

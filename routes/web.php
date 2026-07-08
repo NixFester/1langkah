@@ -12,6 +12,10 @@ use App\Http\Controllers\Mentor\MentorAttendanceController;
 use App\Http\Controllers\Mentor\MentorBootcampController;
 use App\Http\Controllers\Mentor\MentorCourseController;
 use App\Http\Controllers\Mentor\MentorEventController;
+use App\Http\Controllers\Mentor\MentorProfileController;
+use App\Http\Controllers\Mentor\MentorQuizController;
+use App\Http\Controllers\Mentor\MentorSessionController as MentorSessionCtrl;
+use App\Http\Controllers\MentorSessionController;
 use App\Http\Controllers\Pages\AchievementController;
 use App\Http\Controllers\Pages\ForumController;
 use App\Http\Controllers\Pages\PageController;
@@ -111,6 +115,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/api/leaderboard', [LeaderboardController::class, 'index'])->name('api.leaderboard');
     Route::get('/api/xp/details', [LeaderboardController::class, 'details'])->name('api.xp.details');
 
+    // Mentor Sessions (Booking)
+    Route::get('/my-sessions', [MentorSessionController::class, 'mySessions'])->name('my-sessions');
+    Route::post('/mentor/{userId}/book', [MentorSessionController::class, 'book'])->name('mentor.book');
+    Route::patch('/my-sessions/{session}/cancel', [MentorSessionController::class, 'cancel'])->name('session.cancel');
+
     Route::post('/logout', [PageController::class, 'logout'])->name('logout');
 });
 
@@ -173,7 +182,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('/options', [OptionController::class, 'index'])->name('options');
     Route::post('/options', [OptionController::class, 'store'])->name('options.store');
-    Route::patch('/options/{option}', [AdminController::class, 'updateOption'])->name('options.update');
+    Route::patch('/options/{option}', [OptionController::class, 'update'])->name('options.update');
     Route::delete('/options/{option}', [OptionController::class, 'destroy'])->name('options.destroy');
 
     // Quiz Management
@@ -257,6 +266,10 @@ Route::middleware(['auth', 'marketing'])->prefix('marketing')->name('marketing.'
 Route::middleware(['auth', 'mentor'])->prefix('mentor')->name('mentor.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Mentor\DashboardController::class, 'index'])->name('dashboard');
 
+    // Mentor Profile (Edit Biodata)
+    Route::get('/profile/edit', [MentorProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [MentorProfileController::class, 'update'])->name('profile.update');
+
     // My Courses
     Route::get('/courses', [App\Http\Controllers\Mentor\DashboardController::class, 'myCourses'])->name('my-courses');
     Route::get('/courses/{course}', [App\Http\Controllers\Mentor\DashboardController::class, 'courseDetail'])->name('course-detail');
@@ -324,4 +337,29 @@ Route::middleware(['auth', 'mentor'])->prefix('mentor')->name('mentor.')->group(
     Route::get('/attendance/{bootcampId}', [MentorAttendanceController::class, 'index'])->name('attendance');
     Route::post('/attendance/{bootcampId}/generate-codes', [MentorAttendanceController::class, 'generateCodes'])->name('attendance.generate-codes');
     Route::post('/attendance/scan-code', [MentorAttendanceController::class, 'scanCode'])->name('attendance.scan-code');
+
+    // Mentor Quiz Management
+    Route::get('/quizzes', [MentorQuizController::class, 'index'])->name('quizzes.index');
+    Route::get('/quizzes/create', [MentorQuizController::class, 'create'])->name('quizzes.create');
+    Route::post('/quizzes', [MentorQuizController::class, 'store'])->name('quizzes.store');
+    Route::get('/quizzes/{quiz}/edit', [MentorQuizController::class, 'edit'])->name('quizzes.edit');
+    Route::patch('/quizzes/{quiz}', [MentorQuizController::class, 'update'])->name('quizzes.update');
+    Route::delete('/quizzes/{quiz}', [MentorQuizController::class, 'destroy'])->name('quizzes.destroy');
+
+    // Quiz Questions Management
+    Route::get('/quizzes/{quiz}/questions', [MentorQuizController::class, 'questions'])->name('quizzes.questions');
+    Route::post('/quizzes/{quiz}/questions', [MentorQuizController::class, 'addQuestion'])->name('quizzes.questions.add');
+    Route::patch('/quizzes/{quiz}/questions/{question}', [MentorQuizController::class, 'updateQuestion'])->name('quizzes.questions.update');
+    Route::delete('/quizzes/{quiz}/questions/{question}', [MentorQuizController::class, 'deleteQuestion'])->name('quizzes.questions.delete');
+
+    // Quiz Answers Management
+    Route::post('/quizzes/{quiz}/questions/{question}/answers', [MentorQuizController::class, 'addAnswer'])->name('quizzes.answers.add');
+    Route::patch('/quizzes/{quiz}/questions/{question}/answers/{answer}', [MentorQuizController::class, 'updateAnswer'])->name('quizzes.answers.update');
+    Route::delete('/quizzes/{quiz}/questions/{question}/answers/{answer}', [MentorQuizController::class, 'deleteAnswer'])->name('quizzes.answers.delete');
+
+    // Mentor Session Management
+    Route::get('/sessions', [MentorSessionCtrl::class, 'index'])->name('sessions.index');
+    Route::patch('/sessions/{session}/accept', [MentorSessionCtrl::class, 'accept'])->name('sessions.accept');
+    Route::patch('/sessions/{session}/reject', [MentorSessionCtrl::class, 'reject'])->name('sessions.reject');
+    Route::patch('/sessions/{session}/complete', [MentorSessionCtrl::class, 'complete'])->name('sessions.complete');
 });

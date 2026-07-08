@@ -20,9 +20,7 @@ class MentorCourseController extends Controller
      */
     private function getMentorProfile(): ?MentorModel
     {
-        $user = auth()->user();
-
-        return MentorModel::where('name', $user->name)->first();
+        return auth()->user()->mentor;
     }
 
     /**

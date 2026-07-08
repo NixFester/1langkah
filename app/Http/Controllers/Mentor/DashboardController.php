@@ -7,7 +7,6 @@ use App\Models\ChapterProgress;
 use App\Models\Course;
 use App\Models\CourseRating;
 use App\Models\Enrollment;
-use App\Models\Mentor as MentorModel;
 use Illuminate\View\View;
 
 /**
@@ -23,10 +22,8 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
 
-        // Get mentor profile
-        $mentorProfile = MentorModel::where('user_id', $user->id)->first()
-            ?? MentorModel::where('name', $user->name)->first()
-            ?? ($user->role === 'mentor' ? MentorModel::first() : null);
+        // Get mentor profile (guaranteed to exist due to IsMentor middleware)
+        $mentorProfile = $user->mentor;
 
         // Statistik kursus mentor - match by name or mentor_id
         $courseIds = Course::where('mentor_name', $user->name)
@@ -101,7 +98,7 @@ class DashboardController extends Controller
     public function myCourses(): View
     {
         $user = auth()->user();
-        $mentorProfile = MentorModel::where('name', $user->name)->first();
+        $mentorProfile = $user->mentor;
 
         $courses = Course::where('mentor_name', $user->name)
             ->orWhere('mentor_id', $mentorProfile?->id)
@@ -123,7 +120,7 @@ class DashboardController extends Controller
         $user = auth()->user();
 
         // Verifikasi bahwa mentor ini adalah pengajar kursus
-        $mentorProfile = MentorModel::where('name', $user->name)->first();
+        $mentorProfile = $user->mentor;
         if ($course->mentor_name !== $user->name && $course->mentor_id !== $mentorProfile?->id) {
             abort(403, 'Anda bukan pengajar kursus ini.');
         }
@@ -203,7 +200,7 @@ class DashboardController extends Controller
     public function myStudents(): View
     {
         $user = auth()->user();
-        $mentorProfile = MentorModel::where('name', $user->name)->first();
+        $mentorProfile = $user->mentor;
 
         $courseIds = Course::where('mentor_name', $user->name)
             ->orWhere('mentor_id', $mentorProfile?->id)
@@ -252,7 +249,7 @@ class DashboardController extends Controller
     public function studentDetail(User $student): View
     {
         $user = auth()->user();
-        $mentorProfile = MentorModel::where('name', $user->name)->first();
+        $mentorProfile = $user->mentor;
 
         // Ambil kursus mentor
         $courseIds = Course::where('mentor_name', $user->name)
@@ -306,7 +303,7 @@ class DashboardController extends Controller
     public function feedback(): View
     {
         $user = auth()->user();
-        $mentorProfile = MentorModel::where('name', $user->name)->first();
+        $mentorProfile = $user->mentor;
 
         $courseIds = Course::where('mentor_name', $user->name)
             ->orWhere('mentor_id', $mentorProfile?->id)

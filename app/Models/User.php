@@ -143,6 +143,11 @@ class User extends Authenticatable
         return $this->hasMany(Report::class, 'reporter_id');
     }
 
+    public function mentor()
+    {
+        return $this->hasOne(Mentor::class);
+    }
+
     // ── Role Helpers ────────────────────────────────────────────────────────────
 
     /**

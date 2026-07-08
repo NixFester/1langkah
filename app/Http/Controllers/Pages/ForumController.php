@@ -7,6 +7,7 @@ use App\Models\ForumPost;
 use App\Models\ForumReply;
 use App\Models\ForumVote;
 use App\Models\User;
+use App\Services\AchievementService;
 use App\Services\XpService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;

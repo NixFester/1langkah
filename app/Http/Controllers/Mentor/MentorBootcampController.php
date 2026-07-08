@@ -25,23 +25,7 @@ class MentorBootcampController extends Controller
      */
     private function getMentorProfile(): ?MentorModel
     {
-        $user = auth()->user();
-
-        // First try to find by user_id (most reliable)
-        $mentor = MentorModel::where('user_id', $user->id)->first();
-
-        // Fallback to name matching
-        if (! $mentor) {
-            $mentor = MentorModel::where('name', $user->name)->first();
-        }
-
-        // Fallback: if user is a mentor and there's only one mentor profile, use it
-        // (useful for testing when names don't match)
-        if (! $mentor && $user->role === 'mentor') {
-            $mentor = MentorModel::first();
-        }
-
-        return $mentor;
+        return auth()->user()->mentor;
     }
 
     /**
@@ -254,19 +238,19 @@ class MentorBootcampController extends Controller
     /**
      * View attendance for a bootcamp
      */
-    public function attendance(int $bootcampId): View
+    public function attendance(Request $request): View
     {
-        $bootcamp = Bootcamp::with('sessions')->findOrFail($bootcampId);
+        $bootcamp = Bootcamp::with('sessions')->findOrFail($request->route('bootcamp'));
         $this->authorizeOwnership($bootcamp);
 
-        $records = AttendanceRecord::where('bootcamp_id', $bootcampId)
+        $records = AttendanceRecord::where('bootcamp_id', $bootcamp->id)
             ->with('user')
             ->orderBy('attendance_date', 'desc')
             ->get()
             ->groupBy('attendance_date');
 
         // Get unique short codes for today
-        $todayRecords = AttendanceRecord::where('bootcamp_id', $bootcampId)
+        $todayRecords = AttendanceRecord::where('bootcamp_id', $bootcamp->id)
             ->whereDate('attendance_date', today())
             ->get()
             ->map(fn ($r) => $r->short_code)
@@ -283,13 +267,13 @@ class MentorBootcampController extends Controller
     /**
      * Generate attendance codes for a bootcamp session
      */
-    public function generateCodes(Request $request, int $bootcampId): RedirectResponse
+    public function generateCodes(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'date' => 'required|date',
         ]);
 
-        $bootcamp = Bootcamp::findOrFail($bootcampId);
+        $bootcamp = Bootcamp::findOrFail($request->route('bootcamp'));
         $this->authorizeOwnership($bootcamp);
 
         // Generate a 4-character alphanumeric short code
@@ -302,12 +286,12 @@ class MentorBootcampController extends Controller
             $userCode = $this->generateShortCode();
 
             // Create attendance record with unique QR and short code
-            $uniqueQrCode = md5("bootcamp_{$bootcampId}_user_{$user->id}_date_{$validated['date']}_".now()->timestamp.Str::random(5));
+            $uniqueQrCode = md5("bootcamp_{$bootcamp->id}_user_{$user->id}_date_{$validated['date']}_".now()->timestamp.Str::random(5));
 
             AttendanceRecord::firstOrCreate(
                 [
                     'user_id' => $user->id,
-                    'bootcamp_id' => $bootcampId,
+                    'bootcamp_id' => $bootcamp->id,
                     'attendance_date' => $validated['date'],
                 ],
                 [

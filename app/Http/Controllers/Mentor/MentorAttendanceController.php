@@ -22,18 +22,18 @@ class MentorAttendanceController extends Controller
     /**
      * View attendance for a bootcamp
      */
-    public function index(int $bootcampId): View
+    public function index(Request $request): View
     {
-        $bootcamp = Bootcamp::with('sessions')->findOrFail($bootcampId);
+        $bootcamp = Bootcamp::with('sessions')->findOrFail($request->route('bootcampId'));
 
-        $records = AttendanceRecord::where('bootcamp_id', $bootcampId)
+        $records = AttendanceRecord::where('bootcamp_id', $bootcamp->id)
             ->with('user')
             ->orderBy('attendance_date', 'desc')
             ->get()
             ->groupBy('attendance_date');
 
         // Get unique short codes for today
-        $todayRecords = AttendanceRecord::where('bootcamp_id', $bootcampId)
+        $todayRecords = AttendanceRecord::where('bootcamp_id', $bootcamp->id)
             ->whereDate('attendance_date', today())
             ->get()
             ->map(fn ($r) => $r->short_code)
@@ -50,13 +50,13 @@ class MentorAttendanceController extends Controller
     /**
      * Generate attendance codes for a bootcamp session
      */
-    public function generateCodes(Request $request, int $bootcampId): RedirectResponse
+    public function generateCodes(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'date' => 'required|date',
         ]);
 
-        $bootcamp = Bootcamp::findOrFail($bootcampId);
+        $bootcamp = Bootcamp::findOrFail($request->route('bootcampId'));
 
         // Generate a 4-character alphanumeric short code
         $shortCode = $this->generateShortCode();
@@ -68,12 +68,12 @@ class MentorAttendanceController extends Controller
             $userCode = $this->generateShortCode();
 
             // Create attendance record with unique QR and short code
-            $uniqueQrCode = md5("bootcamp_{$bootcampId}_user_{$user->id}_date_{$validated['date']}_".now()->timestamp.Str::random(5));
+            $uniqueQrCode = md5("bootcamp_{$bootcamp->id}_user_{$user->id}_date_{$validated['date']}_".now()->timestamp.Str::random(5));
 
             AttendanceRecord::firstOrCreate(
                 [
                     'user_id' => $user->id,
-                    'bootcamp_id' => $bootcampId,
+                    'bootcamp_id' => $bootcamp->id,
                     'attendance_date' => $validated['date'],
                 ],
                 [

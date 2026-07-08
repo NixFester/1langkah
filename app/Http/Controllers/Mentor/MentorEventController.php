@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\EventRegistration;
 use App\Models\Mentor as MentorModel;
+use App\Services\AchievementService;
 use App\Services\XpService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -99,7 +100,7 @@ class MentorEventController extends Controller
             'max_participants' => $validated['max_participants'] ?? null,
             'banner_url' => $validated['banner_url'] ?? null,
             'color' => $validated['color'] ?? '#3B82F6',
-            'status' => 'published',
+            'status' => 'upcoming',
             'created_by' => $user->id,
             'mentor_id' => $mentorProfile->id,
             'is_mentor_created' => true,
@@ -193,9 +194,10 @@ class MentorEventController extends Controller
     /**
      * Menandai peserta hadir dan memberikan XP
      */
-    public function markAttended(EventRegistration $registration): RedirectResponse
+    public function markAttended(Request $request, Event $event): RedirectResponse
     {
-        $event = $registration->event;
+        $registration = EventRegistration::where('event_id', $event->id)
+            ->findOrFail($request->route('registration'));
 
         $this->authorizeMentorOwnership($event);
 
@@ -320,23 +322,7 @@ class MentorEventController extends Controller
      */
     private function getMentorProfile(): ?MentorModel
     {
-        $user = auth()->user();
-
-        // First try to find by user_id (most reliable)
-        $mentor = MentorModel::where('user_id', $user->id)->first();
-
-        // Fallback to name matching
-        if (! $mentor) {
-            $mentor = MentorModel::where('name', $user->name)->first();
-        }
-
-        // Fallback: if user is a mentor and there's only one mentor profile, use it
-        // (useful for testing when names don't match)
-        if (! $mentor && $user->role === 'mentor') {
-            $mentor = MentorModel::first();
-        }
-
-        return $mentor;
+        return auth()->user()->mentor;
     }
 
     /**

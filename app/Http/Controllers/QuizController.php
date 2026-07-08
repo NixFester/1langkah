@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Quiz;
 use App\Models\TestAttempt;
+use App\Services\AchievementService;
 use App\Services\XpService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;

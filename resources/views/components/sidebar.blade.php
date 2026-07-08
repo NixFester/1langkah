@@ -2,6 +2,8 @@
     /** @var string $activePage  id of the currently-active nav entry */
     $activePage = $activePage ?? 'dashboard';
 
+    use App\Models\MentorSession;
+
     // Each nav item maps to a named Laravel route.
     $isAuth = auth()->check();
     $user = $isAuth ? auth()->user() : null;
@@ -86,8 +88,11 @@
                 'color' => '#3b82f6',
                 'items' => [
                     ['id' => 'mentor.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'mentor.dashboard'],
+                    ['id' => 'mentor.profile.edit', 'icon' => 'user', 'label' => 'Edit Biodata', 'route' => 'mentor.profile.edit'],
                     ['id' => 'mentor.my-courses', 'icon' => 'book', 'label' => 'Kursus Saya', 'route' => 'mentor.my-courses'],
                     ['id' => 'mentor.courses.index', 'icon' => 'book', 'label' => 'Kelola Kursus', 'route' => 'mentor.courses.index'],
+                    ['id' => 'mentor.quizzes.index', 'icon' => 'quiz', 'label' => 'Kelola Quiz', 'route' => 'mentor.quizzes.index'],
+                    ['id' => 'mentor.sessions.index', 'icon' => 'video', 'label' => 'Sesi Mentoring', 'route' => 'mentor.sessions.index'],
                     ['id' => 'mentor.bootcamps.index', 'icon' => 'award', 'label' => 'Bootcamp Saya', 'route' => 'mentor.bootcamps.index'],
                     ['id' => 'mentor.events', 'icon' => 'calendar', 'label' => 'Event Saya', 'route' => 'mentor.events'],
                     ['id' => 'mentor.students', 'icon' => 'users', 'label' => 'Siswa Saya', 'route' => 'mentor.students'],
@@ -136,16 +141,32 @@
     }
     // Mentor routes
     elseif ($isMentorRoute) {
-        $navItems = [
-            ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'mentor.dashboard'],
-            ['id' => 'my-courses', 'icon' => 'book', 'label' => 'Kursus Saya', 'route' => 'mentor.my-courses'],
-            ['id' => 'courses.index', 'icon' => 'book', 'label' => 'Kelola Kursus', 'route' => 'mentor.courses.index'],
-            ['id' => 'bootcamps.index', 'icon' => 'award', 'label' => 'Bootcamp Saya', 'route' => 'mentor.bootcamps.index'],
-            ['id' => 'events', 'icon' => 'calendar', 'label' => 'Event Saya', 'route' => 'mentor.events'],
-            ['id' => 'students', 'icon' => 'users', 'label' => 'Siswa Saya', 'route' => 'mentor.students'],
-            ['id' => 'feedback', 'icon' => 'star', 'label' => 'Feedback & Rating', 'route' => 'mentor.feedback'],
-            ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Kembali ke App', 'route' => 'dashboard'],
-        ];
+        // Check if user has a mentor profile
+        $hasMentorProfile = $isMentor && $user && $user->mentor !== null;
+        $isEditProfileRoute = request()->routeIs('mentor.profile.edit') || request()->routeIs('mentor.profile.update');
+
+        // If no mentor profile and not on edit page, show only edit profile link
+        if (!$hasMentorProfile && !$isEditProfileRoute) {
+            $navItems = [
+                ['id' => 'profile.edit', 'icon' => 'user', 'label' => 'Edit Biodata', 'route' => 'mentor.profile.edit'],
+                ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Kembali ke App', 'route' => 'dashboard'],
+            ];
+        } else {
+            // Full mentor navigation when profile exists or on edit page
+            $navItems = [
+                ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'mentor.dashboard'],
+                ['id' => 'profile.edit', 'icon' => 'user', 'label' => 'Edit Biodata', 'route' => 'mentor.profile.edit'],
+                ['id' => 'my-courses', 'icon' => 'book', 'label' => 'Kursus Saya', 'route' => 'mentor.my-courses'],
+                ['id' => 'courses.index', 'icon' => 'book', 'label' => 'Kelola Kursus', 'route' => 'mentor.courses.index'],
+                ['id' => 'quizzes.index', 'icon' => 'quiz', 'label' => 'Kelola Quiz', 'route' => 'mentor.quizzes.index'],
+                ['id' => 'sessions.index', 'icon' => 'video', 'label' => 'Sesi Mentoring', 'route' => 'mentor.sessions.index'],
+                ['id' => 'bootcamps.index', 'icon' => 'award', 'label' => 'Bootcamp Saya', 'route' => 'mentor.bootcamps.index'],
+                ['id' => 'events', 'icon' => 'calendar', 'label' => 'Event Saya', 'route' => 'mentor.events'],
+                ['id' => 'students', 'icon' => 'users', 'label' => 'Siswa Saya', 'route' => 'mentor.students'],
+                ['id' => 'feedback', 'icon' => 'star', 'label' => 'Feedback & Rating', 'route' => 'mentor.feedback'],
+                ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Kembali ke App', 'route' => 'dashboard'],
+            ];
+        }
     }
     // Admin routes
     elseif ($isAdminRoute) {
@@ -196,6 +217,13 @@
         $navItems[] = ['id' => 'mentor', 'icon' => 'mentor', 'label' => 'Mentor', 'route' => 'mentor'];
 
         if ($isAuth) {
+            // Only show "Sesi Mentoring" if user has active mentor sessions
+            $hasActiveMentorSession = MentorSession::where('user_id', auth()->id())
+                ->whereIn('status', [MentorSession::STATUS_PENDING, MentorSession::STATUS_ACTIVE])
+                ->exists();
+            if ($hasActiveMentorSession) {
+                $navItems[] = ['id' => 'my-sessions', 'icon' => 'video', 'label' => 'Sesi Mentoring', 'route' => 'my-sessions'];
+            }
             $navItems[] = ['id' => 'kalender', 'icon' => 'calendar', 'label' => 'Kalender', 'route' => 'kalender'];
         }
 
