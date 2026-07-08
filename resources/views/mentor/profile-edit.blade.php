@@ -1,238 +1,207 @@
 @extends('layouts.mentor')
 
 @section('title', 'Edit Biodata Mentor')
-
 @section('header_title', 'Edit Biodata Mentor')
 
 @section('content')
-<div class="max-w-3xl mx-auto">
+<div class="w-full px-2 pb-8">
+    <div class="page-title" style="margin-bottom:8px">Edit Biodata Mentor</div>
+    <p style="font-size:14px;color:var(--text-muted);margin-bottom:28px">Sesuaikan informasi publik Anda yang akan dilihat oleh siswa saat memilih mentor.</p>
+
     {{-- Flash Messages --}}
     @if(session('success'))
-        <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-800">
+        <div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;color:#065f46;margin-bottom:20px;display:flex;align-items:center;gap:8px">
+            <x-icon name="check" style="width:16px;height:16px;color:#065f46" />
             {{ session('success') }}
         </div>
     @endif
     @if(session('error'))
-        <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800">
+        <div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;color:#b91c1c;margin-bottom:20px;display:flex;align-items:center;gap:8px">
             {{ session('error') }}
         </div>
     @endif
 
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
-        <h1 class="text-2xl font-bold text-gray-900 mb-6">Edit Biodata Mentor</h1>
-
-        <form method="POST" action="{{ route('mentor.profile.update') }}" class="space-y-6">
-            @csrf
-            @method('PATCH')
-
-            {{-- Basic Info --}}
-            <div class="space-y-4">
-                <h3 class="font-semibold text-gray-900 border-b pb-2">Informasi Dasar</h3>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap *</label>
-                    <input type="text" name="name" required value="{{ old('name', $mentor->name) }}"
-                           class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    @error('name')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+    <div class="grid-2" style="gap:28px;align-items:start">
+        {{-- Left: Tips / Info --}}
+        <div>
+            <div class="card" style="padding:28px;background:linear-gradient(135deg,var(--primary),#b91c1c);color:white;margin-bottom:20px">
+                <div style="font-size:18px;font-weight:700;margin-bottom:12px">Tips Profil Menarik ✨</div>
+                <div style="font-size:13px;color:rgba(255,255,255,0.9);line-height:1.6;margin-bottom:16px">
+                    Profil mentor yang lengkap dan jelas akan meningkatkan kepercayaan siswa untuk memesan sesi mentoring Anda.
                 </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Role / Jabatan *</label>
-                    <input type="text" name="role" required value="{{ old('role', $mentor->role) }}"
-                           placeholder="Contoh: Senior Developer, Data Scientist"
-                           class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    @error('role')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Perusahaan</label>
-                    <input type="text" name="company" value="{{ old('company', $mentor->company) }}"
-                           placeholder="Contoh: Google, Tokopedia"
-                           class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    @error('company')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Harga per Sesi</label>
-                    <div class="relative">
-                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">Rp</span>
-                        <input type="text" name="price" value="{{ old('price', $mentor->price) }}"
-                               placeholder="50000"
-                               class="w-full border border-gray-200 rounded-lg pl-10 pr-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <ul style="font-size:13px;color:rgba(255,255,255,0.9);line-height:1.6;padding-left:16px;margin:0" class="list-disc space-y-2">
+                    <li>Gunakan role jabatan spesifik.</li>
+                    <li>Sebutkan perusahaan saat ini atau portofolio terbesar.</li>
+                    <li>Detailkan keahlian Anda agar mudah dicari.</li>
+                    <li>Bio yang ramah namun profesional sangat disukai siswa.</li>
+                </ul>
+            </div>
+            
+            <div class="card" style="padding:24px">
+                <div class="section-title" style="margin-bottom:14px">Info Mentor</div>
+                <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+                    <div class="flex justify-between" style="padding:8px 0;border-bottom:1px solid var(--border-light)">
+                        <span style="color:var(--text-muted)">Total Sesi</span>
+                        <span style="font-weight:600">{{ $mentor->sessions_count ?? 0 }} sesi</span>
                     </div>
-                    <p class="text-gray-500 text-xs mt-1">Kosongkan atau isi 0 untuk gratis</p>
-                    @error('price')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+                    <div class="flex justify-between" style="padding:8px 0;border-bottom:1px solid var(--border-light)">
+                        <span style="color:var(--text-muted)">Rating Rata-rata</span>
+                        <div class="flex items-center gap-1 font-semibold text-amber-500">
+                            {{ number_format($mentor->rating ?? 0, 1) }} ⭐
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            {{-- Expertise --}}
-            <div class="space-y-4">
-                <h3 class="font-semibold text-gray-900 border-b pb-2">Keahlian (Expertise)</h3>
+        {{-- Right: Form Edit --}}
+        <div>
+            <form method="POST" action="{{ route('mentor.profile.update') }}">
+                @csrf
+                @method('PATCH')
 
-                <div x-data="{
-                    expertise: {{ json_encode(old('expertise', $mentor->expertise ?? [])) }},
-                    newExpertise: '',
-                    addExpertise() {
-                        if (this.newExpertise.trim() && !this.expertise.includes(this.newExpertise.trim())) {
-                            this.expertise.push(this.newExpertise.trim());
-                            this.newExpertise = '';
-                        }
-                    },
-                    removeExpertise(index) {
-                        this.expertise.splice(index, 1);
-                    }
-                }">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Tambahkan Keahlian</label>
-                    <div class="flex gap-2 mb-2">
-                        <input type="text" x-model="newExpertise" @keydown.enter.prevent="addExpertise()"
-                               placeholder="Contoh: Laravel, React, Python"
-                               class="flex-1 border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <button type="button" @click="addExpertise()"
-                                class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
-                            Tambah
-                        </button>
+                <div class="card" style="padding:24px;margin-bottom:20px">
+                    <div class="section-title" style="margin-bottom:18px">Informasi Dasar</div>
+                    
+                    <div class="input-group" style="margin-bottom:16px">
+                        <label>Nama Lengkap *</label>
+                        <input type="text" name="name" class="input" required value="{{ old('name', $mentor->name) }}" />
+                        @error('name')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
                     </div>
 
-                    {{-- Hidden input to submit expertise array --}}
-                    <template x-for="(exp, index) in expertise" :key="index">
-                        <input type="hidden" name="expertise[]" :value="exp">
-                    </template>
+                    <div class="input-group" style="margin-bottom:16px">
+                        <label>Role / Jabatan *</label>
+                        <input type="text" name="role" class="input" required value="{{ old('role', $mentor->role) }}" placeholder="Contoh: Senior Developer, Data Scientist" />
+                        @error('role')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
+                    </div>
 
-                    <div class="flex flex-wrap gap-2 mt-2">
+                    <div class="input-group" style="margin-bottom:16px">
+                        <label>Perusahaan</label>
+                        <input type="text" name="company" class="input" value="{{ old('company', $mentor->company) }}" placeholder="Contoh: Google, Tokopedia" />
+                        @error('company')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
+                    </div>
+
+                    <div class="input-group" style="margin-bottom:0">
+                        <label>Harga per Sesi (Rp)</label>
+                        <input type="text" name="price" class="input" value="{{ old('price', $mentor->price) }}" placeholder="50000" />
+                        <small style="color:var(--text-muted);font-size:11px;margin-top:4px;display:block">Kosongkan atau isi 0 untuk gratis</small>
+                        @error('price')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+
+                <div class="card" style="padding:24px;margin-bottom:20px">
+                    <div class="section-title" style="margin-bottom:18px">Bio & Keahlian</div>
+
+                    <div class="input-group" style="margin-bottom:16px">
+                        <label>Deskripsi Diri</label>
+                        <textarea name="bio" class="input" rows="4" placeholder="Ceritakan tentang pengalaman dan keahlian Anda...">{{ old('bio', $mentor->bio) }}</textarea>
+                        <small style="color:var(--text-muted);font-size:11px;margin-top:4px;display:block">Maksimal 2000 karakter</small>
+                        @error('bio')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
+                    </div>
+
+                    <div x-data="{
+                        expertise: {{ json_encode(old('expertise', $mentor->expertise ?? [])) }},
+                        newExpertise: '',
+                        addExpertise() {
+                            if (this.newExpertise.trim() && !this.expertise.includes(this.newExpertise.trim())) {
+                                this.expertise.push(this.newExpertise.trim());
+                                this.newExpertise = '';
+                            }
+                        },
+                        removeExpertise(index) {
+                            this.expertise.splice(index, 1);
+                        }
+                    }">
+                        <div class="input-group" style="margin-bottom:8px">
+                            <label>Tambahkan Keahlian</label>
+                            <div style="display:flex;gap:8px">
+                                <input type="text" x-model="newExpertise" @keydown.enter.prevent="addExpertise()" class="input" style="flex:1" placeholder="Contoh: Laravel, React, Python" />
+                                <button type="button" @click="addExpertise()" class="btn btn-outline" style="white-space:nowrap">Tambah</button>
+                            </div>
+                        </div>
+
                         <template x-for="(exp, index) in expertise" :key="index">
-                            <span class="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
-                                <span x-text="exp"></span>
-                                <button type="button" @click="removeExpertise(index)" class="hover:text-blue-600">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                    </svg>
-                                </button>
-                            </span>
+                            <input type="hidden" name="expertise[]" :value="exp">
                         </template>
+
+                        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+                            <template x-for="(exp, index) in expertise" :key="index">
+                                <span style="display:inline-flex;align-items:center;gap:4px;padding:4px 12px;background:#fee2e2;color:#990000;border-radius:999px;font-size:12px;font-weight:500;">
+                                    <span x-text="exp"></span>
+                                    <button type="button" @click="removeExpertise(index)" style="background:none;border:none;cursor:pointer;color:#dc2626;padding:0;display:flex;align-items:center">
+                                        <svg style="width:14px;height:14px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    </button>
+                                </span>
+                            </template>
+                        </div>
+                        <p x-show="expertise.length === 0" style="color:var(--text-muted);font-size:12px;margin-top:8px">Belum ada keahlian ditambahkan</p>
                     </div>
-                    <p x-show="expertise.length === 0" class="text-gray-400 text-sm mt-2">Belum ada keahlian ditambahkan</p>
-                </div>
-                @error('expertise')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- Bio --}}
-            <div class="space-y-4">
-                <h3 class="font-semibold text-gray-900 border-b pb-2">Bio</h3>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Diri</label>
-                    <textarea name="bio" rows="4"
-                              placeholder="Ceritakan tentang pengalaman dan keahlian Anda..."
-                              class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">{{ old('bio', $mentor->bio) }}</textarea>
-                    <p class="text-gray-500 text-xs mt-1">Maksimal 2000 karakter</p>
-                    @error('bio')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-
-            {{-- Contact --}}
-            <div class="space-y-4">
-                <h3 class="font-semibold text-gray-900 border-b pb-2">Informasi Kontak</h3>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">LinkedIn URL</label>
-                    <input type="url" name="linkedin_url" value="{{ old('linkedin_url', $mentor->linkedin_url) }}"
-                           placeholder="https://linkedin.com/in/username"
-                           class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    @error('linkedin_url')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nomor WhatsApp</label>
-                    <input type="tel" name="phone" value="{{ old('phone', $mentor->phone) }}"
-                           placeholder="081234567890"
-                           class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    @error('phone')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
+                <div class="card" style="padding:24px;margin-bottom:20px">
+                    <div class="section-title" style="margin-bottom:18px">Kontak & Ketersediaan</div>
 
-            {{-- Available Days --}}
-            <div class="space-y-4">
-                <h3 class="font-semibold text-gray-900 border-b pb-2">Hari Tersedia</h3>
+                    <div class="input-group" style="margin-bottom:16px">
+                        <label>LinkedIn URL</label>
+                        <input type="url" name="linkedin_url" class="input" value="{{ old('linkedin_url', $mentor->linkedin_url) }}" placeholder="https://linkedin.com/in/username" />
+                    </div>
 
-                <div x-data="{
-                    availableDays: {{ json_encode(old('available_days', $availableDays ?? [])) }},
-                    toggleDay(day) {
-                        const index = this.availableDays.indexOf(day);
-                        if (index > -1) {
-                            this.availableDays.splice(index, 1);
-                        } else {
-                            this.availableDays.push(day);
+                    <div class="input-group" style="margin-bottom:16px">
+                        <label>Nomor WhatsApp</label>
+                        <input type="tel" name="phone" class="input" value="{{ old('phone', $mentor->phone) }}" placeholder="081234567890" />
+                    </div>
+
+                    <div x-data="{
+                        availableDays: {{ json_encode(old('available_days', $availableDays ?? [])) }},
+                        toggleDay(day) {
+                            const index = this.availableDays.indexOf(day);
+                            if (index > -1) {
+                                this.availableDays.splice(index, 1);
+                            } else {
+                                this.availableDays.push(day);
+                            }
+                        },
+                        isSelected(day) {
+                            return this.availableDays.includes(day);
                         }
-                    },
-                    isSelected(day) {
-                        return this.availableDays.includes(day);
-                    }
-                }">
-                    <p class="text-sm text-gray-600 mb-3">Pilih hari-hari ketika Anda tersedia untuk mentoring</p>
+                    }">
+                        <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px;color:var(--text-primary)">Hari Tersedia</label>
+                        <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Pilih hari-hari ketika Anda tersedia untuk sesi mentoring</p>
 
-                    {{-- Hidden inputs --}}
-                    <template x-for="day in availableDays" :key="day">
-                        <input type="hidden" name="available_days[]" :value="day">
-                    </template>
+                        <template x-for="day in availableDays" :key="day">
+                            <input type="hidden" name="available_days[]" :value="day">
+                        </template>
 
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        @php
-                            $days = [
-                                0 => ['label' => 'Minggu', 'short' => 'Min'],
-                                1 => ['label' => 'Senin', 'short' => 'Sen'],
-                                2 => ['label' => 'Selasa', 'short' => 'Sel'],
-                                3 => ['label' => 'Rabu', 'short' => 'Rab'],
-                                4 => ['label' => 'Kamis', 'short' => 'Kam'],
-                                5 => ['label' => 'Jumat', 'short' => 'Jum'],
-                                6 => ['label' => 'Sabtu', 'short' => 'Sab'],
-                            ];
-                        @endphp
-                        @foreach($days as $index => $day)
-                            <button type="button"
-                                    @click="toggleDay({{ $index }})"
-                                    :class="isSelected({{ $index }}) ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-200 hover:border-blue-300'"
-                                    class="px-4 py-3 border rounded-lg text-sm font-medium transition flex flex-col items-center">
-                                <span x-text="isSelected({{ $index }}) ? '{{ $day['label'] }}' : '{{ $day['short'] }}'"></span>
-                                <svg x-show="isSelected({{ $index }})" class="w-4 h-4 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                </svg>
-                            </button>
-                        @endforeach
+                        <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:8px">
+                            @php
+                                $days = [
+                                    0 => ['label' => 'Minggu', 'short' => 'Min'],
+                                    1 => ['label' => 'Senin', 'short' => 'Sen'],
+                                    2 => ['label' => 'Selasa', 'short' => 'Sel'],
+                                    3 => ['label' => 'Rabu', 'short' => 'Rab'],
+                                    4 => ['label' => 'Kamis', 'short' => 'Kam'],
+                                    5 => ['label' => 'Jumat', 'short' => 'Jum'],
+                                    6 => ['label' => 'Sabtu', 'short' => 'Sab'],
+                                ];
+                            @endphp
+                            @foreach($days as $index => $day)
+                                <button type="button" @click="toggleDay({{ $index }})"
+                                        :style="isSelected({{ $index }}) ? 'background:#cc0000;color:white;border-color:#cc0000' : ''"
+                                        class="btn btn-outline" style="padding:8px 4px;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                                    <span x-text="isSelected({{ $index }}) ? '{{ $day['label'] }}' : '{{ $day['short'] }}'"></span>
+                                    <svg x-show="isSelected({{ $index }})" style="width:14px;height:14px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                </button>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-                @error('available_days')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
 
-            {{-- Submit --}}
-            <div class="flex justify-end gap-3 pt-4 border-t">
-                <a href="{{ route('mentor.dashboard') }}"
-                   class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
-                    Batal
-                </a>
-                <button type="submit"
-                        class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                    Simpan Profil
-                </button>
-            </div>
-        </form>
+                <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:24px">
+                    <a href="{{ route('mentor.dashboard') }}" class="btn btn-outline">Batal</a>
+                    <button type="submit" class="btn btn-primary">Simpan Profil</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 @endsection

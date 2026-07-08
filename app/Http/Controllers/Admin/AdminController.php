@@ -13,6 +13,7 @@ use App\Models\Resource;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class AdminController extends Controller
@@ -64,8 +65,13 @@ class AdminController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|' . Option::getValidationRule('user_role'),
-            'profile_photo' => 'nullable|string|max:255',
+            'profile_photo_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
+
+        if ($request->hasFile('profile_photo_file')) {
+            $path = $request->file('profile_photo_file')->store('users', 'public');
+            $data['profile_photo'] = '/storage/' . $path;
+        }
 
         $data['password'] = bcrypt($data['password']);
         User::create($data);
@@ -85,8 +91,21 @@ class AdminController extends Controller
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
             'role' => 'required|' . Option::getValidationRule('user_role'),
-            'profile_photo' => 'nullable|string|max:255',
+            'profile_photo_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
+
+        if ($request->hasFile('profile_photo_file')) {
+            if ($user->profile_photo && str_starts_with($user->profile_photo, '/storage/')) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $user->profile_photo));
+            }
+            $path = $request->file('profile_photo_file')->store('users', 'public');
+            $data['profile_photo'] = '/storage/' . $path;
+        } elseif ($request->boolean('remove_photo')) {
+            if ($user->profile_photo && str_starts_with($user->profile_photo, '/storage/')) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $user->profile_photo));
+            }
+            $data['profile_photo'] = null;
+        }
 
         if (!empty($data['password'])) {
             $data['password'] = bcrypt($data['password']);
@@ -421,7 +440,13 @@ class AdminController extends Controller
             'max_participants'  => 'nullable|integer|min:1',
             'color'             => 'nullable|string|max:20',
             'banner_url'        => 'nullable|url|max:255',
+            'banner_image'      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
+
+        if ($request->hasFile('banner_image')) {
+            $path = $request->file('banner_image')->store('events', 'public');
+            $data['banner_url'] = '/storage/' . $path;
+        }
 
         $data['slug']       = \Illuminate\Support\Str::slug($data['title']) . '-' . time();
         $data['created_by'] = auth()->id();
@@ -453,7 +478,21 @@ class AdminController extends Controller
             'max_participants'  => 'nullable|integer|min:1',
             'color'             => 'nullable|string|max:20',
             'banner_url'        => 'nullable|url|max:255',
+            'banner_image'      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
+
+        if ($request->hasFile('banner_image')) {
+            if ($event->banner_url && str_starts_with($event->banner_url, '/storage/')) {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $event->banner_url));
+            }
+            $path = $request->file('banner_image')->store('events', 'public');
+            $data['banner_url'] = '/storage/' . $path;
+        } elseif ($request->boolean('remove_banner')) {
+            if ($event->banner_url && str_starts_with($event->banner_url, '/storage/')) {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $event->banner_url));
+            }
+            $data['banner_url'] = null;
+        }
 
         $data['slug']       = \Illuminate\Support\Str::slug($data['title']) . '-' . time();
         $data['created_by'] = auth()->id();

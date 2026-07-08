@@ -239,10 +239,13 @@
     <!-- PICTURES SECTION -->
     <x-form-card title="Gambar Bootcamp">
         <!-- ADD PICTURE FORM -->
-        <form method="POST" action="{{ route('admin.pictures.store', ['bootcamp', $bootcamp->id]) }}" class="p-6 border-b border-gray-100">
+        <form method="POST" action="{{ route('admin.pictures.store', ['bootcamp', $bootcamp->id]) }}" enctype="multipart/form-data" class="p-6 border-b border-gray-100">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <x-form-input name="image_url" type="url" label="URL Gambar" placeholder="https://contoh.com/gambar.jpg" :required="true" />
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Pilih File Gambar <span class="text-red-500">*</span></label>
+                    <input type="file" name="image" accept="image/*" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-2 transition-colors">
+                </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Tipe</label>
                     <select name="type" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3">

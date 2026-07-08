@@ -15,7 +15,7 @@ class PictureController extends Controller
     public function store(Request $request, string $type, int $id): RedirectResponse
     {
         $request->validate([
-            'image_url' => 'required|url|max:500',
+            'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
             'type' => 'required|in:thumbnail,gallery',
             'description' => 'nullable|string|max:255',
         ]);
@@ -24,11 +24,14 @@ class PictureController extends Controller
         $modelType = $type === 'course' ? Course::class : Bootcamp::class;
         $model = $modelType::findOrFail($id);
 
-        // Create picture with URL directly
+        $path = $request->file('image')->store('pictures', 'public');
+        $url = '/storage/' . $path;
+
+        // Create picture with uploaded file URL
         Picture::create([
             'pictureable_type' => $modelType,
             'pictureable_id' => $id,
-            'url' => trim($request->image_url),
+            'url' => $url,
             'type' => $request->type,
             'description' => $request->description,
             'order' => $model->pictures()->max('order') + 1,
@@ -40,10 +43,10 @@ class PictureController extends Controller
     public function destroy(Picture $picture): RedirectResponse
     {
         // Optionally delete the file from storage
-        if ($picture->url && str_contains($picture->url, '/storage/pictures/')) {
-            $path = str_replace(asset('storage') . '/', '', $picture->url);
-            if (\Storage::disk('public')->exists($path)) {
-                \Storage::disk('public')->delete($path);
+        if ($picture->url && str_starts_with($picture->url, '/storage/')) {
+            $path = str_replace('/storage/', '', $picture->url);
+            if (\Illuminate\Support\Facades\Storage::disk('public')->exists($path)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($path);
             }
         }
 

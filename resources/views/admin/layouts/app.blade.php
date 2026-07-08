@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin Panel - 1Langkah</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
         .admin-sidebar { width: 250px; background: #111827; color: #fff; min-height: 100vh; position: fixed; left: 0; top: 0; padding: 20px 0; }

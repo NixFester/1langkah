@@ -25,7 +25,7 @@
 
     <!-- FORM CARD -->
     <x-form-card>
-        <form method="POST" action="{{ isset($event) ? route('admin.events.update', $event) : route('admin.events.store') }}" class="space-y-6">
+        <form method="POST" action="{{ isset($event) ? route('admin.events.update', $event) : route('admin.events.store') }}" class="space-y-6" enctype="multipart/form-data">
             @csrf
             @if(isset($event))
                 @method('PATCH')
@@ -71,6 +71,23 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">Deskripsi (Opsional)</label>
                     <textarea name="description" rows="4" placeholder="Ceritakan detail event ini" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors resize-y">{{ old('description', $event->description ?? '') }}</textarea>
                 </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Gambar/Banner (Opsional)</label>
+                    <input type="hidden" name="remove_banner" id="remove-banner-input" value="0">
+                    @if(isset($event) && $event->banner_url)
+                        <div class="mb-3 relative inline-block" id="image-preview-container">
+                            <img id="image-preview" src="{{ str_starts_with($event->banner_url, 'http') ? $event->banner_url : asset($event->banner_url) }}" alt="Banner" class="h-32 object-cover rounded-lg border border-gray-200">
+                            <button type="button" onclick="removeImagePreview()" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition-colors" title="Hapus Gambar">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+                    @endif
+                    <div id="file-input-container" style="display: {{ isset($event) && $event->banner_url ? 'none' : 'block' }};">
+                        <input type="file" name="banner_image" accept="image/*" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-2 transition-colors">
+                        <input type="hidden" name="banner_url" value="{{ old('banner_url', $event->banner_url ?? '') }}">
+                        <p class="text-xs text-gray-500 mt-1">Unggah gambar baru untuk banner event. Maksimal 2MB (JPG, PNG).</p>
+                    </div>
+                </div>
             </div>
 
             <div class="pt-4 border-t border-gray-100 flex justify-end">
@@ -83,3 +100,60 @@
 
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    const imageInput = document.querySelector('input[name="banner_image"]');
+    const removeBannerInput = document.getElementById('remove-banner-input');
+    const fileInputContainer = document.getElementById('file-input-container');
+    
+    function removeImagePreview() {
+        const previewDiv = document.getElementById('image-preview-container');
+        if (previewDiv) {
+            previewDiv.style.display = 'none';
+        }
+        if (imageInput) {
+            imageInput.value = '';
+        }
+        if (removeBannerInput) {
+            removeBannerInput.value = '1';
+        }
+        if (fileInputContainer) {
+            fileInputContainer.style.display = 'block';
+        }
+    }
+
+    if (imageInput) {
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    let previewDiv = document.getElementById('image-preview-container');
+                    if (!previewDiv) {
+                        previewDiv = document.createElement('div');
+                        previewDiv.id = 'image-preview-container';
+                        previewDiv.className = 'mb-3 relative inline-block';
+                        previewDiv.innerHTML = `
+                            <img id="image-preview" src="" class="h-32 object-cover rounded-lg border border-gray-200">
+                            <button type="button" onclick="removeImagePreview()" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition-colors" title="Hapus Gambar">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        `;
+                        fileInputContainer.parentNode.insertBefore(previewDiv, fileInputContainer);
+                    }
+                    previewDiv.style.display = 'inline-block';
+                    document.getElementById('image-preview').src = e.target.result;
+                    if (removeBannerInput) {
+                        removeBannerInput.value = '0';
+                    }
+                    if (fileInputContainer) {
+                        fileInputContainer.style.display = 'none';
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+</script>
+@endpush

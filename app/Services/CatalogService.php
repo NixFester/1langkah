@@ -624,6 +624,7 @@ class CatalogService
                 'time' => $dt->format('H:i').' WIB',
                 'type' => $e->type,
                 'color' => $e->color ?? '#cc0000',
+                'banner_url' => $e->banner_url,
             ];
         })->toArray();
     }

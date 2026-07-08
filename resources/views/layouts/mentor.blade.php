@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Mentor - 1Langkah')</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @stack('styles')
@@ -49,25 +50,15 @@
     <!-- Mobile overlay -->
     <div x-show="sidebarMobileOpen" @click="sidebarMobileOpen = false" class="fixed inset-0 bg-gray-900/50 z-[95] lg:hidden" style="display: none;" x-transition.opacity></div>
 
-    <x-sidebar :active-page="$activePage ?? 'dashboard'" />
+    <x-sidebar :active-page="Route::currentRouteName() ?? 'dashboard'" />
 
     <div class="main-content">
-        {{-- Topbar --}}
-        <header class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 z-40">
-            <div class="flex items-center gap-4">
-                <h1 class="text-xl font-bold text-gray-800">@yield('header_title', 'Dashboard Mentor')</h1>
-            </div>
-            <div class="flex items-center gap-4">
-                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                    Mentor
-                </span>
-            </div>
-        </header>
+        <x-topbar />
 
         {{-- Page Content --}}
-        <main class="page-content p-6 overflow-auto fade-in">
+        <div class="page-content fade-in p-2 sm:p-6">
             @yield('content')
-        </main>
+        </div>
     </div>
 
     @stack('scripts')

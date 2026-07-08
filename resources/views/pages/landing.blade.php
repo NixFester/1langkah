@@ -1082,11 +1082,11 @@
         </div>
         
         <!-- Bottom Bar -->
-        <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="text-[13px] text-gray-600">
+        <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center">
+            <div class="text-[13px] text-gray-600 md:text-left">
                 &copy; {{ date('Y') }} 1Langkah Technologies. All rights reserved. | Developed by ELCoding.id
             </div>
-            <div class="text-[13px] text-gray-600">
+            <div class="text-[13px] text-gray-600 md:text-right">
                 AI-Powered Learning Experience Platform &middot; Made in Indonesia 🇮🇩
             </div>
         </div>

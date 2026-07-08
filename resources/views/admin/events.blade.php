@@ -31,8 +31,12 @@
         <tr class="hover:bg-gray-50 transition-colors">
             <td class="px-6 py-4">
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0 text-purple-600">
-                        <x-icon name="calendar" class="w-6 h-6" />
+                    <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0 text-purple-600 overflow-hidden">
+                        @if($event->banner_url)
+                            <img src="{{ str_starts_with($event->banner_url, 'http') ? $event->banner_url : asset($event->banner_url) }}" alt="{{ $event->title }}" class="w-full h-full object-cover">
+                        @else
+                            <x-icon name="calendar" class="w-6 h-6" />
+                        @endif
                     </div>
                     <div class="min-w-0">
                         <div class="text-sm font-bold text-gray-900 truncate">{{ $event->title }}</div>

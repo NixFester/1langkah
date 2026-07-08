@@ -118,7 +118,7 @@
     <style>[x-cloak] { display: none !important; }</style>
 
     <!-- Search & Filter Bar -->
-    <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
+    <div @click.away="showFilter = false" class="relative z-20 bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
         <div class="flex flex-col md:flex-row gap-4">
             <!-- Search Input -->
             <div class="flex-1 relative">
@@ -128,8 +128,8 @@
             </div>
 
             <!-- Sort Dropdown -->
-            <div class="relative">
-                <select x-model="sortBy" class="appearance-none bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 pr-10 text-sm text-gray-700 focus:ring-2 focus:ring-red-500 focus:border-red-500 cursor-pointer">
+            <div class="relative w-full md:w-auto">
+                <select x-model="sortBy" class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 pr-10 text-sm text-gray-700 focus:ring-2 focus:ring-red-500 focus:border-red-500 cursor-pointer">
                     <option value="newest">Terbaru</option>
                     <option value="rating">Rating Tertinggi</option>
                     <option value="price_low">Harga: Rendah ke Tinggi</option>
@@ -143,14 +143,22 @@
             <!-- Filter Toggle -->
             <button @click="showFilter = !showFilter"
                 :class="showFilter ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-700 border-gray-200'"
-                class="px-4 py-3 border rounded-xl text-sm font-medium flex items-center gap-2 transition-colors">
+                class="px-4 py-3 border rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-colors w-full md:w-auto">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
                 Filter
             </button>
         </div>
 
         <!-- Filter Panel -->
-        <div x-show="showFilter" x-collapse class="mt-4 pt-4 border-t border-gray-100">
+        <div x-show="showFilter" 
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 translate-y-[-10px]"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 translate-y-[-10px]"
+             style="display: none;"
+             class="absolute left-0 right-0 top-full mt-3 bg-white rounded-2xl p-5 border border-gray-100 shadow-xl z-50">
             <div class="flex flex-col gap-4">
                 <div>
                     <label class="block text-xs font-medium text-gray-500 mb-2">Level</label>
@@ -166,28 +174,24 @@
                 </div>
 
 
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 mb-2">Kategori</label>
+                    <div class="flex flex-wrap gap-2">
+                        <template x-for="cat in ['All', 'Programming', 'Design', 'AI', 'Marketing', 'Data', 'Leadership', 'Business']" :key="cat">
+                            <button @click="activeCat = cat"
+                                :class="activeCat === cat ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                                class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
+                                x-text="cat">
+                            </button>
+                        </template>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
 
-    <!-- Categories (Semua only) -->
-    <div x-show="tab === 'semua'" class="flex items-center gap-3 overflow-x-auto pb-2 -mt-4">
-        <button @click="activeCat = 'All'"
-            :class="activeCat === 'All' ? 'text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'"
-            :style="activeCat === 'All' ? 'background-color: #dc2626; padding: 8px 20px; border-radius: 9999px; font-size: 14px; font-weight: 500;' : 'padding: 8px 20px; border-radius: 9999px; font-size: 14px; font-weight: 500;'"
-            class="py-2 transition-colors whitespace-nowrap cursor-pointer">
-            All
-        </button>
-        @foreach(['Programming', 'Design', 'AI', 'Marketing', 'Data', 'Leadership', 'Business'] as $cat)
-            <button @click="activeCat = '{{ $cat }}'"
-                :class="activeCat === '{{ $cat }}' ? 'text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'"
-                :style="activeCat === '{{ $cat }}' ? 'background-color: #dc2626; padding: 8px 20px; border-radius: 9999px; font-size: 14px; font-weight: 500;' : 'padding: 8px 20px; border-radius: 9999px; font-size: 14px; font-weight: 500;'"
-                class="py-2 transition-colors whitespace-nowrap cursor-pointer">
-                {{ $cat }}
-            </button>
-        @endforeach
-    </div>
+    <!-- Categories (Semua only) - Moved to Filter Panel -->
 
 
 

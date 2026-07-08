@@ -25,8 +25,8 @@
             <div style="position:relative; width:96px; height:96px; margin:0 auto 16px;">
                 <!-- Main Avatar -->
                 <div style="width:100%; height:100%; border-radius:50%; background:linear-gradient(135deg,var(--primary),#b91c1c); display:flex; align-items:center; justify-content:center; font-size:48px; font-weight:700; color:#fff; border:3px solid #fee2e2; overflow:hidden;" id="avatar-display">
-                    @if(isset($u->settings->avatar) && $u->settings->avatar)
-                        <img src="{{ $u->settings->avatar_url }}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
+                    @if($u->profile_photo)
+                        <img src="{{ $u->profile_photo }}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
                     @else
                         {{ strtoupper(substr($u->name, 0, 1)) }}
                     @endif

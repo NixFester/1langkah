@@ -28,9 +28,13 @@
         <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
         <div class="relative z-10 flex flex-col md:flex-row items-center gap-6">
             <div class="w-24 h-24 rounded-full bg-white/20 p-1">
+                @if(!empty($portfolio['user']['profile_photo']))
+                <img src="{{ $portfolio['user']['profile_photo'] }}" alt="{{ $portfolio['user']['name'] ?? 'User' }}" class="w-full h-full rounded-full object-cover">
+                @else
                 <div class="w-full h-full rounded-full bg-white/30 flex items-center justify-center text-3xl font-bold">
                     {{ $portfolio['user']['initials'] ?? 'ME' }}
                 </div>
+                @endif
             </div>
             <div class="text-center md:text-left flex-1">
                 <h2 class="text-2xl font-bold">{{ $portfolio['user']['name'] ?? 'User' }}</h2>

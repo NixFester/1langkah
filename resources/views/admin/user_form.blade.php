@@ -25,7 +25,7 @@
 
     <!-- FORM CARD -->
     <x-form-card>
-        <form method="POST" action="{{ isset($user) ? route('admin.users.update', $user) : route('admin.users.store') }}" class="space-y-6">
+        <form method="POST" action="{{ isset($user) ? route('admin.users.update', $user) : route('admin.users.store') }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @if(isset($user))
                 @method('PATCH')
@@ -58,8 +58,20 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">URL Foto Profil (Opsional)</label>
-                    <input type="text" name="profile_photo" value="{{ old('profile_photo', $user->profile_photo ?? '') }}" placeholder="https://..." class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Foto Profil (Opsional)</label>
+                    <input type="hidden" name="remove_photo" id="remove-photo-input" value="0">
+                    @if(isset($user) && $user->profile_photo)
+                        <div class="mb-3 relative inline-block" id="photo-preview-container">
+                            <img id="photo-preview" src="{{ str_starts_with($user->profile_photo, 'http') ? $user->profile_photo : asset($user->profile_photo) }}" alt="Foto Profil" class="h-24 w-24 object-cover rounded-full border border-gray-200">
+                            <button type="button" onclick="removePhotoPreview()" class="absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition-colors" title="Hapus Foto">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+                    @endif
+                    <div id="photo-input-container" style="display: {{ isset($user) && $user->profile_photo ? 'none' : 'block' }};">
+                        <input type="file" name="profile_photo_file" accept="image/*" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-2 transition-colors">
+                        <p class="text-xs text-gray-500 mt-1">Unggah gambar baru. Maksimal 2MB (JPG, PNG).</p>
+                    </div>
                 </div>
             </div>
 
@@ -73,3 +85,60 @@
 
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    const photoInput = document.querySelector('input[name="profile_photo_file"]');
+    const removePhotoInput = document.getElementById('remove-photo-input');
+    const photoInputContainer = document.getElementById('photo-input-container');
+    
+    function removePhotoPreview() {
+        const previewDiv = document.getElementById('photo-preview-container');
+        if (previewDiv) {
+            previewDiv.style.display = 'none';
+        }
+        if (photoInput) {
+            photoInput.value = '';
+        }
+        if (removePhotoInput) {
+            removePhotoInput.value = '1';
+        }
+        if (photoInputContainer) {
+            photoInputContainer.style.display = 'block';
+        }
+    }
+
+    if (photoInput) {
+        photoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    let previewDiv = document.getElementById('photo-preview-container');
+                    if (!previewDiv) {
+                        previewDiv = document.createElement('div');
+                        previewDiv.id = 'photo-preview-container';
+                        previewDiv.className = 'mb-3 relative inline-block';
+                        previewDiv.innerHTML = `
+                            <img id="photo-preview" src="" class="h-24 w-24 object-cover rounded-full border border-gray-200">
+                            <button type="button" onclick="removePhotoPreview()" class="absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition-colors" title="Hapus Foto">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        `;
+                        photoInputContainer.parentNode.insertBefore(previewDiv, photoInputContainer);
+                    }
+                    previewDiv.style.display = 'inline-block';
+                    document.getElementById('photo-preview').src = e.target.result;
+                    if (removePhotoInput) {
+                        removePhotoInput.value = '0';
+                    }
+                    if (photoInputContainer) {
+                        photoInputContainer.style.display = 'none';
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+</script>
+@endpush
