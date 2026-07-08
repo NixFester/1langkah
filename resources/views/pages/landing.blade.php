@@ -60,18 +60,18 @@
 </nav>
 
 <!-- Hero & Partners Full Screen Wrapper -->
-<div class="min-h-[100svh] lg:min-h-[800px] xl:min-h-[850px] w-full flex flex-col overflow-x-hidden bg-[#050304]">
+<div class="min-h-screen min-h-[100svh] min-h-[100dvh] w-full flex flex-col overflow-x-hidden bg-[#050304]">
     
     <!-- Hero -->
-    <section class="relative flex-1 w-full flex flex-col justify-center px-6 md:px-12 pt-[75px] lg:pt-[120px] pb-4 lg:pb-8 z-10">
+    <section class="relative flex-1 w-full flex flex-col justify-center px-6 md:px-12 pt-[75px] lg:pt-[90px] pb-4 lg:pb-6 z-10">
     <!-- Red gradient glow in background -->
     <div class="absolute top-0 right-[15%] w-[600px] h-[600px] bg-[#FF0000]/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
 
     <div class="max-w-[1400px] mx-auto w-full relative z-10 flex flex-col flex-1 justify-center min-h-0">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 xl:gap-8 items-end">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 xl:gap-8 items-center">
             
             <!-- Left side: Text Content -->
-            <div class="relative z-10 flex flex-col items-start justify-center">
+            <div class="relative z-10 flex flex-col items-center lg:items-start text-center lg:text-left justify-center">
                 
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-3 py-1 lg:py-1.5 rounded-full border border-[#D10000]/30 bg-[#D10000]/10 mb-2.5 lg:mb-4">
@@ -80,7 +80,7 @@
                 </div>
 
                 <!-- Title -->
-                <h1 class="text-[34px] leading-[1.05] sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[70px] font-extrabold sm:leading-[1.05] tracking-tight text-white mb-2 lg:mb-4">
+                <h1 class="text-[34px] leading-[1.05] sm:text-4xl md:text-5xl lg:text-[50px] xl:text-[64px] font-extrabold sm:leading-[1.05] tracking-tight text-white mb-2 lg:mb-3">
                     Satu Langkah<br>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Menuju Masa</span><br>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Depan</span><br>
@@ -88,11 +88,11 @@
                 </h1>
 
                 <!-- Subtitle -->
-                <p class="text-[12.5px] sm:text-[13.5px] lg:text-[16px] xl:text-lg text-[#9ca3af] mb-3 lg:mb-5 xl:mb-6 max-w-[500px] leading-relaxed">
+                <p class="text-[12.5px] sm:text-[13.5px] lg:text-[15px] xl:text-[16px] text-[#9ca3af] mb-3 lg:mb-4 max-w-[500px] leading-relaxed">
                     Kuasai skill praktis, bangun pengalaman nyata dari proyek perusahaan, raih sertifikat terverifikasi, dan percepat karir kamu bersama AI terdepan.
                 </p>
 
-                <div class="flex flex-row flex-wrap items-stretch sm:items-center gap-2 sm:gap-4 lg:gap-5 xl:gap-6 mb-3 lg:mb-6 w-full sm:w-auto">
+                <div class="flex flex-row flex-wrap justify-center lg:justify-start items-stretch sm:items-center gap-2 sm:gap-4 lg:gap-4 mb-3 lg:mb-4 w-full sm:w-auto">
                     <a href="{{ route('signup') }}" class="flex-1 sm:w-auto justify-center inline-flex items-center gap-1.5 px-2 sm:px-5 py-2.5 lg:px-7 lg:py-4 xl:px-8 xl:py-4 bg-gradient-to-b from-[#e60000] to-[#880000] text-white font-bold text-[12px] sm:text-[13.5px] lg:text-[14px] xl:text-[16px] rounded-[12px] lg:rounded-[18px] hover:from-[#ff0000] hover:to-[#990000] transition-all shadow-[0_4px_14px_rgba(209,0,0,0.4)]">
                         <span class="truncate">Mulai Belajar</span> 
                         <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 stroke-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
@@ -103,7 +103,7 @@
                 </div>
 
                 <!-- Watch Demo -->
-                <button class="group flex items-center gap-3 text-[#d1d5db] hover:text-white transition-colors">
+                <button class="group flex items-center justify-center lg:justify-start gap-3 text-[#d1d5db] hover:text-white transition-colors">
                     <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-white/5 group-hover:border-white/30 group-hover:bg-white/10 transition-all">
                         <svg class="w-3.5 h-3.5 ml-1 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </div>
@@ -115,7 +115,7 @@
 
             <!-- Right side: Illustrative Dashboard Mockup -->
             <div class="relative z-10 hidden lg:flex items-center justify-center w-full min-h-0">
-                <div class="relative w-full max-w-[500px] xl:max-w-[650px] mx-auto origin-center lg:mt-4 xl:mt-8 -mb-16 lg:-mb-24 xl:-mb-28">
+                <div class="relative w-full max-w-[500px] xl:max-w-[580px] mx-auto origin-center lg:mt-2 xl:mt-4 -mb-16 lg:-mb-24 xl:-mb-24">
                     <!-- Floating Pills -->
                     <div class="absolute left-[2%] top-[25%] px-4 py-1.5 lg:px-5 lg:py-2 bg-transparent backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_7s_ease-in-out_infinite]">React</div>
                     <div class="absolute left-[5%] top-[45%] px-4 py-1.5 lg:px-5 lg:py-2 bg-transparent backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_8s_ease-in-out_infinite_reverse]">Python</div>
@@ -138,7 +138,7 @@
             </div>
 
         <!-- Bottom Stats Row -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-4 xl:gap-8 items-center w-full relative z-20 pt-2 lg:pt-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-4 xl:gap-8 items-center w-full relative z-20 pt-2 lg:pt-4">
             
             <!-- Stats (Left Column) -->
             <div class="grid grid-cols-2 sm:flex items-center justify-center lg:justify-start gap-3 sm:gap-6 lg:gap-8 xl:gap-14 w-full">
@@ -187,19 +187,35 @@
     </section>
     
     <!-- Partners -->
-    <section class="py-3 lg:py-4 px-6 md:px-12 bg-transparent border-t border-white/5 relative z-20">
-        <div class="max-w-[1400px] mx-auto text-center">
-            <p class="text-[9px] lg:text-[10px] font-bold tracking-[0.2em] text-[#6b7280] uppercase mb-2 lg:mb-3">DIPERCAYA OLEH 300+ PERUSAHAAN & INSTITUSI TERKEMUKA</p>
-        <div class="flex flex-wrap justify-center items-center gap-4 lg:gap-6 xl:gap-12 opacity-60">
-            <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">GOJEK</span>
-            <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">SHOPEE</span>
-            <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">TRAVELOKA</span>
-            <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">GRAB</span>
-            <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">BUKALAPAK</span>
-            <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">PERTAMINA</span>
-            <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">BCA</span>
-            <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">TELKOM</span>
-            <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">BLIBLI</span>
+    <section class="py-3 lg:py-5 bg-transparent border-t border-white/5 relative z-20 overflow-hidden">
+        <div class="max-w-[1400px] mx-auto text-center px-6 md:px-12">
+            <p class="text-[9px] lg:text-[10px] font-bold tracking-[0.2em] text-[#6b7280] uppercase mb-3 lg:mb-5">DIPERCAYA OLEH 300+ PERUSAHAAN & INSTITUSI TERKEMUKA</p>
+        </div>
+        <div class="relative flex overflow-x-hidden lg:overflow-visible group max-w-full lg:justify-center">
+            <!-- First Set -->
+            <div class="flex shrink-0 animate-marquee lg:animate-none lg:flex-wrap items-center justify-around lg:justify-center gap-12 lg:gap-6 xl:gap-12 px-6 lg:px-8 min-w-full lg:min-w-0 opacity-60">
+                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">GOJEK</span>
+                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">SHOPEE</span>
+                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">TRAVELOKA</span>
+                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">GRAB</span>
+                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">BUKALAPAK</span>
+                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">PERTAMINA</span>
+                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">BCA</span>
+                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">TELKOM</span>
+                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">BLIBLI</span>
+            </div>
+            <!-- Second Set (Duplicate for seamless loop) -->
+            <div aria-hidden="true" class="flex lg:hidden shrink-0 animate-marquee items-center justify-around gap-12 px-6 min-w-full opacity-60">
+                <span class="text-sm font-bold text-[#9ca3af]">GOJEK</span>
+                <span class="text-sm font-bold text-[#9ca3af]">SHOPEE</span>
+                <span class="text-sm font-bold text-[#9ca3af]">TRAVELOKA</span>
+                <span class="text-sm font-bold text-[#9ca3af]">GRAB</span>
+                <span class="text-sm font-bold text-[#9ca3af]">BUKALAPAK</span>
+                <span class="text-sm font-bold text-[#9ca3af]">PERTAMINA</span>
+                <span class="text-sm font-bold text-[#9ca3af]">BCA</span>
+                <span class="text-sm font-bold text-[#9ca3af]">TELKOM</span>
+                <span class="text-sm font-bold text-[#9ca3af]">BLIBLI</span>
+            </div>
         </div>
     </section>
 </div>
@@ -738,7 +754,7 @@
         <div class="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             
             <!-- Left Column: Image with Floating Cards -->
-            <div class="relative w-full h-[350px] sm:h-[450px] md:h-[540px] rounded-[2rem] overflow-hidden shadow-2xl">
+            <div class="hidden lg:block relative w-full h-[350px] sm:h-[450px] md:h-[540px] rounded-[2rem] overflow-hidden shadow-2xl">
                 <!-- Base Image -->
                 <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&auto=format&fit=crop" alt="Enterprise Training" class="w-full h-full object-cover">
                 
@@ -981,7 +997,7 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-20">
             
             <!-- Brand Column -->
-            <div class="md:col-span-5 lg:col-span-4">
+            <div class="md:col-span-5 lg:col-span-4 flex flex-col items-center md:items-start text-center md:text-left">
                 <!-- Logo -->
                 <a href="{{ route('landing') }}" class="flex items-center mb-6">
                     <svg width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1023,12 +1039,12 @@
             </div>
             
             <!-- Link Columns -->
-            <div class="md:col-span-7 lg:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-8">
+            <div class="md:col-span-7 lg:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-8 text-center md:text-left">
                 
                 <!-- Column 1 -->
-                <div>
+                <div class="flex flex-col items-center md:items-start">
                     <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6">PLATFORM</h3>
-                    <ul class="flex flex-col gap-4">
+                    <ul class="flex flex-col items-center md:items-start gap-4">
                         <li><a href="{{ route('kursus') }}" class="text-[15px] text-gray-500 hover:text-white transition-colors">Kursus</a></li>
                         <li><a href="{{ route('online-bootcamp') }}" class="text-[15px] text-gray-500 hover:text-white transition-colors">Bootcamp Online</a></li>
                         <li><a href="{{ route('offline-bootcamp') }}" class="text-[15px] text-gray-500 hover:text-white transition-colors">Bootcamp Offline</a></li>
@@ -1039,9 +1055,9 @@
                 </div>
                 
                 <!-- Column 2 -->
-                <div>
+                <div class="flex flex-col items-center md:items-start">
                     <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6">COMPANY</h3>
-                    <ul class="flex flex-col gap-4">
+                    <ul class="flex flex-col items-center md:items-start gap-4">
                         <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Tentang Kami</a></li>
                         <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Karir</a></li>
                         <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Blog</a></li>
@@ -1051,9 +1067,9 @@
                 </div>
                 
                 <!-- Column 3 -->
-                <div>
+                <div class="flex flex-col items-center md:items-start col-span-2 md:col-span-1">
                     <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6">SUPPORT</h3>
-                    <ul class="flex flex-col gap-4">
+                    <ul class="flex flex-col items-center md:items-start gap-4">
                         <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Pusat Bantuan</a></li>
                         <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Kebijakan Privasi</a></li>
                         <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Syarat & Ketentuan</a></li>
