@@ -308,6 +308,7 @@ class PageController extends Controller
                         return [
                             'id' => $v->id,
                             'title' => $v->title,
+                            'description' => $v->description,
                             'video_url' => $v->video_url,
                             'thumbnail_url' => $v->thumbnail_url,
                             'duration' => $v->duration,

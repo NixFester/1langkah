@@ -60,7 +60,7 @@
 <div class="w-full py-10">
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
 
-        <!-- Left Column -->
+        // Left Column
         <div class="{{ $isEnrolled ? 'lg:col-span-4' : 'lg:col-span-2' }} space-y-8" x-data="{ activeTab: 'overview', openChapter: null }">
 
             <!-- Tabs -->
@@ -107,6 +107,22 @@
             <!-- Curriculum Tab -->
             <div x-show="activeTab === 'curriculum'" x-cloak>
                 <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
+
+                    <!-- Video Player Section (hidden until user clicks a video) -->
+                    <div id="videoPlayerContainer" class="mb-6 hidden">
+                        <div id="videoPlayerWrapper" class="relative w-full rounded-xl overflow-hidden bg-black" style="aspect-ratio: 16/9;">
+                            <iframe
+                                id="videoFrame"
+                                class="absolute inset-0 w-full h-full"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen
+                            ></iframe>
+                        </div>
+                        <h3 id="videoPlayerTitle" class="mt-3 font-semibold text-gray-900 text-lg"></h3>
+                        <p id="videoPlayerDescription" class="mt-2 text-sm text-gray-600 hidden"></p>
+                    </div>
+
                     <div class="flex items-center justify-between mb-4 sm:mb-6">
                         <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 tracking-tight">Curriculum</h2>
                         @if($isCompleted)
@@ -159,35 +175,30 @@
                                 @endif
                                 @if(!empty($chapter['videos']))
                                 @foreach($chapter['videos'] as $video)
-                                <div class="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 {{ !$isEnrolled ? 'opacity-60' : '' }} hover:bg-gray-50 transition-colors {{ !$loop->last ? 'border-b border-gray-50' : '' }}
+                                <div class="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 {{ ($video['is_completed'] ?? false) ? 'bg-emerald-600 cursor-pointer' : 'cursor-pointer' }} {{ !$isEnrolled ? 'opacity-60' : '' }} hover:bg-gray-50 transition-colors {{ !$loop->last ? 'border-b border-gray-50' : '' }}
                                     {{ ($video['is_completed'] ?? false) ? 'video-completed' : '' }}"
                                     data-video-id="{{ $video['id'] }}"
                                     data-chapter-id="{{ $chapter['id'] }}"
                                     data-course-id="{{ $course['id'] }}"
                                     data-video-url="{{ $video['video_url'] ?? '' }}"
+                                    data-video-description="{{ $video['description'] ?? '' }}"
                                 >
                                     @if($isEnrolled)
                                         <!-- Enrolled: clickable video -->
-                                        <div class="flex items-center gap-3 sm:gap-4 flex-1 min-w-0 group video-item {{ ($video['is_completed'] ?? false) ? 'cursor-default' : 'cursor-pointer' }}">
+                                        <div class="flex items-center gap-3 sm:gap-4 flex-1 min-w-0 group video-item ">
                                             <div class="w-20 sm:w-24 h-12 sm:h-14 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden relative {{ ($video['is_completed'] ?? false) ? 'bg-emerald-100' : 'bg-gray-200' }}">
                                                 @if(!empty($video['thumbnail_url']))
                                                 <img src="{{ $video['thumbnail_url'] }}" alt="{{ $video['title'] }}" class="w-full h-full object-cover">
                                                 @endif
                                                 <div class="absolute inset-0 flex items-center justify-center">
-                                                    @if(($video['is_completed'] ?? false))
-                                                    <div class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                                    </div>
-                                                    @else
                                                     <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="flex-1 min-w-0">
-                                                <p class="font-medium text-gray-900 group-hover:text-red-600 transition-colors truncate {{ ($video['is_completed'] ?? false) ? 'line-through text-gray-500' : '' }}">{{ $video['title'] }}</p>
+                                                <p class="font-medium text-gray-900 group-hover:text-red-600 transition-colors truncate {{ ($video['is_completed'] ?? false) ? ' text-white' : '' }}">{{ $video['title'] }}</p>
                                                 <p class="text-xs text-gray-500">
                                                     @if(($video['is_completed'] ?? false))
-                                                    <span class="text-emerald-600">Selesai ditonton</span>
+                                                    <span class="text-white">Selesai ditonton</span>
                                                     @else
                                                     {{ $video['duration'] ?? '' }}
                                                     @endif
@@ -519,6 +530,71 @@
 
 @push('scripts')
 <script>
+// Helper function to convert YouTube URL to embed URL
+function getEmbedUrl(url) {
+    if (!url) return '';
+
+    // Handle various YouTube URL formats
+    const patterns = [
+        // youtube.com/watch?v=VIDEO_ID
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+        // youtube.com/embed/VIDEO_ID
+        /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+        // youtube.com/v/VIDEO_ID
+        /youtube\.com\/v\/([a-zA-Z0-9_-]{11})/,
+        // youtube.com/shorts/VIDEO_ID
+        /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/
+    ];
+
+    let videoId = null;
+
+    for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match && match[1]) {
+            videoId = match[1];
+            break;
+        }
+    }
+
+    if (videoId) {
+        // Use youtube-nocookie.com to avoid third-party cookie warnings
+        // Add privacy-friendly parameters
+        return `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1&iv_load_policy=3&widget_referrer=${encodeURIComponent(window.location.origin)}`;
+    }
+
+    // If not a YouTube URL, return as-is for direct video links
+    return url;
+}
+
+// Show video player
+function showVideoPlayer(url, title, description) {
+    var container = document.getElementById('videoPlayerContainer');
+    var frame = document.getElementById('videoFrame');
+    var titleEl = document.getElementById('videoPlayerTitle');
+    var descEl = document.getElementById('videoPlayerDescription');
+
+    if (container) {
+        container.classList.remove('hidden');
+        // Scroll into view smoothly
+        container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    if (frame && url) {
+        frame.src = getEmbedUrl(url);
+    }
+    if (titleEl && title) {
+        titleEl.textContent = title;
+    }
+    if (descEl) {
+        if (description) {
+            descEl.textContent = description;
+            descEl.classList.remove('hidden');
+        } else {
+            descEl.textContent = '';
+            descEl.classList.add('hidden');
+        }
+    }
+}
+
 let selectedRating = {{ $userRating ? $userRating->rating : 0 }};
 
 // Client-side tracking state
@@ -531,7 +607,7 @@ completedVideos.add({{ $video['id'] }});
     @endforeach
 @endforeach
 
-// Video click tracking - immediate client-side + background server sync
+// Video click tracking
 console.log('Initializing video tracking...');
 console.log('Completed videos from server:', Array.from(completedVideos));
 
@@ -549,19 +625,40 @@ document.querySelectorAll('.video-item').forEach(function(item) {
         var chapterId = parseInt(container.dataset.chapterId);
         var courseId = parseInt(container.dataset.courseId);
         var videoUrl = container.dataset.videoUrl;
+        var videoTitle = container.querySelector('.font-medium.text-gray-900')?.textContent?.trim() || '';
+        var videoDescription = container.dataset.videoDescription || '';
 
         console.log('Video clicked:', { videoId, chapterId, courseId, videoUrl });
 
-        // Check if already completed (from client-side tracking)
-        if (completedVideos.has(videoId)) {
-            console.log('Already tracked, opening video');
-            if (videoUrl) {
-                window.open(videoUrl, '_blank');
-            }
+        // Check if already completed (client-side tracking)
+        var isAlreadyCompleted = completedVideos.has(videoId);
+
+        // === Show video player (for both completed and non-completed videos) ===
+        showVideoPlayer(videoUrl, videoTitle, videoDescription);
+
+        if (isAlreadyCompleted) {
+            console.log('Already tracked, showing video player');
+
+            // Still track on server for completed videos (to update last watched)
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+            fetch('/api/progress/chapter/' + chapterId, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({
+                    video_id: videoId,
+                    course_id: courseId,
+                    progress_seconds: 0
+                })
+            }).catch(function(error) {
+                console.error('Server tracking failed:', error);
+            });
             return;
         }
 
-        // === CLIENT-SIDE: Immediately mark as completed ===
+        // === CLIENT-SIDE: Mark as completed ===
         completedVideos.add(videoId);
         updateVideoUI(container);
 
@@ -574,12 +671,8 @@ document.querySelectorAll('.video-item').forEach(function(item) {
 
         // === SERVER-SIDE: Track progress in background ===
         var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-        console.log('CSRF Token exists:', !!csrfToken);
 
-        var url = '/api/progress/chapter/' + chapterId;
-        console.log('POST to:', url);
-
-        fetch(url, {
+        fetch('/api/progress/chapter/' + chapterId, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -592,14 +685,12 @@ document.querySelectorAll('.video-item').forEach(function(item) {
             })
         })
         .then(function(response) {
-            console.log('Response status:', response.status);
             if (!response.ok) {
                 throw new Error('HTTP ' + response.status);
             }
             return response.json();
         })
         .then(function(data) {
-            console.log('Server response:', data);
             if (data.course_completed) {
                 alert('🎉 Selamat! Kamu telah menyelesaikan kursus ini!');
                 location.reload();
@@ -608,11 +699,6 @@ document.querySelectorAll('.video-item').forEach(function(item) {
         .catch(function(error) {
             console.error('Server tracking failed:', error);
         });
-
-        // Open the video
-        if (videoUrl) {
-            window.open(videoUrl, '_blank');
-        }
     });
 });
 

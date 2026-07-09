@@ -1,6 +1,6 @@
 # SQL to Populate Test Mentor Data
 
-Replace `25` with the actual user ID from `SELECT id FROM users WHERE email = 'testmentor@email.com';`
+Replace `20` with the actual user ID from `SELECT id FROM users WHERE email = 'testmentor@email.com';`
 
 ## Step 1: Get Mentor User ID
 ```sql
@@ -9,21 +9,21 @@ SELECT id, name, email FROM users WHERE email = 'testmentor@email.com';
 
 ## Step 2: Create Mentor Profile
 ```sql
--- Replace 25 with the actual user ID from Step 1
+-- Replace 20 with the actual user ID from Step 1
 INSERT INTO mentors (user_id, name, role, company, price, rating, sessions_count, initials, color, expertise, bio, linkedin_url, phone, created_at, updated_at)
-VALUES (25, 'Test Mentor', 'Senior Developer', 'Tech Corp', '150000', 4.5, 0, 'TM', '#3b82f6', '["Laravel", "PHP", "Vue.js", "React"]', 'Experienced developer with 10+ years in web development. Passionate about teaching and mentoring the next generation of developers.', 'https://linkedin.com/in/testmentor', '081234567890', NOW(), NOW());
+VALUES (20, 'Test Mentor', 'Senior Developer', 'Tech Corp', '150000', 4.5, 0, 'TM', '#3b82f6', '["Laravel", "PHP", "Vue.js", "React"]', 'Experienced developer with 10+ years in web development. Passionate about teaching and mentoring the next generation of developers.', 'https://linkedin.com/in/testmentor', '081234567890', NOW(), NOW());
 ```
 
 ## Step 3: Create Courses
 ```sql
 -- Get the mentor ID from INSERT above (likely ID 1 or auto-increment)
-SET @mentor_id = (SELECT id FROM mentors WHERE user_id = 25 LIMIT 1);
+SET @mentor_id = (SELECT id FROM mentors WHERE user_id = 20 LIMIT 1);
 
 INSERT INTO courses (mentor_id, mentor_name, mentor_company, title, short_description, description, category, level, badge, rating, students_count, price, color, benefits, curriculum, resources, created_at, updated_at)
 VALUES
 (@mentor_id, 'Test Mentor', 'Tech Corp', 'Laravel Fundamental', 'Pelajari dasar-dasar Laravel framework', 'Kursus ini mencakup semua yang Anda butuhkan untuk memulai pengembangan web dengan Laravel. Anda akan belajar routing, controller, model, migration, dan fitur-fitur penting lainnya.', 'Programming', 'Beginner', 'laravel', 4.5, 150, 'Gratis', '#dc2626', '["Sertifikat selesai", "Akses seumur hidup", "Community support", "Project-based learning"]', '[{"title": "Pengenalan Laravel", "lessons": 3, "duration": "45 menit"}, {"title": "Routing & Controller", "lessons": 4, "duration": "60 menit"}, {"title": "Database & Eloquent", "lessons": 4, "duration": "75 menit"}]', '[]', NOW(), NOW()),
 
-(@mentor_id, 'Test Mentor', 'Tech Corp', 'Vue.js untuk Pemula', 'Mulai perjalanan Anda dengan Vue.js', 'Kursus praktis Vue.js untuk pemula. Pelajari konsep reactivity, components, dan Vue Router.', 'Programming', 'Beginner', 'vue', 4.7, 89, 'Rp 250.000', '#42b883', '["Sertifikat selesai", "Lifetime access", "30+ lessons", "Mini projects"]', '[{"title": "Vue.js Basics", "lessons": 3, "duration": "40 menit"}, {"title": "Components", "lessons": 3, "duration": "50 menit"}, {"title": "Vue Router", "lessons": 3, "duration": "55 menit"}]', '[]', NOW(), NOW()),
+(@mentor_id, 'Test Mentor', 'Tech Corp', 'Vue.js untuk Pemula', 'Mulai perjalanan Anda dengan Vue.js', 'Kursus praktis Vue.js untuk pemula. Pelajari konsep reactivity, components, dan Vue Router.', 'Programming', 'Beginner', 'vue', 4.7, 89, 'Rp 200.000', '#42b883', '["Sertifikat selesai", "Lifetime access", "30+ lessons", "Mini projects"]', '[{"title": "Vue.js Basics", "lessons": 3, "duration": "40 menit"}, {"title": "Components", "lessons": 3, "duration": "50 menit"}, {"title": "Vue Router", "lessons": 3, "duration": "55 menit"}]', '[]', NOW(), NOW()),
 
 (@mentor_id, 'Test Mentor', 'Tech Corp', 'REST API dengan Laravel', 'Build professional REST APIs', 'Pelajari cara membangun RESTful API yang profesional dengan Laravel. Termasuk authentication, validation, dan best practices.', 'Programming', 'Intermediate', 'api', 4.8, 203, 'Rp 350.000', '#ff6b6b', '["Sertifikat selesai", "API documentation", "Postman collection", "Source code included"]', '[{"title": "REST API Fundamentals", "lessons": 3, "duration": "45 menit"}, {"title": "Laravel API Development", "lessons": 3, "duration": "60 menit"}, {"title": "Authentication", "lessons": 3, "duration": "55 menit"}]', '[]', NOW(), NOW()),
 
@@ -116,7 +116,7 @@ VALUES
 
 ## Step 8: Create Bootcamps
 ```sql
-SET @mentor_id = (SELECT id FROM mentors WHERE user_id = 25 LIMIT 1);
+SET @mentor_id = (SELECT id FROM mentors WHERE user_id = 20 LIMIT 1);
 
 INSERT INTO bootcamps (mentor_id, mentor_name, title, type, participants, start_date, price, color, sessions_info, location, benefits, jadwal_kelas, created_at, updated_at)
 VALUES
@@ -127,7 +127,7 @@ VALUES
 
 ## Step 9: Create Events
 ```sql
-SET @mentor_id = (SELECT id FROM mentors WHERE user_id = 25 LIMIT 1);
+SET @mentor_id = (SELECT id FROM mentors WHERE user_id = 20 LIMIT 1);
 
 INSERT INTO events (mentor_id, is_mentor_created, title, slug, short_description, description, type, start_date, end_date, timezone, location, meeting_url, max_participants, registered_count, status, color, created_at, updated_at)
 VALUES
@@ -135,12 +135,12 @@ VALUES
 
 (@mentor_id, 1, 'Workshop: Build REST API with Laravel', 'workshop-rest-api-laravel-2024', 'Workshop hands-on membangun REST API profesional', 'Workshop 4 jam untuk membangun REST API yang production-ready dengan Laravel.', 'online', '2024-03-20 09:00:00', '2024-03-20 13:00:00', 'Asia/Jakarta', 'Online via Zoom', 'https://zoom.us/j/123456789', 50, 0, 'upcoming', '#3b82f6', NOW(), NOW()),
 
-(@mentor_id, 1, 'Tech Talk: Modern Web Development 2024', 'tech-talk-web-dev-2024', 'Tech talk tentang tren web development terbaru', 'Discussion tentang tren dan teknologi web development 2024.', 'online', '2024-03-25 19:00:00', '2024-03-25 21:00:00', 'Asia/Jakarta', 'Online via YouTube Live', 'https://youtube.com/live/example', 500, 0, 'upcoming', '#10b981', NOW(), NOW());
+(@mentor_id, 1, 'Tech Talk: Modern Web Development 2024', 'tech-talk-web-dev-2024', 'Tech talk tentang tren web development terbaru', 'Discussion tentang tren dan teknologi web development 2024.', 'online', '2024-03-20 19:00:00', '2024-03-20 21:00:00', 'Asia/Jakarta', 'Online via YouTube Live', 'https://youtube.com/live/example', 500, 0, 'upcoming', '#10b981', NOW(), NOW());
 ```
 
 ## Step 10: Create Mentor Schedules
 ```sql
-SET @mentor_id = (SELECT id FROM mentors WHERE user_id = 25 LIMIT 1);
+SET @mentor_id = (SELECT id FROM mentors WHERE user_id = 20 LIMIT 1);
 
 INSERT INTO mentor_schedules (mentor_id, day_of_week, start_time, end_time, is_available, created_at, updated_at)
 VALUES
