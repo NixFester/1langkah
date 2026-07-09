@@ -46,7 +46,7 @@
             </button>
 
             {{-- Overlay panel --}}
-            <div id="notif-panel" class="hidden absolute top-[calc(100%+12px)] -right-12 sm:right-0 w-[310px] sm:w-[360px] bg-white rounded-2xl shadow-xl border border-gray-100 z-[999] overflow-hidden">
+            <div id="notif-panel" class="hidden absolute top-[calc(100%+4px)] -right-12 sm:right-0 w-[310px] sm:w-[360px] bg-white rounded-2xl shadow-xl border border-gray-100 z-[999] overflow-hidden">
                 <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/80">
                     <div class="font-bold text-[14px] text-gray-900">Notifikasi</div>
                     <div id="notif-new-badge"></div>

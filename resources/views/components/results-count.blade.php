@@ -1,3 +1,4 @@
+@props(['count' => 0, 'label' => 'item', 'model' => null])
 @php
     /**
      * Results Count Component
@@ -6,14 +7,11 @@
      * @param string $label    Label (default: 'kursus')
      * @param string $model    Alpine.js model for dynamic count
      */
-    $count = $count ?? 0;
-    $label = $label ?? 'item';
-    $model = $model ?? null;
 @endphp
 
-<div class="text-sm text-gray-500">
+<div {{ $attributes->merge(['class' => 'text-sm text-gray-500 mb-6']) }}>
     Menampilkan
-    <span class="font-semibold text-gray-900" {{ $model ? "x-text=\"{$model}.length\"" : '' }}>
+    <span class="font-semibold text-gray-900" {!! $model ? "x-text=\"{$model}.length\"" : "" !!}>
         {{ $model ? '' : $count }}
     </span>
     {{ $label }}

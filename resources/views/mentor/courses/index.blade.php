@@ -4,31 +4,22 @@
 
 @section('content')
 <div class="space-y-6">
-    <div class="flex items-center justify-between">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-900">Kelola Kursus</h1>
-            <p class="text-sm text-gray-500">Buat dan kelola kursus kamu</p>
-        </div>
-        <a href="{{ route('mentor.courses.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            Buat Kursus Baru
-        </a>
-    </div>
+    <!-- PAGE HEADER -->
+    <x-page-header
+        title="Kelola Kursus"
+        description="Buat dan kelola kursus kamu"
+        actionRoute="{{ route('mentor.courses.create') }}"
+        actionLabel="Buat Kursus Baru"
+    />
 
     @if($courses->isEmpty())
-    <div class="bg-white rounded-xl border border-gray-200 p-12 text-center">
-        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-            </svg>
-        </div>
-        <h3 class="text-lg font-semibold text-gray-900 mb-2">Belum Ada Kursus</h3>
-        <p class="text-gray-500 mb-6">Mulai buat kursus pertamamu</p>
-        <a href="{{ route('mentor.courses.create') }}" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium">
-            Buat Kursus Baru
-        </a>
+    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <x-empty-state
+            message="Belum ada kursus. Mulai buat kursus pertamamu."
+            icon="document"
+            :actionRoute="route('mentor.courses.create')"
+            actionLabel="Buat kursus pertama"
+        />
     </div>
     @else
     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
@@ -74,15 +65,15 @@
                             <span class="text-gray-400 mx-1">•</span>
                             <span class="text-gray-600">{{ $course->chapters->sum(fn($c) => $c->videos->count()) }} video</span>
                         </td>
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-2">
-                                <a href="{{ route('mentor.courses.edit', $course) }}" class="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="{{ route('mentor.courses.edit', $course) }}" class="inline-flex items-center justify-center bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
                                     Edit
                                 </a>
-                                <form method="POST" action="{{ route('mentor.courses.destroy', $course) }}" class="inline" onsubmit="return confirm('Hapus kursus ini?');">
+                                <form method="POST" action="{{ route('mentor.courses.destroy', $course) }}" class="m-0" onsubmit="return confirm('Hapus kursus ini?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-800 font-medium text-sm">
+                                    <button type="submit" class="inline-flex items-center justify-center bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
                                         Hapus
                                     </button>
                                 </form>

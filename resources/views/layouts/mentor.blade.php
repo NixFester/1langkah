@@ -10,23 +10,24 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @stack('styles')
     <style>
-        .sidebar, .main-content { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-
+        .sidebar, .main-content, .topbar { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        
         body.sidebar-collapsed .sidebar { width: 80px; }
         body.sidebar-collapsed .main-content { margin-left: 80px; }
+        body.sidebar-collapsed .topbar { left: 80px; }
         body.sidebar-collapsed .sidebar-text { display: none !important; }
         body.sidebar-collapsed .sidebar-header { justify-content: center; padding: 24px 0; gap: 6px; }
         body.sidebar-collapsed .sidebar-logo-text { display: none; }
-
-        body.sidebar-collapsed .nav-item {
-            justify-content: center !important;
-            width: 44px !important;
-            height: 44px !important;
-            margin: 0 auto 12px !important;
+        
+        body.sidebar-collapsed .nav-item { 
+            justify-content: center !important; 
+            width: 44px !important; 
+            height: 44px !important; 
+            margin: 0 auto 12px !important; 
             padding: 0 !important;
             border-radius: 12px !important;
         }
-
+        
         body.sidebar-collapsed .nav-section-title { display: none; }
         body.sidebar-collapsed .nav-sub-container { display: none !important; }
         body.sidebar-collapsed .sidebar-user { justify-content: center; margin: 0 auto; width: 44px; height: 44px; padding: 0 !important; }
@@ -34,14 +35,15 @@
         body.sidebar-collapsed .settings-btn { display: none !important; }
         body.sidebar-collapsed .sidebar { overflow-x: hidden !important; }
         body.sidebar-collapsed .collapse-btn svg { transform: rotate(180deg); }
-
+        
         @media (max-width: 1024px) {
             .sidebar { transform: translateX(-100%); display: flex !important; width: 260px !important; }
             body.sidebar-mobile-open .sidebar { transform: translateX(0); }
             .main-content { margin-left: 0 !important; }
+            .topbar { left: 0 !important; }
             .collapse-btn { display: none !important; }
         }
-
+        
         body.sidebar-collapsed .sidebar-logo-link { width: 28px !important; overflow: hidden; display: flex; justify-content: flex-start; margin-left: 2px; }
         body.sidebar-collapsed .sidebar-logo-link svg { flex-shrink: 0; }
     </style>

@@ -45,10 +45,10 @@
 
     {{-- Stats Cards --}}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-8">
-        <x-stat-card label="Kursus Saya" :value="$stats['total_courses']" icon="book" color="blue" />
+        <x-stat-card label="Kursus Saya" :value="$stats['total_courses']" icon="award" color="blue" />
         <x-stat-card label="Total Siswa" :value="$stats['total_students']" icon="users" color="green" />
-        <x-stat-card label="Total Enrollments" :value="$stats['total_enrollments']" icon="shield" color="purple" />
-        <x-stat-card label="Rating Rata-rata" :value="number_format($stats['avg_rating'], 1)" icon="star" suffix=" ⭐" color="amber" />
+        <x-stat-card label="Total Enrollments" :value="$stats['total_enrollments']" icon="book" color="purple" />
+        <x-stat-card label="Rating Rata-rata" :value="number_format($stats['avg_rating'], 1)" icon="starEmpty" suffix=" ⭐" color="amber" />
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">

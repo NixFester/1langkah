@@ -168,7 +168,7 @@
             </div>
 
             <!-- Grid cells -->
-            <div class="calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr);">
+            <div class="calendar-grid" style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr));">
                 {{-- Empty cells before day 1 --}}
                 @for($i = 0; $i < $startDayOfWeek; $i++)
                     <div class="border-r border-b border-gray-50 bg-[#fffafb]"></div>
@@ -180,7 +180,7 @@
                         $isToday = ($day === $today->day && $currentMonth === $today->month && $currentYear === $today->year);
                         $isSunday = (($startDayOfWeek + $day - 1) % 7 === 0);
                     @endphp
-                    <div class="border-r border-b border-gray-50 p-1 sm:p-2 flex flex-col relative hover:bg-gray-50 transition-colors cursor-pointer {{ $isToday ? 'bg-red-50' : '' }}"
+                    <div class="border-r border-b border-gray-50 p-1 sm:p-2 flex flex-col relative hover:bg-gray-50 transition-colors cursor-pointer {{ $isToday ? 'bg-red-50' : '' }} min-w-0"
                          :class="{ 'bg-red-50': {{ $isToday ? 'true' : 'false' }} }"
                          style="{{ $isSunday && !$isToday ? 'background-color: #fffafb;' : '' }}">
                         <span class="font-extrabold text-center mb-1 text-[11px] sm:text-[13px]"
@@ -389,23 +389,23 @@ function updateCalendarCells(events) {
             if (dayEvents.length === 1) {
                 // Single event: direct link
                 cell.innerHTML += `
-                    <a href="${event.url}" class="block px-1.5 py-1 rounded font-bold truncate text-center hidden sm:block transition-all hover:opacity-80"
-                       style="background-color: ${bgColor}; color: ${color}; font-size: 10px; text-decoration: none;">
-                        ${event.title.length > 20 ? event.title.substring(0, 20) + '...' : event.title}
+                    <a href="${event.url}" class="block px-1.5 py-1 rounded font-bold truncate text-center hidden md:block transition-all hover:opacity-80"
+                       style="background-color: ${bgColor}; color: ${color}; font-size: 10px; text-decoration: none;" title="${event.title}">
+                        ${event.title}
                     </a>
-                    <a href="${event.url}" class="rounded-full mx-auto sm:hidden mt-0.5 block" style="width: 6px; height: 6px; background-color: ${color};"></a>
+                    <a href="${event.url}" class="rounded-full mx-auto md:hidden mt-0.5 block" style="width: 6px; height: 6px; background-color: ${color};"></a>
                 `;
             } else {
                 // Multiple events: show popup on click
                 if (i < 2) {
                     cell.innerHTML += `
                         <button onclick="openDayPopup(${day}, ${JSON.stringify(dayEvents).replace(/"/g, '&quot;')})"
-                                class="w-full px-1.5 py-1 rounded font-bold truncate text-center transition-all hover:opacity-80 hidden sm:block"
-                                style="background-color: ${bgColor}; color: ${color}; font-size: 10px; border: none; cursor: pointer; text-align: center;">
-                            ${event.title.length > 20 ? event.title.substring(0, 20) + '...' : event.title}
+                                class="w-full px-1.5 py-1 rounded font-bold truncate text-center transition-all hover:opacity-80 hidden md:block"
+                                style="background-color: ${bgColor}; color: ${color}; font-size: 10px; border: none; cursor: pointer; text-align: center;" title="${event.title}">
+                            ${event.title}
                         </button>
                         <button onclick="openDayPopup(${day}, ${JSON.stringify(dayEvents).replace(/"/g, '&quot;')})"
-                                class="rounded-full mx-auto sm:hidden mt-0.5 block"
+                                class="rounded-full mx-auto md:hidden mt-0.5 block"
                                 style="width: 6px; height: 6px; background-color: ${color}; border: none; cursor: pointer;"></button>
                     `;
                 }

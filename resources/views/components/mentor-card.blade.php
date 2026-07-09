@@ -12,10 +12,10 @@
     <div class="flex justify-between items-start mb-5">
         @php
             $firstName = explode(' ', $m['name'])[0];
-            $isWoman = in_array($firstName, ['Siti', 'Dewi', 'Sari', 'Rina']);
+            $isWoman = in_array($firstName, ['Siti', 'Dewi', 'Sari', 'Rina', 'Ani', 'Nisa', 'Lina', 'Wati']);
             $genderPath = $isWoman ? 'women' : 'men';
             $picId = ($m['id'] % 70) + 1; // 1 to 70
-            $avatarUrl = "https://randomuser.me/api/portraits/{$genderPath}/{$picId}.jpg";
+            $avatarUrl = $m['profile_photo'] ?? "https://randomuser.me/api/portraits/{$genderPath}/{$picId}.jpg";
         @endphp
         <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-white shadow-md">
             <img src="{{ $avatarUrl }}" alt="{{ $m['name'] }}" class="w-full h-full object-cover">

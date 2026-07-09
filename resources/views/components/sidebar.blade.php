@@ -89,14 +89,14 @@
                 'items' => [
                     ['id' => 'mentor.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'mentor.dashboard'],
                     ['id' => 'mentor.profile.edit', 'icon' => 'user', 'label' => 'Edit Biodata', 'route' => 'mentor.profile.edit'],
-                    ['id' => 'mentor.my-courses', 'icon' => 'book', 'label' => 'Kursus Saya', 'route' => 'mentor.my-courses'],
+                    ['id' => 'mentor.my-courses', 'icon' => 'award', 'label' => 'Kursus Saya', 'route' => 'mentor.my-courses'],
                     ['id' => 'mentor.courses.index', 'icon' => 'folder', 'label' => 'Kelola Kursus', 'route' => 'mentor.courses.index'],
                     ['id' => 'mentor.quizzes.index', 'icon' => 'quiz', 'label' => 'Kelola Quiz', 'route' => 'mentor.quizzes.index'],
                     ['id' => 'mentor.sessions.index', 'icon' => 'video', 'label' => 'Sesi Mentoring', 'route' => 'mentor.sessions.index'],
-                    ['id' => 'mentor.bootcamps.index', 'icon' => 'award', 'label' => 'Bootcamp Saya', 'route' => 'mentor.bootcamps.index'],
+                    ['id' => 'mentor.bootcamps.index', 'icon' => 'target', 'label' => 'Bootcamp Saya', 'route' => 'mentor.bootcamps.index'],
                     ['id' => 'mentor.events', 'icon' => 'calendar', 'label' => 'Event Saya', 'route' => 'mentor.events'],
                     ['id' => 'mentor.students', 'icon' => 'users', 'label' => 'Siswa Saya', 'route' => 'mentor.students'],
-                    ['id' => 'mentor.feedback', 'icon' => 'star', 'label' => 'Feedback & Rating', 'route' => 'mentor.feedback'],
+                    ['id' => 'mentor.feedback', 'icon' => 'starEmpty', 'label' => 'Feedback & Rating', 'route' => 'mentor.feedback'],
                 ]
             ],
         ];
@@ -156,14 +156,14 @@
             $navItems = [
                 ['id' => 'mentor.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'mentor.dashboard'],
                 ['id' => 'mentor.profile.edit', 'icon' => 'user', 'label' => 'Edit Biodata', 'route' => 'mentor.profile.edit'],
-                ['id' => 'mentor.my-courses', 'icon' => 'book', 'label' => 'Kursus Saya', 'route' => 'mentor.my-courses'],
+                ['id' => 'mentor.my-courses', 'icon' => 'award', 'label' => 'Kursus Saya', 'route' => 'mentor.my-courses'],
                 ['id' => 'mentor.courses.index', 'icon' => 'folder', 'label' => 'Kelola Kursus', 'route' => 'mentor.courses.index'],
                 ['id' => 'mentor.quizzes.index', 'icon' => 'quiz', 'label' => 'Kelola Quiz', 'route' => 'mentor.quizzes.index'],
                 ['id' => 'mentor.sessions.index', 'icon' => 'video', 'label' => 'Sesi Mentoring', 'route' => 'mentor.sessions.index'],
-                ['id' => 'mentor.bootcamps.index', 'icon' => 'award', 'label' => 'Bootcamp Saya', 'route' => 'mentor.bootcamps.index'],
+                ['id' => 'mentor.bootcamps.index', 'icon' => 'target', 'label' => 'Bootcamp Saya', 'route' => 'mentor.bootcamps.index'],
                 ['id' => 'mentor.events', 'icon' => 'calendar', 'label' => 'Event Saya', 'route' => 'mentor.events'],
                 ['id' => 'mentor.students', 'icon' => 'users', 'label' => 'Siswa Saya', 'route' => 'mentor.students'],
-                ['id' => 'mentor.feedback', 'icon' => 'star', 'label' => 'Feedback & Rating', 'route' => 'mentor.feedback'],
+                ['id' => 'mentor.feedback', 'icon' => 'starEmpty', 'label' => 'Feedback & Rating', 'route' => 'mentor.feedback'],
                 ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Kembali ke App', 'route' => 'dashboard'],
             ];
         }
@@ -199,7 +199,7 @@
         $belajarSubItems[] = ['id' => 'offline-bootcamp', 'icon' => 'offline_bootcamp', 'label' => 'Offline Bootcamp', 'route' => 'offline-bootcamp'];
 
         if ($isAuth) {
-            $belajarSubItems[] = ['id' => 'bootcamps-saya', 'icon' => 'award', 'label' => 'Bootcamp Saya', 'route' => 'bootcamps-saya'];
+            $belajarSubItems[] = ['id' => 'bootcamps-saya', 'icon' => 'target', 'label' => 'Bootcamp Saya', 'route' => 'bootcamps-saya'];
         }
 
         $navItems[] = [

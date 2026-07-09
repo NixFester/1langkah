@@ -57,7 +57,7 @@
                     </button>
                     <span class="font-bold text-gray-700 px-1 sm:px-2" id="post-score-{{ $post->id }}">{{ $post->score }}</span>
                     <button onclick="votePost({{ $post->id }}, 'down', this)"
-                            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors {{ isset($userVotes['post']) && $userVotes['post'] === false ? 'bg-gray-200 text-gray-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }}">
+                            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors {{ isset($userVotes['post']) && $userVotes['post'] === false ? 'bg-red-100 text-red-600' : 'bg-gray-100 text-gray-600 hover:bg-red-50 hover:text-red-500' }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         <span class="font-semibold text-sm" id="post-downvotes">{{ $post->downvotes }}</span>
                     </button>
@@ -156,7 +156,7 @@
                     </button>
                     <span class="text-sm font-bold text-gray-600" id="reply-score-{{ $reply->id }}">{{ $reply->score }}</span>
                     <button onclick="voteReply({{ $reply->id }}, 'down', this)"
-                            class="flex items-center gap-1 px-2 py-1 rounded-lg text-sm transition-colors {{ isset($userVotes['replies'][$reply->id]) && $userVotes['replies'][$reply->id] === false ? 'text-gray-600' : 'text-gray-500 hover:text-gray-600' }}">
+                            class="flex items-center gap-1 px-2 py-1 rounded-lg text-sm transition-colors {{ isset($userVotes['replies'][$reply->id]) && $userVotes['replies'][$reply->id] === false ? 'text-red-600' : 'text-gray-500 hover:text-red-500' }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         <span class="font-medium">{{ $reply->downvotes }}</span>
                     </button>
@@ -201,7 +201,7 @@
                             </button>
                             <span class="text-xs font-bold text-gray-600" id="reply-score-{{ $child->id }}">{{ $child->score }}</span>
                             <button onclick="voteReply({{ $child->id }}, 'down', this)"
-                                    class="flex items-center gap-1 px-2 py-0.5 rounded text-xs transition-colors {{ isset($userVotes['replies'][$child->id]) && $userVotes['replies'][$child->id] === false ? 'text-gray-600' : 'text-gray-500 hover:text-gray-600' }}">
+                                    class="flex items-center gap-1 px-2 py-0.5 rounded text-xs transition-colors {{ isset($userVotes['replies'][$child->id]) && $userVotes['replies'][$child->id] === false ? 'text-red-600' : 'text-gray-500 hover:text-red-500' }}">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 <span class="font-medium">{{ $child->downvotes }}</span>
                             </button>
@@ -242,6 +242,9 @@ async function votePost(postId, voteType, buttonElement) {
         const data = await response.json();
 
         if (data.success) {
+            const oldUpvotes = parseInt(document.getElementById('post-upvotes').textContent);
+            const oldDownvotes = parseInt(document.getElementById('post-downvotes').textContent);
+
             document.getElementById('post-score-' + postId).textContent = data.score;
             document.getElementById('post-upvotes').textContent = data.upvotes;
             document.getElementById('post-downvotes').textContent = data.downvotes;
@@ -251,16 +254,16 @@ async function votePost(postId, voteType, buttonElement) {
             const downBtn = buttonElement.closest('div').querySelector('button:last-child');
 
             upBtn.classList.remove('bg-red-100', 'text-red-600');
-            downBtn.classList.remove('bg-gray-200', 'text-gray-700');
+            downBtn.classList.remove('bg-red-100', 'text-red-600');
             upBtn.classList.add('bg-gray-100', 'text-gray-600');
             downBtn.classList.add('bg-gray-100', 'text-gray-600');
 
-            if (data.upvotes > {{ $post->upvotes }}) {
+            if (voteType === 'up' && data.upvotes > oldUpvotes) {
                 upBtn.classList.remove('bg-gray-100', 'text-gray-600');
                 upBtn.classList.add('bg-red-100', 'text-red-600');
-            } else if (data.downvotes > {{ $post->downvotes }}) {
+            } else if (voteType === 'down' && data.downvotes > oldDownvotes) {
                 downBtn.classList.remove('bg-gray-100', 'text-gray-600');
-                downBtn.classList.add('bg-gray-200', 'text-gray-700');
+                downBtn.classList.add('bg-red-100', 'text-red-600');
             }
         }
     } catch (error) {
@@ -298,17 +301,23 @@ async function voteReply(replyId, voteType, buttonElement) {
             const upBtn = container.querySelector('button:first-child');
             const downBtn = container.querySelector('button:last-child');
 
+            const oldUpvotes = parseInt(upBtn.querySelector('span').textContent);
+            const oldDownvotes = parseInt(downBtn.querySelector('span').textContent);
+
+            upBtn.querySelector('span').textContent = data.upvotes;
+            downBtn.querySelector('span').textContent = data.downvotes;
+
             upBtn.classList.remove('text-red-600');
-            downBtn.classList.remove('text-gray-600');
+            downBtn.classList.remove('text-red-600');
             upBtn.classList.add('text-gray-500');
             downBtn.classList.add('text-gray-500');
 
-            if (data.upvotes > parseInt(upBtn.querySelector('span').textContent)) {
+            if (voteType === 'up' && data.upvotes > oldUpvotes) {
                 upBtn.classList.remove('text-gray-500');
                 upBtn.classList.add('text-red-600');
-            } else if (data.downvotes > parseInt(downBtn.querySelector('span').textContent)) {
+            } else if (voteType === 'down' && data.downvotes > oldDownvotes) {
                 downBtn.classList.remove('text-gray-500');
-                downBtn.classList.add('text-gray-600');
+                downBtn.classList.add('text-red-600');
             }
         }
     } catch (error) {

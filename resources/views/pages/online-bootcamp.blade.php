@@ -48,14 +48,16 @@
     </div>
 
     <!-- Search & Sort Bar -->
-    <x-search-filter-bar
-        placeholder="Cari bootcamp atau mentor..."
-        :sort-options="[
-            'newest' => 'Terbaru',
-            'price_low' => 'Harga: Rendah ke Tinggi',
-            'price_high' => 'Harga: Tinggi ke Rendah'
-        ]"
-    />
+    <div class="mb-6">
+        <x-search-filter-bar
+            placeholder="Cari bootcamp atau mentor..."
+            :sort-options="[
+                'newest' => 'Terbaru',
+                'price_low' => 'Harga: Rendah ke Tinggi',
+                'price_high' => 'Harga: Tinggi ke Rendah'
+            ]"
+        />
+    </div>
 
     <!-- Alert / Info Banner -->
     <x-alert-banner

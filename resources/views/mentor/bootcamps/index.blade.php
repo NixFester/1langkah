@@ -4,31 +4,22 @@
 
 @section('content')
 <div class="space-y-6">
-    <div class="flex items-center justify-between">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-900">Kelola Bootcamp</h1>
-            <p class="text-sm text-gray-500">Buat dan kelola bootcamp kamu</p>
-        </div>
-        <a href="{{ route('mentor.bootcamps.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            Buat Bootcamp Baru
-        </a>
-    </div>
+    <!-- PAGE HEADER -->
+    <x-page-header
+        title="Kelola Bootcamp"
+        description="Buat dan kelola bootcamp kamu"
+        actionRoute="{{ route('mentor.bootcamps.create') }}"
+        actionLabel="Buat Bootcamp Baru"
+    />
 
     @if($bootcamps->isEmpty())
-    <div class="bg-white rounded-xl border border-gray-200 p-12 text-center">
-        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-            </svg>
-        </div>
-        <h3 class="text-lg font-semibold text-gray-900 mb-2">Belum Ada Bootcamp</h3>
-        <p class="text-gray-500 mb-6">Mulai buat bootcamp pertamamu</p>
-        <a href="{{ route('mentor.bootcamps.create') }}" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium">
-            Buat Bootcamp Baru
-        </a>
+    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <x-empty-state
+            message="Belum ada bootcamp. Mulai buat bootcamp pertamamu."
+            icon="document"
+            :actionRoute="route('mentor.bootcamps.create')"
+            actionLabel="Buat bootcamp pertama"
+        />
     </div>
     @else
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -47,14 +38,21 @@
                 <p class="text-sm text-gray-600 mb-4">{{ $bootcamp->enrollments_count ?? 0 }} peserta</p>
 
                 <div class="flex items-center gap-2 pt-3 border-t">
-                    <a href="{{ route('mentor.bootcamps.edit', $bootcamp) }}" class="flex-1 text-center px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 text-sm font-medium">
+                    <a href="{{ route('mentor.bootcamps.edit', $bootcamp) }}" class="flex-1 inline-flex items-center justify-center bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
                         Edit
                     </a>
                     @if($bootcamp->type === 'offline')
-                    <a href="{{ route('mentor.bootcamps.attendance', $bootcamp) }}" class="flex-1 text-center px-3 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 text-sm font-medium">
+                    <a href="{{ route('mentor.bootcamps.attendance', $bootcamp) }}" class="flex-1 inline-flex items-center justify-center bg-green-50 text-green-600 hover:bg-green-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
                         Absensi
                     </a>
                     @endif
+                    <form method="POST" action="{{ route('mentor.bootcamps.destroy', $bootcamp) }}" class="flex-1 m-0" onsubmit="return confirm('Hapus bootcamp ini?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="w-full inline-flex items-center justify-center bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
+                            Hapus
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

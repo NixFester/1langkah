@@ -54,26 +54,24 @@
     </div>
 
     <!-- Stats Grid -->
-    <x-card-panel>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
-                <div class="text-3xl font-bold text-[#cc0000]">{{ $portfolio['stats']['courses_completed'] ?? 0 }}</div>
-                <div class="text-sm text-gray-500 mt-1">Kursus Selesai</div>
-            </div>
-            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
-                <div class="text-3xl font-bold text-green-600">{{ $portfolio['stats']['bootcamps_completed'] ?? 0 }}</div>
-                <div class="text-sm text-gray-500 mt-1">Bootcamp Selesai</div>
-            </div>
-            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
-                <div class="text-3xl font-bold text-purple-600">{{ $portfolio['stats']['skills_acquired'] ?? 0 }}</div>
-                <div class="text-sm text-gray-500 mt-1">Skills</div>
-            </div>
-            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
-                <div class="text-3xl font-bold text-orange-500">{{ $portfolio['stats']['reviews_written'] ?? 0 }}</div>
-                <div class="text-sm text-gray-500 mt-1">Reviews</div>
-            </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
+            <div class="text-3xl font-bold text-[#cc0000]">{{ $portfolio['stats']['courses_completed'] ?? 0 }}</div>
+            <div class="text-sm text-gray-500 mt-1">Kursus Selesai</div>
         </div>
-    </x-card-panel>
+        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
+            <div class="text-3xl font-bold text-green-600">{{ $portfolio['stats']['bootcamps_completed'] ?? 0 }}</div>
+            <div class="text-sm text-gray-500 mt-1">Bootcamp Selesai</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
+            <div class="text-3xl font-bold text-purple-600">{{ $portfolio['stats']['skills_acquired'] ?? 0 }}</div>
+            <div class="text-sm text-gray-500 mt-1">Skills</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center">
+            <div class="text-3xl font-bold text-orange-500">{{ $portfolio['stats']['reviews_written'] ?? 0 }}</div>
+            <div class="text-sm text-gray-500 mt-1">Reviews</div>
+        </div>
+    </div>
 
     <!-- Achievements -->
     @if(!empty($portfolio['achievements']))
@@ -96,7 +94,8 @@
     @endif
 
     <!-- Skills Section -->
-    <x-card-panel title="Skills yang Dikuasai">
+    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm mb-6">
+        <h3 class="font-bold text-gray-900 text-[16px] mb-4">Skills yang Dikuasai</h3>
         @if(!empty($portfolio['skills']))
         <div class="flex flex-wrap gap-3">
             @foreach($portfolio['skills'] as $skill)
@@ -115,10 +114,11 @@
         @else
         <x-empty-state message="Belum ada skills." icon="sparkles" />
         @endif
-    </x-card-panel>
+    </div>
 
     <!-- Courses Completed (Sorted by Rating) -->
-    <x-card-panel title="Kursus yang Telah Diselesaikan">
+    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm mb-6">
+        <h3 class="font-bold text-gray-900 text-[16px] mb-4">Kursus yang Telah Diselesaikan</h3>
         @if(!empty($portfolio['courses']))
         <div class="space-y-3">
             @foreach($portfolio['courses'] as $course)
@@ -158,7 +158,7 @@
         @else
         <x-empty-state message="Belum ada kursus yang diselesaikan." icon="book" />
         @endif
-    </x-card-panel>
+    </div>
 
     <!-- Bootcamps Completed -->
     <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm mb-6">

@@ -66,7 +66,7 @@
                     </button>
                     <span class="font-bold text-sm text-gray-700" id="vote-score-{{ $post->id }}">{{ $post->score }}</span>
                     <button onclick="votePost({{ $post->id }}, 'down', this)"
-                            class="p-1.5 rounded-lg hover:bg-gray-100 transition-colors {{ isset($userVotes[$post->id]) && $userVotes[$post->id] === false ? 'text-gray-600' : 'text-gray-400 hover:text-gray-600' }}">
+                            class="p-1.5 rounded-lg hover:bg-red-50 transition-colors {{ isset($userVotes[$post->id]) && $userVotes[$post->id] === false ? 'text-red-600' : 'text-gray-400 hover:text-red-600' }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                 </div>
@@ -168,6 +168,7 @@ async function votePost(postId, voteType, buttonElement) {
         const data = await response.json();
 
         if (data.success) {
+            const oldScore = parseInt(document.getElementById('vote-score-' + postId).textContent);
             document.getElementById('vote-score-' + postId).textContent = data.score;
 
             // Update button styles
@@ -177,18 +178,18 @@ async function votePost(postId, voteType, buttonElement) {
 
             // Remove previous states
             upBtn.classList.remove('text-red-600');
-            downBtn.classList.remove('text-gray-600');
+            downBtn.classList.remove('text-red-600');
             upBtn.classList.add('text-gray-400');
             downBtn.classList.add('text-gray-400');
 
-            if (data.score > parseInt(document.getElementById('vote-score-' + postId).textContent.replace('-', ''))) {
+            if (voteType === 'up' && data.score > oldScore) {
                 // Was upvoted
                 upBtn.classList.remove('text-gray-400');
                 upBtn.classList.add('text-red-600');
-            } else if (data.score < parseInt(document.getElementById('vote-score-' + postId).textContent)) {
+            } else if (voteType === 'down' && data.score < oldScore) {
                 // Was downvoted
                 downBtn.classList.remove('text-gray-400');
-                downBtn.classList.add('text-gray-600');
+                downBtn.classList.add('text-red-600');
             }
         }
     } catch (error) {

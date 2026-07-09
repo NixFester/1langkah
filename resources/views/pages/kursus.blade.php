@@ -158,7 +158,7 @@
              x-transition:leave-start="opacity-100 translate-y-0"
              x-transition:leave-end="opacity-0 translate-y-[-10px]"
              style="display: none;"
-             class="absolute left-0 right-0 top-full mt-3 bg-white rounded-2xl p-5 border border-gray-100 shadow-xl z-50">
+             class="absolute left-0 right-0 top-full mt-1 bg-white rounded-2xl p-5 border border-gray-100 shadow-xl z-50">
             <div class="flex flex-col gap-4">
                 <div>
                     <label class="block text-xs font-medium text-gray-500 mb-2">Level</label>

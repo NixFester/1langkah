@@ -6,8 +6,8 @@
 <!-- Navbar -->
 <nav class="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-3 md:py-4 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between">
     <!-- Logo -->
-    <a href="{{ route('landing') }}" class="flex items-center">
-        <svg width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <a href="{{ route('landing') }}" class="flex items-center" aria-label="Beranda 1Langkah">
+        <svg aria-hidden="true" width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_306_8219)">
                 <path d="M22.3789 27.1026H16.3237V7.52808H22.3789V27.1026Z" fill="#D10000"/>
                 <g filter="url(#filter0_d_306_8219)">
@@ -40,7 +40,7 @@
     </a>
     
     <!-- Links -->
-    <div class="hidden md:flex items-center gap-8 text-[15px] font-medium text-[#6b7280]">
+    <div class="hidden md:flex items-center gap-8 text-[15px] font-medium text-gray-300">
         <a href="{{ route('kursus') }}" class="hover:text-white transition-colors">Kursus</a>
         <a href="{{ route('online-bootcamp') }}" class="hover:text-white transition-colors">Bootcamp</a>
         <a href="{{ route('mentor') }}" class="hover:text-white transition-colors">Mentor</a>
@@ -60,6 +60,7 @@
 </nav>
 
 <!-- Hero & Partners Full Screen Wrapper -->
+<main id="main-content">
 <div class="min-h-screen min-h-[100svh] min-h-[100dvh] w-full flex flex-col overflow-x-hidden bg-[#050304]">
     
     <!-- Hero -->
@@ -75,15 +76,15 @@
                 
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-3 py-1 lg:py-1.5 rounded-full border border-[#D10000]/30 bg-[#D10000]/10 mb-2.5 lg:mb-4">
-                    <svg class="w-3 h-3 lg:w-3.5 lg:h-3.5 text-[#FF7070]" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_306_7921)"><path d="M4.96847 7.74988C4.92383 7.57684 4.83364 7.41893 4.70728 7.29257C4.58092 7.16621 4.42301 7.07602 4.24997 7.03138L1.18247 6.24038C1.13014 6.22553 1.08407 6.19401 1.05128 6.1506C1.01848 6.1072 1.00073 6.05428 1.00073 5.99988C1.00073 5.94548 1.01848 5.89256 1.05128 5.84916C1.08407 5.80575 1.13014 5.77423 1.18247 5.75938L4.24997 4.96788C4.42294 4.92328 4.58082 4.83317 4.70717 4.7069C4.83353 4.58063 4.92375 4.42282 4.96847 4.24988L5.75947 1.18238C5.77417 1.12984 5.80566 1.08355 5.84913 1.05058C5.8926 1.0176 5.94566 0.999756 6.00022 0.999756C6.05478 0.999756 6.10784 1.0176 6.15131 1.05058C6.19478 1.08355 6.22627 1.12984 6.24097 1.18238L7.03147 4.24988C7.07611 4.42292 7.1663 4.58083 7.29266 4.70719C7.41902 4.83355 7.57693 4.92374 7.74997 4.96838L10.8175 5.75888C10.8702 5.77343 10.9167 5.80488 10.9499 5.84842C10.983 5.89195 11.001 5.94516 11.001 5.99988C11.001 6.0546 10.983 6.10781 10.9499 6.15134C10.9167 6.19488 10.8702 6.22633 10.8175 6.24088L7.74997 7.03138C7.57693 7.07602 7.41902 7.16621 7.29266 7.29257C7.1663 7.41893 7.07611 7.57684 7.03147 7.74988L6.24047 10.8174C6.22577 10.8699 6.19428 10.9162 6.15081 10.9492C6.10734 10.9822 6.05428 11 5.99972 11C5.94516 11 5.8921 10.9822 5.84863 10.9492C5.80516 10.9162 5.77367 10.8699 5.75897 10.8174L4.96847 7.74988Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 1.5V3.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 2.5H9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 8.5V9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.5 9H1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_306_7921"><rect width="12" height="12" fill="white"/></clipPath></defs></svg>
+                    <svg aria-hidden="true" class="w-3 h-3 lg:w-3.5 lg:h-3.5 text-[#FF7070]" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_306_7921)"><path d="M4.96847 7.74988C4.92383 7.57684 4.83364 7.41893 4.70728 7.29257C4.58092 7.16621 4.42301 7.07602 4.24997 7.03138L1.18247 6.24038C1.13014 6.22553 1.08407 6.19401 1.05128 6.1506C1.01848 6.1072 1.00073 6.05428 1.00073 5.99988C1.00073 5.94548 1.01848 5.89256 1.05128 5.84916C1.08407 5.80575 1.13014 5.77423 1.18247 5.75938L4.24997 4.96788C4.42294 4.92328 4.58082 4.83317 4.70717 4.7069C4.83353 4.58063 4.92375 4.42282 4.96847 4.24988L5.75947 1.18238C5.77417 1.12984 5.80566 1.08355 5.84913 1.05058C5.8926 1.0176 5.94566 0.999756 6.00022 0.999756C6.05478 0.999756 6.10784 1.0176 6.15131 1.05058C6.19478 1.08355 6.22627 1.12984 6.24097 1.18238L7.03147 4.24988C7.07611 4.42292 7.1663 4.58083 7.29266 4.70719C7.41902 4.83355 7.57693 4.92374 7.74997 4.96838L10.8175 5.75888C10.8702 5.77343 10.9167 5.80488 10.9499 5.84842C10.983 5.89195 11.001 5.94516 11.001 5.99988C11.001 6.0546 10.983 6.10781 10.9499 6.15134C10.9167 6.19488 10.8702 6.22633 10.8175 6.24088L7.74997 7.03138C7.57693 7.07602 7.41902 7.16621 7.29266 7.29257C7.1663 7.41893 7.07611 7.57684 7.03147 7.74988L6.24047 10.8174C6.22577 10.8699 6.19428 10.9162 6.15081 10.9492C6.10734 10.9822 6.05428 11 5.99972 11C5.94516 11 5.8921 10.9822 5.84863 10.9492C5.80516 10.9162 5.77367 10.8699 5.75897 10.8174L4.96847 7.74988Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 1.5V3.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 2.5H9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 8.5V9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.5 9H1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_306_7921"><rect width="12" height="12" fill="white"/></clipPath></defs></svg>
                     <span class="text-[9px] sm:text-[10px] lg:text-xs font-bold tracking-[0.15em] text-[#FF7070] uppercase">AI-POWERED LEARNING EXPERIENCE PLATFORM</span>
                 </div>
 
                 <!-- Title -->
                 <h1 class="text-[34px] leading-[1.05] sm:text-4xl md:text-5xl lg:text-[50px] xl:text-[64px] font-extrabold sm:leading-[1.05] tracking-tight text-white mb-2 lg:mb-3">
                     Satu Langkah<br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Menuju Masa</span><br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Depan</span><br>
+                    <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(to bottom right, #b91c1c, #ef4444);">Menuju Masa</span><br>
+                    <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(to bottom right, #b91c1c, #ef4444);">Depan</span><br>
                     Lebih Baik.
                 </h1>
 
@@ -95,7 +96,7 @@
                 <div class="flex flex-row flex-wrap justify-center lg:justify-start items-stretch sm:items-center gap-2 sm:gap-4 lg:gap-4 mb-3 lg:mb-4 w-full sm:w-auto">
                     <a href="{{ route('signup') }}" class="flex-1 sm:w-auto justify-center inline-flex items-center gap-1.5 px-2 sm:px-5 py-2.5 lg:px-7 lg:py-4 xl:px-8 xl:py-4 bg-gradient-to-b from-[#e60000] to-[#880000] text-white font-bold text-[12px] sm:text-[13.5px] lg:text-[14px] xl:text-[16px] rounded-[12px] lg:rounded-[18px] hover:from-[#ff0000] hover:to-[#990000] transition-all shadow-[0_4px_14px_rgba(209,0,0,0.4)]">
                         <span class="truncate">Mulai Belajar</span> 
-                        <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 stroke-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5 lg:w-4 lg:h-4 stroke-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                     </a>
                     <a href="{{ route('kursus') }}" class="flex-1 sm:w-auto justify-center inline-flex items-center px-2 sm:px-5 py-2.5 lg:px-7 lg:py-4 xl:px-8 xl:py-4 border border-white/20 bg-transparent text-white font-bold text-[12px] sm:text-[13.5px] lg:text-[14px] xl:text-[16px] rounded-[12px] lg:rounded-[18px] hover:bg-white/5 transition-colors">
                         <span class="truncate">Jelajahi Kursus</span>
@@ -105,7 +106,7 @@
                 <!-- Watch Demo -->
                 <button class="group flex items-center justify-center lg:justify-start gap-3 text-[#d1d5db] hover:text-white transition-colors">
                     <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-white/5 group-hover:border-white/30 group-hover:bg-white/10 transition-all">
-                        <svg class="w-3.5 h-3.5 ml-1 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5 ml-1 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </div>
                     <span class="font-medium text-[15px]">Watch Demo</span>
                 </button>
@@ -122,16 +123,16 @@
                     <div class="absolute right-[5%] top-[20%] px-4 py-1.5 lg:px-5 lg:py-2 bg-transparent backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_6s_ease-in-out_infinite]">AI/ML</div>
 
                     <!-- Main Dashboard Image -->
-                    <img src="{{ asset('assets/icons/main_dashboard_image.svg') }}" alt="1Langkah Platform" class="w-full relative z-10">
+                    <img fetchpriority="high" decoding="async" src="{{ asset('assets/icons/main_dashboard_image.svg') }}" alt="1Langkah Platform" class="w-full relative z-10">
                     
                     <!-- Sertifikat (Top Right) -->
-                    <img src="{{ asset('assets/icons/sertifikat.svg') }}" alt="Sertifikat" class="absolute right-[0%] top-[-4%] w-[244px] z-20 animate-[float_6s_ease-in-out_infinite]">
+                    <img fetchpriority="high" decoding="async" src="{{ asset('assets/icons/sertifikat.svg') }}" alt="Sertifikat" class="absolute right-[0%] top-[-4%] w-[244px] z-20 animate-[float_6s_ease-in-out_infinite]">
                     
                     <!-- Rudi Yesaya (Bottom Left) -->
-                    <img src="{{ asset('assets/icons/rudi-yesaya.svg') }}" alt="Mentor" class="absolute left-[2%] bottom-[12%] w-[232px] z-20 animate-[float_8s_ease-in-out_infinite_reverse]">
+                    <img fetchpriority="high" decoding="async" src="{{ asset('assets/icons/rudi-yesaya.svg') }}" alt="Mentor" class="absolute left-[2%] bottom-[12%] w-[232px] z-20 animate-[float_8s_ease-in-out_infinite_reverse]">
                     
                     <!-- Skill Passport (Bottom Right) -->
-                    <img src="{{ asset('assets/icons/skill-passport.svg') }}" alt="Skill Passport" class="absolute right-[2%] bottom-[18%] w-[222px] z-20 animate-[float_7s_ease-in-out_infinite_1s]">
+                    <img fetchpriority="high" decoding="async" src="{{ asset('assets/icons/skill-passport.svg') }}" alt="Skill Passport" class="absolute right-[2%] bottom-[18%] w-[222px] z-20 animate-[float_7s_ease-in-out_infinite_1s]">
                 </div>
 
                 </div>
@@ -163,22 +164,22 @@
             <!-- Ratings (Right Column) -->
             <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 w-full">
                 <div class="flex -space-x-3">
-                    <img class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=A&background=random" alt="User">
-                    <img class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=B&background=random" alt="User">
-                    <img class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=C&background=random" alt="User">
-                    <img class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=D&background=random" alt="User">
+                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=A&background=random" alt="User">
+                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=B&background=random" alt="User">
+                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=C&background=random" alt="User">
+                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=D&background=random" alt="User">
                     <div class="w-10 h-10 rounded-full border-2 border-[#070707] bg-[#dc2626] flex items-center justify-center text-[10px] font-bold text-white z-10">+99K</div>
                 </div>
                 <div class="text-center sm:text-left">
                     <div class="flex items-center justify-center sm:justify-start gap-1 text-[#eab308] mb-0.5">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                         <span class="text-white font-bold ml-1.5 text-sm">4.9</span>
                     </div>
-                    <div class="text-[#6b7280] text-[11px] font-medium">dari 100,000+ pelajar aktif di seluruh Indonesia</div>
+                    <div class="text-gray-400 text-[11px] font-medium">dari 100,000+ pelajar aktif di seluruh Indonesia</div>
                 </div>
 
             </div>
@@ -189,11 +190,11 @@
     <!-- Partners -->
     <section class="py-3 lg:py-5 bg-transparent border-t border-white/5 relative z-20 overflow-hidden">
         <div class="max-w-[1400px] mx-auto text-center px-6 md:px-12">
-            <p class="text-[9px] lg:text-[10px] font-bold tracking-[0.2em] text-[#6b7280] uppercase mb-3 lg:mb-5">DIPERCAYA OLEH 300+ PERUSAHAAN & INSTITUSI TERKEMUKA</p>
+            <p class="text-[9px] lg:text-[10px] font-bold tracking-[0.2em] text-gray-400 uppercase mb-3 lg:mb-5">DIPERCAYA OLEH 300+ PERUSAHAAN & INSTITUSI TERKEMUKA</p>
         </div>
         <div class="relative flex overflow-x-hidden lg:overflow-visible group max-w-full lg:justify-center">
             <!-- First Set -->
-            <div class="flex shrink-0 animate-marquee lg:animate-none lg:flex-wrap items-center justify-around lg:justify-center gap-12 lg:gap-6 xl:gap-12 px-6 lg:px-8 min-w-full lg:min-w-0 opacity-60">
+            <div class="flex shrink-0 animate-marquee lg:animate-none lg:flex-wrap items-center justify-around lg:justify-center gap-12 lg:gap-6 xl:gap-12 px-6 lg:px-8 min-w-full lg:min-w-0 text-gray-500">
                 <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">GOJEK</span>
                 <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">SHOPEE</span>
                 <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">TRAVELOKA</span>
@@ -205,7 +206,7 @@
                 <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">BLIBLI</span>
             </div>
             <!-- Second Set (Duplicate for seamless loop) -->
-            <div aria-hidden="true" class="flex lg:hidden shrink-0 animate-marquee items-center justify-around gap-12 px-6 min-w-full opacity-60">
+            <div aria-hidden="true" class="flex lg:hidden shrink-0 animate-marquee items-center justify-around gap-12 px-6 min-w-full text-gray-500">
                 <span class="text-sm font-bold text-[#9ca3af]">GOJEK</span>
                 <span class="text-sm font-bold text-[#9ca3af]">SHOPEE</span>
                 <span class="text-sm font-bold text-[#9ca3af]">TRAVELOKA</span>
@@ -227,16 +228,16 @@
         <div class="text-center max-w-3xl mx-auto mb-12">
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-red-100 bg-red-50 mb-6">
-                <svg class="w-3.5 h-3.5 text-[#D10000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <svg aria-hidden="true" class="w-3.5 h-3.5 text-[#D10000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 <span class="text-[11px] font-bold tracking-[0.15em] text-[#D10000] uppercase">PLATFORM LENGKAP</span>
             </div>
             
             <h2 class="text-4xl md:text-[44px] font-extrabold text-[#0f172a] tracking-tight leading-[1.2] mb-4">
                 Bukan sekadar platform kursus.<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-br from-red-600 to-orange-500">Ini ekosistem karir kamu.</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-br from-red-600 to-orange-700">Ini ekosistem karir kamu.</span>
             </h2>
             
-            <p class="text-lg text-gray-500 leading-relaxed max-w-2xl mx-auto">
+            <p class="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
                 Dari skill pertama hingga pekerjaan impian — semuanya dalam satu platform<br class="hidden md:block"> yang dirancang bersama AI.
             </p>
         </div>
@@ -246,39 +247,39 @@
             <!-- Card 1 -->
             <div class="bg-white rounded-[2rem] p-6 lg:p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col items-start group cursor-pointer">
                 <div class="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform p-3">
-                    <img src="{{ asset('assets/icons/AI-Learning-Assistant.svg') }}" alt="AI Learning Assistant" class="w-full h-full object-contain">
+                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/AI-Learning-Assistant.svg') }}" alt="AI Learning Assistant" class="w-full h-full object-contain">
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">AI Learning Assistant</h3>
-                <p class="text-[15px] text-gray-500 leading-relaxed mb-8 flex-1">Tutor AI 24/7 yang siap menjelaskan topik sulit, meringkas materi, dan membuat quiz personal hanya dalam hitungan detik.</p>
+                <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">Tutor AI 24/7 yang siap menjelaskan topik sulit, meringkas materi, dan membuat quiz personal hanya dalam hitungan detik.</p>
                 <a href="#" class="inline-flex items-center gap-1.5 text-sm font-bold text-[#D10000] group-hover:gap-2 transition-all">
                     Pelajari lebih lanjut 
-                    <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                 </a>
             </div>
 
             <!-- Card 2 -->
             <div class="bg-white rounded-[2rem] p-6 lg:p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col items-start group cursor-pointer">
                 <div class="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform p-3">
-                    <img src="{{ asset('assets/icons/Personalized-Learning-Path.svg') }}" alt="Personalized Learning Path" class="w-full h-full object-contain">
+                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Personalized-Learning-Path.svg') }}" alt="Personalized Learning Path" class="w-full h-full object-contain">
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">Personalized Learning Path</h3>
-                <p class="text-[15px] text-gray-500 leading-relaxed mb-8 flex-1">Jalur belajar yang dibentuk oleh AI berdasarkan tujuan karir, skill gaps, dan kecepatan belajarmu — bukan jalur generik.</p>
-                <a href="#" class="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-500 group-hover:gap-2 transition-all">
+                <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">Jalur belajar yang dibentuk oleh AI berdasarkan tujuan karir, skill gaps, dan kecepatan belajarmu — bukan jalur generik.</p>
+                <a href="#" class="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-700 group-hover:gap-2 transition-all">
                     Pelajari lebih lanjut 
-                    <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                 </a>
             </div>
 
             <!-- Card 3 -->
             <div class="bg-white rounded-[2rem] p-6 lg:p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col items-start group cursor-pointer">
                 <div class="w-14 h-14 rounded-2xl bg-purple-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform p-3">
-                    <img src="{{ asset('assets/icons/Verified-Skill-Passport.svg') }}" alt="Verified Skill Passport" class="w-full h-full object-contain">
+                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Verified-Skill-Passport.svg') }}" alt="Verified Skill Passport" class="w-full h-full object-contain">
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">Verified Skill Passport</h3>
-                <p class="text-[15px] text-gray-500 leading-relaxed mb-8 flex-1">Profil skill digital terverifikasi dengan QR code yang bisa langsung dibagikan ke rekruter dan diakui 300+ hiring partner.</p>
-                <a href="#" class="inline-flex items-center gap-1.5 text-sm font-bold text-purple-500 group-hover:gap-2 transition-all">
+                <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">Profil skill digital terverifikasi dengan QR code yang bisa langsung dibagikan ke rekruter dan diakui 300+ hiring partner.</p>
+                <a href="#" class="inline-flex items-center gap-1.5 text-sm font-bold text-purple-700 group-hover:gap-2 transition-all">
                     Pelajari lebih lanjut 
-                    <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                 </a>
             </div>
         </div>
@@ -288,56 +289,56 @@
             <!-- Pill 1 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('assets/icons/Interactive-Courses.svg') }}" alt="Interactive Courses" class="w-full h-full object-contain">
+                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Interactive-Courses.svg') }}" alt="Interactive Courses" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Interactive Courses</span>
             </div>
             <!-- Pill 2 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('assets/icons/Certificates.svg') }}" alt="Certificates" class="w-full h-full object-contain">
+                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Certificates.svg') }}" alt="Certificates" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Certificates</span>
             </div>
             <!-- Pill 3 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('assets/icons/Portfolio-Builder.svg') }}" alt="Portfolio Builder" class="w-full h-full object-contain">
+                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Portfolio-Builder.svg') }}" alt="Portfolio Builder" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Portfolio Builder</span>
             </div>
             <!-- Pill 4 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('assets/icons/Project-Marketplace.svg') }}" alt="Project Marketplace" class="w-full h-full object-contain">
+                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Project-Marketplace.svg') }}" alt="Project Marketplace" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Project Marketplace</span>
             </div>
             <!-- Pill 5 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('assets/icons/Mentor-Marketplace.svg') }}" alt="Mentor Marketplace" class="w-full h-full object-contain">
+                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Mentor-Marketplace.svg') }}" alt="Mentor Marketplace" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Mentor Marketplace</span>
             </div>
             <!-- Pill 6 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('assets/icons/Career-Center.svg') }}" alt="Career Center" class="w-full h-full object-contain">
+                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Career-Center.svg') }}" alt="Career Center" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Career Center</span>
             </div>
             <!-- Pill 7 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('assets/icons/Community.svg') }}" alt="Community" class="w-full h-full object-contain">
+                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Community.svg') }}" alt="Community" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Community</span>
             </div>
             <!-- Pill 8 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
-                    <img src="{{ asset('assets/icons/Learning-Analytics.svg') }}" alt="Learning Analytics" class="w-full h-full object-contain">
+                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Learning-Analytics.svg') }}" alt="Learning Analytics" class="w-full h-full object-contain">
                 </div>
                 <span class="text-[13px] md:text-sm font-bold text-gray-800">Learning Analytics</span>
             </div>
@@ -353,14 +354,14 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
                 <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100/50 border border-emerald-200 mb-4">
-                    <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <svg aria-hidden="true" class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                     <span class="text-[11px] font-bold tracking-[0.15em] text-emerald-700 uppercase">KURSUS TERPOPULER</span>
                 </div>
                 <h2 class="text-4xl md:text-[42px] font-extrabold text-[#0f172a] tracking-tight">Mulai belajar sekarang</h2>
             </div>
             <a href="{{ route('kursus') }}" class="inline-flex items-center gap-1.5 text-[15px] font-bold text-[#D10000] hover:text-[#b30000] transition-colors md:pb-2">
                 Lihat 800+ kursus 
-                <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
             </a>
         </div>
 
@@ -368,35 +369,35 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
             <!-- Card 1 -->
-            <a href="#" class="bg-white rounded-[20px] border border-gray-200/60 overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group flex flex-col cursor-pointer">
+            <div class="bg-white rounded-[20px] border border-gray-200/60 overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group flex flex-col cursor-pointer">
                 <!-- Image Wrapper -->
                 <div class="relative h-[210px] w-full overflow-hidden bg-gray-100">
-                    <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600&auto=format&fit=crop" alt="Coding" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600&auto=format&fit=crop&fm=webp" alt="Coding" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <!-- Top Left Badges -->
                     <div class="absolute top-4 left-4 flex gap-2">
-                        <span class="px-3 py-1 bg-white text-orange-500 text-[11px] font-bold rounded-full shadow-sm">Bestseller</span>
+                        <span class="px-3 py-1 bg-white text-orange-700 text-[11px] font-bold rounded-full shadow-sm">Bestseller</span>
                         <span class="px-3 py-1 bg-white text-slate-600 text-[11px] font-bold rounded-full shadow-sm">Intermediate</span>
                     </div>
                     <!-- Bookmark -->
-                    <button class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-400 shadow-sm hover:text-orange-600 transition-colors">
-                        <img src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="Bookmark">
+                    <button aria-label="Simpan" class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-sm hover:text-orange-800 transition-colors">
+                        <img loading="lazy" decoding="async" src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="" aria-hidden="true">
                     </button>
                     <!-- Progress Bar (inside image bottom) -->
                     <div class="absolute bottom-0 left-0 h-2 bg-emerald-500 z-10" style="width: 68%;"></div>
                 </div>
                 <!-- Card Body -->
                 <div class="p-6 flex flex-col flex-1">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-500 bg-red-50 w-fit mb-4">Programming</span>
-                    <h3 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2">Full-Stack Web Development Bootcamp</h3>
-                    <p class="text-[13px] text-slate-500 mb-4">Rudi Yesaya · Google</p>
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4">Programming</span>
+                    <h3 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">Full-Stack Web Development Bootcamp</a></h3>
+                    <p class="text-[13px] text-slate-600 mb-4">Rudi Yesaya · Google</p>
                     
                     <div class="flex items-center gap-2 mb-6 mt-auto">
                         <div class="flex text-amber-400">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         </div>
                         <span class="text-[13px] font-bold text-slate-700">4.9</span>
                         <span class="text-[13px] text-slate-400">(12,840)</span>
@@ -404,43 +405,43 @@
                     
                     <!-- Footer -->
                     <div class="pt-5 border-t border-gray-100 flex items-center justify-between">
-                        <div class="flex items-center gap-1.5 text-slate-500 text-[13px] font-medium">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div class="flex items-center gap-1.5 text-slate-600 text-[13px] font-medium">
+                            <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             48h
                         </div>
                         <div class="text-[13px] font-bold text-emerald-600">68% done</div>
                     </div>
                 </div>
-            </a>
+            </div>
 
             <!-- Card 2 -->
-            <a href="#" class="bg-white rounded-[20px] border border-gray-200/60 overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group flex flex-col cursor-pointer">
+            <div class="bg-white rounded-[20px] border border-gray-200/60 overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group flex flex-col cursor-pointer">
                 <!-- Image Wrapper -->
                 <div class="relative h-[210px] w-full overflow-hidden bg-gray-100">
-                    <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=600&auto=format&fit=crop" alt="Design" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=600&auto=format&fit=crop&fm=webp" alt="Design" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <!-- Top Left Badges -->
                     <div class="absolute top-4 left-4 flex gap-2">
-                        <span class="px-3 py-1 bg-white text-red-500 text-[11px] font-bold rounded-full shadow-sm">New</span>
+                        <span class="px-3 py-1 bg-white text-red-700 text-[11px] font-bold rounded-full shadow-sm">New</span>
                         <span class="px-3 py-1 bg-white text-slate-600 text-[11px] font-bold rounded-full shadow-sm">Beginner</span>
                     </div>
                     <!-- Bookmark -->
-                    <button class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-400 shadow-sm hover:text-orange-600 transition-colors">
-                        <img src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="Bookmark">
+                    <button aria-label="Simpan" class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-sm hover:text-orange-800 transition-colors">
+                        <img loading="lazy" decoding="async" src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="" aria-hidden="true">
                     </button>
                 </div>
                 <!-- Card Body -->
                 <div class="p-6 flex flex-col flex-1">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-500 bg-red-50 w-fit mb-4">Design</span>
-                    <h3 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2">UI/UX Design Mastery</h3>
-                    <p class="text-[13px] text-slate-500 mb-4">Sari Dewi · Tokopedia</p>
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4">Design</span>
+                    <h3 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">UI/UX Design Mastery</a></h3>
+                    <p class="text-[13px] text-slate-600 mb-4">Sari Dewi · Tokopedia</p>
                     
                     <div class="flex items-center gap-2 mb-6 mt-auto">
                         <div class="flex text-amber-400">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         </div>
                         <span class="text-[13px] font-bold text-slate-700">4.8</span>
                         <span class="text-[13px] text-slate-400">(9,210)</span>
@@ -448,45 +449,45 @@
                     
                     <!-- Footer -->
                     <div class="pt-5 border-t border-gray-100 flex items-center justify-between">
-                        <div class="flex items-center gap-1.5 text-slate-500 text-[13px] font-medium">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div class="flex items-center gap-1.5 text-slate-600 text-[13px] font-medium">
+                            <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             32h
                         </div>
                         <div class="text-[17px] font-bold text-slate-900">Rp 499.000</div>
                     </div>
                 </div>
-            </a>
+            </div>
 
             <!-- Card 3 -->
-            <a href="#" class="bg-white rounded-[20px] border border-gray-200/60 overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group flex flex-col cursor-pointer">
+            <div class="bg-white rounded-[20px] border border-gray-200/60 overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group flex flex-col cursor-pointer">
                 <!-- Image Wrapper -->
                 <div class="relative h-[210px] w-full overflow-hidden bg-gray-100">
-                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=600&auto=format&fit=crop" alt="AI Network" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=600&auto=format&fit=crop&fm=webp" alt="AI Network" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <!-- Top Left Badges -->
                     <div class="absolute top-4 left-4 flex gap-2">
-                        <span class="px-3 py-1 bg-white text-red-500 text-[11px] font-bold rounded-full shadow-sm">Hot</span>
+                        <span class="px-3 py-1 bg-white text-red-700 text-[11px] font-bold rounded-full shadow-sm">Hot</span>
                         <span class="px-3 py-1 bg-white text-slate-600 text-[11px] font-bold rounded-full shadow-sm">Advanced</span>
                     </div>
                     <!-- Bookmark -->
-                    <button class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-400 shadow-sm hover:text-orange-600 transition-colors">
-                        <img src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="Bookmark">
+                    <button aria-label="Simpan" class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-sm hover:text-orange-800 transition-colors">
+                        <img loading="lazy" decoding="async" src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="" aria-hidden="true">
                     </button>
                     <!-- Progress Bar (inside image bottom) -->
                     <div class="absolute bottom-0 left-0 h-2 bg-emerald-500 z-10" style="width: 23%;"></div>
                 </div>
                 <!-- Card Body -->
                 <div class="p-6 flex flex-col flex-1">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-500 bg-red-50 w-fit mb-4">AI</span>
-                    <h3 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2">AI & Machine Learning Fundamentals</h3>
-                    <p class="text-[13px] text-slate-500 mb-4">Andi Wijaya · Gojek</p>
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4">AI</span>
+                    <h3 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">AI & Machine Learning Fundamentals</a></h3>
+                    <p class="text-[13px] text-slate-600 mb-4">Andi Wijaya · Gojek</p>
                     
                     <div class="flex items-center gap-2 mb-6 mt-auto">
                         <div class="flex text-amber-400">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         </div>
                         <span class="text-[13px] font-bold text-slate-700">4.9</span>
                         <span class="text-[13px] text-slate-400">(15,300)</span>
@@ -494,14 +495,14 @@
                     
                     <!-- Footer -->
                     <div class="pt-5 border-t border-gray-100 flex items-center justify-between">
-                        <div class="flex items-center gap-1.5 text-slate-500 text-[13px] font-medium">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div class="flex items-center gap-1.5 text-slate-600 text-[13px] font-medium">
+                            <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             60h
                         </div>
                         <div class="text-[13px] font-bold text-emerald-600">23% done</div>
                     </div>
                 </div>
-            </a>
+            </div>
 
         </div>
     </div>
@@ -517,7 +518,7 @@
             <div class="w-full lg:w-[55%]">
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#2e1065]/50 border border-[#4c1d95]/50 mb-6">
-                    <img src="{{ asset('assets/icons/online&offlinebootcamp.svg') }}" class="w-4 h-4" alt="Bootcamp">
+                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/online&offlinebootcamp.svg') }}" class="w-4 h-4" alt="Bootcamp">
                     <span class="text-[11px] font-bold tracking-[0.15em] text-[#d8b4fe] uppercase">ONLINE & OFFLINE BOOTCAMP</span>
                 </div>
                 
@@ -536,30 +537,30 @@
                 <div class="grid grid-cols-2 gap-4 max-w-[480px] mb-10">
                     <!-- Box 1 -->
                     <div class="bg-[#0f0f0f] border border-white/5 rounded-[14px] p-4">
-                        <h4 class="text-[15px] font-bold text-white mb-1">Online Bootcamp</h4>
-                        <p class="text-[13px] text-gray-500">Via Zoom · 7-10 sesi LIVE</p>
+                        <h3 class="text-[15px] font-bold text-white mb-1">Online Bootcamp</h3>
+                        <p class="text-[13px] text-gray-400">Via Zoom · 7-10 sesi LIVE</p>
                     </div>
                     <!-- Box 2 -->
                     <div class="bg-[#0f0f0f] border border-white/5 rounded-[14px] p-4">
-                        <h4 class="text-[15px] font-bold text-white mb-1">Offline Bootcamp</h4>
-                        <p class="text-[13px] text-gray-500">Tatap muka di 3 kota</p>
+                        <h3 class="text-[15px] font-bold text-white mb-1">Offline Bootcamp</h3>
+                        <p class="text-[13px] text-gray-400">Tatap muka di 3 kota</p>
                     </div>
                     <!-- Box 3 -->
                     <div class="bg-[#0f0f0f] border border-white/5 rounded-[14px] p-4">
-                        <h4 class="text-[15px] font-bold text-white mb-1">Rekaman 30 hari</h4>
-                        <p class="text-[13px] text-gray-500">Akses setelah sesi</p>
+                        <h3 class="text-[15px] font-bold text-white mb-1">Rekaman 30 hari</h3>
+                        <p class="text-[13px] text-gray-400">Akses setelah sesi</p>
                     </div>
                     <!-- Box 4 -->
                     <div class="bg-[#0f0f0f] border border-white/5 rounded-[14px] p-4">
-                        <h4 class="text-[15px] font-bold text-white mb-1">Sertifikat</h4>
-                        <p class="text-[13px] text-gray-500">Terverifikasi</p>
+                        <h3 class="text-[15px] font-bold text-white mb-1">Sertifikat</h3>
+                        <p class="text-[13px] text-gray-400">Terverifikasi</p>
                     </div>
                 </div>
                 
                 <!-- CTA Button -->
                 <a href="{{ route('online-bootcamp') }}" class="inline-flex items-center gap-2 px-7 py-3.5 bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#5b21b6] rounded-xl text-white font-bold text-[15px] shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:shadow-[0_0_40px_rgba(124,58,237,0.5)] transition-all">
                     Lihat Jadwal Bootcamp
-                    <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                 </a>
             </div>
             
@@ -567,7 +568,7 @@
             <div class="w-full lg:w-[45%]">
                 <div class="relative w-full h-[400px] md:h-[480px] rounded-[2rem] overflow-hidden shadow-2xl">
                     <!-- Base Image -->
-                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1000&auto=format&fit=crop" alt="Bootcamp Class" class="w-full h-full object-cover">
+                    <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1000&auto=format&fit=crop&fm=webp" alt="Bootcamp Class" class="w-full h-full object-cover">
                     <!-- Purple Tint Overlay -->
                     <div class="absolute inset-0 bg-[#4c1d95]/40 mix-blend-multiply"></div>
                     <!-- Soft gradient to bottom -->
@@ -578,7 +579,7 @@
                         <div>
                             <h3 class="text-lg font-bold text-white mb-1.5 leading-snug">Leadership & Management Excellence</h3>
                             <div class="flex items-center gap-1.5 text-[13px] text-gray-300">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                <svg aria-hidden="true" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                                 <span>18 peserta · Mulai 11 Agu 2025</span>
                             </div>
                         </div>
@@ -601,7 +602,7 @@
         <div class="text-center max-w-3xl mx-auto mb-16">
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-red-100 bg-red-50 mb-6">
-                <img src="{{ asset('assets/icons/Mentor-Marketplace.svg') }}" class="w-3.5 h-3.5" alt="Mentor Marketplace">
+                <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Mentor-Marketplace.svg') }}" class="w-3.5 h-3.5" alt="Mentor Marketplace">
                 <span class="text-[11px] font-bold tracking-[0.15em] text-[#D10000] uppercase">MENTOR MARKETPLACE</span>
             </div>
             
@@ -611,7 +612,7 @@
             </h2>
             
             <!-- Description -->
-            <p class="text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">
+            <p class="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
                 500+ mentor berpengalaman dari Google, Gojek, Tokopedia, dan<br class="hidden md:block"> ratusan perusahaan top siap memandu karir kamu.
             </p>
         </div>
@@ -625,21 +626,21 @@
                 <div class="absolute top-6 right-6 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-50"></div>
                 
                 <!-- Avatar -->
-                <img src="https://i.pravatar.cc/150?u=rudi" alt="Rudi" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
+                <img loading="lazy" decoding="async" width="60" height="60" src="https://i.pravatar.cc/150?u=rudi" alt="Rudi Yesaya, Google Senior Dev" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
                 
                 <!-- Info -->
                 <h3 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Rudi Yesaya</h3>
-                <p class="text-[13px] text-slate-500 mb-1">Senior Software Engineer</p>
+                <p class="text-[13px] text-slate-600 mb-1">Senior Software Engineer</p>
                 <p class="text-[13px] font-bold text-[#D10000] mb-5">Google</p>
                 
                 <!-- Rating -->
                 <div class="flex items-center gap-2 mb-6 mt-auto">
                     <div class="flex text-amber-400">
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                     </div>
                     <span class="text-[13px] font-bold text-slate-800">4.9</span>
                 </div>
@@ -656,18 +657,18 @@
             <!-- Card 2 -->
             <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow relative flex flex-col cursor-pointer group">
                 <div class="absolute top-6 right-6 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-50"></div>
-                <img src="https://i.pravatar.cc/150?u=sari" alt="Sari" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
+                <img loading="lazy" decoding="async" width="60" height="60" src="https://i.pravatar.cc/150?u=sari" alt="Sari Dewi, Lead Product Designer" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
                 <h3 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Sari Dewi</h3>
-                <p class="text-[13px] text-slate-500 mb-1">Lead Product Designer</p>
+                <p class="text-[13px] text-slate-600 mb-1">Lead Product Designer</p>
                 <p class="text-[13px] font-bold text-[#D10000] mb-5">Tokopedia</p>
                 
                 <div class="flex items-center gap-2 mb-6 mt-auto">
                     <div class="flex text-amber-400">
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                     </div>
                     <span class="text-[13px] font-bold text-slate-800">4.8</span>
                 </div>
@@ -683,18 +684,18 @@
             <!-- Card 3 -->
             <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow relative flex flex-col cursor-pointer group">
                 <div class="absolute top-6 right-6 w-2.5 h-2.5 rounded-full bg-slate-300 ring-4 ring-slate-100"></div>
-                <img src="https://i.pravatar.cc/150?u=andi" alt="Andi" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
+                <img loading="lazy" decoding="async" width="60" height="60" src="https://i.pravatar.cc/150?u=andi" alt="Andi Wijaya, ML Engineer" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
                 <h3 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Andi Wijaya</h3>
-                <p class="text-[13px] text-slate-500 mb-1">ML Engineer</p>
+                <p class="text-[13px] text-slate-600 mb-1">ML Engineer</p>
                 <p class="text-[13px] font-bold text-[#D10000] mb-5">Gojek</p>
                 
                 <div class="flex items-center gap-2 mb-6 mt-auto">
                     <div class="flex text-amber-400">
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                     </div>
                     <span class="text-[13px] font-bold text-slate-800">4.9</span>
                 </div>
@@ -710,18 +711,18 @@
             <!-- Card 4 -->
             <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow relative flex flex-col cursor-pointer group">
                 <div class="absolute top-6 right-6 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-50"></div>
-                <img src="https://i.pravatar.cc/150?u=rina" alt="Rina" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
+                <img loading="lazy" decoding="async" width="60" height="60" src="https://i.pravatar.cc/150?u=rina" alt="Rina Kusuma, Head of Marketing" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
                 <h3 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Rina Kusuma</h3>
-                <p class="text-[13px] text-slate-500 mb-1">Head of Marketing</p>
+                <p class="text-[13px] text-slate-600 mb-1">Head of Marketing</p>
                 <p class="text-[13px] font-bold text-[#D10000] mb-5">Shopee</p>
                 
                 <div class="flex items-center gap-2 mb-6 mt-auto">
                     <div class="flex text-amber-400">
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                     </div>
                     <span class="text-[13px] font-bold text-slate-800">4.7</span>
                 </div>
@@ -740,7 +741,7 @@
         <div class="mt-14 text-center">
             <a href="{{ route('mentor') }}" class="inline-flex items-center gap-2 px-9 py-4 bg-[#b90000] hover:bg-[#990000] text-white font-bold text-[15px] rounded-full shadow-[0_12px_35px_rgba(185,0,0,0.35)] hover:shadow-[0_15px_45px_rgba(185,0,0,0.5)] transition-all transform hover:-translate-y-1">
                 Lihat 500+ Mentor
-                <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
             </a>
         </div>
         
@@ -756,7 +757,7 @@
             <!-- Left Column: Image with Floating Cards -->
             <div class="hidden lg:block relative w-full h-[350px] sm:h-[450px] md:h-[540px] rounded-[2rem] overflow-hidden shadow-2xl">
                 <!-- Base Image -->
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&auto=format&fit=crop" alt="Enterprise Training" class="w-full h-full object-cover">
+                <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&auto=format&fit=crop&fm=webp" alt="Enterprise Training" class="w-full h-full object-cover">
                 
                 <!-- Red Tint Overlay -->
                 <div class="absolute inset-0 bg-[#8b0000]/50 mix-blend-multiply"></div>
@@ -780,7 +781,7 @@
             <div>
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#2d0a0a] border border-[#5c1a1a] mb-5 lg:mb-6">
-                    <img src="{{ asset('assets/icons/enterprise&government.svg') }}" class="w-3.5 h-3.5 lg:w-4 lg:h-4" alt="Enterprise">
+                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/enterprise&government.svg') }}" class="w-3.5 h-3.5 lg:w-4 lg:h-4" alt="Enterprise">
                     <span class="text-[10px] lg:text-[11px] font-bold tracking-[0.15em] text-[#f87171] uppercase">ENTERPRISE & GOVERNMENT</span>
                 </div>
                 
@@ -798,23 +799,23 @@
                 <!-- Features List -->
                 <div class="flex flex-col gap-3.5 lg:gap-4 mb-10 lg:mb-12">
                     <div class="flex items-center gap-3.5">
-                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
+                        <img loading="lazy" decoding="async" src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
                         <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Dashboard analytics karyawan & tim</span>
                     </div>
                     <div class="flex items-center gap-3.5">
-                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
+                        <img loading="lazy" decoding="async" src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
                         <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Kurikulum custom sesuai kebutuhan bisnis</span>
                     </div>
                     <div class="flex items-center gap-3.5">
-                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
+                        <img loading="lazy" decoding="async" src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
                         <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Sertifikasi massal yang terverifikasi</span>
                     </div>
                     <div class="flex items-center gap-3.5">
-                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
+                        <img loading="lazy" decoding="async" src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
                         <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Integrasi dengan HR system perusahaan</span>
                     </div>
                     <div class="flex items-center gap-3.5">
-                        <img src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
+                        <img loading="lazy" decoding="async" src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
                         <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Dedicated account manager</span>
                     </div>
                 </div>
@@ -843,7 +844,7 @@
         <div class="text-center max-w-3xl mx-auto mb-16">
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-200 bg-amber-50 mb-6">
-                <svg class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                <svg aria-hidden="true" class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                 <span class="text-[11px] font-bold tracking-[0.15em] text-amber-500 uppercase">CERITA NYATA PELAJAR</span>
             </div>
             
@@ -858,72 +859,72 @@
             
             <!-- Card 1 -->
             <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
-                <div class="text-pink-200 text-6xl font-serif leading-none mb-2">"</div>
-                <p class="text-[15px] text-gray-500 leading-relaxed flex-1 mb-8">
+                <div aria-hidden="true" class="text-pink-600/50 text-6xl font-serif leading-none mb-2">"</div>
+                <p class="text-[15px] text-gray-600 leading-relaxed flex-1 mb-8">
                     Dalam 6 bulan belajar di 1Langkah, saya berhasil pindah karir dari accounting ke frontend dev. AI tutornya benar-benar membantu saya memahami konsep coding yang rumit.
                 </p>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <img src="https://i.pravatar.cc/150?u=aisyah" alt="Aisyah" class="w-12 h-12 rounded-full object-cover bg-gray-100">
+                        <img loading="lazy" decoding="async" width="48" height="48" src="https://i.pravatar.cc/150?u=aisyah" alt="Aisyah Putri" class="w-12 h-12 rounded-full object-cover bg-gray-100">
                         <div>
                             <div class="text-[15px] font-bold text-slate-900 leading-snug">Aisyah Putri</div>
-                            <div class="text-[12px] text-gray-400">Frontend Developer · Tokopedia</div>
+                            <div class="text-[12px] text-gray-600">Frontend Developer · Tokopedia</div>
                         </div>
                     </div>
                     <div class="flex text-amber-400">
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                     </div>
                 </div>
             </div>
 
             <!-- Card 2 -->
             <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
-                <div class="text-pink-200 text-6xl font-serif leading-none mb-2">"</div>
-                <p class="text-[15px] text-gray-500 leading-relaxed flex-1 mb-8">
+                <div aria-hidden="true" class="text-pink-600/50 text-6xl font-serif leading-none mb-2">"</div>
+                <p class="text-[15px] text-gray-600 leading-relaxed flex-1 mb-8">
                     Kualitas kursus Data Science-nya setara dengan bootcamp mahal, tapi dengan harga yang jauh lebih terjangkau. Sertifikatnya langsung diakui saat saya interview.
                 </p>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <img src="https://i.pravatar.cc/150?u=dimas" alt="Dimas" class="w-12 h-12 rounded-full object-cover bg-gray-100">
+                        <img loading="lazy" decoding="async" width="48" height="48" src="https://i.pravatar.cc/150?u=dimas" alt="Dimas Prasetyo" class="w-12 h-12 rounded-full object-cover bg-gray-100">
                         <div>
                             <div class="text-[15px] font-bold text-slate-900 leading-snug">Dimas Prasetyo</div>
-                            <div class="text-[12px] text-gray-400">Data Scientist · Gojek</div>
+                            <div class="text-[12px] text-gray-600">Data Scientist · Gojek</div>
                         </div>
                     </div>
                     <div class="flex text-amber-400">
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                     </div>
                 </div>
             </div>
 
             <!-- Card 3 -->
             <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
-                <div class="text-pink-200 text-6xl font-serif leading-none mb-2">"</div>
-                <p class="text-[15px] text-gray-500 leading-relaxed flex-1 mb-8">
+                <div aria-hidden="true" class="text-pink-600/50 text-6xl font-serif leading-none mb-2">"</div>
+                <p class="text-[15px] text-gray-600 leading-relaxed flex-1 mb-8">
                     Mentor marketplace-nya luar biasa. Bisa sesi 1-on-1 langsung dengan senior designer dari perusahaan top. Portfolio saya makin kuat dan akhirnya dapat offer impian.
                 </p>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <img src="https://i.pravatar.cc/150?u=nadya" alt="Nadya" class="w-12 h-12 rounded-full object-cover bg-gray-100">
+                        <img loading="lazy" decoding="async" width="48" height="48" src="https://i.pravatar.cc/150?u=nadya" alt="Nadya Ramadhani" class="w-12 h-12 rounded-full object-cover bg-gray-100">
                         <div>
                             <div class="text-[15px] font-bold text-slate-900 leading-snug">Nadya Ramadhani</div>
-                            <div class="text-[12px] text-gray-400">UI/UX Designer · Shopee</div>
+                            <div class="text-[12px] text-gray-600">UI/UX Designer · Shopee</div>
                         </div>
                     </div>
                     <div class="flex text-amber-400">
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                     </div>
                 </div>
             </div>
@@ -959,7 +960,7 @@
         <div class="flex flex-col sm:flex-row items-center gap-4 mb-16">
             <a href="{{ route('signup') }}" class="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[#cc0000] hover:bg-[#aa0000] text-white font-bold rounded-2xl text-[16px] shadow-[0_0_40px_rgba(204,0,0,0.5)] hover:shadow-[0_0_50px_rgba(204,0,0,0.6)] transition-all">
                 Daftar Gratis Sekarang
-                <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
             </a>
             <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-9 py-4 bg-[#111111] hover:bg-[#1a1a1a] border border-white/5 text-gray-300 hover:text-white font-bold rounded-2xl text-[16px] transition-all">
                 Sudah punya akun
@@ -968,26 +969,27 @@
         
         <!-- Features / Checkmarks -->
         <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-            <div class="flex items-center gap-2 text-[13px] text-gray-500 font-medium">
-                <svg class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <div class="flex items-center gap-2 text-[13px] text-gray-400 font-medium">
+                <svg aria-hidden="true" class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 Gratis untuk selamanya
             </div>
-            <div class="flex items-center gap-2 text-[13px] text-gray-500 font-medium">
-                <svg class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <div class="flex items-center gap-2 text-[13px] text-gray-400 font-medium">
+                <svg aria-hidden="true" class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 Tanpa kartu kredit
             </div>
-            <div class="flex items-center gap-2 text-[13px] text-gray-500 font-medium">
-                <svg class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <div class="flex items-center gap-2 text-[13px] text-gray-400 font-medium">
+                <svg aria-hidden="true" class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 Batalkan kapan saja
             </div>
-            <div class="flex items-center gap-2 text-[13px] text-gray-500 font-medium">
-                <svg class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <div class="flex items-center gap-2 text-[13px] text-gray-400 font-medium">
+                <svg aria-hidden="true" class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 300+ hiring partner
             </div>
         </div>
         
     </div>
 </section>
+</main>
 
 <!-- Footer Section -->
 <footer class="bg-[#070707] border-t border-white/5 pt-20 pb-10">
@@ -999,11 +1001,11 @@
             <!-- Brand Column -->
             <div class="md:col-span-5 lg:col-span-4 flex flex-col items-center md:items-start text-center md:text-left">
                 <!-- Logo -->
-                <a href="{{ route('landing') }}" class="flex items-center mb-6">
-                    <svg width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_306_8219)">
+                <a href="{{ route('landing') }}" class="flex items-center mb-6" aria-label="Beranda 1Langkah">
+                    <svg aria-hidden="true" width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_306_8219_footer)">
                             <path d="M22.3789 27.1026H16.3237V7.52808H22.3789V27.1026Z" fill="#D10000"/>
-                            <g filter="url(#filter0_d_306_8219)">
+                            <g filter="url(#filter0_d_306_8219_footer)">
                                 <path d="M22.3746 7.57027C22.374 7.57183 22.3735 7.57359 22.373 7.57546C22.3719 7.57922 22.3705 7.58367 22.369 7.58868C22.366 7.59876 22.3622 7.61144 22.3576 7.62646C22.3484 7.65648 22.3362 7.69629 22.3206 7.7453C22.2894 7.84337 22.2451 7.9786 22.1872 8.14667C22.0716 8.48256 21.9009 8.95166 21.6697 9.51938C21.2088 10.651 20.4993 12.1959 19.4946 13.8706C17.5141 17.1718 14.2201 21.2532 9.16017 23.4218L6.7749 17.8562C10.1921 16.3917 12.6499 13.5095 14.302 10.7556C15.1136 9.40283 15.6905 8.14735 16.0619 7.23532C16.2468 6.78124 16.3787 6.41755 16.4618 6.17631C16.5032 6.05587 16.5322 5.96636 16.5496 5.91188C16.5582 5.8847 16.5639 5.86625 16.5667 5.8571L16.5681 5.85254C16.568 5.85317 16.5678 5.85399 16.5675 5.8549C16.5674 5.85534 16.5668 5.8568 16.5667 5.8571C16.5665 5.85753 16.5667 5.85723 16.9297 5.96429L22.0125 7.45993C22.3708 7.56565 22.3753 7.56754 22.3752 7.56806C22.375 7.56844 22.3748 7.56949 22.3746 7.57027Z" fill="#E50000"/>
                             </g>
                             <path d="M29.6583 7.91772V23.195H36.7659V26.9803H25.8457V7.91772H29.6583Z" fill="white"/>
@@ -1015,7 +1017,7 @@
                             <path d="M109.346 6.74683V16.0058C110.354 15.325 111.552 14.9165 112.86 14.9165C116.291 14.9165 119.068 17.7214 119.068 21.1527V27.0076H115.473V21.1527C115.473 20.3085 115.147 19.5188 114.575 18.8924C114.003 18.2933 113.241 17.9666 112.423 17.9666C111.607 17.9666 110.817 18.2933 110.245 18.8924C109.673 19.5188 109.346 20.3085 109.346 21.1527V27.0076H105.725V6.74683H109.346Z" fill="white"/>
                         </g>
                         <defs>
-                            <filter id="filter0_d_306_8219" x="0.599103" y="-0.00106061" width="28.5963" height="30.5653" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <filter id="filter0_d_306_8219_footer" x="0.599103" y="-0.00106061" width="28.5963" height="30.5653" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
                                 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
                                 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
                                 <feOffset dx="0.3222" dy="0.6444"/>
@@ -1025,7 +1027,7 @@
                                 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_306_8219"/>
                                 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_306_8219" result="shape"/>
                             </filter>
-                            <clipPath id="clip0_306_8219">
+                            <clipPath id="clip0_306_8219_footer">
                                 <rect width="120" height="36" fill="white"/>
                             </clipPath>
                         </defs>
@@ -1033,7 +1035,7 @@
                 </a>
                 
                 <!-- Description -->
-                <p class="text-[15px] text-gray-500 leading-relaxed max-w-[320px]">
+                <p class="text-[15px] text-gray-400 leading-relaxed max-w-[320px]">
                     AI-Powered Learning Experience Platform yang membantu jutaan pelajar Indonesia mencapai karir impian.
                 </p>
             </div>
@@ -1045,12 +1047,12 @@
                 <div class="flex flex-col items-center md:items-start">
                     <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6">PLATFORM</h3>
                     <ul class="flex flex-col items-center md:items-start gap-4">
-                        <li><a href="{{ route('kursus') }}" class="text-[15px] text-gray-500 hover:text-white transition-colors">Kursus</a></li>
-                        <li><a href="{{ route('online-bootcamp') }}" class="text-[15px] text-gray-500 hover:text-white transition-colors">Bootcamp Online</a></li>
-                        <li><a href="{{ route('offline-bootcamp') }}" class="text-[15px] text-gray-500 hover:text-white transition-colors">Bootcamp Offline</a></li>
-                        <li><a href="{{ route('mentor') }}" class="text-[15px] text-gray-500 hover:text-white transition-colors">Mentor</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Job Board</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Community</a></li>
+                        <li><a href="{{ route('kursus') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">Kursus</a></li>
+                        <li><a href="{{ route('online-bootcamp') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">Bootcamp Online</a></li>
+                        <li><a href="{{ route('offline-bootcamp') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">Bootcamp Offline</a></li>
+                        <li><a href="{{ route('mentor') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">Mentor</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Job Board</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Community</a></li>
                     </ul>
                 </div>
                 
@@ -1058,11 +1060,11 @@
                 <div class="flex flex-col items-center md:items-start">
                     <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6">COMPANY</h3>
                     <ul class="flex flex-col items-center md:items-start gap-4">
-                        <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Tentang Kami</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Karir</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Blog</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Press</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Partner</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Tentang Kami</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Karir</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Press</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Partner</a></li>
                     </ul>
                 </div>
                 
@@ -1070,10 +1072,10 @@
                 <div class="flex flex-col items-center md:items-start col-span-2 md:col-span-1">
                     <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6">SUPPORT</h3>
                     <ul class="flex flex-col items-center md:items-start gap-4">
-                        <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Pusat Bantuan</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Syarat & Ketentuan</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-500 hover:text-white transition-colors">Status Sistem</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Pusat Bantuan</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Syarat & Ketentuan</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Status Sistem</a></li>
                     </ul>
                 </div>
                 
@@ -1081,12 +1083,11 @@
             
         </div>
         
-        <!-- Bottom Bar -->
         <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center">
-            <div class="text-[13px] text-gray-600 md:text-left">
-                &copy; {{ date('Y') }} 1Langkah Technologies. All rights reserved. | Developed by ELCoding.id
+            <div class="text-[13px] text-gray-400 md:text-left">
+                &copy; {{ date('Y') }} 1Langkah Technologies. All rights reserved. | Developed by <a href="https://elc.my.id" target="_blank" class="text-blue-400 underline hover:text-blue-300">ELCoding.id</a>
             </div>
-            <div class="text-[13px] text-gray-600 md:text-right">
+            <div class="text-[13px] text-gray-400 md:text-right">
                 AI-Powered Learning Experience Platform &middot; Made in Indonesia 🇮🇩
             </div>
         </div>
