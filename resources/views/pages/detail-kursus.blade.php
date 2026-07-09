@@ -117,7 +117,7 @@
                             #videoFrame ~ .ytp-ce-covering-image,
                             #videoFrame ~ .ytp-ce-covering-play-button,
                             #videoFrame ~ .ytp-ce-element-shadow,
-                            .ytp-fullscreen-action-menu { display: none !important; }
+                            .fullscreen-action-menu { display: none !important; }
                         </style>
                         <div id="videoPlayerWrapper" class="relative w-full rounded-xl overflow-hidden bg-black" style="aspect-ratio: 16/9;">
                             <iframe
