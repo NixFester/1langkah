@@ -60,7 +60,7 @@
 <div class="w-full py-10">
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
 
-        // Left Column
+        {{-- Left Column --}}
         <div class="{{ $isEnrolled ? 'lg:col-span-4' : 'lg:col-span-2' }} space-y-8" x-data="{ activeTab: 'overview', openChapter: null }">
 
             <!-- Tabs -->
@@ -110,6 +110,15 @@
 
                     <!-- Video Player Section (hidden until user clicks a video) -->
                     <div id="videoPlayerContainer" class="mb-6 hidden">
+                        <style>
+                            #videoFrame ~ .ytp-ce-element-shadow,
+                            #videoFrame ~ .ytp-ce-element,
+                            #videoFrame ~ .ytp-ce-covering-overlay,
+                            #videoFrame ~ .ytp-ce-covering-image,
+                            #videoFrame ~ .ytp-ce-covering-play-button,
+                            #videoFrame ~ .ytp-ce-element-shadow,
+                            .ytp-fullscreen-action-menu { display: none !important; }
+                        </style>
                         <div id="videoPlayerWrapper" class="relative w-full rounded-xl overflow-hidden bg-black" style="aspect-ratio: 16/9;">
                             <iframe
                                 id="videoFrame"
