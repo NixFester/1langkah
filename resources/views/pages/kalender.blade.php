@@ -44,93 +44,7 @@
     }
 @endphp
 
-<div class="w-full px-2 pb-8 space-y-6" x-data="{
-    showPopup: false,
-    selectedDay: null,
-    selectedEvents: [],
-    currentYear: {{ $currentYear }},
-    currentMonth: {{ $currentMonth }},
-    monthNames: ["{{ __('app.month_01') }}", "{{ __('app.month_02') }}", "{{ __('app.month_03') }}", "{{ __('app.month_04') }}", "{{ __('app.month_05') }}", "{{ __('app.month_06') }}", "{{ __('app.month_07') }}", "{{ __('app.month_08') }}", "{{ __('app.month_09') }}", "{{ __('app.month_10') }}", "{{ __('app.month_11') }}", "{{ __('app.month_12') }}"],
-    monthNamesShort: ["{{ __('app.month_01_short') }}", "{{ __('app.month_02_short') }}", "{{ __('app.month_03_short') }}", "{{ __('app.month_04_short') }}", "{{ __('app.month_05_short') }}", "{{ __('app.month_06_short') }}", "{{ __('app.month_07_short') }}", "{{ __('app.month_08_short') }}", "{{ __('app.month_09_short') }}", "{{ __('app.month_10_short') }}", "{{ __('app.month_11_short') }}", "{{ __('app.month_12_short') }}"],
-    filterMode: 'all', // 'all' or 'mine'
-
-    // User's enrolled IDs
-    enrolledCourseIds: {{ json_encode($enrolledCourseIds) }},
-    enrolledBootcampIds: {{ json_encode($enrolledBootcampIds) }},
-    registeredEventIds: {{ json_encode($registeredEventIds) }},
-
-    // All events from server
-    allEvents: {{ json_encode($allCalendarEvents ?? []) }},
-
-    get events() {
-        if (this.filterMode === 'mine') {
-            return this.allEvents.filter(e => {
-                if (e.source === 'bootcamp') {
-                    return this.enrolledBootcampIds.includes(e.id);
-                } else if (e.source === 'event') {
-                    return this.registeredEventIds.includes(e.id);
-                }
-                return false;
-            });
-        }
-        return this.allEvents;
-    },
-
-    get eventsByDay() {
-        const map = {};
-        this.events.forEach(e => {
-            if (!map[e.day]) map[e.day] = [];
-            map[e.day].push(e);
-        });
-        return map;
-    },
-
-    get upcomingEvents() {
-        const today = new Date();
-        const currentYear = this.currentYear;
-        const currentMonth = this.currentMonth;
-
-        return this.events.filter(e => {
-            const eventDate = new Date(currentYear, currentMonth - 1, e.day);
-            const diffDays = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
-            return diffDays >= 0 && diffDays <= 30;
-        }).sort((a, b) => a.day - b.day);
-    },
-
-    openPopup(day, events) {
-        this.selectedDay = day;
-        this.selectedEvents = events;
-        this.showPopup = true;
-    },
-
-    closePopup() {
-        this.showPopup = false;
-    },
-
-    prevMonth() {
-        if (this.currentMonth === 1) {
-            this.currentMonth = 12;
-            this.currentYear--;
-        } else {
-            this.currentMonth--;
-        }
-        this.navigate();
-    },
-
-    nextMonth() {
-        if (this.currentMonth === 12) {
-            this.currentMonth = 1;
-            this.currentYear++;
-        } else {
-            this.currentMonth++;
-        }
-        this.navigate();
-    },
-
-    navigate() {
-        window.location.href = '/kalender?year=' + this.currentYear + '&month=' + this.currentMonth;
-    }
-}">
+<div class="w-full px-2 pb-8 space-y-6" x-data="calendarApp()">
 
     <!-- Header Section -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -368,6 +282,96 @@
 
 @push('scripts')
 <script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('calendarApp', () => ({
+        showPopup: false,
+        selectedDay: null,
+        selectedEvents: [],
+        currentYear: {{ $currentYear }},
+        currentMonth: {{ $currentMonth }},
+        monthNames: {{ \Illuminate\Support\Js::from([__('app.month_01'), __('app.month_02'), __('app.month_03'), __('app.month_04'), __('app.month_05'), __('app.month_06'), __('app.month_07'), __('app.month_08'), __('app.month_09'), __('app.month_10'), __('app.month_11'), __('app.month_12')]) }},
+        monthNamesShort: {{ \Illuminate\Support\Js::from([__('app.month_01_short'), __('app.month_02_short'), __('app.month_03_short'), __('app.month_04_short'), __('app.month_05_short'), __('app.month_06_short'), __('app.month_07_short'), __('app.month_08_short'), __('app.month_09_short'), __('app.month_10_short'), __('app.month_11_short'), __('app.month_12_short')]) }},
+        filterMode: 'all', // 'all' or 'mine'
+
+        // User's enrolled IDs
+        enrolledCourseIds: {{ \Illuminate\Support\Js::from($enrolledCourseIds) }},
+        enrolledBootcampIds: {{ \Illuminate\Support\Js::from($enrolledBootcampIds) }},
+        registeredEventIds: {{ \Illuminate\Support\Js::from($registeredEventIds) }},
+
+        // All events from server
+        allEvents: {{ \Illuminate\Support\Js::from($allCalendarEvents ?? []) }},
+
+        get events() {
+            if (this.filterMode === 'mine') {
+                return this.allEvents.filter(e => {
+                    if (e.source === 'bootcamp') {
+                        return this.enrolledBootcampIds.includes(e.id);
+                    } else if (e.source === 'event') {
+                        return this.registeredEventIds.includes(e.id);
+                    }
+                    return false;
+                });
+            }
+            return this.allEvents;
+        },
+
+        get eventsByDay() {
+            const map = {};
+            this.events.forEach(e => {
+                if (!map[e.day]) map[e.day] = [];
+                map[e.day].push(e);
+            });
+            return map;
+        },
+
+        get upcomingEvents() {
+            const today = new Date();
+            const currentYear = this.currentYear;
+            const currentMonth = this.currentMonth;
+
+            return this.events.filter(e => {
+                const eventDate = new Date(currentYear, currentMonth - 1, e.day);
+                const diffDays = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
+                return diffDays >= 0 && diffDays <= 30;
+            }).sort((a, b) => a.day - b.day);
+        },
+
+        openPopup(day, events) {
+            this.selectedDay = day;
+            this.selectedEvents = events;
+            this.showPopup = true;
+        },
+
+        closePopup() {
+            this.showPopup = false;
+        },
+
+        prevMonth() {
+            if (this.currentMonth === 1) {
+                this.currentMonth = 12;
+                this.currentYear--;
+            } else {
+                this.currentMonth--;
+            }
+            this.navigate();
+        },
+
+        nextMonth() {
+            if (this.currentMonth === 12) {
+                this.currentMonth = 1;
+                this.currentYear++;
+            } else {
+                this.currentMonth++;
+            }
+            this.navigate();
+        },
+
+        navigate() {
+            window.location.href = '/kalender?year=' + this.currentYear + '&month=' + this.currentMonth;
+        }
+    }));
+});
+
 function updateCalendarCells(events) {
     // Group events by day
     const eventsByDay = {};
