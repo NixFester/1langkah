@@ -41,20 +41,25 @@
     
     <!-- Links -->
     <div class="hidden md:flex items-center gap-8 text-[15px] font-medium text-gray-300">
-        <a href="{{ route('kursus') }}" class="hover:text-white transition-colors">Kursus</a>
-        <a href="{{ route('online-bootcamp') }}" class="hover:text-white transition-colors">Bootcamp</a>
-        <a href="{{ route('mentor') }}" class="hover:text-white transition-colors">Mentor</a>
-        <a href="#" class="hover:text-white transition-colors">Enterprise</a>
+        <a href="{{ route('kursus') }}" class="hover:text-white transition-colors">{{ __('app.nav_courses') }}</a>
+        <a href="{{ route('online-bootcamp') }}" class="hover:text-white transition-colors">{{ __('app.nav_bootcamp') }}</a>
+        <a href="{{ route('mentor') }}" class="hover:text-white transition-colors">{{ __('app.nav_mentor') }}</a>
+        <a href="#" class="hover:text-white transition-colors">{{ __('app.nav_enterprise') }}</a>
     </div>
 
     <!-- Actions -->
     <div class="flex items-center gap-2 sm:gap-4">
+        <!-- Language Switcher -->
+        <a href="{{ route('lang.switch', ['locale' => app()->getLocale() == 'en' ? 'id' : 'en']) }}" class="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/5 border border-white/10 text-[11px] sm:text-[12px] font-bold text-white hover:bg-white/10 transition-colors" title="Switch Language">
+            {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
+        </a>
+        
         <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-2.5 text-[13px] sm:text-[14px] font-medium text-[#d1d5db] border border-white/10 rounded-full hover:bg-white/5 transition-colors">
-            Masuk
+            {{ __('app.login') }}
         </a>
         <a href="{{ route('signup') }}" class="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-2.5 text-[13px] sm:text-[14px] font-semibold text-white bg-gradient-to-b from-[#D10000] to-[#8B0000] rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_20px_rgba(209,0,0,0.4)] whitespace-nowrap hover:from-[#b30000] hover:to-[#6b0000] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_25px_rgba(209,0,0,0.6)] transition-all">
-            <span class="hidden sm:inline">Daftar Gratis</span>
-            <span class="sm:hidden">Daftar</span>
+            <span class="hidden sm:inline">{{ __('app.register_free') }}</span>
+            <span class="sm:hidden">{{ __('app.register') }}</span>
         </a>
     </div>
 </nav>
@@ -82,24 +87,24 @@
 
                 <!-- Title -->
                 <h1 class="text-[34px] leading-[1.05] sm:text-4xl md:text-5xl lg:text-[50px] xl:text-[64px] font-extrabold sm:leading-[1.05] tracking-tight text-white mb-2 lg:mb-3">
-                    Satu Langkah<br>
-                    <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(to bottom right, #b91c1c, #ef4444);">Menuju Masa</span><br>
-                    <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(to bottom right, #b91c1c, #ef4444);">Depan</span><br>
-                    Lebih Baik.
+                    {{ __('app.landing_title_1') }}<br>
+                    <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(to bottom right, #b91c1c, #ef4444);">{{ __('app.landing_title_2') }}</span><br>
+                    <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(to bottom right, #b91c1c, #ef4444);">{{ __('app.landing_title_3') }}</span><br>
+                    {{ __('app.landing_title_4') }}
                 </h1>
 
                 <!-- Subtitle -->
                 <p class="text-[12.5px] sm:text-[13.5px] lg:text-[15px] xl:text-[16px] text-[#9ca3af] mb-3 lg:mb-4 max-w-[500px] leading-relaxed">
-                    Kuasai skill praktis, bangun pengalaman nyata dari proyek perusahaan, raih sertifikat terverifikasi, dan percepat karir kamu bersama AI terdepan.
+                    {{ __('app.landing_desc') }}
                 </p>
 
                 <div class="flex flex-row flex-wrap justify-center lg:justify-start items-stretch sm:items-center gap-2 sm:gap-4 lg:gap-4 mb-3 lg:mb-4 w-full sm:w-auto">
                     <a href="{{ route('signup') }}" class="flex-1 sm:w-auto justify-center inline-flex items-center gap-1.5 px-2 sm:px-5 py-2.5 lg:px-7 lg:py-4 xl:px-8 xl:py-4 bg-gradient-to-b from-[#e60000] to-[#880000] text-white font-bold text-[12px] sm:text-[13.5px] lg:text-[14px] xl:text-[16px] rounded-[12px] lg:rounded-[18px] hover:from-[#ff0000] hover:to-[#990000] transition-all shadow-[0_4px_14px_rgba(209,0,0,0.4)]">
-                        <span class="truncate">Mulai Belajar</span> 
+                        <span class="truncate">{{ __('app.start_learning') }}</span> 
                         <svg aria-hidden="true" class="w-3.5 h-3.5 lg:w-4 lg:h-4 stroke-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                     </a>
                     <a href="{{ route('kursus') }}" class="flex-1 sm:w-auto justify-center inline-flex items-center px-2 sm:px-5 py-2.5 lg:px-7 lg:py-4 xl:px-8 xl:py-4 border border-white/20 bg-transparent text-white font-bold text-[12px] sm:text-[13.5px] lg:text-[14px] xl:text-[16px] rounded-[12px] lg:rounded-[18px] hover:bg-white/5 transition-colors">
-                        <span class="truncate">Jelajahi Kursus</span>
+                        <span class="truncate">{{ __('app.explore_courses') }}</span>
                     </a>
                 </div>
 
@@ -108,7 +113,7 @@
                     <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-white/5 group-hover:border-white/30 group-hover:bg-white/10 transition-all">
                         <svg aria-hidden="true" class="w-3.5 h-3.5 ml-1 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </div>
-                    <span class="font-medium text-[15px]">Watch Demo</span>
+                    <span class="font-medium text-[15px]">{{ __('app.watch_demo') }}</span>
                 </button>
 
 
@@ -145,19 +150,19 @@
             <div class="grid grid-cols-2 sm:flex items-center justify-center lg:justify-start gap-3 sm:gap-6 lg:gap-8 xl:gap-14 w-full">
                 <div class="text-center lg:text-left">
                     <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">100K+</div>
-                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Pelajar Aktif</div>
+                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">{{ __('app.active_students') }}</div>
                 </div>
                 <div class="text-center lg:text-left">
                     <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">800+</div>
-                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Kursus Premium</div>
+                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">{{ __('app.premium_courses') }}</div>
                 </div>
                 <div class="text-center lg:text-left">
                     <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">500+</div>
-                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Mentor Aktif</div>
+                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">{{ __('app.active_mentors') }}</div>
                 </div>
                 <div class="text-center lg:text-left">
                     <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">95%</div>
-                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">Tingkat Lulus</div>
+                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">{{ __('app.pass_rate') }}</div>
                 </div>
             </div>
 
@@ -190,7 +195,7 @@
     <!-- Partners -->
     <section class="py-3 lg:py-5 bg-transparent border-t border-white/5 relative z-20 overflow-hidden">
         <div class="max-w-[1400px] mx-auto text-center px-6 md:px-12">
-            <p class="text-[9px] lg:text-[10px] font-bold tracking-[0.2em] text-gray-400 uppercase mb-3 lg:mb-5">DIPERCAYA OLEH 300+ PERUSAHAAN & INSTITUSI TERKEMUKA</p>
+            <p class="text-[9px] lg:text-[10px] font-bold tracking-[0.2em] text-gray-400 uppercase mb-3 lg:mb-5">{{ __('app.trusted_by') }}</p>
         </div>
         <div class="relative flex overflow-x-hidden lg:overflow-visible group max-w-full lg:justify-center">
             <!-- First Set -->
@@ -229,16 +234,16 @@
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-red-100 bg-red-50 mb-6">
                 <svg aria-hidden="true" class="w-3.5 h-3.5 text-[#D10000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                <span class="text-[11px] font-bold tracking-[0.15em] text-[#D10000] uppercase">PLATFORM LENGKAP</span>
+                <span class="text-[11px] font-bold tracking-[0.15em] text-[#D10000] uppercase">{{ __('app.complete_platform') }}</span>
             </div>
             
             <h2 class="text-4xl md:text-[44px] font-extrabold text-[#0f172a] tracking-tight leading-[1.2] mb-4">
-                Bukan sekadar platform kursus.<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-br from-red-600 to-orange-700">Ini ekosistem karir kamu.</span>
+                {{ __('app.platform_title_1') }}<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-br from-red-600 to-orange-700">{{ __('app.platform_title_2') }}</span>
             </h2>
             
             <p class="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
-                Dari skill pertama hingga pekerjaan impian — semuanya dalam satu platform<br class="hidden md:block"> yang dirancang bersama AI.
+                {{ __('app.platform_desc') }}
             </p>
         </div>
 
@@ -252,7 +257,7 @@
                 <h3 class="text-xl font-bold text-gray-900 mb-3">AI Learning Assistant</h3>
                 <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">Tutor AI 24/7 yang siap menjelaskan topik sulit, meringkas materi, dan membuat quiz personal hanya dalam hitungan detik.</p>
                 <a href="#" class="inline-flex items-center gap-1.5 text-sm font-bold text-[#D10000] group-hover:gap-2 transition-all">
-                    Pelajari lebih lanjut 
+                    {{ __('app.learn_more') }} 
                     <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                 </a>
             </div>
@@ -265,7 +270,7 @@
                 <h3 class="text-xl font-bold text-gray-900 mb-3">Personalized Learning Path</h3>
                 <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">Jalur belajar yang dibentuk oleh AI berdasarkan tujuan karir, skill gaps, dan kecepatan belajarmu — bukan jalur generik.</p>
                 <a href="#" class="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-700 group-hover:gap-2 transition-all">
-                    Pelajari lebih lanjut 
+                    {{ __('app.learn_more') }} 
                     <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                 </a>
             </div>
@@ -278,7 +283,7 @@
                 <h3 class="text-xl font-bold text-gray-900 mb-3">Verified Skill Passport</h3>
                 <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">Profil skill digital terverifikasi dengan QR code yang bisa langsung dibagikan ke rekruter dan diakui 300+ hiring partner.</p>
                 <a href="#" class="inline-flex items-center gap-1.5 text-sm font-bold text-purple-700 group-hover:gap-2 transition-all">
-                    Pelajari lebih lanjut 
+                    {{ __('app.learn_more') }} 
                     <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                 </a>
             </div>
@@ -355,12 +360,12 @@
             <div>
                 <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100/50 border border-emerald-200 mb-4">
                     <svg aria-hidden="true" class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                    <span class="text-[11px] font-bold tracking-[0.15em] text-emerald-700 uppercase">KURSUS TERPOPULER</span>
+                    <span class="text-[11px] font-bold tracking-[0.15em] text-emerald-700 uppercase">{{ __('app.popular_courses_badge') }}</span>
                 </div>
-                <h2 class="text-4xl md:text-[42px] font-extrabold text-[#0f172a] tracking-tight">Mulai belajar sekarang</h2>
+                <h2 class="text-4xl md:text-[42px] font-extrabold text-[#0f172a] tracking-tight">{{ __('app.start_learning_now') }}</h2>
             </div>
             <a href="{{ route('kursus') }}" class="inline-flex items-center gap-1.5 text-[15px] font-bold text-[#D10000] hover:text-[#b30000] transition-colors md:pb-2">
-                Lihat 800+ kursus 
+                {{ __('app.see_all_courses') }} 
                 <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
             </a>
         </div>
@@ -519,18 +524,18 @@
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#2e1065]/50 border border-[#4c1d95]/50 mb-6">
                     <img loading="lazy" decoding="async" src="{{ asset('assets/icons/online&offlinebootcamp.svg') }}" class="w-4 h-4" alt="Bootcamp">
-                    <span class="text-[11px] font-bold tracking-[0.15em] text-[#d8b4fe] uppercase">ONLINE & OFFLINE BOOTCAMP</span>
+                    <span class="text-[11px] font-bold tracking-[0.15em] text-[#d8b4fe] uppercase">{{ __('app.bootcamp_badge') }}</span>
                 </div>
                 
                 <!-- Title -->
                 <h2 class="text-4xl md:text-[46px] font-extrabold text-white tracking-tight leading-[1.15] mb-6">
-                    Belajar intensif dengan<br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#a855f7] to-[#7c3aed]">instruktur terbaik.</span>
+                    {{ __('app.bootcamp_title_1') }}<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#a855f7] to-[#7c3aed]">{{ __('app.bootcamp_title_2') }}</span>
                 </h2>
                 
                 <!-- Description -->
                 <p class="text-[17px] text-gray-400 leading-relaxed max-w-[480px] mb-10">
-                    7–10 sesi tatap muka LIVE via Zoom atau hadir langsung di kampus 1Langkah. Kurikulum intensif, cohort kecil, hasil nyata.
+                    {{ __('app.bootcamp_desc_short') }}
                 </p>
                 
                 <!-- 2x2 Feature Grid -->
@@ -559,7 +564,7 @@
                 
                 <!-- CTA Button -->
                 <a href="{{ route('online-bootcamp') }}" class="inline-flex items-center gap-2 px-7 py-3.5 bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#5b21b6] rounded-xl text-white font-bold text-[15px] shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:shadow-[0_0_40px_rgba(124,58,237,0.5)] transition-all">
-                    Lihat Jadwal Bootcamp
+                    {{ __('app.see_bootcamp_schedule') }}
                     <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                 </a>
             </div>
@@ -603,17 +608,17 @@
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-red-100 bg-red-50 mb-6">
                 <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Mentor-Marketplace.svg') }}" class="w-3.5 h-3.5" alt="Mentor Marketplace">
-                <span class="text-[11px] font-bold tracking-[0.15em] text-[#D10000] uppercase">MENTOR MARKETPLACE</span>
+                <span class="text-[11px] font-bold tracking-[0.15em] text-[#D10000] uppercase">{{ __('app.mentor_marketplace_badge') }}</span>
             </div>
             
             <!-- Title -->
             <h2 class="text-4xl md:text-[44px] font-extrabold text-slate-900 tracking-tight leading-[1.2] mb-5">
-                Bimbingan 1-on-1 dari para ahli.
+                {{ __('app.mentor_title') }}
             </h2>
             
             <!-- Description -->
             <p class="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-                500+ mentor berpengalaman dari Google, Gojek, Tokopedia, dan<br class="hidden md:block"> ratusan perusahaan top siap memandu karir kamu.
+                {{ __('app.mentor_desc') }}
             </p>
         </div>
 
@@ -649,7 +654,7 @@
                 <div class="flex items-center justify-between">
                     <span class="text-[13px] font-medium text-slate-400">Rp 150.000/sesi</span>
                     <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
-                        Book
+                        {{ __('app.book_mentor') }}
                     </button>
                 </div>
             </div>
@@ -676,7 +681,7 @@
                 <div class="flex items-center justify-between">
                     <span class="text-[13px] font-medium text-slate-400">Rp 120.000/sesi</span>
                     <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
-                        Book
+                        {{ __('app.book_mentor') }}
                     </button>
                 </div>
             </div>
@@ -703,7 +708,7 @@
                 <div class="flex items-center justify-between">
                     <span class="text-[13px] font-medium text-slate-400">Rp 200.000/sesi</span>
                     <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
-                        Book
+                        {{ __('app.book_mentor') }}
                     </button>
                 </div>
             </div>
@@ -730,7 +735,7 @@
                 <div class="flex items-center justify-between">
                     <span class="text-[13px] font-medium text-slate-400">Rp 100.000/sesi</span>
                     <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
-                        Book
+                        {{ __('app.book_mentor') }}
                     </button>
                 </div>
             </div>
@@ -740,7 +745,7 @@
         <!-- CTA Button -->
         <div class="mt-14 text-center">
             <a href="{{ route('mentor') }}" class="inline-flex items-center gap-2 px-9 py-4 bg-[#b90000] hover:bg-[#990000] text-white font-bold text-[15px] rounded-full shadow-[0_12px_35px_rgba(185,0,0,0.35)] hover:shadow-[0_15px_45px_rgba(185,0,0,0.5)] transition-all transform hover:-translate-y-1">
-                Lihat 500+ Mentor
+                {{ __('app.see_all_mentors') }}
                 <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
             </a>
         </div>
@@ -782,51 +787,51 @@
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#2d0a0a] border border-[#5c1a1a] mb-5 lg:mb-6">
                     <img loading="lazy" decoding="async" src="{{ asset('assets/icons/enterprise&government.svg') }}" class="w-3.5 h-3.5 lg:w-4 lg:h-4" alt="Enterprise">
-                    <span class="text-[10px] lg:text-[11px] font-bold tracking-[0.15em] text-[#f87171] uppercase">ENTERPRISE & GOVERNMENT</span>
+                    <span class="text-[10px] lg:text-[11px] font-bold tracking-[0.15em] text-[#f87171] uppercase">{{ __('app.enterprise_badge') }}</span>
                 </div>
                 
                 <!-- Title -->
                 <h2 class="text-3xl sm:text-4xl md:text-[46px] font-extrabold text-white tracking-tight leading-[1.1] mb-4 lg:mb-5">
-                    Solusi pelatihan<br>
-                    <span class="text-[#ff3b30]">skala enterprise.</span>
+                    {{ __('app.enterprise_title_1') }}<br>
+                    <span class="text-[#ff3b30]">{{ __('app.enterprise_title_2') }}</span>
                 </h2>
                 
                 <!-- Description -->
                 <p class="text-[15px] sm:text-[16px] lg:text-[17px] text-gray-400 leading-relaxed mb-8 lg:mb-10 max-w-[500px]">
-                    Tingkatkan kompetensi tim kamu dengan program pelatihan yang dipersonalisasi — dari startup hingga korporasi dan institusi pemerintah.
+                    {{ __('app.enterprise_desc') }}
                 </p>
                 
                 <!-- Features List -->
                 <div class="flex flex-col gap-3.5 lg:gap-4 mb-10 lg:mb-12">
                     <div class="flex items-center gap-3.5">
                         <img loading="lazy" decoding="async" src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
-                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Dashboard analytics karyawan & tim</span>
+                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">{{ __('app.feat_dashboard') }}</span>
                     </div>
                     <div class="flex items-center gap-3.5">
                         <img loading="lazy" decoding="async" src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
-                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Kurikulum custom sesuai kebutuhan bisnis</span>
+                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">{{ __('app.feat_curriculum') }}</span>
                     </div>
                     <div class="flex items-center gap-3.5">
                         <img loading="lazy" decoding="async" src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
-                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Sertifikasi massal yang terverifikasi</span>
+                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">{{ __('app.feat_certification') }}</span>
                     </div>
                     <div class="flex items-center gap-3.5">
                         <img loading="lazy" decoding="async" src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
-                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Integrasi dengan HR system perusahaan</span>
+                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">{{ __('app.feat_integration') }}</span>
                     </div>
                     <div class="flex items-center gap-3.5">
                         <img loading="lazy" decoding="async" src="{{ asset('assets/icons/iconfeatureslist.svg') }}" class="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" alt="Check">
-                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">Dedicated account manager</span>
+                        <span class="text-[14px] lg:text-[15px] text-gray-300 font-medium">{{ __('app.feat_account_manager') }}</span>
                     </div>
                 </div>
                 
                 <!-- Buttons -->
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 lg:gap-4 w-full sm:w-auto">
                     <button class="w-full sm:w-auto px-8 py-3.5 bg-[#cc0000] hover:bg-[#aa0000] text-white font-bold rounded-xl text-[14px] lg:text-[15px] shadow-[0_0_30px_rgba(204,0,0,0.3)] hover:shadow-[0_0_40px_rgba(204,0,0,0.4)] transition-all">
-                        Hubungi Sales
+                        {{ __('app.contact_sales') }}
                     </button>
                     <button class="w-full sm:w-auto px-8 py-3.5 bg-transparent hover:bg-white/5 border border-white/10 text-white font-bold rounded-xl text-[14px] lg:text-[15px] transition-all">
-                        Lihat Demo
+                        {{ __('app.watch_demo') }}
                     </button>
                 </div>
                 
@@ -845,12 +850,12 @@
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-200 bg-amber-50 mb-6">
                 <svg aria-hidden="true" class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                <span class="text-[11px] font-bold tracking-[0.15em] text-amber-500 uppercase">CERITA NYATA PELAJAR</span>
+                <span class="text-[11px] font-bold tracking-[0.15em] text-amber-500 uppercase">{{ __('app.real_stories_badge') }}</span>
             </div>
             
             <!-- Title -->
             <h2 class="text-4xl md:text-[44px] font-extrabold text-slate-900 tracking-tight leading-[1.2] mb-5">
-                Mereka sudah membuktikannya.
+                {{ __('app.real_stories_title') }}
             </h2>
         </div>
 
@@ -942,28 +947,28 @@
         
         <!-- Subtitle -->
         <div class="text-[#ff3b30] text-[11px] font-bold tracking-[0.2em] uppercase mb-5">
-            MULAI SEKARANG · GRATIS SELAMANYA
+            {{ __('app.start_now_free') }}
         </div>
         
         <!-- Title -->
         <h2 class="text-5xl md:text-[60px] font-extrabold text-white tracking-tight leading-[1.1] mb-6">
-            Wujudkan karir impianmu<br>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF3333] to-[#cc0000]">mulai hari ini.</span>
+            {{ __('app.cta_title_1') }}<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF3333] to-[#cc0000]">{{ __('app.cta_title_2') }}</span>
         </h2>
         
         <!-- Description -->
         <p class="text-[17px] text-gray-400 leading-relaxed max-w-[540px] mx-auto mb-12">
-            Bergabung dengan 100,000+ pelajar yang sudah membuktikan hasil nyata bersama 1Langkah. Tidak perlu kartu kredit.
+            {{ __('app.cta_desc') }}
         </p>
         
         <!-- Buttons -->
         <div class="flex flex-col sm:flex-row items-center gap-4 mb-16">
             <a href="{{ route('signup') }}" class="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[#cc0000] hover:bg-[#aa0000] text-white font-bold rounded-2xl text-[16px] shadow-[0_0_40px_rgba(204,0,0,0.5)] hover:shadow-[0_0_50px_rgba(204,0,0,0.6)] transition-all">
-                Daftar Gratis Sekarang
+                {{ __('app.register_free_now') }}
                 <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
             </a>
             <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-9 py-4 bg-[#111111] hover:bg-[#1a1a1a] border border-white/5 text-gray-300 hover:text-white font-bold rounded-2xl text-[16px] transition-all">
-                Sudah punya akun
+                {{ __('app.already_have_account') }}
             </a>
         </div>
         
@@ -971,15 +976,15 @@
         <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
             <div class="flex items-center gap-2 text-[13px] text-gray-400 font-medium">
                 <svg aria-hidden="true" class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Gratis untuk selamanya
+                {{ __('app.free_forever') }}
             </div>
             <div class="flex items-center gap-2 text-[13px] text-gray-400 font-medium">
                 <svg aria-hidden="true" class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Tanpa kartu kredit
+                {{ __('app.no_credit_card') }}
             </div>
             <div class="flex items-center gap-2 text-[13px] text-gray-400 font-medium">
                 <svg aria-hidden="true" class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Batalkan kapan saja
+                {{ __('app.cancel_anytime') }}
             </div>
             <div class="flex items-center gap-2 text-[13px] text-gray-400 font-medium">
                 <svg aria-hidden="true" class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -1036,7 +1041,7 @@
                 
                 <!-- Description -->
                 <p class="text-[15px] text-gray-400 leading-relaxed max-w-[320px]">
-                    AI-Powered Learning Experience Platform yang membantu jutaan pelajar Indonesia mencapai karir impian.
+                    {{ __('app.footer_desc') }}
                 </p>
             </div>
             
@@ -1047,12 +1052,12 @@
                 <div class="flex flex-col items-center md:items-start">
                     <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6">PLATFORM</h3>
                     <ul class="flex flex-col items-center md:items-start gap-4">
-                        <li><a href="{{ route('kursus') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">Kursus</a></li>
-                        <li><a href="{{ route('online-bootcamp') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">Bootcamp Online</a></li>
-                        <li><a href="{{ route('offline-bootcamp') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">Bootcamp Offline</a></li>
-                        <li><a href="{{ route('mentor') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">Mentor</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Job Board</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Community</a></li>
+                        <li><a href="{{ route('kursus') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_courses') }}</a></li>
+                        <li><a href="{{ route('online-bootcamp') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_bootcamp_online') }}</a></li>
+                        <li><a href="{{ route('offline-bootcamp') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_bootcamp_offline') }}</a></li>
+                        <li><a href="{{ route('mentor') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_mentor') }}</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_job_board') }}</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_community') }}</a></li>
                     </ul>
                 </div>
                 
@@ -1060,11 +1065,11 @@
                 <div class="flex flex-col items-center md:items-start">
                     <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6">COMPANY</h3>
                     <ul class="flex flex-col items-center md:items-start gap-4">
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Tentang Kami</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Karir</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Blog</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Press</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Partner</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_about') }}</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_career') }}</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_blog') }}</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_press') }}</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_partner') }}</a></li>
                     </ul>
                 </div>
                 
@@ -1072,10 +1077,10 @@
                 <div class="flex flex-col items-center md:items-start col-span-2 md:col-span-1">
                     <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6">SUPPORT</h3>
                     <ul class="flex flex-col items-center md:items-start gap-4">
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Pusat Bantuan</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Syarat & Ketentuan</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Status Sistem</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_help') }}</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_privacy') }}</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_terms') }}</a></li>
+                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_status') }}</a></li>
                     </ul>
                 </div>
                 
@@ -1088,7 +1093,7 @@
                 &copy; {{ date('Y') }} 1Langkah Technologies. All rights reserved. | Developed by <a href="https://elc.my.id" target="_blank" class="text-blue-400 underline hover:text-blue-300">ELCoding.id</a>
             </div>
             <div class="text-[13px] text-gray-400 md:text-right">
-                AI-Powered Learning Experience Platform &middot; Made in Indonesia 🇮🇩
+                {!! __('app.footer_made_in') !!}
             </div>
         </div>
         

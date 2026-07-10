@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kalender')
+@section('title', __('app.calendar'))
 
 @section('content')
 @php
@@ -13,7 +13,7 @@
     $daysInMonth = $firstDayOfMonth->daysInMonth;
     $startDayOfWeek = $firstDayOfMonth->dayOfWeek; // 0 = Sunday
 
-    $monthNameID = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'][$currentMonth - 1] ?? $firstDayOfMonth->format('F');
+    $monthNameID = [__('app.month_01'), __('app.month_02'), __('app.month_03'), __('app.month_04'), __('app.month_05'), __('app.month_06'), __('app.month_07'), __('app.month_08'), __('app.month_09'), __('app.month_10'), __('app.month_11'), __('app.month_12')][$currentMonth - 1] ?? $firstDayOfMonth->format('F');
 
     // Encode enrolled IDs for client-side filtering
     $enrolledCourseIds = array_column($userEnrolledCourses ?? [], 'id');
@@ -50,8 +50,8 @@
     selectedEvents: [],
     currentYear: {{ $currentYear }},
     currentMonth: {{ $currentMonth }},
-    monthNames: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
-    monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+    monthNames: ["{{ __('app.month_01') }}", "{{ __('app.month_02') }}", "{{ __('app.month_03') }}", "{{ __('app.month_04') }}", "{{ __('app.month_05') }}", "{{ __('app.month_06') }}", "{{ __('app.month_07') }}", "{{ __('app.month_08') }}", "{{ __('app.month_09') }}", "{{ __('app.month_10') }}", "{{ __('app.month_11') }}", "{{ __('app.month_12') }}"],
+    monthNamesShort: ["{{ __('app.month_01_short') }}", "{{ __('app.month_02_short') }}", "{{ __('app.month_03_short') }}", "{{ __('app.month_04_short') }}", "{{ __('app.month_05_short') }}", "{{ __('app.month_06_short') }}", "{{ __('app.month_07_short') }}", "{{ __('app.month_08_short') }}", "{{ __('app.month_09_short') }}", "{{ __('app.month_10_short') }}", "{{ __('app.month_11_short') }}", "{{ __('app.month_12_short') }}"],
     filterMode: 'all', // 'all' or 'mine'
 
     // User's enrolled IDs
@@ -135,13 +135,13 @@
     <!-- Header Section -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-            <h1 class="font-extrabold text-gray-900 tracking-tight text-2xl sm:text-[28px]">Kalender</h1>
-            <p class="text-sm text-gray-500 mt-1 font-medium">Jadwal belajar & deadline kamu</p>
+            <h1 class="font-extrabold text-gray-900 tracking-tight text-2xl sm:text-[28px]">{{ __('app.calendar') }}</h1>
+            <p class="text-sm text-gray-500 mt-1 font-medium">{{ __('app.calendar_subtitle') }}</p>
         </div>
         <div class="flex flex-wrap items-center gap-3 sm:gap-5 font-bold text-xs sm:text-[13px]">
-            <div class="flex items-center gap-1.5 sm:gap-2"><div class="rounded-full w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#cc0000]"></div><span class="text-gray-600">Bootcamp</span></div>
-            <div class="flex items-center gap-1.5 sm:gap-2"><div class="rounded-full w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#3b82f6]"></div><span class="text-gray-600">Event</span></div>
-            <div class="flex items-center gap-1.5 sm:gap-2"><div class="rounded-full w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#10b981]"></div><span class="text-gray-600">Offline</span></div>
+            <div class="flex items-center gap-1.5 sm:gap-2"><div class="rounded-full w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#cc0000]"></div><span class="text-gray-600">{{ __('app.bootcamp') }}</span></div>
+            <div class="flex items-center gap-1.5 sm:gap-2"><div class="rounded-full w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#3b82f6]"></div><span class="text-gray-600">{{ __('app.event') }}</span></div>
+            <div class="flex items-center gap-1.5 sm:gap-2"><div class="rounded-full w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#10b981]"></div><span class="text-gray-600">{{ __('app.offline') }}</span></div>
         </div>
     </div>
 
@@ -162,7 +162,7 @@
         <div class="bg-white border border-gray-100 shadow-md overflow-hidden flex-1 min-w-0 rounded-[20px] sm:rounded-[24px] w-full">
             <!-- Days header -->
             <div class="grid grid-cols-7 border-b border-gray-100">
-                @foreach(['MIN', 'SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB'] as $day)
+                @foreach([__('app.sun'), __('app.mon'), __('app.tue'), __('app.wed'), __('app.thu'), __('app.fri'), __('app.sat')] as $day)
                     <div class="py-3 sm:py-4 text-center font-extrabold text-gray-400 tracking-wider text-[10px] sm:text-[11px]">{{ $day }}</div>
                 @endforeach
             </div>
@@ -218,12 +218,12 @@
                     <button @click="filterMode = 'all'"
                             :class="filterMode === 'all' ? 'bg-red-600 text-white shadow-sm' : 'bg-transparent text-gray-500 hover:bg-gray-100'"
                             class="flex-1 py-2 sm:py-2.5 px-3 sm:px-4 rounded-xl text-[13px] sm:text-sm font-bold transition-all">
-                        Semua
+                        {{ __('app.all') }}
                     </button>
                     <button @click="filterMode = 'mine'"
                             :class="filterMode === 'mine' ? 'bg-red-600 text-white shadow-sm' : 'bg-transparent text-gray-500 hover:bg-gray-100'"
                             class="flex-1 py-2 sm:py-2.5 px-3 sm:px-4 rounded-xl text-[13px] sm:text-sm font-bold transition-all">
-                        Milik Saya
+                        {{ __('app.mine') }}
                     </button>
                 </div>
             </div>
@@ -231,8 +231,8 @@
             <!-- Agenda Terdekat (Full Height) -->
             <div class="bg-white border border-gray-100 shadow-md flex-1 rounded-[20px] sm:rounded-[24px] p-5 sm:p-7 min-h-[400px] sm:min-h-[500px]">
                 <div class="flex items-center justify-between mb-5 sm:mb-6">
-                    <h3 class="font-extrabold text-gray-900 tracking-tight text-[18px] sm:text-[20px]">Agenda</h3>
-                    <span class="text-xs sm:text-sm text-gray-500 font-medium" x-text="events.length + ' agenda'"></span>
+                    <h3 class="font-extrabold text-gray-900 tracking-tight text-[18px] sm:text-[20px]">{{ __('app.agenda') }}</h3>
+                    <span class="text-xs sm:text-sm text-gray-500 font-medium" x-text="events.length + ' {{ __('app.agendas_count') }}'"></span>
                 </div>
 
                 <!-- Empty State -->
@@ -241,8 +241,8 @@
                         <svg class="w-7 h-7 sm:w-8 sm:h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </div>
                     <p class="text-gray-500 text-center font-medium text-[13px] sm:text-[14px]">
-                        <span x-show="filterMode === 'all'">Tidak ada agenda bulan ini</span>
-                        <span x-show="filterMode === 'mine'">Kamu belum terdaftar di agenda apapun. <a href="/kursus" class="text-red-600 hover:underline">Daftar kursus</a> atau <a href="/bootcamp/online" class="text-red-600 hover:underline">bootcamp</a> untuk melihat jadwalmu.</span>
+                        <span x-show="filterMode === 'all'">{{ __('app.no_agenda_this_month') }}</span>
+                        <span x-show="filterMode === 'mine'">{{ __('app.not_registered_agenda') }} <a href="/kursus" class="text-red-600 hover:underline">{{ __('app.register_course') }}</a> {{ __('app.or') }} <a href="/bootcamp/online" class="text-red-600 hover:underline">{{ __('app.bootcamp_lowercase') }}</a> {{ __('app.to_see_schedule') }}</span>
                     </p>
                 </div>
 
@@ -264,10 +264,10 @@
                                 <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-1.5 sm:mt-2">
                                     <span class="px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold"
                                           :style="'background-color: ' + (event.color ? event.color + '15' : '#fef2f2') + '; color: ' + (event.color || '#cc0000') + ';'"
-                                          x-text="event.type === 'bootcamp' ? 'Bootcamp' : (event.type || 'Event')">
+                                          x-text="event.type === 'bootcamp' ? '{{ __('app.bootcamp') }}' : (event.type || '{{ __('app.event') }}')">
                                     </span>
-                                    <span x-show="event.source === 'bootcamp' && enrolledBootcampIds.includes(event.id)" class="px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold bg-green-100 text-green-700">Terdaftar</span>
-                                    <span x-show="event.source === 'event' && registeredEventIds.includes(event.id)" class="px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold bg-green-100 text-green-700">Terdaftar</span>
+                                    <span x-show="event.source === 'bootcamp' && enrolledBootcampIds.includes(event.id)" class="px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold bg-green-100 text-green-700">{{ __('app.registered') }}</span>
+                                    <span x-show="event.source === 'event' && registeredEventIds.includes(event.id)" class="px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold bg-green-100 text-green-700">{{ __('app.registered') }}</span>
                                 </div>
                             </div>
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0 mt-3 sm:mt-5 group-hover:text-red-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
@@ -301,8 +301,8 @@
             <div class="bg-gradient-to-r from-red-600 to-red-700 p-6 text-white">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="font-bold text-xl" x-text="'Agenda ' + selectedDay + ' ' + '{{ $monthNameID }}'"></h3>
-                        <p class="text-red-100 text-sm mt-1" x-text="selectedEvents.length + ' agenda'"></p>
+                        <h3 class="font-bold text-xl" x-text="'{{ __('app.agenda_on') }}' + selectedDay + ' ' + '{{ $monthNameID }}'"></h3>
+                        <p class="text-red-100 text-sm mt-1" x-text="selectedEvents.length + ' {{ __('app.agendas_count') }}'"></p>
                     </div>
                     <button @click="closePopup()" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -416,7 +416,7 @@ function updateCalendarCells(events) {
             cell.innerHTML += `
                 <button onclick="openDayPopup(${day}, ${JSON.stringify(dayEvents).replace(/"/g, '&quot;')})"
                         class="w-full text-center text-xs text-gray-500 font-medium hover:text-gray-700 transition-colors py-0.5">
-                    +${dayEvents.length - 2} lagi
+                    +${dayEvents.length - 2} {{ __('app.more') }}
                 </button>
             `;
         }

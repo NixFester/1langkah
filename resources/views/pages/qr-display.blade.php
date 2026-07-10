@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'QR Code Attendance')
+@section('title', __('app.qr_attendance') ?? 'QR Code Attendance')
 
 @section('content')
 <div class="w-full px-2 pb-8">
@@ -8,12 +8,12 @@
 
         <!-- Header -->
         <div class="mb-6">
-            <h1 class="text-2xl font-bold text-gray-900">QR Kehadiran</h1>
+            <h1 class="text-2xl font-bold text-gray-900">{{ __('app.qr_attendance') }}</h1>
             <p class="text-sm text-gray-500 mt-2">
                 @if($bootcamp)
                     {{ $bootcamp->title }}
                 @else
-                    Bootcamp Attendance
+                    {{ __('app.bootcamp_attendance') }}
                 @endif
             </p>
         </div>
@@ -27,7 +27,7 @@
             </div>
 
             <div class="border-t border-gray-100 pt-4">
-                <p class="text-xs text-gray-400 mb-2">Tanggal</p>
+                <p class="text-xs text-gray-400 mb-2">{{ __('app.date_label') }}</p>
                 <p class="font-medium text-gray-900">{{ $attendance->attendance_date->format('d M Y') }}</p>
             </div>
 
@@ -38,14 +38,14 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
-                    <span class="font-medium">Terverifikasi</span>
+                    <span class="font-medium">{{ __('app.verified') }}</span>
                 </div>
                 @else
                 <div class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full inline-flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <span class="font-medium">Menunggu Scan</span>
+                    <span class="font-medium">{{ __('app.waiting_for_scan') }}</span>
                 </div>
                 @endif
             </div>
@@ -53,7 +53,7 @@
 
         <!-- Instructions -->
         <div class="mt-6 text-sm text-gray-500">
-            <p>Peserta dapat memindai QR code ini menggunakan aplikasi untuk mencatat kehadiran.</p>
+            <p>{{ __('app.scan_instruction_admin') }}</p>
         </div>
 
         <!-- Print Button -->
@@ -62,7 +62,7 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                 </svg>
-                Cetak QR Code
+                {{ __('app.print_qr_code') }}
             </button>
         </div>
 

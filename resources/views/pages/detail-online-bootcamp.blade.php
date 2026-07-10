@@ -1,7 +1,7 @@
 @extends('layouts.app', ['activePage' => 'online-bootcamp'])
 
 @section('title', $bootcamp['title'] . ' — 1Langkah')
-@section('header_title', 'Online Bootcamp')
+@section('header_title', __('app.online_bootcamp'))
 
 @push('scripts')
 <script>
@@ -33,13 +33,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 passwordModal.id = 'password-modal';
                 passwordModal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50';
                 passwordModal.innerHTML = '<div class="bg-white rounded-2xl p-6 max-w-sm mx-4 shadow-2xl">' +
-                    '<h3 class="text-lg font-bold text-gray-900 mb-2">Password Meeting</h3>' +
-                    '<p class="text-sm text-gray-500 mb-4">Gunakan password berikut untuk join meeting:</p>' +
+                    '<h3 class="text-lg font-bold text-gray-900 mb-2">{{ __('app.password_meeting') }}</h3>' +
+                    '<p class="text-sm text-gray-500 mb-4">{{ __('app.password_instruction') }}</p>' +
                     '<div class="bg-gray-100 rounded-lg p-4 text-center mb-4">' +
                     '<code class="text-2xl font-bold text-gray-900 tracking-wider">' + password + '</code></div>' +
                     '<div class="flex gap-3">' +
-                    '<button class="close-modal flex-1 px-4 py-2 border border-gray-200 rounded-full text-gray-700 font-medium hover:bg-gray-50 transition-colors">Tutup</button>' +
-                    '<button class="join-btn flex-1 px-4 py-2 bg-[#d00000] text-white rounded-full font-medium hover:bg-red-700 transition-colors">Join Meeting</button>' +
+                    '<button class="close-modal flex-1 px-4 py-2 border border-gray-200 rounded-full text-gray-700 font-medium hover:bg-gray-50 transition-colors">{{ __('app.close') }}</button>' +
+                    '<button class="join-btn flex-1 px-4 py-2 bg-[#d00000] text-white rounded-full font-medium hover:bg-red-700 transition-colors">{{ __('app.join_meeting') }}</button>' +
                     '</div></div>';
                 document.body.appendChild(passwordModal);
 
@@ -130,19 +130,19 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="w-full px-2 pb-8">
     <!-- Header (Same as Online Bootcamp) -->
     <div class="mb-8 -mt-2">
-        <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Online Bootcamp</h1>
-        <p class="text-gray-500 text-base">Kelas intensif LIVE via Zoom bersama instruktur terbaik — terbatas!</p>
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">{{ __('app.online_bootcamp') }}</h1>
+        <p class="text-gray-500 text-base">{{ __('app.online_bootcamp_desc') }}</p>
     </div>
 
     <!-- Alert / Info Banner -->
     <x-alert-banner
         type="info"
-        title="Tatap Muka LIVE via Zoom"
-        message="Setiap sesi direkam dan tersedia selama 30 hari. Sertifikat kelulusan diberikan setelah menyelesaikan minimal 80% pertemuan."
+        :title="__('app.online_feature_1')"
+        :message="__('app.online_feature_1_desc')"
         :stats="[
-            ['value' => '7–10', 'label' => 'Pertemuan'],
-            ['value' => '2 Jam', 'label' => 'Per sesi'],
-            ['value' => '30 Hari', 'label' => 'Akses rekaman']
+            ['value' => '7–10', 'label' => __('app.meetings')],
+            ['value' => '2 Jam', 'label' => __('app.per_session')],
+            ['value' => '30 Hari', 'label' => __('app.recording_access')]
         ]"
     >
         <x-slot name="icon">
@@ -168,8 +168,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <a href="{{ route('detail-online-bootcamp', ['id' => $item['id']]) }}" class="block bg-white rounded-2xl p-5 border {{ $isActive ? 'border-red-600 shadow-[0_0_0_1px_#e11d48,0_4px_12px_rgb(0,0,0,0.05)]' : 'border-gray-200 shadow-sm hover:border-gray-300' }} transition-all">
                     <!-- Top Badges -->
                     <div class="flex gap-2 mb-3">
-                        <span class="px-2.5 py-0.5 {{ $isActive ? 'bg-red-600 text-white' : 'bg-red-50 text-red-600' }} text-[11px] font-bold rounded-full">{{ $loop->first ? 'Paling Diminati' : ($loop->iteration == 2 ? 'Baru' : 'Premium') }}</span>
-                        <span class="px-2.5 py-0.5 bg-gray-100 text-gray-500 text-[11px] font-semibold rounded-full">Intermediate</span>
+                        <span class="px-2.5 py-0.5 {{ $isActive ? 'bg-red-600 text-white' : 'bg-red-50 text-red-600' }} text-[11px] font-bold rounded-full">{{ $loop->first ? __('app.most_wanted') : ($loop->iteration == 2 ? __('app.new') : __('app.premium')) }}</span>
+                        <span class="px-2.5 py-0.5 bg-gray-100 text-gray-500 text-[11px] font-semibold rounded-full">{{ __('app.intermediate') }}</span>
                     </div>
                     
                     <h3 class="text-[15px] font-bold text-gray-900 leading-snug mb-1">{{ $item['title'] }}</h3>
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="mb-4">
                         <div class="flex items-center gap-2 text-[11px] font-medium text-gray-500">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.196-2.196A3 3 0 007 18v-2m.232-.172a3 3 0 014.232 2.196A3 3 0 0013.536 16M7 8a3 3 0 100-6 3 3 0 000 6z"></path></svg>
-                            {{ $itemEnrolledCount }} siswa enrolled
+                            {{ $itemEnrolledCount }} {{ __('app.students') }} enrolled
                         </div>
                     </div>
                     
@@ -187,12 +187,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     <div class="flex items-end justify-between">
                         <div>
-                            <div class="text-[11px] font-medium text-gray-400 mb-0.5">Mulai {{ $item['startDate'] }}</div>
+                            <div class="text-[11px] font-medium text-gray-400 mb-0.5">{{ __('app.start') }} {{ $item['startDate'] }}</div>
                             <div class="text-[13px] font-bold text-gray-900">{{ $item['sessions'] }}</div>
                         </div>
                         <div class="text-right">
-                            <div class="text-[11px] font-medium text-gray-400 mb-0.5">Harga</div>
-                            <div class="text-[15px] font-extrabold text-[#e11d48]">{{ $item['formatted_price'] ?? 'Gratis' }}</div>
+                            <div class="text-[11px] font-medium text-gray-400 mb-0.5">{{ __('app.price') }}</div>
+                            <div class="text-[15px] font-extrabold text-[#e11d48]">{{ $item['formatted_price'] ?? __('app.free') }}</div>
                         </div>
                     </div>
                 </a>
@@ -225,21 +225,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 <!-- Content Body -->
                 <div class="p-8">
                     <!-- Description -->
-                    <p class="text-[14px] text-gray-600 leading-relaxed mb-6 font-medium">Bootcamp intensif selama 4 minggu yang mencakup HTML, CSS, React, Node.js, dan deployment. Setiap sesi dipandu langsung oleh engineer Google dengan studi kasus nyata.</p>
+                    <p class="text-[14px] text-gray-600 leading-relaxed mb-6 font-medium">{{ __('app.online_desc_text') }}</p>
                     
                     <!-- Meta info row -->
                     <div class="flex flex-wrap items-center gap-6 text-[12px] font-bold text-gray-500 mb-8">
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            Mulai {{ $b['startDate'] }}
+                            {{ __('app.start') }} {{ $b['startDate'] }}
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                            {{ count($sessions) }} pertemuan LIVE
+                            {{ count($sessions) }} {{ __('app.live_meetings') }}
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                            {{ $enrolledCount }} siswa
+                            {{ $enrolledCount }} {{ __('app.students') }}
                         </div>
                     </div>
                     
@@ -247,15 +247,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 pb-8 border-b border-gray-100">
                         @if(!empty($isEnrolled))
                             <a href="{{ route('bootcamps-saya') }}" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 sm:py-3 px-6 rounded-xl sm:rounded-full text-center transition-colors shadow-sm text-[13.5px] sm:text-sm">
-                                Sudah Terdaftar — Lihat Bootcamp Saya
+                                {{ __('app.enrolled_see_bootcamps') }}
                             </a>
                         @else
                             <a href="{{ route('pembayaran', ['id' => $b['id']]) }}" class="flex-1 bg-[#d00000] hover:bg-red-700 text-white font-bold py-3.5 sm:py-3 px-6 rounded-xl sm:rounded-full text-center transition-colors shadow-sm text-[13.5px] sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis">
-                                Daftar Bootcamp — {{ $b['formatted_price'] ?? 'Gratis' }}
+                                {{ __('app.enroll_bootcamp') }}{{ $b['formatted_price'] ?? __('app.free') }}
                             </a>
                         @endif
                         <button class="w-full sm:w-auto px-8 py-3.5 sm:py-3 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl sm:rounded-full hover:bg-gray-50 transition-colors shadow-sm text-[13.5px] sm:text-sm">
-                            Simpan
+                            {{ __('app.save') }}
                         </button>
                     </div>
                     
@@ -264,9 +264,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="flex items-center justify-between mb-6">
                             <div class="flex items-center gap-3">
                                 <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                <h3 class="text-[17px] font-bold text-gray-900">Jadwal Pertemuan LIVE</h3>
+                                <h3 class="text-[17px] font-bold text-gray-900">{{ __('app.live_meeting_schedule') }}</h3>
                             </div>
-                            <span class="px-3 py-1 bg-gray-100 text-gray-500 text-[11px] font-bold rounded-full">{{ count($sessions) }} sesi</span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-500 text-[11px] font-bold rounded-full">{{ count($sessions) }} {{ __('app.sessions') }}</span>
                         </div>
                         
                         <div class="space-y-3 relative">
@@ -321,16 +321,16 @@ document.addEventListener('DOMContentLoaded', function() {
                                             @if($canJoin && !$hasAttended)
                                             <button class="w-full sm:w-auto justify-center px-4 py-2 sm:py-1.5 bg-[#d00000] hover:bg-red-700 text-white text-xs font-bold rounded-lg sm:rounded-full transition-colors flex items-center gap-1.5 flex-shrink-0 mt-1 sm:mt-0">
                                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                                Join
+                                                {{ __('app.join') }}
                                             </button>
                                             @elseif($hasAttended)
                                             <span class="w-full sm:w-auto justify-center px-3 py-2 sm:py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-lg sm:rounded-full flex items-center gap-1 flex-shrink-0 mt-1 sm:mt-0">
                                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                                Selesai
+                                                {{ __('app.done') }}
                                             </span>
                                             @elseif(!$isEnrolled)
                                             <span class="w-full sm:w-auto text-center px-3 py-2 sm:py-1 bg-gray-100 text-gray-500 text-xs font-medium rounded-lg sm:rounded-full flex-shrink-0 mt-1 sm:mt-0">
-                                                Login untuk join
+                                                {{ __('app.login_to_join') }}
                                             </span>
                                             @endif
                                         </div>
@@ -339,7 +339,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         @if($hasAttended)
                                         <div class="mt-2 inline-flex items-center gap-1.5 text-[11px] text-emerald-600">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                            Sesi telah diikuti
+                                            {{ __('app.session_attended') }}
                                         </div>
                                         @elseif($canJoin && !empty($s['password']))
                                         <div class="mt-2 text-[11px] text-gray-400">
@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="mt-6 bg-[#FFFDF3] border border-[#FDF0CD] rounded-xl p-4 flex gap-3 shadow-sm items-start">
                             <svg class="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <p class="text-[12px] font-medium text-orange-800 leading-relaxed">
-                                Link Zoom aktif 15 menit sebelum sesi dimulai. Rekaman tersedia dalam 24 jam setelah kelas selesai.
+                                {{ __('app.zoom_info') }}
                             </p>
                         </div>
                     </div>

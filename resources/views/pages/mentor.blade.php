@@ -1,14 +1,14 @@
 @extends('layouts.app', ['activePage' => 'mentor'])
 
-@section('title', 'Mentor Marketplace — 1Langkah')
-@section('header_title', 'Mentor')
+@section('title', __('app.mentor_marketplace') . ' — 1Langkah')
+@section('header_title', __('app.mentor'))
 
 @section('content')
 <div class="w-full px-2 pb-8">
     <!-- Header -->
     <div class="mb-10 -mt-2">
-        <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Mentor Marketplace</h1>
-        <p class="text-gray-500 text-base">500+ mentor dari perusahaan top Indonesia & global</p>
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">{{ __('app.mentor_marketplace') }}</h1>
+        <p class="text-gray-500 text-base">{{ __('app.mentor_marketplace_desc') }}</p>
     </div>
 
     <!-- Mentor Grid -->

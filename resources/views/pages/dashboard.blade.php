@@ -12,18 +12,18 @@
 
         <div class="relative z-10 text-white w-full sm:w-2/3 space-y-3 sm:space-y-4">
             <div class="text-white/90 font-medium flex items-center gap-2 text-sm sm:text-base">
-                Selamat datang kembali! 👋
+                {{ __('app.welcome_back') }}
             </div>
             <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight">{{ auth()->user()->name ?? 'User' }}</h1>
-            <p class="text-white/80 text-[13px] sm:text-base leading-relaxed max-w-lg">{{ auth()->user()->bio ?? 'Belum ada bio. Tambahkan di pengaturan untuk memperbarui profil Anda.' }}</p>
+            <p class="text-white/80 text-[13px] sm:text-base leading-relaxed max-w-lg">{{ auth()->user()->bio ?? __('app.no_bio') }}</p>
 
             <div class="pt-3 sm:pt-4 flex flex-col sm:flex-row gap-3">
                 <a href="{{ route('kursus-saya') }}" class="bg-white text-[#cc0000] hover:bg-gray-50 px-6 py-3 sm:py-2.5 rounded-xl sm:rounded-full font-bold text-sm transition-colors flex items-center justify-center sm:justify-start gap-2 shadow-sm inline-flex w-full sm:w-auto">
-                    Lanjutkan Belajar
+                    {{ __('app.continue_learning') }}
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
                 <a href="{{ route('kursus') }}" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 px-6 py-3 sm:py-2.5 rounded-xl sm:rounded-full font-bold text-sm transition-colors flex items-center justify-center sm:justify-start gap-2 inline-flex w-full sm:w-auto">
-                    Browse Kursus
+                    {{ __('app.browse_courses') }}
                 </a>
             </div>
         </div>
@@ -44,10 +44,10 @@
 
     <!-- 4 STAT CARDS -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        <x-stat-card :value="$userStats['courses_enrolled'] ?? 0" label="Kursus Aktif" icon="book" color="red" />
-        <x-stat-card :value="$userStats['bootcamps_enrolled'] ?? 0" label="Bootcamp Aktif" icon="users" color="blue" />
-        <x-stat-card :value="$userStats['courses_completed'] ?? 0" label="Kursus Selesai" icon="check" color="green" />
-        <x-stat-card :value="$userStats['bootcamps_completed'] ?? 0" label="Bootcamp Selesai" icon="folder" color="purple" />
+        <x-stat-card :value="$userStats['courses_enrolled'] ?? 0" :label="__('app.active_courses')" icon="book" color="red" />
+        <x-stat-card :value="$userStats['bootcamps_enrolled'] ?? 0" :label="__('app.active_bootcamps')" icon="users" color="blue" />
+        <x-stat-card :value="$userStats['courses_completed'] ?? 0" :label="__('app.completed_courses')" icon="check" color="green" />
+        <x-stat-card :value="$userStats['bootcamps_completed'] ?? 0" :label="__('app.completed_bootcamps')" icon="folder" color="purple" />
     </div>
 
     <!-- GRID LAYOUT SECTION -->
@@ -64,7 +64,7 @@
                 
                 <div class="flex items-center justify-between mb-4 relative z-10">
                     <div>
-                        <p class="text-white/80 text-xs font-medium">Level Saat Ini</p>
+                        <p class="text-white/80 text-xs font-medium">{{ __('app.current_level') }}</p>
                         <h3 class="text-3xl font-extrabold">{{ auth()->user()->level ?? 1 }}</h3>
                     </div>
                     <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
@@ -78,7 +78,7 @@
                 <div class="mb-3 relative z-10">
                     <div class="flex justify-between text-xs text-white/80 mb-1">
                         <span>{{ number_format(auth()->user()->xp ?? 0) }} XP</span>
-                        <span>{{ number_format($xpToNextLevel ?? 100) }} XP lagi</span>
+                        <span>{{ number_format($xpToNextLevel ?? 100) }} {{ __('app.xp_more') }}</span>
                     </div>
                     <div class="h-2 bg-white/20 rounded-full overflow-hidden">
                         <div class="h-full bg-yellow-400 rounded-full transition-all duration-500" style="width: {{ $xpProgressPercent ?? 0 }}%"></div>
@@ -88,10 +88,10 @@
                 <!-- XP Actions -->
                 <div class="flex gap-2 relative z-10 mt-4">
                     <a href="{{ route('achievement') }}" class="flex-1 bg-white/20 hover:bg-white/30 text-white text-[11px] font-bold py-2 px-2 rounded-lg text-center transition-colors">
-                        Rank
+                        {{ __('app.rank') }}
                     </a>
                     <a href="{{ route('api.xp.details') }}" class="flex-1 bg-white/20 hover:bg-white/30 text-white text-[11px] font-bold py-2 px-2 rounded-lg text-center transition-colors">
-                        Riwayat
+                        {{ __('app.history') }}
                     </a>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                 <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
                     <h3 class="font-bold text-gray-900 flex items-center gap-2">
                         <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        Leaderboard
+                        {{ __('app.leaderboard') }}
                     </h3>
                 </div>
                 <div class="divide-y divide-gray-50 overflow-y-auto flex-1 min-h-0">
@@ -133,7 +133,7 @@
                     @endforeach
                 </div>
                 <a href="{{ route('achievement') }}" class="block text-center text-xs font-bold text-blue-600 py-3 bg-gray-50 hover:bg-gray-100 transition-colors mt-auto border-t border-gray-100">
-                    Global Rank &rarr;
+                    {!! __('app.global_rank') !!}
                 </a>
             </div>
             @endif
@@ -141,7 +141,7 @@
 
         <!-- Lanjutkan Belajar -->
         <div class="lg:col-span-1 order-2 lg:order-none">
-            <x-card-panel title="Lanjutkan Belajar" :actionRoute="route('kursus-saya')" actionLabel="Lihat semua" class="h-full">
+            <x-card-panel :title="__('app.continue_learning')" :actionRoute="route('kursus-saya')" :actionLabel="__('app.see_all')" class="h-full">
                 <div class="grid grid-cols-1 gap-4">
                     @forelse(array_slice($activeCourses ?? [], 0, 3) as $course)
                     <a href="{{ route('detail-kursus', ['id' => $course['id']]) }}" class="block border border-gray-100 rounded-xl overflow-hidden hover:shadow-lg hover:border-gray-200 transition-all bg-gray-50/50 group">
@@ -165,7 +165,7 @@
                     </a>
                     @empty
                     <div>
-                        <x-empty-state message="Belum ada kursus yang dimulai" icon="inbox" :actionRoute="route('kursus')" actionLabel="Browse Kursus" />
+                        <x-empty-state :message="__('app.no_started_courses')" icon="inbox" :actionRoute="route('kursus')" :actionLabel="__('app.browse_courses')" />
                     </div>
                     @endforelse
                 </div>
@@ -174,7 +174,7 @@
 
         <!-- Bootcamp Saya -->
         <div class="lg:col-span-1 order-3 lg:order-none">
-            <x-card-panel title="Bootcamp Saya" :actionRoute="route('bootcamps-saya')" actionLabel="Lihat" class="h-full">
+            <x-card-panel :title="__('app.my_bootcamps')" :actionRoute="route('bootcamps-saya')" :actionLabel="__('app.view')" class="h-full">
                 <div class="space-y-4">
                     @forelse(array_slice($myBootcamps ?? [], 0, 3) as $bootcamp)
                     <x-list-item
@@ -188,7 +188,7 @@
                         :badge="['text' => $bootcamp['type'] === 'online' ? 'Online' : 'Offline', 'class' => $bootcamp['type'] === 'online' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700']"
                     />
                     @empty
-                    <x-empty-state message="Belum ada bootcamp" icon="users" :actionRoute="route('online-bootcamp')" actionLabel="Browse" />
+                    <x-empty-state :message="__('app.no_bootcamps')" icon="users" :actionRoute="route('online-bootcamp')" :actionLabel="__('app.browse')" />
                     @endforelse
                 </div>
             </x-card-panel>
@@ -196,7 +196,7 @@
 
         <!-- Events Mendatang -->
         <div class="lg:col-span-1 order-5 lg:order-none">
-            <x-card-panel title="Events Mendatang" :actionRoute="route('event')" actionLabel="Lihat" class="h-full">
+            <x-card-panel :title="__('app.upcoming_events')" :actionRoute="route('event')" :actionLabel="__('app.view')" class="h-full">
                 <div class="space-y-4">
                     @forelse($upcomingEvents ?? [] as $event)
                     <a href="{{ route('detail-event', ['id' => $event['id']]) }}" class="flex items-start gap-3 p-2 -mx-2 rounded-xl hover:bg-gray-50 transition-colors">
@@ -216,7 +216,7 @@
                         </div>
                     </a>
                     @empty
-                    <x-empty-state message="Tidak ada events" icon="calendar" :actionRoute="route('event')" actionLabel="Browse" />
+                    <x-empty-state :message="__('app.no_events')" icon="calendar" :actionRoute="route('event')" :actionLabel="__('app.browse')" />
                     @endforelse
                 </div>
             </x-card-panel>
@@ -225,7 +225,7 @@
         <!-- ROW 2 -->
         <!-- Prestasi & Badge -->
         <div class="lg:col-span-1 order-4 lg:order-none">
-            <x-card-panel title="Prestasi" :actionRoute="route('achievement')" actionLabel="Semua" class="h-full">
+            <x-card-panel :title="__('app.achievements')" :actionRoute="route('achievement')" :actionLabel="__('app.all')" class="h-full">
                 <div class="space-y-3">
                     @if(!empty($userAchievements) && $userAchievements->count() > 0)
                         @foreach($userAchievements->take(3) as $achievement)
@@ -240,7 +240,7 @@
                         </div>
                         @endforeach
                     @else
-                        <x-empty-state message="Kumpulkan badge!" icon="trophy" />
+                        <x-empty-state :message="__('app.collect_badges')" icon="trophy" />
                     @endif
                 </div>
             </x-card-panel>
@@ -248,7 +248,7 @@
 
         <!-- Rekomendasi Kursus -->
         <div class="lg:col-span-2 order-6 lg:order-none">
-            <x-card-panel title="Rekomendasi Kursus" :actionRoute="route('kursus')" actionLabel="Jelajahi" class="h-full">
+            <x-card-panel :title="__('app.course_recommendations')" :actionRoute="route('kursus')" :actionLabel="__('app.explore')" class="h-full">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     @forelse(array_slice($recommendedCourses ?? [], 0, 4) as $course)
                     <a href="{{ route('detail-kursus', ['id' => $course['id']]) }}" class="flex gap-3 items-center hover:bg-gray-50 p-2 -mx-2 rounded-xl transition-colors">
@@ -276,7 +276,7 @@
                     </a>
                     @empty
                     <div class="col-span-2">
-                        <x-empty-state message="Tidak ada rekomendasi" icon="sparkles" />
+                        <x-empty-state :message="__('app.no_recommendations')" icon="sparkles" />
                     </div>
                     @endforelse
                 </div>
@@ -285,7 +285,7 @@
 
         <!-- Aktivitas Terbaru -->
         <div class="lg:col-span-1 order-7 lg:order-none">
-            <x-card-panel title="Aktivitas" class="h-full">
+            <x-card-panel :title="__('app.activity')" class="h-full">
                 <div class="space-y-4">
                     @forelse(array_slice($recentActivities ?? [], 0, 4) as $activity)
                     <div class="flex items-center gap-3 p-2 -mx-2 rounded-xl hover:bg-gray-50 transition-colors">
@@ -296,7 +296,7 @@
                         </div>
                     </div>
                     @empty
-                    <x-empty-state message="Belum ada aktivitas." icon="clock" />
+                    <x-empty-state :message="__('app.no_activity')" icon="clock" />
                     @endforelse
                 </div>
             </x-card-panel>

@@ -1,7 +1,7 @@
 @extends('layouts.app', ['activePage' => 'online-bootcamp'])
 
-@section('title', 'Online Bootcamp — 1Langkah')
-@section('header_title', 'Online Bootcamp')
+@section('title', __('app.online_bootcamp_title'))
+@section('header_title', __('app.online_bootcamp_header'))
 
 @section('content')
 <div x-data="{
@@ -43,18 +43,18 @@
 
     <!-- Header -->
     <div class="mb-6 -mt-2">
-        <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Online Bootcamp</h1>
-        <p class="text-gray-500 text-base">Kelas intensif LIVE via Zoom bersama instruktur terbaik — terbatas!</p>
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">{{ __('app.online_bootcamp_header') }}</h1>
+        <p class="text-gray-500 text-base">{{ __('app.online_bootcamp_desc') }}</p>
     </div>
 
     <!-- Search & Sort Bar -->
     <div class="mb-6">
         <x-search-filter-bar
-            placeholder="Cari bootcamp atau mentor..."
+            placeholder="{{ __('app.online_search_placeholder') }}"
             :sort-options="[
-                'newest' => 'Terbaru',
-                'price_low' => 'Harga: Rendah ke Tinggi',
-                'price_high' => 'Harga: Tinggi ke Rendah'
+                'newest' => __('app.sort_newest'),
+                'price_low' => __('app.sort_price_low'),
+                'price_high' => __('app.sort_price_high')
             ]"
         />
     </div>
@@ -62,12 +62,12 @@
     <!-- Alert / Info Banner -->
     <x-alert-banner
         type="info"
-        title="Tatap Muka LIVE via Zoom"
-        message="Setiap sesi direkam dan tersedia selama 30 hari. Sertifikat kelulusan diberikan setelah menyelesaikan minimal 80% pertemuan."
+        title="{{ __('app.banner_online_title') }}"
+        message="{{ __('app.banner_online_desc') }}"
         :stats="[
-            ['value' => '7–10', 'label' => 'Pertemuan'],
-            ['value' => '2 Jam', 'label' => 'Per sesi'],
-            ['value' => '30 Hari', 'label' => 'Akses rekaman']
+            ['value' => '7–10', 'label' => __('app.stat_meetings')],
+            ['value' => '2 Jam', 'label' => __('app.stat_per_session')],
+            ['value' => '30 Hari', 'label' => __('app.stat_recording_access')]
         ]"
     >
         <x-slot name="icon">
@@ -96,8 +96,8 @@
 
                     <!-- Top Badges -->
                     <div class="absolute top-4 left-4 flex gap-2">
-                        <span class="px-3 py-1 bg-red-600 text-white text-xs font-bold rounded-full shadow-sm" x-text="index === 0 ? 'Paling Diminati' : (index === 1 ? 'Baru' : 'Premium')"></span>
-                        <span class="px-3 py-1 bg-black/40 backdrop-blur-sm text-white text-xs font-semibold rounded-full shadow-sm">Intermediate</span>
+                        <span class="px-3 py-1 bg-red-600 text-white text-xs font-bold rounded-full shadow-sm" x-text="index === 0 ? '{{ __('app.badge_popular') }}' : (index === 1 ? '{{ __('app.badge_new') }}' : '{{ __('app.badge_premium') }}')"></span>
+                        <span class="px-3 py-1 bg-black/40 backdrop-blur-sm text-white text-xs font-semibold rounded-full shadow-sm">{{ __('app.badge_intermediate') }}</span>
                     </div>
                     <div class="absolute top-4 right-4">
                         <span class="px-3 py-1.5 bg-white text-red-600 text-xs font-extrabold rounded-full shadow-sm flex items-center gap-1.5 tracking-wide">
@@ -115,8 +115,8 @@
                     <!-- Enrollment Progress -->
                     <div class="mt-auto mb-5">
                         <div class="flex items-center justify-between text-xs font-bold mb-2.5">
-                            <span class="text-gray-400">Peserta terdaftar</span>
-                            <span class="text-red-500" x-text="((b.enrolledCount ?? b.enrolled_count ?? 0)) + ' dari ' + (b.totalSlots || 0)"></span>
+                            <span class="text-gray-400">{{ __('app.enrolled_students') }}</span>
+                            <span class="text-red-500" x-text="((b.enrolledCount ?? b.enrolled_count ?? 0)) + ' {{ __('app.from_slots') }} ' + (b.totalSlots || 0)"></span>
                         </div>
                         <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
                             <div class="h-full bg-red-600 rounded-full" :style="'width: ' + (((b.enrolledCount ?? b.enrolled_count ?? 0) / (b.totalSlots || 1)) * 100) + '%'"></div>
@@ -128,11 +128,11 @@
                     <!-- Footer -->
                     <div class="flex items-end justify-between">
                         <div>
-                            <div class="text-[13px] font-medium text-gray-400 mb-1" x-text="'Mulai ' + (b.startDate || '')"></div>
+                            <div class="text-[13px] font-medium text-gray-400 mb-1" x-text="'{{ __('app.starts_on') }} ' + (b.startDate || '')"></div>
                             <div class="text-[15px] font-bold text-gray-900" x-text="b.sessions || ''"></div>
                         </div>
                         <div class="text-right">
-                            <div class="text-[13px] font-medium text-gray-400 mb-1">Harga</div>
+                            <div class="text-[13px] font-medium text-gray-400 mb-1">{{ __('app.price_label') }}</div>
                             <div class="text-lg font-extrabold"
                                  :class="b.formatted_price === 'Gratis' ? 'text-emerald-600' : 'text-red-600'"
                                  x-text="b.formatted_price"></div>
@@ -146,8 +146,8 @@
     <!-- Empty State -->
     <x-empty-state
         x-show="displayedBootcamps.length === 0"
-        title="Bootcamp tidak ditemukan"
-        message="Coba ubah kata kunci pencarian"
+        title="{{ __('app.empty_bootcamp_title') }}"
+        message="{{ __('app.empty_search_desc') }}"
     />
 </div>
 @endsection

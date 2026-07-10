@@ -1,7 +1,7 @@
 @extends('layouts.app', ['activePage' => 'offline-bootcamp'])
 
-@section('title', 'Offline Bootcamp — 1Langkah')
-@section('header_title', 'Offline Bootcamp')
+@section('title', __('app.offline_bootcamp_title'))
+@section('header_title', __('app.offline_bootcamp_header'))
 
 @section('content')
 <div x-data="{
@@ -44,18 +44,18 @@
 
     <!-- Header -->
     <div class="mb-6 -mt-2">
-        <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Offline Bootcamp</h1>
-        <p class="text-gray-500 text-base">Belajar tatap muka intensif di kampus 1Langkah — pengalaman immersive yang tak tergantikan</p>
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">{{ __('app.offline_bootcamp_header') }}</h1>
+        <p class="text-gray-500 text-base">{{ __('app.offline_bootcamp_desc') }}</p>
     </div>
 
     <!-- Search & Sort Bar -->
     <div class="mb-6">
         <x-search-filter-bar
-            placeholder="Cari bootcamp, mentor, atau lokasi..."
+            placeholder="{{ __('app.offline_search_placeholder') }}"
             :sort-options="[
-                'newest' => 'Terbaru',
-                'price_low' => 'Harga: Rendah ke Tinggi',
-                'price_high' => 'Harga: Tinggi ke Rendah'
+                'newest' => __('app.sort_newest'),
+                'price_low' => __('app.sort_price_low'),
+                'price_high' => __('app.sort_price_high')
             ]"
         />
     </div>
@@ -63,12 +63,12 @@
     <!-- Alert / Info Banner -->
     <x-alert-banner
         type="info"
-        title="Tatap Muka · Belajar Langsung di Kampus"
-        message="Fasilitas lengkap, networking nyata, dan pengalaman belajar intensif bersama instruktur & sesama peserta."
+        title="{{ __('app.banner_offline_title') }}"
+        message="{{ __('app.banner_offline_desc') }}"
         :stats="[
-            ['value' => '3 Kota', 'label' => 'Tersedia'],
-            ['value' => 'Max 20', 'label' => 'Peserta/batch'],
-            ['value' => 'Sertifikat', 'label' => 'Terverifikasi']
+            ['value' => '3 Kota', 'label' => __('app.stat_available')],
+            ['value' => 'Max 20', 'label' => __('app.stat_participants_batch')],
+            ['value' => 'Sertifikat', 'label' => __('app.stat_verified')]
         ]"
     >
         <x-slot name="icon">
@@ -97,8 +97,8 @@
 
                     <!-- Top Badges -->
                     <div class="absolute top-4 left-4 flex gap-2">
-                        <span class="px-3 py-1 bg-red-700 text-white text-[11px] font-bold rounded-full shadow-sm" x-text="index === 0 ? 'Paling Diminati' : (index === 1 ? 'Weekend Class' : 'Eksklusif')"></span>
-                        <span class="px-3 py-1 bg-black/40 backdrop-blur-sm text-white text-[11px] font-semibold rounded-full shadow-sm" x-text="index === 0 ? 'All Level' : (index === 1 ? 'Beginner' : 'Intermediate')"></span>
+                        <span class="px-3 py-1 bg-red-700 text-white text-[11px] font-bold rounded-full shadow-sm" x-text="index === 0 ? '{{ __('app.badge_popular') }}' : (index === 1 ? '{{ __('app.badge_weekend') }}' : '{{ __('app.badge_exclusive') }}')"></span>
+                        <span class="px-3 py-1 bg-black/40 backdrop-blur-sm text-white text-[11px] font-semibold rounded-full shadow-sm" x-text="index === 0 ? '{{ __('app.badge_all_level') }}' : (index === 1 ? '{{ __('app.badge_beginner') }}' : '{{ __('app.badge_intermediate') }}')"></span>
                     </div>
                     <!-- Bottom Location Badge -->
                     <div class="absolute bottom-3 left-4">
@@ -130,21 +130,21 @@
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            <span x-text="index === 0 ? '8 Minggu' : '8 Minggu'"></span>
+                            <span x-text="index === 0 ? '{{ __('app.duration_8_weeks') }}' : '{{ __('app.duration_8_weeks') }}'"></span>
                         </div>
                         <div class="flex items-center gap-1.5">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
-                            <span x-text="index === 0 ? '2× seminggu' : 'Sabtu & Minggu'"></span>
+                            <span x-text="index === 0 ? '{{ __('app.frequency_2_times') }}' : '{{ __('app.frequency_weekend') }}'"></span>
                         </div>
                     </div>
 
                     <!-- Enrollment Progress -->
                     <div class="mt-auto mb-5">
                         <div class="flex items-center justify-between text-xs font-bold mb-2.5">
-                            <span class="text-gray-400">Peserta terdaftar</span>
-                            <span class="text-green-500" x-text="((b.enrolledCount ?? b.enrolled_count ?? 0)) + ' dari ' + (b.totalSlots || 0)"></span>
+                            <span class="text-gray-400">{{ __('app.enrolled_students') }}</span>
+                            <span class="text-green-500" x-text="((b.enrolledCount ?? b.enrolled_count ?? 0)) + ' {{ __('app.from_slots') }} ' + (b.totalSlots || 0)"></span>
                         </div>
                         <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
                             <div class="h-full bg-green-500 rounded-full" :style="'width: ' + (((b.enrolledCount ?? b.enrolled_count ?? 0) / (b.totalSlots || 1)) * 100) + '%'"></div>
@@ -156,13 +156,13 @@
                     <!-- Footer -->
                     <div class="flex items-end justify-between">
                         <div>
-                            <div class="text-[11px] font-medium text-gray-400 mb-1" x-text="'Mulai ' + (b.startDate || '')"></div>
+                            <div class="text-[11px] font-medium text-gray-400 mb-1" x-text="'{{ __('app.starts_on') }} ' + (b.startDate || '')"></div>
                             <div class="text-[16px] font-extrabold"
                                  :class="b.formatted_price === 'Gratis' ? 'text-emerald-600' : 'text-black'"
                                  x-text="b.formatted_price"></div>
                         </div>
                         <div>
-                            <span class="px-3 py-1.5 bg-red-50 text-red-600 text-[11px] font-bold rounded-full">Soft Skills</span>
+                            <span class="px-3 py-1.5 bg-red-50 text-red-600 text-[11px] font-bold rounded-full">{{ __('app.soft_skills') }}</span>
                         </div>
                     </div>
                 </div>
@@ -173,8 +173,8 @@
     <!-- Empty State -->
     <x-empty-state
         x-show="displayedBootcamps.length === 0"
-        title="Bootcamp tidak ditemukan"
-        message="Coba ubah kata kunci pencarian"
+        title="{{ __('app.empty_bootcamp_title') }}"
+        message="{{ __('app.empty_search_desc') }}"
     />
 </div>
 @endsection

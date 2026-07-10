@@ -1,7 +1,7 @@
 @extends('layouts.app', ['activePage' => 'event'])
 
-@section('title', 'Event — 1Langkah')
-@section('header_title', 'Event')
+@section('title', __('app.event') . ' — 1Langkah')
+@section('header_title', __('app.event'))
 
 @section('content')
 <div class="w-full px-2 pb-8 space-y-6">
@@ -9,8 +9,8 @@
     <!-- Header Section -->
     <div class="flex items-start justify-between">
         <div>
-            <h1 class="font-extrabold text-gray-900 tracking-tight" style="font-size: 28px;">Event</h1>
-            <p class="text-sm text-gray-500 mt-1 font-medium">Temukan dan ikuti event menarik dari 1Langkah</p>
+            <h1 class="font-extrabold text-gray-900 tracking-tight" style="font-size: 28px;">{{ __('app.event') }}</h1>
+            <p class="text-sm text-gray-500 mt-1 font-medium">{{ __('app.event_subtitle') }}</p>
         </div>
     </div>
 
@@ -23,8 +23,8 @@
     </div>
     @else
         <x-empty-state
-            title="Belum Ada Event"
-            message="Saat ini belum ada event yang tersedia. Pantau terus untuk event menarik dari 1Langkah!"
+            :title="__('app.no_events_title')"
+            :message="__('app.no_events_desc')"
         >
             <x-slot name="icon">
                 <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

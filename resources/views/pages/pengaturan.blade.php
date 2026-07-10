@@ -1,13 +1,13 @@
 @extends('layouts.app', ['activePage' => 'pengaturan'])
 
-@section('title', 'Pengaturan Akun — 1Langkah')
+@section('title', __('app.account_settings') . ' — 1Langkah')
 
 @section('content')
 @php $u = $authUser; @endphp
 <div class="w-full px-2 pb-8">
 
-<div class="page-title" style="margin-bottom:8px">Pengaturan Akun</div>
-<p style="font-size:14px;color:var(--text-muted);margin-bottom:28px">Kelola informasi profil dan keamanan akun kamu</p>
+<div class="page-title" style="margin-bottom:8px">{{ __('app.account_settings') }}</div>
+<p style="font-size:14px;color:var(--text-muted);margin-bottom:28px">{{ __('app.account_settings_desc') }}</p>
 
 {{-- Success flash --}}
 @if(session('success'))
@@ -45,33 +45,33 @@
             <div style="display:flex;justify-content:center;gap:24px">
                 <div style="text-align:center">
                     <div style="font-size:20px;font-weight:700;color:var(--primary)">{{ number_format($u->xp) }}</div>
-                    <div style="font-size:11px;color:var(--text-light)">XP Total</div>
+                    <div style="font-size:11px;color:var(--text-light)">{{ __('app.total_xp') }}</div>
                 </div>
                 <div style="text-align:center">
                     <div style="font-size:20px;font-weight:700;color:var(--gold)">{{ $u->streak }}</div>
-                    <div style="font-size:11px;color:var(--text-light)">Day Streak</div>
+                    <div style="font-size:11px;color:var(--text-light)">{{ __('app.day_streak') }}</div>
                 </div>
                 <div style="text-align:center">
                     <div style="font-size:20px;font-weight:700;color:var(--success)">{{ $u->certificates->count() }}</div>
-                    <div style="font-size:11px;color:var(--text-light)">Sertifikat</div>
+                    <div style="font-size:11px;color:var(--text-light)">{{ __('app.certificates') }}</div>
                 </div>
             </div>
         </div>
 
         <div class="card" style="padding:20px">
-            <div class="section-title" style="margin-bottom:14px">Info Akun</div>
+            <div class="section-title" style="margin-bottom:14px">{{ __('app.account_info') }}</div>
             <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
                 <div class="flex justify-between" style="padding:8px 0;border-bottom:1px solid var(--border-light)">
-                    <span style="color:var(--text-muted)">Bergabung sejak</span>
+                    <span style="color:var(--text-muted)">{{ __('app.joined_since') }}</span>
                     <span style="font-weight:600">{{ $u->created_at?->format('d M Y') ?? 'Jan 2025' }}</span>
                 </div>
                 <div class="flex justify-between" style="padding:8px 0;border-bottom:1px solid var(--border-light)">
-                    <span style="color:var(--text-muted)">Status akun</span>
-                    <x-badge text="Aktif" type="success" />
+                    <span style="color:var(--text-muted)">{{ __('app.account_status') }}</span>
+                    <x-badge :text="__('app.active')" type="success" />
                 </div>
                 <div class="flex justify-between" style="padding:8px 0">
-                    <span style="color:var(--text-muted)">Paket</span>
-                    <x-badge text="Free" type="dark" />
+                    <span style="color:var(--text-muted)">{{ __('app.plan') }}</span>
+                    <x-badge :text="__('app.free')" type="dark" />
                 </div>
             </div>
         </div>
@@ -92,10 +92,10 @@
             @endif
 
             <div class="card" style="padding:24px;margin-bottom:20px">
-                <div class="section-title" style="margin-bottom:18px">Informasi Profil</div>
+                <div class="section-title" style="margin-bottom:18px">{{ __('app.profile_info') }}</div>
 
                 <div class="input-group" style="margin-bottom:16px">
-                    <label>Nama Lengkap</label>
+                    <label>{{ __('app.full_name') }}</label>
                     <input class="input" name="name" value="{{ old('name', $u->name) }}" required />
                 </div>
                 <div class="input-group" style="margin-bottom:16px">
@@ -103,31 +103,31 @@
                     <input class="input" type="email" name="email" value="{{ old('email', $u->email) }}" required />
                 </div>
                 <div class="input-group" style="margin-bottom:0">
-                    <label>Bio / Deskripsi Diri</label>
-                    <textarea class="input" name="bio" rows="3" placeholder="Ceritakan tentang diri kamu, skill, atau tujuan karir...">{{ old('bio', $u->bio) }}</textarea>
-                    <small style="color:var(--text-muted);font-size:11px;margin-top:4px;display:block">Maks 500 karakter. Akan ditampilkan di portofolio kamu.</small>
+                    <label>{{ __('app.bio') }}</label>
+                    <textarea class="input" name="bio" rows="3" :placeholder="'{{ __('app.bio_placeholder') }}'">{{ old('bio', $u->bio) }}</textarea>
+                    <small style="color:var(--text-muted);font-size:11px;margin-top:4px;display:block">{{ __('app.bio_help') }}</small>
                 </div>
             </div>
 
             <div class="card" style="padding:24px;margin-bottom:20px">
-                <div class="section-title" style="margin-bottom:4px">Ubah Password</div>
-                <p style="font-size:12px;color:var(--text-muted);margin-bottom:18px">Kosongkan jika tidak ingin mengubah password</p>
+                <div class="section-title" style="margin-bottom:4px">{{ __('app.change_password') }}</div>
+                <p style="font-size:12px;color:var(--text-muted);margin-bottom:18px">{{ __('app.change_password_help') }}</p>
                 <div class="input-group" style="margin-bottom:16px">
-                    <label>Password Baru</label>
-                    <input class="input" type="password" name="password" placeholder="Minimal 8 karakter" />
+                    <label>{{ __('app.new_password') }}</label>
+                    <input class="input" type="password" name="password" :placeholder="'{{ __('app.new_password_placeholder') }}'" />
                 </div>
                 <div class="input-group" style="margin-bottom:0">
-                    <label>Konfirmasi Password Baru</label>
-                    <input class="input" type="password" name="password_confirmation" placeholder="Ulangi password baru" />
+                    <label>{{ __('app.confirm_new_password') }}</label>
+                    <input class="input" type="password" name="password_confirmation" :placeholder="'{{ __('app.confirm_new_password_placeholder') }}'" />
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-lg btn-full">Simpan Perubahan</button>
+            <button type="submit" class="btn btn-primary btn-lg btn-full">{{ __('app.save_changes') }}</button>
         </form>
 
         {{-- Notification Preferences --}}
         <div class="card" style="padding:24px;margin-top:20px">
-            <div class="section-title" style="margin-bottom:18px">Preferensi Notifikasi</div>
+            <div class="section-title" style="margin-bottom:18px">{{ __('app.notification_preferences') }}</div>
 
             <div id="notification-feedback" style="display:none;padding:12px;border-radius:8px;margin-bottom:16px;font-size:13px;"></div>
 
@@ -135,7 +135,7 @@
             <div style="margin-bottom:24px">
                 <div style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:12px;display:flex;align-items:center;gap:8px">
                     <svg style="width:16px;height:16px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                    Notifikasi Email
+                    {{ __('app.email_notifications') }}
                 </div>
                 <div style="display:flex;flex-direction:column;gap:10px">
                     @php
@@ -150,27 +150,27 @@
                     @endphp
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
                         <input type="checkbox" name="email_course_updates" value="1" {{ ($emailPrefs['email_course_updates'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
-                        <span>Update kursus baru & modul</span>
+                        <span>{{ __('app.pref_course_updates') }}</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
                         <input type="checkbox" name="email_bootcamp_reminders" value="1" {{ ($emailPrefs['email_bootcamp_reminders'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
-                        <span>Pengingat jadwal bootcamp</span>
+                        <span>{{ __('app.pref_bootcamp_reminders') }}</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
                         <input type="checkbox" name="email_event_announcements" value="1" {{ ($emailPrefs['email_event_announcements'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
-                        <span>Pengumuman event baru</span>
+                        <span>{{ __('app.pref_event_announcements') }}</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
                         <input type="checkbox" name="email_forum_replies" value="1" {{ ($emailPrefs['email_forum_replies'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
-                        <span>Balasan di forum</span>
+                        <span>{{ __('app.pref_forum_replies') }}</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
                         <input type="checkbox" name="email_achievements" value="1" {{ ($emailPrefs['email_achievements'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
-                        <span>Pencapaian badge baru</span>
+                        <span>{{ __('app.pref_achievements') }}</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
                         <input type="checkbox" name="email_weekly_progress" value="1" {{ ($emailPrefs['email_weekly_progress'] ?? false) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
-                        <span>Ringkasan mingguan progress</span>
+                        <span>{{ __('app.pref_weekly_progress') }}</span>
                     </label>
                 </div>
             </div>
@@ -179,30 +179,30 @@
             <div>
                 <div style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:12px;display:flex;align-items:center;gap:8px">
                     <svg style="width:16px;height:16px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                    Privasi
+                    {{ __('app.privacy') }}
                 </div>
                 <div style="display:flex;flex-direction:column;gap:10px">
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
                         <input type="checkbox" name="show_profile_publicly" value="1" {{ ($u->settings->show_profile_publicly ?? true) ? 'checked' : '' }} onchange="updatePrivacyPref(this)" class="pref-checkbox">
-                        <span>Tampilkan profil secara publik</span>
+                        <span>{{ __('app.pref_public_profile') }}</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
                         <input type="checkbox" name="show_progress_publicly" value="1" {{ ($u->settings->show_progress_publicly ?? true) ? 'checked' : '' }} onchange="updatePrivacyPref(this)" class="pref-checkbox">
-                        <span>Tampilkan progress di portofolio</span>
+                        <span>{{ __('app.pref_public_progress') }}</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
                         <input type="checkbox" name="allow_mentor_contact" value="1" {{ ($u->settings->allow_mentor_contact ?? true) ? 'checked' : '' }} onchange="updatePrivacyPref(this)" class="pref-checkbox">
-                        <span>Izinkan mentor menghubungi saya</span>
+                        <span>{{ __('app.pref_allow_mentor_contact') }}</span>
                     </label>
                 </div>
             </div>
         </div>
 
         <div class="card" style="padding:24px;margin-top:20px;border:1px solid #fca5a5">
-            <div class="section-title" style="margin-bottom:8px;color:#b91c1c">Zona Berbahaya</div>
-            <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Tindakan di bawah ini tidak dapat dibatalkan.</p>
-            <button class="btn btn-outline" style="border-color:#fca5a5;color:#b91c1c" onclick="alert('Fitur hapus akun belum tersedia.')">
-                Hapus Akun
+            <div class="section-title" style="margin-bottom:8px;color:#b91c1c">{{ __('app.danger_zone') }}</div>
+            <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">{{ __('app.danger_zone_desc') }}</p>
+            <button class="btn btn-outline" style="border-color:#fca5a5;color:#b91c1c" onclick="alert('{{ __('app.delete_account_alert') }}')">
+                {{ __('app.delete_account') }}
             </button>
         </div>
     </div>

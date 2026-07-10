@@ -9,7 +9,7 @@
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
             <h1 class="text-2xl font-bold text-gray-900">Portofolio</h1>
-            <p class="text-sm text-gray-500">Skills dan pencapaian dari kursus & bootcamp</p>
+            <p class="text-sm text-gray-500">{{ __('app.portfolio_desc') }}</p>
         </div>
     </div>
 
@@ -29,14 +29,14 @@
             <div class="text-center md:text-left flex-1">
                 <h2 class="text-2xl font-bold">{{ $portfolio['user']['name'] ?? 'User' }}</h2>
                 <p class="text-white/80 text-sm mt-1 max-w-lg">
-                    {{ $portfolio['user']['bio'] ?: 'Portofolio pengguna' }}
+                    {{ $portfolio['user']['bio'] ?: __('app.user_portfolio_desc') }}
                 </p>
                 <div class="flex flex-wrap justify-center md:justify-start gap-4 mt-4">
                     <div class="bg-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm">
                         <span class="font-bold">{{ $portfolio['user']['xp'] ?? 0 }}</span> XP
                     </div>
                     <div class="bg-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm">
-                        Bergabung {{ $portfolio['user']['joined_at'] ?? '' }}
+                        {{ __('app.joined') }} {{ $portfolio['user']['joined_at'] ?? '' }}
                     </div>
                 </div>
             </div>
@@ -47,26 +47,26 @@
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
             <div class="text-3xl font-bold text-[#cc0000]">{{ $portfolio['stats']['courses_completed'] ?? 0 }}</div>
-            <div class="text-sm text-gray-500 mt-1">Kursus Selesai</div>
+            <div class="text-sm text-gray-500 mt-1">{{ __('app.courses_completed') }}</div>
         </div>
         <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
             <div class="text-3xl font-bold text-green-600">{{ $portfolio['stats']['bootcamps_completed'] ?? 0 }}</div>
-            <div class="text-sm text-gray-500 mt-1">Bootcamp Selesai</div>
+            <div class="text-sm text-gray-500 mt-1">{{ __('app.bootcamps_completed') }}</div>
         </div>
         <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
             <div class="text-3xl font-bold text-purple-600">{{ $portfolio['stats']['skills_acquired'] ?? 0 }}</div>
-            <div class="text-sm text-gray-500 mt-1">Skills</div>
+            <div class="text-sm text-gray-500 mt-1">{{ __('app.skills') }}</div>
         </div>
         <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
             <div class="text-3xl font-bold text-orange-500">{{ $portfolio['stats']['reviews_written'] ?? 0 }}</div>
-            <div class="text-sm text-gray-500 mt-1">Reviews</div>
+            <div class="text-sm text-gray-500 mt-1">{{ __('app.reviews') }}</div>
         </div>
     </div>
 
     <!-- Achievements -->
     @if(!empty($portfolio['achievements']))
     <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
-        <h3 class="font-bold text-gray-900 text-lg mb-4">Achievements</h3>
+        <h3 class="font-bold text-gray-900 text-lg mb-4">{{ __('app.achievements') }}</h3>
         <div class="flex flex-wrap gap-3">
             @foreach($portfolio['achievements'] as $achievement)
             <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl px-4 py-3 flex items-center gap-3" title="{{ $achievement['desc'] }}">
@@ -80,7 +80,7 @@
 
     <!-- Skills Section -->
     <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
-        <h3 class="font-bold text-gray-900 text-lg mb-4">Skills yang Dipelajari</h3>
+        <h3 class="font-bold text-gray-900 text-lg mb-4">{{ __('app.skills_learned') }}</h3>
         @if(!empty($portfolio['skills']))
         <div class="flex flex-wrap gap-2">
             @foreach($portfolio['skills'] as $skill)
@@ -95,13 +95,13 @@
             @endforeach
         </div>
         @else
-        <p class="text-gray-500 text-sm">Belum ada skills.</p>
+        <p class="text-gray-500 text-sm">{{ __('app.no_skills_yet') }}</p>
         @endif
     </div>
 
     <!-- Courses Completed (Sorted by Rating) -->
     <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
-        <h3 class="font-bold text-gray-900 text-lg mb-4">Kursus yang Telah Diselesaikan</h3>
+        <h3 class="font-bold text-gray-900 text-lg mb-4">{{ __('app.completed_courses_list') }}</h3>
         @if(!empty($portfolio['courses']))
         <div class="space-y-4">
             @foreach($portfolio['courses'] as $course)
@@ -117,7 +117,7 @@
                 </div>
                 <div class="flex-1 min-w-0">
                     <h4 class="font-medium text-gray-900 truncate">{{ $course['title'] }}</h4>
-                    <p class="text-xs text-gray-500">{{ $course['category'] ?? '' }} • Selesai {{ $course['completed_at'] }}</p>
+                    <p class="text-xs text-gray-500">{{ $course['category'] ?? '' }} • {{ __('app.completed_on') }} {{ $course['completed_at'] }}</p>
                 </div>
                 <div class="flex items-center gap-2">
                     @if($course['rating'] > 0)
@@ -130,13 +130,13 @@
             @endforeach
         </div>
         @else
-        <p class="text-gray-500 text-sm">Belum ada kursus yang diselesaikan.</p>
+        <p class="text-gray-500 text-sm">{{ __('app.no_completed_courses') }}</p>
         @endif
     </div>
 
     <!-- Bootcamps Completed (Sorted by Rating) -->
     <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
-        <h3 class="font-bold text-gray-900 text-lg mb-4">Bootcamp yang Telah Diselesaikan</h3>
+        <h3 class="font-bold text-gray-900 text-lg mb-4">{{ __('app.completed_bootcamps_list') }}</h3>
         @if(!empty($portfolio['bootcamps']))
         <div class="space-y-4">
             @foreach($portfolio['bootcamps'] as $bootcamp)
@@ -152,7 +152,7 @@
                 </div>
                 <div class="flex-1 min-w-0">
                     <h4 class="font-medium text-gray-900 truncate">{{ $bootcamp['title'] }}</h4>
-                    <p class="text-xs text-gray-500">{{ ucfirst($bootcamp['type']) }} • Selesai {{ $bootcamp['completed_at'] }}</p>
+                    <p class="text-xs text-gray-500">{{ ucfirst($bootcamp['type']) }} • {{ __('app.completed_on') }} {{ $bootcamp['completed_at'] }}</p>
                 </div>
                 <div class="flex items-center gap-2">
                     @if($bootcamp['rating'] > 0)
@@ -165,7 +165,7 @@
             @endforeach
         </div>
         @else
-        <p class="text-gray-500 text-sm">Belum ada bootcamp yang diselesaikan.</p>
+        <p class="text-gray-500 text-sm">{{ __('app.no_completed_bootcamps') }}</p>
         @endif
     </div>
 

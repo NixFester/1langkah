@@ -1,11 +1,11 @@
 @extends('layouts.app', ['activePage' => 'komunitas'])
 
-@section('title', 'Buat Post — Komunitas 1Langkah')
-@section('header_title', 'Buat Post')
+@section('title', __('app.create_post') . ' — ' . __('app.community_1langkah'))
+@section('header_title', __('app.create_post'))
 @section('header_action')
     <a href="{{ route('komunitas') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-semibold text-sm hover:bg-gray-200 transition-colors">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-        Batal
+        {{ __('app.cancel') }}
     </a>
 @endsection
 
@@ -16,8 +16,8 @@
         <!-- Form Card -->
         <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
             <div class="p-6 border-b border-gray-100">
-                <h2 class="font-bold text-gray-900 text-xl">Buat Post Baru</h2>
-                <p class="text-sm text-gray-500 mt-1">Bagikan ide, pertanyaan, atau informasi menarik dengan komunitas</p>
+                <h2 class="font-bold text-gray-900 text-xl">{{ __('app.create_new_post') }}</h2>
+                <p class="text-sm text-gray-500 mt-1">{{ __('app.create_post_desc') }}</p>
             </div>
 
             <form action="{{ route('komunitas.store') }}" method="POST" class="p-6 space-y-5">
@@ -26,52 +26,47 @@
                 <!-- Title -->
                 <div>
                     <label for="title" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Judul <span class="text-red-500">*</span>
+                        {{ __('app.title') }} <span class="text-red-500">*</span>
                     </label>
                     <input type="text" id="title" name="title" value="{{ old('title') }}"
-                           placeholder="Judul post kamu..."
+                           :placeholder="'{{ __('app.post_title_placeholder') }}'"
                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm @error('title') border-red-500 @enderror"
                            required maxlength="255">
                     @error('title')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
-                    <p class="text-xs text-gray-400 mt-1"><span id="title-count">0</span>/255 karakter</p>
+                    <p class="text-xs text-gray-400 mt-1"><span id="title-count">0</span>/255 {{ __('app.characters') }}</p>
                 </div>
 
                 <!-- Content -->
                 <div>
                     <label for="content" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Isi Post <span class="text-red-500">*</span>
+                        {{ __('app.post_content') }} <span class="text-red-500">*</span>
                     </label>
                     <textarea id="content" name="content" rows="8"
-                              placeholder="Tulis konten post kamu di sini...
-
-Tips:
-• Jelaskan topik dengan detail
-• Gunakan paragraf baru untuk memisahkan ide
-• Cantumkan sumber jika ada"
+                              :placeholder="'{{ str_replace("\n", '\n', __('app.post_content_placeholder')) }}'"
                               class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm resize-none @error('content') border-red-500 @enderror"
                               required>{{ old('content') }}</textarea>
                     @error('content')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
-                    <p class="text-xs text-gray-400 mt-1"><span id="content-count">0</span>/10,000 karakter</p>
+                    <p class="text-xs text-gray-400 mt-1"><span id="content-count">0</span>/10,000 {{ __('app.characters') }}</p>
                 </div>
 
                 <!-- Image URLs -->
                 <div>
                     <label for="image_urls" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Gambar (opsional)
+                        {{ __('app.image_optional') }}
                     </label>
                     <textarea id="image_urls" name="image_urls" rows="2"
-                              placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
+                              :placeholder="'{{ __('app.image_url_placeholder') }}'"
                               class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm resize-none @error('image_urls') border-red-500 @enderror">{{ old('image_urls') }}</textarea>
                     @error('image_urls')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                     <div class="flex items-start gap-2 mt-2">
                         <svg class="w-4 h-4 text-gray-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <p class="text-xs text-gray-500">Masukkan URL gambar. Pisahkan dengan koma untuk menambahkan multiple gambar. Pastikan URL gambar dapat diakses publik.</p>
+                        <p class="text-xs text-gray-500">{{ __('app.image_url_help') }}</p>
                     </div>
 
                     <!-- Image Preview -->
@@ -82,12 +77,12 @@ Tips:
                 <button type="button" onclick="togglePreview()"
                         class="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                    <span id="preview-text">Tampilkan Preview</span>
+                    <span id="preview-text">{{ __('app.show_preview') }}</span>
                 </button>
 
                 <!-- Preview Section -->
                 <div id="preview-section" class="hidden bg-gray-50 border border-gray-200 rounded-xl p-5">
-                    <h3 class="font-bold text-gray-900 mb-3" id="preview-title">Preview Judul</h3>
+                    <h3 class="font-bold text-gray-900 mb-3" id="preview-title">{{ __('app.preview_title') }}</h3>
                     <div id="preview-content" class="text-gray-700 whitespace-pre-wrap"></div>
                     <div id="preview-images" class="mt-4 flex gap-2 overflow-x-auto"></div>
                 </div>
@@ -95,10 +90,10 @@ Tips:
                 <!-- Actions -->
                 <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
                     <a href="{{ route('komunitas') }}" class="px-5 py-2.5 text-gray-600 bg-gray-100 rounded-lg font-semibold text-sm hover:bg-gray-200 transition-colors">
-                        Batal
+                        {{ __('app.cancel') }}
                     </a>
                     <button type="submit" class="px-6 py-2.5 bg-red-600 text-white rounded-lg font-semibold text-sm hover:bg-red-700 transition-colors">
-                        Posting
+                        {{ __('app.post') }}
                     </button>
                 </div>
             </form>
@@ -108,14 +103,14 @@ Tips:
         <div class="mt-6 bg-blue-50 border border-blue-100 rounded-xl p-5">
             <h4 class="font-semibold text-blue-800 mb-2 flex items-center gap-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                Panduan Komunitas
+                {{ __('app.community_guidelines') }}
             </h4>
             <ul class="text-sm text-blue-700 space-y-1.5 ml-7">
-                <li>• Gunakan bahasa yang sopan dan respect</li>
-                <li>• Hindari spam dan konten yang tidak relevan</li>
-                <li>• Cantumkan sumber untuk informasi yang diambil dari tempat lain</li>
-                <li>• Pastikan gambar yang di-share tidak melanggar hak cipta</li>
-                <li>• Bertanggung jawab atas konten yang Anda posting</li>
+                <li>• {{ __('app.guideline_1') }}</li>
+                <li>• {{ __('app.guideline_2') }}</li>
+                <li>• {{ __('app.guideline_3') }}</li>
+                <li>• {{ __('app.guideline_4') }}</li>
+                <li>• {{ __('app.guideline_5') }}</li>
             </ul>
         </div>
     </div>
@@ -133,7 +128,7 @@ const contentCount = document.getElementById('content-count');
 // Update character counts
 titleInput.addEventListener('input', function() {
     titleCount.textContent = this.value.length;
-    document.getElementById('preview-title').textContent = this.value || 'Preview Judul';
+    document.getElementById('preview-title').textContent = this.value || '{{ __('app.preview_title') }}';
 });
 
 contentInput.addEventListener('input', function() {
@@ -197,10 +192,10 @@ function togglePreview() {
 
     if (isPreviewVisible) {
         section.classList.remove('hidden');
-        text.textContent = 'Sembunyikan Preview';
+        text.textContent = '{{ __('app.hide_preview') }}';
     } else {
         section.classList.add('hidden');
-        text.textContent = 'Tampilkan Preview';
+        text.textContent = '{{ __('app.show_preview') }}';
     }
 }
 

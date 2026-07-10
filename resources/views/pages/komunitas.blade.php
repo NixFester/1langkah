@@ -1,11 +1,11 @@
 @extends('layouts.app', ['activePage' => 'komunitas'])
 
-@section('title', 'Komunitas — 1Langkah')
-@section('header_title', 'Komunitas')
+@section('title', __('app.community') . ' — 1Langkah')
+@section('header_title', __('app.community'))
 @section('header_action')
     <a href="{{ route('komunitas.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg font-semibold text-sm hover:bg-red-700 transition-colors">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-        Buat Post
+        {{ __('app.create_post') }}
     </a>
 @endsection
 
@@ -15,12 +15,12 @@
     <!-- Header Section -->
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
-            <h1 class="font-extrabold text-gray-900 tracking-tight" style="font-size: 28px;">Komunitas</h1>
-            <p class="text-sm text-gray-500 mt-1 font-medium">Bagikan ide, tanya jawab, dan diskusikan topik menarik</p>
+            <h1 class="font-extrabold text-gray-900 tracking-tight" style="font-size: 28px;">{{ __('app.community') }}</h1>
+            <p class="text-sm text-gray-500 mt-1 font-medium">{{ __('app.community_subtitle') }}</p>
         </div>
         <a href="{{ route('komunitas.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg font-semibold text-sm hover:bg-red-700 transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-            Buat Post
+            {{ __('app.create_post') }}
         </a>
     </div>
 
@@ -31,23 +31,23 @@
             <!-- Search -->
             <div class="flex-1 relative">
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Cari post..." class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm">
+                <input type="text" name="search" value="{{ $search ?? '' }}" :placeholder="'{{ __('app.search_post') }}'" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm">
             </div>
 
             <!-- Sort Dropdown -->
             <div class="relative min-w-[160px]">
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" style="top: 50%;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>
                 <select name="sort" class="w-full pl-9 pr-8 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm appearance-none bg-white cursor-pointer">
-                    <option value="newest" {{ ($sort ?? 'newest') === 'newest' ? 'selected' : '' }}>Terbaru</option>
-                    <option value="oldest" {{ ($sort ?? 'newest') === 'oldest' ? 'selected' : '' }}>Terlama</option>
-                    <option value="popular" {{ ($sort ?? 'newest') === 'popular' ? 'selected' : '' }}>Terpopuler</option>
-                    <option value="most_commented" {{ ($sort ?? 'newest') === 'most_commented' ? 'selected' : '' }}>Paling Banyak Komentar</option>
+                    <option value="newest" {{ ($sort ?? 'newest') === 'newest' ? 'selected' : '' }}>{{ __('app.sort_newest') }}</option>
+                    <option value="oldest" {{ ($sort ?? 'newest') === 'oldest' ? 'selected' : '' }}>{{ __('app.sort_oldest') }}</option>
+                    <option value="popular" {{ ($sort ?? 'newest') === 'popular' ? 'selected' : '' }}>{{ __('app.sort_popular') }}</option>
+                    <option value="most_commented" {{ ($sort ?? 'newest') === 'most_commented' ? 'selected' : '' }}>{{ __('app.sort_most_commented') }}</option>
                 </select>
                 <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
 
             <button type="submit" class="px-5 py-2.5 bg-red-600 text-white rounded-lg font-semibold text-sm hover:bg-red-700 transition-colors whitespace-nowrap">
-                Filter
+                {{ __('app.filter') }}
             </button>
         </form>
     </div>
@@ -115,7 +115,7 @@
                     <div class="flex items-center gap-4 text-sm text-gray-500">
                         <a href="{{ route('komunitas.show', $post->id) }}" class="flex items-center gap-1.5 hover:text-red-600 transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                            <span class="font-medium">{{ $post->reply_count }} komentar</span>
+                            <span class="font-medium">{{ $post->reply_count }} {{ __('app.comments_count') }}</span>
                         </a>
                         <span class="flex items-center gap-1.5">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
@@ -123,7 +123,7 @@
                         </span>
                         <button onclick="showReportModal('post', {{ $post->id }})" class="flex items-center gap-1.5 hover:text-red-600 transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                            Report
+                            {{ __('app.report') }}
                         </button>
                     </div>
                 </div>
@@ -139,10 +139,10 @@
     @else
     <!-- Empty State -->
     <x-empty-state
-        :message="$search ? 'Tidak ada post yang cocok dengan \"' . $search . '\". Coba kata kunci lain.' : 'Jadilah yang pertama membuat post di komunitas ini!'"
+        :message="$search ? __('app.empty_community_search') . ' \"' . $search . '\". ' . __('app.empty_community_search_2') : __('app.empty_community_first')"
         icon="users"
         :actionRoute="route('komunitas.create')"
-        actionLabel="Buat Post Pertama"
+        :actionLabel="__('app.create_first_post')"
     />
     @endif
 
@@ -194,7 +194,7 @@ async function votePost(postId, voteType, buttonElement) {
         }
     } catch (error) {
         console.error('Vote error:', error);
-        alert('Terjadi kesalahan saat memberikan vote. Pastikan Anda sudah login.');
+        alert('{{ __('app.vote_error') }}');
     }
 }
 
@@ -226,16 +226,16 @@ async function submitReport() {
         const data = await response.json();
 
         if (data.success) {
-            alert('Report submitted successfully. Thank you for helping keep our community safe.');
+            alert('{{ __('app.report_success') }}');
             hideReportModal();
             document.getElementById('report_reason').value = '';
             document.getElementById('report_description').value = '';
         } else {
-            alert(data.message || 'Failed to submit report');
+            alert(data.message || '{{ __('app.report_fail') }}');
         }
     } catch (error) {
         console.error('Report error:', error);
-        alert('Terjadi kesalahan saat submit report.');
+        alert('{{ __('app.report_error') }}');
     }
 }
 </script>
@@ -244,37 +244,37 @@ async function submitReport() {
 <div id="reportModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-black/50" onclick="hideReportModal()"></div>
     <div class="relative bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl">
-        <h3 class="text-xl font-bold text-gray-900 mb-4">Report Content</h3>
-        <p class="text-sm text-gray-600 mb-4">Help us maintain a safe community by reporting inappropriate content.</p>
+        <h3 class="text-xl font-bold text-gray-900 mb-4">{{ __('app.report_content') }}</h3>
+        <p class="text-sm text-gray-600 mb-4">{{ __('app.report_content_desc') }}</p>
 
         <form id="reportForm">
             <input type="hidden" name="reportable_type" id="reportable_type" value="">
             <input type="hidden" name="reportable_id" id="reportable_id" value="">
 
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Reason</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('app.reason') }}</label>
                 <select name="reason" id="report_reason" class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" required>
-                    <option value="">Select a reason</option>
-                    <option value="spam">Spam</option>
-                    <option value="harassment">Harassment / Bullying</option>
-                    <option value="inappropriate_content">Inappropriate Content</option>
-                    <option value="misinformation">Misinformation</option>
-                    <option value="copyright">Copyright Violation</option>
-                    <option value="other">Other</option>
+                    <option value="">{{ __('app.select_reason') }}</option>
+                    <option value="spam">{{ __('app.spam') }}</option>
+                    <option value="harassment">{{ __('app.harassment') }}</option>
+                    <option value="inappropriate_content">{{ __('app.inappropriate_content') }}</option>
+                    <option value="misinformation">{{ __('app.misinformation') }}</option>
+                    <option value="copyright">{{ __('app.copyright_violation') }}</option>
+                    <option value="other">{{ __('app.other') }}</option>
                 </select>
             </div>
 
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Description (optional)</label>
-                <textarea name="description" id="report_description" rows="3" class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Provide additional details..."></textarea>
+                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('app.description_optional') }}</label>
+                <textarea name="description" id="report_description" rows="3" class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" :placeholder="'{{ __('app.provide_details') }}'"></textarea>
             </div>
 
             <div class="flex gap-3">
                 <button type="button" onclick="hideReportModal()" class="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
-                    Cancel
+                    {{ __('app.cancel') }}
                 </button>
                 <button type="button" onclick="submitReport()" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors">
-                    Submit Report
+                    {{ __('app.submit_report') }}
                 </button>
             </div>
         </form>

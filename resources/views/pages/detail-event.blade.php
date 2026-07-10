@@ -1,7 +1,7 @@
 @extends('layouts.app', ['activePage' => 'event'])
 
 @section('title', $event['title'] . ' — 1Langkah')
-@section('header_title', 'Detail Event')
+@section('header_title', __('app.detail_event'))
 
 @php
 $eventType = $event['type'] ?? 'online';
@@ -15,7 +15,7 @@ if (auth()->check() && $isRegistered) {
 @endphp
 
 @section('content')
-<div x-data="{ showConfirm: false, copyLink: function() { navigator.clipboard.writeText(window.location.href).then(function() { var t = document.createElement('div'); t.className = 'fixed bottom-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-full text-sm font-medium shadow-lg z-50'; t.textContent = '✓ Link event berhasil disalin!'; document.body.appendChild(t); setTimeout(function() { t.remove(); }, 3000); }).catch(function() { alert('Gagal menyalin link'); }); } }">
+<div x-data="{ showConfirm: false, copyLink: function() { navigator.clipboard.writeText(window.location.href).then(function() { var t = document.createElement('div'); t.className = 'fixed bottom-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-full text-sm font-medium shadow-lg z-50'; t.textContent = '{{ __('app.copy_link_success') }}'; document.body.appendChild(t); setTimeout(function() { t.remove(); }, 3000); }).catch(function() { alert('{{ __('app.copy_link_fail') }}'); }); } }">
     <!-- Modal -->
     <div x-show="showConfirm" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" @click="showConfirm = false" @keydown.escape.window="showConfirm = false">
         <div x-show="showConfirm" x-transition class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl" @click.stop>
@@ -25,11 +25,11 @@ if (auth()->check() && $isRegistered) {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">Konfirmasi Pendaftaran</h3>
-                <p class="text-gray-500 mb-6">Apakah kamu yakin ingin mendaftar event <strong>{{ $event['title'] }}</strong>?</p>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">{{ __('app.registration_confirmation') }}</h3>
+                <p class="text-gray-500 mb-6">{{ __('app.sure_to_register') }} <strong>{{ $event['title'] }}</strong>?</p>
                 <div class="flex gap-3">
-                    <button @click="showConfirm = false" class="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-full transition-colors">Batal</button>
-                    <form method="POST" action="{{ route('event.register', $event['id']) }}" class="flex-1">@csrf<button type="submit" class="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors">Ya, Daftar</button></form>
+                    <button @click="showConfirm = false" class="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-full transition-colors">{{ __('app.cancel') }}</button>
+                    <form method="POST" action="{{ route('event.register', $event['id']) }}" class="flex-1">@csrf<button type="submit" class="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors">{{ __('app.yes_register') }}</button></form>
                 </div>
             </div>
         </div>
@@ -102,20 +102,20 @@ if (auth()->check() && $isRegistered) {
         <div class="lg:col-span-2 space-y-8">
             <!-- About Event -->
             <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0 4px_20px_rgb(0,0,0,0.03)]">
-                <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">Tentang Event</h2>
+                <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">{{ __('app.about_event') }}</h2>
 
                 @if(!empty($event['description']))
                 <div class="prose prose-sm max-w-none text-gray-600">
                     {!! nl2br(e($event['description'])) !!}
                 </div>
                 @else
-                <p class="text-gray-500">Deskripsi event belum tersedia.</p>
+                <p class="text-gray-500">{{ __('app.no_description_yet') }}</p>
                 @endif
             </div>
 
             <!-- Event Timeline / Info -->
             <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-[0 4px_20px_rgb(0,0,0,0.03)]">
-                <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">Informasi Event</h2>
+                <h2 class="text-[22px] font-bold text-gray-900 mb-6 tracking-tight">{{ __('app.event_info') }}</h2>
 
                 <div class="space-y-6">
                     <!-- Date & Time -->
@@ -126,7 +126,7 @@ if (auth()->check() && $isRegistered) {
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-bold text-gray-900 mb-1">Tanggal & Waktu</h3>
+                            <h3 class="font-bold text-gray-900 mb-1">{{ __('app.date_time') }}</h3>
                             <p class="text-sm text-gray-500">
                                 {{ $event['date_display'] ?? 'TBA' }}<br>
                                 {{ $event['start_time'] ?? '' }} {{ $event['end_time'] ? ' - ' . $event['end_time'] : '' }}
@@ -149,14 +149,14 @@ if (auth()->check() && $isRegistered) {
                             @endif
                         </div>
                         <div>
-                            <h3 class="font-bold text-gray-900 mb-1">{{ $eventType === 'online' ? 'Tautan Meeting' : 'Lokasi' }}</h3>
+                            <h3 class="font-bold text-gray-900 mb-1">{{ $eventType === 'online' ? __('app.meeting_link') : __('app.location') }}</h3>
                             <p class="text-sm text-gray-500">
                                 @if(!empty($event['location']))
                                     {{ $event['location'] }}
                                 @elseif(!empty($event['meeting_url']))
                                     <a href="{{ $event['meeting_url'] }}" target="_blank" class="text-red-600 hover:underline">{{ $event['meeting_url'] }}</a>
                                 @else
-                                    Akan diinformasikan
+                                    {{ __('app.to_be_announced') }}
                                 @endif
                             </p>
                         </div>
@@ -170,7 +170,7 @@ if (auth()->check() && $isRegistered) {
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-bold text-gray-900 mb-1">Zona Waktu</h3>
+                            <h3 class="font-bold text-gray-900 mb-1">{{ __('app.timezone') }}</h3>
                             <p class="text-sm text-gray-500">{{ $event['timezone'] ?? 'Asia/Jakarta (WIB)' }}</p>
                         </div>
                     </div>
@@ -185,11 +185,11 @@ if (auth()->check() && $isRegistered) {
                 <!-- Event Status -->
                 @if($status === 'completed')
                 <div class="bg-gray-100 rounded-xl p-4 mb-6 text-center">
-                    <p class="font-bold text-gray-600">Event ini sudah selesai</p>
+                    <p class="font-bold text-gray-600">{{ __('app.event_completed') }}</p>
                 </div>
                 @elseif($status === 'cancelled')
                 <div class="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 text-center">
-                    <p class="font-bold text-red-600">Event ini dibatalkan</p>
+                    <p class="font-bold text-red-600">{{ __('app.event_cancelled') }}</p>
                 </div>
                 @endif
 
@@ -197,7 +197,7 @@ if (auth()->check() && $isRegistered) {
                 @if(isset($event['max_participants']))
                 <div class="mb-6">
                     <div class="flex justify-between text-sm mb-2">
-                        <span class="font-medium text-gray-600">Peserta</span>
+                        <span class="font-medium text-gray-600">{{ __('app.participants') }}</span>
                         <span class="font-bold text-gray-900">{{ $event['registered_count'] ?? 0 }} / {{ $event['max_participants'] }}</span>
                     </div>
                     <div class="w-full bg-gray-100 rounded-full h-2">
@@ -209,7 +209,7 @@ if (auth()->check() && $isRegistered) {
                         <div class="h-2 rounded-full transition-all" style="width: {{ $percentage }}%; background-color: {{ $event['color'] ?? '#cc0000' }};"></div>
                     </div>
                     @if($percentage >= 90)
-                    <p class="text-xs text-red-600 mt-2 font-medium">Hampir penuh! Segera daftar</p>
+                    <p class="text-xs text-red-600 mt-2 font-medium">{{ __('app.almost_full') }}</p>
                     @endif
                 </div>
                 @endif
@@ -219,16 +219,16 @@ if (auth()->check() && $isRegistered) {
                 <div class="mb-6 rounded-2xl border border-red-200 bg-red-50 p-5">
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         <div>
-                            <p class="text-sm font-semibold text-red-700">Tiket Event</p>
-                            <h3 class="text-lg font-bold text-gray-900 mt-1">Tunjukkan tiket ini saat hadir</h3>
-                            <p class="text-sm text-gray-600 mt-2">Admin dapat memindai kode ini untuk mencatat kehadiran kamu.</p>
+                            <p class="text-sm font-semibold text-red-700">{{ __('app.event_ticket') }}</p>
+                            <h3 class="text-lg font-bold text-gray-900 mt-1">{{ __('app.show_ticket') }}</h3>
+                            <p class="text-sm text-gray-600 mt-2">{{ __('app.ticket_scan_desc') }}</p>
                         </div>
                         <div class="rounded-2xl bg-white p-3 border border-red-100 shadow-sm">
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data={{ urlencode($ticketCode) }}" alt="Ticket QR" class="w-32 h-32 object-contain">
                         </div>
                     </div>
                     <div class="mt-4 rounded-xl border border-red-100 bg-white/80 p-4">
-                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">Kode tiket</p>
+                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">{{ __('app.ticket_code') }}</p>
                         <p class="mt-2 font-mono text-lg sm:text-2xl font-bold tracking-widest sm:tracking-[0.35em] text-gray-900 break-all">{{ $ticketCode }}</p>
                     </div>
                 </div>
@@ -238,25 +238,25 @@ if (auth()->check() && $isRegistered) {
                 @auth
                     @if($isRegistered)
                     <a href="{{ route('dashboard') }}" class="w-full block py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-full transition-colors shadow-lg text-center mb-3">
-                        ✓ Sudah Terdaftar — Lihat Dashboard
+                        {{ __('app.already_registered') }}
                     </a>
                     @elseif($status === 'upcoming')
                     <button @click="showConfirm = true" class="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors shadow-lg shadow-red-200 mb-3">
-                        Daftar Event
+                        {{ __('app.register_event') }}
                     </button>
                     @else
                     <button disabled class="w-full py-3.5 bg-gray-300 text-gray-500 font-bold rounded-full cursor-not-allowed mb-3">
-                        Pendaftaran Ditutup
+                        {{ __('app.registration_closed') }}
                     </button>
                     @endif
                 @else
                 <a href="{{ route('login') }}" class="w-full block py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors shadow-lg shadow-red-200 mb-3 text-center">
-                    Login untuk Daftar
+                    {{ __('app.login_to_register') }}
                 </a>
                 @endauth
 
                 <button @click="copyLink()" class="w-full py-3.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-bold rounded-full transition-colors mb-8 shadow-sm">
-                    Bagikan Event
+                    {{ __('app.share_event') }}
                 </button>
 
                 <!-- Quick Info -->
@@ -277,14 +277,14 @@ if (auth()->check() && $isRegistered) {
 
                 <!-- Hosted by 1Langkah -->
                 <div class="border-t border-gray-100 pt-6">
-                    <h3 class="font-bold text-gray-900 mb-4">Diselenggarakan oleh</h3>
+                    <h3 class="font-bold text-gray-900 mb-4">{{ __('app.hosted_by') }}</h3>
                     <div class="flex items-center gap-3">
                         <div class="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-lg">
                             1L
                         </div>
                         <div>
                             <p class="font-bold text-gray-900">1Langkah</p>
-                            <p class="text-xs text-gray-500">Platform Belajar</p>
+                            <p class="text-xs text-gray-500">{{ __('app.learning_platform') }}</p>
                         </div>
                     </div>
                 </div>

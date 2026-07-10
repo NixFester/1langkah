@@ -5,7 +5,7 @@
 
 @extends('layouts.app')
 
-@section('title', 'Kursus — 1Langkah')
+@section('title', __('app.courses') . ' — 1Langkah')
 
 @section('content')
 <div x-data="{
@@ -87,8 +87,8 @@
     <!-- Header -->
     <div class="flex items-start justify-between -mt-2">
         <div>
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">Kursus</h1>
-            <p class="text-gray-500 text-base">800+ kursus praktis dari instruktur terbaik</p>
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ __('app.courses') }}</h1>
+            <p class="text-gray-500 text-base">{{ __('app.courses_subtitle') }}</p>
         </div>
     </div>
 
@@ -98,20 +98,20 @@
         <div class="flex items-center gap-8 sm:gap-12">
             <div class="pr-8 border-r border-white/20">
                 <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['courses_enrolled'] ?? 0 }}</div>
-                <div class="text-white/90 text-sm">Kursus aktif</div>
+                <div class="text-white/90 text-sm">{{ __('app.active_courses_count') }}</div>
             </div>
             <div class="pr-8 border-r border-white/20">
                 <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['courses_completed'] ?? 0 }}</div>
-                <div class="text-white/90 text-sm">Diselesaikan</div>
+                <div class="text-white/90 text-sm">{{ __('app.completed') }}</div>
             </div>
             <div>
                 <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['certificates'] ?? 0 }}</div>
-                <div class="text-white/90 text-sm">Sertifikat</div>
+                <div class="text-white/90 text-sm">{{ __('app.certificates') }}</div>
             </div>
         </div>
         <a href="{{ route('kursus-saya') }}"
             class="bg-white/15 hover:bg-white/25 text-white font-bold rounded-full px-6 py-3 text-sm flex items-center gap-2 whitespace-nowrap transition-colors">
-            Lihat Learning Path &rarr;
+            {!! __('app.see_learning_path') !!}
         </a>
     </div>
     <script>document.querySelector('[x-cloak]')?.removeAttribute('x-cloak')</script>
@@ -123,17 +123,17 @@
             <!-- Search Input -->
             <div class="flex-1 relative">
                 <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" x-model="searchQuery" placeholder="Cari kursus, mentor, atau kategori..."
+                <input type="text" x-model="searchQuery" :placeholder="'{{ __('app.search_placeholder') }}'"
                     class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
             </div>
 
             <!-- Sort Dropdown -->
             <div class="relative w-full md:w-auto">
                 <select x-model="sortBy" class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 pr-10 text-sm text-gray-700 focus:ring-2 focus:ring-red-500 focus:border-red-500 cursor-pointer">
-                    <option value="newest">Terbaru</option>
-                    <option value="rating">Rating Tertinggi</option>
-                    <option value="price_low">Harga: Rendah ke Tinggi</option>
-                    <option value="price_high">Harga: Tinggi ke Rendah</option>
+                    <option value="newest">{{ __('app.newest') }}</option>
+                    <option value="rating">{{ __('app.highest_rating') }}</option>
+                    <option value="price_low">{{ __('app.price_low_high') }}</option>
+                    <option value="price_high">{{ __('app.price_high_low') }}</option>
                 </select>
                 <svg class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
@@ -145,7 +145,7 @@
                 :class="showFilter ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-700 border-gray-200'"
                 class="px-4 py-3 border rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-colors w-full md:w-auto">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
-                Filter
+                {{ __('app.filter') }}
             </button>
         </div>
 
@@ -161,7 +161,7 @@
              class="absolute left-0 right-0 top-full mt-1 bg-white rounded-2xl p-5 border border-gray-100 shadow-xl z-50">
             <div class="flex flex-col gap-4">
                 <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-2">Level</label>
+                    <label class="block text-xs font-medium text-gray-500 mb-2">{{ __('app.level') }}</label>
                     <div class="flex flex-wrap gap-2">
                         <template x-for="level in ['All', 'Beginner', 'Intermediate', 'Advanced']" :key="level">
                             <button @click="activeLevel = level"
@@ -175,7 +175,7 @@
 
 
                 <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-2">Kategori</label>
+                    <label class="block text-xs font-medium text-gray-500 mb-2">{{ __('app.category') }}</label>
                     <div class="flex flex-wrap gap-2">
                         <template x-for="cat in ['All', 'Programming', 'Design', 'AI', 'Marketing', 'Data', 'Leadership', 'Business']" :key="cat">
                             <button @click="activeCat = cat"
@@ -197,7 +197,7 @@
 
     <!-- Results Count -->
     <div class="text-sm text-gray-500">
-        Menampilkan <span class="font-semibold text-gray-900" x-text="displayedCourses.length"></span> kursus
+        {{ __('app.showing') }} <span class="font-semibold text-gray-900" x-text="displayedCourses.length"></span> {{ __('app.courses_count') }}
     </div>
 
     <!-- Course Grid -->
@@ -255,7 +255,7 @@
                     </div>
                     <div class="flex items-center gap-1.5 text-xs text-gray-500">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        <span x-text="((course.students ?? course.enrolled_count ?? course.enrolledCount ?? 0)).toLocaleString() + ' terdaftar'"></span>
+                        <span x-text="((course.students ?? course.enrolled_count ?? course.enrolledCount ?? 0)).toLocaleString() + ' {{ __('app.enrolled') }}'"></span>
                     </div>
                     <div class="flex items-center gap-1.5 mb-4">
                     </div>
@@ -286,8 +286,8 @@
     <!-- Empty State -->
     <div x-show="displayedCourses.length === 0" class="text-center py-12">
         <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">Kursus tidak ditemukan</h3>
-        <p class="text-gray-500">Coba ubah kata kunci pencarian atau filter</p>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">{{ __('app.course_not_found') }}</h3>
+        <p class="text-gray-500">{{ __('app.try_change_keyword') }}</p>
     </div>
 </div>
 

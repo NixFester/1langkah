@@ -1,10 +1,18 @@
 @extends('layouts.guest')
 
-@section('title', 'Masuk — 1Langkah')
+@section('title', __('app.login_title'))
 
 @section('body')
 <!-- MOBILE VIEW (Shown only on small screens) -->
-<div class="flex md:hidden h-[100dvh] w-full flex-col bg-gradient-to-br from-[#fff1f1] to-[#f7f8f9] overflow-hidden">
+<div class="flex md:hidden h-[100dvh] w-full flex-col bg-gradient-to-br from-[#fff1f1] to-[#f7f8f9] overflow-hidden relative">
+    
+    <!-- Language Switcher Mobile -->
+    <div class="absolute top-4 right-4 z-50">
+        <a href="{{ route('lang.switch', ['locale' => app()->getLocale() == 'en' ? 'id' : 'en']) }}" class="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-gray-200 text-xs font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm" title="Switch Language">
+            {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
+        </a>
+    </div>
+
     <div class="w-full h-full overflow-y-auto flex flex-col px-5 py-4 mx-auto items-center">
         <div class="my-auto flex flex-col items-center justify-center w-full max-w-[420px] pb-4">
     <!-- Logo & Header -->
@@ -24,8 +32,8 @@
                 </g>
             </svg>
         </a>
-        <h2 class="text-[24px] font-extrabold text-[#111827] mb-2 tracking-tight">Selamat datang kembali 👋</h2>
-        <p class="text-[14px] text-gray-500">Masuk ke akun 1Langkah-mu</p>
+        <h2 class="text-[24px] font-extrabold text-[#111827] mb-2 tracking-tight">{{ __('app.login_welcome_back_emoji') }}</h2>
+        <p class="text-[14px] text-gray-500">{{ __('app.login_subtitle') }}</p>
     </div>
 
     <!-- Login Form Area -->
@@ -43,37 +51,37 @@
 
             <!-- Email Input -->
             <div class="mb-4">
-                <label class="block text-[13px] font-bold text-[#374151] mb-1.5">Email</label>
-                <input type="email" name="email" required placeholder="email@example.com" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+                <label class="block text-[13px] font-bold text-[#374151] mb-1.5">{{ __('app.email_label') }}</label>
+                <input type="email" name="email" required placeholder="{{ __('app.email_placeholder') }}" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
             </div>
 
             <!-- Password Input -->
             <div class="mb-5">
-                <label class="block text-[13px] font-bold text-[#374151] mb-1.5">Password</label>
-                <input type="password" name="password" required placeholder="••••••••" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[20px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-300 placeholder:tracking-[0.2em] placeholder:text-[16px] tracking-widest">
+                <label class="block text-[13px] font-bold text-[#374151] mb-1.5">{{ __('app.password_label') }}</label>
+                <input type="password" name="password" required placeholder="{{ __('app.password_placeholder') }}" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[20px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-300 placeholder:tracking-[0.2em] placeholder:text-[16px] tracking-widest">
             </div>
 
             <!-- Remember Me & Forgot Password -->
             <div class="flex items-center justify-between mb-6">
                 <label class="flex items-center gap-2 cursor-pointer group">
                     <input type="checkbox" name="remember" class="w-4 h-4 rounded border-gray-300 text-[#cc0000] focus:ring-[#cc0000]">
-                    <span class="text-[13px] font-medium text-[#4b5563]">Ingat saya</span>
+                    <span class="text-[13px] font-medium text-[#4b5563]">{{ __('app.remember_me') }}</span>
                 </label>
                 <a href="#" class="text-[13px] font-bold text-[#cc0000] hover:text-[#aa0000] transition-colors">
-                    Lupa password?
+                    {{ __('app.forgot_password') }}
                 </a>
             </div>
 
             <!-- Submit Button -->
             <button type="submit" class="w-full py-3 bg-[#d10000] hover:bg-[#aa0000] text-white font-bold rounded-xl text-[15px] transition-colors mb-5 flex items-center justify-center">
-                Masuk
+                {{ __('app.login_btn') }}
             </button>
         </form>
 
         <!-- Divider -->
         <div class="flex items-center gap-4 mb-5">
             <div class="flex-1 h-px bg-gray-100"></div>
-            <div class="text-[12px] font-medium text-gray-400">atau</div>
+            <div class="text-[12px] font-medium text-gray-400">{{ __('app.or_divider') }}</div>
             <div class="flex-1 h-px bg-gray-100"></div>
         </div>
 
@@ -85,12 +93,12 @@
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
             </svg>
-            <span class="text-[13px] font-bold text-[#374151]">Masuk dengan Google</span>
+            <span class="text-[13px] font-bold text-[#374151]">{{ __('app.login_google') }}</span>
         </a>
 
         <!-- Signup Link -->
         <div class="text-center text-[13px] text-gray-500 font-medium">
-            Belum punya akun? <a href="{{ route('signup') }}" class="text-[#cc0000] font-bold hover:underline">Daftar gratis</a>
+            {{ __('app.no_account') }} <a href="{{ route('signup') }}" class="text-[#cc0000] font-bold hover:underline">{{ __('app.register_free_link') }}</a>
         </div>
         
     </div>
@@ -99,8 +107,15 @@
 </div>
 
 <!-- DESKTOP & TABLET VIEW (Shown on md and up) -->
-<div class="hidden md:flex min-h-screen lg:h-screen w-full bg-[#f7f8f9] lg:overflow-hidden">
+<div class="hidden md:flex min-h-screen lg:h-screen w-full bg-[#f7f8f9] lg:overflow-hidden relative">
     
+    <!-- Language Switcher Desktop -->
+    <div class="absolute top-6 right-8 z-50">
+        <a href="{{ route('lang.switch', ['locale' => app()->getLocale() == 'en' ? 'id' : 'en']) }}" class="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm" title="Switch Language">
+            {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
+        </a>
+    </div>
+
     <!-- Left Column (Dark Theme) -->
     <div class="hidden md:flex flex-col w-[50%] bg-[#080202] relative p-10 lg:p-14 overflow-hidden border-r border-white/5">
         
@@ -151,14 +166,14 @@
 
             <!-- Title -->
             <h1 class="text-4xl lg:text-[46px] font-extrabold text-white leading-[1.15] tracking-tight mb-5 max-w-lg">
-                Satu langkah<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF3333] to-[#cc0000]">mengubah karir</span><br>
-                kamu selamanya.
+                {{ __('app.landing_title_1') }}<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF3333] to-[#cc0000]">{{ __('app.landing_title_2') }}</span><br>
+                {{ __('app.landing_title_3') }}
             </h1>
 
             <!-- Desc -->
             <p class="text-[15px] text-gray-400 leading-relaxed max-w-[420px] mb-12">
-                Bergabung dengan 100,000+ pelajar yang sudah membuktikan hasilnya bersama 1Langkah.
+                {{ __('app.cta_desc') }}
             </p>
 
             <!-- Testimonials Stack -->
@@ -232,9 +247,9 @@
         <div class="w-full max-w-[480px] bg-white rounded-[32px] p-10 shadow-[0_24px_60px_rgba(0,0,0,0.06)] border border-gray-100">
             
             <!-- Header -->
-            <h2 class="text-[28px] font-extrabold text-[#111827] mb-2 tracking-tight">Selamat datang kembali</h2>
+            <h2 class="text-[28px] font-extrabold text-[#111827] mb-2 tracking-tight">{{ __('app.login_welcome_back') }}</h2>
             <p class="text-[15px] text-gray-500 leading-relaxed mb-8">
-                Masuk ke akun 1Langkah-mu dan lanjutkan perjalanan belajar.
+                {{ __('app.login_subtitle_desktop') }}
             </p>
 
             <!-- Google Sign In -->
@@ -245,13 +260,13 @@
                     <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
                     <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                 </svg>
-                <span class="text-[14px] font-bold text-[#374151]">Masuk dengan Google</span>
+                <span class="text-[14px] font-bold text-[#374151]">{{ __('app.login_google') }}</span>
             </a>
 
             <!-- Divider -->
             <div class="flex items-center gap-4 mb-7">
                 <div class="flex-1 h-px bg-gray-100"></div>
-                <div class="text-[12px] font-medium text-gray-400">atau dengan email</div>
+                <div class="text-[12px] font-medium text-gray-400">{{ __('app.or_with_email') }}</div>
                 <div class="flex-1 h-px bg-gray-100"></div>
             </div>
 
@@ -267,14 +282,14 @@
 
                 <!-- Email Input -->
                 <div class="mb-5">
-                    <label class="block text-[11px] font-bold text-[#6b7280] uppercase tracking-wider mb-2">EMAIL</label>
-                    <input type="email" name="email" required placeholder="email@example.com" class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-full text-[14px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
+                    <label class="block text-[11px] font-bold text-[#6b7280] uppercase tracking-wider mb-2">{{ __('app.email_label') }}</label>
+                    <input type="email" name="email" required placeholder="{{ __('app.email_placeholder') }}" class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-full text-[14px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
                 </div>
 
                 <!-- Password Input -->
                 <div class="mb-6">
-                    <label class="block text-[11px] font-bold text-[#6b7280] uppercase tracking-wider mb-2">PASSWORD</label>
-                    <input type="password" name="password" required placeholder="••••••••" class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-full text-[16px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-300 font-sans tracking-[0.2em]">
+                    <label class="block text-[11px] font-bold text-[#6b7280] uppercase tracking-wider mb-2">{{ __('app.password_label') }}</label>
+                    <input type="password" name="password" required placeholder="{{ __('app.password_placeholder') }}" class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-full text-[16px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-300 font-sans tracking-[0.2em]">
                 </div>
 
                 <!-- Remember Me & Forgot Password -->
@@ -285,22 +300,22 @@
                             <svg class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
                             <div class="absolute inset-0 rounded-[3px] bg-[#cc0000] border-[#cc0000] opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                         </div>
-                        <span class="text-[14px] font-medium text-[#4b5563] select-none">Ingat saya</span>
+                        <span class="text-[14px] font-medium text-[#4b5563] select-none">{{ __('app.remember_me') }}</span>
                     </label>
                     <a href="#" class="text-[14px] font-bold text-[#cc0000] hover:text-[#aa0000] transition-colors">
-                        Lupa password?
+                        {{ __('app.forgot_password') }}
                     </a>
                 </div>
 
                 <!-- Submit Button -->
                 <button type="submit" class="w-full py-4 bg-[#cc0000] hover:bg-[#aa0000] text-white font-bold rounded-full text-[15px] shadow-[0_12px_30px_rgba(204,0,0,0.35)] hover:shadow-[0_15px_35px_rgba(204,0,0,0.45)] transition-all mb-8 flex items-center justify-center">
-                    Masuk ke Dashboard
+                    {{ __('app.login_dashboard_btn') }}
                 </button>
             </form>
 
             <!-- Signup Link -->
             <div class="text-center text-[13px] text-gray-500 font-medium">
-                Belum punya akun? <a href="{{ route('signup') }}" class="text-[#cc0000] font-bold hover:underline">Daftar gratis</a>
+                {{ __('app.no_account') }} <a href="{{ route('signup') }}" class="text-[#cc0000] font-bold hover:underline">{{ __('app.register_free_link') }}</a>
             </div>
             
         </div>

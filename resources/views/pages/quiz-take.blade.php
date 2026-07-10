@@ -1,7 +1,7 @@
 @extends('layouts.app', ['activePage' => 'quizzes'])
 
 @section('title', $quiz->title . ' - Quiz')
-@section('header_title', 'Eksekusi Quiz')
+@section('header_title', __('app.take_quiz'))
 
 @section('content')
 <div x-data="quizTimer()" class="w-full max-w-4xl mx-auto pb-24 pt-2">
@@ -17,15 +17,15 @@
             @if($existingAttempt)
             <div class="mt-4 inline-flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-lg px-3 py-2 text-xs text-blue-800">
                 <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span>Skor sebelumnya: <strong class="font-bold">{{ number_format($existingAttempt->score, 0) }}%</strong></span>
+                <span>{{ __('app.previous_score') }} <strong class="font-bold">{{ number_format($existingAttempt->score, 0) }}%</strong></span>
             </div>
             @endif
         </div>
 
         <div class="flex items-center gap-4 sm:gap-6 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-gray-100">
             <div class="text-left md:text-right">
-                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Progress</div>
-                <div class="text-sm font-bold text-gray-900"><span id="answered-count">0</span> / {{ $quiz->questions->count() }} Terjawab</div>
+                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">{{ __('app.progress') }}</div>
+                <div class="text-sm font-bold text-gray-900"><span id="answered-count">0</span> / {{ $quiz->questions->count() }} {{ __('app.answered_count') }}</div>
             </div>
             @if($quiz->time_limit_minutes)
             <div class="bg-red-50 border border-red-100 rounded-xl px-4 py-2.5 flex items-center gap-3">
@@ -64,9 +64,9 @@
                     
                     <div class="flex flex-wrap gap-2 sm:pl-0 pl-14 flex-shrink-0">
                         @if($question->is_required)
-                        <span class="inline-flex px-2.5 py-1 bg-gray-100 text-gray-500 text-[11px] font-bold uppercase tracking-wider rounded-md">Wajib</span>
+                        <span class="inline-flex px-2.5 py-1 bg-gray-100 text-gray-500 text-[11px] font-bold uppercase tracking-wider rounded-md">{{ __('app.required') }}</span>
                         @endif
-                        <span class="inline-flex px-2.5 py-1 bg-gray-100 text-gray-500 text-[11px] font-bold uppercase tracking-wider rounded-md">{{ $question->points }} Poin</span>
+                        <span class="inline-flex px-2.5 py-1 bg-gray-100 text-gray-500 text-[11px] font-bold uppercase tracking-wider rounded-md">{{ $question->points }} {{ __('app.points') }}</span>
                     </div>
                 </div>
 
@@ -90,7 +90,7 @@
                         <textarea name="answers[{{ $question->id }}]" rows="5" 
                             style="box-sizing: border-box;"
                             class="w-full border-2 border-gray-200 rounded-xl p-4 text-gray-700 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 outline-none resize-y transition-all bg-gray-50 focus:bg-white" 
-                            placeholder="Tuliskan jawaban Anda di sini..." required></textarea>
+                            placeholder="{{ __('app.write_answer_here') }}" required></textarea>
                     @endif
                 </div>
             </div>
@@ -99,7 +99,7 @@
 
         <!-- Floating Submit Button -->
         <button type="submit" class="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-50 px-8 py-4 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold rounded-full transition-all shadow-[0_8px_30px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_40px_rgba(220,38,38,0.5)] hover:-translate-y-1 flex items-center justify-center gap-2 group">
-            <span>Selesai & Kumpulkan</span>
+            <span>{{ __('app.finish_and_submit') }}</span>
             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
         </button>
     </form>
@@ -111,10 +111,10 @@
         <div class="w-16 h-16 mx-auto mb-5 rounded-full bg-red-50 flex items-center justify-center text-red-600 border-4 border-red-100">
             <svg class="w-8 h-8 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         </div>
-        <h3 class="text-xl font-bold text-gray-900 mb-2">Waktu Hampir Habis!</h3>
-        <p class="text-gray-600 mb-6 text-sm">Sisa waktu Anda kurang dari <span class="font-bold text-red-600" x-text="formatTime(timeRemaining)"></span>.</p>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">{{ __('app.time_running_out') }}</h3>
+        <p class="text-gray-600 mb-6 text-sm">{{ __('app.time_remaining_less_than') }}<span class="font-bold text-red-600" x-text="formatTime(timeRemaining)"></span>.</p>
         <button @click="showTimeWarning = false" type="button" class="w-full py-3.5 bg-gray-900 hover:bg-black text-white font-bold rounded-xl transition-colors">
-            Kembali Mengerjakan
+            {{ __('app.resume_quiz') }}
         </button>
     </div>
 </div>
@@ -183,12 +183,13 @@ function quizTimer() {
             const answered = document.getElementById('answered-count') ? parseInt(document.getElementById('answered-count').textContent) : 0;
             
             if (answered < total) {
-                if (!confirm(`Anda baru menjawab ${answered} dari ${total} soal. Yakin ingin mengumpulkan sekarang?`)) {
+                const msg = `{{ __('app.confirm_incomplete_submit') }}`.replace(':answered', answered).replace(':total', total);
+                if (!confirm(msg)) {
                     e.preventDefault();
                     return false;
                 }
             } else {
-                if (!confirm('Yakin ingin mengumpulkan jawaban Anda?')) {
+                if (!confirm(`{{ __('app.confirm_submit') }}`)) {
                     e.preventDefault();
                     return false;
                 }
@@ -199,7 +200,7 @@ function quizTimer() {
 
         submitQuiz() {
             if (this.interval) clearInterval(this.interval);
-            alert('Waktu habis! Jawaban Anda akan dikumpulkan secara otomatis.');
+            alert(`{{ __('app.time_up_auto_submit') }}`);
             document.getElementById('quizForm').submit();
         }
     }

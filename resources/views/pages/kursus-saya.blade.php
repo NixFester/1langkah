@@ -4,7 +4,7 @@
 
 @extends('layouts.app')
 
-@section('title', 'Kursus Saya — 1Langkah')
+@section('title', __('app.my_courses') . ' — 1Langkah')
 
 @section('content')
 <div x-data="{
@@ -63,8 +63,8 @@
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">Kursus Saya</h1>
-            <p class="text-sm text-gray-500">{{ count($myCourses) }} kursus aktif</p>
+            <h1 class="text-2xl font-bold text-gray-900">{{ __('app.my_courses') }}</h1>
+            <p class="text-sm text-gray-500">{{ count($myCourses) }} {{ __('app.active_courses_count') }}</p>
         </div>
     </div>
 
@@ -73,20 +73,20 @@
         <div class="grid grid-cols-3 gap-2 sm:gap-8 w-full md:w-auto text-center sm:text-left divide-x divide-white/20">
             <div class="px-1 sm:px-0 sm:pr-8">
                 <div class="text-2xl sm:text-3xl font-extrabold">{{ $userStats['courses_enrolled'] ?? 0 }}</div>
-                <div class="text-white/90 text-[11px] sm:text-sm font-medium mt-1 leading-tight">Kursus aktif</div>
+                <div class="text-white/90 text-[11px] sm:text-sm font-medium mt-1 leading-tight">{{ __('app.active_courses_count') }}</div>
             </div>
             <div class="px-1 sm:px-8">
                 <div class="text-2xl sm:text-3xl font-extrabold">{{ $userStats['courses_completed'] ?? 0 }}</div>
-                <div class="text-white/90 text-[11px] sm:text-sm font-medium mt-1 leading-tight">Diselesaikan</div>
+                <div class="text-white/90 text-[11px] sm:text-sm font-medium mt-1 leading-tight">{{ __('app.completed') }}</div>
             </div>
             <div class="px-1 sm:px-8">
                 <div class="text-2xl sm:text-3xl font-extrabold">{{ ($userStats['courses_completed'] ?? 0) + ($userStats['bootcamps_completed'] ?? 0) }}</div>
-                <div class="text-white/90 text-[11px] sm:text-sm font-medium mt-1 leading-tight">Sertifikat</div>
+                <div class="text-white/90 text-[11px] sm:text-sm font-medium mt-1 leading-tight">{{ __('app.certificates') }}</div>
             </div>
         </div>
         <a href="{{ route('kursus') }}"
             class="bg-white/10 border border-white/20 hover:bg-white/20 text-white font-bold rounded-xl sm:rounded-full px-5 py-3 sm:py-2.5 text-[13px] sm:text-sm flex items-center justify-center gap-2 whitespace-nowrap transition-colors w-full md:w-auto mt-2 md:mt-0">
-            Browse Kursus Baru
+            {{ __('app.browse_new_courses') }}
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </a>
     </div>
@@ -97,16 +97,16 @@
             <!-- Search Input -->
             <div class="flex-1 relative">
                 <svg class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" x-model="searchQuery" placeholder="Cari kursus..."
+                <input type="text" x-model="searchQuery" :placeholder="'{{ __('app.search_courses') }}'"
                     class="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
             </div>
 
             <!-- Sort Dropdown -->
             <div class="relative min-w-[140px]">
                 <select x-model="sortBy" class="appearance-none w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 sm:py-3 pr-9 text-sm text-gray-700 focus:ring-2 focus:ring-red-500 focus:border-red-500 cursor-pointer">
-                    <option value="newest">Terbaru</option>
-                    <option value="rating">Rating</option>
-                    <option value="progress">Progress</option>
+                    <option value="newest">{{ __('app.newest') }}</option>
+                    <option value="rating">{{ __('app.rating') }}</option>
+                    <option value="progress">{{ __('app.progress') }}</option>
                 </select>
                 <svg class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
@@ -119,17 +119,17 @@
             <button @click="tab = 'active'"
                 :class="tab === 'active' ? 'bg-white shadow-sm text-[#cc0000] font-bold' : 'hover:bg-slate-200 text-slate-500 font-medium'"
                 class="transition-all cursor-pointer px-4 sm:px-5 py-2 rounded-full text-[13px] sm:text-sm whitespace-nowrap flex-1 text-center">
-                Berlangsung (<span x-text="displayedActive.length"></span>)
+                {{ __('app.in_progress') }} (<span x-text="displayedActive.length"></span>)
             </button>
             <button @click="tab = 'done'"
                 :class="tab === 'done' ? 'bg-white shadow-sm text-[#cc0000] font-bold' : 'hover:bg-slate-200 text-slate-500 font-medium'"
                 class="transition-all cursor-pointer px-4 sm:px-5 py-2 rounded-full text-[13px] sm:text-sm whitespace-nowrap flex-1 text-center">
-                Selesai (<span x-text="displayedCompleted.length"></span>)
+                {{ __('app.done') }} (<span x-text="displayedCompleted.length"></span>)
             </button>
             <button @click="tab = 'wishlist'"
                 :class="tab === 'wishlist' ? 'bg-white shadow-sm text-[#cc0000] font-bold' : 'hover:bg-slate-200 text-slate-500 font-medium'"
                 class="transition-all cursor-pointer px-4 sm:px-5 py-2 rounded-full text-[13px] sm:text-sm whitespace-nowrap flex-1 text-center">
-                Wishlist (<span x-text="displayedWishlist.length"></span>)
+                {{ __('app.wishlist') }} (<span x-text="displayedWishlist.length"></span>)
             </button>
         </div>
     </div>
@@ -212,10 +212,10 @@
     <!-- Empty Active -->
     <div x-show="tab === 'active' && displayedActive.length === 0" class="text-center py-12 bg-white rounded-2xl border border-gray-100">
         <x-empty-state
-            message="Mulai belajar dengan browse kursus yang tersedia"
+            :message="__('app.start_learning')"
             icon="book"
             :actionRoute="route('kursus')"
-            actionLabel="Browse Kursus"
+            :actionLabel="__('app.browse_courses')"
         />
     </div>
 
@@ -233,7 +233,7 @@
                     <div class="absolute top-3 left-3">
                         <span class="bg-emerald-500 text-white text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            Selesai
+                            {{ __('app.done') }}
                         </span>
                     </div>
                 </div>
@@ -242,7 +242,7 @@
                     <h3 class="font-bold text-gray-900 text-base leading-tight mb-2 line-clamp-2" x-text="course.title"></h3>
                     <p class="text-xs text-gray-500 mb-3" x-text="course.mentor || ''"></p>
                     <div class="mt-auto pt-3 border-t border-gray-100">
-                        <span class="text-sm font-bold text-emerald-500">✓ Kursus selesai</span>
+                        <span class="text-sm font-bold text-emerald-500">✓ {{ __('app.course_completed') }}</span>
                     </div>
                 </div>
             </a>
@@ -252,7 +252,7 @@
     <!-- Empty Completed -->
     <div x-show="tab === 'done' && displayedCompleted.length === 0" style="display:none" class="text-center py-12 bg-white rounded-2xl border border-gray-100">
         <x-empty-state
-            message="Selesaikan kursus yang sedang berlangsung untuk mendapatkan sertifikat"
+            :message="__('app.finish_courses')"
             icon="success"
         />
     </div>
@@ -291,7 +291,7 @@
     <!-- Empty Wishlist -->
     <div x-show="tab === 'wishlist' && displayedWishlist.length === 0" style="display:none" class="text-center py-12 bg-white rounded-2xl border border-gray-100">
         <x-empty-state
-            message="Tidak ada kursus lain yang tersedia"
+            :message="__('app.no_other_courses')"
             icon="book"
         />
     </div>

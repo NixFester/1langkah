@@ -1,8 +1,8 @@
 @extends('layouts.app', ['activePage' => 'quizzes'])
 
-@section('title', 'Hasil Quiz - 1Langkah')
+@section('title', __('app.quiz_result') . ' - 1Langkah')
 
-@section('header_title', 'Hasil Quiz')
+@section('header_title', __('app.quiz_result'))
 
 @section('content')
 <div class="px-6 py-8 sm:px-10 w-full max-w-2xl mx-auto space-y-6">
@@ -28,15 +28,14 @@
 
         <!-- Result Message -->
         <h1 class="text-2xl font-bold mb-2 {{ $attempt->passed ? 'text-green-600' : 'text-red-600' }}">
-            {{ $attempt->passed ? '🎉 Selamat! Kamu Lulus!' : '😔 Belum Lulus' }}
+            {{ $attempt->passed ? __('app.congrats_passed') : __('app.not_passed') }}
         </h1>
 
         <p class="text-gray-500 mb-6">
             @if($attempt->passed)
-            Selamat! Kamu telah menyelesaikan quiz dengan nilai di atas passing score.
+            {{ __('app.passed_message') }}
             @else
-            Kamu belum mencapai passing score {{ $quiz->passing_score ?? 70 }}%.
-            Silakan coba lagi.
+            {{ __('app.failed_message', ['score' => $quiz->passing_score ?? 70]) }}
             @endif
         </p>
 
@@ -44,15 +43,15 @@
         <div class="grid grid-cols-3 gap-4 mb-8">
             <div class="bg-gray-50 rounded-xl p-4">
                 <div class="text-2xl font-bold text-gray-900">{{ $attempt->correct_answers }}</div>
-                <div class="text-sm text-gray-500">Jawaban Benar</div>
+                <div class="text-sm text-gray-500">{{ __('app.correct_answers') }}</div>
             </div>
             <div class="bg-gray-50 rounded-xl p-4">
                 <div class="text-2xl font-bold text-gray-900">{{ $attempt->total_questions }}</div>
-                <div class="text-sm text-gray-500">Total Pertanyaan</div>
+                <div class="text-sm text-gray-500">{{ __('app.total_questions') }}</div>
             </div>
             <div class="bg-gray-50 rounded-xl p-4">
                 <div class="text-2xl font-bold text-gray-900">{{ $quiz->passing_score ?? 70 }}%</div>
-                <div class="text-sm text-gray-500">Passing Score</div>
+                <div class="text-sm text-gray-500">{{ __('app.passing_score') }}</div>
             </div>
         </div>
 
@@ -61,41 +60,41 @@
             @if(!$attempt->passed)
             <a href="{{ route('quiz.start', $quiz) }}"
                 class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors">
-                Coba Lagi
+                {{ __('app.try_again') }}
             </a>
             @endif
             <a href="{{ route('quiz.index') }}"
                 class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-full transition-colors">
-                Kembali ke Quiz
+                {{ __('app.back_to_quizzes') }}
             </a>
             <a href="{{ route('kursus-saya') }}"
                 class="px-6 py-3 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-medium rounded-full transition-colors">
-                Lihat Kursus Saya
+                {{ __('app.view_my_courses') }}
             </a>
         </div>
     </div>
 
     <!-- Quiz Info -->
     <div class="bg-white rounded-2xl border border-gray-100 p-6">
-        <h2 class="font-bold text-gray-900 mb-4">Detail Quiz</h2>
+        <h2 class="font-bold text-gray-900 mb-4">{{ __('app.quiz_details') }}</h2>
         <div class="grid grid-cols-2 gap-4 text-sm">
             <div>
                 <span class="text-gray-500">Quiz</span>
                 <p class="font-medium text-gray-900">{{ $quiz->title }}</p>
             </div>
             <div>
-                <span class="text-gray-500">Tipe</span>
+                <span class="text-gray-500">{{ __('app.type') }}</span>
                 <p class="font-medium text-gray-900 capitalize">{{ str_replace('_', ' ', $quiz->type) }}</p>
             </div>
             <div>
-                <span class="text-gray-500">Waktu Selesai</span>
+                <span class="text-gray-500">{{ __('app.completion_time') }}</span>
                 <p class="font-medium text-gray-900">{{ $attempt->completed_at->format('d M Y, H:i') }} WIB</p>
             </div>
             <div>
-                <span class="text-gray-500">Durasi</span>
+                <span class="text-gray-500">{{ __('app.duration') }}</span>
                 <p class="font-medium text-gray-900">
                     @if($attempt->started_at && $attempt->completed_at)
-                        {{ $attempt->started_at->diffInMinutes($attempt->completed_at) }} menit
+                        {{ $attempt->started_at->diffInMinutes($attempt->completed_at) }} {{ __('app.minutes') }}
                     @else
                         -
                     @endif

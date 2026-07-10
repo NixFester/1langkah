@@ -1,7 +1,7 @@
 @extends('layouts.app', ['activePage' => 'pesan'])
 
-@section('title', 'Pesan — 1Langkah')
-@section('header_title', 'Pesan')
+@section('title', __('app.messages') . ' — 1Langkah')
+@section('header_title', __('app.messages'))
 
 @section('content')
 <div class="w-full px-2 pb-8">
@@ -11,10 +11,10 @@
     <div :class="showSidebar ? 'flex' : 'hidden md:flex'" class="w-full md:w-[320px] lg:w-[380px] border-r border-gray-100 flex-shrink-0 flex-col h-full bg-gray-50/50">
         <!-- Header -->
         <div class="p-6 border-b border-gray-100 bg-white">
-            <h2 class="text-xl font-extrabold text-gray-900 mb-4 tracking-tight">Pesan</h2>
+            <h2 class="text-xl font-extrabold text-gray-900 mb-4 tracking-tight">{{ __('app.messages') }}</h2>
             <div class="relative">
                 <svg class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" placeholder="Cari pesan atau nama..." class="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
+                <input type="text" placeholder="{{ __('app.search_messages') }}" class="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
             </div>
         </div>
 
@@ -32,11 +32,11 @@
                     <div class="flex items-center justify-between mb-0.5">
                         <div class="flex items-center gap-1.5 min-w-0">
                             <h4 class="font-bold text-gray-900 text-[14px] truncate">Rudi Yesaya</h4>
-                            <span class="text-[9px] font-extrabold tracking-wide text-red-600 bg-red-100 px-1.5 py-0.5 rounded-md flex-shrink-0 uppercase">Mentor</span>
+                            <span class="text-[9px] font-extrabold tracking-wide text-red-600 bg-red-100 px-1.5 py-0.5 rounded-md flex-shrink-0 uppercase">{{ __('app.mentor') }}</span>
                         </div>
                         <span class="text-[11px] font-bold text-red-600 whitespace-nowrap ml-2">09:41</span>
                     </div>
-                    <p class="text-[13px] font-bold text-gray-800 truncate">Tentu, untuk deploy Laravel di server...</p>
+                    <p class="text-[13px] font-bold text-gray-800 truncate">{{ __('app.mock_msg_1_short') }}</p>
                 </div>
             </div>
 
@@ -51,11 +51,11 @@
                     <div class="flex items-center justify-between mb-0.5">
                         <div class="flex items-center gap-1.5 min-w-0">
                             <h4 :class="activeChat === 2 ? 'text-gray-900 font-bold' : 'text-gray-700 font-semibold'" class="text-[14px] truncate transition-colors">Sarah Johnson</h4>
-                            <span class="text-[9px] font-extrabold tracking-wide text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-md flex-shrink-0 uppercase">Admin</span>
+                            <span class="text-[9px] font-extrabold tracking-wide text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-md flex-shrink-0 uppercase">{{ __('app.admin') }}</span>
                         </div>
-                        <span class="text-[11px] font-medium text-gray-400 whitespace-nowrap ml-2">Kemarin</span>
+                        <span class="text-[11px] font-medium text-gray-400 whitespace-nowrap ml-2">{{ __('app.yesterday') }}</span>
                     </div>
-                    <p :class="activeChat === 2 ? 'text-gray-700' : 'text-gray-500'" class="text-[13px] font-medium truncate transition-colors">Sertifikat kamu sudah terbit! Silakan...</p>
+                    <p :class="activeChat === 2 ? 'text-gray-700' : 'text-gray-500'" class="text-[13px] font-medium truncate transition-colors">{{ __('app.mock_msg_2_short') }}</p>
                 </div>
             </div>
         </div>
@@ -77,9 +77,9 @@
                         <div>
                             <div class="flex items-center gap-2">
                                 <div class="font-bold text-gray-900 text-[15px]">Rudi Yesaya</div>
-                                <span class="text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full">Mentor</span>
+                                <span class="text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full">{{ __('app.mentor') }}</span>
                             </div>
-                            <div class="text-xs font-medium text-gray-400 mt-0.5">Terakhir dilihat 2 jam lalu</div>
+                            <div class="text-xs font-medium text-gray-400 mt-0.5">{{ __('app.last_seen_2_hours') }}</div>
                         </div>
                     </div>
                 </template>
@@ -89,9 +89,9 @@
                         <div>
                             <div class="flex items-center gap-2">
                                 <div class="font-bold text-gray-900 text-[15px]">Sarah Johnson</div>
-                                <span class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">Admin</span>
+                                <span class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">{{ __('app.admin') }}</span>
                             </div>
-                            <div class="text-xs font-medium text-gray-400 mt-0.5">Terakhir dilihat kemarin</div>
+                            <div class="text-xs font-medium text-gray-400 mt-0.5">{{ __('app.last_seen_yesterday') }}</div>
                         </div>
                     </div>
                 </template>
@@ -115,7 +115,7 @@
                 <div class="space-y-6">
                     <!-- Date Separator -->
                     <div class="flex items-center justify-center">
-                        <span class="px-4 py-1 bg-white border border-gray-100 rounded-full text-xs font-bold text-gray-400 shadow-sm">Hari Ini</span>
+                        <span class="px-4 py-1 bg-white border border-gray-100 rounded-full text-xs font-bold text-gray-400 shadow-sm">{{ __('app.today') }}</span>
                     </div>
 
                     <!-- Message Received -->
@@ -124,7 +124,7 @@
                         <div class="flex flex-col gap-1">
                             <span class="text-[11px] font-bold text-gray-500 ml-1">Rudi Yesaya</span>
                             <div class="bg-white p-4 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
-                                <p class="text-[14px] text-gray-700 leading-relaxed">Halo! Mengenai pertanyaan kamu soal deployment Laravel, kamu bisa coba pakai Laravel Forge. Prosesnya jauh lebih gampang dan otomatis.</p>
+                                <p class="text-[14px] text-gray-700 leading-relaxed">{{ __('app.mock_msg_1_full') }}</p>
                             </div>
                             <span class="text-[10px] font-medium text-gray-400 ml-1">09:38</span>
                         </div>
@@ -134,7 +134,7 @@
                     <div class="flex items-end gap-3 justify-end max-w-[85%] ml-auto">
                         <div class="flex flex-col gap-1 items-end">
                             <div class="bg-red-600 p-4 rounded-2xl rounded-br-sm shadow-[0_4px_12px_rgba(220,38,38,0.2)] text-white">
-                                <p class="text-[14px] leading-relaxed">Wah makasih mas Rudi! Kalau dibandingin sama set up VPS biasa pake Nginx manual, apakah worth it dari segi harga?</p>
+                                <p class="text-[14px] leading-relaxed">{{ __('app.mock_msg_1_reply') }}</p>
                             </div>
                             <div class="flex items-center gap-1.5 mr-1">
                                 <span class="text-[10px] font-medium text-gray-400">09:40</span>
@@ -149,7 +149,7 @@
                         <div class="flex flex-col gap-1">
                             <span class="text-[11px] font-bold text-gray-500 ml-1">Rudi Yesaya</span>
                             <div class="bg-white p-4 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
-                                <p class="text-[14px] text-gray-700 leading-relaxed">Tentu, untuk deploy Laravel di server production, Forge sangat menghemat waktu. Nanti malam di sesi live bootcamp kita bahas ini lebih dalam ya! Siapkan aja pertanyaannya.</p>
+                                <p class="text-[14px] text-gray-700 leading-relaxed">{{ __('app.mock_msg_1_reply_2') }}</p>
                             </div>
                             <span class="text-[10px] font-medium text-gray-400 ml-1">09:41</span>
                         </div>
@@ -162,7 +162,7 @@
                 <div class="space-y-6">
                     <!-- Date Separator -->
                     <div class="flex items-center justify-center">
-                        <span class="px-4 py-1 bg-white border border-gray-100 rounded-full text-xs font-bold text-gray-400 shadow-sm">Kemarin</span>
+                        <span class="px-4 py-1 bg-white border border-gray-100 rounded-full text-xs font-bold text-gray-400 shadow-sm">{{ __('app.yesterday') }}</span>
                     </div>
 
                     <!-- Message Received -->
@@ -171,7 +171,7 @@
                         <div class="flex flex-col gap-1">
                             <span class="text-[11px] font-bold text-gray-500 ml-1">Sarah Johnson</span>
                             <div class="bg-white p-4 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
-                                <p class="text-[14px] text-gray-700 leading-relaxed">Sertifikat kamu sudah terbit! Silakan unduh di halaman profil ya.</p>
+                                <p class="text-[14px] text-gray-700 leading-relaxed">{{ __('app.mock_msg_2_full') }}</p>
                             </div>
                             <span class="text-[10px] font-medium text-gray-400 ml-1">15:30</span>
                         </div>
@@ -188,7 +188,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
                 </button>
                 <div class="flex-1 bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden focus-within:ring-2 focus-within:ring-red-500 focus-within:border-red-500 transition-shadow">
-                    <textarea rows="1" class="w-full max-h-32 p-3.5 bg-transparent border-none focus:ring-0 resize-none text-[14px] leading-relaxed" placeholder="Ketik pesan kamu..."></textarea>
+                    <textarea rows="1" class="w-full max-h-32 p-3.5 bg-transparent border-none focus:ring-0 resize-none text-[14px] leading-relaxed" placeholder="{{ __('app.type_message') }}"></textarea>
                 </div>
                 <button class="p-3.5 bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-[0_4px_12px_rgba(220,38,38,0.3)] transition-all transform hover:-translate-y-0.5 flex-shrink-0">
                     <svg class="w-5 h-5 translate-x-px -translate-y-px" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>

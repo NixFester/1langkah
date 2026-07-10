@@ -39,6 +39,14 @@ Route::middleware('guest')->group(function () {
 });
 
 // ── Publicly browsable (no auth required) ────────────────────────────────────
+Route::get('lang/{locale}', function ($locale) {
+    if (in_array($locale, ['id', 'en'])) {
+        session()->put('locale', $locale);
+    }
+
+    return redirect()->back();
+})->name('lang.switch');
+
 Route::get('/', [PageController::class, 'landing'])->name('landing');
 
 Route::get('/kursus', [PageController::class, 'kursus'])->name('kursus');

@@ -17,8 +17,8 @@
     $progressPercent = min(100, ($enrolled / max(1, $totalSlots)) * 100);
 
     // Badge logic
-    $badgeLabels = ['Paling Diminati', 'Baru', 'Premium'];
-    $badge = $badgeLabels[$index % count($badgeLabels)] ?? 'Premium';
+    $badgeLabels = [__('app.most_wanted'), __('app.new'), __('app.premium')];
+    $badge = $badgeLabels[$index % count($badgeLabels)] ?? __('app.premium');
 @endphp
 
 <a href="{{ $detailUrl }}"
@@ -64,8 +64,8 @@
         <!-- Enrollment Progress -->
         <div class="mt-auto mb-5">
             <div class="flex items-center justify-between text-xs font-bold mb-2.5">
-                <span class="text-gray-400">Peserta terdaftar</span>
-                <span class="text-red-500">{{ $enrolled }} dari {{ $totalSlots }}</span>
+                <span class="text-gray-400">{{ __('app.registered_participants') }}</span>
+                <span class="text-red-500">{{ $enrolled }} {{ __('app.of') }} {{ $totalSlots }}</span>
             </div>
             <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
                 <div class="h-full bg-red-600 rounded-full transition-all" style="width: {{ $progressPercent }}%"></div>
@@ -77,13 +77,13 @@
         <!-- Footer -->
         <div class="flex items-end justify-between">
             <div>
-                <div class="text-[13px] font-medium text-gray-400 mb-1">Mulai {{ $b['startDate'] ?? '' }}</div>
+                <div class="text-[13px] font-medium text-gray-400 mb-1">{{ __('app.starts') }} {{ $b['startDate'] ?? '' }}</div>
                 <div class="text-[15px] font-bold text-gray-900">{{ $b['sessions'] ?? '' }}</div>
             </div>
             <div class="text-right">
-                <div class="text-[13px] font-medium text-gray-400 mb-1">Harga</div>
+                <div class="text-[13px] font-medium text-gray-400 mb-1">{{ __('app.price') }}</div>
                 <div class="text-lg font-extrabold {{ ($b['formatted_price'] ?? '') === 'Gratis' ? 'text-emerald-600' : 'text-red-600' }}">
-                    {{ $b['formatted_price'] ?? 'Rp 0' }}
+                    {{ ($b['formatted_price'] ?? '') === 'Gratis' ? __('app.free') : ($b['formatted_price'] ?? 'Rp 0') }}
                 </div>
             </div>
         </div>

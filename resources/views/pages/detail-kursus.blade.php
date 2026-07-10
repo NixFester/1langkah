@@ -1,17 +1,17 @@
 @extends('layouts.app', ['activePage' => 'kursus'])
 
 @section('title', $course['title'] . ' — 1Langkah')
-@section('header_title', 'Detail Kursus')
+@section('header_title', __('app.course_detail'))
 
 @section('content')
 @php
     $c = $course;
     $benefits = (!empty($c['benefits']) && is_array($c['benefits'])) ? $c['benefits'] : [
-        'Sertifikat completion',
-        'Akses seumur hidup',
-        'Forum diskusi',
-        'Download materi',
-        'Project portfolio',
+        __('app.benefit_certificate'),
+        __('app.benefit_lifetime'),
+        __('app.benefit_forum'),
+        __('app.benefit_download'),
+        __('app.benefit_portfolio'),
     ];
     $curriculum = $c['curriculum'] ?? [];
     // $resources from controller (DB table) - do not overwrite!
@@ -50,7 +50,7 @@
             </div>
             <div class="flex items-center gap-1.5">
                 <span class="w-1 h-1 bg-gray-500 rounded-full mr-1"></span>
-                {{ number_format((int) ($c['students'] ?? 0)) }} siswa
+                {{ number_format((int) ($c['students'] ?? 0)) }} {{ __('app.students') }}
             </div>
         </div>
     </div>
@@ -66,11 +66,11 @@
             <!-- Tabs -->
             <x-tab-navigation
                 :tabs="[
-                    ['id' => 'overview', 'label' => 'Overview'],
-                    ['id' => 'curriculum', 'label' => 'Curriculum'],
-                    ['id' => 'photos', 'label' => 'Photos'],
-                    ['id' => 'reviews', 'label' => 'Reviews'],
-                    ['id' => 'resources', 'label' => 'Resources']
+                    ['id' => 'overview', 'label' => __('app.overview')],
+                    ['id' => 'curriculum', 'label' => __('app.curriculum')],
+                    ['id' => 'photos', 'label' => __('app.photos')],
+                    ['id' => 'reviews', 'label' => __('app.reviews')],
+                    ['id' => 'resources', 'label' => __('app.resources')]
                 ]"
             />
 
@@ -80,7 +80,7 @@
 
                 <!-- Benefits -->
                 <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
-                    <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">Benefits</h2>
+                    <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">{{ __('app.benefits') }}</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-y-5 gap-x-6">
                         @foreach($benefits as $benefit)
                         <div class="flex items-start gap-3">
@@ -96,7 +96,7 @@
                 <!-- Description -->
                 @if(!empty($c['description']))
                 <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] mt-6">
-                    <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">Deskripsi</h2>
+                    <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">{{ __('app.description') }}</h2>
                     <div class="prose prose-sm max-w-none text-gray-600">
                         {!! nl2br(e($c['description'])) !!}
                     </div>
@@ -133,11 +133,11 @@
                     </div>
 
                     <div class="flex items-center justify-between mb-4 sm:mb-6">
-                        <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 tracking-tight">Curriculum</h2>
+                        <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 tracking-tight">{{ __('app.curriculum') }}</h2>
                         @if($isCompleted)
                         <span class="px-4 py-2 bg-emerald-100 text-emerald-700 text-sm font-bold rounded-full flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Kursus Selesai
+                            {{ __('app.course_completed') }}
                         </span>
                         @endif
                     </div>
@@ -159,7 +159,7 @@
                                     <div>
                                         <span class="font-medium text-gray-900">{{ $chapter['title'] }}</span>
                                         <span class="ml-2 text-xs text-gray-500 video-counter" data-total="{{ $chapter['total_videos'] ?? count($chapter['videos'] ?? []) }}">
-                                            {{ $chapter['completed_videos'] ?? 0 }}/{{ $chapter['total_videos'] ?? count($chapter['videos'] ?? []) }} videos
+                                            {{ $chapter['completed_videos'] ?? 0 }}/{{ $chapter['total_videos'] ?? count($chapter['videos'] ?? []) }} {{ __('app.videos') }}
                                         </span>
                                     </div>
                                 </div>
@@ -167,7 +167,7 @@
                                     @if(($chapter['is_completed'] ?? false))
                                     <span class="text-emerald-600 font-medium flex items-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                        Selesai
+                                        {{ __('app.done') }}
                                     </span>
                                     @endif
                                     <span>{{ $chapter['duration'] ?? '0h' }}</span>
@@ -207,7 +207,7 @@
                                                 <p class="font-medium text-gray-900 group-hover:text-red-600 transition-colors truncate {{ ($video['is_completed'] ?? false) ? ' text-white' : '' }}">{{ $video['title'] }}</p>
                                                 <p class="text-xs text-gray-500">
                                                     @if(($video['is_completed'] ?? false))
-                                                    <span class="text-white">Selesai ditonton</span>
+                                                    <span class="text-white">{{ __('app.watched') }}</span>
                                                     @else
                                                     {{ $video['duration'] ?? '' }}
                                                     @endif
@@ -234,14 +234,14 @@
                                                 <p class="font-medium text-gray-900 truncate">{{ $video['title'] }}</p>
                                                 <p class="text-xs text-gray-500">{{ $video['duration'] ?? '' }}</p>
                                             </div>
-                                            <span class="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full flex-shrink-0">Locked</span>
+                                            <span class="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full flex-shrink-0">{{ __('app.locked') }}</span>
                                         </div>
                                     @endif
                                 </div>
                                 @endforeach
                                 @else
                                 <div class="p-4 text-center text-gray-500 text-sm">
-                                    Tidak ada video untuk chapter ini.
+                                    {{ __('app.no_videos') }}
                                 </div>
                                 @endif
                             </div>
@@ -251,12 +251,12 @@
                     @if(!$isEnrolled)
                     <div class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
                         <p class="text-sm text-amber-800 text-center">
-                            <a href="{{ route('pembayaran', ['id' => $c['id']]) }}" class="font-semibold text-red-600 hover:underline">Daftar sekarang</a> untuk mengakses semua video.
+                            <a href="{{ route('pembayaran', ['id' => $c['id']]) }}" class="font-semibold text-red-600 hover:underline">{{ __('app.enroll_now') }}</a> {{ __('app.to_access_videos') }}
                         </p>
                     </div>
                     @endif
                     @else
-                    <p class="text-gray-500">Curriculum belum tersedia.</p>
+                    <p class="text-gray-500">{{ __('app.curriculum_not_available') }}</p>
                     @endif
                 </div>
             </div>
@@ -264,7 +264,7 @@
             <!-- Photos Tab -->
             <div x-show="activeTab === 'photos'" x-cloak>
                 <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
-                    <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">Photos</h2>
+                    <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">{{ __('app.photos') }}</h2>
                     @if(!empty($photos))
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                         @foreach($photos as $photo)
@@ -278,7 +278,7 @@
                         <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         </div>
-                        <p class="text-gray-500">Tidak ada foto untuk kursus ini.</p>
+                        <p class="text-gray-500">{{ __('app.no_photos') }}</p>
                     </div>
                     @endif
                 </div>
@@ -287,7 +287,7 @@
             <!-- Reviews Tab -->
             <div x-show="activeTab === 'reviews'" x-cloak>
                 <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
-                    <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">Reviews & Ratings</h2>
+                    <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">{{ __('app.reviews_and_ratings') }}</h2>
 
                     <!-- Rating Summary + User Rating -->
                     <div class="flex flex-col lg:flex-row gap-6 mb-8 p-6 bg-gray-50 rounded-2xl">
@@ -299,28 +299,28 @@
                                 <svg class="w-5 h-5 {{ $i <= round($c['rating'] ?? 0) ? '' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                                 @endfor
                             </div>
-                            <p class="text-sm text-gray-500 mt-1">{{ $reviews->total() }} reviews</p>
+                            <p class="text-sm text-gray-500 mt-1">{{ $reviews->total() }} {{ __('app.total_reviews') }}</p>
                         </div>
 
                         <!-- Right: User's Own Rating -->
                         @auth
                         <div class="flex-1 border-t lg:border-t-0 lg:border-l border-gray-200 pt-4 lg:pt-0 lg:pl-6">
                             <div class="text-center">
-                                <p class="text-sm text-gray-500 mb-2">Rating Kamu</p>
+                                <p class="text-sm text-gray-500 mb-2">{{ __('app.your_rating') }}</p>
                                 @if($userRating)
                                 <div class="flex text-yellow-400 justify-center">
                                     @for($i = 1; $i <= 5; $i++)
                                     <svg class="w-5 h-5 {{ $i <= $userRating->rating ? '' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                                     @endfor
                                 </div>
-                                <p class="text-xs text-gray-400 mt-1">Terima kasih sudah memberi rating!</p>
+                                <p class="text-xs text-gray-400 mt-1">{{ __('app.thank_you_rating') }}</p>
                                 @else
                                 <div class="flex text-gray-300 justify-center">
                                     @for($i = 1; $i <= 5; $i++)
                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                                     @endfor
                                 </div>
-                                <p class="text-xs text-gray-400 mt-1">Belum memberikan rating</p>
+                                <p class="text-xs text-gray-400 mt-1">{{ __('app.no_rating_yet') }}</p>
                                 @endif
                             </div>
                         </div>
@@ -339,8 +339,8 @@
                     <x-pagination :paginator="$reviews" />
                     @else
                     <div class="text-center py-8 text-gray-500">
-                        <p>Belum ada review untuk kursus ini.</p>
-                        <p class="text-sm mt-1">Jadilah yang pertama memberikan review!</p>
+                        <p>{{ __('app.no_reviews_yet') }}</p>
+                        <p class="text-sm mt-1">{{ __('app.be_first_review') }}</p>
                     </div>
                     @endif
 
@@ -348,32 +348,32 @@
                     @auth
                         @if($isEnrolled)
                     <div class="border-t border-gray-100 pt-6 mt-6">
-                        <h3 class="font-bold text-gray-900 mb-4">Berikan Rating</h3>
+                        <h3 class="font-bold text-gray-900 mb-4">{{ __('app.give_rating') }}</h3>
                         <div id="ratingForm">
                             <div class="flex items-center gap-2 mb-4">
                                 @for($i = 1; $i <= 5; $i++)
                                 <button type="button" onclick="setRating({{ $i }})" class="star-btn text-3xl text-gray-300 hover:text-yellow-400 transition-colors" data-rating="{{ $i }}">★</button>
                                 @endfor
                             </div>
-                            <textarea id="reviewText" class="w-full border border-gray-200 rounded-xl p-3 text-sm" rows="3" placeholder="Tulis review kamu (opsional)..."></textarea>
+                            <textarea id="reviewText" class="w-full border border-gray-200 rounded-xl p-3 text-sm" rows="3" :placeholder="'{{ __('app.write_review_optional') }}'"></textarea>
                             <button onclick="submitRating({{ $c['id'] }}, 'course')" class="mt-3 bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full text-sm font-bold transition-colors">
-                                {{ $userRating ? 'Update Rating' : 'Submit Rating' }}
+                                {{ $userRating ? __('app.update_rating') : __('app.submit_rating') }}
                             </button>
                         </div>
                     </div>
                         @else
                     <div class="border-t border-gray-100 pt-6 mt-6">
                         <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-center">
-                            <p class="text-sm text-amber-800 mb-3">Kamu harus terdaftar di kursus ini untuk memberikan rating.</p>
+                            <p class="text-sm text-amber-800 mb-3">{{ __('app.must_enroll_rating') }}</p>
                             <a href="{{ route('pembayaran', ['id' => $c['id']]) }}" class="inline-flex items-center justify-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full text-sm font-semibold transition-colors">
-                                Daftar Sekarang
+                                {{ __('app.enroll_now_btn') }}
                             </a>
                         </div>
                     </div>
                         @endif
                     @else
                     <div class="border-t border-gray-100 pt-6 mt-6">
-                        <p class="text-gray-500 text-sm"><a href="{{ route('login') }}" class="text-red-600 hover:underline">Login</a> untuk memberikan rating.</p>
+                        <p class="text-gray-500 text-sm"><a href="{{ route('login') }}" class="text-red-600 hover:underline">{{ __('app.login_link') }}</a> {{ __('app.login_to_rate') }}</p>
                     </div>
                     @endauth
                 </div>
@@ -383,10 +383,10 @@
             <div x-show="activeTab === 'resources'" x-cloak>
                 <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
                     <div class="flex items-center justify-between mb-4 sm:mb-6">
-                        <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 tracking-tight">Resources</h2>
+                        <h2 class="text-xl sm:text-[22px] font-bold text-gray-900 tracking-tight">{{ __('app.resources') }}</h2>
                         @if(count($resources) > 0)
                         <span class="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
-                            {{ count($resources) }} file
+                            {{ count($resources) }} {{ __('app.files') }}
                         </span>
                         @endif
                     </div>
@@ -433,7 +433,7 @@
                                         <template x-if="downloading !== {{ $loop->index }}">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                                         </template>
-                                        <span x-text="downloading === {{ $loop->index }} ? 'Mengunduh...' : 'Download'"></span>
+                                        <span x-text="downloading === {{ $loop->index }} ? '{{ __('app.downloading') }}' : '{{ __('app.download') }}'"></span>
                                     </button>
                                 </div>
                             </div>
@@ -444,8 +444,8 @@
                             <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
                             </div>
-                            <p class="text-gray-500 mb-2">Belum ada resource untuk kursus ini.</p>
-                            <p class="text-sm text-gray-400">Akan ditambahkan oleh mentor soon.</p>
+                            <p class="text-gray-500 mb-2">{{ __('app.no_resources') }}</p>
+                            <p class="text-sm text-gray-400">{{ __('app.added_by_mentor_soon') }}</p>
                         </div>
                         @endif
                     @elseif(auth()->check())
@@ -453,10 +453,10 @@
                             <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2V5a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                             </div>
-                            <p class="text-gray-600 font-medium mb-2">Resource terkunci</p>
-                            <p class="text-gray-500 mb-4 text-sm">Daftar di kursus ini untuk mengunduh semua resource.</p>
+                            <p class="text-gray-600 font-medium mb-2">{{ __('app.resources_locked') }}</p>
+                            <p class="text-gray-500 mb-4 text-sm">{{ __('app.enroll_to_download') }}</p>
                             <a href="{{ route('pembayaran', ['id' => $c['id']]) }}" class="inline-flex items-center justify-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-full text-sm font-semibold transition-colors">
-                                Daftar Sekarang
+                                {{ __('app.enroll_now_btn') }}
                             </a>
                         </div>
                     @else
@@ -464,8 +464,8 @@
                             <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2V5a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                             </div>
-                            <p class="text-gray-600 font-medium mb-2">Login required</p>
-                            <p class="text-gray-500 text-sm">Silakan <a href="{{ route('login') }}" class="text-red-600 hover:underline font-medium">login</a> untuk melihat resources.</p>
+                            <p class="text-gray-600 font-medium mb-2">{{ __('app.login_required') }}</p>
+                            <p class="text-gray-500 text-sm">{!! str_replace('login', '<a href="'.route('login').'" class="text-red-600 hover:underline font-medium">'.__('app.login_link').'</a>', __('app.login_to_view_resources')) !!}</p>
                         </div>
                     @endif
                 </div>
@@ -480,7 +480,7 @@
 
                     <div class="mb-6">
                     <div class="text-4xl font-extrabold text-gray-900 mb-1 tracking-tight">
-                        {{ $c['formatted_price'] ?? 'Gratis' }}
+                        {{ $c['formatted_price'] ?? __('app.free') }}
                     </div>
                     @if(($c['price'] ?? 0) > 0)
                     <div class="text-[15px] font-semibold text-gray-400 line-through">Rp 999.000</div>
@@ -488,10 +488,10 @@
                 </div>
 
                 <a href="{{ route('pembayaran', ['id' => $c['id']]) }}" class="w-full inline-flex items-center justify-center py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-colors mb-3">
-                    Daftar Sekarang
+                    {{ __('app.enroll_now_btn') }}
                 </a>
                 <button class="w-full py-3.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-bold rounded-full transition-colors mb-8 shadow-sm">
-                    Coba Gratis 7 Hari
+                    {{ __('app.free_trial_7_days') }}
                 </button>
 
                 <!-- Benefits List -->
@@ -524,8 +524,8 @@
                 <div class="bg-[#FFFDF3] border border-[#FDF0CD] rounded-xl p-4 flex gap-3 shadow-sm">
                     <span class="text-[18px]">🎉</span>
                     <div>
-                        <div class="text-[13px] font-bold text-orange-800 mb-0.5">Promo berlaku 2 hari lagi!</div>
-                        <div class="text-[12px] font-semibold text-orange-600">Hemat 40% dari harga normal</div>
+                        <div class="text-[13px] font-bold text-orange-800 mb-0.5">{{ __('app.promo_ends_in_2_days') }}</div>
+                        <div class="text-[12px] font-semibold text-orange-600">{{ __('app.save_40_percent') }}</div>
                     </div>
                 </div>
             </div>
@@ -701,7 +701,7 @@ document.querySelectorAll('.video-item').forEach(function(item) {
         })
         .then(function(data) {
             if (data.course_completed) {
-                alert('🎉 Selamat! Kamu telah menyelesaikan kursus ini!');
+                alert('{{ __('app.congrats_course_completed') }}');
                 location.reload();
             }
         })
@@ -737,7 +737,7 @@ function updateVideoUI(container) {
     // Update subtitle
     var subtitle = container.querySelector('.text-xs.text-gray-500');
     if (subtitle) {
-        subtitle.innerHTML = '<span class="text-emerald-600">Selesai ditonton</span>';
+        subtitle.innerHTML = '<span class="text-emerald-600">{{ __('app.watched') }}</span>';
     }
 
     // Update play icon to checkmark
@@ -797,7 +797,7 @@ function updateChapterUI(videoContainer, isCompleted) {
     if (headerRight && !headerRight.querySelector('.chapter-selesai')) {
         var selesaiBadge = document.createElement('span');
         selesaiBadge.className = 'chapter-selesai text-emerald-600 font-medium flex items-center gap-1';
-        selesaiBadge.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Selesai';
+        selesaiBadge.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> {{ __('app.done') }}';
         headerRight.insertBefore(selesaiBadge, headerRight.firstChild);
     }
 }

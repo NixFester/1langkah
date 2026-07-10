@@ -1,10 +1,18 @@
 @extends('layouts.guest')
 
-@section('title', 'Daftar — 1Langkah')
+@section('title', __('app.signup_title'))
 
 @section('body')
 <!-- MOBILE VIEW (Shown only on small screens) -->
-<div class="flex md:hidden h-[100dvh] w-full flex-col bg-gradient-to-br from-[#fff1f1] to-[#f7f8f9] overflow-hidden">
+<div class="flex md:hidden h-[100dvh] w-full flex-col bg-gradient-to-br from-[#fff1f1] to-[#f7f8f9] overflow-hidden relative">
+    
+    <!-- Language Switcher Mobile -->
+    <div class="absolute top-4 right-4 z-50">
+        <a href="{{ route('lang.switch', ['locale' => app()->getLocale() == 'en' ? 'id' : 'en']) }}" class="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-gray-200 text-xs font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm" title="Switch Language">
+            {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
+        </a>
+    </div>
+
     <div class="w-full h-full overflow-y-auto flex flex-col px-5 py-4 mx-auto items-center">
         <div class="my-auto flex flex-col items-center justify-center w-full max-w-[440px] pb-4 pt-2">
     <!-- Logo & Header -->
@@ -24,8 +32,8 @@
                 </g>
             </svg>
         </a>
-        <h2 class="text-[24px] font-extrabold text-[#111827] mb-2 tracking-tight">Buat akun gratis 🚀</h2>
-        <p class="text-[14px] text-gray-500">Mulai perjalanan belajarmu bersama 1Langkah</p>
+        <h2 class="text-[24px] font-extrabold text-[#111827] mb-2 tracking-tight">{{ __('app.signup_welcome_emoji') }}</h2>
+        <p class="text-[14px] text-gray-500">{{ __('app.signup_subtitle') }}</p>
     </div>
 
     <!-- Sign Up Form Area -->
@@ -48,43 +56,43 @@
             <!-- Name Inputs (Grid) -->
             <div class="grid grid-cols-2 gap-4 mb-3">
                 <div>
-                    <label class="block text-[12px] font-bold text-[#374151] mb-1.5">Nama Depan</label>
-                    <input type="text" name="first_name" required placeholder="Ahmad" class="w-full px-4 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+                    <label class="block text-[12px] font-bold text-[#374151] mb-1.5">{{ __('app.first_name_label') }}</label>
+                    <input type="text" name="first_name" required placeholder="{{ __('app.first_name_placeholder') }}" class="w-full px-4 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
                 </div>
                 <div>
-                    <label class="block text-[12px] font-bold text-[#374151] mb-1.5">Nama Belakang</label>
-                    <input type="text" name="last_name" required placeholder="Fauzi" class="w-full px-4 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+                    <label class="block text-[12px] font-bold text-[#374151] mb-1.5">{{ __('app.last_name_label') }}</label>
+                    <input type="text" name="last_name" required placeholder="{{ __('app.last_name_placeholder') }}" class="w-full px-4 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
                 </div>
             </div>
 
             <!-- Email Input -->
             <div class="mb-3">
-                <label class="block text-[12px] font-bold text-[#374151] mb-1.5">Email</label>
-                <input type="email" name="email" required placeholder="email@example.com" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+                <label class="block text-[12px] font-bold text-[#374151] mb-1.5">{{ __('app.email_label') }}</label>
+                <input type="email" name="email" required placeholder="{{ __('app.email_placeholder') }}" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
             </div>
 
             <!-- Password Input -->
             <div class="mb-3">
-                <label class="block text-[12px] font-bold text-[#374151] mb-1.5">Password</label>
-                <input type="password" name="password" required placeholder="Min. 8 karakter" minlength="8" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+                <label class="block text-[12px] font-bold text-[#374151] mb-1.5">{{ __('app.password_label') }}</label>
+                <input type="password" name="password" required placeholder="{{ __('app.password_min') }}" minlength="8" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
             </div>
             
             <!-- Tujuan Belajar Input -->
             <div class="mb-5">
-                <label class="block text-[12px] font-bold text-[#374151] mb-1.5">Tujuan Belajar</label>
-                <input type="text" name="purpose" required placeholder="" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+                <label class="block text-[12px] font-bold text-[#374151] mb-1.5">{{ __('app.study_purpose_label') }}</label>
+                <input type="text" name="purpose" required placeholder="{{ __('app.study_purpose_placeholder') }}" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
             </div>
 
             <!-- Submit Button -->
             <button type="submit" class="w-full py-3 bg-[#d10000] hover:bg-[#aa0000] text-white font-bold rounded-xl text-[14px] transition-colors mb-5 flex items-center justify-center">
-                Buat Akun Gratis
+                {{ __('app.signup_btn') }}
             </button>
         </form>
 
         <!-- Divider -->
         <div class="flex items-center gap-4 mb-5">
             <div class="flex-1 h-px bg-gray-100"></div>
-            <div class="text-[12px] font-medium text-gray-400">atau daftar dengan</div>
+            <div class="text-[12px] font-medium text-gray-400">{{ __('app.or_signup_with') }}</div>
             <div class="flex-1 h-px bg-gray-100"></div>
         </div>
 
@@ -96,17 +104,17 @@
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
             </svg>
-            <span class="text-[13px] font-bold text-[#374151]">Daftar dengan Google</span>
+            <span class="text-[13px] font-bold text-[#374151]">{{ __('app.signup_google') }}</span>
         </a>
         
         <!-- Terms Disclaimer -->
         <p class="text-[10.5px] text-gray-400 text-center leading-relaxed px-4 mb-4">
-            Dengan mendaftar, kamu menyetujui <a href="#" class="underline hover:text-gray-500 transition-colors">Syarat & Ketentuan</a> dan <a href="#" class="underline hover:text-gray-500 transition-colors">Kebijakan Privasi</a> kami.
+            {!! __('app.terms_disclaimer') !!}
         </p>
 
         <!-- Login Link -->
         <div class="text-center text-[13px] text-gray-500 font-medium pb-2">
-            Sudah punya akun? <a href="{{ route('login') }}" class="text-[#cc0000] font-bold hover:underline">Masuk</a>
+            {{ __('app.already_have_account_q') }} <a href="{{ route('login') }}" class="text-[#cc0000] font-bold hover:underline">{{ __('app.login_link') }}</a>
         </div>
         
     </div>
@@ -115,8 +123,15 @@
 </div>
 
 <!-- DESKTOP & TABLET VIEW (Shown on md and up) -->
-<div class="hidden md:flex min-h-screen lg:h-screen w-full bg-[#f7f8f9] lg:overflow-hidden">
+<div class="hidden md:flex min-h-screen lg:h-screen w-full bg-[#f7f8f9] lg:overflow-hidden relative">
     
+    <!-- Language Switcher Desktop -->
+    <div class="absolute top-6 right-8 z-50">
+        <a href="{{ route('lang.switch', ['locale' => app()->getLocale() == 'en' ? 'id' : 'en']) }}" class="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm" title="Switch Language">
+            {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
+        </a>
+    </div>
+
     <!-- Left Column (Dark Theme) -->
     <div class="hidden md:flex flex-col w-[50%] bg-[#080202] relative p-10 lg:p-14 overflow-hidden border-r border-white/5">
         
@@ -167,14 +182,14 @@
 
             <!-- Title -->
             <h1 class="text-4xl lg:text-[46px] font-extrabold text-white leading-[1.15] tracking-tight mb-5 max-w-lg">
-                Satu langkah<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF3333] to-[#cc0000]">mengubah karir</span><br>
-                kamu selamanya.
+                {{ __('app.landing_title_1') }}<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF3333] to-[#cc0000]">{{ __('app.landing_title_2') }}</span><br>
+                {{ __('app.landing_title_3') }}
             </h1>
 
             <!-- Desc -->
             <p class="text-[15px] text-gray-400 leading-relaxed max-w-[420px] mb-12">
-                Bergabung dengan 100,000+ pelajar yang sudah membuktikan hasilnya bersama 1Langkah.
+                {{ __('app.cta_desc') }}
             </p>
 
             <!-- Testimonials Stack -->
@@ -183,7 +198,7 @@
                 <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
                     <div class="flex items-center gap-4">
                         <img src="https://i.pravatar.cc/100?img=1" class="w-10 h-10 rounded-full object-cover">
-                        <div class="text-[13px] font-medium text-gray-400">Pindah karir ke tech dalam 6 bulan</div>
+                        <div class="text-[13px] font-medium text-gray-400">{{ __('app.testimonial_1_desc') }}</div>
                     </div>
                     <div class="flex items-center gap-0.5 text-[#ffb800]">
                         <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
@@ -197,7 +212,7 @@
                 <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
                     <div class="flex items-center gap-4">
                         <img src="https://i.pravatar.cc/100?img=11" class="w-10 h-10 rounded-full object-cover">
-                        <div class="text-[13px] font-medium text-gray-400">Diterima jadi Data Scientist di Gojek</div>
+                        <div class="text-[13px] font-medium text-gray-400">{{ __('app.testimonial_2_desc') }}</div>
                     </div>
                     <div class="flex items-center gap-0.5 text-[#ffb800]">
                         <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
@@ -211,7 +226,7 @@
                 <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
                     <div class="flex items-center gap-4">
                         <img src="https://i.pravatar.cc/100?img=5" class="w-10 h-10 rounded-full object-cover">
-                        <div class="text-[13px] font-medium text-gray-400">Portfolio dilirik 3 perusahaan top</div>
+                        <div class="text-[13px] font-medium text-gray-400">{{ __('app.testimonial_3_desc') }}</div>
                     </div>
                     <div class="flex items-center gap-0.5 text-[#ffb800]">
                         <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
@@ -227,15 +242,15 @@
             <div class="flex items-center gap-10">
                 <div>
                     <div class="text-[22px] font-extrabold text-white mb-0.5">100K+</div>
-                    <div class="text-[12px] text-gray-500 font-medium">Pelajar</div>
+                    <div class="text-[12px] text-gray-500 font-medium">{{ __('app.stats_students') }}</div>
                 </div>
                 <div>
                     <div class="text-[22px] font-extrabold text-white mb-0.5">800+</div>
-                    <div class="text-[12px] text-gray-500 font-medium">Kursus</div>
+                    <div class="text-[12px] text-gray-500 font-medium">{{ __('app.stats_courses') }}</div>
                 </div>
                 <div>
                     <div class="text-[22px] font-extrabold text-white mb-0.5">95%</div>
-                    <div class="text-[12px] text-gray-500 font-medium">Completion</div>
+                    <div class="text-[12px] text-gray-500 font-medium">{{ __('app.stats_completion') }}</div>
                 </div>
             </div>
         </div>
@@ -248,9 +263,9 @@
         <div class="w-full max-w-[480px] bg-white rounded-[32px] p-8 lg:p-8 shadow-[0_24px_60px_rgba(0,0,0,0.06)] border border-gray-100 my-8 lg:my-4">
             
             <!-- Header -->
-            <h2 class="text-[26px] font-extrabold text-[#111827] mb-1.5 tracking-tight">Mulai belajar gratis</h2>
+            <h2 class="text-[26px] font-extrabold text-[#111827] mb-1.5 tracking-tight">{{ __('app.signup_welcome') }}</h2>
             <p class="text-[14px] text-gray-500 leading-relaxed mb-5">
-                Buat akunmu dan bergabung dengan 100,000+ pelajar aktif.
+                {{ __('app.signup_subtitle_desktop') }}
             </p>
 
             <!-- Google Sign Up -->
@@ -261,13 +276,13 @@
                     <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
                     <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                 </svg>
-                <span class="text-[13px] font-bold text-[#374151]">Daftar dengan Google</span>
+                <span class="text-[13px] font-bold text-[#374151]">{{ __('app.signup_google') }}</span>
             </a>
 
             <!-- Divider -->
             <div class="flex items-center gap-4 mb-5">
                 <div class="flex-1 h-px bg-gray-100"></div>
-                <div class="text-[12px] font-medium text-gray-400">atau dengan email</div>
+                <div class="text-[12px] font-medium text-gray-400">{{ __('app.or_with_email') }}</div>
                 <div class="flex-1 h-px bg-gray-100"></div>
             </div>
 
@@ -288,47 +303,47 @@
                 <!-- Name Inputs (Grid) -->
                 <div class="grid grid-cols-2 gap-4 mb-3">
                     <div>
-                        <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">NAMA DEPAN</label>
-                        <input type="text" name="first_name" required placeholder="Ahmad" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
+                        <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">{{ strtoupper(__('app.first_name_label')) }}</label>
+                        <input type="text" name="first_name" required placeholder="{{ __('app.first_name_placeholder') }}" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">NAMA BELAKANG</label>
-                        <input type="text" name="last_name" required placeholder="Fauzi" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
+                        <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">{{ strtoupper(__('app.last_name_label')) }}</label>
+                        <input type="text" name="last_name" required placeholder="{{ __('app.last_name_placeholder') }}" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
                     </div>
                 </div>
 
                 <!-- Email Input -->
                 <div class="mb-3">
-                    <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">EMAIL</label>
-                    <input type="email" name="email" required placeholder="email@example.com" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
+                    <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">{{ strtoupper(__('app.email_label')) }}</label>
+                    <input type="email" name="email" required placeholder="{{ __('app.email_placeholder') }}" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
                 </div>
 
                 <!-- Password Input -->
                 <div class="mb-3">
-                    <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">PASSWORD</label>
-                    <input type="password" name="password" required placeholder="Min. 8 karakter" minlength="8" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
+                    <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">{{ strtoupper(__('app.password_label')) }}</label>
+                    <input type="password" name="password" required placeholder="{{ __('app.password_min') }}" minlength="8" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
                 </div>
                 
                 <!-- Tujuan Belajar Input -->
                 <div class="mb-5">
-                    <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">TUJUAN BELAJAR</label>
-                    <input type="text" name="purpose" required placeholder="Cth: Pindah karir" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
+                    <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">{{ strtoupper(__('app.study_purpose_label')) }}</label>
+                    <input type="text" name="purpose" required placeholder="{{ __('app.study_purpose_placeholder') }}" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
                 </div>
 
                 <!-- Submit Button -->
                 <button type="submit" class="w-full py-3 bg-[#cc0000] hover:bg-[#aa0000] text-white font-bold rounded-full text-[14px] shadow-[0_12px_30px_rgba(204,0,0,0.35)] hover:shadow-[0_15px_35px_rgba(204,0,0,0.45)] transition-all mb-4 flex items-center justify-center">
-                    Buat Akun Gratis — Mulai Sekarang
+                    {{ __('app.signup_dashboard_btn') }}
                 </button>
                 
                 <!-- Terms Disclaimer -->
                 <p class="text-[10px] text-gray-400 text-center leading-relaxed px-4 mb-5">
-                    Dengan mendaftar, kamu menyetujui <a href="#" class="underline hover:text-gray-500 transition-colors">Syarat & Ketentuan</a> dan <a href="#" class="underline hover:text-gray-500 transition-colors">Kebijakan Privasi</a> kami.
+                    {!! __('app.terms_disclaimer') !!}
                 </p>
             </form>
 
             <!-- Login Link -->
             <div class="text-center text-[14px] text-[#4b5563] font-medium">
-                Sudah punya akun? <a href="{{ route('login') }}" class="text-[#cc0000] font-extrabold hover:underline">Masuk</a>
+                {{ __('app.already_have_account_q') }} <a href="{{ route('login') }}" class="text-[#cc0000] font-extrabold hover:underline">{{ __('app.login_link') }}</a>
             </div>
             
         </div>

@@ -1,11 +1,11 @@
 @extends('layouts.app', ['activePage' => 'komunitas'])
 
-@section('title', $post->title . ' — Komunitas 1Langkah')
-@section('header_title', 'Komunitas')
+@section('title', $post->title . ' — ' . __('app.community') . ' 1Langkah')
+@section('header_title', __('app.community'))
 @section('header_action')
     <a href="{{ route('komunitas') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-semibold text-sm hover:bg-gray-200 transition-colors">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-        Kembali
+        {{ __('app.back') }}
     </a>
 @endsection
 
@@ -66,11 +66,11 @@
                 <div class="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-500">
                     <span class="flex items-center gap-1 sm:gap-1.5">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                        {{ $post->reply_count }} komentar
+                        {{ $post->reply_count }} {{ __('app.comments_count') }}
                     </span>
                     <button onclick="showReportModal('post', {{ $post->id }})" class="flex items-center gap-1 sm:gap-1.5 hover:text-red-600 transition-colors">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                        Report
+                        {{ __('app.report') }}
                     </button>
                 </div>
             </div>
@@ -79,13 +79,13 @@
 
     <!-- Reply Form -->
     <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-        <h3 class="font-bold text-gray-900 mb-4">Tulis Komentar</h3>
+        <h3 class="font-bold text-gray-900 mb-4">{{ __('app.write_comment') }}</h3>
         <form action="{{ route('komunitas.reply') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="post_id" value="{{ $post->id }}">
 
             <div class="mb-3">
-                <textarea name="content" rows="4" placeholder="Tulis komentar kamu..."
+                <textarea name="content" rows="4" :placeholder="'{{ __('app.write_comment_placeholder') }}'"
                           class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm resize-none"
                           required>{{ old('content') }}</textarea>
                 @error('content')
@@ -95,26 +95,26 @@
 
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Gambar (opsional) - Pisahkan dengan koma untuk multiple
+                    {{ __('app.image_optional_multiple') }}
                 </label>
-                <input type="text" name="image_urls" placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
+                <input type="text" name="image_urls" :placeholder="'https://example.com/image1.jpg, https://example.com/image2.jpg'"
                        value="{{ old('image_urls') }}"
                        class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm">
-                <p class="text-xs text-gray-500 mt-1">Masukkan URL gambar, pisahkan dengan koma untuk multiple gambar</p>
+                <p class="text-xs text-gray-500 mt-1">{{ __('app.image_url_multiple_help') }}</p>
                 @error('image_urls')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
 
             <button type="submit" class="px-5 py-2.5 bg-red-600 text-white rounded-lg font-semibold text-sm hover:bg-red-700 transition-colors">
-                Kirim Komentar
+                {{ __('app.submit_comment') }}
             </button>
         </form>
     </div>
 
     <!-- Replies Section -->
     <div class="space-y-4">
-        <h3 class="font-bold text-gray-900 text-lg">{{ $post->reply_count }} Komentar</h3>
+        <h3 class="font-bold text-gray-900 text-lg">{{ $post->reply_count }} {{ __('app.comments_count_title') }}</h3>
 
         @forelse($post->topLevelReplies as $reply)
         <div class="reply-container bg-white border border-gray-100 rounded-2xl p-5 shadow-sm" id="reply-{{ $reply->id }}">
@@ -214,7 +214,7 @@
         </div>
         @empty
         <div class="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm text-center">
-            <p class="text-gray-500">Belum ada komentar. Jadilah yang pertama berkomentar!</p>
+            <p class="text-gray-500">{{ __('app.no_comments_yet') }}</p>
         </div>
         @endforelse
     </div>
@@ -268,7 +268,7 @@ async function votePost(postId, voteType, buttonElement) {
         }
     } catch (error) {
         console.error('Vote error:', error);
-        alert('Terjadi kesalahan saat memberikan vote. Pastikan Anda sudah login.');
+        alert('{{ __('app.vote_error') }}');
     }
 }
 
@@ -322,7 +322,7 @@ async function voteReply(replyId, voteType, buttonElement) {
         }
     } catch (error) {
         console.error('Vote error:', error);
-        alert('Terjadi kesalahan saat memberikan vote. Pastikan Anda sudah login.');
+        alert('{{ __('app.vote_error') }}');
     }
 }
 
@@ -354,16 +354,16 @@ async function submitReport() {
         const data = await response.json();
 
         if (data.success) {
-            alert('Report submitted successfully. Thank you for helping keep our community safe.');
+            alert('{{ __('app.report_success') }}');
             hideReportModal();
             document.getElementById('report_reason').value = '';
             document.getElementById('report_description').value = '';
         } else {
-            alert(data.message || 'Failed to submit report');
+            alert(data.message || '{{ __('app.report_fail') }}');
         }
     } catch (error) {
         console.error('Report error:', error);
-        alert('Terjadi kesalahan saat submit report.');
+        alert('{{ __('app.report_error') }}');
     }
 }
 </script>
@@ -372,37 +372,37 @@ async function submitReport() {
 <div id="reportModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-black/50" onclick="hideReportModal()"></div>
     <div class="relative bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl">
-        <h3 class="text-xl font-bold text-gray-900 mb-4">Report Content</h3>
-        <p class="text-sm text-gray-600 mb-4">Help us maintain a safe community by reporting inappropriate content.</p>
+        <h3 class="text-xl font-bold text-gray-900 mb-4">{{ __('app.report_content') }}</h3>
+        <p class="text-sm text-gray-600 mb-4">{{ __('app.report_content_desc') }}</p>
 
         <form id="reportForm">
             <input type="hidden" name="reportable_type" id="reportable_type" value="">
             <input type="hidden" name="reportable_id" id="reportable_id" value="">
 
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Reason</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('app.reason') }}</label>
                 <select name="reason" id="report_reason" class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" required>
-                    <option value="">Select a reason</option>
-                    <option value="spam">Spam</option>
-                    <option value="harassment">Harassment / Bullying</option>
-                    <option value="inappropriate_content">Inappropriate Content</option>
-                    <option value="misinformation">Misinformation</option>
-                    <option value="copyright">Copyright Violation</option>
-                    <option value="other">Other</option>
+                    <option value="">{{ __('app.select_reason') }}</option>
+                    <option value="spam">{{ __('app.spam') }}</option>
+                    <option value="harassment">{{ __('app.harassment') }}</option>
+                    <option value="inappropriate_content">{{ __('app.inappropriate_content') }}</option>
+                    <option value="misinformation">{{ __('app.misinformation') }}</option>
+                    <option value="copyright">{{ __('app.copyright_violation') }}</option>
+                    <option value="other">{{ __('app.other') }}</option>
                 </select>
             </div>
 
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Description (optional)</label>
-                <textarea name="description" id="report_description" rows="3" class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Provide additional details..."></textarea>
+                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('app.description_optional') }}</label>
+                <textarea name="description" id="report_description" rows="3" class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" :placeholder="'{{ __('app.provide_details') }}'"></textarea>
             </div>
 
             <div class="flex gap-3">
                 <button type="button" onclick="hideReportModal()" class="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
-                    Cancel
+                    {{ __('app.cancel') }}
                 </button>
                 <button type="button" onclick="submitReport()" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors">
-                    Submit Report
+                    {{ __('app.submit_report') }}
                 </button>
             </div>
         </form>

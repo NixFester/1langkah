@@ -1,12 +1,12 @@
 @extends('layouts.app', ['activePage' => 'quizzes'])
 
-@section('title', 'Quizzes - 1Langkah')
+@section('title', __('app.my_quizzes') . ' - 1Langkah')
 
 @php
 use App\Models\TestAttempt;
 @endphp
 
-@section('header_title', 'Quiz Saya')
+@section('header_title', __('app.my_quizzes'))
 
 @section('content')
 <div class="w-full px-0 sm:px-2 pb-8 space-y-6 sm:space-y-8">
@@ -14,12 +14,12 @@ use App\Models\TestAttempt;
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 -mt-2">
         <div>
-            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2 tracking-tight">Quiz Kursus</h1>
-            <p class="text-gray-500 text-sm sm:text-base">Kumpulkan quiz untuk menyelesaikan kursus</p>
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2 tracking-tight">{{ __('app.course_quizzes') }}</h1>
+            <p class="text-gray-500 text-sm sm:text-base">{{ __('app.collect_quizzes') }}</p>
         </div>
         <a href="{{ route('quiz.history') }}" class="group bg-white border border-gray-200 hover:border-red-200 hover:bg-red-50 text-gray-700 hover:text-red-600 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-[13px] sm:text-sm font-bold transition-all shadow-sm flex items-center gap-2 w-max mt-2 sm:mt-0">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            Riwayat Quiz
+            {{ __('app.quiz_history') }}
             <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
         </a>
     </div>
@@ -27,10 +27,10 @@ use App\Models\TestAttempt;
     @if($quizzesByCourse->isEmpty())
     <!-- No quizzes available -->
     <x-empty-state
-        message="Daftar kursus untuk mengakses materi dan quiz."
+        :message="__('app.enroll_to_access_quiz')"
         icon="book"
         :actionRoute="route('kursus')"
-        actionLabel="Browse Kursus"
+        :actionLabel="__('app.browse_courses')"
     />
     @endif
 
@@ -51,7 +51,7 @@ use App\Models\TestAttempt;
                 </div>
                 <div>
                     <h3 class="font-bold text-gray-900">{{ $course->title }}</h3>
-                    <p class="text-sm text-gray-500">{{ $courseQuizzes->count() }} quiz tersedia</p>
+                    <p class="text-sm text-gray-500">{{ $courseQuizzes->count() }} {{ __('app.quizzes_available') }}</p>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@ use App\Models\TestAttempt;
                 $type = $typeLabels[$quiz->type] ?? ['label' => 'Quiz', 'color' => 'bg-gray-100 text-gray-700'];
 
                 $lastAttempt = TestAttempt::where('user_id', Auth::id())
-                    ->where('testable_type', Course::class)
+                    ->where('testable_type', \App\Models\Course::class)
                     ->where('testable_id', $quiz->course_id)
                     ->where('test_type', $quiz->type)
                     ->whereNotNull('completed_at')
@@ -80,9 +80,9 @@ use App\Models\TestAttempt;
                         <span class="px-2.5 py-0.5 rounded-full text-xs font-bold {{ $type['color'] }}">
                             {{ $type['label'] }}
                         </span>
-                        <span class="text-xs text-gray-500">{{ $quiz->questions_count ?? 0 }} pertanyaan</span>
+                        <span class="text-xs text-gray-500">{{ $quiz->questions_count ?? 0 }} {{ __('app.questions_count') }}</span>
                         <span class="text-xs text-gray-500">•</span>
-                        <span class="text-xs text-gray-500">Passing: {{ $quiz->passing_score }}%</span>
+                        <span class="text-xs text-gray-500">{{ __('app.passing_label') }} {{ $quiz->passing_score }}%</span>
                     </div>
                     <h4 class="font-bold text-gray-900">{{ $quiz->title }}</h4>
                     @if($quiz->description)
@@ -93,15 +93,15 @@ use App\Models\TestAttempt;
                     <div class="mt-2 flex items-center gap-3">
                         @if($lastAttempt->passed)
                         <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-bold rounded-full">
-                            ✓ Lulus ({{ number_format($lastAttempt->score, 0) }}%)
+                            {{ __('app.passed_status') }} ({{ number_format($lastAttempt->score, 0) }}%)
                         </span>
                         @else
                         <span class="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-bold rounded-full">
-                            ✗ Gagal ({{ number_format($lastAttempt->score, 0) }}%)
+                            {{ __('app.failed_status') }} ({{ number_format($lastAttempt->score, 0) }}%)
                         </span>
                         @endif
                         <span class="text-xs text-gray-400">
-                            Terakhir: {{ $lastAttempt->completed_at->diffForHumans() }}
+                            {{ __('app.last_attempt') }} {{ $lastAttempt->completed_at->diffForHumans() }}
                         </span>
                     </div>
                     @endif
@@ -111,16 +111,16 @@ use App\Models\TestAttempt;
                     @if($lastAttempt?->passed)
                     <a href="{{ route('quiz.result', $lastAttempt) }}"
                         class="w-full sm:w-auto text-center px-4 sm:px-5 py-2 sm:py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-[13px] sm:text-sm font-bold rounded-full transition-colors flex-1 sm:flex-none">
-                        Lihat Hasil
+                        {{ __('app.view_result') }}
                     </a>
                     <a href="{{ route('quiz.start', $quiz) }}"
                         class="w-full sm:w-auto text-center px-4 sm:px-5 py-2 sm:py-2.5 bg-white border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 text-[13px] sm:text-sm font-bold rounded-full transition-colors flex-1 sm:flex-none">
-                        Ulangi
+                        {{ __('app.retake') }}
                     </a>
                     @else
                     <a href="{{ route('quiz.start', $quiz) }}"
                         class="w-full sm:w-auto flex justify-center items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-[13px] sm:text-sm font-bold rounded-full transition-colors shadow-sm">
-                        Mulai Quiz <span aria-hidden="true">&rarr;</span>
+                        {{ __('app.start_quiz') }} <span aria-hidden="true">&rarr;</span>
                     </a>
                     @endif
                 </div>
