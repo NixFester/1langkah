@@ -50,7 +50,7 @@
     <!-- Actions -->
     <div class="flex items-center gap-2 sm:gap-4">
         <!-- Language Switcher -->
-        <a href="{{ route('lang.switch', ['locale' => app()->getLocale() == 'en' ? 'id' : 'en']) }}" class="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/5 border border-white/10 text-[11px] sm:text-[12px] font-bold text-white hover:bg-white/10 transition-colors" title="Switch Language">
+        <a href="javascript:void(0)" class="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/5 border border-white/10 text-[11px] sm:text-[12px] font-bold text-white cursor-not-allowed opacity-50" title="Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
         </a>
         

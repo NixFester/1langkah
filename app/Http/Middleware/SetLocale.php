@@ -17,9 +17,9 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Session::has('locale')) {
-            App::setLocale(Session::get('locale'));
-        }
+        // Enforce Indonesian language since the language switcher is disabled
+        App::setLocale('id');
+        Session::put('locale', 'id');
 
         return $next($request);
     }

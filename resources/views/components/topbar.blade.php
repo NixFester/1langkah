@@ -40,7 +40,7 @@
 
         {{-- Language Switcher --}}
         <div style="position:relative; margin-right: 8px;">
-            <a href="{{ route('lang.switch', ['locale' => app()->getLocale() == 'en' ? 'id' : 'en']) }}" class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-xs font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" title="Switch Language">
+            <a href="javascript:void(0)" class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-xs font-bold text-gray-700 cursor-not-allowed opacity-50" title="Switch Language">
                 {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
             </a>
         </div>
@@ -88,7 +88,7 @@
     <div class="topbar-right" style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:12px;">
         {{-- Language Switcher --}}
         <div style="position:relative; margin-right: 8px;">
-            <a href="{{ route('lang.switch', ['locale' => app()->getLocale() == 'en' ? 'id' : 'en']) }}" class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-xs font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" title="Switch Language">
+            <a href="javascript:void(0)" class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-xs font-bold text-gray-700 cursor-not-allowed opacity-50" title="Switch Language">
                 {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
             </a>
         </div>

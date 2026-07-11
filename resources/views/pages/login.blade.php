@@ -8,7 +8,7 @@
     
     <!-- Language Switcher Mobile -->
     <div class="absolute top-4 right-4 z-50">
-        <a href="{{ route('lang.switch', ['locale' => app()->getLocale() == 'en' ? 'id' : 'en']) }}" class="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-gray-200 text-xs font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm" title="Switch Language">
+        <a href="javascript:void(0)" class="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-gray-200 text-xs font-bold text-gray-700 cursor-not-allowed opacity-50 shadow-sm" title="Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
         </a>
     </div>
@@ -111,7 +111,7 @@
     
     <!-- Language Switcher Desktop -->
     <div class="absolute top-6 right-8 z-50">
-        <a href="{{ route('lang.switch', ['locale' => app()->getLocale() == 'en' ? 'id' : 'en']) }}" class="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm" title="Switch Language">
+        <a href="javascript:void(0)" class="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 cursor-not-allowed opacity-50 shadow-sm" title="Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
         </a>
     </div>
