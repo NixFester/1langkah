@@ -24,11 +24,9 @@
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     <!-- Language Switcher -->
-                    {{-- 
                     <a href="{{ route('lang.switch', ['locale' => app()->getLocale() == 'en' ? 'id' : 'en']) }}" class="flex items-center justify-center w-8 h-8 rounded-full bg-[#fdfdfc] dark:bg-[#161615] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] border border-[#e3e3e0] dark:border-[#3E3E3A] text-xs font-bold hover:border-[#19140035] dark:hover:border-[#62605b] transition-colors" title="Switch Language">
                         {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
                     </a>
-                    --}}
                     
 
                     @auth
