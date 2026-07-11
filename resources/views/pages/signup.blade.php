@@ -7,11 +7,13 @@
 <div class="flex md:hidden h-[100dvh] w-full flex-col bg-gradient-to-br from-[#fff1f1] to-[#f7f8f9] overflow-hidden relative">
     
     <!-- Language Switcher Mobile -->
+    {{-- 
     <div class="absolute top-4 right-4 z-50">
         <a href="{{ route('lang.switch', ['locale' => app()->getLocale() == 'en' ? 'id' : 'en']) }}" class="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-gray-200 text-xs font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm" title="Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
         </a>
     </div>
+    --}}
 
     <div class="w-full h-full overflow-y-auto flex flex-col px-5 py-4 mx-auto items-center">
         <div class="my-auto flex flex-col items-center justify-center w-full max-w-[440px] pb-4 pt-2">
@@ -126,11 +128,13 @@
 <div class="hidden md:flex min-h-screen lg:h-screen w-full bg-[#f7f8f9] lg:overflow-hidden relative">
     
     <!-- Language Switcher Desktop -->
+    {{-- 
     <div class="absolute top-6 right-8 z-50">
         <a href="{{ route('lang.switch', ['locale' => app()->getLocale() == 'en' ? 'id' : 'en']) }}" class="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm" title="Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
         </a>
     </div>
+    --}}
 
     <!-- Left Column (Dark Theme) -->
     <div class="hidden md:flex flex-col w-[50%] bg-[#080202] relative p-10 lg:p-14 overflow-hidden border-r border-white/5">
