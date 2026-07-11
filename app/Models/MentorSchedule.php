@@ -116,6 +116,9 @@ class MentorSchedule extends Model
      */
     public function getDayNameAttribute(): string
     {
-        return self::DAY_NAMES[$this->day_of_week] ?? 'Unknown';
+        $keys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        $key = $keys[$this->day_of_week] ?? null;
+
+        return $key ? __('app.'.$key) : 'Unknown';
     }
 }

@@ -211,7 +211,7 @@ class CatalogService
     {
         $user = auth()->user();
         if (! $user) {
-            return ['name' => 'Guest', 'initials' => 'G', 'role' => 'Visitor', 'xp' => '0 XP', 'streak' => 0, 'careerReady' => 0];
+            return ['name' => __('app.guest'), 'initials' => 'G', 'role' => __('app.visitor'), 'xp' => '0 XP', 'streak' => 0, 'careerReady' => 0];
         }
 
         $initials = implode('', array_map(fn ($w) => $w[0] ?? '', explode(' ', $user->name)));
@@ -303,14 +303,14 @@ class CatalogService
     public function offlineFeatures(): array
     {
         return [
-            '10 hari intensif tatap muka',
-            'Mentor 1-on-1 setiap hari',
-            'Project portofolio nyata',
-            'Sertifikat completion',
-            'Akses komunitas alumni',
-            'Networking dengan sesama peserta',
-            'Career coaching session',
-            'Priority job referral',
+            __('app.feat_10_hari'),
+            __('app.feat_mentor_1on1'),
+            __('app.feat_project_portfolio'),
+            __('app.feat_certificate'),
+            __('app.feat_alumni_network'),
+            __('app.feat_networking'),
+            __('app.feat_career_coaching'),
+            __('app.feat_job_referral'),
         ];
     }
 
@@ -355,7 +355,7 @@ class CatalogService
 
         // Get schedules for available days
         $schedules = $mentor->schedules->map(function ($schedule) {
-            $dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            $dayNames = [__('app.sunday'), __('app.monday'), __('app.tuesday'), __('app.wednesday'), __('app.thursday'), __('app.friday'), __('app.saturday')];
 
             return [
                 'day' => $schedule->day_of_week,
@@ -395,11 +395,11 @@ class CatalogService
         ];
     }
 
-    private function formatPrice(string|int $price): string
+    private function formatPrice(string|int|null $price): string
     {
         $priceRaw = trim(str_replace('/sesi', '', (string) $price));
         if (empty($priceRaw) || $priceRaw == '0' || strtolower($priceRaw) === 'gratis') {
-            return 'Gratis';
+            return __('app.free');
         }
         if (is_numeric($priceRaw)) {
             return 'Rp '.number_format((float) $priceRaw, 0, ',', '.');
@@ -588,11 +588,11 @@ class CatalogService
         }
 
         return $logs->map(function ($log) {
-            $loggableName = $log->loggable ? ($log->loggable->title ?? 'an item') : 'the platform';
+            $loggableName = $log->loggable ? ($log->loggable->title ?? __('app.an_item')) : __('app.the_platform');
             $actionText = match ($log->action) {
-                'enrolled' => 'Enrolled in',
-                'completed' => 'Completed',
-                'started' => 'Started',
+                'enrolled' => __('app.action_enrolled_in'),
+                'completed' => __('app.action_completed'),
+                'started' => __('app.action_started'),
                 default => ucfirst($log->action),
             };
 
@@ -670,9 +670,9 @@ class CatalogService
     public function testimonials(): array
     {
         return [
-            ['quote' => 'Dalam 6 bulan belajar di 1Langkah...', 'name' => 'Aisyah Putri',    'role' => 'Frontend Developer · Tokopedia', 'initials' => 'AP'],
-            ['quote' => 'Kualitas kursus Data Science-nya...',   'name' => 'Dimas Prasetyo',  'role' => 'Data Scientist · Gojek',        'initials' => 'DP'],
-            ['quote' => 'Mentor marketplace-nya luar biasa...',  'name' => 'Nadya Ramadhani', 'role' => 'UI/UX Designer · Shopee',       'initials' => 'NR'],
+            ['quote' => __('app.testi_quote_1'), 'name' => 'Aisyah Putri',    'role' => 'Frontend Developer · Tokopedia', 'initials' => 'AP'],
+            ['quote' => __('app.testi_quote_2'),   'name' => 'Dimas Prasetyo',  'role' => 'Data Scientist · Gojek',        'initials' => 'DP'],
+            ['quote' => __('app.testi_quote_3'),  'name' => 'Nadya Ramadhani', 'role' => 'UI/UX Designer · Shopee',       'initials' => 'NR'],
         ];
     }
 
@@ -753,16 +753,16 @@ class CatalogService
 
     public function categories(): array
     {
-        return ['Semua', 'Programming', 'Data Science', 'Design', 'Marketing', 'Business', 'Cloud', 'Security'];
+        return [__('app.cat_all'), __('app.cat_programming'), __('app.cat_data_science'), __('app.cat_design'), __('app.cat_marketing'), __('app.cat_business'), __('app.cat_cloud'), __('app.cat_security')];
     }
 
     public function levels(): array
     {
-        return ['Semua Level', 'Beginner', 'Intermediate', 'Advanced'];
+        return [__('app.cat_all_level'), __('app.cat_beginner'), __('app.cat_intermediate'), __('app.cat_advanced')];
     }
 
     public function mentorCategories(): array
     {
-        return ['Semua', 'Programming', 'Design', 'Data Science', 'Marketing', 'Leadership', 'Cloud'];
+        return [__('app.cat_all'), __('app.cat_programming'), __('app.cat_design'), __('app.cat_data_science'), __('app.cat_marketing'), __('app.cat_leadership'), __('app.cat_cloud')];
     }
 }

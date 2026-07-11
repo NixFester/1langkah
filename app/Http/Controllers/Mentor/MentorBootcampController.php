@@ -37,7 +37,7 @@ class MentorBootcampController extends Controller
         $mentorProfile = $this->getMentorProfile();
 
         if ($bootcamp->mentor_name !== $user->name && $bootcamp->mentor_id !== $mentorProfile?->id) {
-            abort(403, 'Anda bukan pengajar bootcamp ini.');
+            abort(403, __('app.msg_abort_anda_bukan_pengajar_bootcamp_ini'));
         }
     }
 
@@ -115,7 +115,7 @@ class MentorBootcampController extends Controller
         }
 
         return redirect()->route('mentor.bootcamps.edit', $bootcamp)
-            ->with('success', 'Bootcamp berhasil dibuat.');
+            ->with('success', __('app.msg_success_bootcamp_berhasil_dibuat'));
     }
 
     /**
@@ -155,7 +155,7 @@ class MentorBootcampController extends Controller
 
         $bootcamp->update($data);
 
-        return redirect()->back()->with('success', 'Bootcamp berhasil diperbarui.');
+        return redirect()->back()->with('success', __('app.msg_success_bootcamp_berhasil_diperbarui'));
     }
 
     /**
@@ -167,7 +167,7 @@ class MentorBootcampController extends Controller
         $bootcamp->delete();
 
         return redirect()->route('mentor.bootcamps.index')
-            ->with('success', 'Bootcamp berhasil dihapus.');
+            ->with('success', __('app.msg_success_bootcamp_berhasil_dihapus'));
     }
 
     /* ── Session Management ─────────────────────────────────────────── */
@@ -190,7 +190,7 @@ class MentorBootcampController extends Controller
         $data['password'] = $bootcamp->isOnline() ? BootcampSession::generatePassword() : null;
         $bootcamp->sessions()->create($data);
 
-        return redirect()->back()->with('success', 'Sesi berhasil ditambahkan.');
+        return redirect()->back()->with('success', __('app.msg_success_sesi_berhasil_ditambahkan'));
     }
 
     /**
@@ -201,7 +201,7 @@ class MentorBootcampController extends Controller
         $this->authorizeOwnership($bootcamp);
 
         if ($session->bootcamp_id !== $bootcamp->id) {
-            abort(404, 'Sesi tidak ditemukan.');
+            abort(404, __('app.msg_abort_sesi_tidak_ditemukan'));
         }
 
         $data = $request->validate([
@@ -214,7 +214,7 @@ class MentorBootcampController extends Controller
 
         $session->update($data);
 
-        return redirect()->back()->with('success', 'Sesi berhasil diperbarui.');
+        return redirect()->back()->with('success', __('app.msg_success_sesi_berhasil_diperbarui'));
     }
 
     /**
@@ -225,12 +225,12 @@ class MentorBootcampController extends Controller
         $this->authorizeOwnership($bootcamp);
 
         if ($session->bootcamp_id !== $bootcamp->id) {
-            abort(404, 'Sesi tidak ditemukan.');
+            abort(404, __('app.msg_abort_sesi_tidak_ditemukan'));
         }
 
         $session->delete();
 
-        return redirect()->back()->with('success', 'Sesi berhasil dihapus.');
+        return redirect()->back()->with('success', __('app.msg_success_sesi_berhasil_dihapus'));
     }
 
     /* ── Attendance Management ─────────────────────────────────────── */
@@ -303,7 +303,7 @@ class MentorBootcampController extends Controller
         }
 
         return redirect()->back()
-            ->with('success', "Kode absensi berhasil di-generate untuk {$validated['date']}")
+            ->with('success', __('app.msg_attendance_generated', ['date' => $validated['date']]))
             ->with('short_code', $shortCode);
     }
 
@@ -323,7 +323,7 @@ class MentorBootcampController extends Controller
             ->first();
 
         if (! $record) {
-            return redirect()->back()->with('error', 'Kode tidak valid atau sudah digunakan.');
+            return redirect()->back()->with('error', __('app.msg_error_kode_tidak_valid_atau_sudah_digunakan'));
         }
 
         // Mark as verified
@@ -343,7 +343,7 @@ class MentorBootcampController extends Controller
             );
         }
 
-        return redirect()->back()->with('success', "Absensi ditandai untuk {$user->name}. +XP awarded!");
+        return redirect()->back()->with('success', __('app.msg_attendance_marked', ['name' => $user->name]));
     }
 
     /**

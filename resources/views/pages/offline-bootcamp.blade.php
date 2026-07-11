@@ -66,9 +66,9 @@
         title="{{ __('app.banner_offline_title') }}"
         message="{{ __('app.banner_offline_desc') }}"
         :stats="[
-            ['value' => '3 Kota', 'label' => __('app.stat_available')],
-            ['value' => 'Max 20', 'label' => __('app.stat_participants_batch')],
-            ['value' => 'Sertifikat', 'label' => __('app.stat_verified')]
+            ['value' => __('app.stat_val_cities'), 'label' => __('app.stat_available')],
+            ['value' => __('app.stat_val_max_20'), 'label' => __('app.stat_participants_batch')],
+            ['value' => __('app.stat_val_cert'), 'label' => __('app.stat_verified')]
         ]"
     >
         <x-slot name="icon">
@@ -158,7 +158,7 @@
                         <div>
                             <div class="text-[11px] font-medium text-gray-400 mb-1" x-text="'{{ __('app.starts_on') }} ' + (b.startDate || '')"></div>
                             <div class="text-[16px] font-extrabold"
-                                 :class="b.formatted_price === 'Gratis' ? 'text-emerald-600' : 'text-black'"
+                                 :class="['Gratis', 'Free', '{{ __('app.free') }}'].includes(b.formatted_price) ? 'text-emerald-600' : 'text-black'"
                                  x-text="b.formatted_price"></div>
                         </div>
                         <div>

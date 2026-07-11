@@ -248,10 +248,10 @@ async function updateNotificationPref(checkbox) {
 
         const data = await response.json();
         if (data.success) {
-            showFeedback('Preferensi berhasil disimpan!');
+            showFeedback('{{ __('app.pref_saved_success') }}');
         }
     } catch (error) {
-        showFeedback('Gagal menyimpan preferensi', 'error');
+        showFeedback('{{ __('app.pref_saved_fail') }}', 'error');
         checkbox.checked = !value;
     }
 }
@@ -274,10 +274,10 @@ async function updatePrivacyPref(checkbox) {
 
         const data = await response.json();
         if (data.success) {
-            showFeedback('Pengaturan privasi berhasil disimpan!');
+            showFeedback('{{ __('app.privacy_saved_success') }}');
         }
     } catch (error) {
-        showFeedback('Gagal menyimpan pengaturan', 'error');
+        showFeedback('{{ __('app.privacy_saved_fail') }}', 'error');
         checkbox.checked = !value;
     }
 }
@@ -304,7 +304,7 @@ async function uploadAvatar(input) {
             // Update avatar display
             const display = document.getElementById('avatar-display');
             display.innerHTML = `<img src="${data.data.avatar_url}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">`;
-            showFeedback('Avatar berhasil diupload!');
+            showFeedback('{{ __('app.avatar_upload_success') }}');
 
             // Update topbar avatar too
             const topbarAvatar = document.querySelector('.topbar-avatar');
@@ -312,10 +312,10 @@ async function uploadAvatar(input) {
                 topbarAvatar.src = data.data.avatar_url;
             }
         } else {
-            showFeedback(data.message || 'Gagal upload avatar', 'error');
+            showFeedback(data.message || '{{ __('app.avatar_upload_fail') }}', 'error');
         }
     } catch (error) {
-        showFeedback('Gagal upload avatar', 'error');
+        showFeedback('{{ __('app.avatar_upload_fail') }}', 'error');
     }
 }
 </script>

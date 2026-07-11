@@ -1,9 +1,9 @@
 <!-- Empty State Component -->
 @props([
-    'message' => 'Belum ada data.',
+    'message' => __('app.no_data'),
     'icon' => 'inbox',
     'actionRoute' => null,
-    'actionLabel' => 'Tambah Data Baru',
+    'actionLabel' => __('app.add_new_data'),
     'center' => true,
 ])
 

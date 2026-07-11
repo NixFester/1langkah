@@ -52,7 +52,7 @@
                 </p>
                 <p class="text-xs text-gray-500">
                     @if($isCompleted)
-                        <span class="text-emerald-600">Selesai ditonton</span>
+                        <span class="text-emerald-600">{{ __('app.completed_watching') }}</span>
                     @else
                         {{ $video['duration'] ?? '' }}
                     @endif
@@ -92,7 +92,7 @@
             </div>
 
             <!-- Lock Badge -->
-            <span class="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full flex-shrink-0">Locked</span>
+            <span class="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full flex-shrink-0">{{ __('app.locked') }}</span>
         </div>
     @endif
 </div>

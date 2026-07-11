@@ -16,7 +16,7 @@
     $title = $title ?? '';
     $subtitle = $subtitle ?? '';
     $link = $link ?? '';
-    $linkText = $linkText ?? 'Lihat semua';
+    $linkText = $linkText ?? __('app.view_all');
 
     $badgeColors = [
         'red' => ['bg' => 'bg-red-100/50', 'border' => 'border-red-200', 'text' => 'text-red-700', 'icon' => 'text-red-600'],

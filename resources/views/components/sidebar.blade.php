@@ -20,12 +20,12 @@
 
     // Role label helper
     $roleLabels = [
-        'superadmin' => 'Super Admin',
-        'admin'      => 'Admin',
-        'keuangan'   => 'Keuangan',
-        'marketing'  => 'Marketing',
-        'mentor'     => 'Mentor',
-        'student'    => 'Student',
+        'superadmin' => __('app.superadmin') ?? 'Super Admin',
+        'admin'      => __('app.admin') ?? 'Admin',
+        'keuangan'   => __('app.finance') ?? 'Keuangan',
+        'marketing'  => __('app.marketing') ?? 'Marketing',
+        'mentor'     => __('app.mentor') ?? 'Mentor',
+        'student'    => __('app.student') ?? 'Student',
     ];
     $roleLabel = $user ? ($roleLabels[$user->role] ?? ucfirst($user->role)) : 'User';
 
@@ -37,66 +37,66 @@
     if ($isSuperAdmin) {
         $roleNavGroups = [
             'superadmin' => [
-                'label' => 'Super Admin',
+                'label' => __('app.superadmin'),
                 'icon' => 'shield',
                 'color' => '#7c3aed',
                 'items' => [
-                    ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'superadmin.dashboard'],
-                    ['id' => 'users', 'icon' => 'users', 'label' => 'Kelola User', 'route' => 'superadmin.users'],
-                    ['id' => 'audit-logs', 'icon' => 'shield', 'label' => 'Audit Log', 'route' => 'superadmin.audit-logs'],
-                    ['id' => 'system-stats', 'icon' => 'chart', 'label' => 'Statistik Sistem', 'route' => 'superadmin.system-stats'],
+                    ['id' => 'dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'superadmin.dashboard'],
+                    ['id' => 'users', 'icon' => 'users', 'label' => __('app.manage_users'), 'route' => 'superadmin.users'],
+                    ['id' => 'audit-logs', 'icon' => 'shield', 'label' => __('app.audit_log'), 'route' => 'superadmin.audit-logs'],
+                    ['id' => 'system-stats', 'icon' => 'chart', 'label' => __('app.system_stats'), 'route' => 'superadmin.system-stats'],
                 ]
             ],
             'admin' => [
-                'label' => 'Admin',
+                'label' => __('app.admin'),
                 'icon' => 'settings',
                 'color' => '#ef4444',
                 'items' => [
-                    ['id' => 'admin.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'admin.dashboard'],
-                    ['id' => 'admin.users', 'icon' => 'users', 'label' => 'Manage Users', 'route' => 'admin.users'],
-                    ['id' => 'admin.courses', 'icon' => 'book', 'label' => 'Manage Courses', 'route' => 'admin.courses'],
-                    ['id' => 'admin.bootcamps', 'icon' => 'award', 'label' => 'Manage Bootcamps', 'route' => 'admin.bootcamps'],
-                    ['id' => 'admin.events', 'icon' => 'calendar', 'label' => 'Manage Events', 'route' => 'admin.events'],
-                    ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => 'Manage Quizzes', 'route' => 'admin.quizzes'],
-                    ['id' => 'admin.options', 'icon' => 'settings', 'label' => 'Settings', 'route' => 'admin.options'],
+                    ['id' => 'admin.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'admin.dashboard'],
+                    ['id' => 'admin.users', 'icon' => 'users', 'label' => __('app.manage_users'), 'route' => 'admin.users'],
+                    ['id' => 'admin.courses', 'icon' => 'book', 'label' => __('app.manage_courses'), 'route' => 'admin.courses'],
+                    ['id' => 'admin.bootcamps', 'icon' => 'award', 'label' => __('app.manage_bootcamps'), 'route' => 'admin.bootcamps'],
+                    ['id' => 'admin.events', 'icon' => 'calendar', 'label' => __('app.manage_events'), 'route' => 'admin.events'],
+                    ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'admin.quizzes'],
+                    ['id' => 'admin.options', 'icon' => 'settings', 'label' => __('app.settings'), 'route' => 'admin.options'],
                 ]
             ],
             'keuangan' => [
-                'label' => 'Keuangan',
+                'label' => __('app.finance'),
                 'icon' => 'credit-card',
                 'color' => '#f59e0b',
                 'items' => [
-                    ['id' => 'keuangan.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'keuangan.dashboard'],
-                    ['id' => 'keuangan.verifications', 'icon' => 'credit-card', 'label' => 'Verifikasi Pembayaran', 'route' => 'keuangan.verifications'],
-                    ['id' => 'keuangan.enrollments', 'icon' => 'users', 'label' => 'Enrollments', 'route' => 'keuangan.enrollments'],
-                    ['id' => 'keuangan.reports', 'icon' => 'chart', 'label' => 'Laporan Revenue', 'route' => 'keuangan.reports'],
+                    ['id' => 'keuangan.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'keuangan.dashboard'],
+                    ['id' => 'keuangan.verifications', 'icon' => 'credit-card', 'label' => __('app.payment_verification'), 'route' => 'keuangan.verifications'],
+                    ['id' => 'keuangan.enrollments', 'icon' => 'users', 'label' => __('app.enrollments'), 'route' => 'keuangan.enrollments'],
+                    ['id' => 'keuangan.reports', 'icon' => 'chart', 'label' => __('app.revenue_report'), 'route' => 'keuangan.reports'],
                 ]
             ],
             'marketing' => [
-                'label' => 'Marketing',
+                'label' => __('app.marketing'),
                 'icon' => 'megaphone',
                 'color' => '#ec4899',
                 'items' => [
-                    ['id' => 'marketing.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'marketing.dashboard'],
-                    ['id' => 'marketing.promo-codes', 'icon' => 'ticket', 'label' => 'Kode Promo', 'route' => 'marketing.promo-codes'],
-                    ['id' => 'marketing.analytics', 'icon' => 'chart', 'label' => 'Analytics', 'route' => 'marketing.analytics'],
+                    ['id' => 'marketing.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'marketing.dashboard'],
+                    ['id' => 'marketing.promo-codes', 'icon' => 'ticket', 'label' => __('app.promo_codes'), 'route' => 'marketing.promo-codes'],
+                    ['id' => 'marketing.analytics', 'icon' => 'chart', 'label' => __('app.analytics'), 'route' => 'marketing.analytics'],
                 ]
             ],
             'mentor' => [
-                'label' => 'Mentor',
+                'label' => __('app.mentor'),
                 'icon' => 'user',
                 'color' => '#3b82f6',
                 'items' => [
-                    ['id' => 'mentor.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'mentor.dashboard'],
-                    ['id' => 'mentor.profile.edit', 'icon' => 'user', 'label' => 'Edit Biodata', 'route' => 'mentor.profile.edit'],
-                    ['id' => 'mentor.my-courses', 'icon' => 'award', 'label' => 'Kursus Saya', 'route' => 'mentor.my-courses'],
-                    ['id' => 'mentor.courses.index', 'icon' => 'folder', 'label' => 'Kelola Kursus', 'route' => 'mentor.courses.index'],
-                    ['id' => 'mentor.quizzes.index', 'icon' => 'quiz', 'label' => 'Kelola Quiz', 'route' => 'mentor.quizzes.index'],
-                    ['id' => 'mentor.sessions.index', 'icon' => 'video', 'label' => 'Sesi Mentoring', 'route' => 'mentor.sessions.index'],
-                    ['id' => 'mentor.bootcamps.index', 'icon' => 'target', 'label' => 'Bootcamp Saya', 'route' => 'mentor.bootcamps.index'],
-                    ['id' => 'mentor.events', 'icon' => 'calendar', 'label' => 'Event Saya', 'route' => 'mentor.events'],
-                    ['id' => 'mentor.students', 'icon' => 'users', 'label' => 'Siswa Saya', 'route' => 'mentor.students'],
-                    ['id' => 'mentor.feedback', 'icon' => 'starEmpty', 'label' => 'Feedback & Rating', 'route' => 'mentor.feedback'],
+                    ['id' => 'mentor.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'mentor.dashboard'],
+                    ['id' => 'mentor.profile.edit', 'icon' => 'user', 'label' => __('app.edit_profile'), 'route' => 'mentor.profile.edit'],
+                    ['id' => 'mentor.my-courses', 'icon' => 'award', 'label' => __('app.my_courses'), 'route' => 'mentor.my-courses'],
+                    ['id' => 'mentor.courses.index', 'icon' => 'folder', 'label' => __('app.manage_courses'), 'route' => 'mentor.courses.index'],
+                    ['id' => 'mentor.quizzes.index', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'mentor.quizzes.index'],
+                    ['id' => 'mentor.sessions.index', 'icon' => 'video', 'label' => __('app.mentoring_sessions'), 'route' => 'mentor.sessions.index'],
+                    ['id' => 'mentor.bootcamps.index', 'icon' => 'target', 'label' => __('app.my_bootcamps'), 'route' => 'mentor.bootcamps.index'],
+                    ['id' => 'mentor.events', 'icon' => 'calendar', 'label' => __('app.my_events'), 'route' => 'mentor.events'],
+                    ['id' => 'mentor.students', 'icon' => 'users', 'label' => __('app.my_students'), 'route' => 'mentor.students'],
+                    ['id' => 'mentor.feedback', 'icon' => 'starEmpty', 'label' => __('app.feedback_rating'), 'route' => 'mentor.feedback'],
                 ]
             ],
         ];
@@ -113,30 +113,30 @@
     // Superadmin routes
     elseif ($isSuperAdminRoute) {
         $navItems = [
-            ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'superadmin.dashboard'],
-            ['id' => 'users', 'icon' => 'users', 'label' => 'Kelola User', 'route' => 'superadmin.users'],
-            ['id' => 'audit-logs', 'icon' => 'shield', 'label' => 'Audit Log', 'route' => 'superadmin.audit-logs'],
-            ['id' => 'system-stats', 'icon' => 'chart', 'label' => 'Statistik Sistem', 'route' => 'superadmin.system-stats'],
-            ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Kembali ke App', 'route' => 'dashboard'],
+            ['id' => 'dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'superadmin.dashboard'],
+            ['id' => 'users', 'icon' => 'users', 'label' => __('app.manage_users'), 'route' => 'superadmin.users'],
+            ['id' => 'audit-logs', 'icon' => 'shield', 'label' => __('app.audit_log'), 'route' => 'superadmin.audit-logs'],
+            ['id' => 'system-stats', 'icon' => 'chart', 'label' => __('app.system_stats'), 'route' => 'superadmin.system-stats'],
+            ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => __('app.back_to_app'), 'route' => 'dashboard'],
         ];
     }
     // Keuangan routes
     elseif ($isKeuanganRoute) {
         $navItems = [
-            ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'keuangan.dashboard'],
-            ['id' => 'verifications', 'icon' => 'credit-card', 'label' => 'Verifikasi Pembayaran', 'route' => 'keuangan.verifications'],
-            ['id' => 'enrollments', 'icon' => 'users', 'label' => 'Enrollments', 'route' => 'keuangan.enrollments'],
-            ['id' => 'reports', 'icon' => 'chart', 'label' => 'Laporan Revenue', 'route' => 'keuangan.reports'],
-            ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Kembali ke App', 'route' => 'dashboard'],
+            ['id' => 'dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'keuangan.dashboard'],
+            ['id' => 'verifications', 'icon' => 'credit-card', 'label' => __('app.payment_verification'), 'route' => 'keuangan.verifications'],
+            ['id' => 'enrollments', 'icon' => 'users', 'label' => __('app.enrollments'), 'route' => 'keuangan.enrollments'],
+            ['id' => 'reports', 'icon' => 'chart', 'label' => __('app.revenue_report'), 'route' => 'keuangan.reports'],
+            ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => __('app.back_to_app'), 'route' => 'dashboard'],
         ];
     }
     // Marketing routes
     elseif ($isMarketingRoute) {
         $navItems = [
-            ['id' => 'dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'marketing.dashboard'],
-            ['id' => 'promo-codes', 'icon' => 'ticket', 'label' => 'Kode Promo', 'route' => 'marketing.promo-codes'],
-            ['id' => 'analytics', 'icon' => 'chart', 'label' => 'Analytics', 'route' => 'marketing.analytics'],
-            ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Kembali ke App', 'route' => 'dashboard'],
+            ['id' => 'dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'marketing.dashboard'],
+            ['id' => 'promo-codes', 'icon' => 'ticket', 'label' => __('app.promo_codes'), 'route' => 'marketing.promo-codes'],
+            ['id' => 'analytics', 'icon' => 'chart', 'label' => __('app.analytics'), 'route' => 'marketing.analytics'],
+            ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => __('app.back_to_app'), 'route' => 'dashboard'],
         ];
     }
     // Mentor routes
@@ -148,73 +148,73 @@
         // If no mentor profile and not on edit page, show only edit profile link
         if (!$hasMentorProfile && !$isEditProfileRoute) {
             $navItems = [
-                ['id' => 'mentor.profile.edit', 'icon' => 'user', 'label' => 'Edit Biodata', 'route' => 'mentor.profile.edit'],
-                ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Kembali ke App', 'route' => 'dashboard'],
+                ['id' => 'mentor.profile.edit', 'icon' => 'user', 'label' => __('app.edit_profile'), 'route' => 'mentor.profile.edit'],
+                ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => __('app.back_to_app'), 'route' => 'dashboard'],
             ];
         } else {
             // Full mentor navigation when profile exists or on edit page
             $navItems = [
-                ['id' => 'mentor.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'mentor.dashboard'],
-                ['id' => 'mentor.profile.edit', 'icon' => 'user', 'label' => 'Edit Biodata', 'route' => 'mentor.profile.edit'],
-                ['id' => 'mentor.my-courses', 'icon' => 'award', 'label' => 'Kursus Saya', 'route' => 'mentor.my-courses'],
-                ['id' => 'mentor.courses.index', 'icon' => 'folder', 'label' => 'Kelola Kursus', 'route' => 'mentor.courses.index'],
-                ['id' => 'mentor.quizzes.index', 'icon' => 'quiz', 'label' => 'Kelola Quiz', 'route' => 'mentor.quizzes.index'],
-                ['id' => 'mentor.sessions.index', 'icon' => 'video', 'label' => 'Sesi Mentoring', 'route' => 'mentor.sessions.index'],
-                ['id' => 'mentor.bootcamps.index', 'icon' => 'target', 'label' => 'Bootcamp Saya', 'route' => 'mentor.bootcamps.index'],
-                ['id' => 'mentor.events', 'icon' => 'calendar', 'label' => 'Event Saya', 'route' => 'mentor.events'],
-                ['id' => 'mentor.students', 'icon' => 'users', 'label' => 'Siswa Saya', 'route' => 'mentor.students'],
-                ['id' => 'mentor.feedback', 'icon' => 'starEmpty', 'label' => 'Feedback & Rating', 'route' => 'mentor.feedback'],
-                ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Kembali ke App', 'route' => 'dashboard'],
+                ['id' => 'mentor.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'mentor.dashboard'],
+                ['id' => 'mentor.profile.edit', 'icon' => 'user', 'label' => __('app.edit_profile'), 'route' => 'mentor.profile.edit'],
+                ['id' => 'mentor.my-courses', 'icon' => 'award', 'label' => __('app.my_courses'), 'route' => 'mentor.my-courses'],
+                ['id' => 'mentor.courses.index', 'icon' => 'folder', 'label' => __('app.manage_courses'), 'route' => 'mentor.courses.index'],
+                ['id' => 'mentor.quizzes.index', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'mentor.quizzes.index'],
+                ['id' => 'mentor.sessions.index', 'icon' => 'video', 'label' => __('app.mentoring_sessions'), 'route' => 'mentor.sessions.index'],
+                ['id' => 'mentor.bootcamps.index', 'icon' => 'target', 'label' => __('app.my_bootcamps'), 'route' => 'mentor.bootcamps.index'],
+                ['id' => 'mentor.events', 'icon' => 'calendar', 'label' => __('app.my_events'), 'route' => 'mentor.events'],
+                ['id' => 'mentor.students', 'icon' => 'users', 'label' => __('app.my_students'), 'route' => 'mentor.students'],
+                ['id' => 'mentor.feedback', 'icon' => 'starEmpty', 'label' => __('app.feedback_rating'), 'route' => 'mentor.feedback'],
+                ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => __('app.back_to_app'), 'route' => 'dashboard'],
             ];
         }
     }
     // Admin routes
     elseif ($isAdminRoute) {
         $navItems = [
-            ['id' => 'admin.dashboard', 'icon' => 'grid', 'label' => 'Dashboard', 'route' => 'admin.dashboard'],
-            ['id' => 'admin.users', 'icon' => 'users', 'label' => 'Manage Users', 'route' => 'admin.users'],
-            ['id' => 'admin.courses', 'icon' => 'book', 'label' => 'Manage Courses', 'route' => 'admin.courses'],
-            ['id' => 'admin.bootcamps', 'icon' => 'award', 'label' => 'Manage Bootcamps', 'route' => 'admin.bootcamps'],
-            ['id' => 'admin.events', 'icon' => 'calendar', 'label' => 'Manage Events', 'route' => 'admin.events'],
-            ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => 'Manage Quizzes', 'route' => 'admin.quizzes'],
-            ['id' => 'admin.options', 'icon' => 'settings', 'label' => 'Settings', 'route' => 'admin.options'],
-            ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => 'Back to App', 'route' => 'dashboard'],
+            ['id' => 'admin.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'admin.dashboard'],
+            ['id' => 'admin.users', 'icon' => 'users', 'label' => __('app.manage_users'), 'route' => 'admin.users'],
+            ['id' => 'admin.courses', 'icon' => 'book', 'label' => __('app.manage_courses'), 'route' => 'admin.courses'],
+            ['id' => 'admin.bootcamps', 'icon' => 'award', 'label' => __('app.manage_bootcamps'), 'route' => 'admin.bootcamps'],
+            ['id' => 'admin.events', 'icon' => 'calendar', 'label' => __('app.manage_events'), 'route' => 'admin.events'],
+            ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'admin.quizzes'],
+            ['id' => 'admin.options', 'icon' => 'settings', 'label' => __('app.settings'), 'route' => 'admin.options'],
+            ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => __('app.back_to_app'), 'route' => 'dashboard'],
         ];
     } else {
         // User Navigation
         if ($isAuth) {
-            $navItems[] = ['id' => 'dashboard', 'icon' => 'dashboard', 'label' => 'Dashboard', 'route' => 'dashboard'];
+            $navItems[] = ['id' => 'dashboard', 'icon' => 'dashboard', 'label' => __('app.dashboard'), 'route' => 'dashboard'];
         }
 
         $belajarSubItems = [
-            ['id' => 'kursus', 'icon' => 'kursus', 'label' => 'Kursus', 'route' => 'kursus'],
+            ['id' => 'kursus', 'icon' => 'kursus', 'label' => __('app.course'), 'route' => 'kursus'],
         ];
 
         if ($isAuth) {
-            $belajarSubItems[] = ['id' => 'kursus-saya', 'icon' => 'award', 'label' => 'Kursus Saya', 'route' => 'kursus-saya'];
-            $belajarSubItems[] = ['id' => 'quizzes', 'icon' => 'quiz', 'label' => 'Quiz', 'route' => 'quiz.index'];
+            $belajarSubItems[] = ['id' => 'kursus-saya', 'icon' => 'award', 'label' => __('app.my_courses'), 'route' => 'kursus-saya'];
+            $belajarSubItems[] = ['id' => 'quizzes', 'icon' => 'quiz', 'label' => __('app.quiz'), 'route' => 'quiz.index'];
         }
 
-        $belajarSubItems[] = ['id' => 'online-bootcamp', 'icon' => 'online_bootcamp', 'label' => 'Online Bootcamp', 'route' => 'online-bootcamp'];
-        $belajarSubItems[] = ['id' => 'offline-bootcamp', 'icon' => 'offline_bootcamp', 'label' => 'Offline Bootcamp', 'route' => 'offline-bootcamp'];
+        $belajarSubItems[] = ['id' => 'online-bootcamp', 'icon' => 'online_bootcamp', 'label' => __('app.online_bootcamp'), 'route' => 'online-bootcamp'];
+        $belajarSubItems[] = ['id' => 'offline-bootcamp', 'icon' => 'offline_bootcamp', 'label' => __('app.offline_bootcamp'), 'route' => 'offline-bootcamp'];
 
         if ($isAuth) {
-            $belajarSubItems[] = ['id' => 'bootcamps-saya', 'icon' => 'target', 'label' => 'Bootcamp Saya', 'route' => 'bootcamps-saya'];
+            $belajarSubItems[] = ['id' => 'bootcamps-saya', 'icon' => 'target', 'label' => __('app.my_bootcamps'), 'route' => 'bootcamps-saya'];
         }
 
         $navItems[] = [
-            'id' => 'belajar', 'icon' => 'belajar', 'label' => 'Belajar',
+            'id' => 'belajar', 'icon' => 'belajar', 'label' => __('app.learning'),
             'subItems' => $belajarSubItems
         ];
 
         if ($isAuth) {
-            $navItems[] = ['id' => 'event', 'icon' => 'calendar', 'label' => 'Event', 'route' => 'event'];
-            $navItems[] = ['id' => 'portofolio', 'icon' => 'layers', 'label' => 'Portofolio', 'route' => 'portofolio'];
-            $navItems[] = ['id' => 'komunitas', 'icon' => 'users', 'label' => 'Komunitas', 'route' => 'komunitas'];
-            $navItems[] = ['id' => 'achievement', 'icon' => 'trophy', 'label' => 'Prestasi', 'route' => 'achievement'];
+            $navItems[] = ['id' => 'event', 'icon' => 'calendar', 'label' => __('app.event'), 'route' => 'event'];
+            $navItems[] = ['id' => 'portofolio', 'icon' => 'layers', 'label' => __('app.portfolio'), 'route' => 'portofolio'];
+            $navItems[] = ['id' => 'komunitas', 'icon' => 'users', 'label' => __('app.community'), 'route' => 'komunitas'];
+            $navItems[] = ['id' => 'achievement', 'icon' => 'trophy', 'label' => __('app.achievements'), 'route' => 'achievement'];
         }
 
-        $navItems[] = ['id' => 'mentor', 'icon' => 'mentor', 'label' => 'Mentor', 'route' => 'mentor'];
+        $navItems[] = ['id' => 'mentor', 'icon' => 'mentor', 'label' => __('app.mentor'), 'route' => 'mentor'];
 
         if ($isAuth) {
             // Only show "Sesi Mentoring" if user has active mentor sessions
@@ -222,19 +222,19 @@
                 ->whereIn('status', [MentorSession::STATUS_PENDING, MentorSession::STATUS_ACTIVE])
                 ->exists();
             if ($hasActiveMentorSession) {
-                $navItems[] = ['id' => 'my-sessions', 'icon' => 'video', 'label' => 'Sesi Mentoring', 'route' => 'my-sessions'];
+                $navItems[] = ['id' => 'my-sessions', 'icon' => 'video', 'label' => __('app.mentoring_sessions'), 'route' => 'my-sessions'];
             }
-            $navItems[] = ['id' => 'kalender', 'icon' => 'calendar', 'label' => 'Kalender', 'route' => 'kalender'];
+            $navItems[] = ['id' => 'kalender', 'icon' => 'calendar', 'label' => __('app.calendar'), 'route' => 'kalender'];
         }
 
         if ($isAdmin) {
             $navItems[] = [
-                'id' => 'admin-panel', 'icon' => 'settings', 'label' => 'Admin Panel','route' => 'admin.dashboard'];
+                'id' => 'admin-panel', 'icon' => 'settings', 'label' => __('app.admin_panel'),'route' => 'admin.dashboard'];
         }
         
         if ($isMentor) {
             $navItems[] = [
-                'id' => 'mentor-panel', 'icon' => 'user', 'label' => 'Panel Mentor', 'route' => 'mentor.dashboard'];
+                'id' => 'mentor-panel', 'icon' => 'user', 'label' => __('app.mentor_panel'), 'route' => 'mentor.dashboard'];
         }
     }
 @endphp
@@ -322,7 +322,7 @@
                 <div class="nav-section" style="padding: 0 12px; margin-top: 16px;">
                     <a href="{{ route('dashboard') }}" class="nav-item" style="margin-bottom: 2px;">
                         <x-icon name="arrowRight" />
-                        <span class="sidebar-text" style="font-size: 14px; font-weight: 500;">Kembali ke App</span>
+                        <span class="sidebar-text" style="font-size: 14px; font-weight: 500;">{{ __('app.back_to_app') }}</span>
                     </a>
                 </div>
             </div>
@@ -405,7 +405,7 @@
                     @csrf
                     <button type="submit" class="nav-item logout-btn w-full bg-transparent border-none cursor-pointer text-left m-0 transition-colors">
                         <svg class="transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:18px;height:18px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                        <span class="sidebar-text transition-colors" style="font-size: 14px; font-weight: 500;">Keluar</span>
+                        <span class="sidebar-text transition-colors" style="font-size: 14px; font-weight: 500;">{{ __('app.logout') }}</span>
                     </button>
                 </form>
             </div>
@@ -424,7 +424,7 @@
                         <div class="sidebar-user-role" style="font-size:12px;color:#9ca3af;margin-top:2px;">{{ $roleLabel }}</div>
                     </div>
                 </a>
-                <a href="{{ route('pengaturan') }}" class="text-gray-400 transition-colors ml-auto shrink-0 flex items-center justify-center pl-2 settings-btn" title="Pengaturan">
+                <a href="{{ route('pengaturan') }}" class="text-gray-400 transition-colors ml-auto shrink-0 flex items-center justify-center pl-2 settings-btn" :title="__('app.settings')">
                     <x-icon name="settings" style="width:20px;height:20px;" class="transition-colors" />
                 </a>
             </div>

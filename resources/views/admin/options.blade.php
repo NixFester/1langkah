@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Kelola Options')
+@section('title', __('app.manage_options'))
 @section('content')
 
 @if(session('success'))
@@ -10,29 +10,29 @@
 @endif
 
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6 p-5 sm:p-6">
-    <h3 class="text-lg font-bold text-gray-800 mb-4 sm:mb-5">Tambah Option Baru</h3>
+    <h3 class="text-lg font-bold text-gray-800 mb-4 sm:mb-5">{{ __('app.add_new_option') }}</h3>
     <form method="POST" action="{{ route('admin.options.store') }}">
         @csrf
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4 items-end">
             <div>
-                <label class="text-xs font-medium text-gray-500 block mb-1.5">Category</label>
+                <label class="text-xs font-medium text-gray-500 block mb-1.5">{{ __('app.category') }}</label>
                 <input name="category" placeholder="user_role" required class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-red-500 focus:border-red-500">
             </div>
             <div>
-                <label class="text-xs font-medium text-gray-500 block mb-1.5">Key</label>
+                <label class="text-xs font-medium text-gray-500 block mb-1.5">{{ __('app.key') }}</label>
                 <input name="key" placeholder="new_role" required class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-red-500 focus:border-red-500">
             </div>
             <div>
-                <label class="text-xs font-medium text-gray-500 block mb-1.5">Label</label>
+                <label class="text-xs font-medium text-gray-500 block mb-1.5">{{ __('app.label') }}</label>
                 <input name="label" placeholder="New Role" required class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-red-500 focus:border-red-500">
             </div>
             <div>
-                <label class="text-xs font-medium text-gray-500 block mb-1.5">Color (Hex)</label>
+                <label class="text-xs font-medium text-gray-500 block mb-1.5">{{ __('app.color_hex') }}</label>
                 <input name="color" placeholder="#3b82f6" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-red-500 focus:border-red-500">
             </div>
             <div class="pt-2 sm:pt-0">
                 <button type="submit" class="w-full bg-[#cc0000] text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-red-700 transition-colors shadow-sm">
-                    + Tambah
+                    {{ __('app.add_plus') }}
                 </button>
             </div>
         </div>
@@ -43,19 +43,19 @@
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
     <div class="p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3 border-b border-gray-100">
         <h3 class="text-base sm:text-lg font-bold text-gray-800 m-0">{{ str_replace('_', ' ', ucfirst($category)) }}</h3>
-        <span class="bg-gray-100 px-3 py-1 rounded-full text-xs font-medium text-gray-600">{{ $categoryOptions->count() }} options</span>
+        <span class="bg-gray-100 px-3 py-1 rounded-full text-xs font-medium text-gray-600">{{ $categoryOptions->count() }} {{ __('app.options') }}</span>
     </div>
     
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
             <thead>
                 <tr class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
-                    <th class="px-4 sm:px-5 py-3 font-bold whitespace-nowrap">Key</th>
-                    <th class="px-4 sm:px-5 py-3 font-bold whitespace-nowrap">Label</th>
+                    <th class="px-4 sm:px-5 py-3 font-bold whitespace-nowrap">{{ __('app.key') }}</th>
+                    <th class="px-4 sm:px-5 py-3 font-bold whitespace-nowrap">{{ __('app.label') }}</th>
                     <th class="px-4 sm:px-5 py-3 font-bold whitespace-nowrap">Color</th>
-                    <th class="px-4 sm:px-5 py-3 font-bold whitespace-nowrap text-center">Sort</th>
-                    <th class="px-4 sm:px-5 py-3 font-bold whitespace-nowrap text-center">Status</th>
-                    <th class="px-4 sm:px-5 py-3 font-bold whitespace-nowrap text-right">Aksi</th>
+                    <th class="px-4 sm:px-5 py-3 font-bold whitespace-nowrap text-center">{{ __('app.sort') }}</th>
+                    <th class="px-4 sm:px-5 py-3 font-bold whitespace-nowrap text-center">{{ __('app.status') }}</th>
+                    <th class="px-4 sm:px-5 py-3 font-bold whitespace-nowrap text-right">{{ __('app.action') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -78,16 +78,16 @@
                         <form method="POST" action="{{ route('admin.options.update', $option) }}" class="inline-block m-0">
                             @csrf @method('PATCH')
                             <select name="is_active" onchange="this.form.submit()" class="bg-white border border-gray-200 text-gray-700 text-xs rounded focus:ring-red-500 focus:border-red-500 py-1 px-2 cursor-pointer font-medium min-w-[80px]">
-                                <option value="1" {{ $option->is_active ? 'selected' : '' }}>Active</option>
-                                <option value="0" {{ !$option->is_active ? 'selected' : '' }}>Inactive</option>
+                                <option value="1" {{ $option->is_active ? 'selected' : '' }}>{{ __('app.active_en') }}</option>
+                                <option value="0" {{ !$option->is_active ? 'selected' : '' }}>{{ __('app.inactive') }}</option>
                             </select>
                         </form>
                     </td>
                     <td class="px-4 sm:px-5 py-3.5 text-right whitespace-nowrap">
-                        <form method="POST" action="{{ route('admin.options.destroy', $option) }}" onsubmit="return confirm('Hapus option ini?')" class="inline-block m-0">
+                        <form method="POST" action="{{ route('admin.options.destroy', $option) }}" onsubmit="return confirm('{{ __('app.delete_option_confirm') }}')" class="inline-block m-0">
                             @csrf @method('DELETE')
                             <button type="submit" class="inline-flex items-center justify-center bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded text-xs font-bold transition-colors">
-                                Hapus
+                                {{ __('app.delete') }}
                             </button>
                         </form>
                     </td>

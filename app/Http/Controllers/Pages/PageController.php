@@ -102,9 +102,14 @@ class PageController extends Controller
 
     public function logout(Request $request): RedirectResponse
     {
+        $locale = session('locale');
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        if ($locale) {
+            session(['locale' => $locale]);
+        }
 
         return redirect()->route('landing');
     }
@@ -158,7 +163,7 @@ class PageController extends Controller
 
         $user->save();
 
-        return back()->with('success', 'Profil berhasil diperbarui.');
+        return back()->with('success', __('app.msg_success_profil_berhasil_diperbarui'));
     }
 
     public function pesan(): View
@@ -493,7 +498,7 @@ class PageController extends Controller
         $mentor = $this->catalog->mentor($id);
 
         if (! $mentor) {
-            abort(404, 'Mentor tidak ditemukan.');
+            abort(404, __('app.msg_abort_mentor_tidak_ditemukan'));
         }
 
         return view('pages.profil-mentor', [
@@ -531,7 +536,7 @@ class PageController extends Controller
         $event = Event::find($id);
 
         if (! $event) {
-            return back()->with('error', 'Event tidak ditemukan.');
+            return back()->with('error', __('app.msg_error_event_tidak_ditemukan'));
         }
 
         // Check if user is already registered
@@ -541,7 +546,7 @@ class PageController extends Controller
             ->first();
 
         if ($existingReg) {
-            return redirect()->back()->with('info', 'Anda sudah terdaftar di event ini.');
+            return redirect()->back()->with('info', __('app.msg_info_anda_sudah_terdaftar_di_event_ini'));
         }
 
         // Check if event is free or paid
@@ -575,7 +580,7 @@ class PageController extends Controller
         // Update registered count
         $event->increment('registered_count');
 
-        return redirect()->back()->with('success', 'Berhasil mendaftar event!');
+        return redirect()->back()->with('success', __('app.msg_success_berhasil_mendaftar_event'));
     }
 
     public function kalender(Request $request): View
@@ -683,7 +688,7 @@ class PageController extends Controller
             $bookingData = session('pending_mentor_session');
 
             if (! $bookingData) {
-                return redirect()->route('dashboard')->with('error', 'Data booking tidak ditemukan. Silakan pesan ulang.');
+                return redirect()->route('dashboard')->with('error', __('app.msg_error_data_booking_tidak_ditemukan_silakan_pes'));
             }
 
             // Check if user already has an active session
@@ -694,7 +699,7 @@ class PageController extends Controller
             if ($existingSession) {
                 session()->forget('pending_mentor_session');
 
-                return redirect()->route('my-sessions')->with('error', 'Anda masih memiliki sesi mentoring yang aktif.');
+                return redirect()->route('my-sessions')->with('error', __('app.msg_error_anda_masih_memiliki_sesi_mentoring_yang_'));
             }
 
             // Create the mentor session
@@ -710,7 +715,7 @@ class PageController extends Controller
             // Clear session data
             session()->forget('pending_mentor_session');
 
-            return redirect()->route('my-sessions')->with('success', 'Sesi mentoring berhasil dipesan! Mentor akan segera menghubungi Anda.');
+            return redirect()->route('my-sessions')->with('success', __('app.msg_success_sesi_mentoring_berhasil_dipesan_mentor_a'));
         }
 
         // Handle event registration
@@ -718,12 +723,12 @@ class PageController extends Controller
             $registrationData = session('pending_event_registration');
 
             if (! $registrationData) {
-                return redirect()->route('dashboard')->with('error', 'Data pendaftaran tidak ditemukan. Silakan daftar ulang.');
+                return redirect()->route('dashboard')->with('error', __('app.msg_error_data_pendaftaran_tidak_ditemukan_silakan'));
             }
 
             $event = Event::find($registrationData['event_id']);
             if (! $event) {
-                return redirect()->route('dashboard')->with('error', 'Event tidak ditemukan.');
+                return redirect()->route('dashboard')->with('error', __('app.msg_error_event_tidak_ditemukan'));
             }
 
             // Check if already registered
@@ -734,7 +739,7 @@ class PageController extends Controller
             if ($existingReg) {
                 session()->forget('pending_event_registration');
 
-                return redirect()->route('detail-event', $event->id)->with('info', 'Anda sudah terdaftar di event ini.');
+                return redirect()->route('detail-event', $event->id)->with('info', __('app.msg_info_anda_sudah_terdaftar_di_event_ini'));
             }
 
             // Create registration
@@ -753,7 +758,7 @@ class PageController extends Controller
             // Clear session data
             session()->forget('pending_event_registration');
 
-            return redirect()->route('detail-event', $event->id)->with('success', 'Berhasil terdaftar di event!');
+            return redirect()->route('detail-event', $event->id)->with('success', __('app.msg_success_berhasil_terdaftar_di_event'));
         }
 
         // Handle course/bootcamp enrollment
@@ -770,13 +775,13 @@ class PageController extends Controller
         };
 
         if (! $purchasableType) {
-            return redirect()->back()->with('error', 'Jenis item tidak valid.');
+            return redirect()->back()->with('error', __('app.msg_error_jenis_item_tidak_valid'));
         }
 
         // Check if already enrolled
         if ($this->isUserEnrolled($user->id, $itemKind, $itemId)) {
             return redirect()->to($this->getEnrollmentRedirectUrl($itemKind, $itemId))
-                ->with('info', 'Kamu sudah terdaftar di item ini.');
+                ->with('info', __('app.msg_info_kamu_sudah_terdaftar_di_item_ini'));
         }
 
         // Get item name for notification
@@ -802,7 +807,7 @@ class PageController extends Controller
         app(NotificationService::class)->enrolled($user->id, $itemName, $itemKind, $itemId);
 
         return redirect()->to($this->getEnrollmentRedirectUrl($itemKind, $itemId))
-            ->with('success', "Berhasil terdaftar di {$itemName}! Selamat belajar 🎉");
+            ->with('success', __('app.msg_registered_item', ['item' => $itemName]));
     }
 
     /**

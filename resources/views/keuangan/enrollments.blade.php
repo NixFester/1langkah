@@ -1,7 +1,7 @@
 @extends('layouts.keuangan')
 
-@section('title', 'Enrollments')
-@section('header_title', 'Daftar Enrollments')
+@section('title', __('app.enrollments'))
+@section('header_title', __('app.enrollments_list'))
 
 @section('content')
     <x-flash-messages />
@@ -9,10 +9,10 @@
     <x-data-table :paginator="$enrollments">
         <template #thead>
             <tr class="bg-gray-50">
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Siswa</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kursus</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Jumlah Bayar</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Verifikasi</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.student') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.course') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.payment_amount') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.verification_date') }}</th>
             </tr>
         </template>
         @forelse($enrollments as $e)
@@ -23,7 +23,7 @@
                             <span class="text-green-600 font-bold text-sm">{{ substr($e->user->name ?? 'U', 0, 1) }}</span>
                         </div>
                         <div>
-                            <p class="font-medium text-gray-800">{{ $e->user->name ?? 'Unknown' }}</p>
+                            <p class="font-medium text-gray-800">{{ $e->user->name ?? __('app.unknown') }}</p>
                             <p class="text-xs text-gray-400">{{ $e->user->email ?? '' }}</p>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
         @empty
             <tr>
                 <td colspan="4" class="px-6 py-12">
-                    <x-empty-state message="Tidak ada data enrollments" icon="users" />
+                    <x-empty-state :message="__('app.no_enrollment_data')" icon="users" />
                 </td>
             </tr>
         @endforelse

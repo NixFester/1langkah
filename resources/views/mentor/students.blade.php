@@ -1,7 +1,7 @@
 @extends('layouts.mentor')
 
-@section('title', 'Siswa Saya')
-@section('header_title', 'Siswa Saya')
+@section('title', __('app.my_students'))
+@section('header_title', __('app.my_students'))
 
 @section('content')
     <x-flash-messages />
@@ -9,11 +9,11 @@
     <x-data-table :paginator="$students">
         <template #thead>
             <tr class="bg-gray-50">
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Siswa</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kursus</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Selesai</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aktivitas Terakhir</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.student') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.course') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.completed') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.last_activity') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.action') }}</th>
             </tr>
         </template>
 
@@ -35,26 +35,26 @@
                     </div>
                 </td>
                 <td class="px-6 py-4 text-gray-800">
-                    {{ $data['total_courses'] }} kursus
+                    {{ $data['total_courses'] }} {{ __('app.course_lowercase') }}
                 </td>
                 <td class="px-6 py-4">
                     <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-sm">
-                        {{ $data['completed_courses'] }} selesai
+                        {{ $data['completed_courses'] }} {{ __('app.completed_lowercase') }}
                     </span>
                 </td>
                 <td class="px-6 py-4 text-sm text-gray-500">
-                    {{ $data['last_activity']?->diffForHumans() ?? 'Belum aktif' }}
+                    {{ $data['last_activity']?->diffForHumans() ?? __('app.not_active_yet') }}
                 </td>
                 <td class="px-6 py-4">
                     <a href="{{ route('mentor.student-detail', $data['user']) }}" class="text-blue-600 hover:text-blue-700 text-sm font-medium">
-                        Detail
+                        {{ __('app.detail') }}
                     </a>
                 </td>
             </tr>
         @empty
             <tr>
                 <td colspan="5" class="px-6 py-12">
-                    <x-empty-state message="Tidak ada data siswa" icon="users" />
+                    <x-empty-state :message="__('app.no_student_data')" icon="users" />
                 </td>
             </tr>
         @endforelse

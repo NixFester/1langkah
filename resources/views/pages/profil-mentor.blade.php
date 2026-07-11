@@ -6,7 +6,7 @@
 @section('content')
 @php
     $m = $mentor;
-    $priceNumber = $m['formatted_price'] ?? 'Gratis';
+    $priceNumber = $m['formatted_price'] ?? __('app.free');
     $schedules = $m['schedules'] ?? [];
     $isTodayAvailable = $m['is_today_available'] ?? false;
 
@@ -19,13 +19,13 @@
 
     // Day labels
     $dayLabels = [
-        0 => 'Minggu',
-        1 => 'Senin',
-        2 => 'Selasa',
-        3 => 'Rabu',
-        4 => 'Kamis',
-        5 => 'Jumat',
-        6 => 'Sabtu',
+        0 => __('app.sun'),
+        1 => __('app.mon'),
+        2 => __('app.tue'),
+        3 => __('app.wed'),
+        4 => __('app.thu'),
+        5 => __('app.fri'),
+        6 => __('app.sat'),
     ];
 @endphp
 
@@ -59,7 +59,7 @@
                 </div>
                 <div class="text-red-100 text-[15px] mb-4">
                     {{ $m['role'] }}<br>
-                    <span class="font-bold text-white">{{ $m['company'] ?: '-' }}</span>
+                    <span class="font-bold text-white">@if(!empty($m['company'])) {{ __('app.at_company') }} {{ $m['company'] }} @else - @endif</span>
                 </div>
                 <div class="flex items-center justify-center md:justify-start gap-3 text-[13px] text-white/90 font-medium">
                     <div class="flex items-center gap-1.5">
@@ -156,7 +156,7 @@
                     <img src="{{ $avatarUrl }}" alt="{{ $m['name'] }}" class="w-14 h-14 rounded-full object-cover border-2 border-gray-100">
                     <div class="flex-1 min-w-0">
                         <h4 class="font-bold text-gray-900 truncate">{{ $m['name'] }}</h4>
-                        <p class="text-sm text-gray-500 truncate">{{ $m['role'] }}@if(!empty($m['company'])) di {{ $m['company'] }}@endif</p>
+                        <p class="text-sm text-gray-500 truncate">{{ $m['role'] }}@if(!empty($m['company'])) {{ __('app.at_company') }} {{ $m['company'] }}@endif</p>
                     </div>
                 </div>
 
@@ -193,130 +193,130 @@
                     <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $m['phone']) }}" target="_blank"
                        class="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-[#25D366] hover:bg-[#20BD5A] text-white text-sm font-medium rounded-lg transition-colors">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-299:                         WhatsApp
-300:                     </a>
-301:                     @endif
-302:                 </div>
-303: 
-304:                 <h3 class="text-[17px] font-bold text-gray-900 mb-5">{{ __('app.available_schedule') }}</h3>
-305: 
-306:                 <div class="space-y-3 mb-8">
-307:                     @forelse($schedules as $schedule)
-308:                         <div class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors {{ !$schedule['is_available'] ? 'opacity-60' : '' }}">
-309:                             <div>
-310:                                 <div class="text-[14px] font-bold text-gray-900 mb-0.5">{{ $schedule['day_name'] }}</div>
-311:                                 <div class="text-[12px] text-gray-400">{{ \Carbon\Carbon::parse($schedule['start_time'])->format('H:i') }} – {{ \Carbon\Carbon::parse($schedule['end_time'])->format('H:i') }} WIB</div>
-312:                             </div>
-313:                             @if($schedule['is_available'])
-314:                                 <span class="px-3 py-1 bg-[#f0fdf4] text-[#16a34a] text-[11px] font-bold rounded-full">{{ __('app.available') }}</span>
-315:                             @else
-316:                                 <span class="px-3 py-1 bg-gray-100 text-gray-500 text-[11px] font-bold rounded-full">{{ __('app.unavailable') }}</span>
-317:                             @endif
-318:                         </div>
-319:                     @empty
-320:                         <p class="text-gray-400 text-sm">{{ __('app.no_available_schedule') }}</p>
-321:                     @endforelse
-322:                 </div>
-323: 
-324:                 <div class="space-y-3 mb-8">
-325:                     <div class="flex justify-between items-center text-[13px]">
-326:                         <span class="text-gray-500">{{ __('app.session_duration') }}</span>
-327:                         <span class="font-bold text-gray-900">{{ __('app.60_minutes') }}</span>
-328:                     </div>
-329:                     <div class="flex justify-between items-center text-[13px]">
-330:                         <span class="text-gray-500">{{ __('app.via') }}</span>
-331:                         <span class="font-bold text-gray-900">Google Meet / Zoom</span>
-332:                     </div>
-333:                 </div>
-334: 
-335:                 <div class="text-center mb-6">
-336:                     <div class="text-[28px] font-extrabold text-gray-900 tracking-tight mb-1">{{ $priceNumber }}</div>
-337:                     <div class="text-[12px] text-gray-400 font-medium">{{ __('app.per_session') }}</div>
-338:                 </div>
-339: 
-340:                 <!-- Booking Form -->
-341:                 <form action="{{ route('mentor.book', $m['id']) }}" method="POST" class="space-y-4 mb-4" x-data="bookingForm()">
-342:                     @csrf
-343:                     <input type="hidden" name="booked_date" value="{{ now()->toDateString() }}">
-344:                     @php
-345:                         $today = now();
-346:                         $todayLabel = $dayLabels[(int)$today->format('w')] ?? $today->format('l');
-347:                     @endphp
-348: 
-349:                     <!-- Current Date Display -->
-350:                     <div class="bg-gray-50 rounded-xl p-4 text-center">
-351:                         <div class="text-[12px] text-gray-500 mb-1">{{ __('app.session_for_today') }}</div>
-352:                         <div class="text-[16px] font-bold text-gray-900">{{ $today->format('d M Y') }} ({{ $todayLabel }})</div>
-353:                         @if($isTodayAvailable)
-354:                             <span class="inline-block mt-2 px-3 py-1 bg-[#f0fdf4] text-[#16a34a] text-[11px] font-bold rounded-full">{{ __('app.mentor_available') }}</span>
-355:                         @else
-356:                             <span class="inline-block mt-2 px-3 py-1 bg-red-50 text-red-600 text-[11px] font-bold rounded-full">{{ __('app.not_available_today') }}</span>
-357:                         @endif
-358:                     </div>
-359: 
-360:                     <div x-show="$store.booking.available">
-361:                         <label class="block text-[13px] font-medium text-gray-700 mb-1.5">{{ __('app.choose_time') }}</label>
-362:                         <select name="booked_time" x-model="selectedTime" required
-363:                             class="w-full rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500">
-364:                             <option value="">{{ __('app.select_time') }}</option>
-365:                             <template x-for="slot in $store.booking.timeSlots" :key="slot.time">
-366:                                 <option :value="slot.time" :disabled="!slot.available" x-text="slot.label + (slot.available ? '' : ' {{ __('app.full_slot') }}')"></option>
-367:                             </template>
-368:                         </select>
-369:                     </div>
-370:                     <div>
-371:                         <label class="block text-[13px] font-medium text-gray-700 mb-1.5">{{ __('app.notes_optional') }}</label>
-372:                         <textarea name="notes" rows="2" class="w-full rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500" placeholder="{{ __('app.topics_to_discuss') }}"></textarea>
-373:                     </div>
-374:                     @auth
-375:                     <button type="submit" x-show="$store.booking.available && selectedTime" x-transition
-376:                         class="w-full bg-[#d00000] hover:bg-red-700 text-white font-bold py-3.5 rounded-full text-center transition-colors shadow-sm text-[15px]">
-377:                         {{ __('app.pay_now') }}
-378:                     </button>
-379:                     <div x-show="$store.booking.available && !selectedTime" class="w-full bg-gray-200 text-gray-500 font-bold py-3.5 rounded-full text-center text-[15px] cursor-not-allowed">
-380:                         {{ __('app.choose_time_first') }}
-381:                     </div>
-382:                     @else
-383:                     <a href="{{ route('login') }}" class="block w-full bg-[#d00000] hover:bg-red-700 text-white font-bold py-3.5 rounded-full text-center transition-colors shadow-sm text-[15px]">
-384:                         {{ __('app.login_to_book') }}
-385:                     </a>
-386:                     @endauth
-387:                 </form>
-388: 
-389:                 @error('booked_date')
-390:                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-391:                 @enderror
-392:                 @error('booked_time')
-393:                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-394:                 @enderror
-395:             </div>
-396:         </div>
-397:     </div>
-398: 
-399:     <script>
-400:     document.addEventListener('alpine:init', () => {
-401:         Alpine.store('booking', {
-402:             available: {{ $isTodayAvailable ? 'true' : 'false' }},
-403:             timeSlots: [
-404:                 { time: '09:00', label: '09:00 WIB', available: true },
-405:                 { time: '10:00', label: '10:00 WIB', available: true },
-406:                 { time: '11:00', label: '11:00 WIB', available: true },
-407:                 { time: '13:00', label: '13:00 WIB', available: true },
-408:                 { time: '14:00', label: '14:00 WIB', available: true },
-409:                 { time: '15:00', label: '15:00 WIB', available: true },
-410:                 { time: '16:00', label: '16:00 WIB', available: true },
-411:                 { time: '19:00', label: '19:00 WIB', available: true },
-412:                 { time: '20:00', label: '20:00 WIB', available: true },
-413:                 { time: '21:00', label: '21:00 WIB', available: true },
-414:             ]
-415:         });
-416:     });
-417: 
-418:     function bookingForm() {
-419:         return {
-420:             selectedTime: '',
-421:         }
-422:     }
-423:     </script>
+                        WhatsApp
+                    </a>
+                    @endif
+                </div>
+
+                <h3 class="text-[17px] font-bold text-gray-900 mb-5">{{ __('app.available_schedule') }}</h3>
+
+                <div class="space-y-3 mb-8">
+                    @forelse($schedules as $schedule)
+                        <div class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors {{ !$schedule['is_available'] ? 'opacity-60' : '' }}">
+                            <div>
+                                <div class="text-[14px] font-bold text-gray-900 mb-0.5">{{ $schedule['day_name'] }}</div>
+                                <div class="text-[12px] text-gray-400">{{ \Carbon\Carbon::parse($schedule['start_time'])->format('H:i') }} – {{ \Carbon\Carbon::parse($schedule['end_time'])->format('H:i') }} WIB</div>
+                            </div>
+                            @if($schedule['is_available'])
+                                <span class="px-3 py-1 bg-[#f0fdf4] text-[#16a34a] text-[11px] font-bold rounded-full">{{ __('app.available') }}</span>
+                            @else
+                                <span class="px-3 py-1 bg-gray-100 text-gray-500 text-[11px] font-bold rounded-full">{{ __('app.unavailable') }}</span>
+                            @endif
+                        </div>
+                    @empty
+                        <p class="text-gray-400 text-sm">{{ __('app.no_available_schedule') }}</p>
+                    @endforelse
+                </div>
+
+                <div class="space-y-3 mb-8">
+                    <div class="flex justify-between items-center text-[13px]">
+                        <span class="text-gray-500">{{ __('app.session_duration') }}</span>
+                        <span class="font-bold text-gray-900">{{ __('app.60_minutes') }}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-[13px]">
+                        <span class="text-gray-500">{{ __('app.via') }}</span>
+                        <span class="font-bold text-gray-900">Google Meet / Zoom</span>
+                    </div>
+                </div>
+
+                <div class="text-center mb-6">
+                    <div class="text-[28px] font-extrabold text-gray-900 tracking-tight mb-1">{{ $priceNumber }}</div>
+                    <div class="text-[12px] text-gray-400 font-medium">{{ __('app.per_session') }}</div>
+                </div>
+
+                <!-- Booking Form -->
+                <form action="{{ route('mentor.book', $m['id']) }}" method="POST" class="space-y-4 mb-4" x-data="bookingForm()">
+                    @csrf
+                    <input type="hidden" name="booked_date" value="{{ now()->toDateString() }}">
+                    @php
+                        $today = now();
+                        $todayLabel = $dayLabels[(int)$today->format('w')] ?? $today->format('l');
+                    @endphp
+
+                    <!-- Current Date Display -->
+                    <div class="bg-gray-50 rounded-xl p-4 text-center">
+                        <div class="text-[12px] text-gray-500 mb-1">{{ __('app.session_for_today') }}</div>
+                        <div class="text-[16px] font-bold text-gray-900">{{ $today->format('d M Y') }} ({{ $todayLabel }})</div>
+                        @if($isTodayAvailable)
+                            <span class="inline-block mt-2 px-3 py-1 bg-[#f0fdf4] text-[#16a34a] text-[11px] font-bold rounded-full">{{ __('app.mentor_available') }}</span>
+                        @else
+                            <span class="inline-block mt-2 px-3 py-1 bg-red-50 text-red-600 text-[11px] font-bold rounded-full">{{ __('app.not_available_today') }}</span>
+                        @endif
+                    </div>
+
+                    <div x-show="$store.booking.available">
+                        <label class="block text-[13px] font-medium text-gray-700 mb-1.5">{{ __('app.choose_time') }}</label>
+                        <select name="booked_time" x-model="selectedTime" required
+                            class="w-full rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                            <option value="">{{ __('app.select_time') }}</option>
+                            <template x-for="slot in $store.booking.timeSlots" :key="slot.time">
+                                <option :value="slot.time" :disabled="!slot.available" x-text="slot.label + (slot.available ? '' : ' {{ __('app.full_slot') }}')"></option>
+                            </template>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[13px] font-medium text-gray-700 mb-1.5">{{ __('app.notes_optional') }}</label>
+                        <textarea name="notes" rows="2" class="w-full rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500" placeholder="{{ __('app.topics_to_discuss') }}"></textarea>
+                    </div>
+                    @auth
+                    <button type="submit" x-show="$store.booking.available && selectedTime" x-transition
+                        class="w-full bg-[#d00000] hover:bg-red-700 text-white font-bold py-3.5 rounded-full text-center transition-colors shadow-sm text-[15px]">
+                        {{ __('app.pay_now') }}
+                    </button>
+                    <div x-show="$store.booking.available && !selectedTime" class="w-full bg-gray-200 text-gray-500 font-bold py-3.5 rounded-full text-center text-[15px] cursor-not-allowed">
+                        {{ __('app.choose_time_first') }}
+                    </div>
+                    @else
+                    <a href="{{ route('login') }}" class="block w-full bg-[#d00000] hover:bg-red-700 text-white font-bold py-3.5 rounded-full text-center transition-colors shadow-sm text-[15px]">
+                        {{ __('app.login_to_book') }}
+                    </a>
+                    @endauth
+                </form>
+
+                @error('booked_date')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+                @error('booked_time')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('booking', {
+            available: {{ $isTodayAvailable ? 'true' : 'false' }},
+            timeSlots: [
+                { time: '09:00', label: '09:00 WIB', available: true },
+                { time: '10:00', label: '10:00 WIB', available: true },
+                { time: '11:00', label: '11:00 WIB', available: true },
+                { time: '13:00', label: '13:00 WIB', available: true },
+                { time: '14:00', label: '14:00 WIB', available: true },
+                { time: '15:00', label: '15:00 WIB', available: true },
+                { time: '16:00', label: '16:00 WIB', available: true },
+                { time: '19:00', label: '19:00 WIB', available: true },
+                { time: '20:00', label: '20:00 WIB', available: true },
+                { time: '21:00', label: '21:00 WIB', available: true },
+            ]
+        });
+    });
+
+    function bookingForm() {
+        return {
+            selectedTime: '',
+        }
+    }
+    </script>
 </div>
 @endsection

@@ -1,49 +1,49 @@
 @extends('layouts.keuangan')
 
-@section('title', 'Dashboard Keuangan')
-@section('header_title', 'Dashboard Keuangan')
+@section('title', __('app.finance_dashboard'))
+@section('header_title', __('app.finance_dashboard'))
 
 @section('content')
     <x-flash-messages />
 
     {{-- Stats Cards --}}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <x-stat-card label="Menunggu Verifikasi" :value="$stats['pending']" icon="clock" color="amber" />
-        <x-stat-card label="Disetujui Hari Ini" :value="$stats['approved_today']" icon="check" color="green" />
-        <x-stat-card label="Ditolak Hari Ini" :value="$stats['rejected_today']" icon="x" color="red" />
-        <x-stat-card label="Total User" :value="$stats['total_users']" icon="users" color="blue" />
+        <x-stat-card :label="__('app.awaiting_verification')" :value="$stats['pending']" icon="clock" color="amber" />
+        <x-stat-card :label="__('app.approved_today')" :value="$stats['approved_today']" icon="check" color="green" />
+        <x-stat-card :label="__('app.rejected_today')" :value="$stats['rejected_today']" icon="x" color="red" />
+        <x-stat-card :label="__('app.total_users')" :value="$stats['total_users']" icon="users" color="blue" />
     </div>
 
     {{-- Revenue Summary --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-6 text-white shadow-lg">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-green-100 font-medium">Pendapatan Hari Ini</h3>
+                <h3 class="text-green-100 font-medium">{{ __('app.today_revenue') }}</h3>
                 <svg class="w-8 h-8 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
             </div>
             <p class="text-4xl font-bold mb-1">Rp {{ number_format($todayRevenue, 0, ',', '.') }}</p>
-            <p class="text-green-100 text-sm">{{ $stats['approved_today'] }} transaksi berhasil</p>
+            <p class="text-green-100 text-sm">{{ $stats['approved_today'] }} {{ __('app.successful_transactions') }}</p>
         </div>
 
         <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-blue-100 font-medium">Pendapatan Bulan Ini</h3>
+                <h3 class="text-blue-100 font-medium">{{ __('app.month_revenue') }}</h3>
                 <svg class="w-8 h-8 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                 </svg>
             </div>
             <p class="text-4xl font-bold mb-1">Rp {{ number_format($monthRevenue, 0, ',', '.') }}</p>
-            <p class="text-blue-100 text-sm">Total pendapatan bulan ini</p>
+            <p class="text-blue-100 text-sm">{{ __('app.total_month_revenue') }}</p>
         </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- Pending Payments --}}
-        <x-card-panel title="Pembayaran Menunggu" :actionRoute="route('keuangan.verifications')" actionLabel="Lihat Semua">
+        <x-card-panel :title="__('app.pending_payments')" :actionRoute="route('keuangan.verifications')" :actionLabel="__('app.view_all')">
             @if($recentPending->isEmpty())
-                <x-empty-state message="Tidak ada pembayaran menunggu" icon="success" />
+                <x-empty-state :message="__('app.no_pending_payments')" icon="success" />
             @else
                 <div class="space-y-4">
                     @foreach($recentPending as $payment)
@@ -53,7 +53,7 @@
                                     <span class="text-amber-600 font-bold">{{ substr($payment->user->name ?? 'U', 0, 1) }}</span>
                                 </div>
                                 <div>
-                                    <p class="font-medium text-gray-800">{{ $payment->user->name ?? 'Unknown' }}</p>
+                                    <p class="font-medium text-gray-800">{{ $payment->user->name ?? __('app.unknown') }}</p>
                                     <p class="text-sm text-gray-500">{{ $payment->course_title }}</p>
                                 </div>
                             </div>
@@ -68,9 +68,9 @@
         </x-card-panel>
 
         {{-- Recent Verified --}}
-        <x-card-panel title="Pembayaran Terakhir">
+        <x-card-panel :title="__('app.recent_payments')">
             @if($recentVerified->isEmpty())
-                <x-empty-state message="Belum ada pembayaran diverifikasi" icon="payment" />
+                <x-empty-state :message="__('app.no_verified_payments_yet')" icon="payment" />
             @else
                 <div class="space-y-4">
                     @foreach($recentVerified as $payment)
@@ -88,13 +88,13 @@
                                     @endif
                                 </div>
                                 <div>
-                                    <p class="font-medium text-gray-800">{{ $payment->user->name ?? 'Unknown' }}</p>
+                                    <p class="font-medium text-gray-800">{{ $payment->user->name ?? __('app.unknown') }}</p>
                                     <p class="text-sm text-gray-500">{{ $payment->course_title }}</p>
                                 </div>
                             </div>
                             <div class="text-right">
                                 <p class="font-bold {{ $payment->isApproved() ? 'text-green-600' : 'text-red-600' }}">
-                                    {{ $payment->isApproved() ? 'Disetujui' : 'Ditolak' }}
+                                    {{ $payment->isApproved() ? __('app.approved') : __('app.rejected') }}
                                 </p>
                                 <p class="text-xs text-gray-400">{{ $payment->verified_at?->diffForHumans() ?? '-' }}</p>
                             </div>

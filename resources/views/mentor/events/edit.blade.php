@@ -1,7 +1,7 @@
 @extends('layouts.mentor')
 
-@section('title', 'Edit Event')
-@section('header_title', 'Edit Event')
+@section('title', __('app.edit_event'))
+@section('header_title', __('app.edit_event'))
 
 @section('content')
     <x-flash-messages />
@@ -12,12 +12,12 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
         </svg>
-        Kembali ke Event Saya
+        {{ __('app.back_to_my_events') }}
     </a>
 
     {{-- Form Card --}}
     <div class="bg-white rounded-xl border border-gray-100 p-6">
-        <h2 class="text-lg font-bold text-gray-900 mb-6">Edit Event: {{ $event->title }}</h2>
+        <h2 class="text-lg font-bold text-gray-900 mb-6">{{ __('app.edit_event_colon') }} {{ $event->title }}</h2>
 
         <form method="POST" action="{{ route('mentor.events.update', $event) }}" class="space-y-6">
             @csrf
@@ -27,7 +27,7 @@
                 {{-- Title --}}
                 <div class="md:col-span-2">
                     <label class="block text-sm font-bold text-gray-700 mb-2">
-                        Judul Event <span class="text-red-500">*</span>
+                        {{ __('app.event_title_label') }} <span class="text-red-500">*</span>
                     </label>
                     <input type="text" name="title" value="{{ old('title', $event->title) }}" required
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
@@ -39,7 +39,7 @@
                 {{-- Type --}}
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">
-                        Tipe Event <span class="text-red-500">*</span>
+                        {{ __('app.type') }} Event <span class="text-red-500">*</span>
                     </label>
                     <select name="type" required
                             class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 cursor-pointer transition-colors">
@@ -55,7 +55,7 @@
                 {{-- Status --}}
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">
-                        Status <span class="text-red-500">*</span>
+                        {{ __('app.status') }} <span class="text-red-500">*</span>
                     </label>
                     <select name="status" required
                             class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 cursor-pointer transition-colors">
@@ -72,7 +72,7 @@
                 {{-- Max Participants --}}
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">
-                        Maksimal Peserta
+                        {{ __('app.max_participants') }}
                     </label>
                     <input type="number" name="max_participants" value="{{ old('max_participants', $event->max_participants) }}" min="1"
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
@@ -84,7 +84,7 @@
                 {{-- Start Date --}}
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">
-                        Tanggal Mulai <span class="text-red-500">*</span>
+                        {{ __('app.start_date') }} <span class="text-red-500">*</span>
                     </label>
                     <div class="grid grid-cols-2 gap-2">
                         <input type="date" name="start_date" value="{{ old('start_date', $event->start_date?->format('Y-m-d')) }}" required
@@ -100,7 +100,7 @@
                 {{-- End Date --}}
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">
-                        Tanggal Selesai
+                        {{ __('app.end_date') }}
                     </label>
                     <div class="grid grid-cols-2 gap-2">
                         <input type="date" name="end_date" value="{{ old('end_date', $event->end_date?->format('Y-m-d')) }}"
@@ -108,7 +108,7 @@
                         <input type="time" name="end_time" value="{{ old('end_time', $event->end_date?->format('H:i')) }}"
                                class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
                     </div>
-                    <p class="text-xs text-gray-500 mt-1">Opsional. Jika kosong, dianggap sama dengan tanggal mulai.</p>
+                    <p class="text-xs text-gray-500 mt-1">{{ __('app.optional_start_date_hint') }}</p>
                     @error('end_date')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -116,9 +116,7 @@
 
                 {{-- Location --}}
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">
-                        Lokasi
-                    </label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.location') }}</label>
                     <input type="text" name="location" value="{{ old('location', $event->location) }}"
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
                     @error('location')
@@ -129,7 +127,7 @@
                 {{-- Meeting URL --}}
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">
-                        Tautan Meeting
+                        {{ __('app.meeting_link') }}
                     </label>
                     <input type="url" name="meeting_url" value="{{ old('meeting_url', $event->meeting_url) }}"
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
@@ -141,7 +139,7 @@
                 {{-- Short Description --}}
                 <div class="md:col-span-2">
                     <label class="block text-sm font-bold text-gray-700 mb-2">
-                        Deskripsi Singkat
+                        {{ __('app.short_description') }}
                     </label>
                     <input type="text" name="short_description" value="{{ old('short_description', $event->short_description) }}" maxlength="300"
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
@@ -153,7 +151,7 @@
                 {{-- Description --}}
                 <div class="md:col-span-2">
                     <label class="block text-sm font-bold text-gray-700 mb-2">
-                        Deskripsi Lengkap
+                        {{ __('app.full_description') }}
                     </label>
                     <textarea name="description" rows="5"
                               class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors resize-y">{{ old('description', $event->description) }}</textarea>
@@ -165,7 +163,7 @@
                 {{-- Banner URL --}}
                 <div class="md:col-span-2">
                     <label class="block text-sm font-bold text-gray-700 mb-2">
-                        URL Banner
+                        {{ __('app.banner_url') }}
                     </label>
                     <input type="url" name="banner_url" value="{{ old('banner_url', $event->banner_url) }}"
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
@@ -179,12 +177,12 @@
             <div class="pt-4 border-t border-gray-100 flex justify-between">
                 <a href="{{ route('mentor.events.registrations', $event) }}"
                    class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full text-sm transition-colors">
-                    Lihat Peserta ({{ $event->registrations->count() }})
+                    {{ __('app.view_participants_count', ['count' => $event->registrations->count()]) }}
                 </a>
                 <button type="submit"
                         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-sm transition-colors">
-                    Simpan Perubahan
-                </button>
+                        {{ __('app.save_changes') }}
+                    </button>
             </div>
         </form>
     </div>

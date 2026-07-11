@@ -85,7 +85,7 @@ class MentorAttendanceController extends Controller
         }
 
         return redirect()->back()
-            ->with('success', "Attendance codes generated for {$validated['date']}")
+            ->with('success', __('app.msg_attendance_generated', ['date' => $validated['date']]))
             ->with('short_code', $shortCode);
     }
 
@@ -105,7 +105,7 @@ class MentorAttendanceController extends Controller
             ->first();
 
         if (! $record) {
-            return redirect()->back()->with('error', 'Invalid or already used code');
+            return redirect()->back()->with('error', __('app.msg_error_invalid_or_already_used_code'));
         }
 
         // Mark as verified
@@ -125,7 +125,7 @@ class MentorAttendanceController extends Controller
             );
         }
 
-        return redirect()->back()->with('success', "Attendance marked for {$user->name}. +XP awarded!");
+        return redirect()->back()->with('success', __('app.msg_attendance_marked', ['name' => $user->name]));
     }
 
     /**

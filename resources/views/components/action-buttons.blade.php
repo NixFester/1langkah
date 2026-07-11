@@ -1,12 +1,12 @@
 <!-- Admin Action Buttons Component -->
 @props([
     'editRoute' => null,
-    'editLabel' => 'Edit',
+    'editLabel' => __('app.edit'),
     'deleteRoute' => null,
-    'deleteLabel' => 'Hapus',
+    'deleteLabel' => __('app.delete'),
     'deleteConfirm' => null,
     'manageRoute' => null,
-    'manageLabel' => 'Kelola',
+    'manageLabel' => __('app.manage'),
     'customActions' => null,
 ])
 
@@ -35,7 +35,7 @@
     {{-- Delete Button --}}
     @if(isset($deleteRoute))
         <form method="POST" action="{{ $deleteRoute }}" class="m-0"
-              onsubmit="return confirm('{{ $deleteConfirm ?? 'Hapus data ini?' }}')">
+              onsubmit="return confirm('{{ $deleteConfirm ?? __('app.delete_confirm_default') }}')">
             @csrf @method('DELETE')
             <button type="submit"
                     class="inline-flex items-center justify-center bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">

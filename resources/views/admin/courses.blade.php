@@ -7,10 +7,10 @@
 
     <!-- PAGE HEADER -->
     <x-page-header
-        title="Kelola Kursus"
-        :description="'Daftar kursus (' . $courses->total() . ') yang tersedia di platform.'"
+        :title="__('app.manage_courses_title')"
+        :description="__('app.courses_list_desc', ['count' => $courses->total()])"
         actionRoute="{{ route('admin.courses.new') }}"
-        actionLabel="Tambah Kursus"
+        :actionLabel="__('app.add_course')"
     />
 
     <x-flash-messages />
@@ -19,11 +19,11 @@
     <x-data-table :paginator="$courses">
         <template #thead>
             <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wider">
-                <th class="px-6 py-4 font-bold">Kursus</th>
-                <th class="px-6 py-4 font-bold">Kategori</th>
-                <th class="px-6 py-4 font-bold">Level</th>
-                <th class="px-6 py-4 font-bold">Harga</th>
-                <th class="px-6 py-4 font-bold text-right">Aksi</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.course') }}</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.category') }}</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.level') }}</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.price') }}</th>
+                <th class="px-6 py-4 font-bold text-right">{{ __('app.action') }}</th>
             </tr>
         </template>
 
@@ -57,12 +57,12 @@
             <td class="px-6 py-4 text-right">
                 <div class="flex items-center justify-end gap-2">
                     <a href="{{ route('admin.courses.manage', $course) }}" class="inline-flex items-center justify-center bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
-                        Kelola
+                        {{ __('app.manage') }}
                     </a>
-                    <form method="POST" action="{{ route('admin.courses.destroy', $course) }}" class="m-0" onsubmit="return confirm('Hapus kursus ini secara permanen?')">
+                    <form method="POST" action="{{ route('admin.courses.destroy', $course) }}" class="m-0" onsubmit="return confirm('{{ __('app.delete_course_confirm') }}')">
                         @csrf @method('DELETE')
                         <button type="submit" class="inline-flex items-center justify-center bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
-                            Hapus
+                            {{ __('app.delete') }}
                         </button>
                     </form>
                 </div>
@@ -71,7 +71,7 @@
         @empty
         <tr>
             <td colspan="5" class="px-6 py-8">
-                <x-empty-state message="Belum ada data kursus." icon="book" />
+                <x-empty-state :message="__('app.no_course_data')" icon="book" />
             </td>
         </tr>
         @endforelse

@@ -7,10 +7,10 @@
 
     <!-- PAGE HEADER -->
     <x-page-header
-        title="Kelola Pengguna"
-        :description="'Daftar pengguna (' . $users->total() . ') yang terdaftar di sistem.'"
+        :title="__('app.manage_users_title')"
+        :description="__('app.registered_users_list', ['count' => $users->total()])"
         actionRoute="{{ route('admin.users.new') }}"
-        actionLabel="Tambah User"
+        :actionLabel="__('app.add_user')"
     />
 
     <x-flash-messages />
@@ -19,10 +19,10 @@
     <x-data-table :paginator="$users">
         <template #thead>
             <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wider">
-                <th class="px-6 py-4 font-bold">User</th>
-                <th class="px-6 py-4 font-bold">Role</th>
-                <th class="px-6 py-4 font-bold">Bergabung</th>
-                <th class="px-6 py-4 font-bold text-right">Aksi</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.user') }}</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.role') }}</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.joined') }}</th>
+                <th class="px-6 py-4 font-bold text-right">{{ __('app.action') }}</th>
             </tr>
         </template>
 
@@ -41,9 +41,9 @@
                 <form method="POST" action="{{ route('admin.users.role', $user) }}" class="inline-block m-0">
                     @csrf @method('PATCH')
                     <select name="role" onchange="this.form.submit()" class="bg-gray-50 border border-gray-200 text-gray-700 text-xs rounded-lg focus:ring-red-500 focus:border-red-500 block w-full min-w-[110px] py-1.5 px-2.5 cursor-pointer font-medium appearance-none">
-                        <option value="student" {{ $user->role === 'student' ? 'selected' : '' }}>Student</option>
-                        <option value="mentor"  {{ $user->role === 'mentor'  ? 'selected' : '' }}>Mentor</option>
-                        <option value="admin"   {{ $user->role === 'admin'   ? 'selected' : '' }}>Admin</option>
+                        <option value="student" {{ $user->role === 'student' ? 'selected' : '' }}>{{ __('app.student') }}</option>
+                        <option value="mentor"  {{ $user->role === 'mentor'  ? 'selected' : '' }}>{{ __('app.mentor') }}</option>
+                        <option value="admin"   {{ $user->role === 'admin'   ? 'selected' : '' }}>{{ __('app.admin') }}</option>
                     </select>
                 </form>
             </td>
@@ -53,17 +53,17 @@
             <td class="px-4 md:px-6 py-3 md:py-4 text-right whitespace-nowrap">
                 <div class="flex items-center justify-end gap-2">
                     <a href="{{ route('admin.users.manage', $user) }}" class="inline-flex items-center justify-center bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
-                        Edit
+                        {{ __('app.edit') }}
                     </a>
                     @if($user->id !== auth()->id())
-                    <form method="POST" action="{{ route('admin.users.destroy', $user) }}" class="m-0" onsubmit="return confirm('Hapus user {{ $user->name }} secara permanen?')">
+                    <form method="POST" action="{{ route('admin.users.destroy', $user) }}" class="m-0" onsubmit="return confirm('{{ __('app.delete_user_confirm', ['name' => addslashes($user->name)]) }}')">
                         @csrf @method('DELETE')
                         <button type="submit" class="inline-flex items-center justify-center bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
-                            Hapus
+                            {{ __('app.delete') }}
                         </button>
                     </form>
                     @else
-                    <span class="inline-flex items-center justify-center bg-gray-100 text-gray-400 px-3 py-1.5 rounded-lg text-xs font-bold">Kamu</span>
+                    <span class="inline-flex items-center justify-center bg-gray-100 text-gray-400 px-3 py-1.5 rounded-lg text-xs font-bold">{{ __('app.you') }}</span>
                     @endif
                 </div>
             </td>
@@ -71,7 +71,7 @@
         @empty
         <tr>
             <td colspan="4" class="px-6 py-8">
-                <x-empty-state message="Belum ada data user." icon="users" />
+                <x-empty-state :message="__('app.no_user_data')" icon="users" />
             </td>
         </tr>
         @endforelse

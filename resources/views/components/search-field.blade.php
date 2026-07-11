@@ -2,7 +2,7 @@
 @props([
     'name' => 'search',
     'value' => '',
-    'placeholder' => 'Cari...',
+    'placeholder' => __('app.search_placeholder_short'),
     'model' => null, // Alpine.js x-model binding
 ])
 

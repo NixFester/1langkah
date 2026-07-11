@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', isset($course) ? 'Kelola Kursus' : 'Tambah Kursus')
+@section('title', isset($course) ? __('app.manage_courses_title') : __('app.add_new_course'))
 
 @section('content')
 <div x-data="{
@@ -15,8 +15,8 @@
 
     <!-- PAGE HEADER -->
     <x-page-header
-        :title="isset($course) ? 'Kelola Kursus: ' . $course->title : 'Tambah Kursus Baru'"
-        :description="isset($course) ? 'Kelola detail kursus, informasi mentor, dan bab pembelajaran.' : 'Form ini menampung data kursus baru.'"
+        :title="isset($course) ? __('app.manage_courses_title') . ': ' . $course->title : __('app.add_new_course')"
+        :description="isset($course) ? __('app.course_form_edit_desc') : __('app.course_form_create_desc')"
     >
         <x-slot:actionSlot>
             <a href="{{ route('admin.courses') }}"
@@ -24,15 +24,15 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
-                Kembali
+                {{ __('app.back') }}
             </a>
         </x-slot:actionSlot>
-    </x-admin-page-header>
+    </x-page-header>
 
     <x-flash-messages />
 
     <!-- COURSE DETAILS FORM CARD -->
-    <x-form-card title="Detail Kursus">
+    <x-form-card :title="__('app.course_details')">
         <form method="POST" action="{{ isset($course) ? route('admin.courses.update', $course) : route('admin.courses.store') }}" class="space-y-6">
             @csrf
             @if(isset($course))
@@ -44,8 +44,8 @@
                 <div class="lg:col-span-2">
                     <x-form-input
                         name="title"
-                        label="Judul Kursus"
-                        placeholder="Masukkan judul kursus"
+                        :label="__('app.course_title')"
+                        :placeholder="__('app.enter_course_title')"
                         :required="true"
                         :value="$course->title ?? null"
                     />
@@ -54,8 +54,8 @@
                 <!-- Category -->
                 <x-form-input
                     name="category"
-                    label="Kategori"
-                    placeholder="Contoh: Programming"
+                    :label="__('app.category')"
+                    :placeholder="__('app.example_programming')"
                     :required="true"
                     :value="$course->category ?? null"
                 />
@@ -63,8 +63,8 @@
                 <!-- Mentor Name -->
                 <x-form-input
                     name="mentor_name"
-                    label="Nama Mentor"
-                    placeholder="Nama mentor"
+                    :label="__('app.mentor_name')"
+                    :placeholder="__('app.mentor_name_placeholder')"
                     :required="true"
                     :value="$course->mentor_name ?? null"
                 />
@@ -72,17 +72,17 @@
                 <!-- Mentor Company -->
                 <x-form-input
                     name="mentor_company"
-                    label="Perusahaan Mentor"
-                    placeholder="Perusahaan mentor"
+                    :label="__('app.mentor_company')"
+                    :placeholder="__('app.mentor_company_placeholder')"
                     :required="true"
                     :value="$course->mentor_company ?? null"
                 />
 
                 <!-- Level -->
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Level <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.level') }} <span class="text-red-500">*</span></label>
                     <select name="level" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
-                        <option value="">-- Pilih Level --</option>
+                        <option value="">{{ __('app.select_level') }}</option>
                         <option value="Beginner" {{ old('level', $course->level ?? '') === 'Beginner' ? 'selected' : '' }}>Beginner</option>
                         <option value="Intermediate" {{ old('level', $course->level ?? '') === 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
                         <option value="Advanced" {{ old('level', $course->level ?? '') === 'Advanced' ? 'selected' : '' }}>Advanced</option>
@@ -92,8 +92,8 @@
                 <!-- Price -->
                 <x-form-input
                     name="price"
-                    label="Harga"
-                    placeholder="Contoh: 799000 (tanpa Rp/titik)"
+                    :label="__('app.price')"
+                    :placeholder="__('app.price_example')"
                     :required="true"
                     :value="$course->price ?? null"
                 />
@@ -101,8 +101,8 @@
                 <!-- Color -->
                 <x-form-input
                     name="color"
-                    label="Warna (Opsional)"
-                    placeholder="Kode hex, cth: #667eea"
+                    :label="__('app.color_optional')"
+                    :placeholder="__('app.hex_example')"
                     :value="$course->color ?? null"
                 />
             </div>
@@ -110,17 +110,17 @@
             <div class="grid grid-cols-1 gap-6">
                 <x-form-input
                     name="short_description"
-                    label="Deskripsi Singkat"
-                    placeholder="Ringkasan singkat kursus"
+                    :label="__('app.short_description')"
+                    :placeholder="__('app.course_short_desc_placeholder')"
                     :value="$course->short_description ?? null"
                 />
 
                 <x-form-input
                     name="description"
                     type="textarea"
-                    label="Deskripsi Lengkap"
+                    :label="__('app.full_description')"
                     :rows="4"
-                    placeholder="Deskripsi lengkap kursus"
+                    :placeholder="__('app.course_full_desc_placeholder')"
                     :value="$course->description ?? null"
                 />
             </div>
@@ -139,49 +139,49 @@
 
             <div class="pt-4 border-t border-gray-100 flex justify-end">
                 <button type="submit" class="bg-[#cc0000] hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-sm transition-colors shadow-lg shadow-red-200 w-full sm:w-auto">
-                    {{ isset($course) ? 'Simpan Perubahan' : '+ Tambah Kursus' }}
+                    {{ isset($course) ? __('app.save_changes') : __('app.add_course_plus') }}
                 </button>
             </div>
         </form>
-    </x-admin.form-card>
+    </x-form-card>
 
     @if(isset($course))
     <!-- CHAPTERS SECTION -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         <!-- ADD CHAPTER -->
-        <x-form-card title="Tambah Bab Baru" subtitle="Video URL dan Thumbnail bersifat opsional" class="lg:col-span-1 h-fit">
+        <x-form-card :title="__('app.add_new_chapter')" :subtitle="__('app.video_thumbnail_optional')" class="lg:col-span-1 h-fit">
             <form method="POST" action="{{ route('admin.courses.chapters.store', $course) }}" class="space-y-4">
                 @csrf
-                <x-form-input name="title" label="Judul Bab" placeholder="Contoh: Pengenalan HTML" :required="true" />
-                <x-form-input name="lessons" type="number" label="Jumlah Lesson" placeholder="5" :required="true" />
-                <x-form-input name="duration" label="Total Durasi" placeholder="Contoh: 45 Menit" :required="true" />
+                <x-form-input name="title" :label="__('app.chapter_title')" :placeholder="__('app.example_html')" :required="true" />
+                <x-form-input name="lessons" type="number" :label="__('app.lesson_count')" placeholder="5" :required="true" />
+                <x-form-input name="duration" :label="__('app.total_duration')" :placeholder="__('app.example_duration')" :required="true" />
                 <x-form-input name="video_url" type="url" label="Video URL" placeholder="https://youtube.com/watch?v=xxx" />
                 <x-form-input name="thumbnail_url" type="url" label="Thumbnail URL" placeholder="https://contoh.com/thumbnail.jpg" :value="$course->thumbnail_url ?? null" />
-                <x-form-input name="description" type="textarea" label="Deskripsi" :rows="2" placeholder="Deskripsi singkat bab (opsional)" />
+                <x-form-input name="description" type="textarea" :label="__('app.description')" :rows="2" :placeholder="__('app.chapter_desc_placeholder')" />
                 <div class="pt-2">
                     <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-full text-sm transition-colors shadow-lg w-full flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                        Tambah Bab
+                        {{ __('app.add_chapter') }}
                     </button>
                 </div>
             </form>
-        </x-admin.form-card>
+        </x-form-card>
 
         <!-- LIST CHAPTERS -->
-        <x-form-card title="Daftar Bab Pembelajaran" class="lg:col-span-2">
+        <x-form-card :title="__('app.chapters_list')" class="lg:col-span-2">
             @if($course->chapters->isEmpty())
-                <x-empty-state message="Belum ada bab untuk kursus ini." icon="book" />
+                <x-empty-state :message="__('app.no_chapters_data')" icon="book" />
             @else
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-gray-50/30 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wider">
-                                <th class="px-6 py-4 font-bold">Thumbnail</th>
-                                <th class="px-6 py-4 font-bold">Judul Bab</th>
-                                <th class="px-6 py-4 font-bold text-center">Lessons</th>
-                                <th class="px-6 py-4 font-bold text-center">Durasi</th>
-                                <th class="px-6 py-4 font-bold text-center">Video</th>
+                                <th class="px-6 py-4 font-bold">{{ __('app.thumbnail') }}</th>
+                                <th class="px-6 py-4 font-bold">{{ __('app.chapter_title') }}</th>
+                                <th class="px-6 py-4 font-bold text-center">{{ __('app.lessons') }}</th>
+                                <th class="px-6 py-4 font-bold text-center">{{ __('app.duration') }}</th>
+                                <th class="px-6 py-4 font-bold text-center">{{ __('app.video') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
@@ -210,7 +210,7 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 text-center">
-                                    <span class="bg-blue-50 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-md">{{ $chapter->lessons }} Lesson</span>
+                                    <span class="bg-blue-50 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-md">{{ $chapter->lessons }} {{ __('app.lesson') }}</span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     <span class="text-sm text-gray-500">{{ $chapter->duration }}</span>
@@ -230,7 +230,7 @@
                     </table>
                 </div>
             @endif
-        </x-admin.form-card>
+        </x-form-card>
 
     </div>
     @endif

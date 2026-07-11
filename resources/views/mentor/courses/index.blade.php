@@ -1,24 +1,24 @@
 @extends('layouts.mentor')
 
-@section('title', 'Kelola Kursus')
+@section('title', __('app.manage_courses'))
 
 @section('content')
 <div class="space-y-6">
     <!-- PAGE HEADER -->
     <x-page-header
-        title="Kelola Kursus"
-        description="Buat dan kelola kursus kamu"
+        :title="__('app.manage_courses')"
+        :description="__('app.manage_courses_desc_mentor')"
         actionRoute="{{ route('mentor.courses.create') }}"
-        actionLabel="Buat Kursus Baru"
+        :actionLabel="__('app.create_new_course')"
     />
 
     @if($courses->isEmpty())
     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <x-empty-state
-            message="Belum ada kursus. Mulai buat kursus pertamamu."
+            :message="__('app.no_courses_mentor')"
             icon="document"
             :actionRoute="route('mentor.courses.create')"
-            actionLabel="Buat kursus pertama"
+            :actionLabel="__('app.create_first_course')"
         />
     </div>
     @else
@@ -27,11 +27,11 @@
             <table class="w-full">
                 <thead class="bg-gray-50 border-b border-gray-200">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Kursus</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Level</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Peserta</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Bab</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Aksi</th>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">{{ __('app.course') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">{{ __('app.level') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">{{ __('app.participant') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">{{ __('app.chapter') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">{{ __('app.action') }}</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
@@ -61,20 +61,20 @@
                             <span class="font-bold text-blue-600">{{ $course->enrollments_count ?? 0 }}</span>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="text-gray-600">{{ $course->chapters->count() }} bab</span>
+                            <span class="text-gray-600">{{ $course->chapters->count() }} {{ __('app.chapter_lowercase') }}</span>
                             <span class="text-gray-400 mx-1">•</span>
-                            <span class="text-gray-600">{{ $course->chapters->sum(fn($c) => $c->videos->count()) }} video</span>
+                            <span class="text-gray-600">{{ $course->chapters->sum(fn($c) => $c->videos->count()) }} {{ __('app.video') }}</span>
                         </td>
                         <td class="px-6 py-4 text-right">
                             <div class="flex items-center justify-end gap-2">
                                 <a href="{{ route('mentor.courses.edit', $course) }}" class="inline-flex items-center justify-center bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
-                                    Edit
+                                    {{ __('app.edit') }}
                                 </a>
-                                <form method="POST" action="{{ route('mentor.courses.destroy', $course) }}" class="m-0" onsubmit="return confirm('Hapus kursus ini?');">
+                                <form method="POST" action="{{ route('mentor.courses.destroy', $course) }}" class="m-0" onsubmit="return confirm('{{ __('app.delete_course_confirm') }}');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="inline-flex items-center justify-center bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
-                                        Hapus
+                                        {{ __('app.delete') }}
                                     </button>
                                 </form>
                             </div>

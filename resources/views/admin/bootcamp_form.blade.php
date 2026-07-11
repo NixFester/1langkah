@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', isset($bootcamp) ? 'Kelola Bootcamp' : 'Tambah Bootcamp')
+@section('title', isset($bootcamp) ? __('app.manage') . ' Bootcamp' : __('app.add_new_bootcamp'))
 
 @section('content')
 <div x-data="{ bootcampType: '{{ old('type', $bootcamp->type ?? '') }}', sessions: [] }" class="w-full px-2 pb-8 space-y-6">
 
     <!-- PAGE HEADER -->
     <x-page-header
-        :title="isset($bootcamp) ? 'Kelola Bootcamp' : 'Tambah Bootcamp Baru'"
-        description="Form ini digunakan untuk menambah atau mengubah detail program bootcamp."
+        :title="isset($bootcamp) ? __('app.manage_bootcamp') : __('app.add_new_bootcamp')"
+        :description="__('app.bootcamp_form_desc')"
     >
         <x-slot:actionSlot>
             <a href="{{ route('admin.bootcamps') }}"
@@ -16,10 +16,10 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
-                Kembali
+                {{ __('app.back') }}
             </a>
         </x-slot:actionSlot>
-    </x-admin-page-header>
+    </x-page-header>
 
     <x-flash-messages />
 
@@ -36,8 +36,8 @@
                 <div class="md:col-span-2">
                     <x-form-input
                         name="title"
-                        label="Judul Bootcamp"
-                        placeholder="Masukkan judul bootcamp"
+                        :label="__('app.bootcamp_title')"
+                        :placeholder="__('app.enter_bootcamp_title')"
                         :required="true"
                         :value="$bootcamp->title ?? null"
                     />
@@ -46,27 +46,27 @@
                 <!-- Mentor Name -->
                 <x-form-input
                     name="mentor_name"
-                    label="Nama Mentor"
-                    placeholder="Nama mentor utama"
+                    :label="__('app.mentor_name')"
+                    :placeholder="__('app.mentor_name_main')"
                     :required="true"
                     :value="$bootcamp->mentor_name ?? null"
                 />
 
                 <!-- Type -->
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Tipe Bootcamp <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.bootcamp_type') }} <span class="text-red-500">*</span></label>
                     <select name="type" x-model="bootcampType" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
-                        <option value="">-- Pilih Tipe --</option>
-                        <option value="online" {{ old('type', $bootcamp->type ?? '') === 'online' ? 'selected' : '' }}>Online</option>
-                        <option value="offline" {{ old('type', $bootcamp->type ?? '') === 'offline' ? 'selected' : '' }}>Offline</option>
+                        <option value="">{{ __('app.select_type') }}</option>
+                        <option value="online" {{ old('type', $bootcamp->type ?? '') === 'online' ? 'selected' : '' }}>{{ __('app.online') }}</option>
+                        <option value="offline" {{ old('type', $bootcamp->type ?? '') === 'offline' ? 'selected' : '' }}>{{ __('app.offline') }}</option>
                     </select>
                 </div>
 
                 <!-- Price -->
                 <x-form-input
                     name="price"
-                    label="Harga"
-                    placeholder="Contoh: 6500000 (tanpa Rp/titik)"
+                    :label="__('app.price')"
+                    :placeholder="__('app.price_example_bootcamp')"
                     :required="true"
                     :value="$bootcamp->price ?? null"
                 />
@@ -74,8 +74,8 @@
                 <!-- Start Date -->
                 <x-form-input
                     name="start_date"
-                    label="Tanggal Mulai"
-                    placeholder="Contoh: 11 Agu 2026"
+                    :label="__('app.start_date')"
+                    :placeholder="__('app.example_date')"
                     :required="true"
                     :value="$bootcamp->start_date ?? null"
                 />
@@ -83,8 +83,8 @@
                 <!-- Sessions Info -->
                 <x-form-input
                     name="sessions_info"
-                    label="Info Sesi"
-                    placeholder="Contoh: 7 sesi LIVE via Zoom"
+                    :label="__('app.session_info')"
+                    :placeholder="__('app.example_session_info')"
                     :value="$bootcamp->sessions_info ?? null"
                 />
 
@@ -92,8 +92,8 @@
                 <div x-show="bootcampType === 'offline'" class="transition-all">
                     <x-form-input
                         name="location"
-                        label="Lokasi"
-                        placeholder="Contoh: gedung A, Jakarta"
+                        :label="__('app.location')"
+                        :placeholder="__('app.example_location')"
                         :value="$bootcamp->location ?? null"
                     />
                 </div>
@@ -102,8 +102,8 @@
                 <div class="md:col-span-2">
                     <x-form-input
                         name="color"
-                        label="Warna Utama (Opsional)"
-                        placeholder="Kode hex, cth: #667eea"
+                        :label="__('app.color_main_optional')"
+                        :placeholder="__('app.hex_example')"
                         :value="$bootcamp->color ?? null"
                     />
                 </div>
@@ -112,17 +112,17 @@
             <div class="grid grid-cols-1 gap-6">
                 <x-form-input
                     name="short_description"
-                    label="Deskripsi Singkat"
-                    placeholder="Ringkasan singkat bootcamp"
+                    :label="__('app.short_description')"
+                    :placeholder="__('app.bootcamp_short_desc_placeholder')"
                     :value="$bootcamp->short_description ?? null"
                 />
 
                 <x-form-input
                     name="description"
                     type="textarea"
-                    label="Deskripsi Lengkap"
+                    :label="__('app.full_description')"
                     :rows="4"
-                    placeholder="Deskripsi lengkap bootcamp"
+                    :placeholder="__('app.bootcamp_full_desc_placeholder')"
                     :value="$bootcamp->description ?? null"
                 />
             </div>
@@ -140,51 +140,51 @@
 
             <div class="pt-4 border-t border-gray-100 flex justify-end">
                 <button type="submit" class="bg-[#cc0000] hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-sm transition-colors shadow-lg shadow-red-200 w-full sm:w-auto">
-                    {{ isset($bootcamp) ? 'Simpan Perubahan' : '+ Tambah Bootcamp' }}
+                    {{ isset($bootcamp) ? __('app.save_changes') : __('app.add_bootcamp_plus') }}
                 </button>
             </div>
         </form>
-    </x-admin.form-card>
+    </x-form-card>
 
     @if(isset($bootcamp))
     <!-- SESSIONS SECTION -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         <!-- ADD SESSION -->
-        <x-form-card title="Tambah Jadwal Sesi" subtitle="Meeting URL diperlukan untuk sesi online" class="lg:col-span-1 h-fit">
+        <x-form-card :title="__('app.add_session_schedule')" :subtitle="__('app.meeting_url_required_online')" class="lg:col-span-1 h-fit">
             <form method="POST" action="{{ route('admin.bootcamps.sessions.store', $bootcamp) }}" class="space-y-4">
                 @csrf
-                <x-form-input name="date" label="Tanggal Sesi" placeholder="Contoh: 15 Agu 2026, 09:00 WIB" :required="true" />
-                <x-form-input name="topic" label="Topik Sesi" placeholder="Contoh: Pengenalan React Native" :required="true" />
-                <x-form-input name="time" label="Waktu" placeholder="Contoh: 14:00 - 16:00 WIB" :required="true" />
+                <x-form-input name="date" :label="__('app.session_date')" :placeholder="__('app.example_session_date')" :required="true" />
+                <x-form-input name="topic" :label="__('app.session_topic')" :placeholder="__('app.example_topic')" :required="true" />
+                <x-form-input name="time" :label="__('app.time')" :placeholder="__('app.example_time')" :required="true" />
                 <div x-show="bootcampType === 'online'">
-                    <x-form-input name="meeting_url" type="url" label="Meeting URL (Wajib untuk online)" placeholder="https://zoom.us/j/xxx atau Google Meet link" />
+                    <x-form-input name="meeting_url" type="url" :label="__('app.meeting_url_online')" :placeholder="__('app.example_meeting_url')" />
                 </div>
-                <x-form-input name="description" type="textarea" label="Deskripsi" :rows="2" placeholder="Deskripsi singkat sesi (opsional)" />
+                <x-form-input name="description" type="textarea" :label="__('app.description')" :rows="2" :placeholder="__('app.session_desc_placeholder')" />
                 <div class="pt-2">
                     <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-full text-sm transition-colors shadow-lg w-full flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                        Tambah Sesi
+                        {{ __('app.add_session') }}
                     </button>
                 </div>
             </form>
-        </x-admin.form-card>
+        </x-form-card>
 
         <!-- LIST SESSIONS -->
-        <x-form-card title="Daftar Jadwal Sesi" class="lg:col-span-2">
+        <x-form-card :title="__('app.session_schedules_list')" class="lg:col-span-2">
             @if($bootcamp->sessions->isEmpty())
-                <x-empty-state message="Belum ada jadwal sesi untuk bootcamp ini." icon="calendar" />
+                <x-empty-state :message="__('app.no_session_data')" icon="calendar" />
             @else
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-gray-50/30 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wider">
-                                <th class="px-6 py-4 font-bold">No</th>
-                                <th class="px-6 py-4 font-bold">Tanggal</th>
-                                <th class="px-6 py-4 font-bold">Topik</th>
-                                <th class="px-6 py-4 font-bold">Waktu</th>
+                                <th class="px-6 py-4 font-bold">{{ __('app.no') }}</th>
+                                <th class="px-6 py-4 font-bold">{{ __('app.date') }}</th>
+                                <th class="px-6 py-4 font-bold">{{ __('app.topic') }}</th>
+                                <th class="px-6 py-4 font-bold">{{ __('app.time') }}</th>
                                 @if($bootcamp->type === 'online')
-                                    <th class="px-6 py-4 font-bold">Meeting URL</th>
+                                    <th class="px-6 py-4 font-bold">{{ __('app.meeting_url') }}</th>
                                     <th class="px-6 py-4 font-bold">Password</th>
                                 @endif
                             </tr>
@@ -214,10 +214,10 @@
                                         @if($session->meeting_url)
                                             <a href="{{ $session->meeting_url }}" target="_blank" class="text-xs text-blue-600 hover:text-blue-800 underline flex items-center gap-1">
                                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                                                Buka Link
+                                                {{ __('app.open_link') }}
                                             </a>
                                         @else
-                                            <span class="text-xs text-gray-400">Belum ada URL</span>
+                                            <span class="text-xs text-gray-400">{{ __('app.no_url_yet') }}</span>
                                         @endif
                                     </td>
                                     <td class="px-6 py-4">
@@ -230,34 +230,34 @@
                     </table>
                 </div>
             @endif
-        </x-admin.form-card>
+        </x-form-card>
 
     </div>
     @endif
 
     @if(isset($bootcamp))
     <!-- PICTURES SECTION -->
-    <x-form-card title="Gambar Bootcamp">
+    <x-form-card :title="__('app.bootcamp_images')">
         <!-- ADD PICTURE FORM -->
         <form method="POST" action="{{ route('admin.pictures.store', ['bootcamp', $bootcamp->id]) }}" enctype="multipart/form-data" class="p-6 border-b border-gray-100">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Pilih File Gambar <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.choose_image_file') }} <span class="text-red-500">*</span></label>
                     <input type="file" name="image" accept="image/*" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-2 transition-colors">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Tipe</label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.type') }}</label>
                     <select name="type" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3">
-                        <option value="gallery">Gallery</option>
-                        <option value="thumbnail">Thumbnail</option>
+                        <option value="gallery">{{ __('app.gallery') }}</option>
+                        <option value="thumbnail">{{ __('app.thumbnail') }}</option>
                     </select>
                 </div>
-                <x-form-input name="description" label="Deskripsi" placeholder="Deskripsi gambar (opsional)" />
+                <x-form-input name="description" :label="__('app.description')" :placeholder="__('app.image_desc_placeholder')" />
             </div>
             <div class="mt-4 flex justify-end">
                 <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-full text-sm transition-colors flex items-center gap-2">
-                    + Tambah Gambar
+                    {{ __('app.add_image_plus') }}
                 </button>
             </div>
         </form>

@@ -128,7 +128,7 @@ class Mentor extends Model
      */
     public function getWaLinkAttribute(): string
     {
-        $phone = $this->phone ?? '08123456789';
+        $phone = empty($this->phone) ? '08123456789' : $this->phone;
         $cleanPhone = preg_replace('/[^0-9]/', '', $phone);
 
         return 'https://wa.me/'.$cleanPhone;
@@ -141,7 +141,7 @@ class Mentor extends Model
     {
         $priceRaw = trim(str_replace('/sesi', '', (string) $this->price));
         if (empty($priceRaw) || $priceRaw == '0' || strtolower($priceRaw) === 'gratis') {
-            return 'Gratis';
+            return __('app.free');
         }
 
         if (is_numeric($priceRaw)) {

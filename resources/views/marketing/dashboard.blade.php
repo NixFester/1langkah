@@ -1,27 +1,27 @@
 @extends('layouts.marketing')
 
-@section('title', 'Dashboard Marketing')
-@section('header_title', 'Dashboard Marketing')
+@section('title', __('app.marketing_dashboard'))
+@section('header_title', __('app.marketing_dashboard'))
 
 @section('content')
     <x-flash-messages />
 
     {{-- Stats Cards --}}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <x-stat-card label="Promo Aktif" :value="$promoStats['active']" icon="promo" color="pink" />
-        <x-stat-card label="Siswa Baru Hari Ini" :value="$studentStats['new_today']" icon="users" color="blue" />
-        <x-stat-card label="Enrollments Minggu Ini" :value="$enrollmentStats['this_week']" icon="book" color="green" />
-        <x-stat-card label="Total Siswa" :value="$studentStats['total']" icon="users" color="purple" />
+        <x-stat-card :label="__('app.active_promo')" :value="$promoStats['active']" icon="promo" color="pink" />
+        <x-stat-card :label="__('app.new_students_today')" :value="$studentStats['new_today']" icon="users" color="blue" />
+        <x-stat-card :label="__('app.enrollments_this_week')" :value="$enrollmentStats['this_week']" icon="book" color="green" />
+        <x-stat-card :label="__('app.total_students')" :value="$studentStats['total']" icon="users" color="purple" />
     </div>
 
     {{-- Promo Overview --}}
-    <x-card-panel title="Promo Codes Aktif" :actionRoute="route('marketing.promo-codes.create')" actionLabel="Buat Promo Baru" class="mb-8">
+    <x-card-panel :title="__('app.active_promo_codes')" :actionRoute="route('marketing.promo-codes.create')" :actionLabel="__('app.create_new_promo')" class="mb-8">
         @if($activePromos->isEmpty())
             <x-empty-state
-                message="Belum ada promo code aktif"
+                :message="__('app.no_active_promo_codes')"
                 icon="promo"
                 :actionRoute="route('marketing.promo-codes.create')"
-                actionLabel="Buat promo pertama"
+                :actionLabel="__('app.create_first_promo')"
             />
         @else
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -30,7 +30,7 @@
                         <div class="flex items-center justify-between mb-2">
                             <span class="px-2 py-1 bg-pink-500 text-white rounded text-xs font-bold">{{ $promo->code }}</span>
                             <span class="text-xs text-gray-500">
-                                {{ $promo->remaining_uses !== null ? $promo->remaining_uses . ' tersisa' : 'Unlimited' }}
+                                {{ $promo->remaining_uses !== null ? $promo->remaining_uses .  ' ' . __('app.remaining') : __('app.unlimited') }}
                             </span>
                         </div>
                         <p class="font-medium text-gray-800 mb-1">{{ $promo->name }}</p>
@@ -48,9 +48,9 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- Top Courses --}}
-        <x-card-panel title="Kursus Terpopuler">
+        <x-card-panel :title="__('app.top_courses_marketing')">
             @if($topCourses->isEmpty())
-                <x-empty-state message="Belum ada data kursus" icon="book" />
+                <x-empty-state :message="__('app.no_course_data')" icon="book" />
             @else
                 <div class="space-y-4">
                     @foreach($topCourses as $course)
@@ -61,7 +61,7 @@
                             </div>
                             <div class="text-right">
                                 <p class="font-bold text-blue-600">{{ $course->enrollments_count ?? 0 }}</p>
-                                <p class="text-xs text-gray-400">siswa</p>
+                                <p class="text-xs text-gray-400">{{ __('app.student_lowercase') }}</p>
                             </div>
                         </div>
                     @endforeach
@@ -70,9 +70,9 @@
         </x-card-panel>
 
         {{-- Top Promo Codes --}}
-        <x-card-panel title="Promo Paling Banyak Digunakan">
+        <x-card-panel :title="__('app.most_used_promos')">
             @if($topPromos->isEmpty())
-                <x-empty-state message="Belum ada promo yang digunakan" icon="promo" />
+                <x-empty-state :message="__('app.no_used_promos')" icon="promo" />
             @else
                 <div class="space-y-4">
                     @foreach($topPromos as $promo)
@@ -83,7 +83,7 @@
                             </div>
                             <div class="text-right">
                                 <p class="font-bold text-pink-600">{{ $promo->used_count }}</p>
-                                <p class="text-xs text-gray-400">kali digunakan</p>
+                                <p class="text-xs text-gray-400">{{ __('app.times_used') }}</p>
                             </div>
                         </div>
                     @endforeach

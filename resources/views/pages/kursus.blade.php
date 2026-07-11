@@ -263,7 +263,7 @@
                     <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
                         <template x-if="tab !== 'saya'">
                             <span class="text-base font-bold"
-                                  :class="course.formatted_price === 'Gratis' ? 'text-emerald-600' : 'text-gray-900'"
+                                  :class="['Gratis', 'Free', '{{ __('app.free') }}'].includes(course.formatted_price) ? 'text-emerald-600' : 'text-gray-900'"
                                   x-text="course.formatted_price">
                             </span>
                         </template>

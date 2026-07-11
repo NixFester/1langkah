@@ -1,25 +1,25 @@
 @extends('layouts.marketing')
 
-@section('title', 'Analytics')
-@section('header_title', 'Analytics')
+@section('title', __('app.analytics'))
+@section('header_title', __('app.analytics'))
 
 @section('content')
     {{-- Promo Usage Summary --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <x-stat-card label="Total Promo Digunakan" :value="$promoUsage['total_used']" icon="promo" color="pink" />
-        <x-stat-card label="Total Diskon Diberikan" :value="'Rp ' . number_format($promoUsage['total_discount'], 0, ',', '.')" color="red" />
-        <x-stat-card label="Rata-rata Diskon" :value="'Rp ' . number_format($promoUsage['avg_discount'], 0, ',', '.')" color="amber" />
+        <x-stat-card :label="__('app.total_promo_used')" :value="$promoUsage['total_used']" icon="promo" color="pink" />
+        <x-stat-card :label="__('app.total_discount_given')" :value="'Rp ' . number_format($promoUsage['total_discount'], 0, ',', '.')" color="red" />
+        <x-stat-card :label="__('app.avg_discount')" :value="'Rp ' . number_format($promoUsage['avg_discount'], 0, ',', '.')" color="amber" />
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- Revenue by Course --}}
-        <x-card-panel title="Revenue per Kursus">
+        <x-card-panel :title="__('app.revenue_per_course')">
             <x-data-table>
                 <template #thead>
                     <tr>
-                        <th class="pb-3 text-left text-xs text-gray-500 uppercase">Kursus</th>
-                        <th class="pb-3 text-left text-xs text-gray-500 uppercase">Transaksi</th>
-                        <th class="pb-3 text-left text-xs text-gray-500 uppercase">Revenue</th>
+                        <th class="pb-3 text-left text-xs text-gray-500 uppercase">{{ __('app.course') }}</th>
+                        <th class="pb-3 text-left text-xs text-gray-500 uppercase">{{ __('app.transactions') }}</th>
+                        <th class="pb-3 text-left text-xs text-gray-500 uppercase">{{ __('app.revenue') }}</th>
                     </tr>
                 </template>
                 @forelse($revenueByCourse as $course)
@@ -29,15 +29,15 @@
                         <td class="py-3 font-bold text-green-600">Rp {{ number_format($course->total, 0, ',', '.') }}</td>
                     </tr>
                 @empty
-                    <tr><td colspan="3" class="py-4"><x-empty-state message="Tidak ada data" icon="chart" /></td></tr>
+                    <tr><td colspan="3" class="py-4"><x-empty-state :message="__('app.no_data')" icon="chart" /></td></tr>
                 @endforelse
             </x-data-table>
         </x-card-panel>
 
         {{-- User Trend --}}
-        <x-card-panel title="Trend User Baru (30 Hari)">
+        <x-card-panel :title="__('app.new_user_trend_30')">
             @if($userTrend->isEmpty())
-                <x-empty-state message="Tidak ada data" icon="users" />
+                <x-empty-state :message="__('app.no_data')" icon="users" />
             @else
                 <div class="space-y-2">
                     @foreach($userTrend as $day)

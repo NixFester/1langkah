@@ -135,7 +135,10 @@ class Bootcamp extends Model
      */
     public function userRating(?int $userId): ?int
     {
-        if (!$userId) return null;
+        if (! $userId) {
+            return null;
+        }
+
         return $this->ratings()->where('user_id', $userId)->value('rating');
     }
 
@@ -144,7 +147,10 @@ class Bootcamp extends Model
      */
     public function isEnrolled(?int $userId): bool
     {
-        if (!$userId) return false;
+        if (! $userId) {
+            return false;
+        }
+
         return $this->enrollments()->where('user_id', $userId)->exists();
     }
 
@@ -187,7 +193,10 @@ class Bootcamp extends Model
      */
     public function getUserAttendance(?int $userId)
     {
-        if (!$userId) return null;
+        if (! $userId) {
+            return null;
+        }
+
         return $this->attendanceRecords()->where('user_id', $userId)->get();
     }
 
@@ -196,7 +205,10 @@ class Bootcamp extends Model
      */
     public function getUserVerifiedAttendanceCount(?int $userId): int
     {
-        if (!$userId) return 0;
+        if (! $userId) {
+            return 0;
+        }
+
         return $this->attendanceRecords()
             ->where('user_id', $userId)
             ->where('verified', true)
@@ -208,12 +220,12 @@ class Bootcamp extends Model
      */
     public function getFormattedPriceAttribute(): string
     {
-        if (empty($this->price) || $this->price == 0 || strtolower(trim((string)$this->price)) === 'gratis') {
-            return 'Gratis';
+        if (empty($this->price) || $this->price == 0 || strtolower(trim((string) $this->price)) === 'gratis') {
+            return __('app.free');
         }
 
         if (is_numeric($this->price)) {
-            return 'Rp ' . number_format((float) $this->price, 0, ',', '.');
+            return 'Rp '.number_format((float) $this->price, 0, ',', '.');
         }
 
         return (string) $this->price;

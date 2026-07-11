@@ -9,7 +9,7 @@ class BootcampSessionModelTest extends TestCase
 {
     public function test_bootcamp_session_uses_custom_table_name(): void
     {
-        $model = new BootcampSession();
+        $model = new BootcampSession;
 
         $this->assertSame('bootcamp_session', $model->getTable());
     }

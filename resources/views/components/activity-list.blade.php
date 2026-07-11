@@ -1,7 +1,7 @@
 <!-- Activity List Component -->
 @props([
     'activities' => [],
-    'emptyMessage' => 'Belum ada aktivitas.',
+    'emptyMessage' => __('app.no_activities'),
     'iconColor' => 'gray',
 ])
 

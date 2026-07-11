@@ -5,7 +5,7 @@
      * @param string $type     info|success|warning|error (default: info)
      * @param string $title    Banner title
      * @param string $message  Banner message
-     * @param array  $stats    Optional stats to display: [['value' => '100+', 'label' => 'Pelajar']]
+     * @param array  $stats    Optional stats to display: [['value' => '100+', 'label' => __('app.students_count')]]
      */
     $type = $type ?? 'info';
     $title = $title ?? '';

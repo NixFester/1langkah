@@ -7,10 +7,10 @@
 
     <!-- PAGE HEADER -->
     <x-page-header
-        title="Kelola Bootcamp"
-        :description="'Daftar bootcamp intensif (' . $bootcamps->total() . ') di platform.'"
+        :title="__('app.manage_bootcamps')"
+        :description="__('app.bootcamps_list_desc', ['count' => $bootcamps->total()])"
         actionRoute="{{ route('admin.bootcamps.new') }}"
-        actionLabel="Tambah Bootcamp"
+        :actionLabel="__('app.add_bootcamp')"
     />
 
     <x-flash-messages />
@@ -19,11 +19,11 @@
     <x-data-table :paginator="$bootcamps">
         <template #thead>
             <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wider">
-                <th class="px-6 py-4 font-bold">Bootcamp</th>
-                <th class="px-6 py-4 font-bold">Tipe</th>
-                <th class="px-6 py-4 font-bold">Mulai</th>
-                <th class="px-6 py-4 font-bold">Harga</th>
-                <th class="px-6 py-4 font-bold text-right">Aksi</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.bootcamp') }}</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.type') }}</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.start') }}</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.price') }}</th>
+                <th class="px-6 py-4 font-bold text-right">{{ __('app.action') }}</th>
             </tr>
         </template>
 
@@ -38,7 +38,7 @@
                         <div class="text-sm font-bold text-gray-900 truncate">{{ $bootcamp->title }}</div>
                         <div class="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
                             <x-icon name="users" class="w-3 h-3 text-gray-400" />
-                            Mentor: {{ $bootcamp->mentor_name }}
+                            {{ __('app.mentor') }}: {{ $bootcamp->mentor_name }}
                         </div>
                     </div>
                 </div>
@@ -57,12 +57,12 @@
             <td class="px-6 py-4 text-right">
                 <div class="flex items-center justify-end gap-2">
                     <a href="{{ route('admin.bootcamps.manage', $bootcamp) }}" class="inline-flex items-center justify-center bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
-                        Kelola
+                        {{ __('app.manage') }}
                     </a>
-                    <form method="POST" action="{{ route('admin.bootcamps.destroy', $bootcamp) }}" class="m-0" onsubmit="return confirm('Hapus bootcamp ini secara permanen?')">
+                    <form method="POST" action="{{ route('admin.bootcamps.destroy', $bootcamp) }}" class="m-0" onsubmit="return confirm('{{ __('app.delete_bootcamp_confirm') }}')">
                         @csrf @method('DELETE')
                         <button type="submit" class="inline-flex items-center justify-center bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
-                            Hapus
+                            {{ __('app.delete') }}
                         </button>
                     </form>
                 </div>
@@ -71,7 +71,7 @@
         @empty
         <tr>
             <td colspan="5" class="px-6 py-8">
-                <x-empty-state message="Belum ada data bootcamp." icon="calendar" />
+                <x-empty-state :message="__('app.no_bootcamp_data')" icon="calendar" />
             </td>
         </tr>
         @endforelse

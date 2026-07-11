@@ -1,7 +1,7 @@
 @extends('layouts.mentor')
 
-@section('title', 'Kelola Sesi Mentoring - Mentor')
-@section('header_title', 'Kelola Sesi Mentoring')
+@section('title', __('app.manage_mentoring_sessions_mentor'))
+@section('header_title', __('app.manage_mentoring_sessions'))
 
 @section('content')
 <div class="w-full space-y-6">
@@ -17,8 +17,8 @@
                 </svg>
             </div>
             <div>
-                <h3 class="font-bold text-yellow-900">Permintaan Booking Baru!</h3>
-                <p class="text-sm text-yellow-700">{{ $pendingSessions->count() }} siswa menunggu konfirmasi Anda</p>
+                <h3 class="font-bold text-yellow-900">{{ __('app.new_booking_request') }}</h3>
+                <p class="text-sm text-yellow-700">{{ $pendingSessions->count() }} {{ __('app.students_waiting_confirmation') }}</p>
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@
     <!-- Pending Sessions -->
     @if($pendingSessions->count() > 0)
     <div class="bg-white border border-gray-100 rounded-3xl p-6 md:p-8">
-        <h3 class="text-lg font-bold text-gray-900 mb-5">Menunggu Konfirmasi</h3>
+        <h3 class="text-lg font-bold text-gray-900 mb-5">{{ __('app.waiting_confirmation') }}</h3>
         <div class="space-y-4">
             @foreach($pendingSessions as $session)
             <div class="border border-gray-100 rounded-xl p-4 bg-yellow-50/50">
@@ -45,23 +45,23 @@
                             <p class="text-sm text-gray-500">{{ $session->user->email ?? '' }}</p>
                         </div>
                     </div>
-                    <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-bold rounded-full">Menunggu</span>
+                    <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-bold rounded-full">{{ __('app.waiting') }}</span>
                 </div>
 
                 <div class="bg-white rounded-lg p-4 mb-4 border border-gray-100">
                     <div class="grid grid-cols-2 gap-4 text-sm">
                         <div>
-                            <p class="text-gray-500">Tanggal</p>
+                            <p class="text-gray-500">{{ __('app.date') }}</p>
                             <p class="font-bold text-gray-900">{{ $session->formatted_date }}</p>
                         </div>
                         <div>
-                            <p class="text-gray-500">Waktu</p>
+                            <p class="text-gray-500">{{ __('app.time') }}</p>
                             <p class="font-bold text-gray-900">{{ $session->booked_time }}</p>
                         </div>
                     </div>
                     @if($session->notes)
                     <div class="mt-3 pt-3 border-t border-gray-100">
-                        <p class="text-gray-500 text-xs mb-1">Catatan:</p>
+                        <p class="text-gray-500 text-xs mb-1">{{ __('app.notes_colon') }}</p>
                         <p class="text-sm text-gray-700">{{ $session->notes }}</p>
                     </div>
                     @endif
@@ -71,13 +71,13 @@
                     <form action="{{ route('mentor.sessions.accept', $session) }}" method="POST" class="flex-1">
                         @csrf @method('PATCH')
                         <button type="submit" class="w-full px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition-colors text-sm">
-                            Terima Booking
+                            {{ __('app.accept_booking') }}
                         </button>
                     </form>
                     <form action="{{ route('mentor.sessions.reject', $session) }}" method="POST" class="flex-1">
                         @csrf @method('PATCH')
-                        <button type="submit" class="w-full px-4 py-2.5 bg-red-100 hover:bg-red-200 text-red-700 font-bold rounded-lg transition-colors text-sm" onclick="return confirm('Tolak permintaan ini?')">
-                            Tolak
+                        <button type="submit" class="w-full px-4 py-2.5 bg-red-100 hover:bg-red-200 text-red-700 font-bold rounded-lg transition-colors text-sm" onclick="return confirm('{{ __('app.reject_request_confirm') }}')">
+                            {{ __('app.reject') }}
                         </button>
                     </form>
                 </div>
@@ -90,7 +90,7 @@
     <!-- Active Sessions -->
     @if($activeSessions->count() > 0)
     <div class="bg-white border border-gray-100 rounded-3xl p-6 md:p-8">
-        <h3 class="text-lg font-bold text-gray-900 mb-5">Sesi Aktif</h3>
+        <h3 class="text-lg font-bold text-gray-900 mb-5">{{ __('app.active_sessions') }}</h3>
         <div class="space-y-4">
             @foreach($activeSessions as $session)
             <div class="border border-gray-100 rounded-xl p-4 bg-green-50/50">
@@ -108,15 +108,15 @@
                             <p class="text-sm text-gray-500">{{ $session->formatted_date }} • {{ $session->booked_time }}</p>
                         </div>
                     </div>
-                    <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full">Aktif</span>
+                    <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full">{{ __('app.active') }}</span>
                 </div>
 
                 <div class="bg-white rounded-lg p-4 mb-4 border border-gray-100">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-gray-500">WhatsApp Link</p>
+                            <p class="text-sm text-gray-500">{{ __('app.whatsapp_link') }}</p>
                             <a href="{{ $session->wa_link }}" target="_blank" class="text-blue-600 hover:text-blue-700 text-sm font-medium">
-                                Hubungi Siswa →
+                                {{ __('app.contact_student') }}
                             </a>
                         </div>
                     </div>
@@ -124,8 +124,8 @@
 
                 <form action="{{ route('mentor.sessions.complete', $session) }}" method="POST">
                     @csrf @method('PATCH')
-                    <button type="submit" class="w-full px-4 py-2.5 bg-[#d00000] hover:bg-red-700 text-white font-bold rounded-lg transition-colors text-sm" onclick="return confirm('Tandai sesi ini sebagai selesai?')">
-                        Tandai Selesai
+                    <button type="submit" class="w-full px-4 py-2.5 bg-[#d00000] hover:bg-red-700 text-white font-bold rounded-lg transition-colors text-sm" onclick="return confirm('{{ __('app.mark_session_complete_confirm') }}')">
+                        {{ __('app.mark_complete') }}
                     </button>
                 </form>
             </div>
@@ -136,15 +136,15 @@
 
     <!-- Completed Sessions History -->
     <div class="bg-white border border-gray-100 rounded-3xl p-6 md:p-8">
-        <h3 class="text-lg font-bold text-gray-900 mb-5">Riwayat Sesi</h3>
+        <h3 class="text-lg font-bold text-gray-900 mb-5">{{ __('app.session_history') }}</h3>
         @if($completedSessions->count() > 0)
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
                 <thead>
                     <tr class="border-b border-gray-100">
-                        <th class="text-left py-3 px-2 font-bold text-gray-600">Siswa</th>
-                        <th class="text-left py-3 px-2 font-bold text-gray-600">Tanggal</th>
-                        <th class="text-left py-3 px-2 font-bold text-gray-600">Status</th>
+                        <th class="text-left py-3 px-2 font-bold text-gray-600">{{ __('app.student') }}</th>
+                        <th class="text-left py-3 px-2 font-bold text-gray-600">{{ __('app.date') }}</th>
+                        <th class="text-left py-3 px-2 font-bold text-gray-600">{{ __('app.status') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -157,7 +157,7 @@
                         </td>
                         <td class="py-3 px-2 text-gray-600">{{ $session->formatted_date }}</td>
                         <td class="py-3 px-2">
-                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full">Selesai</span>
+                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full">{{ __('app.completed') }}</span>
                         </td>
                     </tr>
                     @endforeach
@@ -170,7 +170,7 @@
         </div>
         @endif
         @else
-        <p class="text-gray-500 text-center py-8">Belum ada riwayat sesi</p>
+        <p class="text-gray-500 text-center py-8">{{ __('app.no_session_history') }}</p>
         @endif
     </div>
 </div>

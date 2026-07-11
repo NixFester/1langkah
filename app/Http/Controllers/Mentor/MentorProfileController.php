@@ -64,7 +64,7 @@ class MentorProfileController extends Controller
 
         if (! $mentor) {
             return redirect()->route('mentor.profile.edit')
-                ->with('error', 'Profil mentor tidak ditemukan.');
+                ->with('error', __('app.msg_error_profil_mentor_tidak_ditemukan'));
         }
 
         $validated = $request->validate([
@@ -111,6 +111,6 @@ class MentorProfileController extends Controller
         }
 
         return redirect()->route('mentor.dashboard')
-            ->with('success', 'Profil mentor berhasil disimpan.');
+            ->with('success', __('app.msg_success_profil_mentor_berhasil_disimpan'));
     }
 }

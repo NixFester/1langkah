@@ -39,7 +39,7 @@
             <div>
                 <span class="font-medium text-gray-900">{{ $chapter['title'] }}</span>
                 <span class="ml-2 text-xs text-gray-500 video-counter" data-total="{{ $totalVideos }}">
-                    {{ $completedVideos }}/{{ $totalVideos }} videos
+                    {{ $completedVideos }}/{{ $totalVideos }} {{ __('app.videos') }}
                 </span>
             </div>
         </div>
@@ -49,9 +49,7 @@
                 <span class="text-emerald-600 font-medium flex items-center gap-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    Selesai
-                </span>
+                    </svg>{{ __('app.completed') }}</span>
             @endif
             <span>{{ $chapter['duration'] ?? '0h' }}</span>
             <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,7 +74,7 @@
             @endforeach
         @else
             <div class="p-4 text-center text-gray-500 text-sm">
-                Tidak ada video untuk chapter ini.
+                {{ __('app.no_video_for_chapter') }}
             </div>
         @endif
     </div>

@@ -2,7 +2,7 @@
     /**
      * Stats Row Component
      *
-     * @param array $stats   Array of ['value' => '100+', 'label' => 'Pelajar Aktif']
+     * @param array $stats   Array of ['value' => '100+', 'label' => __('app.active_students')]
      * @param bool  $centered Center the stats
      */
     $stats = $stats ?? [];

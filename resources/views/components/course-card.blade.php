@@ -101,12 +101,12 @@
             
             <!-- Price or Progress -->
             @if($c['progress'] > 0)
-                <span class="text-sm font-bold text-emerald-500">{{ $c['progress'] }}% done</span>
+                <span class="text-sm font-bold text-emerald-500">{{ $c['progress'] }}% {{ __('app.done') }}</span>
             @else
                 @if(is_numeric($c['price']) && $c['price'] > 0)
                     <span class="text-base font-bold text-gray-900">Rp {{ number_format($c['price'], 0, ',', '.') }}</span>
                 @elseif(is_numeric($c['price']) && $c['price'] == 0 || empty($c['price']) || strtolower($c['price']) === 'gratis')
-                    <span class="text-base font-bold text-emerald-600">Gratis</span>
+                    <span class="text-base font-bold text-emerald-600">{{ __('app.free') }}</span>
                 @else
                     <span class="text-base font-bold text-gray-900">{{ $c['price'] }}</span>
                 @endif

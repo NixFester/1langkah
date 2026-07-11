@@ -154,7 +154,7 @@ class ForumController extends Controller
         app(AchievementService::class)->checkAndAward(Auth::user(), AchievementService::TRIGGER_FORUM_POST);
 
         return redirect()->route('komunitas.show', $post->id)
-            ->with('success', 'Post berhasil dibuat!');
+            ->with('success', __('app.msg_success_post_berhasil_dibuat'));
     }
 
     /**
@@ -206,7 +206,7 @@ class ForumController extends Controller
         ForumPost::find($validated['post_id'])->incrementReplyCount();
 
         return redirect()->back()
-            ->with('success', 'Balasan berhasil dikirim!');
+            ->with('success', __('app.msg_success_balasan_berhasil_dikirim'));
     }
 
     /**

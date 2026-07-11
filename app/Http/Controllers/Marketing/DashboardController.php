@@ -155,7 +155,7 @@ class DashboardController extends Controller
         );
 
         return redirect()->route('marketing.promo-codes')
-            ->with('success', 'Promo code berhasil dibuat!');
+            ->with('success', __('app.msg_success_promo_code_berhasil_dibuat'));
     }
 
     /**
@@ -177,7 +177,7 @@ class DashboardController extends Controller
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'required|string|max:50|unique:promo_codes,code,' . $promo->id,
+            'code' => 'required|string|max:50|unique:promo_codes,code,'.$promo->id,
             'type' => 'required|in:percentage,fixed_amount',
             'value' => 'required|numeric|min:1',
             'max_uses' => 'nullable|integer|min:1',
@@ -201,7 +201,7 @@ class DashboardController extends Controller
         );
 
         return redirect()->route('marketing.promo-codes')
-            ->with('success', 'Promo code berhasil diperbarui!');
+            ->with('success', __('app.msg_success_promo_code_berhasil_diperbarui'));
     }
 
     /**
@@ -221,7 +221,7 @@ class DashboardController extends Controller
             "Menghapus promo code: {$code}"
         );
 
-        return redirect()->back()->with('success', 'Promo code berhasil dihapus.');
+        return redirect()->back()->with('success', __('app.msg_success_promo_code_berhasil_dihapus'));
     }
 
     /**
@@ -230,18 +230,18 @@ class DashboardController extends Controller
     public function togglePromoCode(PromoCode $promo)
     {
         $oldStatus = $promo->is_active;
-        $promo->update(['is_active' => !$promo->is_active]);
+        $promo->update(['is_active' => ! $promo->is_active]);
 
         AuditLog::log(
             AuditLog::ACTION_UPDATE,
             PromoCode::class,
             $promo->id,
             ['is_active' => $oldStatus],
-            ['is_active' => !$oldStatus],
+            ['is_active' => ! $oldStatus],
             $promo->is_active ? "Mengaktifkan promo: {$promo->code}" : "Menonaktifkan promo: {$promo->code}"
         );
 
-        return redirect()->back()->with('success', 'Status promo berhasil diubah.');
+        return redirect()->back()->with('success', __('app.msg_success_status_promo_berhasil_diubah'));
     }
 
     /**

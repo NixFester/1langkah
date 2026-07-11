@@ -1,7 +1,7 @@
 @extends('layouts.mentor')
 
-@section('title', 'Feedback & Rating')
-@section('header_title', 'Feedback & Rating')
+@section('title', __('app.feedback_rating'))
+@section('header_title', __('app.feedback_rating'))
 
 @section('content')
     <x-flash-messages />
@@ -9,7 +9,7 @@
     {{-- Stats --}}
     <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-8">
         <div class="col-span-2 bg-gradient-to-br from-amber-400 to-amber-500 rounded-xl p-6 text-white">
-            <p class="text-amber-100 text-sm mb-1">Rating Rata-rata</p>
+            <p class="text-amber-100 text-sm mb-1">{{ __('app.avg_rating') }}</p>
             <p class="text-4xl font-bold flex items-center gap-2">
                 {{ number_format($ratingStats['avg'], 1) }}
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -31,7 +31,7 @@
     </div>
 
     {{-- Reviews List --}}
-    <x-card-panel title="Reviews">
+    <x-card-panel :title="__('app.reviews')">
         @forelse($ratings as $rating)
             <div class="p-6 border-b border-gray-100 last:border-0">
                 <div class="flex items-start justify-between mb-2">
@@ -44,18 +44,18 @@
                     </div>
                     <span class="text-xs text-gray-400">{{ $rating->created_at->format('d/m/Y H:i') }}</span>
                 </div>
-                <p class="text-gray-800 mb-2">{{ $rating->review ?? 'Tanpa review' }}</p>
+                <p class="text-gray-800 mb-2">{{ $rating->review ?? __('app.no_review') }}</p>
                 <div class="flex items-center gap-2">
                     @if($rating->user?->profile_photo)
                         <img src="{{ $rating->user->profile_photo }}" class="w-6 h-6 rounded-full object-cover">
                     @endif
-                    <span class="text-sm text-gray-600">{{ $rating->user?->name ?? 'Anonymous' }}</span>
+                    <span class="text-sm text-gray-600">{{ $rating->user?->name ?? __('app.anonymous') }}</span>
                     <span class="text-gray-300">•</span>
                     <span class="text-sm text-gray-500">{{ $rating->course?->title }}</span>
                 </div>
             </div>
         @empty
-            <x-empty-state message="Belum ada feedback" icon="rating" />
+            <x-empty-state :message="__('app.no_feedback')" icon="rating" />
         @endforelse
     </x-card-panel>
 

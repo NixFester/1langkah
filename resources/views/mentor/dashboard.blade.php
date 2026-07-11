@@ -1,7 +1,7 @@
 @extends('layouts.mentor')
 
-@section('title', 'Dashboard Mentor')
-@section('header_title', 'Dashboard Mentor')
+@section('title', __('app.mentor_dashboard'))
+@section('header_title', __('app.mentor_dashboard'))
 
 @section('content')
     <x-flash-messages />
@@ -13,18 +13,18 @@
 
         <div class="relative z-10 text-white w-full sm:w-2/3 space-y-3 sm:space-y-4">
             <div class="text-white/90 font-medium flex items-center gap-2 text-sm sm:text-base">
-                Selamat datang kembali, Mentor! 👋
+                {{ __('app.welcome_mentor') }}
             </div>
             <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight">{{ auth()->user()->name ?? 'Mentor' }}</h1>
-            <p class="text-white/80 text-[13px] sm:text-base leading-relaxed max-w-lg">{{ auth()->user()->mentor?->bio ?? 'Belum ada bio. Tambahkan di pengaturan profil Anda.' }}</p>
+            <p class="text-white/80 text-[13px] sm:text-base leading-relaxed max-w-lg">{{ auth()->user()->mentor?->bio ?? __('app.no_bio_add_in_settings') }}</p>
 
             <div class="pt-3 sm:pt-4 flex flex-col sm:flex-row gap-3">
                 <a href="{{ route('mentor.sessions.index') }}" class="bg-white text-[#cc0000] hover:bg-gray-50 px-6 py-3 sm:py-2.5 rounded-xl sm:rounded-full font-bold text-sm transition-colors flex items-center justify-center sm:justify-start gap-2 shadow-sm inline-flex w-full sm:w-auto">
-                    Kelola Sesi
+                    {{ __('app.manage_sessions') }}
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
                 <a href="{{ route('mentor.profile.edit') }}" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 px-6 py-3 sm:py-2.5 rounded-xl sm:rounded-full font-bold text-sm transition-colors flex items-center justify-center sm:justify-start gap-2 inline-flex w-full sm:w-auto">
-                    Edit Profil
+                    {{ __('app.edit_profile') }}
                 </a>
             </div>
         </div>
@@ -45,17 +45,17 @@
 
     {{-- Stats Cards --}}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-8">
-        <x-stat-card label="Kursus Saya" :value="$stats['total_courses']" icon="award" color="blue" />
-        <x-stat-card label="Total Siswa" :value="$stats['total_students']" icon="users" color="green" />
-        <x-stat-card label="Total Enrollments" :value="$stats['total_enrollments']" icon="book" color="purple" />
-        <x-stat-card label="Rating Rata-rata" :value="number_format($stats['avg_rating'], 1)" icon="starEmpty" suffix=" ⭐" color="amber" />
+        <x-stat-card :label="__('app.my_courses')" :value="$stats['total_courses']" icon="award" color="blue" />
+        <x-stat-card :label="__('app.total_students')" :value="$stats['total_students']" icon="users" color="green" />
+        <x-stat-card :label="__('app.total_enrollments')" :value="$stats['total_enrollments']" icon="book" color="purple" />
+        <x-stat-card :label="__('app.avg_rating')" :value="number_format($stats['avg_rating'], 1)" icon="starEmpty" suffix=" ⭐" color="amber" />
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- My Courses --}}
-        <x-card-panel title="Kursus Saya" :actionRoute="route('mentor.my-courses')">
+        <x-card-panel :title="__('app.my_courses')" :actionRoute="route('mentor.my-courses')">
             @if($myCourses->isEmpty())
-                <x-empty-state message="Belum ada kursus" icon="book" />
+                <x-empty-state :message="__('app.no_course')" icon="book" />
             @else
                 <div class="space-y-4">
                     @foreach($myCourses as $course)
@@ -66,7 +66,7 @@
                             </div>
                             <div class="text-right">
                                 <p class="font-bold text-blue-600">{{ $course->enrollments_count ?? 0 }}</p>
-                                <p class="text-xs text-gray-400">siswa</p>
+                                <p class="text-xs text-gray-400">{{ __('app.student_lowercase') }}</p>
                             </div>
                         </div>
                     @endforeach
@@ -75,9 +75,9 @@
         </x-card-panel>
 
         {{-- Recent Students --}}
-        <x-card-panel title="Siswa Terbaru" :actionRoute="route('mentor.students')">
+        <x-card-panel :title="__('app.recent_students')" :actionRoute="route('mentor.students')">
             @if($recentStudents->isEmpty())
-                <x-empty-state message="Belum ada siswa" icon="users" />
+                <x-empty-state :message="__('app.no_students')" icon="users" />
             @else
                 <div class="space-y-4">
                     @foreach($recentStudents as $enrollment)
@@ -92,7 +92,7 @@
                                 @endif
                                 <div>
                                     <p class="font-medium text-gray-800">{{ $enrollment->user->name ?? 'Unknown' }}</p>
-                                    <p class="text-sm text-gray-500">{{ $enrollment->enrollable?->title ?? 'Unknown Course' }}</p>
+                                    <p class="text-sm text-gray-500">{{ $enrollment->enrollable?->title ?? __('app.unknown_course') }}</p>
                                 </div>
                             </div>
                             <p class="text-xs text-gray-400">{{ $enrollment->created_at->diffForHumans() }}</p>
@@ -104,9 +104,9 @@
     </div>
 
     {{-- Recent Ratings --}}
-    <x-card-panel title="Rating Terbaru" :actionRoute="route('mentor.feedback')" class="mt-6">
+    <x-card-panel :title="__('app.recent_rating')" :actionRoute="route('mentor.feedback')" class="mt-6">
         @if($recentRatings->isEmpty())
-            <x-empty-state message="Belum ada rating" icon="rating" />
+            <x-empty-state :message="__('app.no_rating')" icon="rating" />
         @else
             <div class="space-y-4">
                 @foreach($recentRatings as $rating)
@@ -119,9 +119,9 @@
                             @endfor
                         </div>
                         <div class="flex-1">
-                            <p class="text-sm text-gray-800">{{ $rating->review ?? 'Tanpa review' }}</p>
+                            <p class="text-sm text-gray-800">{{ $rating->review ?? __('app.no_review') }}</p>
                             <p class="text-xs text-gray-400 mt-1">
-                                {{ $rating->user?->name ?? 'Anonymous' }} - {{ $rating->created_at->diffForHumans() }}
+                                {{ $rating->user?->name ?? __('app.anonymous') }} - {{ $rating->created_at->diffForHumans() }}
                             </p>
                         </div>
                     </div>

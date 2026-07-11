@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Picture;
-use App\Models\Course;
 use App\Models\Bootcamp;
+use App\Models\Course;
+use App\Models\Picture;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class PictureController extends Controller
 {
@@ -25,7 +25,7 @@ class PictureController extends Controller
         $model = $modelType::findOrFail($id);
 
         $path = $request->file('image')->store('pictures', 'public');
-        $url = '/storage/' . $path;
+        $url = '/storage/'.$path;
 
         // Create picture with uploaded file URL
         Picture::create([
@@ -37,7 +37,7 @@ class PictureController extends Controller
             'order' => $model->pictures()->max('order') + 1,
         ]);
 
-        return back()->with('success', 'Gambar berhasil ditambahkan.');
+        return back()->with('success', __('app.msg_success_gambar_berhasil_ditambahkan'));
     }
 
     public function destroy(Picture $picture): RedirectResponse
@@ -45,12 +45,13 @@ class PictureController extends Controller
         // Optionally delete the file from storage
         if ($picture->url && str_starts_with($picture->url, '/storage/')) {
             $path = str_replace('/storage/', '', $picture->url);
-            if (\Illuminate\Support\Facades\Storage::disk('public')->exists($path)) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($path);
+            if (Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
             }
         }
 
         $picture->delete();
-        return back()->with('success', 'Gambar berhasil dihapus.');
+
+        return back()->with('success', __('app.msg_success_gambar_berhasil_dihapus'));
     }
 }

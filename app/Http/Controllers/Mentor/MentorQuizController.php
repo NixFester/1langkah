@@ -92,7 +92,7 @@ class MentorQuizController extends Controller
 
         Quiz::create($data);
 
-        return redirect()->route('mentor.quizzes.index')->with('success', 'Quiz berhasil ditambahkan.');
+        return redirect()->route('mentor.quizzes.index')->with('success', __('app.msg_success_quiz_berhasil_ditambahkan'));
     }
 
     /**
@@ -101,7 +101,7 @@ class MentorQuizController extends Controller
     public function edit(Quiz $quiz): View
     {
         if (! $this->canManageQuiz($quiz)) {
-            abort(403, 'Anda tidak memiliki akses ke quiz ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_quiz_ini'));
         }
 
         $user = auth()->user();
@@ -122,7 +122,7 @@ class MentorQuizController extends Controller
     public function update(Request $request, Quiz $quiz): RedirectResponse
     {
         if (! $this->canManageQuiz($quiz)) {
-            abort(403, 'Anda tidak memiliki akses ke quiz ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_quiz_ini'));
         }
 
         $courseIds = $this->getMentorCourseIds();
@@ -143,7 +143,7 @@ class MentorQuizController extends Controller
 
         $quiz->update($data);
 
-        return redirect()->route('mentor.quizzes.index')->with('success', 'Quiz berhasil diperbarui.');
+        return redirect()->route('mentor.quizzes.index')->with('success', __('app.msg_success_quiz_berhasil_diperbarui'));
     }
 
     /**
@@ -152,12 +152,12 @@ class MentorQuizController extends Controller
     public function destroy(Quiz $quiz): RedirectResponse
     {
         if (! $this->canManageQuiz($quiz)) {
-            abort(403, 'Anda tidak memiliki akses ke quiz ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_quiz_ini'));
         }
 
         $quiz->delete();
 
-        return redirect()->route('mentor.quizzes.index')->with('success', 'Quiz berhasil dihapus.');
+        return redirect()->route('mentor.quizzes.index')->with('success', __('app.msg_success_quiz_berhasil_dihapus'));
     }
 
     /**
@@ -166,7 +166,7 @@ class MentorQuizController extends Controller
     public function questions(Quiz $quiz): View
     {
         if (! $this->canManageQuiz($quiz)) {
-            abort(403, 'Anda tidak memiliki akses ke quiz ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_quiz_ini'));
         }
 
         $quiz->load('questions.answers');
@@ -180,7 +180,7 @@ class MentorQuizController extends Controller
     public function addQuestion(Request $request, Quiz $quiz): RedirectResponse
     {
         if (! $this->canManageQuiz($quiz)) {
-            abort(403, 'Anda tidak memiliki akses ke quiz ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_quiz_ini'));
         }
 
         $data = $request->validate([
@@ -213,7 +213,7 @@ class MentorQuizController extends Controller
             QuizAnswer::create(['question_id' => $question->id, 'answer_text' => 'Salah', 'is_correct' => false, 'order' => 2]);
         }
 
-        return redirect()->route('mentor.quizzes.questions', $quiz)->with('success', 'Question berhasil ditambahkan.');
+        return redirect()->route('mentor.quizzes.questions', $quiz)->with('success', __('app.msg_success_question_berhasil_ditambahkan'));
     }
 
     /**
@@ -222,7 +222,7 @@ class MentorQuizController extends Controller
     public function updateQuestion(Request $request, Quiz $quiz, QuizQuestion $question): RedirectResponse
     {
         if (! $this->canManageQuiz($quiz)) {
-            abort(403, 'Anda tidak memiliki akses ke quiz ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_quiz_ini'));
         }
 
         $data = $request->validate([
@@ -239,7 +239,7 @@ class MentorQuizController extends Controller
 
         $question->update($data);
 
-        return redirect()->route('mentor.quizzes.questions', $quiz)->with('success', 'Question berhasil diperbarui.');
+        return redirect()->route('mentor.quizzes.questions', $quiz)->with('success', __('app.msg_success_question_berhasil_diperbarui'));
     }
 
     /**
@@ -248,12 +248,12 @@ class MentorQuizController extends Controller
     public function deleteQuestion(Quiz $quiz, QuizQuestion $question): RedirectResponse
     {
         if (! $this->canManageQuiz($quiz)) {
-            abort(403, 'Anda tidak memiliki akses ke quiz ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_quiz_ini'));
         }
 
         $question->delete();
 
-        return redirect()->route('mentor.quizzes.questions', $quiz)->with('success', 'Question berhasil dihapus.');
+        return redirect()->route('mentor.quizzes.questions', $quiz)->with('success', __('app.msg_success_question_berhasil_dihapus'));
     }
 
     /**
@@ -262,7 +262,7 @@ class MentorQuizController extends Controller
     public function updateAnswer(Request $request, Quiz $quiz, QuizQuestion $question, QuizAnswer $answer): RedirectResponse
     {
         if (! $this->canManageQuiz($quiz)) {
-            abort(403, 'Anda tidak memiliki akses ke quiz ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_quiz_ini'));
         }
 
         $data = $request->validate([
@@ -278,7 +278,7 @@ class MentorQuizController extends Controller
         $data['is_correct'] = $request->boolean('is_correct', false);
         $answer->update($data);
 
-        return redirect()->route('mentor.quizzes.questions', $quiz)->with('success', 'Answer berhasil diperbarui.');
+        return redirect()->route('mentor.quizzes.questions', $quiz)->with('success', __('app.msg_success_answer_berhasil_diperbarui'));
     }
 
     /**
@@ -287,7 +287,7 @@ class MentorQuizController extends Controller
     public function addAnswer(Request $request, Quiz $quiz, QuizQuestion $question): RedirectResponse
     {
         if (! $this->canManageQuiz($quiz)) {
-            abort(403, 'Anda tidak memiliki akses ke quiz ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_quiz_ini'));
         }
 
         $data = $request->validate([
@@ -301,7 +301,7 @@ class MentorQuizController extends Controller
 
         QuizAnswer::create($data);
 
-        return redirect()->route('mentor.quizzes.questions', $quiz)->with('success', 'Answer berhasil ditambahkan.');
+        return redirect()->route('mentor.quizzes.questions', $quiz)->with('success', __('app.msg_success_answer_berhasil_ditambahkan'));
     }
 
     /**
@@ -310,11 +310,11 @@ class MentorQuizController extends Controller
     public function deleteAnswer(Quiz $quiz, QuizQuestion $question, QuizAnswer $answer): RedirectResponse
     {
         if (! $this->canManageQuiz($quiz)) {
-            abort(403, 'Anda tidak memiliki akses ke quiz ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_quiz_ini'));
         }
 
         $answer->delete();
 
-        return redirect()->route('mentor.quizzes.questions', $quiz)->with('success', 'Answer berhasil dihapus.');
+        return redirect()->route('mentor.quizzes.questions', $quiz)->with('success', __('app.msg_success_answer_berhasil_dihapus'));
     }
 }

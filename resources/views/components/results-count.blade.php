@@ -1,4 +1,4 @@
-@props(['count' => 0, 'label' => 'item', 'model' => null])
+@props(['count' => 0, 'label' => __('app.item'), 'model' => null])
 @php
     /**
      * Results Count Component
@@ -10,7 +10,7 @@
 @endphp
 
 <div {{ $attributes->merge(['class' => 'text-sm text-gray-500 mb-6']) }}>
-    Menampilkan
+    {{ __('app.showing') }}
     <span class="font-semibold text-gray-900" {!! $model ? "x-text=\"{$model}.length\"" : "" !!}>
         {{ $model ? '' : $count }}
     </span>

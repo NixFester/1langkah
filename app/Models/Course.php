@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Course extends Model
 {
@@ -106,9 +105,9 @@ class Course extends Model
      */
     public function courseResources(): HasMany
     {
-        return $this->hasMany(Resource::class)->where(function($query) {
+        return $this->hasMany(Resource::class)->where(function ($query) {
             $query->whereNull('chapter_id')
-                  ->orWhere('chapter_id', 0);
+                ->orWhere('chapter_id', 0);
         })->orderBy('order');
     }
 
@@ -135,7 +134,10 @@ class Course extends Model
      */
     public function userRating(?int $userId): ?int
     {
-        if (!$userId) return null;
+        if (! $userId) {
+            return null;
+        }
+
         return $this->ratings()->where('user_id', $userId)->value('rating');
     }
 
@@ -144,7 +146,10 @@ class Course extends Model
      */
     public function isEnrolled(?int $userId): bool
     {
-        if (!$userId) return false;
+        if (! $userId) {
+            return false;
+        }
+
         return $this->enrollments()->where('user_id', $userId)->exists();
     }
 
@@ -175,6 +180,7 @@ class Course extends Model
 
         if (is_string($value) && $value !== '') {
             $decoded = json_decode($value, true);
+
             return is_array($decoded) ? $decoded : [];
         }
 
@@ -209,12 +215,12 @@ class Course extends Model
      */
     public function getFormattedPriceAttribute(): string
     {
-        if (empty($this->price) || $this->price == 0 || strtolower(trim((string)$this->price)) === 'gratis') {
-            return 'Gratis';
+        if (empty($this->price) || $this->price == 0 || strtolower(trim((string) $this->price)) === 'gratis') {
+            return __('app.free');
         }
 
         if (is_numeric($this->price)) {
-            return 'Rp ' . number_format((float) $this->price, 0, ',', '.');
+            return 'Rp '.number_format((float) $this->price, 0, ',', '.');
         }
 
         return (string) $this->price;

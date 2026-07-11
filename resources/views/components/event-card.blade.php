@@ -91,7 +91,7 @@
                     <span class="font-medium">
                         {{ $event['registered_count'] ?? 0 }}
                         @if(isset($event['max_participants']))
-                            / {{ $event['max_participants'] }} peserta
+                            / {{ $event['max_participants'] }} {{ __('app.participants') }}
                         @else
                             terdaftar
                         @endif

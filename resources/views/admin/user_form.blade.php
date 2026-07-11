@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', isset($user) ? 'Kelola User' : 'Tambah User')
+@section('title', isset($user) ? __('app.manage_users_title') : __('app.add_new_user'))
 
 @section('content')
 <div class="w-full px-2 pb-8 space-y-6">
 
     <!-- PAGE HEADER -->
     <x-page-header
-        :title="isset($user) ? 'Kelola User' : 'Tambah User Baru'"
-        description="Form ini dipakai untuk mengatur akun user, role, dan kredensial dasar."
+        :title="isset($user) ? __('app.manage_users') : __('app.add_new_user')"
+        :description="__('app.user_form_desc')"
     >
         <x-slot:actionSlot>
             <a href="{{ isset($user) ? route('admin.users') : route('admin.users.new') }}"
@@ -16,7 +16,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
-                {{ isset($user) ? 'Kembali' : 'Kembali ke Daftar' }}
+                {{ isset($user) ? __('app.back') : __('app.back_to_list') }}
             </a>
         </x-slot:actionSlot>
     </x-page-header>
@@ -33,51 +33,51 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Nama Lengkap <span class="text-red-500">*</span></label>
-                    <input type="text" name="name" value="{{ old('name', $user->name ?? '') }}" placeholder="Masukkan nama lengkap" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.full_name') }} <span class="text-red-500">*</span></label>
+                    <input type="text" name="name" value="{{ old('name', $user->name ?? '') }}" placeholder="{{ __('app.enter_full_name') }}" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Email <span class="text-red-500">*</span></label>
-                    <input type="email" name="email" value="{{ old('email', $user->email ?? '') }}" placeholder="Masukkan email aktif" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.email') }} <span class="text-red-500">*</span></label>
+                    <input type="email" name="email" value="{{ old('email', $user->email ?? '') }}" placeholder="{{ __('app.email_active') }}" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Password {!! !isset($user) ? '<span class="text-red-500">*</span>' : '' !!}</label>
-                    <input type="password" name="password" placeholder="{{ isset($user) ? 'Kosongkan jika tidak ingin mengubah' : 'Masukkan password' }}" {{ !isset($user) ? 'required' : '' }} class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.password') }} {!! !isset($user) ? '<span class="text-red-500">*</span>' : '' !!}</label>
+                    <input type="password" name="password" placeholder="{{ isset($user) ? __('app.password_leave_blank') : __('app.enter_password') }}" {{ !isset($user) ? 'required' : '' }} class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Konfirmasi Password {!! !isset($user) ? '<span class="text-red-500">*</span>' : '' !!}</label>
-                    <input type="password" name="password_confirmation" placeholder="Ketik ulang password" {{ !isset($user) ? 'required' : '' }} class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.confirm_password') }} {!! !isset($user) ? '<span class="text-red-500">*</span>' : '' !!}</label>
+                    <input type="password" name="password_confirmation" placeholder="{{ __('app.retype_password') }}" {{ !isset($user) ? 'required' : '' }} class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Role Akses <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.access_role') }} <span class="text-red-500">*</span></label>
                     <select name="role" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
-                        <option value="">-- Pilih Role --</option>
-                        <option value="student" {{ old('role', $user->role ?? '') === 'student' ? 'selected' : '' }}>Student</option>
-                        <option value="mentor" {{ old('role', $user->role ?? '') === 'mentor' ? 'selected' : '' }}>Mentor</option>
-                        <option value="admin" {{ old('role', $user->role ?? '') === 'admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="">{{ __('app.select_role') }}</option>
+                        <option value="student" {{ old('role', $user->role ?? '') === 'student' ? 'selected' : '' }}>{{ __('app.student') }}</option>
+                        <option value="mentor" {{ old('role', $user->role ?? '') === 'mentor' ? 'selected' : '' }}>{{ __('app.mentor') }}</option>
+                        <option value="admin" {{ old('role', $user->role ?? '') === 'admin' ? 'selected' : '' }}>{{ __('app.admin') }}</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Foto Profil (Opsional)</label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.profile_photo_optional') }}</label>
                     <input type="hidden" name="remove_photo" id="remove-photo-input" value="0">
                     @if(isset($user) && $user->profile_photo)
                         <div class="mb-3 relative inline-block" id="photo-preview-container">
-                            <img id="photo-preview" src="{{ str_starts_with($user->profile_photo, 'http') ? $user->profile_photo : asset($user->profile_photo) }}" alt="Foto Profil" class="h-24 w-24 object-cover rounded-full border border-gray-200">
-                            <button type="button" onclick="removePhotoPreview()" class="absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition-colors" title="Hapus Foto">
+                            <img id="photo-preview" src="{{ str_starts_with($user->profile_photo, 'http') ? $user->profile_photo : asset($user->profile_photo) }}" alt="{{ __('app.profile_photo') }}" class="h-24 w-24 object-cover rounded-full border border-gray-200">
+                            <button type="button" onclick="removePhotoPreview()" class="absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition-colors" title="{{ __('app.remove_photo') }}">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                             </button>
                         </div>
                     @endif
                     <div id="photo-input-container" style="display: {{ isset($user) && $user->profile_photo ? 'none' : 'block' }};">
                         <input type="file" name="profile_photo_file" accept="image/*" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-2 transition-colors">
-                        <p class="text-xs text-gray-500 mt-1">Unggah gambar baru. Maksimal 2MB (JPG, PNG).</p>
+                        <p class="text-xs text-gray-500 mt-1">{{ __('app.upload_image_hint') }}</p>
                     </div>
                 </div>
             </div>
 
             <div class="pt-4 border-t border-gray-100 flex justify-end">
                 <button type="submit" class="bg-[#cc0000] hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-sm transition-colors shadow-lg shadow-red-200 w-full sm:w-auto">
-                    {{ isset($user) ? 'Simpan Perubahan' : '+ Tambah User' }}
+                    {{ isset($user) ? __('app.save_changes') : __('app.add_user_plus') }}
                 </button>
             </div>
         </form>
@@ -121,7 +121,7 @@
                         previewDiv.className = 'mb-3 relative inline-block';
                         previewDiv.innerHTML = `
                             <img id="photo-preview" src="" class="h-24 w-24 object-cover rounded-full border border-gray-200">
-                            <button type="button" onclick="removePhotoPreview()" class="absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition-colors" title="Hapus Foto">
+                            <button type="button" onclick="removePhotoPreview()" class="absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition-colors" title="{{ __('app.remove_photo') }}">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                             </button>
                         `;

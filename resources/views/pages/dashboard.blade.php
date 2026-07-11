@@ -44,10 +44,10 @@
 
     <!-- 4 STAT CARDS -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        <x-stat-card :value="$userStats['courses_enrolled'] ?? 0" :label="__('app.active_courses')" icon="book" color="red" />
-        <x-stat-card :value="$userStats['bootcamps_enrolled'] ?? 0" :label="__('app.active_bootcamps')" icon="users" color="blue" />
-        <x-stat-card :value="$userStats['courses_completed'] ?? 0" :label="__('app.completed_courses')" icon="check" color="green" />
-        <x-stat-card :value="$userStats['bootcamps_completed'] ?? 0" :label="__('app.completed_bootcamps')" icon="folder" color="purple" />
+        <x-stat-card :value="$userStats['courses_enrolled'] ?? 0" :label="__('app.active_courses')" icon="award" color="red" />
+        <x-stat-card :value="$userStats['bootcamps_enrolled'] ?? 0" :label="__('app.active_bootcamps')" icon="target" color="blue" />
+        <x-stat-card :value="$userStats['courses_completed'] ?? 0" :label="__('app.completed_courses')" icon="checkCircle" color="green" />
+        <x-stat-card :value="$userStats['bootcamps_completed'] ?? 0" :label="__('app.completed_bootcamps')" icon="shieldCheck" color="purple" />
     </div>
 
     <!-- GRID LAYOUT SECTION -->

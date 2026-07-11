@@ -1,8 +1,8 @@
 @extends('layouts.mentor')
 
-@section('title', 'Pertanyaan - ' . $quiz->title . ' - Mentor')
+@section('title', __('app.questions') . ' - ' . $quiz->title . ' - Mentor')
 
-@section('header_title', 'Kelola Pertanyaan Quiz')
+@section('header_title', __('app.manage_question_quiz'))
 
 @section('content')
 <div class="space-y-6">
@@ -11,7 +11,7 @@
         <div>
             <a href="{{ route('mentor.quizzes.index') }}" class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 mb-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                Kembali ke Quiz
+                {{ __('app.back_to_quiz') }}
             </a>
             <h1 class="text-2xl font-bold text-gray-900">{{ $quiz->title }}</h1>
             <p class="text-sm text-gray-500 mt-1">{{ $quiz->course->title ?? 'N/A' }} • {{ ucfirst(str_replace('_', ' ', $quiz->type)) }}</p>
@@ -27,19 +27,19 @@
 
     <!-- Add Question Form -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <h2 class="text-lg font-bold text-gray-900 mb-4">Tambah Pertanyaan Baru</h2>
+        <h2 class="text-lg font-bold text-gray-900 mb-4">{{ __('app.add_new_question') }}</h2>
         <form action="{{ route('mentor.quizzes.questions.add', $quiz) }}" method="POST" class="grid grid-cols-12 gap-4">
             @csrf
             <div class="col-span-12 md:col-span-6">
                 <input type="text" name="question" required
                     class="w-full min-w-0 rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Tulis pertanyaan...">
+                    placeholder="{{ __('app.write_question') }}">
             </div>
             <div class="col-span-12 md:col-span-2">
                 <select name="type" class="w-full min-w-0 rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option value="multiple_choice">Multiple Choice</option>
-                    <option value="true_false">True/False</option>
-                    <option value="essay">Essay</option>
+                    <option value="multiple_choice">{{ __('app.multiple_choice') }}</option>
+                    <option value="true_false">{{ __('app.true_false') }}</option>
+                    <option value="essay">{{ __('app.essay') }}</option>
                 </select>
             </div>
             <div class="col-span-6 md:col-span-1">
@@ -54,7 +54,7 @@
             </div>
             <div class="col-span-12 md:col-span-2">
                 <button type="submit" class="w-full px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors">
-                    Tambah
+                    {{ __('app.add') }}
                 </button>
             </div>
         </form>
@@ -75,21 +75,21 @@
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 flex-shrink-0">
                                 {{ $question->type }}
                             </span>
-                            <span class="text-xs text-gray-500 flex-shrink-0">{{ $question->points }} pts</span>
+                            <span class="text-xs text-gray-500 flex-shrink-0">{{ $question->points }} {{ __('app.pts') }}</span>
                             @if($question->is_required)
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800 flex-shrink-0">Required</span>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800 flex-shrink-0">{{ __('app.required') }}</span>
                             @endif
                         </div>
                         <p class="text-gray-900 font-medium">{{ $question->question }}</p>
                         @if($question->explanation)
-                        <p class="text-sm text-gray-500 mt-1 italic">Explanation: {{ $question->explanation }}</p>
+                        <p class="text-sm text-gray-500 mt-1 italic">{{ __('app.explanation') }}: {{ $question->explanation }}</p>
                         @endif
                     </div>
                     <div class="flex items-center gap-2">
-                        <form action="{{ route('mentor.quizzes.questions.delete', [$quiz, $question]) }}" method="POST" class="inline" onsubmit="return confirm('Hapus pertanyaan ini?')">
+                        <form action="{{ route('mentor.quizzes.questions.delete', [$quiz, $question]) }}" method="POST" class="inline" onsubmit="return confirm('{{ __('app.delete_question_confirm') }}')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="p-2 text-gray-400 hover:text-red-600 transition-colors" title="Hapus">
+                            <button type="submit" class="p-2 text-gray-400 hover:text-red-600 transition-colors" title="{{ __('app.delete') }}">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-9V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             </button>
                         </form>
@@ -112,7 +112,7 @@
                                 <input type="checkbox" name="is_correct" value="1" {{ $answer->is_correct ? 'checked' : '' }}
                                     onchange="this.form.submit()"
                                     class="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 flex-shrink-0">
-                                <span class="text-gray-600">Correct</span>
+                                <span class="text-gray-600">{{ __('app.correct') }}</span>
                             </label>
                         </form>
                         <form action="{{ route('mentor.quizzes.answers.delete', [$quiz, $question, $answer]) }}" method="POST" class="inline flex-shrink-0">
@@ -130,7 +130,7 @@
                         @csrf
                         <input type="text" name="answer_text" required
                             class="flex-1 min-w-0 rounded-lg border border-gray-200 px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Tambah opsi jawaban...">
+                            placeholder="{{ __('app.add_answer_option') }}">
                         <button type="submit" class="px-3 py-1.5 bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium rounded-lg transition-colors flex-shrink-0">
                             +
                         </button>
@@ -142,7 +142,7 @@
         @empty
         <div class="p-12 text-center text-gray-500">
             <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            <p>Belum ada pertanyaan. Tambahkan pertanyaan di atas.</p>
+            <p>{{ __('app.no_questions_yet') }}</p>
         </div>
         @endforelse
     </div>

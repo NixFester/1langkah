@@ -76,7 +76,7 @@ class MentorEventController extends Controller
         $mentorProfile = $this->getMentorProfile();
 
         if (! $mentorProfile) {
-            return redirect()->back()->with('error', 'Profil mentor tidak ditemukan.');
+            return redirect()->back()->with('error', __('app.msg_error_profil_mentor_tidak_ditemukan'));
         }
 
         // Combine date and time
@@ -107,7 +107,7 @@ class MentorEventController extends Controller
         ]);
 
         return redirect()->route('mentor.events.edit', $event)
-            ->with('success', 'Event berhasil dibuat.');
+            ->with('success', __('app.msg_success_event_berhasil_dibuat'));
     }
 
     /**
@@ -170,7 +170,7 @@ class MentorEventController extends Controller
             'status' => $validated['status'],
         ]);
 
-        return redirect()->back()->with('success', 'Event berhasil diperbarui.');
+        return redirect()->back()->with('success', __('app.msg_success_event_berhasil_diperbarui'));
     }
 
     /**
@@ -202,7 +202,7 @@ class MentorEventController extends Controller
         $this->authorizeMentorOwnership($event);
 
         if ($registration->attended_at) {
-            return redirect()->back()->with('warning', 'Peserta sudah ditandai hadir.');
+            return redirect()->back()->with('warning', __('app.msg_warning_peserta_sudah_ditandai_hadir'));
         }
 
         $registration->update([
@@ -224,7 +224,7 @@ class MentorEventController extends Controller
             AchievementService::TRIGGER_EVENT_ATTENDED
         );
 
-        return redirect()->back()->with('success', 'Peserta ditandai hadir dan mendapatkan 20 XP.');
+        return redirect()->back()->with('success', __('app.msg_success_peserta_ditandai_hadir_dan_mendapatkan_2'));
     }
 
     /* ── Ticket Scanner ─────────────────────────────────────────────── */
@@ -286,12 +286,12 @@ class MentorEventController extends Controller
 
         if (! $registration) {
             return redirect()->back()
-                ->with('error', 'Tiket tidak ditemukan. Pastikan kode tiket benar.');
+                ->with('error', __('app.msg_error_tiket_tidak_ditemukan_pastikan_kode_tike'));
         }
 
         if ($registration->attended_at) {
             return redirect()->back()
-                ->with('warning', "Peserta {$registration->user->name} sudah hadir pada ".$registration->attended_at->format('H:i:s'));
+                ->with('warning', __('app.msg_already_attended', ['name' => $registration->user->name, 'time' => $registration->attended_at->format('H:i:s')]));
         }
 
         // Mark as attended and award XP
@@ -314,7 +314,7 @@ class MentorEventController extends Controller
         );
 
         return redirect()->back()
-            ->with('success', "Tiket {@$registration->user->name} berhasil discan! +XP awarded!");
+            ->with('success', __('app.msg_ticket_scanned', ['name' => @$registration->user->name]));
     }
 
     /**
@@ -333,7 +333,7 @@ class MentorEventController extends Controller
         $mentorProfile = $this->getMentorProfile();
 
         if (! $mentorProfile || $event->mentor_id !== $mentorProfile->id) {
-            abort(403, 'Anda tidak memiliki akses ke event ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_event_ini'));
         }
     }
 }

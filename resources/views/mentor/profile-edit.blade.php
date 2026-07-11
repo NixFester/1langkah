@@ -1,12 +1,12 @@
 @extends('layouts.mentor')
 
-@section('title', 'Edit Biodata Mentor')
-@section('header_title', 'Edit Biodata Mentor')
+@section('title', __('app.edit_mentor_biodata'))
+@section('header_title', __('app.edit_mentor_biodata'))
 
 @section('content')
 <div class="w-full px-2 pb-8">
-    <div class="page-title" style="margin-bottom:8px">Edit Biodata Mentor</div>
-    <p style="font-size:14px;color:var(--text-muted);margin-bottom:28px">Sesuaikan informasi publik Anda yang akan dilihat oleh siswa saat memilih mentor.</p>
+    <div class="page-title" style="margin-bottom:8px">{{ __('app.edit_mentor_biodata') }}</div>
+    <p style="font-size:14px;color:var(--text-muted);margin-bottom:28px">{{ __('app.edit_mentor_description') }}</p>
 
     {{-- Flash Messages --}}
     @if(session('success'))
@@ -25,27 +25,27 @@
         {{-- Left: Tips / Info --}}
         <div>
             <div class="card" style="padding:28px;background:linear-gradient(135deg,var(--primary),#b91c1c);color:white;margin-bottom:20px">
-                <div style="font-size:18px;font-weight:700;margin-bottom:12px">Tips Profil Menarik ✨</div>
+                <div style="font-size:18px;font-weight:700;margin-bottom:12px">{{ __('app.tips_attractive_profile') }}</div>
                 <div style="font-size:13px;color:rgba(255,255,255,0.9);line-height:1.6;margin-bottom:16px">
-                    Profil mentor yang lengkap dan jelas akan meningkatkan kepercayaan siswa untuk memesan sesi mentoring Anda.
+                    {{ __('app.profile_tips_1') }}
                 </div>
                 <ul style="font-size:13px;color:rgba(255,255,255,0.9);line-height:1.6;padding-left:16px;margin:0" class="list-disc space-y-2">
-                    <li>Gunakan role jabatan spesifik.</li>
-                    <li>Sebutkan perusahaan saat ini atau portofolio terbesar.</li>
-                    <li>Detailkan keahlian Anda agar mudah dicari.</li>
-                    <li>Bio yang ramah namun profesional sangat disukai siswa.</li>
+                    <li>{{ __('app.profile_tips_2') }}</li>
+                    <li>{{ __('app.profile_tips_3') }}</li>
+                    <li>{{ __('app.profile_tips_4') }}</li>
+                    <li>{{ __('app.profile_tips_5') }}</li>
                 </ul>
             </div>
             
             <div class="card" style="padding:24px">
-                <div class="section-title" style="margin-bottom:14px">Info Mentor</div>
+                <div class="section-title" style="margin-bottom:14px">{{ __('app.mentor_info') }}</div>
                 <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
                     <div class="flex justify-between" style="padding:8px 0;border-bottom:1px solid var(--border-light)">
-                        <span style="color:var(--text-muted)">Total Sesi</span>
-                        <span style="font-weight:600">{{ $mentor->sessions_count ?? 0 }} sesi</span>
+                        <span style="color:var(--text-muted)">{{ __('app.total_sessions') }}</span>
+                        <span style="font-weight:600">{{ $mentor->sessions_count ?? 0 }} {{ __('app.sessions') }}</span>
                     </div>
                     <div class="flex justify-between" style="padding:8px 0;border-bottom:1px solid var(--border-light)">
-                        <span style="color:var(--text-muted)">Rating Rata-rata</span>
+                        <span style="color:var(--text-muted)">{{ __('app.avg_rating') }}</span>
                         <div class="flex items-center gap-1 font-semibold text-amber-500">
                             {{ number_format($mentor->rating ?? 0, 1) }} ⭐
                         </div>
@@ -61,41 +61,41 @@
                 @method('PATCH')
 
                 <div class="card" style="padding:24px;margin-bottom:20px">
-                    <div class="section-title" style="margin-bottom:18px">Informasi Dasar</div>
+                    <div class="section-title" style="margin-bottom:18px">{{ __('app.basic_information') }}</div>
                     
                     <div class="input-group" style="margin-bottom:16px">
-                        <label>Nama Lengkap *</label>
+                        <label>{{ __('app.full_name_star') }}</label>
                         <input type="text" name="name" class="input" required value="{{ old('name', $mentor->name) }}" />
                         @error('name')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
                     </div>
 
                     <div class="input-group" style="margin-bottom:16px">
-                        <label>Role / Jabatan *</label>
-                        <input type="text" name="role" class="input" required value="{{ old('role', $mentor->role) }}" placeholder="Contoh: Senior Developer, Data Scientist" />
+                        <label>{{ __('app.role_position_star') }}</label>
+                        <input type="text" name="role" class="input" required value="{{ old('role', $mentor->role) }}" placeholder="{{ __('app.example_role') }}" />
                         @error('role')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
                     </div>
 
                     <div class="input-group" style="margin-bottom:16px">
-                        <label>Perusahaan</label>
-                        <input type="text" name="company" class="input" value="{{ old('company', $mentor->company) }}" placeholder="Contoh: Google, Tokopedia" />
+                        <label>{{ __('app.company') }}</label>
+                        <input type="text" name="company" class="input" value="{{ old('company', $mentor->company) }}" placeholder="{{ __('app.example_company') }}" />
                         @error('company')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
                     </div>
 
                     <div class="input-group" style="margin-bottom:0">
-                        <label>Harga per Sesi (Rp)</label>
+                        <label>{{ __('app.price_per_session') }}</label>
                         <input type="text" name="price" class="input" value="{{ old('price', $mentor->price) }}" placeholder="50000" />
-                        <small style="color:var(--text-muted);font-size:11px;margin-top:4px;display:block">Kosongkan atau isi 0 untuk gratis</small>
+                        <small style="color:var(--text-muted);font-size:11px;margin-top:4px;display:block">{{ __('app.leave_empty_or_zero_for_free') }}</small>
                         @error('price')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
                     </div>
                 </div>
 
                 <div class="card" style="padding:24px;margin-bottom:20px">
-                    <div class="section-title" style="margin-bottom:18px">Bio & Keahlian</div>
+                    <div class="section-title" style="margin-bottom:18px">{{ __('app.bio_expertise') }}</div>
 
                     <div class="input-group" style="margin-bottom:16px">
-                        <label>Deskripsi Diri</label>
-                        <textarea name="bio" class="input" rows="4" placeholder="Ceritakan tentang pengalaman dan keahlian Anda...">{{ old('bio', $mentor->bio) }}</textarea>
-                        <small style="color:var(--text-muted);font-size:11px;margin-top:4px;display:block">Maksimal 2000 karakter</small>
+                        <label>{{ __('app.self_description') }}</label>
+                        <textarea name="bio" class="input" rows="4" placeholder="{{ __('app.tell_experience_expertise') }}">{{ old('bio', $mentor->bio) }}</textarea>
+                        <small style="color:var(--text-muted);font-size:11px;margin-top:4px;display:block">{{ __('app.max_2000_chars') }}</small>
                         @error('bio')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
                     </div>
 
@@ -113,10 +113,10 @@
                         }
                     }">
                         <div class="input-group" style="margin-bottom:8px">
-                            <label>Tambahkan Keahlian</label>
+                            <label>{{ __('app.add_expertise') }}</label>
                             <div style="display:flex;gap:8px">
-                                <input type="text" x-model="newExpertise" @keydown.enter.prevent="addExpertise()" class="input" style="flex:1" placeholder="Contoh: Laravel, React, Python" />
-                                <button type="button" @click="addExpertise()" class="btn btn-outline" style="white-space:nowrap">Tambah</button>
+                                <input type="text" x-model="newExpertise" @keydown.enter.prevent="addExpertise()" class="input" style="flex:1" placeholder="{{ __('app.example_expertise') }}" />
+                                <button type="button" @click="addExpertise()" class="btn btn-outline" style="white-space:nowrap">{{ __('app.add') }}</button>
                             </div>
                         </div>
 
@@ -134,20 +134,20 @@
                                 </span>
                             </template>
                         </div>
-                        <p x-show="expertise.length === 0" style="color:var(--text-muted);font-size:12px;margin-top:8px">Belum ada keahlian ditambahkan</p>
+                        <p x-show="expertise.length === 0" style="color:var(--text-muted);font-size:12px;margin-top:8px">{{ __('app.no_expertise_added') }}</p>
                     </div>
                 </div>
 
                 <div class="card" style="padding:24px;margin-bottom:20px">
-                    <div class="section-title" style="margin-bottom:18px">Kontak & Ketersediaan</div>
+                    <div class="section-title" style="margin-bottom:18px">{{ __('app.contact_availability') }}</div>
 
                     <div class="input-group" style="margin-bottom:16px">
-                        <label>LinkedIn URL</label>
+                        <label>{{ __('app.linkedin_url') }}</label>
                         <input type="url" name="linkedin_url" class="input" value="{{ old('linkedin_url', $mentor->linkedin_url) }}" placeholder="https://linkedin.com/in/username" />
                     </div>
 
                     <div class="input-group" style="margin-bottom:16px">
-                        <label>Nomor WhatsApp</label>
+                        <label>{{ __('app.whatsapp_number') }}</label>
                         <input type="tel" name="phone" class="input" value="{{ old('phone', $mentor->phone) }}" placeholder="081234567890" />
                     </div>
 
@@ -165,8 +165,8 @@
                             return this.availableDays.includes(day);
                         }
                     }">
-                        <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px;color:var(--text-primary)">Hari Tersedia</label>
-                        <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Pilih hari-hari ketika Anda tersedia untuk sesi mentoring</p>
+                        <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px;color:var(--text-primary)">{{ __('app.available_days') }}</label>
+                        <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">{{ __('app.choose_available_days') }}</p>
 
                         <template x-for="day in availableDays" :key="day">
                             <input type="hidden" name="available_days[]" :value="day">
@@ -175,13 +175,13 @@
                         <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:8px">
                             @php
                                 $days = [
-                                    0 => ['label' => 'Minggu', 'short' => 'Min'],
-                                    1 => ['label' => 'Senin', 'short' => 'Sen'],
-                                    2 => ['label' => 'Selasa', 'short' => 'Sel'],
-                                    3 => ['label' => 'Rabu', 'short' => 'Rab'],
-                                    4 => ['label' => 'Kamis', 'short' => 'Kam'],
-                                    5 => ['label' => 'Jumat', 'short' => 'Jum'],
-                                    6 => ['label' => 'Sabtu', 'short' => 'Sab'],
+                                    0 => ['label' => __('app.sunday'), 'short' => __('app.sun_short')],
+                                    1 => ['label' => __('app.monday'), 'short' => __('app.mon_short')],
+                                    2 => ['label' => __('app.tuesday'), 'short' => __('app.tue_short')],
+                                    3 => ['label' => __('app.wednesday'), 'short' => __('app.wed_short')],
+                                    4 => ['label' => __('app.thursday'), 'short' => __('app.thu_short')],
+                                    5 => ['label' => __('app.friday'), 'short' => __('app.fri_short')],
+                                    6 => ['label' => __('app.saturday'), 'short' => __('app.sat_short')],
                                 ];
                             @endphp
                             @foreach($days as $index => $day)
@@ -197,8 +197,8 @@
                 </div>
 
                 <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:24px">
-                    <a href="{{ route('mentor.dashboard') }}" class="btn btn-outline">Batal</a>
-                    <button type="submit" class="btn btn-primary">Simpan Profil</button>
+                    <a href="{{ route('mentor.dashboard') }}" class="btn btn-outline">{{ __('app.cancel') }}</a>
+                    <button type="submit" class="btn btn-primary">{{ __('app.save_profile') }}</button>
                 </div>
             </form>
         </div>

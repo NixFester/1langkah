@@ -336,7 +336,7 @@
                     </div>
 
                     <!-- Pagination -->
-                    <x-pagination :paginator="$reviews" />
+                    {{ $reviews->links() }}
                     @else
                     <div class="text-center py-8 text-gray-500">
                         <p>{{ __('app.no_reviews_yet') }}</p>
@@ -851,7 +851,7 @@ function downloadResource(resourceId, url, index) {
 
 function submitRating(itemId, type) {
     if (selectedRating === 0) {
-        alert('Pilih rating terlebih dahulu');
+        alert('{{ __('app.select_rating_first') }}');
         return;
     }
 
@@ -861,7 +861,7 @@ function submitRating(itemId, type) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
 
     if (!csrfToken) {
-        alert('Session expired. Silakan refresh halaman dan login ulang.');
+        alert('{{ __('app.session_expired_login') }}');
         return;
     }
 
@@ -881,15 +881,15 @@ function submitRating(itemId, type) {
     .then(r => r.json())
     .then(data => {
         if (data.success) {
-            alert('Rating berhasil submitted!');
+            alert('{{ __('app.rating_submitted_success') }}');
             location.reload();
         } else {
-            alert('Error: ' + (data.message || 'Terjadi kesalahan'));
+            alert('{{ __('app.error_prefix') }}' + (data.message || '{{ __('app.error_occurred') }}'));
         }
     })
     .catch(err => {
         console.error('Rating error:', err);
-        alert('Terjadi kesalahan. Pastikan kamu sudah login.');
+        alert('{{ __('app.error_login_required') }}');
     });
 }
 </script>

@@ -4,7 +4,7 @@
     'action' => null,
     'showExport' => false,
     'exportRoute' => null,
-    'exportLabel' => 'Export',
+    'exportLabel' => __('app.export'),
 ])
 
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
@@ -17,7 +17,7 @@
             </button>
             @if(request()->hasAny(['status', 'date_from', 'date_to']))
                 <a href="{{ url()->current() }}" class="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">
-                    Reset
+                    {{ __('app.reset') }}
                 </a>
             @endif
         </div>

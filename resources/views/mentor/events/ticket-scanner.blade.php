@@ -1,7 +1,7 @@
 @extends('layouts.mentor')
 
-@section('title', 'Scanner Tiket Event')
-@section('header_title', 'Scanner Tiket: ' . $event->title)
+@section('title', __('app.ticket_scanner'))
+@section('header_title', __('app.ticket_scanner_colon') . $event->title)
 
 @section('content')
     <x-flash-messages />
@@ -12,7 +12,7 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
         </svg>
-        Kembali ke Event
+        {{ __('app.back_to_event') }}
     </a>
 
     {{-- Event Info --}}
@@ -29,34 +29,34 @@
     {{-- Stats --}}
     <div class="grid grid-cols-3 gap-6 mb-6">
         <div class="bg-white rounded-xl border border-gray-100 p-6">
-            <p class="text-sm text-gray-500 mb-1">Total Pendaftaran</p>
+            <p class="text-sm text-gray-500 mb-1">{{ __('app.total_registrations') }}</p>
             <p class="text-2xl font-bold text-gray-900">{{ $stats['total_registrations'] }}</p>
         </div>
         <div class="bg-white rounded-xl border border-gray-100 p-6">
-            <p class="text-sm text-gray-500 mb-1">Hadir</p>
+            <p class="text-sm text-gray-500 mb-1">{{ __('app.attended') }}</p>
             <p class="text-2xl font-bold text-green-600">{{ $stats['attended_count'] }}</p>
         </div>
         <div class="bg-white rounded-xl border border-gray-100 p-6">
-            <p class="text-sm text-gray-500 mb-1">Belum Hadir</p>
+            <p class="text-sm text-gray-500 mb-1">{{ __('app.pending_attendance') }}</p>
             <p class="text-2xl font-bold text-yellow-600">{{ $stats['pending_count'] }}</p>
         </div>
     </div>
 
     {{-- Ticket Scanner --}}
     <div class="bg-white rounded-xl border border-gray-100 p-6 mb-6">
-        <h3 class="font-bold text-gray-900 mb-4">🎫 Scan Tiket Peserta</h3>
+        <h3 class="font-bold text-gray-900 mb-4">{{ __('app.scan_ticket') }}</h3>
         <p class="text-sm text-gray-500 mb-6">
-            Masukkan kode tiket atau email/nama peserta untuk mencatat kehadiran dan memberikan XP.
+            {{ __('app.scan_ticket_desc') }}
         </p>
 
         <form method="POST" action="{{ route('mentor.events.scan-ticket', $event) }}" class="space-y-4">
             @csrf
             <div>
                 <label class="block text-sm font-bold text-gray-700 mb-2">
-                    Kode Tiket / Email / Nama
+                    {{ __('app.ticket_code_email_name') }}
                 </label>
                 <input type="text" name="ticket_code" required
-                       placeholder="Masukkan kode tiket, email, atau nama peserta"
+                       placeholder="{{ __('app.ticket_placeholder') }}"
                        class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-lg rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-4 transition-colors">
                 @error('ticket_code')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -67,14 +67,14 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
                 </svg>
-                Scan & Beri XP
+                {{ __('app.scan_and_give_xp') }}
             </button>
         </form>
     </div>
 
     {{-- Recent Attendances --}}
     <div class="bg-white rounded-xl border border-gray-100 p-6">
-        <h3 class="font-bold text-gray-900 mb-4">📋 Peserta Yang Sudah Hadir</h3>
+        <h3 class="font-bold text-gray-900 mb-4">{{ __('app.recent_attendances') }}</h3>
 
         @if($recentAttendances->isEmpty())
             <div class="p-8 text-center">
@@ -83,17 +83,17 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                     </svg>
                 </div>
-                <p class="text-gray-500">Belum ada peserta yang hadir</p>
+                <p class="text-gray-500">{{ __('app.no_attendances_yet') }}</p>
             </div>
         @else
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead class="bg-gray-50 border-b border-gray-100">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Peserta</th>
-                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Email</th>
-                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Tiket</th>
-                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Waktu Scan</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">{{ __('app.participant') }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">{{ __('app.email') }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">{{ __('app.ticket') }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">{{ __('app.scan_time') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">

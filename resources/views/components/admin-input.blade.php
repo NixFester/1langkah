@@ -16,7 +16,7 @@
     @if($type === 'select')
         <select name="{{ $name }}" {{ $required ? 'required' : '' }}
             style="width:100%;padding:8px 12px;border:1px solid #e5e7eb;border-radius:6px;font-size:13px;background:#fff;">
-            <option value="">-- Pilih {{ $label }} --</option>
+            <option value="">-- {{ __('app.select') }} {{ $label }} --</option>
             @foreach($options as $val => $label)
                 <option value="{{ $val }}" {{ old($name, $value) == $val ? 'selected' : '' }}>{{ $label }}</option>
             @endforeach

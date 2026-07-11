@@ -32,7 +32,7 @@ class MentorCourseController extends Controller
         $mentorProfile = $this->getMentorProfile();
 
         if ($course->mentor_name !== $user->name && $course->mentor_id !== $mentorProfile?->id) {
-            abort(403, 'Anda bukan pengajar kursus ini.');
+            abort(403, __('app.msg_abort_anda_bukan_pengajar_kursus_ini'));
         }
     }
 
@@ -94,7 +94,7 @@ class MentorCourseController extends Controller
         $course = Course::create($data);
 
         return redirect()->route('mentor.courses.edit', $course)
-            ->with('success', 'Kursus berhasil dibuat.');
+            ->with('success', __('app.msg_success_kursus_berhasil_dibuat'));
     }
 
     /**
@@ -133,7 +133,7 @@ class MentorCourseController extends Controller
 
         $course->update($data);
 
-        return redirect()->back()->with('success', 'Kursus berhasil diperbarui.');
+        return redirect()->back()->with('success', __('app.msg_success_kursus_berhasil_diperbarui'));
     }
 
     /**
@@ -145,7 +145,7 @@ class MentorCourseController extends Controller
         $course->delete();
 
         return redirect()->route('mentor.courses.index')
-            ->with('success', 'Kursus berhasil dihapus.');
+            ->with('success', __('app.msg_success_kursus_berhasil_dihapus'));
     }
 
     /* ── Chapter Management ─────────────────────────────────────────── */
@@ -166,7 +166,7 @@ class MentorCourseController extends Controller
 
         $course->chapters()->create($data);
 
-        return redirect()->back()->with('success', 'Bab berhasil ditambahkan.');
+        return redirect()->back()->with('success', __('app.msg_success_bab_berhasil_ditambahkan'));
     }
 
     /**
@@ -177,7 +177,7 @@ class MentorCourseController extends Controller
         $this->authorizeOwnership($course);
 
         if ($chapter->course_id !== $course->id) {
-            abort(404, 'Bab tidak ditemukan.');
+            abort(404, __('app.msg_abort_bab_tidak_ditemukan'));
         }
 
         $data = $request->validate([
@@ -189,7 +189,7 @@ class MentorCourseController extends Controller
 
         $chapter->update($data);
 
-        return redirect()->back()->with('success', 'Bab berhasil diperbarui.');
+        return redirect()->back()->with('success', __('app.msg_success_bab_berhasil_diperbarui'));
     }
 
     /**
@@ -200,12 +200,12 @@ class MentorCourseController extends Controller
         $this->authorizeOwnership($course);
 
         if ($chapter->course_id !== $course->id) {
-            abort(404, 'Bab tidak ditemukan.');
+            abort(404, __('app.msg_abort_bab_tidak_ditemukan'));
         }
 
         $chapter->delete();
 
-        return redirect()->back()->with('success', 'Bab berhasil dihapus.');
+        return redirect()->back()->with('success', __('app.msg_success_bab_berhasil_dihapus'));
     }
 
     /* ── Video Management ───────────────────────────────────────────── */
@@ -218,7 +218,7 @@ class MentorCourseController extends Controller
         $this->authorizeOwnership($course);
 
         if ($chapter->course_id !== $course->id) {
-            abort(404, 'Bab tidak ditemukan.');
+            abort(404, __('app.msg_abort_bab_tidak_ditemukan'));
         }
 
         $data = $request->validate([
@@ -234,7 +234,7 @@ class MentorCourseController extends Controller
 
         ChapterVideo::create($data);
 
-        return redirect()->back()->with('success', 'Video berhasil ditambahkan.');
+        return redirect()->back()->with('success', __('app.msg_success_video_berhasil_ditambahkan'));
     }
 
     /**
@@ -245,12 +245,12 @@ class MentorCourseController extends Controller
         $this->authorizeOwnership($course);
 
         if ($chapter->course_id !== $course->id || $video->chapter_id !== $chapter->id) {
-            abort(404, 'Video tidak ditemukan.');
+            abort(404, __('app.msg_abort_video_tidak_ditemukan'));
         }
 
         $video->delete();
 
-        return redirect()->back()->with('success', 'Video berhasil dihapus.');
+        return redirect()->back()->with('success', __('app.msg_success_video_berhasil_dihapus'));
     }
 
     /* ── Resource Management ────────────────────────────────────────── */
@@ -276,7 +276,7 @@ class MentorCourseController extends Controller
 
         Resource::create($data);
 
-        return redirect()->back()->with('success', 'Resource berhasil ditambahkan.');
+        return redirect()->back()->with('success', __('app.msg_success_resource_berhasil_ditambahkan'));
     }
 
     /**
@@ -287,11 +287,11 @@ class MentorCourseController extends Controller
         $this->authorizeOwnership($course);
 
         if ($resource->course_id !== $course->id) {
-            abort(404, 'Resource tidak ditemukan.');
+            abort(404, __('app.msg_abort_resource_tidak_ditemukan'));
         }
 
         $resource->delete();
 
-        return redirect()->back()->with('success', 'Resource berhasil dihapus.');
+        return redirect()->back()->with('success', __('app.msg_success_resource_berhasil_dihapus'));
     }
 }

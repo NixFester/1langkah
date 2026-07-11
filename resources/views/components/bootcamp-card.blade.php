@@ -43,13 +43,13 @@
             </span>
         </div>
 
-        <!-- LIVE Badge -->
+        <!-- {{ __('app.live') }} Badge -->
         <div class="absolute top-4 right-4">
             <span class="px-3 py-1.5 bg-white text-red-600 text-xs font-extrabold rounded-full shadow-sm flex items-center gap-1.5 tracking-wide">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                 </svg>
-                LIVE
+                {{ __('app.live') }}
             </span>
         </div>
     </div>
@@ -82,8 +82,8 @@
             </div>
             <div class="text-right">
                 <div class="text-[13px] font-medium text-gray-400 mb-1">{{ __('app.price') }}</div>
-                <div class="text-lg font-extrabold {{ ($b['formatted_price'] ?? '') === 'Gratis' ? 'text-emerald-600' : 'text-red-600' }}">
-                    {{ ($b['formatted_price'] ?? '') === 'Gratis' ? __('app.free') : ($b['formatted_price'] ?? 'Rp 0') }}
+                <div class="text-lg font-extrabold {{ in_array(($b['formatted_price'] ?? ''), ['Gratis', 'Free', __('app.free')]) ? 'text-emerald-600' : 'text-red-600' }}">
+                    {{ in_array(($b['formatted_price'] ?? ''), ['Gratis', 'Free', __('app.free')]) ? __('app.free') : ($b['formatted_price'] ?? 'Rp 0') }}
                 </div>
             </div>
         </div>

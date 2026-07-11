@@ -19,24 +19,24 @@
 <body>
     <div class="admin-sidebar">
         <div style="padding: 0 24px 20px; font-size: 20px; font-weight: bold; color: #fff;">1Langkah Admin</div>
-                <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
-        <a href="{{ route('admin.users') }}" class="{{ request()->routeIs('admin.users') ? 'active' : '' }}">Manage Users</a>
-        <a href="{{ route('admin.courses') }}" class="{{ request()->routeIs('admin.courses') ? 'active' : '' }}">Manage Courses</a>
-        <a href="{{ route('admin.bootcamps') }}" class="{{ request()->routeIs('admin.bootcamps') ? 'active' : '' }}">Manage Bootcamps</a>
-        <a href="{{ route('admin.events') }}" class="{{ request()->routeIs('admin.events') ? 'active' : '' }}">Manage Events</a>
-                <a href="{{ route('admin.quizzes') }}" class="{{ request()->routeIs('admin.quizzes*') ? 'active' : '' }}">Manage Quizzes</a>
-                <a href="{{ route('admin.options') }}" class="{{ request()->routeIs('admin.options') ? 'active' : '' }}" style="margin-top: 20px;">Options / Settings</a>
-                <a href="{{ route('dashboard') }}" style="margin-top: 40px; color: #9ca3af;">&larr; Back to App</a>
+                <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">{{ __('app.dashboard') }}</a>
+        <a href="{{ route('admin.users') }}" class="{{ request()->routeIs('admin.users') ? 'active' : '' }}">{{ __('app.manage_users') }}</a>
+        <a href="{{ route('admin.courses') }}" class="{{ request()->routeIs('admin.courses') ? 'active' : '' }}">{{ __('app.manage_courses') }}</a>
+        <a href="{{ route('admin.bootcamps') }}" class="{{ request()->routeIs('admin.bootcamps') ? 'active' : '' }}">{{ __('app.manage_bootcamps') }}</a>
+        <a href="{{ route('admin.events') }}" class="{{ request()->routeIs('admin.events') ? 'active' : '' }}">{{ __('app.manage_events') }}</a>
+                <a href="{{ route('admin.quizzes') }}" class="{{ request()->routeIs('admin.quizzes*') ? 'active' : '' }}">{{ __('app.manage_quizzes') }}</a>
+                <a href="{{ route('admin.options') }}" class="{{ request()->routeIs('admin.options') ? 'active' : '' }}" style="margin-top: 20px;">{{ __('app.options_settings') }}</a>
+                <a href="{{ route('dashboard') }}" style="margin-top: 40px; color: #9ca3af;">&larr; {{ __('app.back_to_app') }}</a>
                 <form method="POST" action="{{ route('logout') }}" style="margin-top: 10px;">
             @csrf
-            <button type="submit" style="background: none; border: none; color: #9ca3af; padding: 12px 24px; cursor: pointer; font-size: 14px; text-align: left; width: 100%;">Logout</button>
+            <button type="submit" style="background: none; border: none; color: #9ca3af; padding: 12px 24px; cursor: pointer; font-size: 14px; text-align: left; width: 100%;">{{ __('app.logout') }}</button>
         </form>
     </div>
 
     <div class="admin-content">
         <div class="admin-header">
             <h2 style="font-size: 24px; font-weight: 700;">@yield('title', 'Dashboard')</h2>
-            <div>Logged in as: <strong>{{ auth()->user()->name }}</strong></div>
+            <div>{{ __('app.logged_in_as') }} <strong>{{ auth()->user()->name }}</strong></div>
         </div>
 
         @yield('content')

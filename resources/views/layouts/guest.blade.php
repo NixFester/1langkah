@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', '1Langkah — AI-Powered Learning Experience Platform')</title>
-    <meta name="description" content="Kuasai skill praktis, bangun pengalaman nyata dari proyek perusahaan, raih sertifikat terverifikasi, dan percepat karir kamu bersama AI terdepan.">
+    <title>@yield('title', __('app.1langkah_platform_desc'))</title>
+    <meta name="description" content="{{ __('app.1langkah_meta_desc') }}">
     <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
     <link rel="preconnect" href="https://i.pravatar.cc" crossorigin>
     <link rel="preconnect" href="https://ui-avatars.com" crossorigin>

@@ -1,6 +1,6 @@
 @extends('layouts.mentor')
 
-@section('title', 'Detail Kursus')
+@section('title', __('app.course_detail'))
 @section('header_title', $course->title)
 
 @section('content')
@@ -9,15 +9,15 @@
 
     {{-- Stats --}}
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <x-stat-card label="Total Siswa" :value="$totalStudents" color="blue" />
-        <x-stat-card label="Selesai" :value="$completedStudents" color="green" />
-        <x-stat-card label="Rata-rata Progress" :value="$avgProgress . '%'" color="purple" />
-        <x-stat-card label="Rating" :value="$avgRating" color="amber" />
+        <x-stat-card :label="__('app.total_students')" :value="$totalStudents" color="blue" />
+        <x-stat-card :label="__('app.completed')" :value="$completedStudents" color="green" />
+        <x-stat-card :label="__('app.avg_progress')" :value="$avgProgress . '%'" color="purple" />
+        <x-stat-card :label="__('app.rating')" :value="$avgRating" color="amber" />
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- Students --}}
-        <x-card-panel title="Siswa Enrollment ({{ $totalStudents }})">
+        <x-card-panel :title="__('app.enrolled_students') . ' (' . $totalStudents . ')'">
             @forelse($enrolledStudents as $student)
                 <div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
                     <div class="flex items-center gap-3">
@@ -30,7 +30,7 @@
                         @endif
                         <div>
                             <p class="font-medium text-gray-800">{{ $student['user']->name ?? 'Unknown' }}</p>
-                            <p class="text-xs text-gray-400">{{ $student['last_activity']?->diffForHumans() ?? 'Belum aktif' }}</p>
+                            <p class="text-xs text-gray-400">{{ $student['last_activity']?->diffForHumans() ?? __('app.not_active_yet') }}</p>
                         </div>
                     </div>
                     <div class="text-right">
@@ -41,12 +41,12 @@
                     </div>
                 </div>
             @empty
-                <x-empty-state message="Belum ada siswa" icon="users" />
+                <x-empty-state :message="__('app.no_students')" icon="users" />
             @endforelse
         </x-card-panel>
 
         {{-- Ratings --}}
-        <x-card-panel title="Rating & Review">
+        <x-card-panel :title="__('app.rating_review')">
             @forelse($ratings as $rating)
                 <div class="py-3 border-b border-gray-100 last:border-0">
                     <div class="flex items-center gap-2 mb-2">
@@ -56,11 +56,11 @@
                             </svg>
                         @endfor
                     </div>
-                    <p class="text-sm text-gray-700">{{ $rating->review ?? 'Tanpa review' }}</p>
-                    <p class="text-xs text-gray-400 mt-1">{{ $rating->user?->name ?? 'Anonymous' }}</p>
+                    <p class="text-sm text-gray-700">{{ $rating->review ?? __('app.no_review') }}</p>
+                    <p class="text-xs text-gray-400 mt-1">{{ $rating->user?->name ?? __('app.anonymous') }}</p>
                 </div>
             @empty
-                <x-empty-state message="Belum ada rating" icon="rating" />
+                <x-empty-state :message="__('app.no_rating')" icon="rating" />
             @endforelse
         </x-card-panel>
     </div>

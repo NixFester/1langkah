@@ -28,7 +28,7 @@ class MentorSessionController extends Controller
         $mentorProfile = $this->getMentorProfile();
 
         if (! $mentorProfile) {
-            abort(403, 'Profil mentor tidak ditemukan.');
+            abort(403, __('app.msg_error_profil_mentor_tidak_ditemukan'));
         }
 
         // Pending sessions (new bookings)
@@ -68,11 +68,11 @@ class MentorSessionController extends Controller
         $mentorProfile = $this->getMentorProfile();
 
         if ($session->mentor_id !== $mentorProfile->id) {
-            abort(403, 'Anda tidak memiliki akses ke sesi ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_sesi_ini'));
         }
 
         if (! $session->isPending()) {
-            return redirect()->back()->with('error', 'Sesi tidak dapat diterima.');
+            return redirect()->back()->with('error', __('app.msg_error_sesi_tidak_dapat_diterima'));
         }
 
         $session->update([
@@ -92,7 +92,7 @@ class MentorSessionController extends Controller
             'is_read' => false,
         ]);
 
-        return redirect()->back()->with('success', 'Sesi mentoring berhasil diterima!');
+        return redirect()->back()->with('success', __('app.msg_success_sesi_mentoring_berhasil_diterima'));
     }
 
     /**
@@ -103,11 +103,11 @@ class MentorSessionController extends Controller
         $mentorProfile = $this->getMentorProfile();
 
         if ($session->mentor_id !== $mentorProfile->id) {
-            abort(403, 'Anda tidak memiliki akses ke sesi ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_sesi_ini'));
         }
 
         if (! $session->isPending()) {
-            return redirect()->back()->with('error', 'Sesi tidak dapat ditolak.');
+            return redirect()->back()->with('error', __('app.msg_error_sesi_tidak_dapat_ditolak'));
         }
 
         $session->update([
@@ -127,7 +127,7 @@ class MentorSessionController extends Controller
             'is_read' => false,
         ]);
 
-        return redirect()->back()->with('success', 'Sesi mentoring berhasil ditolak.');
+        return redirect()->back()->with('success', __('app.msg_success_sesi_mentoring_berhasil_ditolak'));
     }
 
     /**
@@ -138,11 +138,11 @@ class MentorSessionController extends Controller
         $mentorProfile = $this->getMentorProfile();
 
         if ($session->mentor_id !== $mentorProfile->id) {
-            abort(403, 'Anda tidak memiliki akses ke sesi ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_sesi_ini'));
         }
 
         if (! $session->isActive()) {
-            return redirect()->back()->with('error', 'Sesi tidak dapat diselesaikan.');
+            return redirect()->back()->with('error', __('app.msg_error_sesi_tidak_dapat_diselesaikan'));
         }
 
         $session->update([
@@ -162,6 +162,6 @@ class MentorSessionController extends Controller
             'is_read' => false,
         ]);
 
-        return redirect()->back()->with('success', 'Sesi mentoring berhasil diselesaikan!');
+        return redirect()->back()->with('success', __('app.msg_success_sesi_mentoring_berhasil_diselesaikan'));
     }
 }

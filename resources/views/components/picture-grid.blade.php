@@ -6,7 +6,7 @@
 
 @if(count($pictures) === 0)
     <div class="p-8 text-center">
-        <p class="text-gray-500 text-sm">Belum ada gambar.</p>
+        <p class="text-gray-500 text-sm">{{ __('app.no_pictures') }}</p>
     </div>
 @else
     <div class="p-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -16,7 +16,7 @@
                     <img src="{{ $picture->url ?? $picture->image_url }}"
                          alt="{{ $picture->description ?? 'Image' }}"
                          class="w-full h-full object-cover"
-                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 60%27%3E%3Crect fill=%27%23f3f4f6%27 width=%27100%27 height=%2760%27/%3E%3Ctext x=%2750%27 y=%2735%27 text-anchor=%27middle%27 fill=%27%239ca3af%27 font-family=%27sans-serif%27 font-size=%2712%27%3EGambar tidak ditemukan%3C/text%3E%3C/svg%3E'">
+                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 60%27%3E%3Crect fill=%27%23f3f4f6%27 width=%27100%27 height=%2760%27/%3E%3Ctext x=%2750%27 y=%2735%27 text-anchor=%27middle%27 fill=%27%239ca3af%27 font-family=%27sans-serif%27 font-size=%2712%27%3E{{ __('app.picture_not_found') }}%3C/text%3E%3C/svg%3E'">
                 </div>
                 <div class="p-2">
                     <span class="inline-block px-2 py-1 text-xs font-bold rounded-full
@@ -31,7 +31,7 @@
                 @if(isset($deleteRoute) || isset($picture->id))
                     <form method="POST"
                           action="{{ $deleteRoute ?? route('admin.pictures.destroy', $picture) }}"
-                          onsubmit="return confirm('Hapus gambar ini?')"
+                          onsubmit="return confirm('{{ __('app.delete_image_confirm') }}')"
                           class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         @csrf @method('DELETE')
                         <button type="submit" class="bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-full shadow-lg">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kelola Kursus: ' . $course->title)
+@section('title', __('app.manage_courses_title') . ': ' . $course->title)
 
 @push('styles')
 <style>
@@ -20,7 +20,7 @@
     <!-- PAGE HEADER -->
     <x-page-header
         :title="$course->title"
-        description="Kelola detail kursus, bab pembelajaran, video, dan resources."
+        :description="__('app.course_form_edit_desc')"
     >
         <x-slot:actionSlot>
             <div class="flex gap-2">
@@ -29,7 +29,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
-                    Kembali
+                    {{ __('app.back') }}
                 </a>
                 <a href="{{ route('detail-kursus', $course) }}" target="_blank"
                    class="bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold py-2.5 px-5 rounded-full text-sm transition-colors flex items-center gap-2">
@@ -37,16 +37,16 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                     </svg>
-                    Lihat Kursus
+                    {{ __('app.view_course') }}
                 </a>
             </div>
         </x-slot:actionSlot>
-    </x-admin-page-header>
+    </x-page-header>
 
     <x-flash-messages />
 
     <!-- COURSE DETAILS FORM -->
-    <x-form-card title="Detail Kursus">
+    <x-form-card :title="__('app.course_details')">
         <form method="POST" action="{{ route('admin.courses.update', $course) }}" class="space-y-4">
             @csrf
             @method('PATCH')
@@ -60,21 +60,21 @@
 
             <x-form-input
                 name="short_description"
-                label="Deskripsi Singkat"
-                placeholder="Ringkasan singkat kursus"
+                :label="__('app.short_description')"
+                :placeholder="__('app.course_short_desc_placeholder')"
                 :value="$course->short_description ?? null"
             />
             <x-form-input
                 name="description"
                 type="textarea"
-                label="Deskripsi Lengkap"
+                :label="__('app.full_description')"
                 :rows="4"
-                placeholder="Deskripsi lengkap kursus"
+                :placeholder="__('app.course_full_desc_placeholder')"
                 :value="$course->description ?? null"
             />
             <div class="flex justify-end">
                 <button type="submit" class="bg-[#cc0000] hover:bg-red-700 text-white font-bold py-2.5 px-6 rounded-full text-sm transition-colors shadow-lg shadow-red-200">
-                    Simpan Perubahan
+                    {{ __('app.save_changes') }}
                 </button>
             </div>
         </form>
@@ -91,19 +91,19 @@
     <!-- CURRICULUM TAB -->
     <div x-show="activeTab === 'curriculum'">
         <!-- ADD CHAPTER FORM -->
-        <x-form-card title="Tambah Bab Baru" class="mb-6">
+        <x-form-card :title="__('app.add_new_chapter')" class="mb-6">
             <form method="POST" action="{{ route('admin.courses.chapters.store', $course) }}" class="space-y-4">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <x-form-input name="title" label="Judul Bab" placeholder="Contoh: Pengenalan HTML" :required="true" />
-                    <x-form-input name="lessons" type="number" label="Jumlah Lesson" placeholder="5" :required="true" />
-                    <x-form-input name="duration" label="Total Durasi" placeholder="45 Menit" :required="true" />
+                    <x-form-input name="title" :label="__('app.chapter_title')" :placeholder="__('app.example_html')" :required="true" />
+                    <x-form-input name="lessons" type="number" :label="__('app.lesson_count')" placeholder="5" :required="true" />
+                    <x-form-input name="duration" :label="__('app.total_duration')" placeholder="45 Menit" :required="true" />
                 </div>
-                <x-form-input name="description" type="textarea" label="Deskripsi" :rows="2" placeholder="Deskripsi singkat bab (opsional)" />
+                <x-form-input name="description" type="textarea" :label="__('app.description')" :rows="2" :placeholder="__('app.chapter_desc_placeholder')" />
                 <div class="mt-4 flex justify-end">
                     <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-full text-sm transition-colors flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                        Tambah Bab
+                        {{ __('app.add_chapter') }}
                     </button>
                 </div>
             </form>
@@ -112,7 +112,7 @@
         <!-- CHAPTERS LIST -->
         @if(count($course->chapters) === 0)
             <x-form-card>
-                <x-empty-state message="Belum ada bab untuk kursus ini." icon="book" />
+                <x-empty-state :message="__('app.no_chapters_data')" icon="book" />
             </x-admin.form-card>
         @else
             <div class="space-y-4">
@@ -126,12 +126,12 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-gray-900">{{ $chapter->title }}</h4>
-                                <p class="text-sm text-gray-500">{{ $chapter->lessons }} lessons &bull; {{ $chapter->duration }}</p>
+                                <p class="text-sm text-gray-500">{{ $chapter->lessons }} {{ __('app.lessons') }} &bull; {{ $chapter->duration }}</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-4">
                             <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full">
-                                {{ count($chapter->videos) }} video
+                                {{ count($chapter->videos) }} {{ __('app.video') }}
                             </span>
                             <svg :class="expandedChapter === {{ $chapter->id }} ? 'rotate-180' : ''" class="w-5 h-5 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
@@ -144,23 +144,23 @@
                             <div class="mb-4">
                                 <h5 class="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    Videos
+                                    {{ __('app.video') }}
                                 </h5>
 
                                 <!-- Add Video Form -->
                                 <form method="POST" action="{{ route('admin.courses.chapters.videos.store', [$course, $chapter]) }}" class="mb-4 bg-white rounded-xl p-4 border border-gray-200">
                                     @csrf
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-                                        <x-form-input name="title" placeholder="Judul Video" :required="true" />
-                                        <x-form-input name="video_url" type="url" placeholder="URL Video (YouTube/Vimeo)" :required="true" />
+                                        <x-form-input name="title" :placeholder="__('app.video_title')" :required="true" />
+                                        <x-form-input name="video_url" type="url" :placeholder="__('app.video_url_youtube_vimeo')" :required="true" />
                                     </div>
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-                                        <x-form-input name="duration" placeholder="Durasi (cth: 15:30)" />
-                                        <x-form-input name="thumbnail_url" type="url" placeholder="Thumbnail URL (opsional)" />
+                                        <x-form-input name="duration" :placeholder="__('app.duration_example_1530')" />
+                                        <x-form-input name="thumbnail_url" type="url" :placeholder="__('app.thumbnail_url_optional')" />
                                     </div>
-                                    <x-form-input name="description" type="textarea" :rows="2" placeholder="Deskripsi (opsional)" />
+                                    <x-form-input name="description" type="textarea" :rows="2" :placeholder="__('app.description_optional')" />
                                     <button type="submit" class="mt-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded-lg transition-colors">
-                                        + Tambah Video
+                                        {{ __('app.add_video_plus') }}
                                     </button>
                                 </form>
 
@@ -184,7 +184,7 @@
                                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                                                     </a>
                                                 @endif
-                                                <form method="POST" action="{{ route('admin.courses.chapters.videos.destroy', [$course, $chapter, $video]) }}" onsubmit="return confirm('Hapus video ini?')">
+                                                <form method="POST" action="{{ route('admin.courses.chapters.videos.destroy', [$course, $chapter, $video]) }}" onsubmit="return confirm('{{ __('app.delete_video_confirm') }}')">
                                                     @csrf @method('DELETE')
                                                     <button type="submit" class="text-red-500 hover:text-red-700 p-2">
                                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
@@ -199,11 +199,11 @@
 
                             <!-- Chapter Actions -->
                             <div class="flex items-center justify-between pt-4 border-t border-gray-200">
-                                <form method="POST" action="{{ route('admin.courses.chapters.destroy', [$course, $chapter]) }}" onsubmit="return confirm('Hapus bab ini beserta semua videonya?')">
+                                <form method="POST" action="{{ route('admin.courses.chapters.destroy', [$course, $chapter]) }}" onsubmit="return confirm('{{ __('app.delete_chapter_with_videos_confirm') }}')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-700 text-sm font-medium flex items-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                        Hapus Bab
+                                        {{ __('app.delete_chapter') }}
                                     </button>
                                 </form>
                             </div>
@@ -220,10 +220,10 @@
         @php $allVideos = $course->chapters->flatMap->videos @endphp
         @if(count($allVideos) === 0)
             <x-form-card>
-                <x-empty-state message="Belum ada video." icon="video" />
+                <x-empty-state :message="__('app.no_video_yet')" icon="video" />
             </x-admin.form-card>
         @else
-            <x-form-card title="Semua Video ({{ count($allVideos) }})">
+            <x-form-card :title="__('app.all_videos') . ' (' . count($allVideos) . ')'">
                 <div class="divide-y divide-gray-100">
                     @foreach($course->chapters as $chapter)
                         @foreach($chapter->videos as $video)
@@ -239,9 +239,9 @@
                             </div>
                             <div class="flex items-center gap-3">
                                 @if($video->video_url)
-                                    <a href="{{ $video->video_url }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Buka</a>
+                                    <a href="{{ $video->video_url }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">{{ __('app.open') }}</a>
                                 @endif
-                                <form method="POST" action="{{ route('admin.courses.chapters.videos.destroy', [$course, $chapter, $video]) }}" onsubmit="return confirm('Hapus video ini?')">
+                                <form method="POST" action="{{ route('admin.courses.chapters.videos.destroy', [$course, $chapter, $video]) }}" onsubmit="return confirm('{{ __('app.delete_video_confirm') }}')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="text-red-500 hover:text-red-700">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
@@ -258,13 +258,13 @@
 
     <!-- RESOURCES TAB -->
     <div x-show="activeTab === 'resources'" x-cloak>
-        <x-form-card title="Tambah Resource" class="mb-6">
+        <x-form-card :title="__('app.add_resource')" class="mb-6">
             <form method="POST" action="{{ route('admin.courses.resources.store', $course) }}" class="space-y-4">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <x-form-input name="title" label="Judul Resource" placeholder="Contoh: Source Code Modul 1" :required="true" />
+                    <x-form-input name="title" :label="__('app.resource_title')" :placeholder="__('app.example_resource_title')" :required="true" />
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Tipe <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.type') }} <span class="text-red-500">*</span></label>
                         <select name="type" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3">
                             <option value="pdf">PDF</option>
                             <option value="zip">ZIP</option>
@@ -274,14 +274,14 @@
                             <option value="file">File</option>
                         </select>
                     </div>
-                    <x-form-input name="url" type="url" label="URL" placeholder="https://..." :required="true" />
-                    <x-form-input name="file_size" type="number" label="Ukuran File (bytes, opsional)" placeholder="1048576" />
+                    <x-form-input name="url" type="url" :label="__('app.url')" placeholder="https://..." :required="true" />
+                    <x-form-input name="file_size" type="number" :label="__('app.file_size_bytes_optional')" placeholder="1048576" />
                 </div>
-                <x-form-input name="description" type="textarea" label="Deskripsi" :rows="2" placeholder="Deskripsi resource (opsional)" />
+                <x-form-input name="description" type="textarea" :label="__('app.description')" :rows="2" :placeholder="__('app.resource_desc_optional')" />
                 <div class="mt-4 flex justify-end">
                     <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-full text-sm transition-colors flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                        Tambah Resource
+                        {{ __('app.add_resource') }}
                     </button>
                 </div>
             </form>
@@ -290,10 +290,10 @@
         @php $courseResourcesList = $course->courseResources @endphp
         @if($courseResourcesList->isEmpty())
             <x-form-card>
-                <x-empty-state message="Belum ada resource." icon="document" />
+                <x-empty-state :message="__('app.no_resource_yet')" icon="document" />
             </x-admin.form-card>
         @else
-            <x-form-card title="Daftar Resource ({{ $courseResourcesList->count() }})">
+            <x-form-card :title="__('app.resource_list') . ' (' . $courseResourcesList->count() . ')'">
                 <div class="divide-y divide-gray-100">
                     @foreach($courseResourcesList as $resource)
                     <div class="p-4 flex items-center justify-between hover:bg-gray-50">
@@ -316,9 +316,9 @@
                         </div>
                         <div class="flex items-center gap-3">
                             @if($resource->url)
-                                <a href="{{ $resource->url }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Buka</a>
+                                <a href="{{ $resource->url }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">{{ __('app.open') }}</a>
                             @endif
-                            <form method="POST" action="{{ route('admin.courses.resources.destroy', [$course, $resource]) }}" onsubmit="return confirm('Hapus resource ini?')">
+                            <form method="POST" action="{{ route('admin.courses.resources.destroy', [$course, $resource]) }}" onsubmit="return confirm('{{ __('app.delete_resource_confirm') }}')">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="text-red-500 hover:text-red-700">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
@@ -334,12 +334,12 @@
 
     <!-- PICTURES TAB -->
     <div x-show="activeTab === 'pictures'" x-cloak>
-        <x-form-card title="Tambah Gambar" class="mb-6">
+        <x-form-card :title="__('app.add_image_plus')" class="mb-6">
             <form method="POST" action="{{ route('admin.pictures.store', ['course', $course->id]) }}" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Pilih File Gambar <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.choose_image_file') ?? 'Pilih File Gambar' }} <span class="text-red-500">*</span></label>
                         <input type="file" name="image" accept="image/*" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-2 transition-colors">
                     </div>
                     <div>
@@ -349,11 +349,11 @@
                             <option value="thumbnail">Thumbnail</option>
                         </select>
                     </div>
-                    <x-form-input name="description" label="Deskripsi" placeholder="Deskripsi gambar (opsional)" />
+                    <x-form-input name="description" :label="__('app.description')" placeholder="{{ __('app.image_desc_optional') ?? 'Deskripsi gambar (opsional)' }}" />
                 </div>
                 <div class="mt-4 flex justify-end">
                     <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-full text-sm transition-colors flex items-center gap-2">
-                        + Tambah Gambar
+                        {{ __('app.add_image_plus') }}
                     </button>
                 </div>
             </form>

@@ -32,7 +32,7 @@
                 <div class="h-full rounded-full" style="width: {{ $progress ?? 0 }}%; background-color: {{ $color }};"></div>
             </div>
         </div>
-        <p class="text-[10px] text-gray-500 font-medium mt-1">{{ $progress ?? 0 }}% selesai</p>
+        <p class="text-[10px] text-gray-500 font-medium mt-1">{{ $progress ?? 0 }}% {{ __('app.completed') }}</p>
     </div>
 
 @if($href)

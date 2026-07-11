@@ -94,7 +94,7 @@ class DashboardController extends Controller
             ->when(request('search'), function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%");
+                        ->orWhere('email', 'like', "%{$search}%");
                 });
             })
             ->latest()
@@ -130,7 +130,7 @@ class DashboardController extends Controller
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email|unique:users,email,'.$user->id,
             'role' => 'required|in:superadmin,admin,keuangan,marketing,mentor,student',
             'profile_photo' => 'nullable|url|max:500',
             'bio' => 'nullable|string|max:1000',
@@ -148,7 +148,7 @@ class DashboardController extends Controller
         );
 
         return redirect()->route('superadmin.users')
-            ->with('success', 'User berhasil diperbarui!');
+            ->with('success', __('app.msg_success_user_berhasil_diperbarui'));
     }
 
     /**
@@ -172,7 +172,7 @@ class DashboardController extends Controller
             "Mengubah role {$user->name} dari {$oldRole} menjadi {$request->role}"
         );
 
-        return redirect()->back()->with('success', 'Role berhasil diubah.');
+        return redirect()->back()->with('success', __('app.msg_success_role_berhasil_diubah'));
     }
 
     /**
@@ -181,7 +181,7 @@ class DashboardController extends Controller
     public function destroyUser(User $user)
     {
         if ($user->id === auth()->id()) {
-            return redirect()->back()->with('error', 'Anda tidak bisa menghapus akun sendiri.');
+            return redirect()->back()->with('error', __('app.msg_error_anda_tidak_bisa_menghapus_akun_sendiri'));
         }
 
         $name = $user->name;
@@ -197,7 +197,7 @@ class DashboardController extends Controller
         );
 
         return redirect()->route('superadmin.users')
-            ->with('success', 'User berhasil dihapus.');
+            ->with('success', __('app.msg_success_user_berhasil_dihapus'));
     }
 
     /**

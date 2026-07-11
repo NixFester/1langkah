@@ -122,7 +122,7 @@ class DashboardController extends Controller
         // Verifikasi bahwa mentor ini adalah pengajar kursus
         $mentorProfile = $user->mentor;
         if ($course->mentor_name !== $user->name && $course->mentor_id !== $mentorProfile?->id) {
-            abort(403, 'Anda bukan pengajar kursus ini.');
+            abort(403, __('app.msg_abort_anda_bukan_pengajar_kursus_ini'));
         }
 
         // Load data

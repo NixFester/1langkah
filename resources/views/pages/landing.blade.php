@@ -89,8 +89,7 @@
                 <h1 class="text-[34px] leading-[1.05] sm:text-4xl md:text-5xl lg:text-[50px] xl:text-[64px] font-extrabold sm:leading-[1.05] tracking-tight text-white mb-2 lg:mb-3">
                     {{ __('app.landing_title_1') }}<br>
                     <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(to bottom right, #b91c1c, #ef4444);">{{ __('app.landing_title_2') }}</span><br>
-                    <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(to bottom right, #b91c1c, #ef4444);">{{ __('app.landing_title_3') }}</span><br>
-                    {{ __('app.landing_title_4') }}
+                    {{ __('app.landing_title_3') }}
                 </h1>
 
                 <!-- Subtitle -->
@@ -184,7 +183,7 @@
                         <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                         <span class="text-white font-bold ml-1.5 text-sm">4.9</span>
                     </div>
-                    <div class="text-gray-400 text-[11px] font-medium">dari 100,000+ pelajar aktif di seluruh Indonesia</div>
+                    <div class="text-gray-400 text-[11px] font-medium">{{ __('app.from_100k_students') }}</div>
                 </div>
 
             </div>
@@ -255,7 +254,7 @@
                     <img loading="lazy" decoding="async" src="{{ asset('assets/icons/AI-Learning-Assistant.svg') }}" alt="AI Learning Assistant" class="w-full h-full object-contain">
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">AI Learning Assistant</h3>
-                <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">Tutor AI 24/7 yang siap menjelaskan topik sulit, meringkas materi, dan membuat quiz personal hanya dalam hitungan detik.</p>
+                <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">{{ __('app.feature_1_desc') }}</p>
                 <a href="#" class="inline-flex items-center gap-1.5 text-sm font-bold text-[#D10000] group-hover:gap-2 transition-all">
                     {{ __('app.learn_more') }} 
                     <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
@@ -268,7 +267,7 @@
                     <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Personalized-Learning-Path.svg') }}" alt="Personalized Learning Path" class="w-full h-full object-contain">
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">Personalized Learning Path</h3>
-                <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">Jalur belajar yang dibentuk oleh AI berdasarkan tujuan karir, skill gaps, dan kecepatan belajarmu — bukan jalur generik.</p>
+                <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">{{ __('app.feature_2_desc') }}</p>
                 <a href="#" class="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-700 group-hover:gap-2 transition-all">
                     {{ __('app.learn_more') }} 
                     <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
@@ -281,7 +280,7 @@
                     <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Verified-Skill-Passport.svg') }}" alt="Verified Skill Passport" class="w-full h-full object-contain">
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">Verified Skill Passport</h3>
-                <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">Profil skill digital terverifikasi dengan QR code yang bisa langsung dibagikan ke rekruter dan diakui 300+ hiring partner.</p>
+                <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">{{ __('app.feature_3_desc') }}</p>
                 <a href="#" class="inline-flex items-center gap-1.5 text-sm font-bold text-purple-700 group-hover:gap-2 transition-all">
                     {{ __('app.learn_more') }} 
                     <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
@@ -296,56 +295,56 @@
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
                     <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Interactive-Courses.svg') }}" alt="Interactive Courses" class="w-full h-full object-contain">
                 </div>
-                <span class="text-[13px] md:text-sm font-bold text-gray-800">Interactive Courses</span>
+                <span class="text-[13px] md:text-sm font-bold text-gray-800"> {{ __('app.feat_interactive_courses') }} </span>
             </div>
             <!-- Pill 2 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
                     <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Certificates.svg') }}" alt="Certificates" class="w-full h-full object-contain">
                 </div>
-                <span class="text-[13px] md:text-sm font-bold text-gray-800">Certificates</span>
+                <span class="text-[13px] md:text-sm font-bold text-gray-800"> {{ __('app.feat_certificates') }} </span>
             </div>
             <!-- Pill 3 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
                     <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Portfolio-Builder.svg') }}" alt="Portfolio Builder" class="w-full h-full object-contain">
                 </div>
-                <span class="text-[13px] md:text-sm font-bold text-gray-800">Portfolio Builder</span>
+                <span class="text-[13px] md:text-sm font-bold text-gray-800"> {{ __('app.feat_portfolio_builder') }} </span>
             </div>
             <!-- Pill 4 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
                     <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Project-Marketplace.svg') }}" alt="Project Marketplace" class="w-full h-full object-contain">
                 </div>
-                <span class="text-[13px] md:text-sm font-bold text-gray-800">Project Marketplace</span>
+                <span class="text-[13px] md:text-sm font-bold text-gray-800"> {{ __('app.feat_project_marketplace') }} </span>
             </div>
             <!-- Pill 5 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
                     <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Mentor-Marketplace.svg') }}" alt="Mentor Marketplace" class="w-full h-full object-contain">
                 </div>
-                <span class="text-[13px] md:text-sm font-bold text-gray-800">Mentor Marketplace</span>
+                <span class="text-[13px] md:text-sm font-bold text-gray-800"> {{ __('app.feat_mentor_marketplace') }} </span>
             </div>
             <!-- Pill 6 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
                     <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Career-Center.svg') }}" alt="Career Center" class="w-full h-full object-contain">
                 </div>
-                <span class="text-[13px] md:text-sm font-bold text-gray-800">Career Center</span>
+                <span class="text-[13px] md:text-sm font-bold text-gray-800"> {{ __('app.feat_career_center') }} </span>
             </div>
             <!-- Pill 7 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
                     <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Community.svg') }}" alt="Community" class="w-full h-full object-contain">
                 </div>
-                <span class="text-[13px] md:text-sm font-bold text-gray-800">Community</span>
+                <span class="text-[13px] md:text-sm font-bold text-gray-800"> {{ __('app.feat_community') }} </span>
             </div>
             <!-- Pill 8 -->
             <div class="bg-slate-50 border border-slate-100/80 rounded-[20px] p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 p-2">
                     <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Learning-Analytics.svg') }}" alt="Learning Analytics" class="w-full h-full object-contain">
                 </div>
-                <span class="text-[13px] md:text-sm font-bold text-gray-800">Learning Analytics</span>
+                <span class="text-[13px] md:text-sm font-bold text-gray-800"> {{ __('app.feat_learning_analytics') }} </span>
             </div>
         </div>
     </div>
@@ -380,11 +379,11 @@
                     <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600&auto=format&fit=crop&fm=webp" alt="Coding" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <!-- Top Left Badges -->
                     <div class="absolute top-4 left-4 flex gap-2">
-                        <span class="px-3 py-1 bg-white text-orange-700 text-[11px] font-bold rounded-full shadow-sm">Bestseller</span>
-                        <span class="px-3 py-1 bg-white text-slate-600 text-[11px] font-bold rounded-full shadow-sm">Intermediate</span>
+                        <span class="px-3 py-1 bg-white text-orange-700 text-[11px] font-bold rounded-full shadow-sm"> {{ __('app.course_bestseller') }} </span>
+                        <span class="px-3 py-1 bg-white text-slate-600 text-[11px] font-bold rounded-full shadow-sm"> {{ __('app.course_intermediate') }} </span>
                     </div>
                     <!-- Bookmark -->
-                    <button aria-label="Simpan" class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-sm hover:text-orange-800 transition-colors">
+                    <button aria-label="{{ __('app.save') }}" class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-sm hover:text-orange-800 transition-colors">
                         <img loading="lazy" decoding="async" src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="" aria-hidden="true">
                     </button>
                     <!-- Progress Bar (inside image bottom) -->
@@ -392,7 +391,7 @@
                 </div>
                 <!-- Card Body -->
                 <div class="p-6 flex flex-col flex-1">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4">Programming</span>
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4"> {{ __('app.course_programming') }} </span>
                     <h3 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">Full-Stack Web Development Bootcamp</a></h3>
                     <p class="text-[13px] text-slate-600 mb-4">Rudi Yesaya · Google</p>
                     
@@ -414,7 +413,7 @@
                             <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             48h
                         </div>
-                        <div class="text-[13px] font-bold text-emerald-600">68% done</div>
+                        <div class="text-[13px] font-bold text-emerald-600">{{ __('app.progress_done', ['percent' => 68]) }}</div>
                     </div>
                 </div>
             </div>
@@ -426,17 +425,17 @@
                     <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=600&auto=format&fit=crop&fm=webp" alt="Design" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <!-- Top Left Badges -->
                     <div class="absolute top-4 left-4 flex gap-2">
-                        <span class="px-3 py-1 bg-white text-red-700 text-[11px] font-bold rounded-full shadow-sm">New</span>
-                        <span class="px-3 py-1 bg-white text-slate-600 text-[11px] font-bold rounded-full shadow-sm">Beginner</span>
+                        <span class="px-3 py-1 bg-white text-red-700 text-[11px] font-bold rounded-full shadow-sm"> {{ __('app.course_new') }} </span>
+                        <span class="px-3 py-1 bg-white text-slate-600 text-[11px] font-bold rounded-full shadow-sm"> {{ __('app.course_beginner') }} </span>
                     </div>
                     <!-- Bookmark -->
-                    <button aria-label="Simpan" class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-sm hover:text-orange-800 transition-colors">
+                    <button aria-label="{{ __('app.save') }}" class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-sm hover:text-orange-800 transition-colors">
                         <img loading="lazy" decoding="async" src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="" aria-hidden="true">
                     </button>
                 </div>
                 <!-- Card Body -->
                 <div class="p-6 flex flex-col flex-1">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4">Design</span>
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4"> {{ __('app.course_design') }} </span>
                     <h3 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">UI/UX Design Mastery</a></h3>
                     <p class="text-[13px] text-slate-600 mb-4">Sari Dewi · Tokopedia</p>
                     
@@ -470,11 +469,11 @@
                     <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=600&auto=format&fit=crop&fm=webp" alt="AI Network" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <!-- Top Left Badges -->
                     <div class="absolute top-4 left-4 flex gap-2">
-                        <span class="px-3 py-1 bg-white text-red-700 text-[11px] font-bold rounded-full shadow-sm">Hot</span>
-                        <span class="px-3 py-1 bg-white text-slate-600 text-[11px] font-bold rounded-full shadow-sm">Advanced</span>
+                        <span class="px-3 py-1 bg-white text-red-700 text-[11px] font-bold rounded-full shadow-sm"> {{ __('app.course_hot') }} </span>
+                        <span class="px-3 py-1 bg-white text-slate-600 text-[11px] font-bold rounded-full shadow-sm"> {{ __('app.course_advanced') }} </span>
                     </div>
                     <!-- Bookmark -->
-                    <button aria-label="Simpan" class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-sm hover:text-orange-800 transition-colors">
+                    <button aria-label="{{ __('app.save') }}" class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-sm hover:text-orange-800 transition-colors">
                         <img loading="lazy" decoding="async" src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="" aria-hidden="true">
                     </button>
                     <!-- Progress Bar (inside image bottom) -->
@@ -482,7 +481,7 @@
                 </div>
                 <!-- Card Body -->
                 <div class="p-6 flex flex-col flex-1">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4">AI</span>
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4"> {{ __('app.course_ai') }} </span>
                     <h3 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">AI & Machine Learning Fundamentals</a></h3>
                     <p class="text-[13px] text-slate-600 mb-4">Andi Wijaya · Gojek</p>
                     
@@ -504,7 +503,7 @@
                             <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             60h
                         </div>
-                        <div class="text-[13px] font-bold text-emerald-600">23% done</div>
+                        <div class="text-[13px] font-bold text-emerald-600">{{ __('app.progress_done', ['percent' => 23]) }}</div>
                     </div>
                 </div>
             </div>
@@ -542,23 +541,23 @@
                 <div class="grid grid-cols-2 gap-4 max-w-[480px] mb-10">
                     <!-- Box 1 -->
                     <div class="bg-[#0f0f0f] border border-white/5 rounded-[14px] p-4">
-                        <h3 class="text-[15px] font-bold text-white mb-1">Online Bootcamp</h3>
-                        <p class="text-[13px] text-gray-400">Via Zoom · 7-10 sesi LIVE</p>
+                        <h3 class="text-[15px] font-bold text-white mb-1"> {{ __('app.bootcamp_online') }} </h3>
+                        <p class="text-[13px] text-gray-400">{{ __('app.bootcamp_online_desc') }}</p>
                     </div>
                     <!-- Box 2 -->
                     <div class="bg-[#0f0f0f] border border-white/5 rounded-[14px] p-4">
-                        <h3 class="text-[15px] font-bold text-white mb-1">Offline Bootcamp</h3>
-                        <p class="text-[13px] text-gray-400">Tatap muka di 3 kota</p>
+                        <h3 class="text-[15px] font-bold text-white mb-1"> {{ __('app.bootcamp_offline') }} </h3>
+                        <p class="text-[13px] text-gray-400">{{ __('app.bootcamp_offline_desc') }}</p>
                     </div>
                     <!-- Box 3 -->
                     <div class="bg-[#0f0f0f] border border-white/5 rounded-[14px] p-4">
-                        <h3 class="text-[15px] font-bold text-white mb-1">Rekaman 30 hari</h3>
-                        <p class="text-[13px] text-gray-400">Akses setelah sesi</p>
+                        <h3 class="text-[15px] font-bold text-white mb-1"> {{ __('app.bootcamp_recording') }} </h3>
+                        <p class="text-[13px] text-gray-400">{{ __('app.bootcamp_recording_desc') }}</p>
                     </div>
                     <!-- Box 4 -->
                     <div class="bg-[#0f0f0f] border border-white/5 rounded-[14px] p-4">
-                        <h3 class="text-[15px] font-bold text-white mb-1">Sertifikat</h3>
-                        <p class="text-[13px] text-gray-400">Terverifikasi</p>
+                        <h3 class="text-[15px] font-bold text-white mb-1"> {{ __('app.bootcamp_certificate') }} </h3>
+                        <p class="text-[13px] text-gray-400">{{ __('app.bootcamp_certificate_desc') }}</p>
                     </div>
                 </div>
                 
@@ -582,14 +581,14 @@
                     <!-- Glassmorphism Floating Bar -->
                     <div class="absolute bottom-5 left-5 right-5 bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
-                            <h3 class="text-lg font-bold text-white mb-1.5 leading-snug">Leadership & Management Excellence</h3>
+                            <h3 class="text-lg font-bold text-white mb-1.5 leading-snug">{{ __('app.leadership_management') }}</h3>
                             <div class="flex items-center gap-1.5 text-[13px] text-gray-300">
                                 <svg aria-hidden="true" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                                <span>18 peserta · Mulai 11 Agu 2025</span>
+                                <span>{{ __('app.participants_count', ['count' => 18]) }} · {{ __('app.starts_on', ['date' => '11 Agu 2025']) }}</span>
                             </div>
                         </div>
                         <div class="text-[15px] font-bold text-[#d8b4fe] whitespace-nowrap">
-                            Rp 6.5jt
+                            {{ __('app.price_6_5_jt') }}
                         </div>
                     </div>
                 </div>
@@ -652,7 +651,7 @@
                 
                 <!-- Footer -->
                 <div class="flex items-center justify-between">
-                    <span class="text-[13px] font-medium text-slate-400">Rp 150.000/sesi</span>
+                    <span class="text-[13px] font-medium text-slate-400">{{ __('app.price_per_session', ['price' => 'Rp 150.000']) }}</span>
                     <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
                         {{ __('app.book_mentor') }}
                     </button>
@@ -679,7 +678,7 @@
                 </div>
                 
                 <div class="flex items-center justify-between">
-                    <span class="text-[13px] font-medium text-slate-400">Rp 120.000/sesi</span>
+                    <span class="text-[13px] font-medium text-slate-400">{{ __('app.price_per_session', ['price' => 'Rp 120.000']) }}</span>
                     <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
                         {{ __('app.book_mentor') }}
                     </button>
@@ -706,7 +705,7 @@
                 </div>
                 
                 <div class="flex items-center justify-between">
-                    <span class="text-[13px] font-medium text-slate-400">Rp 200.000/sesi</span>
+                    <span class="text-[13px] font-medium text-slate-400">{{ __('app.price_per_session', ['price' => 'Rp 200.000']) }}</span>
                     <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
                         {{ __('app.book_mentor') }}
                     </button>
@@ -733,7 +732,7 @@
                 </div>
                 
                 <div class="flex items-center justify-between">
-                    <span class="text-[13px] font-medium text-slate-400">Rp 100.000/sesi</span>
+                    <span class="text-[13px] font-medium text-slate-400">{{ __('app.price_per_session', ['price' => 'Rp 100.000']) }}</span>
                     <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
                         {{ __('app.book_mentor') }}
                     </button>
@@ -772,13 +771,13 @@
                 <!-- Floating Card 1: Hiring Partners (Top Left) -->
                 <div class="absolute top-6 left-6 md:top-8 md:left-8 bg-[#0a0a0a]/80 backdrop-blur-md rounded-2xl p-4 md:p-5 shadow-2xl border border-white/5 min-w-[130px] md:min-w-[140px]">
                     <div class="text-2xl md:text-3xl font-extrabold text-white mb-1">300+</div>
-                    <div class="text-[12px] md:text-[13px] text-gray-400 font-medium">Hiring Partners</div>
+                    <div class="text-[12px] md:text-[13px] text-gray-400 font-medium"> {{ __('app.hiring_partners') }} </div>
                 </div>
                 
                 <!-- Floating Card 2: Completion Rate (Bottom Right) -->
                 <div class="absolute bottom-6 right-6 md:bottom-8 md:right-8 bg-[#0a0a0a]/80 backdrop-blur-md rounded-2xl p-4 md:p-5 shadow-2xl border border-white/5 min-w-[130px] md:min-w-[140px]">
                     <div class="text-2xl md:text-3xl font-extrabold text-white mb-1">95%</div>
-                    <div class="text-[12px] md:text-[13px] text-gray-400 font-medium">Completion Rate</div>
+                    <div class="text-[12px] md:text-[13px] text-gray-400 font-medium"> {{ __('app.completion_rate') }} </div>
                 </div>
             </div>
             
@@ -866,7 +865,7 @@
             <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
                 <div aria-hidden="true" class="text-pink-600/50 text-6xl font-serif leading-none mb-2">"</div>
                 <p class="text-[15px] text-gray-600 leading-relaxed flex-1 mb-8">
-                    Dalam 6 bulan belajar di 1Langkah, saya berhasil pindah karir dari accounting ke frontend dev. AI tutornya benar-benar membantu saya memahami konsep coding yang rumit.
+                    {{ __('app.testi_1_desc') }}
                 </p>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
@@ -890,7 +889,7 @@
             <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
                 <div aria-hidden="true" class="text-pink-600/50 text-6xl font-serif leading-none mb-2">"</div>
                 <p class="text-[15px] text-gray-600 leading-relaxed flex-1 mb-8">
-                    Kualitas kursus Data Science-nya setara dengan bootcamp mahal, tapi dengan harga yang jauh lebih terjangkau. Sertifikatnya langsung diakui saat saya interview.
+                    {{ __('app.testi_2_desc') }}
                 </p>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
@@ -914,7 +913,7 @@
             <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
                 <div aria-hidden="true" class="text-pink-600/50 text-6xl font-serif leading-none mb-2">"</div>
                 <p class="text-[15px] text-gray-600 leading-relaxed flex-1 mb-8">
-                    Mentor marketplace-nya luar biasa. Bisa sesi 1-on-1 langsung dengan senior designer dari perusahaan top. Portfolio saya makin kuat dan akhirnya dapat offer impian.
+                    {{ __('app.testi_3_desc') }}
                 </p>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
@@ -1050,7 +1049,7 @@
                 
                 <!-- Column 1 -->
                 <div class="flex flex-col items-center md:items-start">
-                    <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6">PLATFORM</h3>
+                    <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6"> {{ __('app.footer_platform') }} </h3>
                     <ul class="flex flex-col items-center md:items-start gap-4">
                         <li><a href="{{ route('kursus') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_courses') }}</a></li>
                         <li><a href="{{ route('online-bootcamp') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_bootcamp_online') }}</a></li>
@@ -1063,7 +1062,7 @@
                 
                 <!-- Column 2 -->
                 <div class="flex flex-col items-center md:items-start">
-                    <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6">COMPANY</h3>
+                    <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6"> {{ __('app.footer_company') }} </h3>
                     <ul class="flex flex-col items-center md:items-start gap-4">
                         <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_about') }}</a></li>
                         <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_career') }}</a></li>
@@ -1075,7 +1074,7 @@
                 
                 <!-- Column 3 -->
                 <div class="flex flex-col items-center md:items-start col-span-2 md:col-span-1">
-                    <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6">SUPPORT</h3>
+                    <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6"> {{ __('app.footer_support') }} </h3>
                     <ul class="flex flex-col items-center md:items-start gap-4">
                         <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_help') }}</a></li>
                         <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_privacy') }}</a></li>
@@ -1090,7 +1089,7 @@
         
         <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center">
             <div class="text-[13px] text-gray-400 md:text-left">
-                &copy; {{ date('Y') }} 1Langkah Technologies. All rights reserved. | Developed by <a href="https://elc.my.id" target="_blank" class="text-blue-400 underline hover:text-blue-300">ELCoding.id</a>
+                &copy; {{ date('Y') }} 1Langkah Technologies. {{ __('app.all_rights_reserved') }} | {{ __('app.developed_by') }} <a href="https://elc.my.id" target="_blank" class="text-blue-400 underline hover:text-blue-300">ELCoding.id</a>
             </div>
             <div class="text-[13px] text-gray-400 md:text-right">
                 {!! __('app.footer_made_in') !!}

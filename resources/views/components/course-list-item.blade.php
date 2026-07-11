@@ -63,7 +63,7 @@ $level = $course['level'] ?? '';
                 </div>
                 <span class="text-[10px] font-medium text-gray-600">{{ number_format($rating, 1) }}</span>
                 <span class="text-[10px] text-gray-400">•</span>
-                <span class="text-[10px] text-gray-500">{{ number_format($enrolledCount) }} peserta</span>
+                <span class="text-[10px] text-gray-500">{{ number_format($enrolledCount) }} {{ __('app.participants') }}</span>
             </div>
         @endif
     </div>
@@ -75,10 +75,10 @@ $level = $course['level'] ?? '';
                 <div class="h-1.5 w-24 bg-gray-100 rounded-full overflow-hidden mb-1">
                     <div class="h-full bg-emerald-500 rounded-full" style="width: {{ $progress }}%"></div>
                 </div>
-                <p class="text-[10px] text-gray-500 font-medium">{{ $progress }}% selesai</p>
+                <p class="text-[10px] text-gray-500 font-medium">{{ $progress }}% {{ __('app.completed') }}</p>
             </div>
         @elseif($showPrice)
-            <span class="text-sm font-bold {{ $price === 'Gratis' ? 'text-emerald-600' : 'text-gray-900' }}">
+            <span class="text-sm font-bold {{ in_array($price, ['Gratis', 'Free', __('app.free')]) ? 'text-emerald-600' : 'text-gray-900' }}">
                 {{ $price }}
             </span>
         @endif

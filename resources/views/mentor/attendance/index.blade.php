@@ -1,7 +1,7 @@
 @extends('layouts.mentor')
 
-@section('title', 'Absensi Bootcamp')
-@section('header_title', 'Absensi: ' . $bootcamp->title)
+@section('title', __('app.bootcamp_attendance'))
+@section('header_title', __('app.attendance_colon') . $bootcamp->title)
 
 @section('content')
     <x-flash-messages />
@@ -12,7 +12,7 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
         </svg>
-        Kembali
+        {{ __('app.back') }}
     </a>
 
     {{-- Bootcamp Info --}}
@@ -24,16 +24,16 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- Scan Code Panel --}}
         <div class="bg-white rounded-xl border border-gray-100 p-6">
-            <h3 class="font-bold text-gray-900 mb-4">📱 Scan Kode Absensi</h3>
+            <h3 class="font-bold text-gray-900 mb-4">{{ __('app.scan_attendance_code') }}</h3>
             <p class="text-sm text-gray-500 mb-6">
-                Masukkan kode 4 karakter yang ditunjukkan peserta untuk mencatat kehadiran.
+                {{ __('app.scan_code_instruction') }}
             </p>
 
             <form method="POST" action="{{ route('mentor.attendance.scan-code') }}" class="space-y-4">
                 @csrf
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">
-                        Kode Absensi
+                        {{ __('app.attendance_code') }}
                     </label>
                     <input type="text" name="short_code" required maxlength="4" minlength="4"
                            placeholder="XXXX"
@@ -44,23 +44,23 @@
                 </div>
                 <button type="submit"
                         class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl text-sm transition-colors">
-                    Tandai Hadir
+                    {{ __('app.mark_present') }}
                 </button>
             </form>
         </div>
 
         {{-- Generate Codes Panel --}}
         <div class="bg-white rounded-xl border border-gray-100 p-6">
-            <h3 class="font-bold text-gray-900 mb-4">🎫 Generate Kode Hari Ini</h3>
+            <h3 class="font-bold text-gray-900 mb-4">{{ __('app.generate_code_today') }}</h3>
             <p class="text-sm text-gray-500 mb-6">
-                Buat kode absensi untuk semua peserta bootcamp hari ini.
+                {{ __('app.generate_code_instruction') }}
             </p>
 
             <form method="POST" action="{{ route('mentor.attendance.generate-codes', $bootcamp->id) }}" class="space-y-4">
                 @csrf
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">
-                        Tanggal Absensi
+                        {{ __('app.attendance_date') }}
                     </label>
                     <input type="date" name="date" required value="{{ date('Y-m-d') }}"
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
@@ -70,14 +70,14 @@
                 </div>
                 <button type="submit"
                         class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-xl text-sm transition-colors">
-                    Generate Kode untuk Semua Peserta
+                    {{ __('app.generate_code_button') }}
                 </button>
             </form>
 
             @if(session('short_code'))
                 <div class="mt-4 p-4 bg-green-50 rounded-xl border border-green-200">
-                    <p class="text-sm text-green-700 font-medium">Kode berhasil di-generate!</p>
-                    <p class="text-xs text-green-600 mt-1">Peserta dapat menggunakan kode untuk absensi.</p>
+                    <p class="text-sm text-green-700 font-medium">{{ __('app.code_generated_success') }}</p>
+                    <p class="text-xs text-green-600 mt-1">{{ __('app.code_generated_instruction') }}</p>
                 </div>
             @endif
         </div>
@@ -85,25 +85,25 @@
 
     {{-- Today's Attendance Records --}}
     <div class="bg-white rounded-xl border border-gray-100 p-6 mt-6">
-        <h3 class="font-bold text-gray-900 mb-4">📋 Rekam Absensi Hari Ini</h3>
+        <h3 class="font-bold text-gray-900 mb-4">{{ __('app.today_attendance_records') }}</h3>
 
         @if($records->isEmpty())
             <div class="p-8 text-center">
                 <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <x-icon name="calendar" class="w-8 h-8 text-gray-400" />
                 </div>
-                <p class="text-gray-500">Belum ada rekam absensi untuk bootcamp ini</p>
+                <p class="text-gray-500">{{ __('app.no_attendance_records') }}</p>
             </div>
         @else
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead class="bg-gray-50 border-b border-gray-100">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Tanggal</th>
-                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Peserta</th>
-                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Kode</th>
-                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Waktu Scan</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">{{ __('app.date') }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">{{ __('app.participant') }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">{{ __('app.code') }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">{{ __('app.status') }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">{{ __('app.scan_time') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -134,11 +134,11 @@
                                     <td class="px-6 py-4">
                                         @if($record->verified)
                                             <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-green-100 text-green-700">
-                                                ✓ Hadir
+                                                {{ __('app.present_status') }}
                                             </span>
                                         @else
                                             <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-yellow-100 text-yellow-700">
-                                                ○ Belum
+                                                {{ __('app.absent_status') }}
                                             </span>
                                         @endif
                                     </td>

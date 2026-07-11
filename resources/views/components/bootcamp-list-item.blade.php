@@ -54,7 +54,7 @@ $sessions = $bootcamp['sessions'] ?? 0;
             <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                 <div class="h-full bg-blue-500 rounded-full" style="width: {{ $progress }}%"></div>
             </div>
-            <p class="text-[10px] text-gray-500 font-medium mt-1">{{ $progress }}% ({{ $attended }}/{{ $sessions }} sesi)</p>
+            <p class="text-[10px] text-gray-500 font-medium mt-1">{{ $progress }}% ({{ $attended }}/{{ $sessions }} {{ __('app.sessions') }})</p>
         @endif
     </div>
 

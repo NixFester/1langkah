@@ -56,7 +56,7 @@ class QuizController extends Controller
 
         if (! $isEnrolled) {
             return redirect()->route('kursus')
-                ->with('error', 'Kamu harus terdaftar di kursus ini untuk mengikuti quiz.');
+                ->with('error', __('app.msg_error_kamu_harus_terdaftar_di_kursus_ini_untuk'));
         }
 
         // Load quiz with questions and answers (only correct answer NOT shown for fairness)
@@ -96,7 +96,7 @@ class QuizController extends Controller
 
         if (! $isEnrolled) {
             return redirect()->route('kursus')
-                ->with('error', 'Kamu harus terdaftar di kursus ini untuk mengikuti quiz.');
+                ->with('error', __('app.msg_error_kamu_harus_terdaftar_di_kursus_ini_untuk'));
         }
 
         $quiz->load(['questions.answers']);

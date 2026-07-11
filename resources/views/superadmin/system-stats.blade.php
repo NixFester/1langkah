@@ -1,27 +1,27 @@
 @extends('layouts.superadmin')
 
-@section('title', 'Statistik Sistem')
-@section('header_title', 'Statistik Sistem')
+@section('title', __('app.system_statistics'))
+@section('header_title', __('app.system_statistics'))
 
 @section('content')
     {{-- Overall Stats --}}
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-        <x-stat-card label="Total User" :value="$stats['total_users']" color="purple" />
-        <x-stat-card label="Total Kursus" :value="$stats['total_courses']" color="blue" />
-        <x-stat-card label="Total Enrollments" :value="$stats['total_enrollments']" color="green" />
-        <x-stat-card label="Total Revenue" :value="'Rp ' . number_format($stats['total_revenue'], 0, ',', '.')" color="amber" />
-        <x-stat-card label="Pending Verify" :value="$stats['pending_verifications']" color="red" />
+        <x-stat-card :label="__('app.total_users')" :value="$stats['total_users']" color="purple" />
+        <x-stat-card :label="__('app.total_courses')" :value="$stats['total_courses']" color="blue" />
+        <x-stat-card :label="__('app.total_enrollments')" :value="$stats['total_enrollments']" color="green" />
+        <x-stat-card :label="__('app.total_revenue')" :value="'Rp ' . number_format($stats['total_revenue'], 0, ',', '.')" color="amber" />
+        <x-stat-card :label="__('app.pending_verify')" :value="$stats['pending_verifications']" color="red" />
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- User Growth --}}
-        <x-card-panel title="User Growth (12 Bulan">
+        <x-card-panel :title="__('app.user_growth_12')">
             <x-data-table>
                 <template #thead>
                     <tr class="text-left text-xs text-gray-500 uppercase">
-                        <th class="pb-3">Bulan</th>
-                        <th class="pb-3">Jumlah</th>
-                        <th class="pb-3">Growth</th>
+                        <th class="pb-3">{{ __('app.month') }}</th>
+                        <th class="pb-3">{{ __('app.amount') }}</th>
+                        <th class="pb-3">{{ __('app.growth') }}</th>
                     </tr>
                 </template>
                 @forelse($monthlyUsers as $i => $month)
@@ -43,18 +43,18 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="3" class="py-4 text-center text-gray-400">Tidak ada data</td></tr>
+                    <tr><td colspan="3" class="py-4 text-center text-gray-400">{{ __('app.no_data') }}</td></tr>
                 @endforelse
             </x-data-table>
         </x-card-panel>
 
         {{-- Revenue per Bulan --}}
-        <x-card-panel title="Revenue per Bulan">
+        <x-card-panel :title="__('app.revenue_per_month')">
             <x-data-table>
                 <template #thead>
                     <tr class="text-left text-xs text-gray-500 uppercase">
-                        <th class="pb-3">Bulan</th>
-                        <th class="pb-3">Revenue</th>
+                        <th class="pb-3">{{ __('app.month') }}</th>
+                        <th class="pb-3">{{ __('app.revenue') }}</th>
                     </tr>
                 </template>
                 @forelse($monthlyRevenue as $month)
@@ -63,7 +63,7 @@
                         <td class="py-2 font-bold text-green-600">Rp {{ number_format($month->total, 0, ',', '.') }}</td>
                     </tr>
                 @empty
-                    <tr><td colspan="2" class="py-4 text-center text-gray-400">Tidak ada data</td></tr>
+                    <tr><td colspan="2" class="py-4 text-center text-gray-400">{{ __('app.no_data') }}</td></tr>
                 @endforelse
             </x-data-table>
         </x-card-panel>

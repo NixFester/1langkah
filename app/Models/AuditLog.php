@@ -56,14 +56,23 @@ class AuditLog extends Model
      * Action constants untuk jenis aktivitas
      */
     public const ACTION_CREATE = 'created';
+
     public const ACTION_UPDATE = 'updated';
+
     public const ACTION_DELETE = 'deleted';
+
     public const ACTION_VERIFY = 'verified';
+
     public const ACTION_REJECT = 'rejected';
+
     public const ACTION_LOGIN = 'login';
+
     public const ACTION_LOGOUT = 'logout';
+
     public const ACTION_ROLE_CHANGE = 'role_changed';
+
     public const ACTION_ENROLL = 'enrolled';
+
     public const ACTION_PAYMENT = 'payment_processed';
 
     /**
@@ -99,6 +108,7 @@ class AuditLog extends Model
         if ($modelId !== null) {
             $query->where('model_id', $modelId);
         }
+
         return $query;
     }
 
@@ -121,12 +131,12 @@ class AuditLog extends Model
     /**
      * Static method untuk mencatat aktivitas
      *
-     * @param string $action Jenis aktivitas
-     * @param string|null $modelType Model yang dimodifikasi
-     * @param int|null $modelId ID record yang dimodifikasi
-     * @param array|null $oldValues Data sebelum diubah
-     * @param array|null $newValues Data setelah diubah
-     * @param string|null $description Deskripsi tambahan
+     * @param  string  $action  Jenis aktivitas
+     * @param  string|null  $modelType  Model yang dimodifikasi
+     * @param  int|null  $modelId  ID record yang dimodifikasi
+     * @param  array|null  $oldValues  Data sebelum diubah
+     * @param  array|null  $newValues  Data setelah diubah
+     * @param  string|null  $description  Deskripsi tambahan
      */
     public static function log(
         string $action,
@@ -155,20 +165,7 @@ class AuditLog extends Model
      */
     public function getActionLabelAttribute(): string
     {
-        $labels = [
-            'created' => 'Membuat',
-            'updated' => 'Mengubah',
-            'deleted' => 'Menghapus',
-            'verified' => 'Memverifikasi',
-            'rejected' => 'Menolak',
-            'login' => 'Login',
-            'logout' => 'Logout',
-            'role_changed' => 'Mengubah Role',
-            'enrolled' => 'Mendaftar',
-            'payment_processed' => 'Memproses Pembayaran',
-        ];
-
-        return $labels[$this->action] ?? $this->action;
+        return __('app.action_'.$this->action);
     }
 
     /**

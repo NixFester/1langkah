@@ -1,7 +1,7 @@
 @extends('layouts.superadmin')
 
-@section('title', 'Kelola User')
-@section('header_title', 'Kelola User')
+@section('title', __('app.manage_users'))
+@section('header_title', __('app.manage_users'))
 
 @section('content')
     <x-flash-messages />
@@ -9,13 +9,13 @@
     {{-- Filters --}}
     <x-filter-form>
         <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Cari</label>
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Nama atau email..." class="border border-gray-300 rounded-lg px-4 py-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.search') }}</label>
+            <input type="text" name="search" value="{{ request('search') }}" :placeholder="__('app.search_name_email')" class="border border-gray-300 rounded-lg px-4 py-2">
         </div>
         <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.role') }}</label>
             <select name="role" class="border border-gray-300 rounded-lg px-4 py-2">
-                <option value="">Semua Role</option>
+                <option value="">{{ __('app.all_roles') }}</option>
                 @foreach($roles as $key => $label)
                     <option value="{{ $key }}" {{ request('role') === $key ? 'selected' : '' }}>{{ $label }}</option>
                 @endforeach
@@ -27,10 +27,10 @@
     <x-data-table :paginator="$users">
         <template #thead>
             <tr class="bg-gray-50">
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Bergabung</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.user') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.role') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.joined') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.action') }}</th>
             </tr>
         </template>
 
@@ -58,11 +58,11 @@
                 <td class="px-6 py-4 text-sm text-gray-500">{{ $user->created_at->format('d/m/Y') }}</td>
                 <td class="px-6 py-4">
                     <div class="flex items-center gap-2">
-                        <a href="{{ route('superadmin.users.edit', $user) }}" class="text-blue-600 hover:text-blue-700 text-sm">Edit</a>
+                        <a href="{{ route('superadmin.users.edit', $user) }}" class="text-blue-600 hover:text-blue-700 text-sm">{{ __('app.edit') }}</a>
                         @if($user->id !== auth()->id())
-                            <form action="{{ route('superadmin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Yakin hapus user ini?')">
+                            <form action="{{ route('superadmin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('{{ __('app.delete_user_confirm') }}')">
                                 @csrf @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-700 text-sm">Hapus</button>
+                                <button type="submit" class="text-red-600 hover:text-red-700 text-sm">{{ __('app.delete') }}</button>
                             </form>
                         @endif
                     </div>
@@ -71,7 +71,7 @@
         @empty
             <tr>
                 <td colspan="4" class="px-6 py-12">
-                    <x-empty-state message="Tidak ada user" icon="users" />
+                    <x-empty-state :message="__('app.no_user')" icon="users" />
                 </td>
             </tr>
         @endforelse

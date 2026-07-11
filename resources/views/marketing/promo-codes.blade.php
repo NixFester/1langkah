@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'Kode Promo')
-@section('header_title', 'Kode Promo')
+@section('title', __('app.promo_codes_title'))
+@section('header_title', __('app.promo_codes_title'))
 
 @section('content')
     <x-flash-messages />
@@ -10,30 +10,30 @@
     <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
         <form method="GET" class="flex gap-2">
             <select name="status" class="border border-gray-300 rounded-lg px-4 py-2">
-                <option value="">Semua Status</option>
-                <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Aktif</option>
-                <option value="expired" {{ request('status') === 'expired' ? 'selected' : '' }}>Kadaluarsa</option>
-                <option value="maxed" {{ request('status') === 'maxed' ? 'selected' : '' }}>Habis Pakai</option>
+                <option value="">{{ __('app.all_status') }}</option>
+                <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>{{ __('app.active_status') }}</option>
+                <option value="expired" {{ request('status') === 'expired' ? 'selected' : '' }}>{{ __('app.expired') }}</option>
+                <option value="maxed" {{ request('status') === 'maxed' ? 'selected' : '' }}>{{ __('app.maxed_out') }}</option>
             </select>
-            <button type="submit" class="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700">Filter</button>
+            <button type="submit" class="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700">{{ __('app.filter') }}</button>
         </form>
         <a href="{{ route('marketing.promo-codes.create') }}" class="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 font-medium flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
-            Buat Promo Baru
+            {{ __('app.create_new_promo') }}
         </a>
     </div>
 
     <x-data-table :paginator="$promos">
         <template #thead>
             <tr class="bg-gray-50">
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kode</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tipe</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Digunakan</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.code') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.name') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.type') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.used') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.status') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.action') }}</th>
             </tr>
         </template>
 
@@ -68,16 +68,16 @@
                 </td>
                 <td class="px-6 py-4">
                     <div class="flex items-center gap-2">
-                        <a href="{{ route('marketing.promo-codes.edit', $promo) }}" class="text-blue-600 hover:text-blue-700 text-sm">Edit</a>
+                        <a href="{{ route('marketing.promo-codes.edit', $promo) }}" class="text-blue-600 hover:text-blue-700 text-sm">{{ __('app.edit') }}</a>
                         <form action="{{ route('marketing.promo-codes.toggle', $promo) }}" method="POST" class="inline">
                             @csrf
                             <button type="submit" class="text-gray-600 hover:text-gray-800 text-sm">
-                                {{ $promo->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
+                                {{ $promo->is_active ? __('app.deactivate') : __('app.activate') }}
                             </button>
                         </form>
-                        <form action="{{ route('marketing.promo-codes.destroy', $promo) }}" method="POST" class="inline" onsubmit="return confirm('Yakin hapus?')">
+                        <form action="{{ route('marketing.promo-codes.destroy', $promo) }}" method="POST" class="inline" onsubmit="return confirm('{{ __('app.delete_confirm') }}')">
                             @csrf @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:text-red-700 text-sm">Hapus</button>
+                            <button type="submit" class="text-red-600 hover:text-red-700 text-sm">{{ __('app.delete') }}</button>
                         </form>
                     </div>
                 </td>
@@ -85,7 +85,7 @@
         @empty
             <tr>
                 <td colspan="6" class="px-6 py-12">
-                    <x-empty-state message="Tidak ada promo codes" icon="promo" />
+                    <x-empty-state :message="__('app.no_promo_codes')" icon="promo" />
                 </td>
             </tr>
         @endforelse

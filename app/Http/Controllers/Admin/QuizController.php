@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Quiz;
-use App\Models\QuizQuestion;
 use App\Models\QuizAnswer;
+use App\Models\QuizQuestion;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -32,6 +32,7 @@ class QuizController extends Controller
     public function create(): View
     {
         $courses = Course::all();
+
         return view('admin.quiz_form', compact('courses'));
     }
 
@@ -56,7 +57,7 @@ class QuizController extends Controller
 
         Quiz::create($data);
 
-        return redirect()->route('admin.quizzes')->with('success', 'Quiz berhasil ditambahkan.');
+        return redirect()->route('admin.quizzes')->with('success', __('app.msg_success_quiz_berhasil_ditambahkan'));
     }
 
     /**
@@ -66,6 +67,7 @@ class QuizController extends Controller
     {
         $courses = Course::all();
         $quiz->load('questions.answers');
+
         return view('admin.quiz_form', compact('quiz', 'courses'));
     }
 
@@ -90,7 +92,7 @@ class QuizController extends Controller
 
         $quiz->update($data);
 
-        return redirect()->route('admin.quizzes')->with('success', 'Quiz berhasil diperbarui.');
+        return redirect()->route('admin.quizzes')->with('success', __('app.msg_success_quiz_berhasil_diperbarui'));
     }
 
     /**
@@ -99,7 +101,8 @@ class QuizController extends Controller
     public function destroy(Quiz $quiz): RedirectResponse
     {
         $quiz->delete();
-        return redirect()->route('admin.quizzes')->with('success', 'Quiz berhasil dihapus.');
+
+        return redirect()->route('admin.quizzes')->with('success', __('app.msg_success_quiz_berhasil_dihapus'));
     }
 
     /**
@@ -108,6 +111,7 @@ class QuizController extends Controller
     public function questions(Quiz $quiz): View
     {
         $quiz->load('questions.answers');
+
         return view('admin.quiz_questions', compact('quiz'));
     }
 
@@ -146,7 +150,7 @@ class QuizController extends Controller
             QuizAnswer::create(['question_id' => $question->id, 'answer_text' => 'Salah', 'is_correct' => false, 'order' => 2]);
         }
 
-        return redirect()->route('admin.quizzes.questions', $quiz)->with('success', 'Question berhasil ditambahkan.');
+        return redirect()->route('admin.quizzes.questions', $quiz)->with('success', __('app.msg_success_question_berhasil_ditambahkan'));
     }
 
     /**
@@ -168,7 +172,7 @@ class QuizController extends Controller
 
         $question->update($data);
 
-        return redirect()->route('admin.quizzes.questions', $quiz)->with('success', 'Question berhasil diperbarui.');
+        return redirect()->route('admin.quizzes.questions', $quiz)->with('success', __('app.msg_success_question_berhasil_diperbarui'));
     }
 
     /**
@@ -177,7 +181,8 @@ class QuizController extends Controller
     public function deleteQuestion(Quiz $quiz, QuizQuestion $question): RedirectResponse
     {
         $question->delete();
-        return redirect()->route('admin.quizzes.questions', $quiz)->with('success', 'Question berhasil dihapus.');
+
+        return redirect()->route('admin.quizzes.questions', $quiz)->with('success', __('app.msg_success_question_berhasil_dihapus'));
     }
 
     /**
@@ -198,7 +203,7 @@ class QuizController extends Controller
         $data['is_correct'] = $request->boolean('is_correct', false);
         $answer->update($data);
 
-        return redirect()->route('admin.quizzes.questions', $quiz)->with('success', 'Answer berhasil diperbarui.');
+        return redirect()->route('admin.quizzes.questions', $quiz)->with('success', __('app.msg_success_answer_berhasil_diperbarui'));
     }
 
     /**
@@ -217,7 +222,7 @@ class QuizController extends Controller
 
         QuizAnswer::create($data);
 
-        return redirect()->route('admin.quizzes.questions', $quiz)->with('success', 'Answer berhasil ditambahkan.');
+        return redirect()->route('admin.quizzes.questions', $quiz)->with('success', __('app.msg_success_answer_berhasil_ditambahkan'));
     }
 
     /**
@@ -226,6 +231,7 @@ class QuizController extends Controller
     public function deleteAnswer(Quiz $quiz, QuizQuestion $question, QuizAnswer $answer): RedirectResponse
     {
         $answer->delete();
-        return redirect()->route('admin.quizzes.questions', $quiz)->with('success', 'Answer berhasil dihapus.');
+
+        return redirect()->route('admin.quizzes.questions', $quiz)->with('success', __('app.msg_success_answer_berhasil_dihapus'));
     }
 }

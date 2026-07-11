@@ -66,8 +66,8 @@
         message="{{ __('app.banner_online_desc') }}"
         :stats="[
             ['value' => '7–10', 'label' => __('app.stat_meetings')],
-            ['value' => '2 Jam', 'label' => __('app.stat_per_session')],
-            ['value' => '30 Hari', 'label' => __('app.stat_recording_access')]
+            ['value' => __('app.stat_val_2_hours'), 'label' => __('app.stat_per_session')],
+            ['value' => __('app.stat_val_30_days'), 'label' => __('app.stat_recording_access')]
         ]"
     >
         <x-slot name="icon">
@@ -134,7 +134,7 @@
                         <div class="text-right">
                             <div class="text-[13px] font-medium text-gray-400 mb-1">{{ __('app.price_label') }}</div>
                             <div class="text-lg font-extrabold"
-                                 :class="b.formatted_price === 'Gratis' ? 'text-emerald-600' : 'text-red-600'"
+                                 :class="['Gratis', 'Free', '{{ __('app.free') }}'].includes(b.formatted_price) ? 'text-emerald-600' : 'text-red-600'"
                                  x-text="b.formatted_price"></div>
                         </div>
                     </div>

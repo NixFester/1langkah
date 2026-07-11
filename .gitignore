@@ -38,4 +38,12 @@ PLAN.md
 CLAUDE.md
 /.claude
 /docs
+
+# Translate
 translate.md
+scratch.txt
+scratch_translate.php
+scratch_keys.json
+scratch_abort_keys.json
+duplicate_keys.php
+/scratch

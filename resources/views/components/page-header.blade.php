@@ -6,7 +6,7 @@
     </div>
     @if(isset($count))
         <span class="mt-2 sm:mt-0 bg-gray-100 text-gray-700 text-xs font-bold px-3 py-1.5 rounded-full">
-            {{ $count }} Total
+            {{ $count }} {{ __('app.total') }}
         </span>
     @elseif(isset($actionRoute))
         <div class="mt-4 sm:mt-0">
@@ -19,7 +19,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
                 @endif
-                {{ $actionLabel ?? 'Tambah' }}
+                {{ $actionLabel ?? __('app.add') }}
             </a>
         </div>
     @elseif(isset($actionSlot))

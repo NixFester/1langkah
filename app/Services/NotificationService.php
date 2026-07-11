@@ -29,7 +29,7 @@ class NotificationService
      */
     public function videoCompleted(int $userId, string $videoTitle, string $courseTitle, int $courseId): Notification
     {
-        return $this->create($userId, 'video_completed', 'Video Selesai', "Kamu telah menyelesaikan video \"{$videoTitle}\" di kursus {$courseTitle}", [
+        return $this->create($userId, 'video_completed', __('app.notif_video_completed_title'), __('app.notif_video_completed_msg', ['videoTitle' => $videoTitle, 'courseTitle' => $courseTitle]), [
             'icon' => 'play-circle',
             'color' => 'green',
             'link' => "/kursus/{$courseId}",
@@ -41,7 +41,7 @@ class NotificationService
      */
     public function chapterCompleted(int $userId, string $chapterTitle, string $courseTitle, int $courseId): Notification
     {
-        return $this->create($userId, 'chapter_completed', 'Chapter Selesai', "Selamat! Kamu telah menyelesaikan chapter \"{$chapterTitle}\" di kursus {$courseTitle}", [
+        return $this->create($userId, 'chapter_completed', __('app.notif_chapter_completed_title'), __('app.notif_chapter_completed_msg', ['chapterTitle' => $chapterTitle, 'courseTitle' => $courseTitle]), [
             'icon' => 'check-circle',
             'color' => 'emerald',
             'link' => "/kursus/{$courseId}",
@@ -53,7 +53,7 @@ class NotificationService
      */
     public function courseCompleted(int $userId, string $courseTitle, int $courseId): Notification
     {
-        return $this->create($userId, 'course_completed', 'Kursus Selesai! 🎉', "Selamat! Kamu telah menyelesaikan kursus \"{$courseTitle}\"", [
+        return $this->create($userId, 'course_completed', __('app.notif_course_completed_title'), __('app.notif_course_completed_msg', ['courseTitle' => $courseTitle]), [
             'icon' => 'trophy',
             'color' => 'yellow',
             'link' => "/kursus/{$courseId}",
@@ -65,7 +65,7 @@ class NotificationService
      */
     public function sessionJoined(int $userId, string $sessionTitle, string $bootcampTitle, int $bootcampId): Notification
     {
-        return $this->create($userId, 'session_joined', 'Sesi Diikuti', "Kamu telah bergabung di sesi \"{$sessionTitle}\" - {$bootcampTitle}", [
+        return $this->create($userId, 'session_joined', __('app.notif_session_joined_title'), __('app.notif_session_joined_msg', ['sessionTitle' => $sessionTitle, 'bootcampTitle' => $bootcampTitle]), [
             'icon' => 'video',
             'color' => 'blue',
             'link' => "/bootcamp/online/{$bootcampId}",
@@ -79,7 +79,7 @@ class NotificationService
     {
         $link = $type === 'course' ? "/kursus/{$itemId}" : "/bootcamp/online/{$itemId}";
 
-        return $this->create($userId, 'enrolled', 'Berhasil Terdaftar', "Kamu telah terdaftar di \"{$itemTitle}\"", [
+        return $this->create($userId, 'enrolled', __('app.notif_enrolled_title'), __('app.notif_enrolled_msg', ['itemTitle' => $itemTitle]), [
             'icon' => 'user-plus',
             'color' => 'green',
             'link' => $link,
@@ -91,7 +91,7 @@ class NotificationService
      */
     public function achievementEarned(int $userId, string $achievementName, string $icon = '🏆'): Notification
     {
-        return $this->create($userId, 'achievement_earned', 'Achievement Baru! 🎉', "Selamat! Kamu mendapat achievement \"{$achievementName}\"", [
+        return $this->create($userId, 'achievement_earned', __('app.notif_achievement_earned_title'), __('app.notif_achievement_earned_msg', ['achievementName' => $achievementName]), [
             'icon' => 'trophy',
             'color' => 'yellow',
             'link' => '/achievement',

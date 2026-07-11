@@ -1,7 +1,7 @@
 <!-- Back Button Component -->
 @props([
     'route' => null,
-    'label' => 'Kembali',
+    'label' => __('app.back'),
     'theme' => 'gray',
 ])
 

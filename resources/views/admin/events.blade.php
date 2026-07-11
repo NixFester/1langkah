@@ -7,10 +7,10 @@
 
     <!-- PAGE HEADER -->
     <x-page-header
-        title="Kelola Event"
-        :description="'Daftar agenda dan acara (' . $events->total() . ') yang ada di platform.'"
+        :title="__('app.manage_events')"
+        :description="__('app.events_list_desc', ['count' => $events->total()])"
         actionRoute="{{ route('admin.events.new') }}"
-        actionLabel="Tambah Event"
+        :actionLabel="__('app.add_event')"
     />
 
     <x-flash-messages />
@@ -19,11 +19,11 @@
     <x-data-table :paginator="$events">
         <template #thead>
             <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wider">
-                <th class="px-6 py-4 font-bold">Judul Event</th>
-                <th class="px-6 py-4 font-bold">Tipe</th>
-                <th class="px-6 py-4 font-bold">Mulai</th>
-                <th class="px-6 py-4 font-bold">Status</th>
-                <th class="px-6 py-4 font-bold text-right">Aksi</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.event_title') }}</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.type') }}</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.start') }}</th>
+                <th class="px-6 py-4 font-bold">{{ __('app.status') }}</th>
+                <th class="px-6 py-4 font-bold text-right">{{ __('app.action') }}</th>
             </tr>
         </template>
 
@@ -41,7 +41,7 @@
                     <div class="min-w-0">
                         <div class="text-sm font-bold text-gray-900 truncate">{{ $event->title }}</div>
                         <div class="text-xs text-gray-500 flex items-center gap-1 mt-0.5 truncate">
-                            {{ $event->location ?? 'Belum ada lokasi' }}
+                            {{ $event->location ?? __('app.no_location_yet') }}
                         </div>
                     </div>
                 </div>
@@ -59,12 +59,12 @@
             <td class="px-6 py-4 text-right">
                 <div class="flex items-center justify-end gap-2">
                     <a href="{{ route('admin.events.manage', $event) }}" class="inline-flex items-center justify-center bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
-                        Kelola
+                        {{ __('app.manage') }}
                     </a>
-                    <form method="POST" action="{{ route('admin.events.destroy', $event) }}" class="m-0" onsubmit="return confirm('Hapus event ini secara permanen?')">
+                    <form method="POST" action="{{ route('admin.events.destroy', $event) }}" class="m-0" onsubmit="return confirm('{{ __('app.delete_event_confirm') }}')">
                         @csrf @method('DELETE')
                         <button type="submit" class="inline-flex items-center justify-center bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
-                            Hapus
+                            {{ __('app.delete') }}
                         </button>
                     </form>
                 </div>
@@ -73,7 +73,7 @@
         @empty
         <tr>
             <td colspan="5" class="px-6 py-8">
-                <x-empty-state message="Belum ada data event." icon="calendar" />
+                <x-empty-state :message="__('app.no_event_data')" icon="calendar" />
             </td>
         </tr>
         @endforelse

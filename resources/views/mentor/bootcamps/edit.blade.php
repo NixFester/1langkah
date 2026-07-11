@@ -1,6 +1,6 @@
 @extends('layouts.mentor')
 
-@section('title', 'Edit Bootcamp')
+@section('title', __('app.edit_bootcamp'))
 
 @section('content')
 <div class="max-w-4xl mx-auto">
@@ -9,7 +9,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>
-            Kembali
+            {{ __('app.back') }}
         </a>
     </div>
 
@@ -19,7 +19,7 @@
         {{-- Bootcamp Info Form --}}
         <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-center justify-between mb-6">
-                <h1 class="text-2xl font-bold text-gray-900">Edit Bootcamp: {{ $bootcamp->title }}</h1>
+                <h1 class="text-2xl font-bold text-gray-900">{{ __('app.edit_bootcamp_colon') }} {{ $bootcamp->title }}</h1>
                 @if($bootcamp->type === 'offline')
                 <a href="{{ route('mentor.bootcamps.attendance', $bootcamp) }}" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -36,13 +36,13 @@
 
                 <div class="grid grid-cols-2 gap-4">
                     <div class="col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Judul *</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.title') }} *</label>
                         <input type="text" name="title" required value="{{ old('title', $bootcamp->title) }}"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Tipe *</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.type') }} *</label>
                         <select name="type" required class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             @foreach($types as $value => $label)
                                 <option value="{{ $value }}" {{ old('type', $bootcamp->type) == $value ? 'selected' : '' }}>{{ $label }}</option>
@@ -51,43 +51,43 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Harga *</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.price') }} *</label>
                         <input type="text" name="price" required value="{{ old('price', $bootcamp->price) }}"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Mulai *</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.start_date') }} *</label>
                         <input type="text" name="start_date" required value="{{ old('start_date', $bootcamp->start_date) }}"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Jumlah Peserta</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.participant_count') }}</label>
                         <input type="number" name="participants" value="{{ old('participants', $bootcamp->participants) }}" min="0"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div class="col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Lokasi</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.location') }}</label>
                         <input type="text" name="location" value="{{ old('location', $bootcamp->location) }}"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div class="col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Singkat</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.short_description') }}</label>
                         <input type="text" name="short_description" value="{{ old('short_description', $bootcamp->short_description) }}"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div class="col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.description') }}</label>
                         <textarea name="description" rows="4"
                                   class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">{{ old('description', $bootcamp->description) }}</textarea>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Warna</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.color') }}</label>
                         <div class="flex items-center gap-2">
                             <input type="color" name="color" value="{{ old('color', $bootcamp->color ?? '#3B82F6') }}"
                                    class="w-12 h-10 border border-gray-200 rounded-lg cursor-pointer">
@@ -97,7 +97,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Info Sesi</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.session_info') }}</label>
                         <input type="text" name="sessions_info" value="{{ old('sessions_info', $bootcamp->sessions_info) }}"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
@@ -105,7 +105,7 @@
 
                 <div class="flex items-center justify-end">
                     <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">
-                        Simpan Perubahan
+                        {{ __('app.save_changes') }}
                     </button>
                 </div>
             </form>
@@ -113,20 +113,20 @@
 
         {{-- Sessions Management --}}
         <div class="bg-white rounded-xl border border-gray-200 p-6">
-            <h3 class="font-semibold text-gray-900 mb-4">Sesi Bootcamp</h3>
+            <h3 class="font-semibold text-gray-900 mb-4">{{ __('app.bootcamp_sessions') }}</h3>
 
             {{-- Add Session Form --}}
             <form method="POST" action="{{ route('mentor.bootcamps.sessions.store', $bootcamp) }}" class="mb-6 p-4 bg-gray-50 rounded-lg">
                 @csrf
                 <div class="grid grid-cols-2 gap-4">
-                    <input type="text" name="date" required placeholder="Tanggal" class="border border-gray-200 rounded-lg px-4 py-2">
-                    <input type="text" name="topic" required placeholder="Topik Sesi" class="border border-gray-200 rounded-lg px-4 py-2">
-                    <input type="text" name="time" required placeholder="Waktu" class="border border-gray-200 rounded-lg px-4 py-2">
-                    <input type="url" name="meeting_url" placeholder="Meeting URL" class="border border-gray-200 rounded-lg px-4 py-2">
+                    <input type="text" name="date" required placeholder="{{ __('app.date') }}" class="border border-gray-200 rounded-lg px-4 py-2">
+                    <input type="text" name="topic" required placeholder="{{ __('app.session_topic') }}" class="border border-gray-200 rounded-lg px-4 py-2">
+                    <input type="text" name="time" required placeholder="{{ __('app.time') }}" class="border border-gray-200 rounded-lg px-4 py-2">
+                    <input type="url" name="meeting_url" placeholder="{{ __('app.meeting_url') }}" class="border border-gray-200 rounded-lg px-4 py-2">
                 </div>
-                <input type="text" name="description" placeholder="Deskripsi (opsional)" class="mt-3 w-full border border-gray-200 rounded-lg px-4 py-2">
+                <input type="text" name="description" placeholder="{{ __('app.description_optional') }}" class="mt-3 w-full border border-gray-200 rounded-lg px-4 py-2">
                 <button type="submit" class="mt-3 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium">
-                    + Tambah Sesi
+                    {{ __('app.add_session') }}
                 </button>
             </form>
 
@@ -142,26 +142,26 @@
                         <a href="{{ $session->meeting_url }}" target="_blank" class="text-sm text-blue-600 hover:underline">{{ $session->meeting_url }}</a>
                     @endif
                 </div>
-                <form method="POST" action="{{ route('mentor.bootcamps.sessions.destroy', [$bootcamp, $session]) }}" class="inline ml-4" onsubmit="return confirm('Hapus sesi ini?');">
+                <form method="POST" action="{{ route('mentor.bootcamps.sessions.destroy', [$bootcamp, $session]) }}" class="inline ml-4" onsubmit="return confirm('{{ __('app.delete_session_confirm') }}');">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="text-red-600 hover:text-red-800 text-sm">Hapus</button>
+                    <button type="submit" class="text-red-600 hover:text-red-800 text-sm">{{ __('app.delete') }}</button>
                 </form>
             </div>
             @empty
-            <p class="text-gray-500 text-center py-4">Belum ada sesi. Tambahkan sesi di atas.</p>
+            <p class="text-gray-500 text-center py-4">{{ __('app.no_session_data') }}</p>
             @endforelse
         </div>
 
         {{-- Danger Zone --}}
         <div class="bg-white rounded-xl border border-red-200 p-6">
-            <h3 class="font-semibold text-red-600 mb-4">Zona Berbahaya</h3>
-            <p class="text-sm text-gray-600 mb-4">Menghapus bootcamp akan menghapus semua data terkait termasuk enrollments dan progress.</p>
-            <form method="POST" action="{{ route('mentor.bootcamps.destroy', $bootcamp) }}" onsubmit="return confirm('Yakin ingin menghapus bootcamp ini?');">
+            <h3 class="font-semibold text-red-600 mb-4">{{ __('app.danger_zone') }}</h3>
+            <p class="text-sm text-gray-600 mb-4">{{ __('app.delete_bootcamp_warning') }}</p>
+            <form method="POST" action="{{ route('mentor.bootcamps.destroy', $bootcamp) }}" onsubmit="return confirm('{{ __('app.delete_bootcamp_confirm') }}');">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium">
-                    Hapus Bootcamp
+                    {{ __('app.delete') }} Bootcamp
                 </button>
             </form>
         </div>

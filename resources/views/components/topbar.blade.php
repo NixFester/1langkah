@@ -31,7 +31,7 @@
 
     <!-- Tengah -->
     <div class="topbar-search hidden md:block" style="flex:0 1 auto;width:100%;max-width:480px;">
-        <input class="input input-search" placeholder="Cari kursus, mentor, proyek..." style="width:100%; height:42px; border-radius:999px; border:1px solid #e5e7eb; background-color:#ffffff; padding-left:44px; font-size:14px; color:#374151; box-shadow:0 1px 2px rgba(0,0,0,0.02); transition:all 0.2s;" onfocus="this.style.borderColor='#d10000';this.style.boxShadow='0 0 0 3px rgba(209,0,0,0.1)';" onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='0 1px 2px rgba(0,0,0,0.02)';" />
+        <input class="input input-search" placeholder="{{ __('app.search_placeholder') }}" style="width:100%; height:42px; border-radius:999px; border:1px solid #e5e7eb; background-color:#ffffff; padding-left:44px; font-size:14px; color:#374151; box-shadow:0 1px 2px rgba(0,0,0,0.02); transition:all 0.2s;" onfocus="this.style.borderColor='#d10000';this.style.boxShadow='0 0 0 3px rgba(209,0,0,0.1)';" onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='0 1px 2px rgba(0,0,0,0.02)';" />
     </div>
 
     @auth
@@ -55,17 +55,17 @@
             {{-- Overlay panel --}}
             <div id="notif-panel" class="hidden absolute top-[calc(100%+4px)] -right-12 sm:right-0 w-[310px] sm:w-[360px] bg-white rounded-2xl shadow-xl border border-gray-100 z-[999] overflow-hidden">
                 <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/80">
-                    <div class="font-bold text-[14px] text-gray-900">Notifikasi</div>
+                    <div class="font-bold text-[14px] text-gray-900">{{ __('app.notifications') }}</div>
                     <div id="notif-new-badge"></div>
                 </div>
                 <div id="notif-list" class="max-h-[340px] overflow-y-auto">
                     <div class="py-8 px-5 text-center text-gray-400">
                         <svg class="w-10 h-10 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-                        <p class="text-[13px] font-medium">Memuat notifikasi...</p>
+                        <p class="text-[13px] font-medium">{{ __('app.loading_notifications') }}</p>
                     </div>
                 </div>
                 <div class="p-3 border-t border-gray-100 bg-gray-50/50 text-center">
-                    <button onclick="markAllNotificationsRead()" class="text-xs text-[#cc0000] font-semibold bg-transparent border-none cursor-pointer w-full py-1 hover:text-[#990000] transition-colors">Tandai semua sudah dibaca</button>
+                    <button onclick="markAllNotificationsRead()" class="text-xs text-[#cc0000] font-semibold bg-transparent border-none cursor-pointer w-full py-1 hover:text-[#990000] transition-colors">{{ __('app.mark_all_read') }}</button>
                 </div>
             </div>
         </div>
@@ -176,7 +176,7 @@ function loadNotifications() {
     })
     .catch(err => {
         console.error('Error loading notifications:', err);
-        document.getElementById('notif-list').innerHTML = '<div class="py-8 px-5 text-center text-gray-400"><p class="text-[13px] font-medium">Gagal memuat notifikasi</p></div>';
+        document.getElementById('notif-list').innerHTML = '<div class="py-8 px-5 text-center text-gray-400"><p class="text-[13px] font-medium">{{ __('app.failed_load_notifications') }}</p></div>';
     });
 }
 
@@ -184,7 +184,7 @@ function renderNotifications() {
     const list = document.getElementById('notif-list');
 
     if (notifications.length === 0) {
-        list.innerHTML = '<div class="py-8 px-5 text-center text-gray-400"><svg class="w-10 h-10 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0v-2a2 2 0 00-2-2H6a2 2 0 00-2 2"></path></svg><p class="text-[13px] font-medium">Tidak ada notifikasi</p></div>';
+        list.innerHTML = '<div class="py-8 px-5 text-center text-gray-400"><svg class="w-10 h-10 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0v-2a2 2 0 00-2-2H6a2 2 0 00-2 2"></path></svg><p class="text-[13px] font-medium">{{ __('app.no_notifications') }}</p></div>';
         return;
     }
 
@@ -218,7 +218,7 @@ function updateBadge() {
 
     if (badge) {
         if (unreadCount > 0) {
-            badge.innerHTML = `<span style="font-size:11px;background:#cc0000;color:#fff;border-radius:999px;padding:2px 8px">${unreadCount} baru</span>`;
+            badge.innerHTML = `<span style="font-size:11px;background:#cc0000;color:#fff;border-radius:999px;padding:2px 8px">${unreadCount} {{ __('app.new') }}</span>`;
         } else {
             badge.innerHTML = '';
         }

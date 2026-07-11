@@ -1,17 +1,17 @@
 @extends('layouts.mentor')
 
-@section('title', 'Kelola Quiz - Mentor')
-@section('header_title', 'Kelola Quiz')
+@section('title', __('app.manage_quiz_mentor'))
+@section('header_title', __('app.manage_quizzes'))
 
 @section('content')
 <div class="w-full space-y-6">
 
     <!-- PAGE HEADER -->
     <x-page-header
-        title="Kelola Quiz"
-        description="Kelola quiz untuk kursus Anda"
+        :title="__('app.manage_quizzes')"
+        :description="__('app.manage_quiz_desc')"
         actionRoute="{{ route('mentor.quizzes.create') }}"
-        actionLabel="Tambah Quiz"
+        :actionLabel="__('app.add_quiz')"
     />
 
     <x-flash-messages />
@@ -20,13 +20,13 @@
     <x-data-table :paginator="$quizzes">
         <template #thead>
             <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wider">
-                <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">Quiz</th>
-                <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">Kursus</th>
-                <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">Tipe</th>
-                <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">Questions</th>
-                <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">Passing Score</th>
-                <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">Status</th>
-                <th class="px-4 md:px-6 py-3 md:py-4 text-right whitespace-nowrap">Aksi</th>
+                <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">{{ __('app.quiz') }}</th>
+                <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">{{ __('app.course') }}</th>
+                <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">{{ __('app.type') }}</th>
+                <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">{{ __('app.questions') }}</th>
+                <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">{{ __('app.passing_score') }}</th>
+                <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">{{ __('app.status') }}</th>
+                <th class="px-4 md:px-6 py-3 md:py-4 text-right whitespace-nowrap">{{ __('app.action') }}</th>
             </tr>
         </template>
 
@@ -47,7 +47,7 @@
                 <x-stat-badge :type="$quiz->type" />
             </td>
             <td class="px-4 md:px-6 py-3 md:py-4 text-sm text-gray-600 whitespace-nowrap">
-                {{ $quiz->questions_count }} questions
+                {{ $quiz->questions_count }} {{ __('app.questions') }}
             </td>
             <td class="px-4 md:px-6 py-3 md:py-4 text-sm text-gray-600 whitespace-nowrap">
                 {{ $quiz->passing_score }}%
@@ -57,16 +57,16 @@
             </td>
             <td class="px-4 md:px-6 py-3 md:py-4 text-right whitespace-nowrap">
                 <div class="flex items-center justify-end gap-2">
-                    <a href="{{ route('mentor.quizzes.questions', $quiz) }}" class="inline-flex items-center justify-center bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors" title="Manage Questions">
+                    <a href="{{ route('mentor.quizzes.questions', $quiz) }}" class="inline-flex items-center justify-center bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors" :title="__('app.manage_questions')">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </a>
                     <a href="{{ route('mentor.quizzes.edit', $quiz) }}" class="inline-flex items-center justify-center bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
-                        Edit
+                        {{ __('app.edit') }}
                     </a>
-                    <form method="POST" action="{{ route('mentor.quizzes.destroy', $quiz) }}" class="m-0" onsubmit="return confirm('Hapus quiz ini?')">
+                    <form method="POST" action="{{ route('mentor.quizzes.destroy', $quiz) }}" class="m-0" onsubmit="return confirm('{{ __('app.delete_quiz_confirm') }}')">
                         @csrf @method('DELETE')
                         <button type="submit" class="inline-flex items-center justify-center bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
-                            Hapus
+                            {{ __('app.delete') }}
                         </button>
                     </form>
                 </div>
@@ -76,10 +76,10 @@
         <tr>
             <td colspan="7" class="px-6 py-8">
                 <x-empty-state
-                    message="Belum ada quiz."
+                    :message="__('app.no_quizzes')"
                     icon="document"
                     :actionRoute="route('mentor.quizzes.create')"
-                    actionLabel="Buat quiz pertama"
+                    :actionLabel="__('app.create_first_quiz')"
                 />
             </td>
         </tr>

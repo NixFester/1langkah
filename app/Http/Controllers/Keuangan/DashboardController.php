@@ -8,7 +8,6 @@ use App\Models\PaymentVerification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Controller untuk Dashboard Keuangan
@@ -67,6 +66,7 @@ class DashboardController extends Controller
                 foreach ($items as $item) {
                     $result[$item->status] = $item->count;
                 }
+
                 return $result;
             })
             ->values();
@@ -137,7 +137,7 @@ class DashboardController extends Controller
 
         $verification->approve($request->notes);
 
-        return redirect()->back()->with('success', 'Pembayaran berhasil disetujui. Siswa akan otomatis terdaftar.');
+        return redirect()->back()->with('success', __('app.msg_success_pembayaran_berhasil_disetujui_siswa_akan'));
     }
 
     /**
@@ -151,7 +151,7 @@ class DashboardController extends Controller
 
         $verification->reject($request->reason);
 
-        return redirect()->back()->with('success', 'Pembayaran berhasil ditolak.');
+        return redirect()->back()->with('success', __('app.msg_success_pembayaran_berhasil_ditolak'));
     }
 
     /**
@@ -217,10 +217,10 @@ class DashboardController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $filename = 'laporan-pembayaran-' . date('Y-m-d') . '.csv';
+        $filename = 'laporan-pembayaran-'.date('Y-m-d').'.csv';
 
         header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Content-Disposition: attachment; filename="'.$filename.'"');
 
         $output = fopen('php://output', 'w');
         fputcsv($output, ['No', 'Tanggal', 'Siswa', 'Kursus', 'Jumlah', 'Status', 'Diverifikasi Oleh', 'Metode Bayar']);
@@ -231,7 +231,7 @@ class DashboardController extends Controller
                 $v->created_at->format('d/m/Y H:i'),
                 $v->user->name ?? '-',
                 $v->course_title,
-                'Rp ' . number_format($v->amount),
+                'Rp '.number_format($v->amount),
                 ucfirst($v->status),
                 $v->verifier->name ?? '-',
                 $v->payment_method ?? '-',

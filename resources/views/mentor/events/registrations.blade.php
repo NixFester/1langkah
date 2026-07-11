@@ -1,7 +1,7 @@
 @extends('layouts.mentor')
 
-@section('title', 'Registrasi Event')
-@section('header_title', 'Registrasi: ' . $event->title)
+@section('title', __('app.event_registration'))
+@section('header_title', __('app.event_registration_colon') . $event->title)
 
 @section('content')
     <x-flash-messages />
@@ -12,7 +12,7 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
         </svg>
-        Kembali ke Event Saya
+        {{ __('app.back_to_my_events') }}
     </a>
 
     {{-- Event Info --}}
@@ -35,7 +35,7 @@
             </div>
             <a href="{{ route('mentor.events.edit', $event) }}"
                class="bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold py-2 px-4 rounded-lg text-sm transition-colors">
-                Edit Event
+                {{ __('app.edit_event') }}
             </a>
         </div>
     </div>
@@ -43,8 +43,8 @@
     {{-- Registrations --}}
     <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100">
-            <h3 class="font-bold text-gray-900">Daftar Peserta</h3>
-            <p class="text-sm text-gray-500 mt-1">{{ $registrations->count() }} peserta terdaftar</p>
+            <h3 class="font-bold text-gray-900">{{ __('app.participant_list') }}</h3>
+            <p class="text-sm text-gray-500 mt-1">{{ $registrations->count() }} {{ __('app.registered_participants') }}</p>
         </div>
 
         @if($registrations->isEmpty())
@@ -52,19 +52,19 @@
                 <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <x-icon name="users" class="w-8 h-8 text-gray-400" />
                 </div>
-                <h3 class="text-lg font-bold text-gray-900 mb-2">Belum Ada Peserta</h3>
-                <p class="text-gray-500">Event ini belum memiliki peserta yang terdaftar</p>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">{{ __('app.no_participants_yet') }}</h3>
+                <p class="text-gray-500">{{ __('app.no_event_participants') }}</p>
             </div>
         @else
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead class="bg-gray-50 border-b border-gray-100">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Peserta</th>
-                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Terdaftar</th>
-                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Kehadiran</th>
-                            <th class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Aksi</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ __('app.participant') }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ __('app.status') }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ __('app.registered') }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ __('app.attendance') }}</th>
+                            <th class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">{{ __('app.action') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -106,7 +106,7 @@
                                             </span>
                                         </div>
                                     @else
-                                        <span class="text-sm text-gray-400">Belum hadir</span>
+                                        <span class="text-sm text-gray-400">{{ __('app.not_attended_yet') }}</span>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 text-right">
@@ -114,13 +114,13 @@
                                         <form method="POST" action="{{ route('mentor.events.registrations.attended', [$event, $registration]) }}" class="inline">
                                             @csrf
                                             <button type="submit"
-                                                    onclick="return confirm('Tandai {{ $registration->user->name ?? 'peserta' }} sebagai hadir?')"
+                                                    onclick="return confirm('{{ __('app.mark_attended_confirm', ['name' => $registration->user->name ?? 'peserta']) }}')"
                                                     class="bg-green-50 hover:bg-green-100 text-green-600 font-bold py-2 px-4 rounded-lg text-xs transition-colors">
-                                                ✓ Tandai Hadir
+                                                ✓ {{ __('app.mark_attended') }}
                                             </button>
                                         </form>
                                     @else
-                                        <span class="text-sm text-green-600 font-medium">✓ Hadir</span>
+                                        <span class="text-sm text-green-600 font-medium">✓ {{ __('app.attended') }}</span>
                                     @endif
                                 </td>
                             </tr>

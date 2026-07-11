@@ -54,7 +54,7 @@ class MentorSessionController extends Controller
             ->first();
 
         if ($existingSession) {
-            return redirect()->back()->with('error', 'Anda masih memiliki sesi mentoring yang aktif. Selesaikan atau batalkan terlebih dahulu.');
+            return redirect()->back()->with('error', __('app.msg_error_anda_masih_memiliki_sesi_mentoring_yang_'));
         }
 
         $validated = $request->validate([
@@ -89,19 +89,19 @@ class MentorSessionController extends Controller
 
         // Verify ownership
         if ($session->user_id !== $user->id) {
-            abort(403, 'Anda tidak memiliki akses ke sesi ini.');
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_sesi_ini'));
         }
 
         // Can only cancel pending sessions
         if (! $session->isPending()) {
-            return redirect()->back()->with('error', 'Sesi tidak dapat dibatalkan.');
+            return redirect()->back()->with('error', __('app.msg_error_sesi_tidak_dapat_dibatalkan'));
         }
 
         $session->update([
             'status' => MentorSession::STATUS_CANCELLED,
         ]);
 
-        return redirect()->route('my-sessions')->with('success', 'Sesi mentoring berhasil dibatalkan.');
+        return redirect()->route('my-sessions')->with('success', __('app.msg_success_sesi_mentoring_berhasil_dibatalkan'));
     }
 
     /**
