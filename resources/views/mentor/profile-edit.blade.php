@@ -65,25 +65,25 @@
                     
                     <div class="input-group" style="margin-bottom:16px">
                         <label>{{ __('app.full_name_star') }}</label>
-                        <input type="text" name="name" class="input" required value="{{ old('name', $mentor->name) }}" />
+                        <input aria-label="Name" type="text" name="name" class="input" required value="{{ old('name', $mentor->name) }}" />
                         @error('name')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
                     </div>
 
                     <div class="input-group" style="margin-bottom:16px">
                         <label>{{ __('app.role_position_star') }}</label>
-                        <input type="text" name="role" class="input" required value="{{ old('role', $mentor->role) }}" placeholder="{{ __('app.example_role') }}" />
+                        <input aria-label="Role" type="text" name="role" class="input" required value="{{ old('role', $mentor->role) }}" placeholder="{{ __('app.example_role') }}" />
                         @error('role')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
                     </div>
 
                     <div class="input-group" style="margin-bottom:16px">
                         <label>{{ __('app.company') }}</label>
-                        <input type="text" name="company" class="input" value="{{ old('company', $mentor->company) }}" placeholder="{{ __('app.example_company') }}" />
+                        <input aria-label="Company" type="text" name="company" class="input" value="{{ old('company', $mentor->company) }}" placeholder="{{ __('app.example_company') }}" />
                         @error('company')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
                     </div>
 
                     <div class="input-group" style="margin-bottom:0">
                         <label>{{ __('app.price_per_session') }}</label>
-                        <input type="text" name="price" class="input" value="{{ old('price', $mentor->price) }}" placeholder="50000" />
+                        <input aria-label="Price" type="text" name="price" class="input" value="{{ old('price', $mentor->price) }}" placeholder="50000" />
                         <small style="color:var(--text-muted);font-size:11px;margin-top:4px;display:block">{{ __('app.leave_empty_or_zero_for_free') }}</small>
                         @error('price')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
                     </div>
@@ -94,7 +94,7 @@
 
                     <div class="input-group" style="margin-bottom:16px">
                         <label>{{ __('app.self_description') }}</label>
-                        <textarea name="bio" class="input" rows="4" placeholder="{{ __('app.tell_experience_expertise') }}">{{ old('bio', $mentor->bio) }}</textarea>
+                        <textarea aria-label="{{ __('app.tell_experience_expertise') }}" name="bio" class="input" rows="4" placeholder="{{ __('app.tell_experience_expertise') }}">{{ old('bio', $mentor->bio) }}</textarea>
                         <small style="color:var(--text-muted);font-size:11px;margin-top:4px;display:block">{{ __('app.max_2000_chars') }}</small>
                         @error('bio')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
                     </div>
@@ -115,7 +115,7 @@
                         <div class="input-group" style="margin-bottom:8px">
                             <label>{{ __('app.add_expertise') }}</label>
                             <div style="display:flex;gap:8px">
-                                <input type="text" x-model="newExpertise" @keydown.enter.prevent="addExpertise()" class="input" style="flex:1" placeholder="{{ __('app.example_expertise') }}" />
+                                <input aria-label="{{ __('app.example_expertise') }}" type="text" x-model="newExpertise" @keydown.enter.prevent="addExpertise()" class="input" style="flex:1" placeholder="{{ __('app.example_expertise') }}" />
                                 <button type="button" @click="addExpertise()" class="btn btn-outline" style="white-space:nowrap">{{ __('app.add') }}</button>
                             </div>
                         </div>
@@ -143,12 +143,12 @@
 
                     <div class="input-group" style="margin-bottom:16px">
                         <label>{{ __('app.linkedin_url') }}</label>
-                        <input type="url" name="linkedin_url" class="input" value="{{ old('linkedin_url', $mentor->linkedin_url) }}" placeholder="https://linkedin.com/in/username" />
+                        <input aria-label="Linkedin Url" type="url" name="linkedin_url" class="input" value="{{ old('linkedin_url', $mentor->linkedin_url) }}" placeholder="https://linkedin.com/in/username" />
                     </div>
 
                     <div class="input-group" style="margin-bottom:16px">
                         <label>{{ __('app.whatsapp_number') }}</label>
-                        <input type="tel" name="phone" class="input" value="{{ old('phone', $mentor->phone) }}" placeholder="081234567890" />
+                        <input aria-label="Phone" type="tel" name="phone" class="input" value="{{ old('phone', $mentor->phone) }}" placeholder="081234567890" />
                     </div>
 
                     <div x-data="{

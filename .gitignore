@@ -47,3 +47,5 @@ scratch_keys.json
 scratch_abort_keys.json
 duplicate_keys.php
 /scratch
+lighthouse-report.json
+lighthouse.md

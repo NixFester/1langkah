@@ -47,9 +47,9 @@
 
     <!-- Content -->
     <div class="p-6 flex flex-col flex-grow {{ $compact ? 'p-4' : 'p-6' }}">
-        <h3 class="text-[19px] font-bold text-[#0f172a] mb-2 leading-tight line-clamp-2 group-hover:text-red-600 transition-colors {{ $compact ? 'text-base' : 'text-[19px]' }}">
+        <h2 class="text-[19px] font-bold text-[#0f172a] mb-2 leading-tight line-clamp-2 group-hover:text-red-600 transition-colors {{ $compact ? 'text-base' : 'text-[19px]' }}">
             {{ $event['title'] }}
-        </h3>
+        </h2>
 
         @if(!empty($event['short_description']))
             <p class="text-sm text-gray-500 mb-4 line-clamp-2">{{ $event['short_description'] }}</p>

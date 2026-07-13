@@ -40,7 +40,7 @@
             <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                 <form method="POST" action="{{ route('admin.users.role', $user) }}" class="inline-block m-0">
                     @csrf @method('PATCH')
-                    <select name="role" onchange="this.form.submit()" class="bg-gray-50 border border-gray-200 text-gray-700 text-xs rounded-lg focus:ring-red-500 focus:border-red-500 block w-full min-w-[110px] py-1.5 px-2.5 cursor-pointer font-medium appearance-none">
+                    <select aria-label="Role" name="role" onchange="this.form.submit()" class="bg-gray-50 border border-gray-200 text-gray-700 text-xs rounded-lg focus:ring-red-500 focus:border-red-500 block w-full min-w-[110px] py-1.5 px-2.5 cursor-pointer font-medium appearance-none">
                         <option value="student" {{ $user->role === 'student' ? 'selected' : '' }}>{{ __('app.student') }}</option>
                         <option value="mentor"  {{ $user->role === 'mentor'  ? 'selected' : '' }}>{{ __('app.mentor') }}</option>
                         <option value="admin"   {{ $user->role === 'admin'   ? 'selected' : '' }}>{{ __('app.admin') }}</option>

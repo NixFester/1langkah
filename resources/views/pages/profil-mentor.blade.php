@@ -88,7 +88,7 @@
         <div class="lg:col-span-8 flex flex-col gap-6">
             <!-- Tentang Mentor -->
             <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm">
-                <h3 class="text-xl font-bold text-gray-900 mb-5">{{ __('app.about_mentor') }}</h3>
+                <h2 class="text-xl font-bold text-gray-900 mb-5">{{ __('app.about_mentor') }}</h2>
                 <div class="text-[15px] text-gray-600 leading-relaxed space-y-4">
                     @if(!empty($m['bio']))
                         <p>{{ $m['bio'] }}</p>
@@ -101,7 +101,7 @@
             <!-- LinkedIn Profile -->
             @if(!empty($m['linkedin_url']))
             <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm">
-                <h3 class="text-xl font-bold text-gray-900 mb-5">LinkedIn Profile</h3>
+                <h2 class="text-xl font-bold text-gray-900 mb-5">LinkedIn Profile</h2>
                 <div class="rounded-xl overflow-hidden border border-gray-200">
                     <iframe
                         src="{{ str_replace('linkedin.com/in/', 'linkedin.com/embed/', $m['linkedin_url']) }}"
@@ -121,7 +121,7 @@
 
             <!-- Bidang Keahlian -->
             <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm">
-                <h3 class="text-xl font-bold text-gray-900 mb-5">{{ __('app.area_of_expertise') }}</h3>
+                <h2 class="text-xl font-bold text-gray-900 mb-5">{{ __('app.area_of_expertise') }}</h2>
                 <div class="flex flex-wrap gap-2 mb-8">
                     @forelse($m['expertise'] as $skill)
                         <span class="px-4 py-1.5 bg-red-50 border border-red-100 text-[#dc2626] text-[13px] font-bold rounded-full">{{ $skill }}</span>
@@ -155,7 +155,7 @@
                 <div class="flex items-center gap-3 mb-6 pb-6 border-b border-gray-100">
                     <img src="{{ $avatarUrl }}" alt="{{ $m['name'] }}" class="w-14 h-14 rounded-full object-cover border-2 border-gray-100">
                     <div class="flex-1 min-w-0">
-                        <h4 class="font-bold text-gray-900 truncate">{{ $m['name'] }}</h4>
+                        <h2 class="font-bold text-gray-900 truncate">{{ $m['name'] }}</h2>
                         <p class="text-sm text-gray-500 truncate">{{ $m['role'] }}@if(!empty($m['company'])) {{ __('app.at_company') }} {{ $m['company'] }}@endif</p>
                     </div>
                 </div>
@@ -163,7 +163,7 @@
                 <!-- Expertise Tags -->
                 @if(!empty($m['expertise']))
                 <div class="mb-6">
-                    <h4 class="text-[13px] font-semibold text-gray-500 mb-2">{{ __('app.area_of_expertise') }}</h4>
+                    <h2 class="text-[13px] font-semibold text-gray-500 mb-2">{{ __('app.area_of_expertise') }}</h2>
                     <div class="flex flex-wrap gap-1.5">
                         @foreach(array_slice($m['expertise'], 0, 4) as $skill)
                             <span class="px-2.5 py-1 bg-red-50 border border-red-100 text-[#dc2626] text-[11px] font-medium rounded-full">{{ $skill }}</span>
@@ -175,7 +175,7 @@
                 <!-- Quick Bio -->
                 @if(!empty($m['bio']))
                 <div class="mb-6">
-                    <h4 class="text-[13px] font-semibold text-gray-500 mb-2">{{ __('app.about_mentor') }}</h4>
+                    <h2 class="text-[13px] font-semibold text-gray-500 mb-2">{{ __('app.about_mentor') }}</h2>
                     <p class="text-sm text-gray-600 line-clamp-3">{{ Str::limit(strip_tags($m['bio']), 150) }}</p>
                 </div>
                 @endif
@@ -198,7 +198,7 @@
                     @endif
                 </div>
 
-                <h3 class="text-[17px] font-bold text-gray-900 mb-5">{{ __('app.available_schedule') }}</h3>
+                <h2 class="text-[17px] font-bold text-gray-900 mb-5">{{ __('app.available_schedule') }}</h2>
 
                 <div class="space-y-3 mb-8">
                     @forelse($schedules as $schedule)
@@ -256,7 +256,7 @@
 
                     <div x-show="$store.booking.available">
                         <label class="block text-[13px] font-medium text-gray-700 mb-1.5">{{ __('app.choose_time') }}</label>
-                        <select name="booked_time" x-model="selectedTime" required
+                        <select aria-label="Booked Time" name="booked_time" x-model="selectedTime" required
                             class="w-full rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500">
                             <option value="">{{ __('app.select_time') }}</option>
                             <template x-for="slot in $store.booking.timeSlots" :key="slot.time">
@@ -266,7 +266,7 @@
                     </div>
                     <div>
                         <label class="block text-[13px] font-medium text-gray-700 mb-1.5">{{ __('app.notes_optional') }}</label>
-                        <textarea name="notes" rows="2" class="w-full rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500" placeholder="{{ __('app.topics_to_discuss') }}"></textarea>
+                        <textarea aria-label="{{ __('app.topics_to_discuss') }}" name="notes" rows="2" class="w-full rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500" placeholder="{{ __('app.topics_to_discuss') }}"></textarea>
                     </div>
                     @auth
                     <button type="submit" x-show="$store.booking.available && selectedTime" x-transition

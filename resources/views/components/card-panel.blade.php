@@ -13,7 +13,7 @@
         <div class="p-5 md:p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 flex-shrink-0">
             <div class="min-w-0">
                 @if(isset($title))
-                    <h3 class="font-bold text-gray-800 truncate">{{ $title }}</h3>
+                    <h2 class="font-bold text-gray-800 truncate">{{ $title }}</h2>
                 @endif
                 @if(isset($subtitle))
                     <p class="text-sm text-gray-500 mt-1 truncate">{{ $subtitle }}</p>

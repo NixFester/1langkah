@@ -14,11 +14,11 @@
     >
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.from_date') }}</label>
-            <input type="date" name="date_from" value="{{ $startDate }}" class="border border-gray-300 rounded-lg px-4 py-2">
+            <input aria-label="Date From" type="date" name="date_from" value="{{ $startDate }}" class="border border-gray-300 rounded-lg px-4 py-2">
         </div>
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.to_date') }}</label>
-            <input type="date" name="date_to" value="{{ $endDate }}" class="border border-gray-300 rounded-lg px-4 py-2">
+            <input aria-label="Date To" type="date" name="date_to" value="{{ $endDate }}" class="border border-gray-300 rounded-lg px-4 py-2">
         </div>
     </x-filter-form>
 

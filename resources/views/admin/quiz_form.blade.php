@@ -30,7 +30,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="md:col-span-2">
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.course') }} <span class="text-red-500">*</span></label>
-                    <select name="course_id" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
+                    <select aria-label="Course Id" name="course_id" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
                         <option value="">{{ __('app.select_course') }}</option>
                         @foreach($courses as $course)
                             <option value="{{ $course->id }}" {{ old('course_id', isset($quiz) ? $quiz->course_id : '') == $course->id ? 'selected' : '' }}>
@@ -45,17 +45,17 @@
 
                 <div class="md:col-span-2">
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.quiz_title') }} <span class="text-red-500">*</span></label>
-                    <input type="text" name="title" value="{{ old('title', isset($quiz) ? $quiz->title : '') }}" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors" :placeholder="__('app.example_quiz_title')">
+                    <input aria-label="Title" type="text" name="title" value="{{ old('title', isset($quiz) ? $quiz->title : '') }}" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors" :placeholder="__('app.example_quiz_title')">
                 </div>
 
                 <div class="md:col-span-2">
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.description_optional') }}</label>
-                    <textarea name="description" rows="3" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors resize-y">{{ old('description', isset($quiz) ? $quiz->description : '') }}</textarea>
+                    <textarea aria-label="Description" name="description" rows="3" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors resize-y">{{ old('description', isset($quiz) ? $quiz->description : '') }}</textarea>
                 </div>
 
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.quiz_type') }} <span class="text-red-500">*</span></label>
-                    <select name="type" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
+                    <select aria-label="Type" name="type" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
                         <option value="pre_test" {{ (old('type', isset($quiz) ? $quiz->type : '') == 'pre_test') ? 'selected' : '' }}>{{ __('app.pre_test') }}</option>
                         <option value="post_test" {{ (old('type', isset($quiz) ? $quiz->type : '') == 'post_test') ? 'selected' : '' }}>{{ __('app.post_test') }}</option>
                         <option value="chapter_quiz" {{ (old('type', isset($quiz) ? $quiz->type : '') == 'chapter_quiz') ? 'selected' : '' }}>{{ __('app.chapter_quiz') }}</option>
@@ -64,18 +64,18 @@
 
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.passing_score_percent') }} <span class="text-red-500">*</span></label>
-                    <input type="number" name="passing_score" value="{{ old('passing_score', isset($quiz) ? $quiz->passing_score : 70) }}" min="0" max="100" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                    <input aria-label="Passing Score" type="number" name="passing_score" value="{{ old('passing_score', isset($quiz) ? $quiz->passing_score : 70) }}" min="0" max="100" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
                 </div>
 
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.time_limit_optional') }}</label>
-                    <input type="number" name="time_limit_minutes" value="{{ old('time_limit_minutes', isset($quiz) ? $quiz->time_limit_minutes : '') }}" min="1" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors" :placeholder="__('app.example_60')">
+                    <input aria-label="Time Limit Minutes" type="number" name="time_limit_minutes" value="{{ old('time_limit_minutes', isset($quiz) ? $quiz->time_limit_minutes : '') }}" min="1" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors" :placeholder="__('app.example_60')">
                     <p class="text-xs text-gray-500 mt-1">{{ __('app.leave_blank_no_time_limit') }}</p>
                 </div>
 
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.order') }}</label>
-                    <input type="number" name="order" value="{{ old('order', isset($quiz) ? $quiz->order : 0) }}" min="0" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                    <input aria-label="Order" type="number" name="order" value="{{ old('order', isset($quiz) ? $quiz->order : 0) }}" min="0" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
                 </div>
 
                 <div class="md:col-span-2 pt-2">

@@ -106,7 +106,7 @@
                 </h2>
                 
                 <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
-                    <input type="text" :placeholder="'{{ __('app.enter_voucher_code') }}'" style="flex: 1; min-width: 240px; height: 52px; border-radius: 999px; border: 1.5px solid #e5e7eb; padding: 0 24px; font-size: 14px; font-weight: 500; letter-spacing: 0.05em; color: #4b5563; background-color: #f9fafb; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#cc0000'" onblur="this.style.borderColor='#e5e7eb'">
+                    <input aria-label="'{{ __('app.enter_voucher_code') }}'" type="text" :placeholder="'{{ __('app.enter_voucher_code') }}'" style="flex: 1; min-width: 240px; height: 52px; border-radius: 999px; border: 1.5px solid #e5e7eb; padding: 0 24px; font-size: 14px; font-weight: 500; letter-spacing: 0.05em; color: #4b5563; background-color: #f9fafb; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#cc0000'" onblur="this.style.borderColor='#e5e7eb'">
                     <button style="height: 52px; padding: 0 32px; border-radius: 999px; background-color: #ed999c; color: white; font-weight: 700; font-size: 15px; border: none; cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#e58487'" onmouseout="this.style.backgroundColor='#ed999c'">{{ __('app.apply') }}</button>
                 </div>
                 <div style="font-size: 13px; font-weight: 500; color: #9ca3af; margin-top: 14px; padding-left: 20px;">{!! __('app.try_voucher') !!}</div>

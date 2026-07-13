@@ -26,20 +26,20 @@
 
             <div class="input-group" style="margin-bottom:16px">
                 <label>{{ __('app.course_title') }} <span style="color:#cc0000">*</span></label>
-                <input type="text" name="title" class="input" required value="{{ old('title') }}" placeholder="{{ __('app.ex_course_title') }}" />
+                <input aria-label="{{ __('app.ex_course_title') }}" type="text" name="title" class="input" required value="{{ old('title') }}" placeholder="{{ __('app.ex_course_title') }}" />
                 @error('title')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
             </div>
 
             <div class="input-group" style="margin-bottom:16px">
                 <label>{{ __('app.category') }} <span style="color:#cc0000">*</span></label>
-                <input type="text" name="category" class="input" required value="{{ old('category') }}" placeholder="{{ __('app.ex_category') }}" />
+                <input aria-label="{{ __('app.ex_category') }}" type="text" name="category" class="input" required value="{{ old('category') }}" placeholder="{{ __('app.ex_category') }}" />
                 @error('category')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                 <div class="input-group" style="margin-bottom:0">
                     <label>{{ __('app.level') }} <span style="color:#cc0000">*</span></label>
-                    <select name="level" class="input" required>
+                    <select aria-label="Level" name="level" class="input" required>
                         @foreach($levels as $value => $label)
                             <option value="{{ $value }}" {{ old('level') == $value ? 'selected' : '' }}>{{ $label }}</option>
                         @endforeach
@@ -49,14 +49,14 @@
 
                 <div class="input-group" style="margin-bottom:0">
                     <label>{{ __('app.price') }} <span style="color:#cc0000">*</span></label>
-                    <input type="text" name="price" class="input" required value="{{ old('price', __('app.free')) }}" />
+                    <input aria-label="Price" type="text" name="price" class="input" required value="{{ old('price', __('app.free')) }}" />
                     @error('price')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="input-group" style="margin-bottom:0">
                 <label>{{ __('app.mentor_company') }}</label>
-                <input type="text" name="mentor_company" class="input" value="{{ old('mentor_company') }}" placeholder="{{ __('app.ex_company') }}" />
+                <input aria-label="{{ __('app.ex_company') }}" type="text" name="mentor_company" class="input" value="{{ old('mentor_company') }}" placeholder="{{ __('app.ex_company') }}" />
                 @error('mentor_company')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
             </div>
         </div>
@@ -67,13 +67,13 @@
 
             <div class="input-group" style="margin-bottom:16px">
                 <label>{{ __('app.short_description') }}</label>
-                <input type="text" name="short_description" class="input" value="{{ old('short_description') }}" maxlength="255" placeholder="{{ __('app.ex_course_short_desc') }}" />
+                <input aria-label="{{ __('app.ex_course_short_desc') }}" type="text" name="short_description" class="input" value="{{ old('short_description') }}" maxlength="255" placeholder="{{ __('app.ex_course_short_desc') }}" />
                 @error('short_description')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
             </div>
 
             <div class="input-group" style="margin-bottom:0">
                 <label>{{ __('app.full_description') }}</label>
-                <textarea name="description" class="input" rows="5" placeholder="{{ __('app.course_desc_placeholder') ?? 'Tuliskan materi apa saja yang akan dipelajari...' }}">{{ old('description') }}</textarea>
+                <textarea aria-label="{{ __('app.course_desc_placeholder') ?? 'Tuliskan materi apa saja yang akan dipelajari...' }}" name="description" class="input" rows="5" placeholder="{{ __('app.course_desc_placeholder') ?? 'Tuliskan materi apa saja yang akan dipelajari...' }}">{{ old('description') }}</textarea>
                 @error('description')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
             </div>
         </div>
@@ -86,22 +86,22 @@
                 <div class="input-group" style="margin-bottom:0">
                     <label>{{ __('app.accent_color') }}</label>
                     <div style="display:flex;align-items:center;gap:8px">
-                        <input type="color" name="color" value="{{ old('color', '#cc0000') }}" style="width:40px;height:40px;border-radius:8px;border:1px solid var(--border-light);cursor:pointer;padding:2px">
-                        <input type="text" name="color_text" class="input" value="{{ old('color', '#cc0000') }}" style="flex:1" />
+                        <input aria-label="Color" type="color" name="color" value="{{ old('color', '#cc0000') }}" style="width:40px;height:40px;border-radius:8px;border:1px solid var(--border-light);cursor:pointer;padding:2px">
+                        <input aria-label="Color Text" type="text" name="color_text" class="input" value="{{ old('color', '#cc0000') }}" style="flex:1" />
                     </div>
                     @error('color')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
                 </div>
 
                 <div class="input-group" style="margin-bottom:0">
                     <label>{{ __('app.badge_label') }}</label>
-                    <input type="text" name="badge" class="input" value="{{ old('badge') }}" placeholder="{{ __('app.ex_badge') }}" />
+                    <input aria-label="{{ __('app.ex_badge') }}" type="text" name="badge" class="input" value="{{ old('badge') }}" placeholder="{{ __('app.ex_badge') }}" />
                     @error('badge')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="input-group" style="margin-bottom:0">
                 <label>{{ __('app.thumbnail_url') }}</label>
-                <input type="url" name="thumbnail_url" class="input" value="{{ old('thumbnail_url') }}" placeholder="https://example.com/image.jpg" />
+                <input aria-label="https://example.com/image.jpg" type="url" name="thumbnail_url" class="input" value="{{ old('thumbnail_url') }}" placeholder="https://example.com/image.jpg" />
                 @error('thumbnail_url')<span style="color:#b91c1c;font-size:12px;margin-top:4px;display:block">{{ $message }}</span>@enderror
             </div>
         </div>

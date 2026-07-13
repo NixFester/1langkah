@@ -48,6 +48,7 @@ Route::get('lang/{locale}', function ($locale) {
 })->name('lang.switch');
 
 Route::get('/', [PageController::class, 'landing'])->name('landing');
+Route::view('/about', 'pages.about')->name('about');
 
 Route::get('/kursus', [PageController::class, 'kursus'])->name('kursus');
 Route::get('/kursus/{id}', [PageController::class, 'detailKursus'])->name('detail-kursus');

@@ -24,7 +24,7 @@
     </div>
 
     <!-- Info -->
-    <h3 class="text-[19px] font-bold text-[#0f172a] mb-0.5 leading-tight">{{ $m['name'] }}</h3>
+    <h2 class="text-[19px] font-bold text-[#0f172a] mb-0.5 leading-tight">{{ $m['name'] }}</h2>
     <p class="text-[14px] text-[#64748b] mb-0.5">{{ $m['role'] }}</p>
     <p class="text-[13px] font-semibold text-[#dc2626] mb-3">{{ $m['company'] }}</p>
 

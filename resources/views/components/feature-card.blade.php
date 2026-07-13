@@ -37,7 +37,7 @@
     </div>
 
     <!-- Content -->
-    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ $title }}</h3>
+    <h2 class="text-xl font-bold text-gray-900 mb-3">{{ $title }}</h2>
     <p class="text-[15px] text-gray-500 leading-relaxed mb-8 flex-1">{{ $desc }}</p>
 
     <!-- Link -->

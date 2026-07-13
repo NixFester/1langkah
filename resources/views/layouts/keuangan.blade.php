@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://i.pravatar.cc">
+    <link rel="dns-prefetch" href="https://ui-avatars.com">
     <title>@yield('title', __('app.finance_1langkah'))</title>
+    <meta name="description" content="{{ __("app.1langkah_meta_desc") ?? "1Langkah Platform" }}">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -58,9 +62,9 @@
         <x-topbar />
 
         {{-- Page Content --}}
-        <div class="page-content fade-in p-6">
+        <main class="page-content fade-in p-6">
             @yield('content')
-        </div>
+        </main>
     </div>
 
     @stack('scripts')

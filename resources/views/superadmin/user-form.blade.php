@@ -16,17 +16,17 @@
                 <div class="space-y-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.name_star') }}</label>
-                        <input type="text" name="name" value="{{ old('name', $user->name) }}" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                        <input aria-label="Name" type="text" name="name" value="{{ old('name', $user->name) }}" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.email_star') }}</label>
-                        <input type="email" name="email" value="{{ old('email', $user->email) }}" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                        <input aria-label="Email" type="email" name="email" value="{{ old('email', $user->email) }}" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.role_star') }}</label>
-                        <select name="role" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                        <select aria-label="Role" name="role" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
                             @foreach($roles as $key => $label)
                                 <option value="{{ $key }}" {{ $user->role === $key ? 'selected' : '' }}>{{ $label }}</option>
                             @endforeach
@@ -35,12 +35,12 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.photo_url') }}</label>
-                        <input type="url" name="profile_photo" value="{{ old('profile_photo', $user->profile_photo) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                        <input aria-label="Profile Photo" type="url" name="profile_photo" value="{{ old('profile_photo', $user->profile_photo) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.bio') }}</label>
-                        <textarea name="bio" rows="4" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500">{{ old('bio', $user->bio) }}</textarea>
+                        <textarea aria-label="Bio" name="bio" rows="4" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500">{{ old('bio', $user->bio) }}</textarea>
                     </div>
                 </div>
 

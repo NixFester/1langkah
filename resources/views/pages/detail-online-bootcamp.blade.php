@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 passwordModal.id = 'password-modal';
                 passwordModal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50';
                 passwordModal.innerHTML = '<div class="bg-white rounded-2xl p-6 max-w-sm mx-4 shadow-2xl">' +
-                    '<h3 class="text-lg font-bold text-gray-900 mb-2">{{ __('app.password_meeting') }}</h3>' +
+                    '<h2 class="text-lg font-bold text-gray-900 mb-2">{{ __('app.password_meeting') }}</h2>' +
                     '<p class="text-sm text-gray-500 mb-4">{{ __('app.password_instruction') }}</p>' +
                     '<div class="bg-gray-100 rounded-lg p-4 text-center mb-4">' +
                     '<code class="text-2xl font-bold text-gray-900 tracking-wider">' + password + '</code></div>' +
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="px-2.5 py-0.5 bg-gray-100 text-gray-500 text-[11px] font-semibold rounded-full">{{ __('app.intermediate') }}</span>
                     </div>
                     
-                    <h3 class="text-[15px] font-bold text-gray-900 leading-snug mb-1">{{ $item['title'] }}</h3>
+                    <h2 class="text-[15px] font-bold text-gray-900 leading-snug mb-1">{{ $item['title'] }}</h2>
                     <p class="text-[12px] text-gray-500 mb-4">{{ $item['mentor'] }}</p>
                     
                     <!-- Enrolled Count -->
@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="flex items-center justify-between mb-6">
                             <div class="flex items-center gap-3">
                                 <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                <h3 class="text-[17px] font-bold text-gray-900">{{ __('app.live_meeting_schedule') }}</h3>
+                                <h2 class="text-[17px] font-bold text-gray-900">{{ __('app.live_meeting_schedule') }}</h2>
                             </div>
                             <span class="px-3 py-1 bg-gray-100 text-gray-500 text-[11px] font-bold rounded-full">{{ count($sessions) }} {{ __('app.sessions') }}</span>
                         </div>
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="flex-1 min-w-0">
                                         <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-2">
                                             <div class="flex-1">
-                                                <h4 class="text-[14px] font-bold text-gray-900 mb-1.5">{{ $s['topic'] }}</h4>
+                                                <h2 class="text-[14px] font-bold text-gray-900 mb-1.5">{{ $s['topic'] }}</h2>
                                                 <div class="flex flex-wrap items-center gap-2 sm:gap-3 text-[12px] text-gray-500">
                                                     <span class="flex items-center gap-1 bg-gray-50 px-2 py-0.5 rounded-md border border-gray-100">
                                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>

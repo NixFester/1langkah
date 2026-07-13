@@ -28,7 +28,7 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">
                         {{ __('app.event_title_label') }} <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" name="title" value="{{ old('title') }}" required
+                    <input aria-label="{{ __('app.ex_event_title') }}" type="text" name="title" value="{{ old('title') }}" required
                            placeholder="{{ __('app.ex_event_title') }}"
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
                     @error('title')
@@ -41,7 +41,7 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">
                         {{ __('app.type') }} Event <span class="text-red-500">*</span>
                     </label>
-                    <select name="type" required
+                    <select aria-label="Type" name="type" required
                             class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 cursor-pointer transition-colors">
                         <option value="">-- {{ __('app.select_type') }} --</option>
                         <option value="online" {{ old('type') === 'online' ? 'selected' : '' }}>Online</option>
@@ -58,7 +58,7 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">
                         {{ __('app.max_participants') }}
                     </label>
-                    <input type="number" name="max_participants" value="{{ old('max_participants') }}" min="1"
+                    <input aria-label="{{ __('app.leave_blank_if_unlimited') }}" type="number" name="max_participants" value="{{ old('max_participants') }}" min="1"
                            placeholder="{{ __('app.leave_blank_if_unlimited') }}"
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
                     @error('max_participants')
@@ -72,9 +72,9 @@
                         {{ __('app.start_date') }} <span class="text-red-500">*</span>
                     </label>
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="date" name="start_date" value="{{ old('start_date') }}" required
+                        <input aria-label="Start Date" type="date" name="start_date" value="{{ old('start_date') }}" required
                                class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
-                        <input type="time" name="start_time" value="{{ old('start_time', '09:00') }}" required
+                        <input aria-label="Start Time" type="time" name="start_time" value="{{ old('start_time', '09:00') }}" required
                                class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
                     </div>
                     @error('start_date')
@@ -88,9 +88,9 @@
                         {{ __('app.end_date') }}
                     </label>
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="date" name="end_date" value="{{ old('end_date') }}"
+                        <input aria-label="End Date" type="date" name="end_date" value="{{ old('end_date') }}"
                                class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
-                        <input type="time" name="end_time" value="{{ old('end_time', '17:00') }}"
+                        <input aria-label="End Time" type="time" name="end_time" value="{{ old('end_time', '17:00') }}"
                                class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
                     </div>
                     <p class="text-xs text-gray-500 mt-1">{{ __('app.optional_start_date_hint') }}</p>
@@ -102,7 +102,7 @@
                 {{-- Location --}}
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.location') }}</label>
-                    <input type="text" name="location" value="{{ old('location') }}"
+                    <input aria-label="{{ __('app.ex_location_event') }}" type="text" name="location" value="{{ old('location') }}"
                            placeholder="{{ __('app.ex_location_event') }}"
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
                     @error('location')
@@ -115,7 +115,7 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">
                         {{ __('app.meeting_link') }}
                     </label>
-                    <input type="url" name="meeting_url" value="{{ old('meeting_url') }}"
+                    <input aria-label="https://zoom.us/..." type="url" name="meeting_url" value="{{ old('meeting_url') }}"
                            placeholder="https://zoom.us/..."
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
                     @error('meeting_url')
@@ -128,7 +128,7 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">
                         {{ __('app.short_description') }}
                     </label>
-                    <input type="text" name="short_description" value="{{ old('short_description') }}" maxlength="300"
+                    <input aria-label="{{ __('app.ex_event_short_desc') }}" type="text" name="short_description" value="{{ old('short_description') }}" maxlength="300"
                            placeholder="{{ __('app.ex_event_short_desc') }}"
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
                     @error('short_description')
@@ -141,7 +141,7 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">
                         {{ __('app.full_description') }}
                     </label>
-                    <textarea name="description" rows="5"
+                    <textarea aria-label="{{ __('app.event_desc_placeholder') }}" name="description" rows="5"
                               placeholder="{{ __('app.event_desc_placeholder') }}"
                               class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors resize-y">{{ old('description') }}</textarea>
                     @error('description')
@@ -154,7 +154,7 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">
                         {{ __('app.banner_url') }}
                     </label>
-                    <input type="url" name="banner_url" value="{{ old('banner_url') }}"
+                    <input aria-label="https://..." type="url" name="banner_url" value="{{ old('banner_url') }}"
                            placeholder="https://..."
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
                     <p class="text-xs text-gray-500 mt-1">{{ __('app.banner_url_placeholder') }}</p>

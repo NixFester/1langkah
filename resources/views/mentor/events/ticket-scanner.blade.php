@@ -44,7 +44,7 @@
 
     {{-- Ticket Scanner --}}
     <div class="bg-white rounded-xl border border-gray-100 p-6 mb-6">
-        <h3 class="font-bold text-gray-900 mb-4">{{ __('app.scan_ticket') }}</h3>
+        <h2 class="font-bold text-gray-900 mb-4">{{ __('app.scan_ticket') }}</h2>
         <p class="text-sm text-gray-500 mb-6">
             {{ __('app.scan_ticket_desc') }}
         </p>
@@ -55,7 +55,7 @@
                 <label class="block text-sm font-bold text-gray-700 mb-2">
                     {{ __('app.ticket_code_email_name') }}
                 </label>
-                <input type="text" name="ticket_code" required
+                <input aria-label="{{ __('app.ticket_placeholder') }}" type="text" name="ticket_code" required
                        placeholder="{{ __('app.ticket_placeholder') }}"
                        class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-lg rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-4 transition-colors">
                 @error('ticket_code')
@@ -74,7 +74,7 @@
 
     {{-- Recent Attendances --}}
     <div class="bg-white rounded-xl border border-gray-100 p-6">
-        <h3 class="font-bold text-gray-900 mb-4">{{ __('app.recent_attendances') }}</h3>
+        <h2 class="font-bold text-gray-900 mb-4">{{ __('app.recent_attendances') }}</h2>
 
         @if($recentAttendances->isEmpty())
             <div class="p-8 text-center">

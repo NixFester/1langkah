@@ -114,7 +114,7 @@
 
                 <!-- Content -->
                 <div class="p-6 flex flex-col flex-1">
-                    <h3 class="text-[17px] font-bold text-gray-900 leading-snug mb-1.5 group-hover:text-red-700 transition-colors line-clamp-2" x-text="b.title"></h3>
+                    <h2 class="text-[17px] font-bold text-gray-900 leading-snug mb-1.5 group-hover:text-red-700 transition-colors line-clamp-2" x-text="b.title"></h2>
                     <p class="text-[13px] text-gray-500 mb-4 line-clamp-2" x-text="b.mentor || ''"></p>
 
                     <div class="flex items-start gap-1.5 text-[12px] text-gray-400 mb-4">

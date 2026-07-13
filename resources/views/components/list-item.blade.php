@@ -48,7 +48,7 @@ $progressColorClass = match($progressColor) {
             </span>
             @endif
         </div>
-        <h4 class="text-sm font-bold text-gray-900 truncate">{{ $title }}</h4>
+        <h2 class="text-sm font-bold text-gray-900 truncate">{{ $title }}</h2>
         @if($subtitle)
         <p class="text-[11px] text-gray-500 truncate">{{ $subtitle }}</p>
         @endif

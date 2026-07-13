@@ -10,11 +10,11 @@
     <x-filter-form>
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.search') }}</label>
-            <input type="text" name="search" value="{{ request('search') }}" :placeholder="__('app.search_name_email')" class="border border-gray-300 rounded-lg px-4 py-2">
+            <input aria-label="{{ __('app.search_name_email') }}" type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('app.search_name_email') }}" class="border border-gray-300 rounded-lg px-4 py-2">
         </div>
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.role') }}</label>
-            <select name="role" class="border border-gray-300 rounded-lg px-4 py-2">
+            <select aria-label="Role" name="role" class="border border-gray-300 rounded-lg px-4 py-2">
                 <option value="">{{ __('app.all_roles') }}</option>
                 @foreach($roles as $key => $label)
                     <option value="{{ $key }}" {{ request('role') === $key ? 'selected' : '' }}>{{ $label }}</option>
@@ -48,7 +48,7 @@
                 <td class="px-6 py-4">
                     <form action="{{ route('superadmin.users.role', $user) }}" method="POST" class="inline">
                         @csrf
-                        <select name="role" onchange="this.form.submit()" class="text-sm border border-gray-300 rounded px-2 py-1">
+                        <select aria-label="Role" name="role" onchange="this.form.submit()" class="text-sm border border-gray-300 rounded px-2 py-1">
                             @foreach($roles as $key => $label)
                                 <option value="{{ $key }}" {{ $user->role === $key ? 'selected' : '' }}>{{ $label }}</option>
                             @endforeach

@@ -33,7 +33,7 @@
                     </span>
                     <span class="text-sm font-medium text-gray-600">{{ $bootcamp->price }}</span>
                 </div>
-                <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2">{{ $bootcamp->title }}</h3>
+                <h2 class="font-semibold text-gray-900 mb-2 line-clamp-2">{{ $bootcamp->title }}</h2>
                 <p class="text-sm text-gray-500 mb-4">{{ $bootcamp->start_date }}</p>
                 <p class="text-sm text-gray-600 mb-4">{{ $bootcamp->enrollments_count ?? 0 }} {{ __('app.participant') }}</p>
 

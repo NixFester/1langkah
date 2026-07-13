@@ -273,7 +273,7 @@
             </defs>
         </svg>
         </div>
-        <button @click="sidebarCollapsed = !sidebarCollapsed" class="collapse-btn text-gray-400 hover:text-gray-600 cursor-pointer hidden md:flex items-center justify-center p-1 rounded hover:bg-gray-100 transition-colors">
+        <button @click="sidebarCollapsed = !sidebarCollapsed" class="collapse-btn text-gray-500 hover:text-gray-600 cursor-pointer hidden md:flex items-center justify-center p-1 rounded hover:bg-gray-100 transition-colors" aria-label="Toggle Sidebar">
             <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
@@ -421,10 +421,10 @@
                     @endif
                     <div class="sidebar-user-info" style="flex:1;">
                         <div class="sidebar-user-name" style="font-weight:700;font-size:14px;line-height:1.2;color:#1f2937;">{{ $authUser->name ?? 'Atta Ul Karim' }}</div>
-                        <div class="sidebar-user-role" style="font-size:12px;color:#9ca3af;margin-top:2px;">{{ $roleLabel }}</div>
+                        <div class="sidebar-user-role" style="font-size:12px;color:#6b7280;margin-top:2px;">{{ $roleLabel }}</div>
                     </div>
                 </a>
-                <a href="{{ route('pengaturan') }}" class="text-gray-400 transition-colors ml-auto shrink-0 flex items-center justify-center pl-2 settings-btn" :title="__('app.settings')">
+                <a href="{{ route('pengaturan') }}" class="text-gray-500 transition-colors ml-auto shrink-0 flex items-center justify-center pl-2 settings-btn" title="{{ __('app.settings') }}" aria-label="Settings">
                     <x-icon name="settings" style="width:20px;height:20px;" class="transition-colors" />
                 </a>
             </div>

@@ -37,13 +37,13 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div class="col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.title') }} *</label>
-                        <input type="text" name="title" required value="{{ old('title', $bootcamp->title) }}"
+                        <input aria-label="Title" type="text" name="title" required value="{{ old('title', $bootcamp->title) }}"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.type') }} *</label>
-                        <select name="type" required class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <select aria-label="Type" name="type" required class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             @foreach($types as $value => $label)
                                 <option value="{{ $value }}" {{ old('type', $bootcamp->type) == $value ? 'selected' : '' }}>{{ $label }}</option>
                             @endforeach
@@ -52,53 +52,53 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.price') }} *</label>
-                        <input type="text" name="price" required value="{{ old('price', $bootcamp->price) }}"
+                        <input aria-label="Price" type="text" name="price" required value="{{ old('price', $bootcamp->price) }}"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.start_date') }} *</label>
-                        <input type="text" name="start_date" required value="{{ old('start_date', $bootcamp->start_date) }}"
+                        <input aria-label="Start Date" type="text" name="start_date" required value="{{ old('start_date', $bootcamp->start_date) }}"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.participant_count') }}</label>
-                        <input type="number" name="participants" value="{{ old('participants', $bootcamp->participants) }}" min="0"
+                        <input aria-label="Participants" type="number" name="participants" value="{{ old('participants', $bootcamp->participants) }}" min="0"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div class="col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.location') }}</label>
-                        <input type="text" name="location" value="{{ old('location', $bootcamp->location) }}"
+                        <input aria-label="Location" type="text" name="location" value="{{ old('location', $bootcamp->location) }}"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div class="col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.short_description') }}</label>
-                        <input type="text" name="short_description" value="{{ old('short_description', $bootcamp->short_description) }}"
+                        <input aria-label="Short Description" type="text" name="short_description" value="{{ old('short_description', $bootcamp->short_description) }}"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div class="col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.description') }}</label>
-                        <textarea name="description" rows="4"
+                        <textarea aria-label="Description" name="description" rows="4"
                                   class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">{{ old('description', $bootcamp->description) }}</textarea>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.color') }}</label>
                         <div class="flex items-center gap-2">
-                            <input type="color" name="color" value="{{ old('color', $bootcamp->color ?? '#3B82F6') }}"
+                            <input aria-label="Color" type="color" name="color" value="{{ old('color', $bootcamp->color ?? '#3B82F6') }}"
                                    class="w-12 h-10 border border-gray-200 rounded-lg cursor-pointer">
-                            <input type="text" name="color_text" value="{{ old('color', $bootcamp->color ?? '#3B82F6') }}"
+                            <input aria-label="Color Text" type="text" name="color_text" value="{{ old('color', $bootcamp->color ?? '#3B82F6') }}"
                                    class="flex-1 border border-gray-200 rounded-lg px-4 py-2">
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.session_info') }}</label>
-                        <input type="text" name="sessions_info" value="{{ old('sessions_info', $bootcamp->sessions_info) }}"
+                        <input aria-label="Sessions Info" type="text" name="sessions_info" value="{{ old('sessions_info', $bootcamp->sessions_info) }}"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
                 </div>
@@ -113,18 +113,18 @@
 
         {{-- Sessions Management --}}
         <div class="bg-white rounded-xl border border-gray-200 p-6">
-            <h3 class="font-semibold text-gray-900 mb-4">{{ __('app.bootcamp_sessions') }}</h3>
+            <h2 class="font-semibold text-gray-900 mb-4">{{ __('app.bootcamp_sessions') }}</h2>
 
             {{-- Add Session Form --}}
             <form method="POST" action="{{ route('mentor.bootcamps.sessions.store', $bootcamp) }}" class="mb-6 p-4 bg-gray-50 rounded-lg">
                 @csrf
                 <div class="grid grid-cols-2 gap-4">
-                    <input type="text" name="date" required placeholder="{{ __('app.date') }}" class="border border-gray-200 rounded-lg px-4 py-2">
-                    <input type="text" name="topic" required placeholder="{{ __('app.session_topic') }}" class="border border-gray-200 rounded-lg px-4 py-2">
-                    <input type="text" name="time" required placeholder="{{ __('app.time') }}" class="border border-gray-200 rounded-lg px-4 py-2">
-                    <input type="url" name="meeting_url" placeholder="{{ __('app.meeting_url') }}" class="border border-gray-200 rounded-lg px-4 py-2">
+                    <input aria-label="{{ __('app.date') }}" type="text" name="date" required placeholder="{{ __('app.date') }}" class="border border-gray-200 rounded-lg px-4 py-2">
+                    <input aria-label="{{ __('app.session_topic') }}" type="text" name="topic" required placeholder="{{ __('app.session_topic') }}" class="border border-gray-200 rounded-lg px-4 py-2">
+                    <input aria-label="{{ __('app.time') }}" type="text" name="time" required placeholder="{{ __('app.time') }}" class="border border-gray-200 rounded-lg px-4 py-2">
+                    <input aria-label="{{ __('app.meeting_url') }}" type="url" name="meeting_url" placeholder="{{ __('app.meeting_url') }}" class="border border-gray-200 rounded-lg px-4 py-2">
                 </div>
-                <input type="text" name="description" placeholder="{{ __('app.description_optional') }}" class="mt-3 w-full border border-gray-200 rounded-lg px-4 py-2">
+                <input aria-label="{{ __('app.description_optional') }}" type="text" name="description" placeholder="{{ __('app.description_optional') }}" class="mt-3 w-full border border-gray-200 rounded-lg px-4 py-2">
                 <button type="submit" class="mt-3 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium">
                     {{ __('app.add_session') }}
                 </button>
@@ -155,7 +155,7 @@
 
         {{-- Danger Zone --}}
         <div class="bg-white rounded-xl border border-red-200 p-6">
-            <h3 class="font-semibold text-red-600 mb-4">{{ __('app.danger_zone') }}</h3>
+            <h2 class="font-semibold text-red-600 mb-4">{{ __('app.danger_zone') }}</h2>
             <p class="text-sm text-gray-600 mb-4">{{ __('app.delete_bootcamp_warning') }}</p>
             <form method="POST" action="{{ route('mentor.bootcamps.destroy', $bootcamp) }}" onsubmit="return confirm('{{ __('app.delete_bootcamp_confirm') }}');">
                 @csrf

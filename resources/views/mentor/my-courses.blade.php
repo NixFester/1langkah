@@ -14,7 +14,7 @@
                         <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium">{{ $course->category }}</span>
                         <span class="text-xs text-gray-400">{{ $course->chapters?->count() ?? 0 }} {{ __('app.chapter_lowercase') }}</span>
                     </div>
-                    <h3 class="font-bold text-gray-800 mb-2">{{ $course->title }}</h3>
+                    <h2 class="font-bold text-gray-800 mb-2">{{ $course->title }}</h2>
                     <p class="text-sm text-gray-500 mb-4 line-clamp-2">{{ $course->short_description ?? $course->description }}</p>
                     <div class="flex items-center justify-between pt-4 border-t border-gray-100">
                         <div class="text-center">

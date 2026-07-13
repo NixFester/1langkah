@@ -128,7 +128,7 @@
                                 allowfullscreen
                             ></iframe>
                         </div>
-                        <h3 id="videoPlayerTitle" class="mt-3 font-semibold text-gray-900 text-lg"></h3>
+                        <h2 id="videoPlayerTitle" class="mt-3 font-semibold text-gray-900 text-lg"></h2>
                         <p id="videoPlayerDescription" class="mt-2 text-sm text-gray-600 hidden"></p>
                     </div>
 
@@ -348,7 +348,7 @@
                     @auth
                         @if($isEnrolled)
                     <div class="border-t border-gray-100 pt-6 mt-6">
-                        <h3 class="font-bold text-gray-900 mb-4">{{ __('app.give_rating') }}</h3>
+                        <h2 class="font-bold text-gray-900 mb-4">{{ __('app.give_rating') }}</h2>
                         <div id="ratingForm">
                             <div class="flex items-center gap-2 mb-4">
                                 @for($i = 1; $i <= 5; $i++)

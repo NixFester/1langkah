@@ -3,21 +3,22 @@
 @section('title', __('app.signup_title'))
 
 @section('body')
+<main>
 <!-- MOBILE VIEW (Shown only on small screens) -->
 <div class="flex md:hidden h-[100dvh] w-full flex-col bg-gradient-to-br from-[#fff1f1] to-[#f7f8f9] overflow-hidden relative">
     
     <!-- Language Switcher Mobile -->
     <div class="absolute top-4 right-4 z-50">
-        <a href="javascript:void(0)" class="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-gray-200 text-xs font-bold text-gray-700 cursor-not-allowed opacity-50 shadow-sm" title="Switch Language">
+        <button type="button" disabled class="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-gray-200 text-xs font-bold text-gray-700 cursor-not-allowed opacity-50 shadow-sm" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
-        </a>
+        </button>
     </div>
 
     <div class="w-full h-full overflow-y-auto flex flex-col px-5 py-4 mx-auto items-center">
         <div class="my-auto flex flex-col items-center justify-center w-full max-w-[440px] pb-4 pt-2">
     <!-- Logo & Header -->
     <div class="text-center mb-6">
-        <a href="{{ route('landing') }}" class="inline-block mb-4">
+        <a href="{{ route('landing') }}" class="inline-block mb-4" aria-label="Beranda 1Langkah">
             <svg width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_306_8219)">
                     <path d="M22.3789 27.1026H16.3237V7.52808H22.3789V27.1026Z" fill="#D10000"/>
@@ -57,30 +58,30 @@
             <div class="grid grid-cols-2 gap-4 mb-3">
                 <div>
                     <label class="block text-[12px] font-bold text-[#374151] mb-1.5">{{ __('app.first_name_label') }}</label>
-                    <input type="text" name="first_name" required placeholder="{{ __('app.first_name_placeholder') }}" class="w-full px-4 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+                    <input aria-label="{{ __('app.first_name_placeholder') }}" type="text" name="first_name" required placeholder="{{ __('app.first_name_placeholder') }}" class="w-full px-4 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
                 </div>
                 <div>
                     <label class="block text-[12px] font-bold text-[#374151] mb-1.5">{{ __('app.last_name_label') }}</label>
-                    <input type="text" name="last_name" required placeholder="{{ __('app.last_name_placeholder') }}" class="w-full px-4 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+                    <input aria-label="{{ __('app.last_name_placeholder') }}" type="text" name="last_name" required placeholder="{{ __('app.last_name_placeholder') }}" class="w-full px-4 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
                 </div>
             </div>
 
             <!-- Email Input -->
             <div class="mb-3">
                 <label class="block text-[12px] font-bold text-[#374151] mb-1.5">{{ __('app.email_label') }}</label>
-                <input type="email" name="email" required placeholder="{{ __('app.email_placeholder') }}" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+                <input aria-label="{{ __('app.email_placeholder') }}" type="email" name="email" required placeholder="{{ __('app.email_placeholder') }}" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
             </div>
 
             <!-- Password Input -->
             <div class="mb-3">
                 <label class="block text-[12px] font-bold text-[#374151] mb-1.5">{{ __('app.password_label') }}</label>
-                <input type="password" name="password" required placeholder="{{ __('app.password_min') }}" minlength="8" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+                <input aria-label="{{ __('app.password_min') }}" type="password" name="password" required placeholder="{{ __('app.password_min') }}" minlength="8" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
             </div>
             
             <!-- Tujuan Belajar Input -->
             <div class="mb-5">
                 <label class="block text-[12px] font-bold text-[#374151] mb-1.5">{{ __('app.study_purpose_label') }}</label>
-                <input type="text" name="purpose" required placeholder="{{ __('app.study_purpose_placeholder') }}" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+                <input aria-label="{{ __('app.study_purpose_placeholder') }}" type="text" name="purpose" required placeholder="{{ __('app.study_purpose_placeholder') }}" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
             </div>
 
             <!-- Submit Button -->
@@ -108,7 +109,7 @@
         </a>
         
         <!-- Terms Disclaimer -->
-        <p class="text-[10.5px] text-gray-400 text-center leading-relaxed px-4 mb-4">
+        <p class="text-[10.5px] text-gray-500 text-center leading-relaxed px-4 mb-4">
             {!! __('app.terms_disclaimer') !!}
         </p>
 
@@ -127,9 +128,9 @@
     
     <!-- Language Switcher Desktop -->
     <div class="absolute top-6 right-8 z-50">
-        <a href="javascript:void(0)" class="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 cursor-not-allowed opacity-50 shadow-sm" title="Switch Language">
+        <button type="button" disabled class="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 cursor-not-allowed opacity-50 shadow-sm" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
-        </a>
+        </button>
     </div>
 
     <!-- Left Column (Dark Theme) -->
@@ -139,7 +140,7 @@
         <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-[#990000]/20 blur-[130px] rounded-full pointer-events-none -translate-y-1/4 translate-x-1/4"></div>
         
         <!-- Logo -->
-        <a href="{{ route('landing') }}" class="relative z-10 inline-block mb-12">
+        <a href="{{ route('landing') }}" class="relative z-10 inline-block mb-12" aria-label="Beranda 1Langkah">
             <svg width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_306_8219)">
                     <path d="M22.3789 27.1026H16.3237V7.52808H22.3789V27.1026Z" fill="#D10000"/>
@@ -197,7 +198,7 @@
                 <!-- Card 1 -->
                 <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
                     <div class="flex items-center gap-4">
-                        <img src="https://i.pravatar.cc/100?img=1" class="w-10 h-10 rounded-full object-cover">
+                        <img src="https://i.pravatar.cc/100?img=1" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
                         <div class="text-[13px] font-medium text-gray-400">{{ __('app.testimonial_1_desc') }}</div>
                     </div>
                     <div class="flex items-center gap-0.5 text-[#ffb800]">
@@ -211,7 +212,7 @@
                 <!-- Card 2 -->
                 <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
                     <div class="flex items-center gap-4">
-                        <img src="https://i.pravatar.cc/100?img=11" class="w-10 h-10 rounded-full object-cover">
+                        <img src="https://i.pravatar.cc/100?img=11" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
                         <div class="text-[13px] font-medium text-gray-400">{{ __('app.testimonial_2_desc') }}</div>
                     </div>
                     <div class="flex items-center gap-0.5 text-[#ffb800]">
@@ -225,7 +226,7 @@
                 <!-- Card 3 -->
                 <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
                     <div class="flex items-center gap-4">
-                        <img src="https://i.pravatar.cc/100?img=5" class="w-10 h-10 rounded-full object-cover">
+                        <img src="https://i.pravatar.cc/100?img=5" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
                         <div class="text-[13px] font-medium text-gray-400">{{ __('app.testimonial_3_desc') }}</div>
                     </div>
                     <div class="flex items-center gap-0.5 text-[#ffb800]">
@@ -242,15 +243,15 @@
             <div class="flex items-center gap-10">
                 <div>
                     <div class="text-[22px] font-extrabold text-white mb-0.5">100K+</div>
-                    <div class="text-[12px] text-gray-500 font-medium">{{ __('app.stats_students') }}</div>
+                    <div class="text-[12px] text-gray-400 font-medium">{{ __('app.stats_students') }}</div>
                 </div>
                 <div>
                     <div class="text-[22px] font-extrabold text-white mb-0.5">800+</div>
-                    <div class="text-[12px] text-gray-500 font-medium">{{ __('app.stats_courses') }}</div>
+                    <div class="text-[12px] text-gray-400 font-medium">{{ __('app.stats_courses') }}</div>
                 </div>
                 <div>
                     <div class="text-[22px] font-extrabold text-white mb-0.5">95%</div>
-                    <div class="text-[12px] text-gray-500 font-medium">{{ __('app.stats_completion') }}</div>
+                    <div class="text-[12px] text-gray-400 font-medium">{{ __('app.stats_completion') }}</div>
                 </div>
             </div>
         </div>
@@ -282,7 +283,7 @@
             <!-- Divider -->
             <div class="flex items-center gap-4 mb-5">
                 <div class="flex-1 h-px bg-gray-100"></div>
-                <div class="text-[12px] font-medium text-gray-400">{{ __('app.or_with_email') }}</div>
+                <div class="text-[12px] font-medium text-gray-500">{{ __('app.or_with_email') }}</div>
                 <div class="flex-1 h-px bg-gray-100"></div>
             </div>
 
@@ -304,30 +305,30 @@
                 <div class="grid grid-cols-2 gap-4 mb-3">
                     <div>
                         <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">{{ strtoupper(__('app.first_name_label')) }}</label>
-                        <input type="text" name="first_name" required placeholder="{{ __('app.first_name_placeholder') }}" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
+                        <input aria-label="{{ __('app.first_name_placeholder') }}" type="text" name="first_name" required placeholder="{{ __('app.first_name_placeholder') }}" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
                     </div>
                     <div>
                         <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">{{ strtoupper(__('app.last_name_label')) }}</label>
-                        <input type="text" name="last_name" required placeholder="{{ __('app.last_name_placeholder') }}" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
+                        <input aria-label="{{ __('app.last_name_placeholder') }}" type="text" name="last_name" required placeholder="{{ __('app.last_name_placeholder') }}" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
                     </div>
                 </div>
 
                 <!-- Email Input -->
                 <div class="mb-3">
                     <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">{{ strtoupper(__('app.email_label')) }}</label>
-                    <input type="email" name="email" required placeholder="{{ __('app.email_placeholder') }}" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
+                    <input aria-label="{{ __('app.email_placeholder') }}" type="email" name="email" required placeholder="{{ __('app.email_placeholder') }}" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
                 </div>
 
                 <!-- Password Input -->
                 <div class="mb-3">
                     <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">{{ strtoupper(__('app.password_label')) }}</label>
-                    <input type="password" name="password" required placeholder="{{ __('app.password_min') }}" minlength="8" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
+                    <input aria-label="{{ __('app.password_min') }}" type="password" name="password" required placeholder="{{ __('app.password_min') }}" minlength="8" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
                 </div>
                 
                 <!-- Tujuan Belajar Input -->
                 <div class="mb-5">
                     <label class="block text-[10px] font-bold text-[#6b7280] uppercase tracking-wider mb-1.5">{{ strtoupper(__('app.study_purpose_label')) }}</label>
-                    <input type="text" name="purpose" required placeholder="{{ __('app.study_purpose_placeholder') }}" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
+                    <input aria-label="{{ __('app.study_purpose_placeholder') }}" type="text" name="purpose" required placeholder="{{ __('app.study_purpose_placeholder') }}" class="w-full px-5 py-2.5 bg-white border border-gray-200 rounded-full text-[13px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
                 </div>
 
                 <!-- Submit Button -->
@@ -336,7 +337,7 @@
                 </button>
                 
                 <!-- Terms Disclaimer -->
-                <p class="text-[10px] text-gray-400 text-center leading-relaxed px-4 mb-5">
+                <p class="text-[10px] text-gray-500 text-center leading-relaxed px-4 mb-5">
                     {!! __('app.terms_disclaimer') !!}
                 </p>
             </form>
@@ -350,4 +351,5 @@
     </div>
     
 </div>
+</main>
 @endsection

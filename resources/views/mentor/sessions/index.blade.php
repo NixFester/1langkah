@@ -17,7 +17,7 @@
                 </svg>
             </div>
             <div>
-                <h3 class="font-bold text-yellow-900">{{ __('app.new_booking_request') }}</h3>
+                <h2 class="font-bold text-yellow-900">{{ __('app.new_booking_request') }}</h2>
                 <p class="text-sm text-yellow-700">{{ $pendingSessions->count() }} {{ __('app.students_waiting_confirmation') }}</p>
             </div>
         </div>
@@ -27,14 +27,14 @@
     <!-- Pending Sessions -->
     @if($pendingSessions->count() > 0)
     <div class="bg-white border border-gray-100 rounded-3xl p-6 md:p-8">
-        <h3 class="text-lg font-bold text-gray-900 mb-5">{{ __('app.waiting_confirmation') }}</h3>
+        <h2 class="text-lg font-bold text-gray-900 mb-5">{{ __('app.waiting_confirmation') }}</h2>
         <div class="space-y-4">
             @foreach($pendingSessions as $session)
             <div class="border border-gray-100 rounded-xl p-4 bg-yellow-50/50">
                 <div class="flex items-start justify-between gap-4 mb-4">
                     <div class="flex items-center gap-3">
                         @if($session->user?->profile_photo)
-                            <img src="{{ $session->user->profile_photo }}" class="w-12 h-12 rounded-full object-cover">
+                            <img alt="" src="{{ $session->user->profile_photo }}" class="w-12 h-12 rounded-full object-cover">
                         @else
                             <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                                 <span class="text-blue-600 font-bold text-lg">{{ substr($session->user->name ?? 'U', 0, 1) }}</span>
@@ -90,14 +90,14 @@
     <!-- Active Sessions -->
     @if($activeSessions->count() > 0)
     <div class="bg-white border border-gray-100 rounded-3xl p-6 md:p-8">
-        <h3 class="text-lg font-bold text-gray-900 mb-5">{{ __('app.active_sessions') }}</h3>
+        <h2 class="text-lg font-bold text-gray-900 mb-5">{{ __('app.active_sessions') }}</h2>
         <div class="space-y-4">
             @foreach($activeSessions as $session)
             <div class="border border-gray-100 rounded-xl p-4 bg-green-50/50">
                 <div class="flex items-start justify-between gap-4 mb-4">
                     <div class="flex items-center gap-3">
                         @if($session->user?->profile_photo)
-                            <img src="{{ $session->user->profile_photo }}" class="w-12 h-12 rounded-full object-cover">
+                            <img alt="" src="{{ $session->user->profile_photo }}" class="w-12 h-12 rounded-full object-cover">
                         @else
                             <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                                 <span class="text-blue-600 font-bold text-lg">{{ substr($session->user->name ?? 'U', 0, 1) }}</span>
@@ -136,7 +136,7 @@
 
     <!-- Completed Sessions History -->
     <div class="bg-white border border-gray-100 rounded-3xl p-6 md:p-8">
-        <h3 class="text-lg font-bold text-gray-900 mb-5">{{ __('app.session_history') }}</h3>
+        <h2 class="text-lg font-bold text-gray-900 mb-5">{{ __('app.session_history') }}</h2>
         @if($completedSessions->count() > 0)
         <div class="overflow-x-auto">
             <table class="w-full text-sm">

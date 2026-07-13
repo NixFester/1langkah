@@ -25,7 +25,7 @@ if (auth()->check() && $isRegistered) {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">{{ __('app.registration_confirmation') }}</h3>
+                <h2 class="text-xl font-bold text-gray-900 mb-2">{{ __('app.registration_confirmation') }}</h2>
                 <p class="text-gray-500 mb-6">{{ __('app.sure_to_register') }} <strong>{{ $event['title'] }}</strong>?</p>
                 <div class="flex gap-3">
                     <button @click="showConfirm = false" class="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-full transition-colors">{{ __('app.cancel') }}</button>
@@ -126,7 +126,7 @@ if (auth()->check() && $isRegistered) {
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-bold text-gray-900 mb-1">{{ __('app.date_time') }}</h3>
+                            <h2 class="font-bold text-gray-900 mb-1">{{ __('app.date_time') }}</h2>
                             <p class="text-sm text-gray-500">
                                 {{ $event['date_display'] ?? 'TBA' }}<br>
                                 {{ $event['start_time'] ?? '' }} {{ $event['end_time'] ? ' - ' . $event['end_time'] : '' }}
@@ -149,7 +149,7 @@ if (auth()->check() && $isRegistered) {
                             @endif
                         </div>
                         <div>
-                            <h3 class="font-bold text-gray-900 mb-1">{{ $eventType === 'online' ? __('app.meeting_link') : __('app.location') }}</h3>
+                            <h2 class="font-bold text-gray-900 mb-1">{{ $eventType === 'online' ? __('app.meeting_link') : __('app.location') }}</h2>
                             <p class="text-sm text-gray-500">
                                 @if(!empty($event['location']))
                                     {{ $event['location'] }}
@@ -170,7 +170,7 @@ if (auth()->check() && $isRegistered) {
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-bold text-gray-900 mb-1">{{ __('app.timezone') }}</h3>
+                            <h2 class="font-bold text-gray-900 mb-1">{{ __('app.timezone') }}</h2>
                             <p class="text-sm text-gray-500">{{ $event['timezone'] ?? 'Asia/Jakarta (WIB)' }}</p>
                         </div>
                     </div>
@@ -220,7 +220,7 @@ if (auth()->check() && $isRegistered) {
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         <div>
                             <p class="text-sm font-semibold text-red-700">{{ __('app.event_ticket') }}</p>
-                            <h3 class="text-lg font-bold text-gray-900 mt-1">{{ __('app.show_ticket') }}</h3>
+                            <h2 class="text-lg font-bold text-gray-900 mt-1">{{ __('app.show_ticket') }}</h2>
                             <p class="text-sm text-gray-600 mt-2">{{ __('app.ticket_scan_desc') }}</p>
                         </div>
                         <div class="rounded-2xl bg-white p-3 border border-red-100 shadow-sm">
@@ -277,7 +277,7 @@ if (auth()->check() && $isRegistered) {
 
                 <!-- Hosted by 1Langkah -->
                 <div class="border-t border-gray-100 pt-6">
-                    <h3 class="font-bold text-gray-900 mb-4">{{ __('app.hosted_by') }}</h3>
+                    <h2 class="font-bold text-gray-900 mb-4">{{ __('app.hosted_by') }}</h2>
                     <div class="flex items-center gap-3">
                         <div class="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-lg">
                             1L

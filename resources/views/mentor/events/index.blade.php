@@ -35,7 +35,7 @@
                         {{ ucfirst($event->type) }}
                     </span>
                 </div>
-                <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2">{{ $event->title }}</h3>
+                <h2 class="font-semibold text-gray-900 mb-2 line-clamp-2">{{ $event->title }}</h2>
                 <p class="text-sm text-gray-500 mb-4">{{ $event->start_date->format('d M Y, H:i') }}</p>
                 <div class="mb-4">
                     <span class="text-sm text-gray-600">{{ $event->registrations_count ?? 0 }} {{ __('app.participant') }}</span>

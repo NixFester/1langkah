@@ -11,11 +11,11 @@
         <div class="absolute -right-20 -top-20 w-[400px] h-[400px] bg-red-600 rounded-full blur-[80px] pointer-events-none opacity-50"></div>
         
         <div class="relative z-10 text-white w-full md:w-2/3 space-y-4">
-            <div class="text-white/80 font-medium flex items-center gap-2">
+            <div class="text-white font-medium flex items-center gap-2">
                 {{ __('app.welcome_back') }}
             </div>
             <h1 class="text-3xl sm:text-4xl font-bold">{{ auth()->user()->name ?? 'Administrator' }}</h1>
-            <p class="text-white/80 text-sm sm:text-base">{{ __('app.admin_panel') }}</p>
+            <p class="text-white text-sm sm:text-base">{{ __('app.admin_panel') }}</p>
             
             <div class="flex flex-wrap items-center gap-3 pt-2">
                 <div class="bg-red-800/50 backdrop-blur-sm border border-red-500/30 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2">
@@ -36,7 +36,7 @@
         <div class="relative z-10 mt-6 md:mt-0 hidden sm:block">
             <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white/20 p-1 relative">
                 @if(auth()->user()->profile_photo)
-                <img src="{{ auth()->user()->profile_photo }}" alt="Admin Profile" class="w-full h-full rounded-full object-cover bg-red-900">
+                <img src="{{ auth()->user()->profile_photo }}" alt="Admin Profile" class="w-full h-full rounded-full object-cover bg-red-900" fetchpriority="high">
                 @else
                 <div class="w-full h-full rounded-full bg-[#7f1d1d] flex items-center justify-center text-white text-3xl md:text-5xl font-bold">
                     {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 2)) }}
@@ -66,7 +66,7 @@
                     <div class="flex items-center gap-3 min-w-0">
                         <img src="{{ $user->profile_photo ?? 'https://ui-avatars.com/api/?name='.urlencode($user->name) }}" class="w-10 h-10 rounded-full object-cover flex-shrink-0" alt="">
                         <div class="min-w-0">
-                            <h4 class="text-[13px] font-bold text-gray-900 truncate">{{ $user->name }}</h4>
+                            <h2 class="text-[13px] font-bold text-gray-900 truncate">{{ $user->name }}</h2>
                             <p class="text-[11px] text-gray-500 truncate">{{ $user->email }}</p>
                         </div>
                     </div>
@@ -88,7 +88,7 @@
                             <x-icon name="book" class="w-5 h-5" />
                         </div>
                         <div class="min-w-0">
-                            <h4 class="text-[13px] font-bold text-gray-900 truncate">{{ $course->title }}</h4>
+                            <h2 class="text-[13px] font-bold text-gray-900 truncate">{{ $course->title }}</h2>
                             <p class="text-[11px] text-gray-500 truncate">{{ __('app.mentor') }}: {{ $course->mentor_name }}</p>
                         </div>
                     </div>

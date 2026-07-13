@@ -22,7 +22,7 @@
                 <div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
                     <div class="flex items-center gap-3">
                         @if($student['user']?->profile_photo)
-                            <img src="{{ $student['user']->profile_photo }}" class="w-10 h-10 rounded-full object-cover">
+                            <img alt="" src="{{ $student['user']->profile_photo }}" class="w-10 h-10 rounded-full object-cover">
                         @else
                             <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
                                 {{ substr($student['user']->name ?? 'U', 0, 1) }}

@@ -47,7 +47,7 @@ $sessions = $bootcamp['sessions'] ?? 0;
             </span>
         </div>
 
-        <h4 class="text-sm font-bold text-gray-900 truncate">{{ $title }}</h4>
+        <h2 class="text-sm font-bold text-gray-900 truncate">{{ $title }}</h2>
         <p class="text-[11px] text-gray-500 mb-2 truncate">{{ $mentor }}</p>
 
         @if($showProgress)

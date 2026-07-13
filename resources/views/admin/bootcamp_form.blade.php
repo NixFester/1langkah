@@ -55,7 +55,7 @@
                 <!-- Type -->
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.bootcamp_type') }} <span class="text-red-500">*</span></label>
-                    <select name="type" x-model="bootcampType" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
+                    <select aria-label="Type" name="type" x-model="bootcampType" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
                         <option value="">{{ __('app.select_type') }}</option>
                         <option value="online" {{ old('type', $bootcamp->type ?? '') === 'online' ? 'selected' : '' }}>{{ __('app.online') }}</option>
                         <option value="offline" {{ old('type', $bootcamp->type ?? '') === 'offline' ? 'selected' : '' }}>{{ __('app.offline') }}</option>
@@ -244,11 +244,11 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.choose_image_file') }} <span class="text-red-500">*</span></label>
-                    <input type="file" name="image" accept="image/*" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-2 transition-colors">
+                    <input aria-label="Image" type="file" name="image" accept="image/*" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-2 transition-colors">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.type') }}</label>
-                    <select name="type" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3">
+                    <select aria-label="Type" name="type" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3">
                         <option value="gallery">{{ __('app.gallery') }}</option>
                         <option value="thumbnail">{{ __('app.thumbnail') }}</option>
                     </select>

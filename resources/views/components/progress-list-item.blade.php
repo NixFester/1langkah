@@ -23,7 +23,7 @@
     </div>
 
     <div class="flex-1 min-w-0">
-        <h4 class="text-sm font-bold text-gray-900 truncate">{{ $title }}</h4>
+        <h2 class="text-sm font-bold text-gray-900 truncate">{{ $title }}</h2>
         @if($subtitle)
             <p class="text-[11px] text-gray-500 mb-2 truncate">{{ $subtitle }}</p>
         @endif

@@ -47,7 +47,7 @@
                 <p class="text-gray-800 mb-2">{{ $rating->review ?? __('app.no_review') }}</p>
                 <div class="flex items-center gap-2">
                     @if($rating->user?->profile_photo)
-                        <img src="{{ $rating->user->profile_photo }}" class="w-6 h-6 rounded-full object-cover">
+                        <img alt="" src="{{ $rating->user->profile_photo }}" class="w-6 h-6 rounded-full object-cover">
                     @endif
                     <span class="text-sm text-gray-600">{{ $rating->user?->name ?? __('app.anonymous') }}</span>
                     <span class="text-gray-300">•</span>

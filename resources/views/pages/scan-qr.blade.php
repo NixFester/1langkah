@@ -65,7 +65,7 @@
 
         <!-- Instructions -->
         <div class="mt-8 bg-blue-50 rounded-2xl p-4">
-            <h3 class="font-medium text-blue-900 mb-2">{{ __('app.how_to_use') }}</h3>
+            <h2 class="font-medium text-blue-900 mb-2">{{ __('app.how_to_use') }}</h2>
             <ol class="text-sm text-blue-700 space-y-1 list-decimal list-inside">
                 <li>{{ __('app.instruction_1') }}</li>
                 <li>{{ __('app.instruction_2') }}</li>

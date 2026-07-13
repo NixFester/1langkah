@@ -18,7 +18,7 @@
     <x-filter-form>
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.action') }}</label>
-            <select name="action" class="border border-gray-300 rounded-lg px-4 py-2">
+            <select aria-label="Action" name="action" class="border border-gray-300 rounded-lg px-4 py-2">
                 <option value="">{{ __('app.all') }}</option>
                 <option value="created" {{ request('action') === 'created' ? 'selected' : '' }}>{{ __('app.created') }}</option>
                 <option value="updated" {{ request('action') === 'updated' ? 'selected' : '' }}>{{ __('app.updated') }}</option>
@@ -29,11 +29,11 @@
         </div>
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.from_date') }}</label>
-            <input type="date" name="date_from" value="{{ request('date_from') }}" class="border border-gray-300 rounded-lg px-4 py-2">
+            <input aria-label="Date From" type="date" name="date_from" value="{{ request('date_from') }}" class="border border-gray-300 rounded-lg px-4 py-2">
         </div>
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.to_date') }}</label>
-            <input type="date" name="date_to" value="{{ request('date_to') }}" class="border border-gray-300 rounded-lg px-4 py-2">
+            <input aria-label="Date To" type="date" name="date_to" value="{{ request('date_to') }}" class="border border-gray-300 rounded-lg px-4 py-2">
         </div>
     </x-filter-form>
 

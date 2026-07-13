@@ -43,7 +43,7 @@
     {{-- Registrations --}}
     <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100">
-            <h3 class="font-bold text-gray-900">{{ __('app.participant_list') }}</h3>
+            <h2 class="font-bold text-gray-900">{{ __('app.participant_list') }}</h2>
             <p class="text-sm text-gray-500 mt-1">{{ $registrations->count() }} {{ __('app.registered_participants') }}</p>
         </div>
 
@@ -52,7 +52,7 @@
                 <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <x-icon name="users" class="w-8 h-8 text-gray-400" />
                 </div>
-                <h3 class="text-lg font-bold text-gray-900 mb-2">{{ __('app.no_participants_yet') }}</h3>
+                <h2 class="text-lg font-bold text-gray-900 mb-2">{{ __('app.no_participants_yet') }}</h2>
                 <p class="text-gray-500">{{ __('app.no_event_participants') }}</p>
             </div>
         @else

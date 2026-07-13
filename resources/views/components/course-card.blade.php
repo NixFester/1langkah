@@ -72,7 +72,7 @@
         </div>
 
         <!-- Title -->
-        <h3 class="font-bold text-gray-900 text-base leading-tight mb-2 line-clamp-2">{{ $c['title'] }}</h3>
+        <h2 class="font-bold text-gray-900 text-base leading-tight mb-2 line-clamp-2">{{ $c['title'] }}</h2>
         
         <!-- Mentor Info -->
         <p class="text-xs text-gray-500 mb-3">{{ $c['mentor'] }} · {{ $c['mentorCompany'] }}</p>

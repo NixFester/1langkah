@@ -32,7 +32,7 @@
         <div class="relative z-10 mt-6 md:mt-0 w-full sm:w-auto flex justify-center sm:block order-first sm:order-last">
             <div class="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full border-4 border-white/20 p-1 relative">
                 @if(auth()->user()->profile_photo)
-                <img src="{{ auth()->user()->profile_photo }}" alt="Profile" class="w-full h-full rounded-full object-cover bg-red-900">
+                <img src="{{ auth()->user()->profile_photo }}" alt="Profile" class="w-full h-full rounded-full object-cover bg-red-900" fetchpriority="high">
                 @else
                 <div class="w-full h-full rounded-full bg-red-800 flex items-center justify-center text-white text-3xl font-bold">
                     {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}

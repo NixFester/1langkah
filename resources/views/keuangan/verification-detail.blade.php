@@ -74,7 +74,7 @@
                         @csrf
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.notes_optional') }}</label>
-                            <textarea name="notes" rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-2" :placeholder="__('app.verification_notes_placeholder')"></textarea>
+                            <textarea aria-label="{{ __('app.verification_notes_placeholder') }}" name="notes" rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-2" placeholder="{{ __('app.verification_notes_placeholder') }}"></textarea>
                         </div>
                         <button type="submit" class="w-full px-4 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 flex items-center justify-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -89,7 +89,7 @@
                         @csrf
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.rejection_reason') }} <span class="text-red-500">*</span></label>
-                            <textarea name="reason" rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-2" :placeholder="__('app.rejection_reason_placeholder')" required></textarea>
+                            <textarea aria-label="{{ __('app.rejection_reason_placeholder') }}" name="reason" rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-2" placeholder="{{ __('app.rejection_reason_placeholder') }}" required></textarea>
                         </div>
                         <button type="submit" class="w-full px-4 py-3 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 flex items-center justify-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,12 +107,12 @@
                         <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
-                        <h3 class="font-bold text-green-800">{{ __('app.payment_approved') }}</h3>
+                        <h2 class="font-bold text-green-800">{{ __('app.payment_approved') }}</h2>
                     @else
                         <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
-                        <h3 class="font-bold text-red-800">{{ __('app.payment_rejected') }}</h3>
+                        <h2 class="font-bold text-red-800">{{ __('app.payment_rejected') }}</h2>
                     @endif
                 </div>
                 <p class="text-sm text-gray-600">

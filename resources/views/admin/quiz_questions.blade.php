@@ -29,24 +29,24 @@
         <form action="{{ route('admin.quizzes.questions.add', $quiz) }}" method="POST" class="grid grid-cols-12 gap-4">
             @csrf
             <div class="col-span-12 md:col-span-6">
-                <input type="text" name="question" required
+                <input aria-label="{{ __('app.write_question') }}" type="text" name="question" required
                     class="w-full min-w-0 rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     placeholder="{{ __('app.write_question') }}">
             </div>
             <div class="col-span-12 md:col-span-2">
-                <select name="type" class="w-full min-w-0 rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                <select aria-label="Type" name="type" class="w-full min-w-0 rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500">
                     <option value="multiple_choice">{{ __('app.multiple_choice') }}</option>
                     <option value="true_false">{{ __('app.true_false') }}</option>
                     <option value="essay">{{ __('app.essay') }}</option>
                 </select>
             </div>
             <div class="col-span-6 md:col-span-1">
-                <input type="number" name="points" value="1" min="1"
+                <input aria-label="Pts" type="number" name="points" value="1" min="1"
                     class="w-full min-w-0 rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     placeholder="Pts">
             </div>
             <div class="col-span-6 md:col-span-1">
-                <input type="number" name="order" value="{{ $quiz->questions->count() + 1 }}" min="0"
+                <input aria-label="Order" type="number" name="order" value="{{ $quiz->questions->count() + 1 }}" min="0"
                     class="w-full min-w-0 rounded-lg border-gray-200 border px-4 py-2.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     placeholder="Order">
             </div>
@@ -104,10 +104,10 @@
                         <form action="{{ route('admin.quizzes.answers.update', [$quiz, $question, $answer]) }}" method="POST" class="flex-1 flex items-center gap-2 sm:gap-3 min-w-0">
                             @csrf
                             @method('PUT')
-                            <input type="text" name="answer_text" value="{{ $answer->answer_text }}" required
+                            <input aria-label="Answer Text" type="text" name="answer_text" value="{{ $answer->answer_text }}" required
                                 class="flex-1 min-w-0 rounded-lg border border-gray-200 px-2 sm:px-3 py-1.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500">
                             <label class="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm flex-shrink-0">
-                                <input type="checkbox" name="is_correct" value="1" {{ $answer->is_correct ? 'checked' : '' }}
+                                <input aria-label="Is Correct" type="checkbox" name="is_correct" value="1" {{ $answer->is_correct ? 'checked' : '' }}
                                     onchange="this.form.submit()"
                                     class="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 flex-shrink-0">
                                 <span class="text-gray-600">{{ __('app.correct') }}</span>
@@ -126,7 +126,7 @@
                     <!-- Add Answer -->
                     <form action="{{ route('admin.quizzes.answers.add', [$quiz, $question]) }}" method="POST" class="flex items-center gap-2 pt-2 border-t border-gray-200 min-w-0">
                         @csrf
-                        <input type="text" name="answer_text" required
+                        <input aria-label="{{ __('app.add_answer_option') }}" type="text" name="answer_text" required
                             class="flex-1 min-w-0 rounded-lg border border-gray-200 px-3 py-1.5 text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500"
                             placeholder="{{ __('app.add_answer_option') }}">
                         <button type="submit" class="px-3 py-1.5 bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium rounded-lg transition-colors flex-shrink-0">

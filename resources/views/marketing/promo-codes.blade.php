@@ -9,7 +9,7 @@
     {{-- Header with Filters & Action --}}
     <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
         <form method="GET" class="flex gap-2">
-            <select name="status" class="border border-gray-300 rounded-lg px-4 py-2">
+            <select aria-label="Status" name="status" class="border border-gray-300 rounded-lg px-4 py-2">
                 <option value="">{{ __('app.all_status') }}</option>
                 <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>{{ __('app.active_status') }}</option>
                 <option value="expired" {{ request('status') === 'expired' ? 'selected' : '' }}>{{ __('app.expired') }}</option>

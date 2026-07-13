@@ -46,7 +46,7 @@ $level = $course['level'] ?? '';
             <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-bold text-red-600 bg-red-50 mb-1">{{ $category }}</span>
         @endif
 
-        <h4 class="text-sm font-bold text-gray-900 truncate">{{ $title }}</h4>
+        <h2 class="text-sm font-bold text-gray-900 truncate">{{ $title }}</h2>
         @if($subtitle)
             <p class="text-[11px] text-gray-500 truncate">{{ $subtitle }}</p>
         @endif

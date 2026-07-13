@@ -58,7 +58,7 @@
                             {{ $index + 1 }}
                         </div>
                         <div class="pt-1.5 flex-1">
-                            <h3 class="text-[17px] font-semibold text-gray-900 leading-relaxed">{{ $question->question }}</h3>
+                            <h2 class="text-[17px] font-semibold text-gray-900 leading-relaxed">{{ $question->question }}</h2>
                         </div>
                     </div>
                     
@@ -76,7 +76,7 @@
                         <div class="grid gap-3">
                             @foreach($question->answers->sortBy('order') as $answer)
                             <label class="group relative flex items-start p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 has-[:checked]:border-red-500 has-[:checked]:bg-red-50 transition-all duration-200">
-                                <input type="radio" name="answers[{{ $question->id }}]" value="{{ $answer->id }}" class="absolute opacity-0 w-0 h-0" required>
+                                <input aria-label="Input Field" type="radio" name="answers[{{ $question->id }}]" value="{{ $answer->id }}" class="absolute opacity-0 w-0 h-0" required>
                                 <div class="flex-shrink-0 w-5 h-5 rounded-full border-2 border-gray-300 group-has-[:checked]:border-red-600 flex items-center justify-center bg-white mr-3.5 mt-0.5 transition-colors">
                                     <div class="w-2.5 h-2.5 rounded-full bg-red-600 scale-0 group-has-[:checked]:scale-100 transition-transform"></div>
                                 </div>
@@ -87,7 +87,7 @@
                             @endforeach
                         </div>
                     @elseif($question->type === 'essay')
-                        <textarea name="answers[{{ $question->id }}]" rows="5" 
+                        <textarea aria-label="Input Field" name="answers[{{ $question->id }}]" rows="5" 
                             style="box-sizing: border-box;"
                             class="w-full border-2 border-gray-200 rounded-xl p-4 text-gray-700 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 outline-none resize-y transition-all bg-gray-50 focus:bg-white" 
                             placeholder="{{ __('app.write_answer_here') }}" required></textarea>
@@ -111,7 +111,7 @@
         <div class="w-16 h-16 mx-auto mb-5 rounded-full bg-red-50 flex items-center justify-center text-red-600 border-4 border-red-100">
             <svg class="w-8 h-8 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         </div>
-        <h3 class="text-xl font-bold text-gray-900 mb-2">{{ __('app.time_running_out') }}</h3>
+        <h2 class="text-xl font-bold text-gray-900 mb-2">{{ __('app.time_running_out') }}</h2>
         <p class="text-gray-600 mb-6 text-sm">{{ __('app.time_remaining_less_than') }}<span class="font-bold text-red-600" x-text="formatTime(timeRemaining)"></span>.</p>
         <button @click="showTimeWarning = false" type="button" class="w-full py-3.5 bg-gray-900 hover:bg-black text-white font-bold rounded-xl transition-colors">
             {{ __('app.resume_quiz') }}

@@ -3,21 +3,22 @@
 @section('title', __('app.login_title'))
 
 @section('body')
+<main>
 <!-- MOBILE VIEW (Shown only on small screens) -->
 <div class="flex md:hidden h-[100dvh] w-full flex-col bg-gradient-to-br from-[#fff1f1] to-[#f7f8f9] overflow-hidden relative">
     
     <!-- Language Switcher Mobile -->
     <div class="absolute top-4 right-4 z-50">
-        <a href="javascript:void(0)" class="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-gray-200 text-xs font-bold text-gray-700 cursor-not-allowed opacity-50 shadow-sm" title="Switch Language">
+        <button type="button" disabled class="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-gray-200 text-xs font-bold text-gray-700 cursor-not-allowed opacity-50 shadow-sm" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
-        </a>
+        </button>
     </div>
 
     <div class="w-full h-full overflow-y-auto flex flex-col px-5 py-4 mx-auto items-center">
         <div class="my-auto flex flex-col items-center justify-center w-full max-w-[420px] pb-4">
     <!-- Logo & Header -->
     <div class="text-center mb-6">
-        <a href="{{ route('landing') }}" class="inline-block mb-4">
+        <a href="{{ route('landing') }}" class="inline-block mb-4" aria-label="Beranda 1Langkah">
             <svg width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_306_8219)">
                     <path d="M22.3789 27.1026H16.3237V7.52808H22.3789V27.1026Z" fill="#D10000"/>
@@ -52,19 +53,19 @@
             <!-- Email Input -->
             <div class="mb-4">
                 <label class="block text-[13px] font-bold text-[#374151] mb-1.5">{{ __('app.email_label') }}</label>
-                <input type="email" name="email" required placeholder="{{ __('app.email_placeholder') }}" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
+                <input aria-label="{{ __('app.email_placeholder') }}" type="email" name="email" required placeholder="{{ __('app.email_placeholder') }}" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[14px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-400">
             </div>
 
             <!-- Password Input -->
             <div class="mb-5">
                 <label class="block text-[13px] font-bold text-[#374151] mb-1.5">{{ __('app.password_label') }}</label>
-                <input type="password" name="password" required placeholder="{{ __('app.password_placeholder') }}" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[20px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-300 placeholder:tracking-[0.2em] placeholder:text-[16px] tracking-widest">
+                <input aria-label="{{ __('app.password_placeholder') }}" type="password" name="password" required placeholder="{{ __('app.password_placeholder') }}" class="w-full px-5 py-2.5 bg-[#f9fafb] border border-gray-200 rounded-xl text-[20px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-[#cc0000] transition-all placeholder:text-gray-300 placeholder:tracking-[0.2em] placeholder:text-[16px] tracking-widest">
             </div>
 
             <!-- Remember Me & Forgot Password -->
             <div class="flex items-center justify-between mb-6">
                 <label class="flex items-center gap-2 cursor-pointer group">
-                    <input type="checkbox" name="remember" class="w-4 h-4 rounded border-gray-300 text-[#cc0000] focus:ring-[#cc0000]">
+                    <input aria-label="Remember" type="checkbox" name="remember" class="w-4 h-4 rounded border-gray-300 text-[#cc0000] focus:ring-[#cc0000]">
                     <span class="text-[13px] font-medium text-[#4b5563]">{{ __('app.remember_me') }}</span>
                 </label>
                 <a href="#" class="text-[13px] font-bold text-[#cc0000] hover:text-[#aa0000] transition-colors">
@@ -111,9 +112,9 @@
     
     <!-- Language Switcher Desktop -->
     <div class="absolute top-6 right-8 z-50">
-        <a href="javascript:void(0)" class="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 cursor-not-allowed opacity-50 shadow-sm" title="Switch Language">
+        <button type="button" disabled class="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 cursor-not-allowed opacity-50 shadow-sm" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
-        </a>
+        </button>
     </div>
 
     <!-- Left Column (Dark Theme) -->
@@ -123,7 +124,7 @@
         <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-[#990000]/20 blur-[130px] rounded-full pointer-events-none -translate-y-1/4 translate-x-1/4"></div>
         
         <!-- Logo -->
-        <a href="{{ route('landing') }}" class="relative z-10 inline-block mb-12">
+        <a href="{{ route('landing') }}" class="relative z-10 inline-block mb-12" aria-label="Beranda 1Langkah">
             <svg width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_306_8219)">
                     <path d="M22.3789 27.1026H16.3237V7.52808H22.3789V27.1026Z" fill="#D10000"/>
@@ -181,7 +182,7 @@
                 <!-- Card 1 -->
                 <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
                     <div class="flex items-center gap-4">
-                        <img src="https://i.pravatar.cc/100?img=1" class="w-10 h-10 rounded-full object-cover">
+                        <img src="https://i.pravatar.cc/100?img=1" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
                         <div class="text-[13px] font-medium text-gray-400">{{ __('app.login_testi_1') }}</div>
                     </div>
                     <div class="flex items-center gap-0.5 text-[#ffb800]">
@@ -195,7 +196,7 @@
                 <!-- Card 2 -->
                 <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
                     <div class="flex items-center gap-4">
-                        <img src="https://i.pravatar.cc/100?img=11" class="w-10 h-10 rounded-full object-cover">
+                        <img src="https://i.pravatar.cc/100?img=11" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
                         <div class="text-[13px] font-medium text-gray-400">{{ __('app.login_testi_2') }}</div>
                     </div>
                     <div class="flex items-center gap-0.5 text-[#ffb800]">
@@ -209,7 +210,7 @@
                 <!-- Card 3 -->
                 <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
                     <div class="flex items-center gap-4">
-                        <img src="https://i.pravatar.cc/100?img=5" class="w-10 h-10 rounded-full object-cover">
+                        <img src="https://i.pravatar.cc/100?img=5" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
                         <div class="text-[13px] font-medium text-gray-400">{{ __('app.login_testi_3') }}</div>
                     </div>
                     <div class="flex items-center gap-0.5 text-[#ffb800]">
@@ -226,15 +227,15 @@
             <div class="flex items-center gap-10">
                 <div>
                     <div class="text-[22px] font-extrabold text-white mb-0.5">100K+</div>
-                    <div class="text-[12px] text-gray-500 font-medium">{{ __('app.login_stat_students') }}</div>
+                    <div class="text-[12px] text-gray-400 font-medium">{{ __('app.login_stat_students') }}</div>
                 </div>
                 <div>
                     <div class="text-[22px] font-extrabold text-white mb-0.5">800+</div>
-                    <div class="text-[12px] text-gray-500 font-medium">{{ __('app.login_stat_courses') }}</div>
+                    <div class="text-[12px] text-gray-400 font-medium">{{ __('app.login_stat_courses') }}</div>
                 </div>
                 <div>
                     <div class="text-[22px] font-extrabold text-white mb-0.5">95%</div>
-                    <div class="text-[12px] text-gray-500 font-medium">{{ __('app.login_stat_completion') }}</div>
+                    <div class="text-[12px] text-gray-400 font-medium">{{ __('app.login_stat_completion') }}</div>
                 </div>
             </div>
         </div>
@@ -266,7 +267,7 @@
             <!-- Divider -->
             <div class="flex items-center gap-4 mb-7">
                 <div class="flex-1 h-px bg-gray-100"></div>
-                <div class="text-[12px] font-medium text-gray-400">{{ __('app.or_with_email') }}</div>
+                <div class="text-[12px] font-medium text-gray-500">{{ __('app.or_with_email') }}</div>
                 <div class="flex-1 h-px bg-gray-100"></div>
             </div>
 
@@ -283,20 +284,20 @@
                 <!-- Email Input -->
                 <div class="mb-5">
                     <label class="block text-[11px] font-bold text-[#6b7280] uppercase tracking-wider mb-2">{{ __('app.email_label') }}</label>
-                    <input type="email" name="email" required placeholder="{{ __('app.email_placeholder') }}" class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-full text-[14px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
+                    <input aria-label="{{ __('app.email_placeholder') }}" type="email" name="email" required placeholder="{{ __('app.email_placeholder') }}" class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-full text-[14px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-400 font-medium">
                 </div>
 
                 <!-- Password Input -->
                 <div class="mb-6">
                     <label class="block text-[11px] font-bold text-[#6b7280] uppercase tracking-wider mb-2">{{ __('app.password_label') }}</label>
-                    <input type="password" name="password" required placeholder="{{ __('app.password_placeholder') }}" class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-full text-[16px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-300 font-sans tracking-[0.2em]">
+                    <input aria-label="{{ __('app.password_placeholder') }}" type="password" name="password" required placeholder="{{ __('app.password_placeholder') }}" class="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-full text-[16px] text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-[#cc0000] transition-all placeholder:text-gray-300 font-sans tracking-[0.2em]">
                 </div>
 
                 <!-- Remember Me & Forgot Password -->
                 <div class="flex items-center justify-between mb-8">
                     <label class="flex items-center gap-2.5 cursor-pointer group">
                         <div class="relative flex items-center justify-center w-[18px] h-[18px] rounded-[5px] border-2 border-gray-300 bg-white group-hover:border-[#cc0000] transition-colors">
-                            <input type="checkbox" name="remember" class="absolute opacity-0 w-full h-full cursor-pointer peer">
+                            <input aria-label="Remember" type="checkbox" name="remember" class="absolute opacity-0 w-full h-full cursor-pointer peer">
                             <svg class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
                             <div class="absolute inset-0 rounded-[3px] bg-[#cc0000] border-[#cc0000] opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                         </div>
@@ -322,4 +323,5 @@
     </div>
     
 </div>
+</main>
 @endsection

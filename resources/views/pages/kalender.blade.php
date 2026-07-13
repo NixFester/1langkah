@@ -145,7 +145,7 @@
             <!-- Agenda Terdekat (Full Height) -->
             <div class="bg-white border border-gray-100 shadow-md flex-1 rounded-[20px] sm:rounded-[24px] p-5 sm:p-7 min-h-[400px] sm:min-h-[500px]">
                 <div class="flex items-center justify-between mb-5 sm:mb-6">
-                    <h3 class="font-extrabold text-gray-900 tracking-tight text-[18px] sm:text-[20px]">{{ __('app.agenda') }}</h3>
+                    <h2 class="font-extrabold text-gray-900 tracking-tight text-[18px] sm:text-[20px]">{{ __('app.agenda') }}</h2>
                     <span class="text-xs sm:text-sm text-gray-500 font-medium" x-text="events.length + ' {{ __('app.agendas_count') }}'"></span>
                 </div>
 
@@ -173,7 +173,7 @@
                                 <span class="font-bold leading-none mt-0.5 text-[10px] sm:text-[11px]" x-text="monthNamesShort[currentMonth - 1]"></span>
                             </div>
                             <div class="flex-1 mt-0.5 sm:mt-1 min-w-0">
-                                <h4 class="font-bold text-gray-900 group-hover:text-red-600 transition-colors leading-tight mb-1 text-[13px] sm:text-[15px]" x-text="event.title"></h4>
+                                <h2 class="font-bold text-gray-900 group-hover:text-red-600 transition-colors leading-tight mb-1 text-[13px] sm:text-[15px]" x-text="event.title"></h2>
                                 <p class="text-[12px] sm:text-sm text-gray-500 font-medium" x-text="event.time || ''"></p>
                                 <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-1.5 sm:mt-2">
                                     <span class="px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold"
@@ -215,7 +215,7 @@
             <div class="bg-gradient-to-r from-red-600 to-red-700 p-6 text-white">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="font-bold text-xl" x-text="'{{ __('app.agenda_on') }}' + selectedDay + ' ' + '{{ $monthNameID }}'"></h3>
+                        <h2 class="font-bold text-xl" x-text="'{{ __('app.agenda_on') }}' + selectedDay + ' ' + '{{ $monthNameID }}'"></h2>
                         <p class="text-red-100 text-sm mt-1" x-text="selectedEvents.length + ' {{ __('app.agendas_count') }}'"></p>
                     </div>
                     <button @click="closePopup()" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors">

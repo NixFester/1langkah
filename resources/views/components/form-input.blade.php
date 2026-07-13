@@ -23,19 +23,19 @@
     @endif
 
     @if($type === 'textarea')
-        <textarea name="{{ $name }}"
+        <textarea aria-label="{{ $placeholder }}" name="{{ $name }}"
                   @if($rows) rows="{{ $rows }}" @endif
                   placeholder="{{ $placeholder }}"
                   @if($required) required @endif
                   class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors resize-none">{{ old($name, $old ?? $value ?? '') }}</textarea>
     @elseif($type === 'select')
-        <select name="{{ $name }}"
+        <select aria-label="{{ $Name }}" name="{{ $name }}"
                 @if($required) required @endif
                 class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
             {{ $slot }}
         </select>
     @else
-        <input type="{{ $type }}"
+        <input aria-label="{{ $placeholder }}" type="{{ $type }}"
                name="{{ $name }}"
                value="{{ old($name, $old ?? $value ?? '') }}"
                placeholder="{{ $placeholder }}"

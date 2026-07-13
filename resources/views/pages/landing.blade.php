@@ -44,22 +44,22 @@
         <a href="{{ route('kursus') }}" class="hover:text-white transition-colors">{{ __('app.nav_courses') }}</a>
         <a href="{{ route('online-bootcamp') }}" class="hover:text-white transition-colors">{{ __('app.nav_bootcamp') }}</a>
         <a href="{{ route('mentor') }}" class="hover:text-white transition-colors">{{ __('app.nav_mentor') }}</a>
-        <a href="#" class="hover:text-white transition-colors">{{ __('app.nav_enterprise') }}</a>
+        <a href="{{ url('/') }}" class="hover:text-white transition-colors">{{ __('app.nav_enterprise') }}</a>
+        <a href="{{ route('about') }}" class="hover:text-white transition-colors">{{ __('app.nav_about') }}</a>
     </div>
 
     <!-- Actions -->
     <div class="flex items-center gap-2 sm:gap-4">
         <!-- Language Switcher -->
-        <a href="javascript:void(0)" class="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/5 border border-white/10 text-[11px] sm:text-[12px] font-bold text-white cursor-not-allowed opacity-50" title="Switch Language">
+        <button type="button" disabled class="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/5 border border-white/10 text-[11px] sm:text-[12px] font-bold text-white cursor-not-allowed opacity-50" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
-        </a>
+        </button>
         
         <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-2.5 text-[13px] sm:text-[14px] font-medium text-[#d1d5db] border border-white/10 rounded-full hover:bg-white/5 transition-colors">
             {{ __('app.login') }}
         </a>
         <a href="{{ route('signup') }}" class="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-2.5 text-[13px] sm:text-[14px] font-semibold text-white bg-gradient-to-b from-[#D10000] to-[#8B0000] rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_20px_rgba(209,0,0,0.4)] whitespace-nowrap hover:from-[#b30000] hover:to-[#6b0000] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_25px_rgba(209,0,0,0.6)] transition-all">
-            <span class="hidden sm:inline">{{ __('app.register_free') }}</span>
-            <span class="sm:hidden">{{ __('app.register') }}</span>
+            {{ __('app.register_free') }}
         </a>
     </div>
 </nav>
@@ -86,10 +86,13 @@
                 </div>
 
                 <!-- Title -->
-                <h1 class="text-[34px] leading-[1.05] sm:text-4xl md:text-5xl lg:text-[50px] xl:text-[64px] font-extrabold sm:leading-[1.05] tracking-tight text-white mb-2 lg:mb-3">
+                <h1 class="font-['Inter'] text-[34px] sm:text-4xl md:text-5xl lg:text-[50px] xl:text-[64px] font-black leading-[1] sm:leading-[1] tracking-[-0.06em] text-white mb-2 lg:mb-3">
                     {{ __('app.landing_title_1') }}<br>
-                    <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(to bottom right, #b91c1c, #ef4444);">{{ __('app.landing_title_2') }}</span><br>
-                    {{ __('app.landing_title_3') }}
+                    <span class="text-transparent bg-clip-text inline-block" style="background-image: linear-gradient(98deg, #FF6B6B 0%, #D10000 35%, #FF4500 65%, #FFB347 100%);">
+                        {{ __('app.landing_title_2') }}<br>
+                        {{ __('app.landing_title_3') }}
+                    </span><br>
+                    {{ __('app.landing_title_4') }}
                 </h1>
 
                 <!-- Subtitle -->
@@ -127,16 +130,16 @@
                     <div class="absolute right-[5%] top-[20%] px-4 py-1.5 lg:px-5 lg:py-2 bg-transparent backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_6s_ease-in-out_infinite]">AI/ML</div>
 
                     <!-- Main Dashboard Image -->
-                    <img fetchpriority="high" decoding="async" src="{{ asset('assets/icons/main_dashboard_image.svg') }}" alt="1Langkah Platform" class="w-full relative z-10">
+                    <img fetchpriority="high" decoding="async" width="1200" height="800" src="{{ asset('assets/icons/main_dashboard_image.svg') }}" alt="1Langkah Platform" class="w-full relative z-10">
                     
                     <!-- Sertifikat (Top Right) -->
-                    <img fetchpriority="high" decoding="async" src="{{ asset('assets/icons/sertifikat.svg') }}" alt="Sertifikat" class="absolute right-[0%] top-[-4%] w-[244px] z-20 animate-[float_6s_ease-in-out_infinite]">
+                    <img fetchpriority="high" decoding="async" width="244" height="100" src="{{ asset('assets/icons/sertifikat.svg') }}" alt="Sertifikat" class="absolute right-[0%] top-[-4%] w-[244px] z-20 animate-[float_6s_ease-in-out_infinite]">
                     
                     <!-- Rudi Yesaya (Bottom Left) -->
-                    <img fetchpriority="high" decoding="async" src="{{ asset('assets/icons/rudi-yesaya.svg') }}" alt="Mentor" class="absolute left-[2%] bottom-[12%] w-[232px] z-20 animate-[float_8s_ease-in-out_infinite_reverse]">
+                    <img fetchpriority="high" decoding="async" width="232" height="80" src="{{ asset('assets/icons/rudi-yesaya.svg') }}" alt="Mentor" class="absolute left-[2%] bottom-[12%] w-[232px] z-20 animate-[float_8s_ease-in-out_infinite_reverse]">
                     
                     <!-- Skill Passport (Bottom Right) -->
-                    <img fetchpriority="high" decoding="async" src="{{ asset('assets/icons/skill-passport.svg') }}" alt="Skill Passport" class="absolute right-[2%] bottom-[18%] w-[222px] z-20 animate-[float_7s_ease-in-out_infinite_1s]">
+                    <img fetchpriority="high" decoding="async" width="222" height="120" src="{{ asset('assets/icons/skill-passport.svg') }}" alt="Skill Passport" class="absolute right-[2%] bottom-[18%] w-[222px] z-20 animate-[float_7s_ease-in-out_infinite_1s]">
                 </div>
 
                 </div>
@@ -149,29 +152,29 @@
             <div class="grid grid-cols-2 sm:flex items-center justify-center lg:justify-start gap-3 sm:gap-6 lg:gap-8 xl:gap-14 w-full">
                 <div class="text-center lg:text-left">
                     <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">100K+</div>
-                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">{{ __('app.active_students') }}</div>
+                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400">{{ __('app.active_students') }}</div>
                 </div>
                 <div class="text-center lg:text-left">
                     <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">800+</div>
-                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">{{ __('app.premium_courses') }}</div>
+                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400">{{ __('app.premium_courses') }}</div>
                 </div>
                 <div class="text-center lg:text-left">
                     <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">500+</div>
-                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">{{ __('app.active_mentors') }}</div>
+                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400">{{ __('app.active_mentors') }}</div>
                 </div>
                 <div class="text-center lg:text-left">
                     <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">95%</div>
-                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-[#6b7280]">{{ __('app.pass_rate') }}</div>
+                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400">{{ __('app.pass_rate') }}</div>
                 </div>
             </div>
 
             <!-- Ratings (Right Column) -->
             <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 w-full">
                 <div class="flex -space-x-3">
-                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=A&background=random" alt="User">
-                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=B&background=random" alt="User">
-                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=C&background=random" alt="User">
-                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707]" src="https://ui-avatars.com/api/?name=D&background=random" alt="User">
+                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_1.svg') }}" alt="User">
+                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_2.svg') }}" alt="User">
+                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_3.svg') }}" alt="User">
+                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_4.svg') }}" alt="User">
                     <div class="w-10 h-10 rounded-full border-2 border-[#070707] bg-[#dc2626] flex items-center justify-center text-[10px] font-bold text-white z-10">+99K</div>
                 </div>
                 <div class="text-center sm:text-left">
@@ -236,9 +239,9 @@
                 <span class="text-[11px] font-bold tracking-[0.15em] text-[#D10000] uppercase">{{ __('app.complete_platform') }}</span>
             </div>
             
-            <h2 class="text-4xl md:text-[44px] font-extrabold text-[#0f172a] tracking-tight leading-[1.2] mb-4">
+            <h2 class="font-['Inter'] text-4xl md:text-[44px] font-black text-[#0f172a] tracking-[-0.05em] leading-[1.1] mb-4">
                 {{ __('app.platform_title_1') }}<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-br from-red-600 to-orange-700">{{ __('app.platform_title_2') }}</span>
+                <span class="text-transparent bg-clip-text inline-block" style="background-image: linear-gradient(95deg, #D10000 0%, #FF4500 100%);">{{ __('app.platform_title_2') }}</span>
             </h2>
             
             <p class="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
@@ -251,11 +254,11 @@
             <!-- Card 1 -->
             <div class="bg-white rounded-[2rem] p-6 lg:p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col items-start group cursor-pointer">
                 <div class="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform p-3">
-                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/AI-Learning-Assistant.svg') }}" alt="AI Learning Assistant" class="w-full h-full object-contain">
+                    <img loading="lazy" decoding="async" width="64" height="64" src="{{ asset('assets/icons/AI-Learning-Assistant.svg') }}" alt="AI Learning Assistant" class="w-full h-full object-contain">
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">AI Learning Assistant</h3>
+                <h2 class="text-xl font-bold text-gray-900 mb-3">AI Learning Assistant</h2>
                 <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">{{ __('app.feature_1_desc') }}</p>
-                <a href="#" class="inline-flex items-center gap-1.5 text-sm font-bold text-[#D10000] group-hover:gap-2 transition-all">
+                <a href="{{ url('/') }}" class="inline-flex items-center gap-1.5 text-sm font-bold text-[#D10000] group-hover:gap-2 transition-all">
                     {{ __('app.learn_more') }} 
                     <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                 </a>
@@ -264,11 +267,11 @@
             <!-- Card 2 -->
             <div class="bg-white rounded-[2rem] p-6 lg:p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col items-start group cursor-pointer">
                 <div class="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform p-3">
-                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Personalized-Learning-Path.svg') }}" alt="Personalized Learning Path" class="w-full h-full object-contain">
+                    <img loading="lazy" decoding="async" width="64" height="64" src="{{ asset('assets/icons/Personalized-Learning-Path.svg') }}" alt="Personalized Learning Path" class="w-full h-full object-contain">
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">Personalized Learning Path</h3>
+                <h2 class="text-xl font-bold text-gray-900 mb-3">Personalized Learning Path</h2>
                 <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">{{ __('app.feature_2_desc') }}</p>
-                <a href="#" class="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-700 group-hover:gap-2 transition-all">
+                <a href="{{ url('/') }}" class="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-700 group-hover:gap-2 transition-all">
                     {{ __('app.learn_more') }} 
                     <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                 </a>
@@ -277,11 +280,11 @@
             <!-- Card 3 -->
             <div class="bg-white rounded-[2rem] p-6 lg:p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col items-start group cursor-pointer">
                 <div class="w-14 h-14 rounded-2xl bg-purple-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform p-3">
-                    <img loading="lazy" decoding="async" src="{{ asset('assets/icons/Verified-Skill-Passport.svg') }}" alt="Verified Skill Passport" class="w-full h-full object-contain">
+                    <img loading="lazy" decoding="async" width="64" height="64" src="{{ asset('assets/icons/Verified-Skill-Passport.svg') }}" alt="Verified Skill Passport" class="w-full h-full object-contain">
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">Verified Skill Passport</h3>
+                <h2 class="text-xl font-bold text-gray-900 mb-3">Verified Skill Passport</h2>
                 <p class="text-[15px] text-gray-600 leading-relaxed mb-8 flex-1">{{ __('app.feature_3_desc') }}</p>
-                <a href="#" class="inline-flex items-center gap-1.5 text-sm font-bold text-purple-700 group-hover:gap-2 transition-all">
+                <a href="{{ url('/') }}" class="inline-flex items-center gap-1.5 text-sm font-bold text-purple-700 group-hover:gap-2 transition-all">
                     {{ __('app.learn_more') }} 
                     <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                 </a>
@@ -358,7 +361,7 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
                 <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100/50 border border-emerald-200 mb-4">
-                    <svg aria-hidden="true" class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <svg aria-hidden="true" class="w-3.5 h-3.5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                     <span class="text-[11px] font-bold tracking-[0.15em] text-emerald-700 uppercase">{{ __('app.popular_courses_badge') }}</span>
                 </div>
                 <h2 class="text-4xl md:text-[42px] font-extrabold text-[#0f172a] tracking-tight">{{ __('app.start_learning_now') }}</h2>
@@ -392,7 +395,7 @@
                 <!-- Card Body -->
                 <div class="p-6 flex flex-col flex-1">
                     <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4"> {{ __('app.course_programming') }} </span>
-                    <h3 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">Full-Stack Web Development Bootcamp</a></h3>
+                    <h2 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">Full-Stack Web Development Bootcamp</a></h2>
                     <p class="text-[13px] text-slate-600 mb-4">Rudi Yesaya · Google</p>
                     
                     <div class="flex items-center gap-2 mb-6 mt-auto">
@@ -404,7 +407,7 @@
                             <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         </div>
                         <span class="text-[13px] font-bold text-slate-700">4.9</span>
-                        <span class="text-[13px] text-slate-400">(12,840)</span>
+                        <span class="text-[13px] text-slate-500">(12,840)</span>
                     </div>
                     
                     <!-- Footer -->
@@ -413,7 +416,7 @@
                             <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             48h
                         </div>
-                        <div class="text-[13px] font-bold text-emerald-600">{{ __('app.progress_done', ['percent' => 68]) }}</div>
+                        <div class="text-[13px] font-bold text-emerald-700">{{ __('app.progress_done', ['percent' => 68]) }}</div>
                     </div>
                 </div>
             </div>
@@ -436,7 +439,7 @@
                 <!-- Card Body -->
                 <div class="p-6 flex flex-col flex-1">
                     <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4"> {{ __('app.course_design') }} </span>
-                    <h3 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">UI/UX Design Mastery</a></h3>
+                    <h2 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">UI/UX Design Mastery</a></h2>
                     <p class="text-[13px] text-slate-600 mb-4">Sari Dewi · Tokopedia</p>
                     
                     <div class="flex items-center gap-2 mb-6 mt-auto">
@@ -448,7 +451,7 @@
                             <svg aria-hidden="true" class="w-4 h-4 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         </div>
                         <span class="text-[13px] font-bold text-slate-700">4.8</span>
-                        <span class="text-[13px] text-slate-400">(9,210)</span>
+                        <span class="text-[13px] text-slate-500">(9,210)</span>
                     </div>
                     
                     <!-- Footer -->
@@ -482,7 +485,7 @@
                 <!-- Card Body -->
                 <div class="p-6 flex flex-col flex-1">
                     <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4"> {{ __('app.course_ai') }} </span>
-                    <h3 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">AI & Machine Learning Fundamentals</a></h3>
+                    <h2 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">AI & Machine Learning Fundamentals</a></h2>
                     <p class="text-[13px] text-slate-600 mb-4">Andi Wijaya · Gojek</p>
                     
                     <div class="flex items-center gap-2 mb-6 mt-auto">
@@ -494,7 +497,7 @@
                             <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         </div>
                         <span class="text-[13px] font-bold text-slate-700">4.9</span>
-                        <span class="text-[13px] text-slate-400">(15,300)</span>
+                        <span class="text-[13px] text-slate-500">(15,300)</span>
                     </div>
                     
                     <!-- Footer -->
@@ -503,7 +506,7 @@
                             <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             60h
                         </div>
-                        <div class="text-[13px] font-bold text-emerald-600">{{ __('app.progress_done', ['percent' => 23]) }}</div>
+                        <div class="text-[13px] font-bold text-emerald-700">{{ __('app.progress_done', ['percent' => 23]) }}</div>
                     </div>
                 </div>
             </div>
@@ -541,22 +544,22 @@
                 <div class="grid grid-cols-2 gap-4 max-w-[480px] mb-10">
                     <!-- Box 1 -->
                     <div class="bg-[#0f0f0f] border border-white/5 rounded-[14px] p-4">
-                        <h3 class="text-[15px] font-bold text-white mb-1"> {{ __('app.bootcamp_online') }} </h3>
+                        <h2 class="text-[15px] font-bold text-white mb-1"> {{ __('app.bootcamp_online') }} </h2>
                         <p class="text-[13px] text-gray-400">{{ __('app.bootcamp_online_desc') }}</p>
                     </div>
                     <!-- Box 2 -->
                     <div class="bg-[#0f0f0f] border border-white/5 rounded-[14px] p-4">
-                        <h3 class="text-[15px] font-bold text-white mb-1"> {{ __('app.bootcamp_offline') }} </h3>
+                        <h2 class="text-[15px] font-bold text-white mb-1"> {{ __('app.bootcamp_offline') }} </h2>
                         <p class="text-[13px] text-gray-400">{{ __('app.bootcamp_offline_desc') }}</p>
                     </div>
                     <!-- Box 3 -->
                     <div class="bg-[#0f0f0f] border border-white/5 rounded-[14px] p-4">
-                        <h3 class="text-[15px] font-bold text-white mb-1"> {{ __('app.bootcamp_recording') }} </h3>
+                        <h2 class="text-[15px] font-bold text-white mb-1"> {{ __('app.bootcamp_recording') }} </h2>
                         <p class="text-[13px] text-gray-400">{{ __('app.bootcamp_recording_desc') }}</p>
                     </div>
                     <!-- Box 4 -->
                     <div class="bg-[#0f0f0f] border border-white/5 rounded-[14px] p-4">
-                        <h3 class="text-[15px] font-bold text-white mb-1"> {{ __('app.bootcamp_certificate') }} </h3>
+                        <h2 class="text-[15px] font-bold text-white mb-1"> {{ __('app.bootcamp_certificate') }} </h2>
                         <p class="text-[13px] text-gray-400">{{ __('app.bootcamp_certificate_desc') }}</p>
                     </div>
                 </div>
@@ -581,7 +584,7 @@
                     <!-- Glassmorphism Floating Bar -->
                     <div class="absolute bottom-5 left-5 right-5 bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
-                            <h3 class="text-lg font-bold text-white mb-1.5 leading-snug">{{ __('app.leadership_management') }}</h3>
+                            <h2 class="text-lg font-bold text-white mb-1.5 leading-snug">{{ __('app.leadership_management') }}</h2>
                             <div class="flex items-center gap-1.5 text-[13px] text-gray-300">
                                 <svg aria-hidden="true" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                                 <span>{{ __('app.participants_count', ['count' => 18]) }} · {{ __('app.starts_on', ['date' => '11 Agu 2025']) }}</span>
@@ -611,7 +614,7 @@
             </div>
             
             <!-- Title -->
-            <h2 class="text-4xl md:text-[44px] font-extrabold text-slate-900 tracking-tight leading-[1.2] mb-5">
+            <h2 class="text-4xl md:text-[44px] font-black text-slate-900 tracking-tighter leading-[1.2] mb-5 [-webkit-text-stroke:1px_#0f172a]">
                 {{ __('app.mentor_title') }}
             </h2>
             
@@ -633,7 +636,7 @@
                 <img loading="lazy" decoding="async" width="60" height="60" src="https://i.pravatar.cc/150?u=rudi" alt="Rudi Yesaya, Google Senior Dev" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
                 
                 <!-- Info -->
-                <h3 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Rudi Yesaya</h3>
+                <h2 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Rudi Yesaya</h2>
                 <p class="text-[13px] text-slate-600 mb-1">Senior Software Engineer</p>
                 <p class="text-[13px] font-bold text-[#D10000] mb-5">Google</p>
                 
@@ -651,7 +654,7 @@
                 
                 <!-- Footer -->
                 <div class="flex items-center justify-between">
-                    <span class="text-[13px] font-medium text-slate-400">{{ __('app.price_per_session', ['price' => 'Rp 150.000']) }}</span>
+                    <span class="text-[13px] font-medium text-slate-500">{{ __('app.price_per_session', ['price' => 'Rp 150.000']) }}</span>
                     <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
                         {{ __('app.book_mentor') }}
                     </button>
@@ -662,7 +665,7 @@
             <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow relative flex flex-col cursor-pointer group">
                 <div class="absolute top-6 right-6 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-50"></div>
                 <img loading="lazy" decoding="async" width="60" height="60" src="https://i.pravatar.cc/150?u=sari" alt="Sari Dewi, Lead Product Designer" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
-                <h3 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Sari Dewi</h3>
+                <h2 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Sari Dewi</h2>
                 <p class="text-[13px] text-slate-600 mb-1">Lead Product Designer</p>
                 <p class="text-[13px] font-bold text-[#D10000] mb-5">Tokopedia</p>
                 
@@ -678,7 +681,7 @@
                 </div>
                 
                 <div class="flex items-center justify-between">
-                    <span class="text-[13px] font-medium text-slate-400">{{ __('app.price_per_session', ['price' => 'Rp 120.000']) }}</span>
+                    <span class="text-[13px] font-medium text-slate-500">{{ __('app.price_per_session', ['price' => 'Rp 120.000']) }}</span>
                     <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
                         {{ __('app.book_mentor') }}
                     </button>
@@ -689,7 +692,7 @@
             <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow relative flex flex-col cursor-pointer group">
                 <div class="absolute top-6 right-6 w-2.5 h-2.5 rounded-full bg-slate-300 ring-4 ring-slate-100"></div>
                 <img loading="lazy" decoding="async" width="60" height="60" src="https://i.pravatar.cc/150?u=andi" alt="Andi Wijaya, ML Engineer" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
-                <h3 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Andi Wijaya</h3>
+                <h2 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Andi Wijaya</h2>
                 <p class="text-[13px] text-slate-600 mb-1">ML Engineer</p>
                 <p class="text-[13px] font-bold text-[#D10000] mb-5">Gojek</p>
                 
@@ -705,7 +708,7 @@
                 </div>
                 
                 <div class="flex items-center justify-between">
-                    <span class="text-[13px] font-medium text-slate-400">{{ __('app.price_per_session', ['price' => 'Rp 200.000']) }}</span>
+                    <span class="text-[13px] font-medium text-slate-500">{{ __('app.price_per_session', ['price' => 'Rp 200.000']) }}</span>
                     <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
                         {{ __('app.book_mentor') }}
                     </button>
@@ -716,7 +719,7 @@
             <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow relative flex flex-col cursor-pointer group">
                 <div class="absolute top-6 right-6 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-50"></div>
                 <img loading="lazy" decoding="async" width="60" height="60" src="https://i.pravatar.cc/150?u=rina" alt="Rina Kusuma, Head of Marketing" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
-                <h3 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Rina Kusuma</h3>
+                <h2 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Rina Kusuma</h2>
                 <p class="text-[13px] text-slate-600 mb-1">Head of Marketing</p>
                 <p class="text-[13px] font-bold text-[#D10000] mb-5">Shopee</p>
                 
@@ -732,7 +735,7 @@
                 </div>
                 
                 <div class="flex items-center justify-between">
-                    <span class="text-[13px] font-medium text-slate-400">{{ __('app.price_per_session', ['price' => 'Rp 100.000']) }}</span>
+                    <span class="text-[13px] font-medium text-slate-500">{{ __('app.price_per_session', ['price' => 'Rp 100.000']) }}</span>
                     <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
                         {{ __('app.book_mentor') }}
                     </button>
@@ -790,9 +793,9 @@
                 </div>
                 
                 <!-- Title -->
-                <h2 class="text-3xl sm:text-4xl md:text-[46px] font-extrabold text-white tracking-tight leading-[1.1] mb-4 lg:mb-5">
+                <h2 class="font-['Inter'] text-3xl sm:text-4xl md:text-[46px] font-black text-white tracking-[-0.05em] leading-[1.1] mb-4 lg:mb-5">
                     {{ __('app.enterprise_title_1') }}<br>
-                    <span class="text-[#ff3b30]">{{ __('app.enterprise_title_2') }}</span>
+                    <span class="text-transparent bg-clip-text inline-block" style="background-image: linear-gradient(95deg, #D10000 0%, #FF4500 100%);">{{ __('app.enterprise_title_2') }}</span>
                 </h2>
                 
                 <!-- Description -->
@@ -848,12 +851,12 @@
         <div class="text-center max-w-3xl mx-auto mb-16">
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-200 bg-amber-50 mb-6">
-                <svg aria-hidden="true" class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                <span class="text-[11px] font-bold tracking-[0.15em] text-amber-500 uppercase">{{ __('app.real_stories_badge') }}</span>
+                <svg aria-hidden="true" class="w-3.5 h-3.5 text-amber-700" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                <span class="text-[11px] font-bold tracking-[0.15em] text-amber-700 uppercase">{{ __('app.real_stories_badge') }}</span>
             </div>
             
             <!-- Title -->
-            <h2 class="text-4xl md:text-[44px] font-extrabold text-slate-900 tracking-tight leading-[1.2] mb-5">
+            <h2 class="font-['Inter'] text-4xl md:text-[44px] font-black text-slate-900 tracking-tight leading-[1.1] mb-5">
                 {{ __('app.real_stories_title') }}
             </h2>
         </div>
@@ -945,14 +948,14 @@
     <div class="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center">
         
         <!-- Subtitle -->
-        <div class="text-[#ff3b30] text-[11px] font-bold tracking-[0.2em] uppercase mb-5">
+        <div class="text-red-500 text-[11px] font-bold tracking-[0.2em] uppercase mb-5">
             {{ __('app.start_now_free') }}
         </div>
         
         <!-- Title -->
-        <h2 class="text-5xl md:text-[60px] font-extrabold text-white tracking-tight leading-[1.1] mb-6">
+        <h2 class="font-['Inter'] text-5xl md:text-[60px] font-black text-white tracking-[-0.05em] leading-[1] mb-6">
             {{ __('app.cta_title_1') }}<br>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF3333] to-[#cc0000]">{{ __('app.cta_title_2') }}</span>
+            <span class="text-transparent bg-clip-text inline-block" style="background-image: linear-gradient(95deg, #D10000 0%, #FF4500 100%);">{{ __('app.cta_title_2') }}</span>
         </h2>
         
         <!-- Description -->
@@ -1049,37 +1052,37 @@
                 
                 <!-- Column 1 -->
                 <div class="flex flex-col items-center md:items-start">
-                    <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6"> {{ __('app.footer_platform') }} </h3>
+                    <h2 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6"> {{ __('app.footer_platform') }} </h2>
                     <ul class="flex flex-col items-center md:items-start gap-4">
                         <li><a href="{{ route('kursus') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_courses') }}</a></li>
                         <li><a href="{{ route('online-bootcamp') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_bootcamp_online') }}</a></li>
                         <li><a href="{{ route('offline-bootcamp') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_bootcamp_offline') }}</a></li>
                         <li><a href="{{ route('mentor') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_mentor') }}</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_job_board') }}</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_community') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_job_board') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_community') }}</a></li>
                     </ul>
                 </div>
                 
                 <!-- Column 2 -->
                 <div class="flex flex-col items-center md:items-start">
-                    <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6"> {{ __('app.footer_company') }} </h3>
+                    <h2 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6"> {{ __('app.footer_company') }} </h2>
                     <ul class="flex flex-col items-center md:items-start gap-4">
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_about') }}</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_career') }}</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_blog') }}</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_press') }}</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_partner') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_about') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_career') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_blog') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_press') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_partner') }}</a></li>
                     </ul>
                 </div>
                 
                 <!-- Column 3 -->
                 <div class="flex flex-col items-center md:items-start col-span-2 md:col-span-1">
-                    <h3 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6"> {{ __('app.footer_support') }} </h3>
+                    <h2 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6"> {{ __('app.footer_support') }} </h2>
                     <ul class="flex flex-col items-center md:items-start gap-4">
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_help') }}</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_privacy') }}</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_terms') }}</a></li>
-                        <li><a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_status') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_help') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_privacy') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_terms') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_status') }}</a></li>
                     </ul>
                 </div>
                 

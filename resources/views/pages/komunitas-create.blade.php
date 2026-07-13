@@ -82,7 +82,7 @@
 
                 <!-- Preview Section -->
                 <div id="preview-section" class="hidden bg-gray-50 border border-gray-200 rounded-xl p-5">
-                    <h3 class="font-bold text-gray-900 mb-3" id="preview-title">{{ __('app.preview_title') }}</h3>
+                    <h2 class="font-bold text-gray-900 mb-3" id="preview-title">{{ __('app.preview_title') }}</h2>
                     <div id="preview-content" class="text-gray-700 whitespace-pre-wrap"></div>
                     <div id="preview-images" class="mt-4 flex gap-2 overflow-x-auto"></div>
                 </div>
@@ -101,10 +101,10 @@
 
         <!-- Guidelines -->
         <div class="mt-6 bg-blue-50 border border-blue-100 rounded-xl p-5">
-            <h4 class="font-semibold text-blue-800 mb-2 flex items-center gap-2">
+            <h2 class="font-semibold text-blue-800 mb-2 flex items-center gap-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 {{ __('app.community_guidelines') }}
-            </h4>
+            </h2>
             <ul class="text-sm text-blue-700 space-y-1.5 ml-7">
                 <li>• {{ __('app.guideline_1') }}</li>
                 <li>• {{ __('app.guideline_2') }}</li>

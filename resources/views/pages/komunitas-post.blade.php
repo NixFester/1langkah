@@ -21,7 +21,7 @@
                      alt="{{ $post->user->name }}"
                      class="w-12 h-12 rounded-full object-cover">
                 <div>
-                    <h4 class="font-semibold text-gray-900">{{ $post->user->name }}</h4>
+                    <h2 class="font-semibold text-gray-900">{{ $post->user->name }}</h2>
                     <p class="text-sm text-gray-500">{{ $post->created_at->diffForHumans() }}</p>
                 </div>
             </div>
@@ -35,7 +35,7 @@
             @if(!empty($post->image_urls))
             <div class="mb-4 grid gap-3 {{ count($post->image_urls) > 1 ? 'grid-cols-2' : '' }}">
                 @foreach($post->image_urls as $index => $imageUrl)
-                <a href="{{ $imageUrl }}" target="_blank" class="block rounded-xl overflow-hidden hover:opacity-90 transition-opacity">
+                <a href="{{ $imageUrl }}" target="_blank" class="block rounded-xl overflow-hidden hover:opacity-90 transition-opacity" aria-label="Lihat Gambar Penuh">
                     <img src="{{ $imageUrl }}" alt="Image {{ $index + 1 }}" class="w-full max-h-96 object-contain rounded-xl bg-gray-50">
                 </a>
                 @endforeach
@@ -79,13 +79,13 @@
 
     <!-- Reply Form -->
     <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-        <h3 class="font-bold text-gray-900 mb-4">{{ __('app.write_comment') }}</h3>
+        <h2 class="font-bold text-gray-900 mb-4">{{ __('app.write_comment') }}</h2>
         <form action="{{ route('komunitas.reply') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="post_id" value="{{ $post->id }}">
 
             <div class="mb-3">
-                <textarea name="content" rows="4" :placeholder="'{{ __('app.write_comment_placeholder') }}'"
+                <textarea aria-label="'{{ __('app.write_comment_placeholder') }}'" name="content" rows="4" :placeholder="'{{ __('app.write_comment_placeholder') }}'"
                           class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm resize-none"
                           required>{{ old('content') }}</textarea>
                 @error('content')
@@ -97,7 +97,7 @@
                 <label class="block text-sm font-medium text-gray-700 mb-2">
                     {{ __('app.image_optional_multiple') }}
                 </label>
-                <input type="text" name="image_urls" :placeholder="'https://example.com/image1.jpg, https://example.com/image2.jpg'"
+                <input aria-label="'https://example.com/image1.jpg, https://example.com/image2.jpg'" type="text" name="image_urls" :placeholder="'https://example.com/image1.jpg, https://example.com/image2.jpg'"
                        value="{{ old('image_urls') }}"
                        class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm">
                 <p class="text-xs text-gray-500 mt-1">{{ __('app.image_url_multiple_help') }}</p>
@@ -114,7 +114,7 @@
 
     <!-- Replies Section -->
     <div class="space-y-4">
-        <h3 class="font-bold text-gray-900 text-lg">{{ $post->reply_count }} {{ __('app.comments_count_title') }}</h3>
+        <h2 class="font-bold text-gray-900 text-lg">{{ $post->reply_count }} {{ __('app.comments_count_title') }}</h2>
 
         @forelse($post->topLevelReplies as $reply)
         <div class="reply-container bg-white border border-gray-100 rounded-2xl p-5 shadow-sm" id="reply-{{ $reply->id }}">
@@ -138,7 +138,7 @@
                 @if(!empty($reply->image_urls))
                 <div class="flex gap-2 mb-3 overflow-x-auto pb-1">
                     @foreach($reply->image_urls as $index => $imageUrl)
-                    <a href="{{ $imageUrl }}" target="_blank" class="shrink-0 block rounded-lg overflow-hidden hover:opacity-90 transition-opacity">
+                    <a href="{{ $imageUrl }}" target="_blank" class="shrink-0 block rounded-lg overflow-hidden hover:opacity-90 transition-opacity" aria-label="Lihat Gambar Penuh">
                         <img src="{{ $imageUrl }}" alt="Image {{ $index + 1 }}" class="h-20 w-20 object-cover rounded-lg">
                     </a>
                     @endforeach
@@ -183,7 +183,7 @@
                         @if(!empty($child->image_urls))
                         <div class="flex gap-2 mb-2 overflow-x-auto pb-1 ml-11">
                             @foreach($child->image_urls as $index => $imageUrl)
-                            <a href="{{ $imageUrl }}" target="_blank" class="shrink-0 block rounded-lg overflow-hidden hover:opacity-90 transition-opacity">
+                            <a href="{{ $imageUrl }}" target="_blank" class="shrink-0 block rounded-lg overflow-hidden hover:opacity-90 transition-opacity" aria-label="Lihat Gambar Penuh">
                                 <img src="{{ $imageUrl }}" alt="Image {{ $index + 1 }}" class="h-16 w-16 object-cover rounded-lg">
                             </a>
                             @endforeach
@@ -372,7 +372,7 @@ async function submitReport() {
 <div id="reportModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-black/50" onclick="hideReportModal()"></div>
     <div class="relative bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl">
-        <h3 class="text-xl font-bold text-gray-900 mb-4">{{ __('app.report_content') }}</h3>
+        <h2 class="text-xl font-bold text-gray-900 mb-4">{{ __('app.report_content') }}</h2>
         <p class="text-sm text-gray-600 mb-4">{{ __('app.report_content_desc') }}</p>
 
         <form id="reportForm">

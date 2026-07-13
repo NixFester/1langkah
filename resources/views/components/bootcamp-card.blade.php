@@ -56,9 +56,9 @@
 
     <!-- Content -->
     <div class="p-6 flex flex-col flex-1 {{ $compact ? 'p-4' : 'p-6' }}">
-        <h3 class="text-lg font-bold text-gray-900 leading-snug mb-2 group-hover:text-red-600 transition-colors line-clamp-2 {{ $compact ? 'text-base' : 'text-lg' }}">
+        <h2 class="text-lg font-bold text-gray-900 leading-snug mb-2 group-hover:text-red-600 transition-colors line-clamp-2 {{ $compact ? 'text-base' : 'text-lg' }}">
             {{ $b['title'] }}
-        </h3>
+        </h2>
         <p class="text-sm text-gray-500 mb-6 font-medium">{{ $b['mentor'] ?? '' }}</p>
 
         <!-- Enrollment Progress -->

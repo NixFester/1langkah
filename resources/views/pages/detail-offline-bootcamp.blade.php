@@ -50,7 +50,7 @@
                 <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
             </div>
             <div>
-                <h3 class="text-[22px] font-bold mb-1.5 tracking-tight">{{ __('app.offline_feature_1') }}</h3>
+                <h2 class="text-[22px] font-bold mb-1.5 tracking-tight">{{ __('app.offline_feature_1') }}</h2>
                 <p class="text-[#d7ccc8] text-[15px] leading-relaxed max-w-2xl font-medium">{{ __('app.offline_feature_1_desc') }}</p>
             </div>
         </div>
@@ -95,7 +95,7 @@
                         <span class="px-2.5 py-0.5 bg-gray-100 text-gray-500 text-[11px] font-semibold rounded-full">{{ $loop->first ? __('app.all_level') : ($loop->iteration == 2 ? __('app.beginner') : __('app.intermediate')) }}</span>
                     </div>
                     
-                    <h3 class="text-[15px] font-bold text-gray-900 leading-snug mb-1">{{ $item['title'] }}</h3>
+                    <h2 class="text-[15px] font-bold text-gray-900 leading-snug mb-1">{{ $item['title'] }}</h2>
                     <p class="text-[12px] text-gray-500 mb-4">{{ $item['mentor'] }}</p>
                     
                     <div class="flex items-center gap-4 text-[11px] text-gray-500 font-medium mb-4">
@@ -199,7 +199,7 @@
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                             <div>
                                 <p class="text-sm font-semibold text-red-700">{{ __('app.offline_ticket') }}</p>
-                                <h3 class="text-lg font-bold text-gray-900 mt-1">{{ __('app.show_ticket') }}</h3>
+                                <h2 class="text-lg font-bold text-gray-900 mt-1">{{ __('app.show_ticket') }}</h2>
                                 <p class="text-sm text-gray-600 mt-2">{{ __('app.admin_scan') }}</p>
                             </div>
                             <div class="rounded-2xl bg-white p-3 border border-red-100 shadow-sm">
@@ -218,7 +218,7 @@
                     <div class="mb-8 rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
                         <div class="flex items-center gap-2 mb-4">
                             <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <h3 class="text-[17px] font-bold text-gray-900">{{ __('app.attendance_code_title') }}</h3>
+                            <h2 class="text-[17px] font-bold text-gray-900">{{ __('app.attendance_code_title') }}</h2>
                         </div>
                         <p class="text-sm text-gray-600 mb-4">{{ __('app.attendance_code_desc') }}</p>
 
@@ -256,7 +256,7 @@
                     <div class="mb-8 rounded-2xl border border-gray-200 bg-gray-50 p-5">
                         <div class="flex items-center gap-2 mb-2">
                             <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <h3 class="text-[17px] font-bold text-gray-900">{{ __('app.code_not_available') }}</h3>
+                            <h2 class="text-[17px] font-bold text-gray-900">{{ __('app.code_not_available') }}</h2>
                         </div>
                         <p class="text-sm text-gray-600">{{ __('app.mentor_will_give_code') }}</p>
                     </div>
@@ -268,7 +268,7 @@
                         <div class="flex-1">
                             <div class="flex items-center gap-2 mb-4">
                                 <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                <h3 class="text-[17px] font-bold text-gray-900">{{ __('app.class_schedule') }}</h3>
+                                <h2 class="text-[17px] font-bold text-gray-900">{{ __('app.class_schedule') }}</h2>
                             </div>
                             <div class="flex flex-col gap-3">
                                 <div class="bg-gray-50 rounded-xl p-4 flex items-center gap-4">
@@ -292,7 +292,7 @@
 
                         <!-- Yang Didapatkan -->
                         <div class="flex-1">
-                            <h3 class="text-[17px] font-bold text-gray-900 mb-4 pt-1">{{ __('app.what_you_get') }}</h3>
+                            <h2 class="text-[17px] font-bold text-gray-900 mb-4 pt-1">{{ __('app.what_you_get') }}</h2>
                             <div class="flex flex-col gap-3">
                                 @foreach($benefits as $f)
                                 <div class="flex items-center gap-3">
@@ -309,7 +309,7 @@
                     <!-- Jadwal Kelas Section -->
                     @if(is_array($jadwalKelas) || is_object($jadwalKelas))
                     <div class="mt-8 pt-8 border-t border-gray-100">
-                        <h3 class="text-[17px] font-bold text-gray-900 mb-4">{{ __('app.schedule_detail') }}</h3>
+                        <h2 class="text-[17px] font-bold text-gray-900 mb-4">{{ __('app.schedule_detail') }}</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             @foreach($jadwalKelas as $jadwal)
                             <div class="bg-gray-50 rounded-xl p-4">

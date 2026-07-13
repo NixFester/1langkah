@@ -81,7 +81,7 @@
                 <!-- Level -->
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.level') }} <span class="text-red-500">*</span></label>
-                    <select name="level" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
+                    <select aria-label="Level" name="level" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
                         <option value="">{{ __('app.select_level') }}</option>
                         <option value="Beginner" {{ old('level', $course->level ?? '') === 'Beginner' ? 'selected' : '' }}>Beginner</option>
                         <option value="Intermediate" {{ old('level', $course->level ?? '') === 'Intermediate' ? 'selected' : '' }}>Intermediate</option>

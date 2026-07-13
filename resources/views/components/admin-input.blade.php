@@ -14,7 +14,7 @@
         {{ $label }}@if($required) <span style="color:#dc2626">*</span>@endif
     </label>
     @if($type === 'select')
-        <select name="{{ $name }}" {{ $required ? 'required' : '' }}
+        <select aria-label="{{ $Name }}" name="{{ $name }}" {{ $required ? 'required' : '' }}
             style="width:100%;padding:8px 12px;border:1px solid #e5e7eb;border-radius:6px;font-size:13px;background:#fff;">
             <option value="">-- {{ __('app.select') }} {{ $label }} --</option>
             @foreach($options as $val => $label)
@@ -22,10 +22,10 @@
             @endforeach
         </select>
     @elseif($type === 'textarea')
-        <textarea name="{{ $name }}" rows="{{ $rows }}" placeholder="{{ $placeholder }}"
+        <textarea aria-label="{{ $placeholder }}" name="{{ $name }}" rows="{{ $rows }}" placeholder="{{ $placeholder }}"
             style="width:100%;padding:8px 12px;border:1px solid #e5e7eb;border-radius:6px;font-size:13px;resize:vertical;">{{ old($name, $value) }}</textarea>
     @else
-        <input type="{{ $type }}" name="{{ $name }}"
+        <input aria-label="{{ $placeholder }}" type="{{ $type }}" name="{{ $name }}"
             value="{{ old($name, $value) }}"
             placeholder="{{ $placeholder }}"
             {{ $required ? 'required' : '' }}

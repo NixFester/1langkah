@@ -24,7 +24,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- Scan Code Panel --}}
         <div class="bg-white rounded-xl border border-gray-100 p-6">
-            <h3 class="font-bold text-gray-900 mb-4">{{ __('app.scan_attendance_code') }}</h3>
+            <h2 class="font-bold text-gray-900 mb-4">{{ __('app.scan_attendance_code') }}</h2>
             <p class="text-sm text-gray-500 mb-6">
                 {{ __('app.scan_code_instruction') }}
             </p>
@@ -35,7 +35,7 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">
                         {{ __('app.attendance_code') }}
                     </label>
-                    <input type="text" name="short_code" required maxlength="4" minlength="4"
+                    <input aria-label="XXXX" type="text" name="short_code" required maxlength="4" minlength="4"
                            placeholder="XXXX"
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-2xl font-bold text-center tracking-widest rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-4 uppercase transition-colors">
                     @error('short_code')
@@ -51,7 +51,7 @@
 
         {{-- Generate Codes Panel --}}
         <div class="bg-white rounded-xl border border-gray-100 p-6">
-            <h3 class="font-bold text-gray-900 mb-4">{{ __('app.generate_code_today') }}</h3>
+            <h2 class="font-bold text-gray-900 mb-4">{{ __('app.generate_code_today') }}</h2>
             <p class="text-sm text-gray-500 mb-6">
                 {{ __('app.generate_code_instruction') }}
             </p>
@@ -62,7 +62,7 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">
                         {{ __('app.attendance_date') }}
                     </label>
-                    <input type="date" name="date" required value="{{ date('Y-m-d') }}"
+                    <input aria-label="Date" type="date" name="date" required value="{{ date('Y-m-d') }}"
                            class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 transition-colors">
                     @error('date')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -85,7 +85,7 @@
 
     {{-- Today's Attendance Records --}}
     <div class="bg-white rounded-xl border border-gray-100 p-6 mt-6">
-        <h3 class="font-bold text-gray-900 mb-4">{{ __('app.today_attendance_records') }}</h3>
+        <h2 class="font-bold text-gray-900 mb-4">{{ __('app.today_attendance_records') }}</h2>
 
         @if($records->isEmpty())
             <div class="p-8 text-center">

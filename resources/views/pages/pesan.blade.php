@@ -14,7 +14,7 @@
             <h2 class="text-xl font-extrabold text-gray-900 mb-4 tracking-tight">{{ __('app.messages') }}</h2>
             <div class="relative">
                 <svg class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" placeholder="{{ __('app.search_messages') }}" class="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
+                <input aria-label="{{ __('app.search_messages') }}" type="text" placeholder="{{ __('app.search_messages') }}" class="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
             </div>
         </div>
 
@@ -25,13 +25,13 @@
                  :class="activeChat === 1 ? 'bg-red-50 border-red-100 shadow-sm' : 'border-transparent hover:bg-gray-50'" 
                  class="flex items-center gap-3 p-3 rounded-2xl cursor-pointer transition-all duration-200 border relative group">
                 <div class="relative flex-shrink-0">
-                    <img src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-11 h-11 rounded-full object-cover shadow-sm">
+                    <img src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-11 h-11 rounded-full object-cover shadow-sm" alt="">
                     <div class="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red-600 border-2 border-white rounded-full"></div>
                 </div>
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between mb-0.5">
                         <div class="flex items-center gap-1.5 min-w-0">
-                            <h4 class="font-bold text-gray-900 text-[14px] truncate">Rudi Yesaya</h4>
+                            <h2 class="font-bold text-gray-900 text-[14px] truncate">Rudi Yesaya</h2>
                             <span class="text-[9px] font-extrabold tracking-wide text-red-600 bg-red-100 px-1.5 py-0.5 rounded-md flex-shrink-0 uppercase">{{ __('app.mentor') }}</span>
                         </div>
                         <span class="text-[11px] font-bold text-red-600 whitespace-nowrap ml-2">09:41</span>
@@ -45,12 +45,12 @@
                  :class="activeChat === 2 ? 'bg-red-50 border-red-100 shadow-sm' : 'border-transparent hover:bg-gray-50'" 
                  class="flex items-center gap-3 p-3 rounded-2xl cursor-pointer transition-all duration-200 border relative group">
                 <div class="relative flex-shrink-0">
-                    <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=random" class="w-11 h-11 rounded-full object-cover shadow-sm opacity-90">
+                    <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=random" class="w-11 h-11 rounded-full object-cover shadow-sm opacity-90" alt="">
                 </div>
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between mb-0.5">
                         <div class="flex items-center gap-1.5 min-w-0">
-                            <h4 :class="activeChat === 2 ? 'text-gray-900 font-bold' : 'text-gray-700 font-semibold'" class="text-[14px] truncate transition-colors">Sarah Johnson</h4>
+                            <h2 :class="activeChat === 2 ? 'text-gray-900 font-bold' : 'text-gray-700 font-semibold'" class="text-[14px] truncate transition-colors">Sarah Johnson</h2>
                             <span class="text-[9px] font-extrabold tracking-wide text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-md flex-shrink-0 uppercase">{{ __('app.admin') }}</span>
                         </div>
                         <span class="text-[11px] font-medium text-gray-400 whitespace-nowrap ml-2">{{ __('app.yesterday') }}</span>
@@ -73,7 +73,7 @@
                 
                 <template x-if="activeChat === 1">
                     <div class="flex items-center gap-3">
-                        <img src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-10 h-10 rounded-full object-cover shadow-sm">
+                        <img src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-10 h-10 rounded-full object-cover shadow-sm" alt="">
                         <div>
                             <div class="flex items-center gap-2">
                                 <div class="font-bold text-gray-900 text-[15px]">Rudi Yesaya</div>
@@ -85,7 +85,7 @@
                 </template>
                 <template x-if="activeChat === 2">
                     <div class="flex items-center gap-3">
-                        <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=random" class="w-10 h-10 rounded-full object-cover shadow-sm">
+                        <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=random" class="w-10 h-10 rounded-full object-cover shadow-sm" alt="">
                         <div>
                             <div class="flex items-center gap-2">
                                 <div class="font-bold text-gray-900 text-[15px]">Sarah Johnson</div>
@@ -120,7 +120,7 @@
 
                     <!-- Message Received -->
                     <div class="flex items-end gap-3 max-w-[85%]">
-                        <img src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-8 h-8 rounded-full mb-1 shadow-sm">
+                        <img src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-8 h-8 rounded-full mb-1 shadow-sm" alt="">
                         <div class="flex flex-col gap-1">
                             <span class="text-[11px] font-bold text-gray-500 ml-1">Rudi Yesaya</span>
                             <div class="bg-white p-4 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
@@ -145,7 +145,7 @@
 
                     <!-- Message Received (Latest) -->
                     <div class="flex items-end gap-3 max-w-[85%]">
-                        <img src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-8 h-8 rounded-full mb-1 shadow-sm">
+                        <img src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-8 h-8 rounded-full mb-1 shadow-sm" alt="">
                         <div class="flex flex-col gap-1">
                             <span class="text-[11px] font-bold text-gray-500 ml-1">Rudi Yesaya</span>
                             <div class="bg-white p-4 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
@@ -167,7 +167,7 @@
 
                     <!-- Message Received -->
                     <div class="flex items-end gap-3 max-w-[85%]">
-                        <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=random" class="w-8 h-8 rounded-full mb-1 shadow-sm">
+                        <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=random" class="w-8 h-8 rounded-full mb-1 shadow-sm" alt="">
                         <div class="flex flex-col gap-1">
                             <span class="text-[11px] font-bold text-gray-500 ml-1">Sarah Johnson</span>
                             <div class="bg-white p-4 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
@@ -188,7 +188,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
                 </button>
                 <div class="flex-1 bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden focus-within:ring-2 focus-within:ring-red-500 focus-within:border-red-500 transition-shadow">
-                    <textarea rows="1" class="w-full max-h-32 p-3.5 bg-transparent border-none focus:ring-0 resize-none text-[14px] leading-relaxed" placeholder="{{ __('app.type_message') }}"></textarea>
+                    <textarea aria-label="{{ __('app.type_message') }}" rows="1" class="w-full max-h-32 p-3.5 bg-transparent border-none focus:ring-0 resize-none text-[14px] leading-relaxed" placeholder="{{ __('app.type_message') }}"></textarea>
                 </div>
                 <button class="p-3.5 bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-[0_4px_12px_rgba(220,38,38,0.3)] transition-all transform hover:-translate-y-0.5 flex-shrink-0">
                     <svg class="w-5 h-5 translate-x-px -translate-y-px" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>

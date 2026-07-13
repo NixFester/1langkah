@@ -26,7 +26,7 @@ $color = $event['color'] ?? '#cc0000';
     </div>
 
     <div class="flex-1 min-w-0">
-        <h4 class="text-sm font-bold text-gray-900 truncate">{{ $title }}</h4>
+        <h2 class="text-sm font-bold text-gray-900 truncate">{{ $title }}</h2>
         <p class="text-[11px] text-gray-500">{{ $day }}, {{ $time }}</p>
         <span class="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 capitalize">
             {{ $type }}

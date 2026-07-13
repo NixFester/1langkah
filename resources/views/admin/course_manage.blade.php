@@ -125,7 +125,7 @@
                                 {{ $loop->iteration }}
                             </div>
                             <div>
-                                <h4 class="font-bold text-gray-900">{{ $chapter->title }}</h4>
+                                <h2 class="font-bold text-gray-900">{{ $chapter->title }}</h2>
                                 <p class="text-sm text-gray-500">{{ $chapter->lessons }} {{ __('app.lessons') }} &bull; {{ $chapter->duration }}</p>
                             </div>
                         </div>
@@ -265,7 +265,7 @@
                     <x-form-input name="title" :label="__('app.resource_title')" :placeholder="__('app.example_resource_title')" :required="true" />
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.type') }} <span class="text-red-500">*</span></label>
-                        <select name="type" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3">
+                        <select aria-label="Type" name="type" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3">
                             <option value="pdf">PDF</option>
                             <option value="zip">ZIP</option>
                             <option value="video">Video</option>
@@ -340,11 +340,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.choose_image_file') ?? 'Pilih File Gambar' }} <span class="text-red-500">*</span></label>
-                        <input type="file" name="image" accept="image/*" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-2 transition-colors">
+                        <input aria-label="Image" type="file" name="image" accept="image/*" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-2 transition-colors">
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">Tipe</label>
-                        <select name="type" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3">
+                        <select aria-label="Type" name="type" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3">
                             <option value="gallery">Gallery</option>
                             <option value="thumbnail">Thumbnail</option>
                         </select>

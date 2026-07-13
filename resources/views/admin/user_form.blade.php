@@ -34,23 +34,23 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.full_name') }} <span class="text-red-500">*</span></label>
-                    <input type="text" name="name" value="{{ old('name', $user->name ?? '') }}" placeholder="{{ __('app.enter_full_name') }}" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                    <input aria-label="Name" type="text" name="name" value="{{ old('name', $user->name ?? '') }}" placeholder="{{ __('app.enter_full_name') }}" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.email') }} <span class="text-red-500">*</span></label>
-                    <input type="email" name="email" value="{{ old('email', $user->email ?? '') }}" placeholder="{{ __('app.email_active') }}" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                    <input aria-label="Email" type="email" name="email" value="{{ old('email', $user->email ?? '') }}" placeholder="{{ __('app.email_active') }}" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.password') }} {!! !isset($user) ? '<span class="text-red-500">*</span>' : '' !!}</label>
-                    <input type="password" name="password" placeholder="{{ isset($user) ? __('app.password_leave_blank') : __('app.enter_password') }}" {{ !isset($user) ? 'required' : '' }} class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                    <input aria-label="{{ isset($user) ? __('app.password_leave_blank') : __('app.enter_password') }}" type="password" name="password" placeholder="{{ isset($user) ? __('app.password_leave_blank') : __('app.enter_password') }}" {{ !isset($user) ? 'required' : '' }} class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.confirm_password') }} {!! !isset($user) ? '<span class="text-red-500">*</span>' : '' !!}</label>
-                    <input type="password" name="password_confirmation" placeholder="{{ __('app.retype_password') }}" {{ !isset($user) ? 'required' : '' }} class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                    <input aria-label="{{ __('app.retype_password') }}" type="password" name="password_confirmation" placeholder="{{ __('app.retype_password') }}" {{ !isset($user) ? 'required' : '' }} class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.access_role') }} <span class="text-red-500">*</span></label>
-                    <select name="role" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
+                    <select aria-label="Role" name="role" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
                         <option value="">{{ __('app.select_role') }}</option>
                         <option value="student" {{ old('role', $user->role ?? '') === 'student' ? 'selected' : '' }}>{{ __('app.student') }}</option>
                         <option value="mentor" {{ old('role', $user->role ?? '') === 'mentor' ? 'selected' : '' }}>{{ __('app.mentor') }}</option>
@@ -69,7 +69,7 @@
                         </div>
                     @endif
                     <div id="photo-input-container" style="display: {{ isset($user) && $user->profile_photo ? 'none' : 'block' }};">
-                        <input type="file" name="profile_photo_file" accept="image/*" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-2 transition-colors">
+                        <input aria-label="Profile Photo File" type="file" name="profile_photo_file" accept="image/*" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-2 transition-colors">
                         <p class="text-xs text-gray-500 mt-1">{{ __('app.upload_image_hint') }}</p>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                         previewDiv.id = 'photo-preview-container';
                         previewDiv.className = 'mb-3 relative inline-block';
                         previewDiv.innerHTML = `
-                            <img id="photo-preview" src="" class="h-24 w-24 object-cover rounded-full border border-gray-200">
+                            <img id="photo-preview" src="" class="h-24 w-24 object-cover rounded-full border border-gray-200" alt="">
                             <button type="button" onclick="removePhotoPreview()" class="absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition-colors" title="{{ __('app.remove_photo') }}">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                             </button>

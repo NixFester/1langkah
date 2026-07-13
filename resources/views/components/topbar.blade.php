@@ -31,7 +31,7 @@
 
     <!-- Tengah -->
     <div class="topbar-search hidden md:block" style="flex:0 1 auto;width:100%;max-width:480px;">
-        <input class="input input-search" placeholder="{{ __('app.search_placeholder') }}" style="width:100%; height:42px; border-radius:999px; border:1px solid #e5e7eb; background-color:#ffffff; padding-left:44px; font-size:14px; color:#374151; box-shadow:0 1px 2px rgba(0,0,0,0.02); transition:all 0.2s;" onfocus="this.style.borderColor='#d10000';this.style.boxShadow='0 0 0 3px rgba(209,0,0,0.1)';" onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='0 1px 2px rgba(0,0,0,0.02)';" />
+        <input aria-label="{{ __('app.search_placeholder') }}" class="input input-search" placeholder="{{ __('app.search_placeholder') }}" style="width:100%; height:42px; border-radius:999px; border:1px solid #e5e7eb; background-color:#ffffff; padding-left:44px; font-size:14px; color:#374151; box-shadow:0 1px 2px rgba(0,0,0,0.02); transition:all 0.2s;" onfocus="this.style.borderColor='#d10000';this.style.boxShadow='0 0 0 3px rgba(209,0,0,0.1)';" onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='0 1px 2px rgba(0,0,0,0.02)';" />
     </div>
 
     @auth
@@ -40,14 +40,14 @@
 
         {{-- Language Switcher --}}
         <div style="position:relative; margin-right: 8px;">
-            <a href="javascript:void(0)" class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-xs font-bold text-gray-700 cursor-not-allowed opacity-50" title="Switch Language">
+            <button type="button" disabled class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-xs font-bold text-gray-700 cursor-not-allowed opacity-50" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
                 {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
-            </a>
+            </button>
         </div>
 
         {{-- Bell + Notification Overlay --}}
         <div style="position:relative">
-            <button id="notif-btn" class="topbar-icon" style="background:none;border:none;cursor:pointer;position:relative" onclick="toggleNotif(event)">
+            <button id="notif-btn" type="button" class="topbar-icon" style="background:none;border:none;cursor:pointer;position:relative" onclick="toggleNotif(event)" aria-label="Toggle Notifications">
                 <x-icon name="bell" />
                 <div id="notif-dot" class="dot" style="position:absolute;top:0;right:0;width:8px;height:8px;background:#f5576c;border-radius:50%;border:2px solid var(--bg-main);{{ $unreadCount == 0 ? 'display:none' : '' }}"></div>
             </button>
@@ -59,7 +59,7 @@
                     <div id="notif-new-badge"></div>
                 </div>
                 <div id="notif-list" class="max-h-[340px] overflow-y-auto">
-                    <div class="py-8 px-5 text-center text-gray-400">
+                    <div class="py-8 px-5 text-center text-gray-500">
                         <svg class="w-10 h-10 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
                         <p class="text-[13px] font-medium">{{ __('app.loading_notifications') }}</p>
                     </div>
@@ -71,7 +71,7 @@
         </div>
 
         {{-- Avatar & User Info --}}
-        <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;margin-left:8px;">
+        <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;margin-left:8px;" aria-label="Profile Settings">
             @if($authUser && $authUser->profile_photo)
             <img src="{{ $authUser->profile_photo }}" alt="Profile" style="width:36px; height:36px; border-radius:50%; object-fit:cover; flex-shrink:0; background:#cc0000; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             @else
@@ -79,7 +79,7 @@
             @endif
             <div class="hidden sm:flex" style="flex-direction:column; align-items:flex-start; justify-content:center;">
                 <span style="font-size:14px;font-weight:700;color:var(--text-primary);line-height:1.2;">{{ $authUser->name }}</span>
-                <span style="font-size:12px;font-weight:600;color:var(--text-light);line-height:1.1;margin-top:2px;">{{ $isStudent ? number_format((int) ($authUser->xp ?? 0)) . ' XP' : $roleLabel }}</span>
+                <span style="font-size:12px;font-weight:600;color:#6b7280;line-height:1.1;margin-top:2px;">{{ $isStudent ? number_format((int) ($authUser->xp ?? 0)) . ' XP' : $roleLabel }}</span>
             </div>
         </a>
     </div>
@@ -88,9 +88,9 @@
     <div class="topbar-right" style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:12px;">
         {{-- Language Switcher --}}
         <div style="position:relative; margin-right: 8px;">
-            <a href="javascript:void(0)" class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-xs font-bold text-gray-700 cursor-not-allowed opacity-50" title="Switch Language">
+            <button type="button" disabled class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-xs font-bold text-gray-700 cursor-not-allowed opacity-50" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
                 {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
-            </a>
+            </button>
         </div>
         
         <a href="{{ route('login') }}" style="font-size:14px;font-weight:600;color:var(--text-secondary);text-decoration:none;padding:8px 16px;">{{ __('app.login') }}</a>
@@ -177,7 +177,7 @@ function loadNotifications() {
     })
     .catch(err => {
         console.error('Error loading notifications:', err);
-        document.getElementById('notif-list').innerHTML = '<div class="py-8 px-5 text-center text-gray-400"><p class="text-[13px] font-medium">{{ __('app.failed_load_notifications') }}</p></div>';
+        document.getElementById('notif-list').innerHTML = '<div class="py-8 px-5 text-center text-gray-500"><p class="text-[13px] font-medium">{{ __('app.failed_load_notifications') }}</p></div>';
     });
 }
 
@@ -185,7 +185,7 @@ function renderNotifications() {
     const list = document.getElementById('notif-list');
 
     if (notifications.length === 0) {
-        list.innerHTML = '<div class="py-8 px-5 text-center text-gray-400"><svg class="w-10 h-10 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0v-2a2 2 0 00-2-2H6a2 2 0 00-2 2"></path></svg><p class="text-[13px] font-medium">{{ __('app.no_notifications') }}</p></div>';
+        list.innerHTML = '<div class="py-8 px-5 text-center text-gray-500"><svg class="w-10 h-10 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0v-2a2 2 0 00-2-2H6a2 2 0 00-2 2"></path></svg><p class="text-[13px] font-medium">{{ __('app.no_notifications') }}</p></div>';
         return;
     }
 
@@ -200,8 +200,8 @@ function renderNotifications() {
                 </div>
                 <div class="flex-1 min-w-0">
                     <div class="text-[12.5px] leading-snug ${n.is_read ? 'text-gray-500' : 'text-gray-900 font-semibold'}">${n.title}</div>
-                    <div class="text-[11px] text-gray-400 mt-0.5 leading-tight">${n.message}</div>
-                    <div class="text-[10px] text-gray-400 mt-1.5 font-medium">${n.created_at}</div>
+                    <div class="text-[11px] text-gray-500 mt-0.5 leading-tight">${n.message}</div>
+                    <div class="text-[10px] text-gray-500 mt-1.5 font-medium">${n.created_at}</div>
                 </div>
                 ${n.is_read ? '' : '<div class="w-1.5 h-1.5 rounded-full bg-[#cc0000] shrink-0 mt-1"></div>'}
             </div>

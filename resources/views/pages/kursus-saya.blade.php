@@ -97,13 +97,13 @@
             <!-- Search Input -->
             <div class="flex-1 relative">
                 <svg class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" x-model="searchQuery" :placeholder="'{{ __('app.search_courses') }}'"
+                <input aria-label="'{{ __('app.search_courses') }}'" type="text" x-model="searchQuery" :placeholder="'{{ __('app.search_courses') }}'"
                     class="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
             </div>
 
             <!-- Sort Dropdown -->
             <div class="relative min-w-[140px]">
-                <select x-model="sortBy" class="appearance-none w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 sm:py-3 pr-9 text-sm text-gray-700 focus:ring-2 focus:ring-red-500 focus:border-red-500 cursor-pointer">
+                <select aria-label="Input Field" x-model="sortBy" class="appearance-none w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 sm:py-3 pr-9 text-sm text-gray-700 focus:ring-2 focus:ring-red-500 focus:border-red-500 cursor-pointer">
                     <option value="newest">{{ __('app.newest') }}</option>
                     <option value="rating">{{ __('app.rating') }}</option>
                     <option value="progress">{{ __('app.progress') }}</option>
@@ -182,7 +182,7 @@
                 <!-- Body -->
                 <div class="p-4 flex flex-col flex-grow">
                     <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold text-red-600 bg-red-50 mb-3 self-start" x-text="course.category || 'Programming'"></span>
-                    <h3 class="font-bold text-gray-900 text-[15px] leading-tight mb-2 line-clamp-2" x-text="course.title"></h3>
+                    <h2 class="font-bold text-gray-900 text-[15px] leading-tight mb-2 line-clamp-2" x-text="course.title"></h2>
                     <p class="text-xs text-gray-500 mb-3" x-text="(course.mentor || '') + ' · ' + (course.mentorCompany || 'Google')"></p>
 
                     <!-- Rating -->
@@ -239,7 +239,7 @@
                 </div>
                 <div class="p-4 flex flex-col flex-grow">
                     <span class="inline-block px-2.5 py-0.5 rounded-md text-xs font-bold text-emerald-600 bg-emerald-50 mb-2" x-text="course.category || ''"></span>
-                    <h3 class="font-bold text-gray-900 text-base leading-tight mb-2 line-clamp-2" x-text="course.title"></h3>
+                    <h2 class="font-bold text-gray-900 text-base leading-tight mb-2 line-clamp-2" x-text="course.title"></h2>
                     <p class="text-xs text-gray-500 mb-3" x-text="course.mentor || ''"></p>
                     <div class="mt-auto pt-3 border-t border-gray-100">
                         <span class="text-sm font-bold text-emerald-500">✓ {{ __('app.course_completed') }}</span>
@@ -274,7 +274,7 @@
                 </div>
                 <div class="p-4 flex flex-col flex-grow">
                     <span class="inline-block px-2.5 py-0.5 rounded-md text-xs font-bold text-red-600 bg-red-50 mb-2" x-text="course.category || ''"></span>
-                    <h3 class="font-bold text-gray-900 text-base leading-tight mb-2 line-clamp-2" x-text="course.title"></h3>
+                    <h2 class="font-bold text-gray-900 text-base leading-tight mb-2 line-clamp-2" x-text="course.title"></h2>
                     <p class="text-xs text-gray-500 mb-3" x-text="(course.mentor || '') + ' · ' + (course.mentorCompany || '')"></p>
                     <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
                         <div class="flex items-center text-gray-400 text-xs">

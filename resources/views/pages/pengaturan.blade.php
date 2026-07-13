@@ -96,15 +96,15 @@
 
                 <div class="input-group" style="margin-bottom:16px">
                     <label>{{ __('app.full_name') }}</label>
-                    <input class="input" name="name" value="{{ old('name', $u->name) }}" required />
+                    <input aria-label="Name" class="input" name="name" value="{{ old('name', $u->name) }}" required />
                 </div>
                 <div class="input-group" style="margin-bottom:16px">
                     <label>Email</label>
-                    <input class="input" type="email" name="email" value="{{ old('email', $u->email) }}" required />
+                    <input aria-label="Email" class="input" type="email" name="email" value="{{ old('email', $u->email) }}" required />
                 </div>
                 <div class="input-group" style="margin-bottom:0">
                     <label>{{ __('app.bio') }}</label>
-                    <textarea class="input" name="bio" rows="3" :placeholder="'{{ __('app.bio_placeholder') }}'">{{ old('bio', $u->bio) }}</textarea>
+                    <textarea aria-label="'{{ __('app.bio_placeholder') }}'" class="input" name="bio" rows="3" :placeholder="'{{ __('app.bio_placeholder') }}'">{{ old('bio', $u->bio) }}</textarea>
                     <small style="color:var(--text-muted);font-size:11px;margin-top:4px;display:block">{{ __('app.bio_help') }}</small>
                 </div>
             </div>
@@ -114,11 +114,11 @@
                 <p style="font-size:12px;color:var(--text-muted);margin-bottom:18px">{{ __('app.change_password_help') }}</p>
                 <div class="input-group" style="margin-bottom:16px">
                     <label>{{ __('app.new_password') }}</label>
-                    <input class="input" type="password" name="password" :placeholder="'{{ __('app.new_password_placeholder') }}'" />
+                    <input aria-label="'{{ __('app.new_password_placeholder') }}'" class="input" type="password" name="password" :placeholder="'{{ __('app.new_password_placeholder') }}'" />
                 </div>
                 <div class="input-group" style="margin-bottom:0">
                     <label>{{ __('app.confirm_new_password') }}</label>
-                    <input class="input" type="password" name="password_confirmation" :placeholder="'{{ __('app.confirm_new_password_placeholder') }}'" />
+                    <input aria-label="'{{ __('app.confirm_new_password_placeholder') }}'" class="input" type="password" name="password_confirmation" :placeholder="'{{ __('app.confirm_new_password_placeholder') }}'" />
                 </div>
             </div>
 
@@ -149,27 +149,27 @@
                         ];
                     @endphp
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
-                        <input type="checkbox" name="email_course_updates" value="1" {{ ($emailPrefs['email_course_updates'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
+                        <input aria-label="Email Course Updates" type="checkbox" name="email_course_updates" value="1" {{ ($emailPrefs['email_course_updates'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
                         <span>{{ __('app.pref_course_updates') }}</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
-                        <input type="checkbox" name="email_bootcamp_reminders" value="1" {{ ($emailPrefs['email_bootcamp_reminders'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
+                        <input aria-label="Email Bootcamp Reminders" type="checkbox" name="email_bootcamp_reminders" value="1" {{ ($emailPrefs['email_bootcamp_reminders'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
                         <span>{{ __('app.pref_bootcamp_reminders') }}</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
-                        <input type="checkbox" name="email_event_announcements" value="1" {{ ($emailPrefs['email_event_announcements'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
+                        <input aria-label="Email Event Announcements" type="checkbox" name="email_event_announcements" value="1" {{ ($emailPrefs['email_event_announcements'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
                         <span>{{ __('app.pref_event_announcements') }}</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
-                        <input type="checkbox" name="email_forum_replies" value="1" {{ ($emailPrefs['email_forum_replies'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
+                        <input aria-label="Email Forum Replies" type="checkbox" name="email_forum_replies" value="1" {{ ($emailPrefs['email_forum_replies'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
                         <span>{{ __('app.pref_forum_replies') }}</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
-                        <input type="checkbox" name="email_achievements" value="1" {{ ($emailPrefs['email_achievements'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
+                        <input aria-label="Email Achievements" type="checkbox" name="email_achievements" value="1" {{ ($emailPrefs['email_achievements'] ?? true) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
                         <span>{{ __('app.pref_achievements') }}</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
-                        <input type="checkbox" name="email_weekly_progress" value="1" {{ ($emailPrefs['email_weekly_progress'] ?? false) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
+                        <input aria-label="Email Weekly Progress" type="checkbox" name="email_weekly_progress" value="1" {{ ($emailPrefs['email_weekly_progress'] ?? false) ? 'checked' : '' }} onchange="updateNotificationPref(this)" class="pref-checkbox">
                         <span>{{ __('app.pref_weekly_progress') }}</span>
                     </label>
                 </div>
@@ -183,15 +183,15 @@
                 </div>
                 <div style="display:flex;flex-direction:column;gap:10px">
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
-                        <input type="checkbox" name="show_profile_publicly" value="1" {{ ($u->settings->show_profile_publicly ?? true) ? 'checked' : '' }} onchange="updatePrivacyPref(this)" class="pref-checkbox">
+                        <input aria-label="Show Profile Publicly" type="checkbox" name="show_profile_publicly" value="1" {{ ($u->settings->show_profile_publicly ?? true) ? 'checked' : '' }} onchange="updatePrivacyPref(this)" class="pref-checkbox">
                         <span>{{ __('app.pref_public_profile') }}</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
-                        <input type="checkbox" name="show_progress_publicly" value="1" {{ ($u->settings->show_progress_publicly ?? true) ? 'checked' : '' }} onchange="updatePrivacyPref(this)" class="pref-checkbox">
+                        <input aria-label="Show Progress Publicly" type="checkbox" name="show_progress_publicly" value="1" {{ ($u->settings->show_progress_publicly ?? true) ? 'checked' : '' }} onchange="updatePrivacyPref(this)" class="pref-checkbox">
                         <span>{{ __('app.pref_public_progress') }}</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:13px;">
-                        <input type="checkbox" name="allow_mentor_contact" value="1" {{ ($u->settings->allow_mentor_contact ?? true) ? 'checked' : '' }} onchange="updatePrivacyPref(this)" class="pref-checkbox">
+                        <input aria-label="Allow Mentor Contact" type="checkbox" name="allow_mentor_contact" value="1" {{ ($u->settings->allow_mentor_contact ?? true) ? 'checked' : '' }} onchange="updatePrivacyPref(this)" class="pref-checkbox">
                         <span>{{ __('app.pref_allow_mentor_contact') }}</span>
                     </label>
                 </div>

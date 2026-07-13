@@ -74,7 +74,7 @@
     <!-- Session History -->
     @if($history->count() > 0)
     <div class="bg-white border border-gray-100 rounded-3xl p-6 md:p-8">
-        <h3 class="text-lg font-bold text-gray-900 mb-5">{{ __('app.session_history') }}</h3>
+        <h2 class="text-lg font-bold text-gray-900 mb-5">{{ __('app.session_history') }}</h2>
         <div class="space-y-4">
             @foreach($history as $session)
             <div class="border border-gray-100 rounded-xl p-4 {{ $session->isCompleted() ? '' : 'opacity-60' }}">

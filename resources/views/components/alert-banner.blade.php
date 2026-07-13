@@ -29,7 +29,7 @@
         @endif
         <div class="flex-1">
             @if($title)
-                <h3 class="text-[20px] sm:text-[22px] font-bold mb-1.5 tracking-tight">{{ $title }}</h3>
+                <h2 class="text-[20px] sm:text-[22px] font-bold mb-1.5 tracking-tight">{{ $title }}</h2>
             @endif
             @if($message)
                 <p class="text-current text-[13.5px] sm:text-[15px] leading-relaxed max-w-2xl opacity-90 font-medium">{{ $message }}</p>

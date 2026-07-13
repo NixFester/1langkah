@@ -31,13 +31,13 @@
             <!-- Search -->
             <div class="flex-1 relative">
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" name="search" value="{{ $search ?? '' }}" :placeholder="'{{ __('app.search_post') }}'" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm">
+                <input aria-label="'{{ __('app.search_post') }}'" type="text" name="search" value="{{ $search ?? '' }}" :placeholder="'{{ __('app.search_post') }}'" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm">
             </div>
 
             <!-- Sort Dropdown -->
             <div class="relative min-w-[160px]">
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" style="top: 50%;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>
-                <select name="sort" class="w-full pl-9 pr-8 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm appearance-none bg-white cursor-pointer">
+                <select aria-label="Sort" name="sort" class="w-full pl-9 pr-8 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm appearance-none bg-white cursor-pointer">
                     <option value="newest" {{ ($sort ?? 'newest') === 'newest' ? 'selected' : '' }}>{{ __('app.sort_newest') }}</option>
                     <option value="oldest" {{ ($sort ?? 'newest') === 'oldest' ? 'selected' : '' }}>{{ __('app.sort_oldest') }}</option>
                     <option value="popular" {{ ($sort ?? 'newest') === 'popular' ? 'selected' : '' }}>{{ __('app.sort_popular') }}</option>
@@ -85,9 +85,9 @@
 
                     <!-- Title -->
                     <a href="{{ route('komunitas.show', $post->id) }}" class="block group">
-                        <h3 class="font-bold text-gray-900 text-lg mb-2 group-hover:text-red-600 transition-colors line-clamp-2">
+                        <h2 class="font-bold text-gray-900 text-lg mb-2 group-hover:text-red-600 transition-colors line-clamp-2">
                             {{ $post->title }}
-                        </h3>
+                        </h2>
                     </a>
 
                     <!-- Content Preview -->
@@ -99,7 +99,7 @@
                     @if(!empty($post->image_urls))
                     <div class="flex gap-2 mb-3 overflow-x-auto pb-1">
                         @foreach(array_slice($post->image_urls, 0, 3) as $index => $imageUrl)
-                        <a href="{{ $imageUrl }}" target="_blank" class="shrink-0 block rounded-lg overflow-hidden hover:opacity-90 transition-opacity">
+                        <a href="{{ $imageUrl }}" target="_blank" class="shrink-0 block rounded-lg overflow-hidden hover:opacity-90 transition-opacity" aria-label="Lihat Gambar Penuh">
                             <img src="{{ $imageUrl }}" alt="Image {{ $index + 1 }}" class="h-20 w-20 object-cover rounded-lg">
                         </a>
                         @endforeach
@@ -139,7 +139,7 @@
     @else
     <!-- Empty State -->
     <x-empty-state
-        :message="$search ? __('app.empty_community_search') . ' \"' . $search . '\". ' . __('app.empty_community_search_2') : __('app.empty_community_first')"
+        :message="$search ? __('app.empty_community_search') . ' "' . $search . '". ' . __('app.empty_community_search_2') : __('app.empty_community_first')"
         icon="users"
         :actionRoute="route('komunitas.create')"
         :actionLabel="__('app.create_first_post')"
@@ -244,7 +244,7 @@ async function submitReport() {
 <div id="reportModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-black/50" onclick="hideReportModal()"></div>
     <div class="relative bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl">
-        <h3 class="text-xl font-bold text-gray-900 mb-4">{{ __('app.report_content') }}</h3>
+        <h2 class="text-xl font-bold text-gray-900 mb-4">{{ __('app.report_content') }}</h2>
         <p class="text-sm text-gray-600 mb-4">{{ __('app.report_content_desc') }}</p>
 
         <form id="reportForm">

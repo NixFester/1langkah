@@ -44,13 +44,13 @@ use App\Models\TestAttempt;
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
                     @if($course->pictures->where('type', 'thumbnail')->first())
-                    <img src="{{ $course->pictures->where('type', 'thumbnail')->first()->url }}" class="w-full h-full object-cover">
+                    <img alt="" src="{{ $course->pictures->where('type', 'thumbnail')->first()->url }}" class="w-full h-full object-cover">
                     @else
                     <div class="w-full h-full" style="background: linear-gradient(135deg, {{ $course->color ?? '#667eea' }}, {{ $course->color ?? '#667eea' }}cc);"></div>
                     @endif
                 </div>
                 <div>
-                    <h3 class="font-bold text-gray-900">{{ $course->title }}</h3>
+                    <h2 class="font-bold text-gray-900">{{ $course->title }}</h2>
                     <p class="text-sm text-gray-500">{{ $courseQuizzes->count() }} {{ __('app.quizzes_available') }}</p>
                 </div>
             </div>
@@ -84,7 +84,7 @@ use App\Models\TestAttempt;
                         <span class="text-xs text-gray-500">•</span>
                         <span class="text-xs text-gray-500">{{ __('app.passing_label') }} {{ $quiz->passing_score }}%</span>
                     </div>
-                    <h4 class="font-bold text-gray-900">{{ $quiz->title }}</h4>
+                    <h2 class="font-bold text-gray-900">{{ $quiz->title }}</h2>
                     @if($quiz->description)
                     <p class="text-sm text-gray-500 mt-1">{{ Str::limit($quiz->description, 80) }}</p>
                     @endif
