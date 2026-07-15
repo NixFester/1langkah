@@ -19,7 +19,7 @@
                 </span>
             </div>
 
-            <div class="grid grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                     <p class="text-sm text-gray-500 mb-1">{{ __('app.student_name') }}</p>
                     <p class="font-medium text-gray-800">{{ $verification->user->name ?? __('app.unknown') }}</p>
@@ -62,13 +62,13 @@
 
         {{-- Payment Proof --}}
         <x-card-panel :title="__('app.payment_proof')" class="mb-6">
-            <img src="{{ $verification->proof_image }}" :alt="__('app.payment_proof_alt')" class="max-w-md rounded-lg border border-gray-200">
+            <img decoding="async" loading="lazy" alt="" src="{{ $verification->proof_image }}" :alt="__('app.payment_proof_alt')" class="max-w-md rounded-lg border border-gray-200">
         </x-card-panel>
 
         {{-- Verification Actions --}}
         @if($verification->isPending())
             <x-card-panel :title="__('app.payment_verification')">
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     {{-- Approve Form --}}
                     <form action="{{ route('keuangan.verifications.approve', $verification) }}" method="POST">
                         @csrf

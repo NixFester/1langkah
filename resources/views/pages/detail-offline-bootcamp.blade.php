@@ -144,7 +144,7 @@
                 <!-- Hero Image -->
                 <div class="relative w-full h-[280px] bg-gray-900">
                     @if(!empty($b['thumbnail']))
-                        <img src="{{ $b['thumbnail'] }}" alt="{{ $b['title'] }}" class="w-full h-full object-cover opacity-60">
+                        <img decoding="async" loading="lazy" src="{{ $b['thumbnail'] }}" alt="{{ $b['title'] }}" class="w-full h-full object-cover opacity-60">
                     @else
                         <div class="w-full h-full" style="background:linear-gradient(135deg,{{ $b['color'] }},{{ $b['color'] }}cc)"></div>
                     @endif
@@ -172,7 +172,7 @@
                 </div>
                 
                 <!-- Content Body -->
-                <div class="p-8">
+                <div class="p-5 md:p-8">
                     <!-- Location Detailed -->
                     <div class="flex items-center gap-3 text-gray-500 mb-8">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -203,7 +203,7 @@
                                 <p class="text-sm text-gray-600 mt-2">{{ __('app.admin_scan') }}</p>
                             </div>
                             <div class="rounded-2xl bg-white p-3 border border-red-100 shadow-sm">
-                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data={{ urlencode($ticketCode) }}" alt="Ticket QR" class="w-40 h-40 object-contain">
+                                <img decoding="async" loading="lazy" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data={{ urlencode($ticketCode) }}" alt="Ticket QR" class="w-40 h-40 object-contain">
                             </div>
                         </div>
                         <div class="mt-4 rounded-xl border border-red-100 bg-white/80 p-4">

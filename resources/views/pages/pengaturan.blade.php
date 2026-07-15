@@ -26,7 +26,7 @@
                 <!-- Main Avatar -->
                 <div style="width:100%; height:100%; border-radius:50%; background:linear-gradient(135deg,var(--primary),#b91c1c); display:flex; align-items:center; justify-content:center; font-size:48px; font-weight:700; color:#fff; border:3px solid #fee2e2; overflow:hidden;" id="avatar-display">
                     @if($u->profile_photo)
-                        <img src="{{ $u->profile_photo }}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
+                        <img decoding="async" loading="lazy" alt="" src="{{ $u->profile_photo }}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
                     @else
                         {{ strtoupper(substr($u->name, 0, 1)) }}
                     @endif
@@ -303,7 +303,7 @@ async function uploadAvatar(input) {
         if (data.success) {
             // Update avatar display
             const display = document.getElementById('avatar-display');
-            display.innerHTML = `<img src="${data.data.avatar_url}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">`;
+            display.innerHTML = `<img decoding="async" loading="lazy" src="${data.data.avatar_url}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">`;
             showFeedback('{{ __('app.avatar_upload_success') }}');
 
             // Update topbar avatar too

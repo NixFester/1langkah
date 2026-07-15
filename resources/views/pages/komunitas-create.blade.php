@@ -156,7 +156,7 @@ function updateImagePreview() {
         const thumbDiv = document.createElement('div');
         thumbDiv.className = 'relative group';
         thumbDiv.innerHTML = `
-            <img src="${url}" alt="Preview ${index + 1}"
+            <img decoding="async" loading="lazy" src="${url}" alt="Preview ${index + 1}"
                  class="w-full h-24 object-cover rounded-lg bg-gray-100"
                  onerror="this.src='https://via.placeholder.com/150?text=Invalid+URL'">
             <button type="button" onclick="removeImage(${index})"

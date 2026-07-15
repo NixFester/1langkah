@@ -11,7 +11,7 @@
     <x-card-panel class="mb-6">
         <div class="flex items-center gap-4">
             @if($student->profile_photo)
-                <img alt="" src="{{ $student->profile_photo }}" class="w-16 h-16 rounded-full object-cover">
+                <img decoding="async" loading="lazy" alt="" src="{{ $student->profile_photo }}" class="w-16 h-16 rounded-full object-cover">
             @else
                 <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-xl">
                     {{ substr($student->name, 0, 1) }}

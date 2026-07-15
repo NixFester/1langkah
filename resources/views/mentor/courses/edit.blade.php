@@ -37,7 +37,7 @@
                         @enderror
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.category') }} *</label>
                             <input aria-label="Category" type="text" name="category" required value="{{ old('category', $course->category) }}"
@@ -60,7 +60,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.price') }} *</label>
                             <input aria-label="Price" type="text" name="price" required value="{{ old('price', $course->price) }}"
@@ -114,7 +114,7 @@
             {{-- Add Chapter Form --}}
             <form method="POST" action="{{ route('mentor.courses.chapters.store', $course) }}" class="mb-6 p-4 bg-gray-50 rounded-lg">
                 @csrf
-                <div class="grid grid-cols-4 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="col-span-2">
                         <input aria-label="{{ __('app.chapter_title') }}" type="text" name="title" required placeholder="{{ __('app.chapter_title') }}"
                                class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -201,7 +201,7 @@
 
             <form method="POST" action="{{ route('mentor.courses.resources.store', $course) }}" class="mb-6 p-4 bg-gray-50 rounded-lg">
                 @csrf
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <input aria-label="{{ __('app.resource_title') }}" type="text" name="title" required placeholder="{{ __('app.resource_title') }}"
                            class="border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     <select aria-label="Type" name="type" required class="border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">

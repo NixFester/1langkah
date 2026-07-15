@@ -40,7 +40,7 @@
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
                                 @if($course->thumbnail_url)
-                                    <img src="{{ $course->thumbnail_url }}" alt="{{ $course->title }}" class="w-12 h-12 rounded-lg object-cover">
+                                    <img decoding="async" loading="lazy" alt="" src="{{ $course->thumbnail_url }}" alt="{{ $course->title }}" class="w-12 h-12 rounded-lg object-cover">
                                 @else
                                     <div class="w-12 h-12 rounded-lg flex items-center justify-center text-white font-bold" style="background-color: {{ $course->color ?? '#3B82F6' }}">
                                         {{ substr($course->title, 0, 1) }}

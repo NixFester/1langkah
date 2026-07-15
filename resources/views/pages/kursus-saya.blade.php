@@ -57,8 +57,50 @@
             );
         }
         return courses;
+    },
+    currentPage: 1,
+    perPage: 12,
+    get currentList() {
+        if (this.tab === 'active') return this.displayedActive;
+        if (this.tab === 'done') return this.displayedCompleted;
+        return this.displayedWishlist;
+    },
+    get totalPages() {
+        return Math.ceil(this.currentList.length / this.perPage) || 1;
+    },
+    get paginatedActive() {
+        const start = (this.currentPage - 1) * this.perPage;
+        return this.displayedActive.slice(start, start + this.perPage);
+    },
+    get paginatedCompleted() {
+        const start = (this.currentPage - 1) * this.perPage;
+        return this.displayedCompleted.slice(start, start + this.perPage);
+    },
+    get paginatedWishlist() {
+        const start = (this.currentPage - 1) * this.perPage;
+        return this.displayedWishlist.slice(start, start + this.perPage);
+    },
+    changePage(page) {
+        if (page >= 1 && page <= this.totalPages) {
+            this.currentPage = page;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    },
+    get pageNumbers() {
+        let pages = [];
+        for (let i = 1; i <= this.totalPages; i++) {
+            if (i === 1 || i === this.totalPages || Math.abs(i - this.currentPage) <= 1) {
+                if (pages.length > 0 && i - pages[pages.length - 1] > 1) {
+                    pages.push('...');
+                }
+                pages.push(i);
+            }
+        }
+        return pages;
     }
-}" class="w-full px-0 sm:px-2 pb-8 space-y-4 sm:space-y-6">
+}" 
+x-init="$watch('tab', () => currentPage = 1); $watch('searchQuery', () => currentPage = 1); $watch('activeCat', () => currentPage = 1); $watch('sortBy', () => currentPage = 1)"
+class="w-full px-0 sm:px-2 pb-8 space-y-4 sm:space-y-6">
 
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -146,12 +188,12 @@
 
     <!-- Active Courses -->
     <div x-show="tab === 'active'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <template x-for="course in displayedActive" :key="course.id">
+        <template x-for="course in paginatedActive" :key="course.id">
             <a :href="'/kursus/' + course.id" class="block bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 group flex flex-col h-full">
                 <!-- Image -->
-                <div class="relative h-48 w-full bg-gray-100 overflow-hidden">
+                <div class="relative h-[140px] md:h-48 w-full bg-gray-100 overflow-hidden">
                     <template x-if="course.thumbnail">
-                        <img :src="course.thumbnail" :alt="course.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img decoding="async" loading="lazy" :src="course.thumbnail" :alt="course.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </template>
                     <template x-if="!course.thumbnail">
                         <div class="w-full h-full" :style="'background:linear-gradient(135deg,' + (course.color || '#dc2626') + ',' + (course.color || '#dc2626') + 'dd);'"></div>
@@ -221,11 +263,11 @@
 
     <!-- Completed Courses -->
     <div x-show="tab === 'done'" style="display:none" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <template x-for="course in displayedCompleted" :key="course.id">
+        <template x-for="course in paginatedCompleted" :key="course.id">
             <a :href="'/kursus/' + course.id" class="bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 group flex flex-col h-full">
-                <div class="relative h-48 w-full bg-gray-100 overflow-hidden">
+                <div class="relative h-[140px] md:h-48 w-full bg-gray-100 overflow-hidden">
                     <template x-if="course.thumbnail">
-                        <img :src="course.thumbnail" :alt="course.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img decoding="async" loading="lazy" :src="course.thumbnail" :alt="course.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </template>
                     <template x-if="!course.thumbnail">
                         <div class="w-full h-full" :style="'background:linear-gradient(135deg,#10b981,#10b981dd);'"></div>
@@ -259,11 +301,11 @@
 
     <!-- Wishlist / Other Courses -->
     <div x-show="tab === 'wishlist'" style="display:none" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <template x-for="course in displayedWishlist" :key="course.id">
+        <template x-for="course in paginatedWishlist" :key="course.id">
             <a :href="'/kursus/' + course.id" class="bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 group flex flex-col h-full">
-                <div class="relative h-48 w-full bg-gray-100 overflow-hidden">
+                <div class="relative h-[140px] md:h-48 w-full bg-gray-100 overflow-hidden">
                     <template x-if="course.thumbnail">
-                        <img :src="course.thumbnail" :alt="course.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img decoding="async" loading="lazy" :src="course.thumbnail" :alt="course.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </template>
                     <template x-if="!course.thumbnail">
                         <div class="w-full h-full" :style="'background:linear-gradient(135deg,' + (course.color || '#dc2626') + ',' + (course.color || '#dc2626') + 'dd);'"></div>
@@ -294,6 +336,35 @@
             :message="__('app.no_other_courses')"
             icon="book"
         />
+    </div>
+
+    <!-- Pagination -->
+    <div x-show="totalPages > 1" class="flex justify-center mt-8 pb-4" style="display: none;">
+        <nav class="flex items-center gap-1 sm:gap-2">
+            <!-- Prev Button -->
+            <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1" 
+                class="p-2 sm:px-3 sm:py-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+
+            <!-- Page Numbers -->
+            <template x-for="(page, index) in pageNumbers" :key="index">
+                <div>
+                    <button x-show="page !== '...'" @click="changePage(page)" 
+                        :class="currentPage === page ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'"
+                        class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg border flex items-center justify-center text-sm font-medium transition-colors"
+                        x-text="page">
+                    </button>
+                    <span x-show="page === '...'" class="px-1 sm:px-2 text-gray-400">...</span>
+                </div>
+            </template>
+
+            <!-- Next Button -->
+            <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages" 
+                class="p-2 sm:px-3 sm:py-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </nav>
     </div>
 
 </div>

@@ -32,7 +32,7 @@
         <div class="relative z-10 mt-6 md:mt-0 w-full sm:w-auto flex justify-center sm:block order-first sm:order-last">
             <div class="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full border-4 border-white/20 p-1 relative">
                 @if(auth()->user()->profile_photo)
-                <img src="{{ auth()->user()->profile_photo }}" alt="Profile" class="w-full h-full rounded-full object-cover bg-red-900" fetchpriority="high">
+                <img decoding="async" loading="lazy" alt="" src="{{ auth()->user()->profile_photo }}" alt="Profile" class="w-full h-full rounded-full object-cover bg-red-900" fetchpriority="high">
                 @else
                 <div class="w-full h-full rounded-full bg-red-800 flex items-center justify-center text-white text-3xl font-bold">
                     {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}
@@ -84,7 +84,7 @@
                         <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                             <div class="flex items-center gap-3">
                                 @if($enrollment->user?->profile_photo)
-                                    <img src="{{ $enrollment->user->profile_photo }}" alt="{{ $enrollment->user->name }}" class="w-10 h-10 rounded-full object-cover">
+                                    <img decoding="async" loading="lazy" alt="" src="{{ $enrollment->user->profile_photo }}" alt="{{ $enrollment->user->name }}" class="w-10 h-10 rounded-full object-cover">
                                 @else
                                     <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                                         <span class="text-blue-600 font-bold">{{ substr($enrollment->user->name ?? 'U', 0, 1) }}</span>

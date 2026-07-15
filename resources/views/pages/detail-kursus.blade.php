@@ -21,7 +21,7 @@
 <!-- Hero Section -->
 <div class="-mx-7 -mt-7 relative bg-slate-900 pt-20 pb-28 px-12 overflow-hidden">
     <div class="absolute inset-0 z-0">
-        <img src="{{ $c['thumbnail'] ?? 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80' }}" alt="Hero Background" class="w-full h-full object-cover opacity-30">
+        <img decoding="async" loading="lazy" src="{{ $c['thumbnail'] ?? 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80' }}" alt="Hero Background" class="w-full h-full object-cover opacity-30">
         <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent"></div>
     </div>
     <div class="relative z-10 w-full mt-6">
@@ -33,7 +33,7 @@
             @endif
         </div>
 
-        <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-5 leading-tight tracking-tight">{{ $c['title'] }}</h1>
+        <h1 class="text-[28px] sm:text-3xl md:text-5xl font-extrabold text-white mb-5 leading-tight tracking-tight">{{ $c['title'] }}</h1>
 
         @if(!empty($c['short_description']))
         <p class="text-lg text-gray-300 mb-8 max-w-3xl leading-relaxed">{{ $c['short_description'] }}</p>
@@ -197,7 +197,7 @@
                                         <div class="flex items-center gap-3 sm:gap-4 flex-1 min-w-0 group video-item ">
                                             <div class="w-20 sm:w-24 h-12 sm:h-14 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden relative {{ ($video['is_completed'] ?? false) ? 'bg-emerald-100' : 'bg-gray-200' }}">
                                                 @if(!empty($video['thumbnail_url']))
-                                                <img src="{{ $video['thumbnail_url'] }}" alt="{{ $video['title'] }}" class="w-full h-full object-cover">
+                                                <img decoding="async" loading="lazy" src="{{ $video['thumbnail_url'] }}" alt="{{ $video['title'] }}" class="w-full h-full object-cover">
                                                 @endif
                                                 <div class="absolute inset-0 flex items-center justify-center">
                                                     <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -224,7 +224,7 @@
                                         <div class="flex items-center gap-4 flex-1">
                                             <div class="w-24 h-14 rounded-lg bg-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden relative">
                                                 @if(!empty($video['thumbnail_url']))
-                                                <img src="{{ $video['thumbnail_url'] }}" alt="{{ $video['title'] }}" class="w-full h-full object-cover blur-sm">
+                                                <img decoding="async" loading="lazy" src="{{ $video['thumbnail_url'] }}" alt="{{ $video['title'] }}" class="w-full h-full object-cover blur-sm">
                                                 @endif
                                                 <div class="absolute inset-0 flex items-center justify-center">
                                                     <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
@@ -269,7 +269,7 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                         @foreach($photos as $photo)
                         <a href="{{ $photo['url'] }}" target="_blank" class="block rounded-xl overflow-hidden aspect-video hover:opacity-90 transition-opacity">
-                            <img src="{{ $photo['url'] }}" alt="{{ $photo['alt'] ?? $c['title'] }}" class="w-full h-full object-cover">
+                            <img decoding="async" loading="lazy" src="{{ $photo['url'] }}" alt="{{ $photo['alt'] ?? $c['title'] }}" class="w-full h-full object-cover">
                         </a>
                         @endforeach
                     </div>
@@ -293,7 +293,7 @@
                     <div class="flex flex-col lg:flex-row gap-6 mb-8 p-6 bg-gray-50 rounded-2xl">
                         <!-- Left: Rating Summary (Server calculated) -->
                         <div class="flex-1 text-center lg:text-left">
-                            <div class="text-5xl font-extrabold text-gray-900">{{ number_format((float) ($c['rating'] ?? 0), 1) }}</div>
+                            <div class="text-4xl md:text-5xl font-extrabold text-gray-900">{{ number_format((float) ($c['rating'] ?? 0), 1) }}</div>
                             <div class="flex text-yellow-400 mt-2 justify-center lg:justify-start">
                                 @for($i = 1; $i <= 5; $i++)
                                 <svg class="w-5 h-5 {{ $i <= round($c['rating'] ?? 0) ? '' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
@@ -479,7 +479,7 @@
                 <div class="bg-white border border-gray-100 rounded-3xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.05)]">
 
                     <div class="mb-6">
-                    <div class="text-4xl font-extrabold text-gray-900 mb-1 tracking-tight">
+                    <div class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-1 tracking-tight">
                         {{ $c['formatted_price'] ?? __('app.free') }}
                     </div>
                     @if(($c['price'] ?? 0) > 0)

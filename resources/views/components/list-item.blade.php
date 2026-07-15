@@ -32,7 +32,7 @@ $progressColorClass = match($progressColor) {
     @if($thumbnail)
     <div class="w-12 h-12 rounded-xl bg-gray-100 flex-shrink-0 overflow-hidden">
         @if(is_string($thumbnail) && (Str::startsWith($thumbnail, 'http') || Str::startsWith($thumbnail, '/')))
-            <img src="{{ $thumbnail }}" class="w-full h-full object-cover" alt="">
+            <img decoding="async" loading="lazy" src="{{ $thumbnail }}" class="w-full h-full object-cover" alt="">
         @elseif($color)
             <div class="w-full h-full" style="background: linear-gradient(135deg, {{ $color }}, {{ $color }}cc);"></div>
         @endif

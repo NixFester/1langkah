@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <!-- Hero Image -->
                 <div class="relative w-full h-[280px] bg-gray-900">
                     @if(!empty($b['thumbnail']))
-                        <img src="{{ $b['thumbnail'] }}" alt="{{ $b['title'] }}" class="w-full h-full object-cover opacity-60">
+                        <img decoding="async" loading="lazy" src="{{ $b['thumbnail'] }}" alt="{{ $b['title'] }}" class="w-full h-full object-cover opacity-60">
                     @endif
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                     
@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 
                 <!-- Content Body -->
-                <div class="p-8">
+                <div class="p-5 md:p-8">
                     <!-- Description -->
                     <p class="text-[14px] text-gray-600 leading-relaxed mb-6 font-medium">{{ __('app.online_desc_text') }}</p>
                     

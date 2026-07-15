@@ -166,7 +166,7 @@
             </div>
 
             <!-- Title -->
-            <h1 class="text-4xl lg:text-[46px] font-extrabold text-white leading-[1.15] tracking-tight mb-5 max-w-lg">
+            <h1 class="text-[28px] sm:text-3xl lg:text-[46px] font-extrabold text-white leading-[1.15] tracking-tight mb-4 md:mb-5 max-w-lg">
                 {{ __('app.landing_title_1') }}<br>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF3333] to-[#cc0000]">{{ __('app.landing_title_2') }}</span><br>
                 {{ __('app.landing_title_3') }}
@@ -182,7 +182,7 @@
                 <!-- Card 1 -->
                 <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
                     <div class="flex items-center gap-4">
-                        <img src="https://i.pravatar.cc/100?img=1" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
+                        <img decoding="async" loading="lazy" src="https://i.pravatar.cc/100?img=1" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
                         <div class="text-[13px] font-medium text-gray-400">{{ __('app.login_testi_1') }}</div>
                     </div>
                     <div class="flex items-center gap-0.5 text-[#ffb800]">
@@ -196,7 +196,7 @@
                 <!-- Card 2 -->
                 <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
                     <div class="flex items-center gap-4">
-                        <img src="https://i.pravatar.cc/100?img=11" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
+                        <img decoding="async" loading="lazy" src="https://i.pravatar.cc/100?img=11" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
                         <div class="text-[13px] font-medium text-gray-400">{{ __('app.login_testi_2') }}</div>
                     </div>
                     <div class="flex items-center gap-0.5 text-[#ffb800]">
@@ -210,7 +210,7 @@
                 <!-- Card 3 -->
                 <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
                     <div class="flex items-center gap-4">
-                        <img src="https://i.pravatar.cc/100?img=5" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
+                        <img decoding="async" loading="lazy" src="https://i.pravatar.cc/100?img=5" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
                         <div class="text-[13px] font-medium text-gray-400">{{ __('app.login_testi_3') }}</div>
                     </div>
                     <div class="flex items-center gap-0.5 text-[#ffb800]">

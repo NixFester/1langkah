@@ -37,14 +37,14 @@
     </a>
 
     <!-- Top Banner (Red Hero) -->
-    <div class="w-full bg-gradient-to-r from-[#b90000] to-[#800000] rounded-[24px] p-8 md:p-10 mb-8 flex flex-col md:flex-row items-center md:items-start md:justify-between gap-8 shadow-md relative overflow-hidden">
+    <div class="w-full bg-gradient-to-r from-[#b90000] to-[#800000] rounded-[24px] p-6 md:p-10 mb-8 flex flex-col md:flex-row items-center md:items-start md:justify-between gap-8 shadow-md relative overflow-hidden">
         <!-- Decoration -->
         <div class="absolute right-0 top-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
 
         <div class="flex flex-col md:flex-row items-center md:items-center gap-6 relative z-10 w-full md:w-auto text-center md:text-left">
             <!-- Avatar -->
             <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-white p-1.5 shadow-lg flex-shrink-0">
-                <img src="{{ $avatarUrl }}" alt="{{ $m['name'] }}" class="w-full h-full rounded-full object-cover">
+                <img decoding="async" loading="lazy" src="{{ $avatarUrl }}" alt="{{ $m['name'] }}" class="w-full h-full rounded-full object-cover">
             </div>
 
             <!-- Mentor Info -->
@@ -87,7 +87,7 @@
         <!-- Left Column -->
         <div class="lg:col-span-8 flex flex-col gap-6">
             <!-- Tentang Mentor -->
-            <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm">
+            <div class="bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-sm">
                 <h2 class="text-xl font-bold text-gray-900 mb-5">{{ __('app.about_mentor') }}</h2>
                 <div class="text-[15px] text-gray-600 leading-relaxed space-y-4">
                     @if(!empty($m['bio']))
@@ -100,7 +100,7 @@
 
             <!-- LinkedIn Profile -->
             @if(!empty($m['linkedin_url']))
-            <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm">
+            <div class="bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-sm">
                 <h2 class="text-xl font-bold text-gray-900 mb-5">LinkedIn Profile</h2>
                 <div class="rounded-xl overflow-hidden border border-gray-200">
                     <iframe
@@ -120,7 +120,7 @@
             @endif
 
             <!-- Bidang Keahlian -->
-            <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm">
+            <div class="bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-sm">
                 <h2 class="text-xl font-bold text-gray-900 mb-5">{{ __('app.area_of_expertise') }}</h2>
                 <div class="flex flex-wrap gap-2 mb-8">
                     @forelse($m['expertise'] as $skill)
@@ -153,7 +153,7 @@
             <div class="bg-white border border-gray-100 rounded-3xl p-6 lg:p-8 shadow-sm lg:sticky lg:top-24">
                 <!-- Quick Contact -->
                 <div class="flex items-center gap-3 mb-6 pb-6 border-b border-gray-100">
-                    <img src="{{ $avatarUrl }}" alt="{{ $m['name'] }}" class="w-14 h-14 rounded-full object-cover border-2 border-gray-100">
+                    <img decoding="async" loading="lazy" src="{{ $avatarUrl }}" alt="{{ $m['name'] }}" class="w-14 h-14 rounded-full object-cover border-2 border-gray-100">
                     <div class="flex-1 min-w-0">
                         <h2 class="font-bold text-gray-900 truncate">{{ $m['name'] }}</h2>
                         <p class="text-sm text-gray-500 truncate">{{ $m['role'] }}@if(!empty($m['company'])) {{ __('app.at_company') }} {{ $m['company'] }}@endif</p>

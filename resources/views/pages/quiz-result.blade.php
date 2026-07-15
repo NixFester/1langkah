@@ -8,7 +8,7 @@
 <div class="px-6 py-8 sm:px-10 w-full max-w-2xl mx-auto space-y-6">
 
     <!-- Result Card -->
-    <div class="bg-white rounded-2xl border border-gray-100 p-8 text-center">
+    <div class="bg-white rounded-2xl border border-gray-100 p-6 md:p-8 text-center">
         <!-- Score Circle -->
         <div class="w-32 h-32 mx-auto mb-6 relative">
             <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">

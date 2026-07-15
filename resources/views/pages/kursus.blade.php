@@ -81,8 +81,37 @@
         }
 
         return courses;
+    },
+    currentPage: 1,
+    perPage: 12,
+    get totalPages() {
+        return Math.ceil(this.displayedCourses.length / this.perPage) || 1;
+    },
+    get paginatedCourses() {
+        const start = (this.currentPage - 1) * this.perPage;
+        return this.displayedCourses.slice(start, start + this.perPage);
+    },
+    changePage(page) {
+        if (page >= 1 && page <= this.totalPages) {
+            this.currentPage = page;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    },
+    get pageNumbers() {
+        let pages = [];
+        for (let i = 1; i <= this.totalPages; i++) {
+            if (i === 1 || i === this.totalPages || Math.abs(i - this.currentPage) <= 1) {
+                if (pages.length > 0 && i - pages[pages.length - 1] > 1) {
+                    pages.push('...');
+                }
+                pages.push(i);
+            }
+        }
+        return pages;
     }
-}" class="w-full px-2 pb-8 space-y-8">
+}" 
+x-init="$watch('tab', () => currentPage = 1); $watch('searchQuery', () => currentPage = 1); $watch('activeCat', () => currentPage = 1); $watch('activeLevel', () => currentPage = 1); $watch('sortBy', () => currentPage = 1)"
+class="w-full px-2 pb-8 space-y-8">
 
     <!-- Header -->
     <div class="flex items-start justify-between -mt-2">
@@ -97,15 +126,15 @@
         class="bg-gradient-to-r from-red-600 to-red-700 text-white rounded-3xl p-9 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div class="flex items-center gap-8 sm:gap-12">
             <div class="pr-8 border-r border-white/20">
-                <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['courses_enrolled'] ?? 0 }}</div>
+                <div class="text-3xl md:text-4xl font-bold tracking-tight mb-1">{{ $userStats['courses_enrolled'] ?? 0 }}</div>
                 <div class="text-white/90 text-sm">{{ __('app.active_courses_count') }}</div>
             </div>
             <div class="pr-8 border-r border-white/20">
-                <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['courses_completed'] ?? 0 }}</div>
+                <div class="text-3xl md:text-4xl font-bold tracking-tight mb-1">{{ $userStats['courses_completed'] ?? 0 }}</div>
                 <div class="text-white/90 text-sm">{{ __('app.completed') }}</div>
             </div>
             <div>
-                <div class="text-4xl font-bold tracking-tight mb-1">{{ $userStats['certificates'] ?? 0 }}</div>
+                <div class="text-3xl md:text-4xl font-bold tracking-tight mb-1">{{ $userStats['certificates'] ?? 0 }}</div>
                 <div class="text-white/90 text-sm">{{ __('app.certificates') }}</div>
             </div>
         </div>
@@ -197,17 +226,17 @@
 
     <!-- Results Count -->
     <div class="text-sm text-gray-500">
-        {{ __('app.showing') }} <span class="font-semibold text-gray-900" x-text="displayedCourses.length"></span> {{ __('app.courses_count') }}
+        {{ __('app.showing') }} <span class="font-semibold text-gray-900" x-text="paginatedCourses.length"></span> {{ __('app.from') }} <span class="font-semibold text-gray-900" x-text="displayedCourses.length"></span> {{ __('app.courses_count') }}
     </div>
 
     <!-- Course Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <template x-for="course in displayedCourses" :key="course.id">
+        <template x-for="course in paginatedCourses" :key="course.id">
             <a :href="'/kursus/' + course.id" class="block bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 group">
                 <!-- Image -->
-                <div class="relative h-48 w-full bg-gray-100 overflow-hidden">
+                <div class="relative h-[140px] md:h-48 w-full bg-gray-100 overflow-hidden">
                     <template x-if="course.thumbnail">
-                        <img :src="course.thumbnail" :alt="course.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img decoding="async" loading="lazy" :src="course.thumbnail" :alt="course.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </template>
                     <template x-if="!course.thumbnail">
                         <div class="w-full h-full" :style="'background:linear-gradient(135deg,' + course.color + ',' + course.color + 'dd);'"></div>
@@ -281,6 +310,35 @@
                 </div>
             </a>
         </template>
+    </div>
+
+    <!-- Pagination -->
+    <div x-show="totalPages > 1" class="flex justify-center mt-8 pb-4" style="display: none;">
+        <nav class="flex items-center gap-1 sm:gap-2">
+            <!-- Prev Button -->
+            <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1" 
+                class="p-2 sm:px-3 sm:py-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+
+            <!-- Page Numbers -->
+            <template x-for="(page, index) in pageNumbers" :key="index">
+                <div>
+                    <button x-show="page !== '...'" @click="changePage(page)" 
+                        :class="currentPage === page ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'"
+                        class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg border flex items-center justify-center text-sm font-medium transition-colors"
+                        x-text="page">
+                    </button>
+                    <span x-show="page === '...'" class="px-1 sm:px-2 text-gray-400">...</span>
+                </div>
+            </template>
+
+            <!-- Next Button -->
+            <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages" 
+                class="p-2 sm:px-3 sm:py-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </nav>
     </div>
 
     <!-- Empty State -->

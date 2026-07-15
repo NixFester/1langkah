@@ -48,7 +48,7 @@
         </div>
 
         @if($registrations->isEmpty())
-            <div class="p-12 text-center">
+            <div class="p-6 md:p-12 text-center">
                 <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <x-icon name="users" class="w-8 h-8 text-gray-400" />
                 </div>
@@ -73,7 +73,7 @@
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         @if($registration->user?->profile_photo)
-                                            <img src="{{ $registration->user->profile_photo }}" alt="{{ $registration->user->name }}"
+                                            <img decoding="async" loading="lazy" alt="" src="{{ $registration->user->profile_photo }}" alt="{{ $registration->user->name }}"
                                                  class="w-10 h-10 rounded-full object-cover">
                                         @else
                                             <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">

@@ -34,7 +34,7 @@
                 @csrf
                 @method('PATCH')
 
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.title') }} *</label>
                         <input aria-label="Title" type="text" name="title" required value="{{ old('title', $bootcamp->title) }}"
@@ -118,7 +118,7 @@
             {{-- Add Session Form --}}
             <form method="POST" action="{{ route('mentor.bootcamps.sessions.store', $bootcamp) }}" class="mb-6 p-4 bg-gray-50 rounded-lg">
                 @csrf
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <input aria-label="{{ __('app.date') }}" type="text" name="date" required placeholder="{{ __('app.date') }}" class="border border-gray-200 rounded-lg px-4 py-2">
                     <input aria-label="{{ __('app.session_topic') }}" type="text" name="topic" required placeholder="{{ __('app.session_topic') }}" class="border border-gray-200 rounded-lg px-4 py-2">
                     <input aria-label="{{ __('app.time') }}" type="text" name="time" required placeholder="{{ __('app.time') }}" class="border border-gray-200 rounded-lg px-4 py-2">

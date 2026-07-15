@@ -14,7 +14,7 @@
                     @method('PUT')
                 @endif
 
-                <div class="grid grid-cols-2 gap-6 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div class="col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.promo_name') }}</label>
                         <input aria-label="Name" type="text" name="name" value="{{ old('name', $promo->name ?? '') }}" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-pink-500 focus:border-pink-500">

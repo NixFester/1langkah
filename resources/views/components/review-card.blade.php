@@ -12,7 +12,7 @@
     <!-- Avatar -->
     <div class="flex-shrink-0">
         @if($review->user && $review->user->profile_photo)
-            <img src="{{ $review->user->profile_photo }}" alt="{{ $review->user->name }}"
+            <img decoding="async" loading="lazy" alt="" src="{{ $review->user->profile_photo }}" alt="{{ $review->user->name }}"
                  class="w-10 h-10 rounded-full object-cover">
         @else
             <div class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-sm">

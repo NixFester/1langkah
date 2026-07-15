@@ -17,9 +17,9 @@
 <a href="{{ $detailUrl }}" class="group block bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 relative flex flex-col h-full">
     
     <!-- Image Section -->
-    <div class="relative h-48 w-full bg-gray-100 overflow-hidden">
+    <div class="relative h-[140px] md:h-48 w-full bg-gray-100 overflow-hidden">
         @if(!empty($c['thumbnail']))
-            <img src="{{ $c['thumbnail'] }}" alt="{{ $c['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <img decoding="async" loading="lazy" src="{{ $c['thumbnail'] }}" alt="{{ $c['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
         @else
             <div class="w-full h-full" style="background:linear-gradient(135deg,{{ $c['color'] }},{{ $c['color'] }}dd);"></div>
         @endif

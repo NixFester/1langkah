@@ -84,7 +84,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="6" class="px-6 py-12">
+                <td colspan="6" class="px-6 py-8 md:py-12">
                     <x-empty-state :message="__('app.no_promo_codes')" icon="promo" />
                 </td>
             </tr>

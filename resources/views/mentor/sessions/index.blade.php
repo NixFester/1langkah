@@ -34,7 +34,7 @@
                 <div class="flex items-start justify-between gap-4 mb-4">
                     <div class="flex items-center gap-3">
                         @if($session->user?->profile_photo)
-                            <img alt="" src="{{ $session->user->profile_photo }}" class="w-12 h-12 rounded-full object-cover">
+                            <img decoding="async" loading="lazy" alt="" src="{{ $session->user->profile_photo }}" class="w-12 h-12 rounded-full object-cover">
                         @else
                             <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                                 <span class="text-blue-600 font-bold text-lg">{{ substr($session->user->name ?? 'U', 0, 1) }}</span>
@@ -97,7 +97,7 @@
                 <div class="flex items-start justify-between gap-4 mb-4">
                     <div class="flex items-center gap-3">
                         @if($session->user?->profile_photo)
-                            <img alt="" src="{{ $session->user->profile_photo }}" class="w-12 h-12 rounded-full object-cover">
+                            <img decoding="async" loading="lazy" alt="" src="{{ $session->user->profile_photo }}" class="w-12 h-12 rounded-full object-cover">
                         @else
                             <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                                 <span class="text-blue-600 font-bold text-lg">{{ substr($session->user->name ?? 'U', 0, 1) }}</span>

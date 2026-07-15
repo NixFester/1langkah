@@ -22,7 +22,7 @@
                 <td class="px-6 py-4">
                     <div class="flex items-center gap-3">
                         @if($data['user']?->profile_photo)
-                            <img alt="" src="{{ $data['user']->profile_photo }}" class="w-10 h-10 rounded-full object-cover">
+                            <img decoding="async" loading="lazy" alt="" src="{{ $data['user']->profile_photo }}" class="w-10 h-10 rounded-full object-cover">
                         @else
                             <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
                                 {{ substr($data['user']->name ?? 'U', 0, 1) }}

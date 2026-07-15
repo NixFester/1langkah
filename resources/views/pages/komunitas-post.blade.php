@@ -17,7 +17,7 @@
         <!-- Author Header -->
         <div class="p-5 border-b border-gray-100">
             <div class="flex items-center gap-3">
-                <img src="{{ $post->user->profile_photo ?? 'https://i.pravatar.cc/150?img=1' }}"
+                <img decoding="async" loading="lazy" alt="" src="{{ $post->user->profile_photo ?? 'https://i.pravatar.cc/150?img=1' }}"
                      alt="{{ $post->user->name }}"
                      class="w-12 h-12 rounded-full object-cover">
                 <div>
@@ -36,7 +36,7 @@
             <div class="mb-4 grid gap-3 {{ count($post->image_urls) > 1 ? 'grid-cols-2' : '' }}">
                 @foreach($post->image_urls as $index => $imageUrl)
                 <a href="{{ $imageUrl }}" target="_blank" class="block rounded-xl overflow-hidden hover:opacity-90 transition-opacity" aria-label="Lihat Gambar Penuh">
-                    <img src="{{ $imageUrl }}" alt="Image {{ $index + 1 }}" class="w-full max-h-96 object-contain rounded-xl bg-gray-50">
+                    <img decoding="async" loading="lazy" src="{{ $imageUrl }}" alt="Image {{ $index + 1 }}" class="w-full max-h-96 object-contain rounded-xl bg-gray-50">
                 </a>
                 @endforeach
             </div>
@@ -120,7 +120,7 @@
         <div class="reply-container bg-white border border-gray-100 rounded-2xl p-5 shadow-sm" id="reply-{{ $reply->id }}">
             <!-- Reply Header -->
             <div class="flex items-start gap-3 mb-3">
-                <img src="{{ $reply->user->profile_photo ?? 'https://i.pravatar.cc/150?img=1' }}"
+                <img decoding="async" loading="lazy" alt="" src="{{ $reply->user->profile_photo ?? 'https://i.pravatar.cc/150?img=1' }}"
                      alt="{{ $reply->user->name }}"
                      class="w-10 h-10 rounded-full object-cover shrink-0">
                 <div class="flex-1 min-w-0">
@@ -139,7 +139,7 @@
                 <div class="flex gap-2 mb-3 overflow-x-auto pb-1">
                     @foreach($reply->image_urls as $index => $imageUrl)
                     <a href="{{ $imageUrl }}" target="_blank" class="shrink-0 block rounded-lg overflow-hidden hover:opacity-90 transition-opacity" aria-label="Lihat Gambar Penuh">
-                        <img src="{{ $imageUrl }}" alt="Image {{ $index + 1 }}" class="h-20 w-20 object-cover rounded-lg">
+                        <img decoding="async" loading="lazy" src="{{ $imageUrl }}" alt="Image {{ $index + 1 }}" class="h-20 w-20 object-cover rounded-lg">
                     </a>
                     @endforeach
                 </div>
@@ -168,7 +168,7 @@
                     @foreach($reply->children as $child)
                     <div class="bg-gray-50 rounded-xl p-4" id="reply-{{ $child->id }}">
                         <div class="flex items-start gap-3 mb-2">
-                            <img src="{{ $child->user->profile_photo ?? 'https://i.pravatar.cc/150?img=1' }}"
+                            <img decoding="async" loading="lazy" alt="" src="{{ $child->user->profile_photo ?? 'https://i.pravatar.cc/150?img=1' }}"
                                  alt="{{ $child->user->name }}"
                                  class="w-8 h-8 rounded-full object-cover shrink-0">
                             <div class="flex-1 min-w-0">
@@ -184,7 +184,7 @@
                         <div class="flex gap-2 mb-2 overflow-x-auto pb-1 ml-11">
                             @foreach($child->image_urls as $index => $imageUrl)
                             <a href="{{ $imageUrl }}" target="_blank" class="shrink-0 block rounded-lg overflow-hidden hover:opacity-90 transition-opacity" aria-label="Lihat Gambar Penuh">
-                                <img src="{{ $imageUrl }}" alt="Image {{ $index + 1 }}" class="h-16 w-16 object-cover rounded-lg">
+                                <img decoding="async" loading="lazy" src="{{ $imageUrl }}" alt="Image {{ $index + 1 }}" class="h-16 w-16 object-cover rounded-lg">
                             </a>
                             @endforeach
                         </div>
@@ -213,7 +213,7 @@
             </div>
         </div>
         @empty
-        <div class="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm text-center">
+        <div class="bg-white border border-gray-100 rounded-2xl p-6 md:p-8 shadow-sm text-center">
             <p class="text-gray-500">{{ __('app.no_comments_yet') }}</p>
         </div>
         @endforelse

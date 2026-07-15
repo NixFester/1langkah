@@ -23,11 +23,6 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 
-# Laravel Boost
-/.agents/
-/AGENTS.md
-/boost.json
-/figma/
 compile_to_md.py
 context.md
 compiledb.py
@@ -39,6 +34,12 @@ CLAUDE.md
 /.claude
 /docs
 
+#FE
+/figma/
+# Laravel Boost
+/.agents/
+/AGENTS.md
+/boost.json
 # Translate
 translate.md
 scratch.txt
@@ -47,5 +48,8 @@ scratch_keys.json
 scratch_abort_keys.json
 duplicate_keys.php
 /scratch
+# Lighthouse
 lighthouse-report.json
 lighthouse.md
+#responsive
+responsive-mobile.md

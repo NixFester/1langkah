@@ -27,7 +27,7 @@
     <!-- Thumbnail -->
     <div class="relative w-full aspect-[16/10] bg-gray-100 overflow-hidden {{ $compact ? 'aspect-[16/9]' : '' }}">
         @if(!empty($b['thumbnail']))
-            <img src="{{ $b['thumbnail'] }}" alt="{{ $b['title'] }}"
+            <img decoding="async" loading="lazy" src="{{ $b['thumbnail'] }}" alt="{{ $b['title'] }}"
                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
         @else
             <div class="w-full h-full"

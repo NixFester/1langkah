@@ -30,7 +30,7 @@
         <tr class="hover:bg-gray-50 transition-colors">
             <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                 <div class="flex items-center gap-3">
-                    <img src="{{ $user->profile_photo ?? 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&background=random' }}" class="w-10 h-10 rounded-full object-cover shadow-sm flex-shrink-0" alt="{{ $user->name }}">
+                    <img decoding="async" loading="lazy" alt="" src="{{ $user->profile_photo ?? 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&background=random' }}" class="w-10 h-10 rounded-full object-cover shadow-sm flex-shrink-0" alt="{{ $user->name }}">
                     <div>
                         <div class="text-sm font-bold text-gray-900">{{ $user->name }}</div>
                         <div class="text-xs text-gray-500">{{ $user->email }}</div>

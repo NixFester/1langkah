@@ -29,7 +29,7 @@ $sessions = $bootcamp['sessions'] ?? 0;
     {{-- Thumbnail --}}
     <div class="w-12 h-12 rounded-xl bg-gray-100 flex-shrink-0 overflow-hidden">
         @if($thumbnail)
-            <img src="{{ $thumbnail }}" class="w-full h-full object-cover" alt="">
+            <img decoding="async" loading="lazy" src="{{ $thumbnail }}" class="w-full h-full object-cover" alt="">
         @else
             <div class="w-full h-full flex items-center justify-center bg-blue-600 text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

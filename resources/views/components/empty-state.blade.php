@@ -11,7 +11,7 @@
 $alignClass = $center ? 'justify-center' : 'justify-start';
 @endphp
 
-<div class="text-center py-12 px-6">
+<div class="text-center py-8 md:py-12 px-6">
     <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 mx-auto mb-4">
         @switch($icon)
             @case('inbox')

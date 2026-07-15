@@ -44,7 +44,7 @@ use App\Models\TestAttempt;
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
                     @if($course->pictures->where('type', 'thumbnail')->first())
-                    <img alt="" src="{{ $course->pictures->where('type', 'thumbnail')->first()->url }}" class="w-full h-full object-cover">
+                    <img decoding="async" loading="lazy" alt="" src="{{ $course->pictures->where('type', 'thumbnail')->first()->url }}" class="w-full h-full object-cover">
                     @else
                     <div class="w-full h-full" style="background: linear-gradient(135deg, {{ $course->color ?? '#667eea' }}, {{ $course->color ?? '#667eea' }}cc);"></div>
                     @endif

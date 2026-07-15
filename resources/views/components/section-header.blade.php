@@ -38,7 +38,7 @@
                 <span class="text-[11px] font-bold tracking-[0.15em] {{ $colors['text'] }} uppercase">{{ $badge }}</span>
             </div>
         @endif
-        <h2 class="text-4xl md:text-[42px] font-extrabold text-[#0f172a] tracking-tight">{{ $title }}</h2>
+        <h2 class="text-[28px] sm:text-3xl md:text-[42px] font-extrabold text-[#0f172a] tracking-tight leading-tight">{{ $title }}</h2>
         @if($subtitle)
             <p class="text-gray-500 text-base mt-2">{{ $subtitle }}</p>
         @endif

@@ -75,7 +75,7 @@
                 <div class="flex-1 min-w-0">
                     <!-- Author Info -->
                     <div class="flex items-center gap-2 mb-2">
-                        <img src="{{ $post->user->profile_photo ?? 'https://i.pravatar.cc/150?img=1' }}"
+                        <img decoding="async" loading="lazy" alt="" src="{{ $post->user->profile_photo ?? 'https://i.pravatar.cc/150?img=1' }}"
                              alt="{{ $post->user->name }}"
                              class="w-6 h-6 rounded-full object-cover">
                         <span class="text-sm font-medium text-gray-700">{{ $post->user->name }}</span>
@@ -100,7 +100,7 @@
                     <div class="flex gap-2 mb-3 overflow-x-auto pb-1">
                         @foreach(array_slice($post->image_urls, 0, 3) as $index => $imageUrl)
                         <a href="{{ $imageUrl }}" target="_blank" class="shrink-0 block rounded-lg overflow-hidden hover:opacity-90 transition-opacity" aria-label="Lihat Gambar Penuh">
-                            <img src="{{ $imageUrl }}" alt="Image {{ $index + 1 }}" class="h-20 w-20 object-cover rounded-lg">
+                            <img decoding="async" loading="lazy" src="{{ $imageUrl }}" alt="Image {{ $index + 1 }}" class="h-20 w-20 object-cover rounded-lg">
                         </a>
                         @endforeach
                         @if(count($post->image_urls) > 3)

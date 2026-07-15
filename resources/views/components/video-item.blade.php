@@ -26,7 +26,7 @@
             <!-- Thumbnail -->
             <div class="w-24 h-14 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden relative {{ $isCompleted ? 'bg-emerald-100' : 'bg-gray-200' }}">
                 @if(!empty($video['thumbnail_url']))
-                    <img src="{{ $video['thumbnail_url'] }}" alt="{{ $video['title'] }}" class="w-full h-full object-cover">
+                    <img decoding="async" loading="lazy" src="{{ $video['thumbnail_url'] }}" alt="{{ $video['title'] }}" class="w-full h-full object-cover">
                 @endif
                 <div class="absolute inset-0 flex items-center justify-center">
                     @if($isCompleted)
@@ -76,7 +76,7 @@
             <!-- Thumbnail with lock -->
             <div class="w-24 h-14 rounded-lg bg-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden relative">
                 @if(!empty($video['thumbnail_url']))
-                    <img src="{{ $video['thumbnail_url'] }}" alt="{{ $video['title'] }}" class="w-full h-full object-cover blur-sm">
+                    <img decoding="async" loading="lazy" src="{{ $video['thumbnail_url'] }}" alt="{{ $video['title'] }}" class="w-full h-full object-cover blur-sm">
                 @endif
                 <div class="absolute inset-0 flex items-center justify-center">
                     <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

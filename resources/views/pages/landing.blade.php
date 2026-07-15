@@ -4,7 +4,7 @@
 
 @section('body')
 <!-- Navbar -->
-<nav class="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-3 md:py-4 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between">
+<nav class="fixed top-0 left-0 right-0 z-50 px-6 lg:px-12 py-3 md:py-4 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between">
     <!-- Logo -->
     <a href="{{ route('landing') }}" class="flex items-center" aria-label="Beranda 1Langkah">
         <svg aria-hidden="true" width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +40,7 @@
     </a>
     
     <!-- Links -->
-    <div class="hidden md:flex items-center gap-8 text-[15px] font-medium text-gray-300">
+    <div class="hidden md:flex items-center gap-4 xl:gap-8 text-[14px] xl:text-[15px] font-medium text-gray-300">
         <a href="{{ route('kursus') }}" class="hover:text-white transition-colors">{{ __('app.nav_courses') }}</a>
         <a href="{{ route('online-bootcamp') }}" class="hover:text-white transition-colors">{{ __('app.nav_bootcamp') }}</a>
         <a href="{{ route('mentor') }}" class="hover:text-white transition-colors">{{ __('app.nav_mentor') }}</a>
@@ -49,17 +49,18 @@
     </div>
 
     <!-- Actions -->
-    <div class="flex items-center gap-2 sm:gap-4">
+    <div class="flex items-center gap-2 sm:gap-3 lg:gap-4">
         <!-- Language Switcher -->
         <button type="button" disabled class="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/5 border border-white/10 text-[11px] sm:text-[12px] font-bold text-white cursor-not-allowed opacity-50" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
         </button>
         
-        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-2.5 text-[13px] sm:text-[14px] font-medium text-[#d1d5db] border border-white/10 rounded-full hover:bg-white/5 transition-colors">
+        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 lg:px-6 py-2 sm:py-2.5 text-[13px] lg:text-[14px] font-medium text-[#d1d5db] border border-white/10 rounded-full hover:bg-white/5 transition-colors">
             {{ __('app.login') }}
         </a>
-        <a href="{{ route('signup') }}" class="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-2.5 text-[13px] sm:text-[14px] font-semibold text-white bg-gradient-to-b from-[#D10000] to-[#8B0000] rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_20px_rgba(209,0,0,0.4)] whitespace-nowrap hover:from-[#b30000] hover:to-[#6b0000] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_25px_rgba(209,0,0,0.6)] transition-all">
-            {{ __('app.register_free') }}
+        <a href="{{ route('signup') }}" class="inline-flex items-center justify-center px-4 lg:px-6 py-2 sm:py-2.5 text-[13px] lg:text-[14px] font-semibold text-white bg-gradient-to-b from-[#D10000] to-[#8B0000] rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_20px_rgba(209,0,0,0.4)] whitespace-nowrap hover:from-[#b30000] hover:to-[#6b0000] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_25px_rgba(209,0,0,0.6)] transition-all">
+            <span class="lg:hidden">{{ __('app.register') }}</span>
+            <span class="hidden lg:inline">{{ __('app.register_free') }}</span>
         </a>
     </div>
 </nav>
@@ -130,16 +131,16 @@
                     <div class="absolute right-[5%] top-[20%] px-4 py-1.5 lg:px-5 lg:py-2 bg-transparent backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_6s_ease-in-out_infinite]">AI/ML</div>
 
                     <!-- Main Dashboard Image -->
-                    <img fetchpriority="high" decoding="async" width="1200" height="800" src="{{ asset('assets/icons/main_dashboard_image.svg') }}" alt="1Langkah Platform" class="w-full relative z-10">
+                    <img loading="lazy" fetchpriority="high" decoding="async" width="1200" height="800" src="{{ asset('assets/icons/main_dashboard_image.svg') }}" alt="1Langkah Platform" class="w-full relative z-10">
                     
                     <!-- Sertifikat (Top Right) -->
-                    <img fetchpriority="high" decoding="async" width="244" height="100" src="{{ asset('assets/icons/sertifikat.svg') }}" alt="Sertifikat" class="absolute right-[0%] top-[-4%] w-[244px] z-20 animate-[float_6s_ease-in-out_infinite]">
+                    <img loading="lazy" fetchpriority="high" decoding="async" width="244" height="100" src="{{ asset('assets/icons/sertifikat.svg') }}" alt="Sertifikat" class="absolute right-[0%] top-[-4%] w-[244px] z-20 animate-[float_6s_ease-in-out_infinite]">
                     
                     <!-- Rudi Yesaya (Bottom Left) -->
-                    <img fetchpriority="high" decoding="async" width="232" height="80" src="{{ asset('assets/icons/rudi-yesaya.svg') }}" alt="Mentor" class="absolute left-[2%] bottom-[12%] w-[232px] z-20 animate-[float_8s_ease-in-out_infinite_reverse]">
+                    <img loading="lazy" fetchpriority="high" decoding="async" width="232" height="80" src="{{ asset('assets/icons/rudi-yesaya.svg') }}" alt="Mentor" class="absolute left-[2%] bottom-[12%] w-[232px] z-20 animate-[float_8s_ease-in-out_infinite_reverse]">
                     
                     <!-- Skill Passport (Bottom Right) -->
-                    <img fetchpriority="high" decoding="async" width="222" height="120" src="{{ asset('assets/icons/skill-passport.svg') }}" alt="Skill Passport" class="absolute right-[2%] bottom-[18%] w-[222px] z-20 animate-[float_7s_ease-in-out_infinite_1s]">
+                    <img loading="lazy" fetchpriority="high" decoding="async" width="222" height="120" src="{{ asset('assets/icons/skill-passport.svg') }}" alt="Skill Passport" class="absolute right-[2%] bottom-[18%] w-[222px] z-20 animate-[float_7s_ease-in-out_infinite_1s]">
                 </div>
 
                 </div>
@@ -149,32 +150,32 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-4 xl:gap-8 items-center w-full relative z-20 pt-2 lg:pt-4">
             
             <!-- Stats (Left Column) -->
-            <div class="grid grid-cols-2 sm:flex items-center justify-center lg:justify-start gap-3 sm:gap-6 lg:gap-8 xl:gap-14 w-full">
-                <div class="text-center lg:text-left">
-                    <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">100K+</div>
-                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400">{{ __('app.active_students') }}</div>
+            <div class="flex items-start justify-between sm:justify-center lg:justify-start gap-2 sm:gap-6 lg:gap-8 xl:gap-14 w-full">
+                <div class="text-center lg:text-left flex-1 sm:flex-none">
+                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">100K+</div>
+                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">{{ __('app.active_students') }}</div>
                 </div>
-                <div class="text-center lg:text-left">
-                    <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">800+</div>
-                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400">{{ __('app.premium_courses') }}</div>
+                <div class="text-center lg:text-left flex-1 sm:flex-none">
+                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">800+</div>
+                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">{{ __('app.premium_courses') }}</div>
                 </div>
-                <div class="text-center lg:text-left">
-                    <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">500+</div>
-                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400">{{ __('app.active_mentors') }}</div>
+                <div class="text-center lg:text-left flex-1 sm:flex-none">
+                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">500+</div>
+                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">{{ __('app.active_mentors') }}</div>
                 </div>
-                <div class="text-center lg:text-left">
-                    <div class="text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">95%</div>
-                    <div class="text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400">{{ __('app.pass_rate') }}</div>
+                <div class="text-center lg:text-left flex-1 sm:flex-none">
+                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">95%</div>
+                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">{{ __('app.pass_rate') }}</div>
                 </div>
             </div>
 
             <!-- Ratings (Right Column) -->
             <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 w-full">
                 <div class="flex -space-x-3">
-                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_1.svg') }}" alt="User">
-                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_2.svg') }}" alt="User">
-                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_3.svg') }}" alt="User">
-                    <img decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_4.svg') }}" alt="User">
+                    <img loading="lazy" decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_1.svg') }}" alt="User">
+                    <img loading="lazy" decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_2.svg') }}" alt="User">
+                    <img loading="lazy" decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_3.svg') }}" alt="User">
+                    <img loading="lazy" decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_4.svg') }}" alt="User">
                     <div class="w-10 h-10 rounded-full border-2 border-[#070707] bg-[#dc2626] flex items-center justify-center text-[10px] font-bold text-white z-10">+99K</div>
                 </div>
                 <div class="text-center sm:text-left">
@@ -239,7 +240,7 @@
                 <span class="text-[11px] font-bold tracking-[0.15em] text-[#D10000] uppercase">{{ __('app.complete_platform') }}</span>
             </div>
             
-            <h2 class="font-['Inter'] text-4xl md:text-[44px] font-black text-[#0f172a] tracking-[-0.05em] leading-[1.1] mb-4">
+            <h2 class="font-['Inter'] text-[26px] sm:text-3xl md:text-[44px] font-black text-[#0f172a] tracking-tight md:tracking-[-0.05em] leading-[1.15] md:leading-[1.1] mb-4">
                 {{ __('app.platform_title_1') }}<br>
                 <span class="text-transparent bg-clip-text inline-block" style="background-image: linear-gradient(95deg, #D10000 0%, #FF4500 100%);">{{ __('app.platform_title_2') }}</span>
             </h2>
@@ -354,7 +355,7 @@
 </section>
 
 <!-- Popular Courses (Section 3) -->
-<section id="popular-courses" class="py-24 bg-slate-50 relative w-full overflow-hidden">
+<section id="popular-courses" class="py-16 md:py-24 bg-slate-50 relative w-full overflow-hidden">
     <div class="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
         
         <!-- Header -->
@@ -364,7 +365,7 @@
                     <svg aria-hidden="true" class="w-3.5 h-3.5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                     <span class="text-[11px] font-bold tracking-[0.15em] text-emerald-700 uppercase">{{ __('app.popular_courses_badge') }}</span>
                 </div>
-                <h2 class="text-4xl md:text-[42px] font-extrabold text-[#0f172a] tracking-tight">{{ __('app.start_learning_now') }}</h2>
+                <h2 class="text-[26px] sm:text-3xl md:text-[42px] font-extrabold text-[#0f172a] tracking-tight leading-tight">{{ __('app.start_learning_now') }}</h2>
             </div>
             <a href="{{ route('kursus') }}" class="inline-flex items-center gap-1.5 text-[15px] font-bold text-[#D10000] hover:text-[#b30000] transition-colors md:pb-2">
                 {{ __('app.see_all_courses') }} 
@@ -373,12 +374,12 @@
         </div>
 
         <!-- Course Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             
             <!-- Card 1 -->
             <div class="bg-white rounded-[20px] border border-gray-200/60 overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group flex flex-col cursor-pointer">
                 <!-- Image Wrapper -->
-                <div class="relative h-[210px] w-full overflow-hidden bg-gray-100">
+                <div class="relative h-[140px] md:h-[210px] w-full overflow-hidden bg-gray-100">
                     <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600&auto=format&fit=crop&fm=webp" alt="Coding" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <!-- Top Left Badges -->
                     <div class="absolute top-4 left-4 flex gap-2">
@@ -393,12 +394,12 @@
                     <div class="absolute bottom-0 left-0 h-2 bg-emerald-500 z-10" style="width: 68%;"></div>
                 </div>
                 <!-- Card Body -->
-                <div class="p-6 flex flex-col flex-1">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4"> {{ __('app.course_programming') }} </span>
-                    <h2 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">Full-Stack Web Development Bootcamp</a></h2>
-                    <p class="text-[13px] text-slate-600 mb-4">Rudi Yesaya · Google</p>
+                <div class="p-3.5 md:p-6 flex flex-col flex-1">
+                    <span class="inline-flex items-center px-2 md:px-2.5 py-0.5 md:py-1 rounded-md text-[10px] md:text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-3 md:mb-4"> {{ __('app.course_programming') }} </span>
+                    <h2 class="text-[14.5px] md:text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">Full-Stack Web Development Bootcamp</a></h2>
+                    <p class="text-[11.5px] md:text-[13px] text-slate-600 mb-3 md:mb-4">Rudi Yesaya · Google</p>
                     
-                    <div class="flex items-center gap-2 mb-6 mt-auto">
+                    <div class="flex items-center gap-2 mb-4 md:mb-6 mt-auto">
                         <div class="flex text-amber-400">
                             <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                             <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
@@ -411,7 +412,7 @@
                     </div>
                     
                     <!-- Footer -->
-                    <div class="pt-5 border-t border-gray-100 flex items-center justify-between">
+                    <div class="pt-4 md:pt-5 border-t border-gray-100 flex items-center justify-between">
                         <div class="flex items-center gap-1.5 text-slate-600 text-[13px] font-medium">
                             <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             48h
@@ -424,7 +425,7 @@
             <!-- Card 2 -->
             <div class="bg-white rounded-[20px] border border-gray-200/60 overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group flex flex-col cursor-pointer">
                 <!-- Image Wrapper -->
-                <div class="relative h-[210px] w-full overflow-hidden bg-gray-100">
+                <div class="relative h-[140px] md:h-[210px] w-full overflow-hidden bg-gray-100">
                     <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=600&auto=format&fit=crop&fm=webp" alt="Design" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <!-- Top Left Badges -->
                     <div class="absolute top-4 left-4 flex gap-2">
@@ -437,12 +438,12 @@
                     </button>
                 </div>
                 <!-- Card Body -->
-                <div class="p-6 flex flex-col flex-1">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4"> {{ __('app.course_design') }} </span>
-                    <h2 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">UI/UX Design Mastery</a></h2>
-                    <p class="text-[13px] text-slate-600 mb-4">Sari Dewi · Tokopedia</p>
+                <div class="p-3.5 md:p-6 flex flex-col flex-1">
+                    <span class="inline-flex items-center px-2 md:px-2.5 py-0.5 md:py-1 rounded-md text-[10px] md:text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-3 md:mb-4"> {{ __('app.course_design') }} </span>
+                    <h2 class="text-[14.5px] md:text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">UI/UX Design Mastery</a></h2>
+                    <p class="text-[11.5px] md:text-[13px] text-slate-600 mb-3 md:mb-4">Sari Dewi · Tokopedia</p>
                     
-                    <div class="flex items-center gap-2 mb-6 mt-auto">
+                    <div class="flex items-center gap-2 mb-4 md:mb-6 mt-auto">
                         <div class="flex text-amber-400">
                             <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                             <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
@@ -455,7 +456,7 @@
                     </div>
                     
                     <!-- Footer -->
-                    <div class="pt-5 border-t border-gray-100 flex items-center justify-between">
+                    <div class="pt-4 md:pt-5 border-t border-gray-100 flex items-center justify-between">
                         <div class="flex items-center gap-1.5 text-slate-600 text-[13px] font-medium">
                             <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             32h
@@ -468,7 +469,7 @@
             <!-- Card 3 -->
             <div class="bg-white rounded-[20px] border border-gray-200/60 overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group flex flex-col cursor-pointer">
                 <!-- Image Wrapper -->
-                <div class="relative h-[210px] w-full overflow-hidden bg-gray-100">
+                <div class="relative h-[140px] md:h-[210px] w-full overflow-hidden bg-gray-100">
                     <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=600&auto=format&fit=crop&fm=webp" alt="AI Network" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <!-- Top Left Badges -->
                     <div class="absolute top-4 left-4 flex gap-2">
@@ -483,12 +484,12 @@
                     <div class="absolute bottom-0 left-0 h-2 bg-emerald-500 z-10" style="width: 23%;"></div>
                 </div>
                 <!-- Card Body -->
-                <div class="p-6 flex flex-col flex-1">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-4"> {{ __('app.course_ai') }} </span>
-                    <h2 class="text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">AI & Machine Learning Fundamentals</a></h2>
-                    <p class="text-[13px] text-slate-600 mb-4">Andi Wijaya · Gojek</p>
+                <div class="p-3.5 md:p-6 flex flex-col flex-1">
+                    <span class="inline-flex items-center px-2 md:px-2.5 py-0.5 md:py-1 rounded-md text-[10px] md:text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-3 md:mb-4"> {{ __('app.course_ai') }} </span>
+                    <h2 class="text-[14.5px] md:text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">AI & Machine Learning Fundamentals</a></h2>
+                    <p class="text-[11.5px] md:text-[13px] text-slate-600 mb-3 md:mb-4">Andi Wijaya · Gojek</p>
                     
-                    <div class="flex items-center gap-2 mb-6 mt-auto">
+                    <div class="flex items-center gap-2 mb-4 md:mb-6 mt-auto">
                         <div class="flex text-amber-400">
                             <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                             <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
@@ -501,7 +502,7 @@
                     </div>
                     
                     <!-- Footer -->
-                    <div class="pt-5 border-t border-gray-100 flex items-center justify-between">
+                    <div class="pt-4 md:pt-5 border-t border-gray-100 flex items-center justify-between">
                         <div class="flex items-center gap-1.5 text-slate-600 text-[13px] font-medium">
                             <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             60h
@@ -516,7 +517,7 @@
 </section>
 
 <!-- Bootcamp (Section 4) -->
-<section id="bootcamp" class="py-24 bg-[#070707] relative w-full overflow-hidden border-t border-white/5">
+<section id="bootcamp" class="py-16 md:py-24 bg-[#070707] relative w-full overflow-hidden border-t border-white/5">
     <div class="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
         
         <div class="flex flex-col lg:flex-row items-center gap-16">
@@ -530,7 +531,7 @@
                 </div>
                 
                 <!-- Title -->
-                <h2 class="text-4xl md:text-[46px] font-extrabold text-white tracking-tight leading-[1.15] mb-6">
+                <h2 class="text-[26px] sm:text-3xl md:text-[46px] font-extrabold text-white tracking-tight leading-[1.2] md:leading-[1.15] mb-5 md:mb-6">
                     {{ __('app.bootcamp_title_1') }}<br>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#a855f7] to-[#7c3aed]">{{ __('app.bootcamp_title_2') }}</span>
                 </h2>
@@ -572,7 +573,7 @@
             </div>
             
             <!-- Right Column: Image Card -->
-            <div class="w-full lg:w-[45%]">
+            <div class="hidden lg:block w-full lg:w-[45%]">
                 <div class="relative w-full h-[400px] md:h-[480px] rounded-[2rem] overflow-hidden shadow-2xl">
                     <!-- Base Image -->
                     <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1000&auto=format&fit=crop&fm=webp" alt="Bootcamp Class" class="w-full h-full object-cover">
@@ -602,7 +603,7 @@
 </section>
 
 <!-- Mentor Section (Section 5) -->
-<section id="mentors" class="py-24 bg-white relative w-full">
+<section id="mentors" class="py-16 md:py-24 bg-white relative w-full">
     <div class="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
         
         <!-- Header -->
@@ -614,7 +615,7 @@
             </div>
             
             <!-- Title -->
-            <h2 class="text-4xl md:text-[44px] font-black text-slate-900 tracking-tighter leading-[1.2] mb-5 [-webkit-text-stroke:1px_#0f172a]">
+            <h2 class="text-[26px] sm:text-3xl md:text-[44px] font-black text-slate-900 tracking-tight md:tracking-tighter leading-[1.15] md:leading-[1.2] mb-5 md:mb-5 [-webkit-text-stroke:1px_#0f172a]">
                 {{ __('app.mentor_title') }}
             </h2>
             
@@ -759,10 +760,10 @@
 <section id="enterprise" class="py-16 md:py-24 bg-[#070707] relative w-full overflow-hidden border-t border-white/5">
     <div class="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
         
-        <div class="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div class="flex flex-col lg:flex-row items-center gap-16">
             
             <!-- Left Column: Image with Floating Cards -->
-            <div class="hidden lg:block relative w-full h-[350px] sm:h-[450px] md:h-[540px] rounded-[2rem] overflow-hidden shadow-2xl">
+            <div class="hidden lg:block relative w-full lg:w-[45%] h-[350px] sm:h-[450px] md:h-[540px] rounded-[2rem] overflow-hidden shadow-2xl">
                 <!-- Base Image -->
                 <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&auto=format&fit=crop&fm=webp" alt="Enterprise Training" class="w-full h-full object-cover">
                 
@@ -785,7 +786,7 @@
             </div>
             
             <!-- Right Column: Content -->
-            <div>
+            <div class="w-full lg:w-[55%]">
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#2d0a0a] border border-[#5c1a1a] mb-5 lg:mb-6">
                     <img loading="lazy" decoding="async" src="{{ asset('assets/icons/enterprise&government.svg') }}" class="w-3.5 h-3.5 lg:w-4 lg:h-4" alt="Enterprise">
@@ -793,7 +794,7 @@
                 </div>
                 
                 <!-- Title -->
-                <h2 class="font-['Inter'] text-3xl sm:text-4xl md:text-[46px] font-black text-white tracking-[-0.05em] leading-[1.1] mb-4 lg:mb-5">
+                <h2 class="font-['Inter'] text-[26px] sm:text-3xl md:text-[46px] font-black text-white tracking-tight md:tracking-[-0.05em] leading-[1.15] md:leading-[1.1] mb-4 lg:mb-5">
                     {{ __('app.enterprise_title_1') }}<br>
                     <span class="text-transparent bg-clip-text inline-block" style="background-image: linear-gradient(95deg, #D10000 0%, #FF4500 100%);">{{ __('app.enterprise_title_2') }}</span>
                 </h2>
@@ -844,7 +845,7 @@
 </section>
 
 <!-- Testimonials Section (Section 7) -->
-<section id="testimonials" class="py-24 bg-[#fafafa] relative w-full">
+<section id="testimonials" class="py-16 md:py-24 bg-[#fafafa] relative w-full">
     <div class="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
         
         <!-- Header -->
@@ -856,7 +857,7 @@
             </div>
             
             <!-- Title -->
-            <h2 class="font-['Inter'] text-4xl md:text-[44px] font-black text-slate-900 tracking-tight leading-[1.1] mb-5">
+            <h2 class="font-['Inter'] text-[26px] sm:text-3xl md:text-[44px] font-black text-slate-900 tracking-tight leading-[1.15] md:leading-[1.1] mb-5">
                 {{ __('app.real_stories_title') }}
             </h2>
         </div>
@@ -865,17 +866,17 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             <!-- Card 1 -->
-            <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
-                <div aria-hidden="true" class="text-pink-600/50 text-6xl font-serif leading-none mb-2">"</div>
-                <p class="text-[15px] text-gray-600 leading-relaxed flex-1 mb-8">
+            <div class="bg-white rounded-2xl md:rounded-3xl p-4 md:p-8 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
+                <div aria-hidden="true" class="text-pink-600/50 text-4xl md:text-6xl font-serif leading-none mb-1 md:mb-2">"</div>
+                <p class="text-[13px] md:text-[15px] text-gray-600 leading-relaxed flex-1 mb-6 md:mb-8">
                     {{ __('app.testi_1_desc') }}
                 </p>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <img loading="lazy" decoding="async" width="48" height="48" src="https://i.pravatar.cc/150?u=aisyah" alt="Aisyah Putri" class="w-12 h-12 rounded-full object-cover bg-gray-100">
+                        <img loading="lazy" decoding="async" width="48" height="48" src="https://i.pravatar.cc/150?u=aisyah" alt="Aisyah Putri" class="w-10 md:w-12 h-10 md:h-12 rounded-full object-cover bg-gray-100">
                         <div>
-                            <div class="text-[15px] font-bold text-slate-900 leading-snug">Aisyah Putri</div>
-                            <div class="text-[12px] text-gray-600">Frontend Developer · Tokopedia</div>
+                            <div class="text-[13px] md:text-[15px] font-bold text-slate-900 leading-snug">Aisyah Putri</div>
+                            <div class="text-[11px] md:text-[12px] text-gray-600">Frontend Developer · Tokopedia</div>
                         </div>
                     </div>
                     <div class="flex text-amber-400">
@@ -889,9 +890,9 @@
             </div>
 
             <!-- Card 2 -->
-            <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
-                <div aria-hidden="true" class="text-pink-600/50 text-6xl font-serif leading-none mb-2">"</div>
-                <p class="text-[15px] text-gray-600 leading-relaxed flex-1 mb-8">
+            <div class="bg-white rounded-2xl md:rounded-3xl p-4 md:p-8 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
+                <div aria-hidden="true" class="text-pink-600/50 text-4xl md:text-6xl font-serif leading-none mb-1 md:mb-2">"</div>
+                <p class="text-[13px] md:text-[15px] text-gray-600 leading-relaxed flex-1 mb-6 md:mb-8">
                     {{ __('app.testi_2_desc') }}
                 </p>
                 <div class="flex items-center justify-between">
@@ -913,9 +914,9 @@
             </div>
 
             <!-- Card 3 -->
-            <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
-                <div aria-hidden="true" class="text-pink-600/50 text-6xl font-serif leading-none mb-2">"</div>
-                <p class="text-[15px] text-gray-600 leading-relaxed flex-1 mb-8">
+            <div class="bg-white rounded-2xl md:rounded-3xl p-4 md:p-8 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
+                <div aria-hidden="true" class="text-pink-600/50 text-4xl md:text-6xl font-serif leading-none mb-1 md:mb-2">"</div>
+                <p class="text-[13px] md:text-[15px] text-gray-600 leading-relaxed flex-1 mb-6 md:mb-8">
                     {{ __('app.testi_3_desc') }}
                 </p>
                 <div class="flex items-center justify-between">
@@ -953,7 +954,7 @@
         </div>
         
         <!-- Title -->
-        <h2 class="font-['Inter'] text-5xl md:text-[60px] font-black text-white tracking-[-0.05em] leading-[1] mb-6">
+        <h2 class="font-['Inter'] text-[30px] sm:text-4xl md:text-[60px] font-black text-white tracking-tight md:tracking-[-0.05em] leading-[1.15] md:leading-[1] mb-4 md:mb-6">
             {{ __('app.cta_title_1') }}<br>
             <span class="text-transparent bg-clip-text inline-block" style="background-image: linear-gradient(95deg, #D10000 0%, #FF4500 100%);">{{ __('app.cta_title_2') }}</span>
         </h2>
@@ -1048,41 +1049,41 @@
             </div>
             
             <!-- Link Columns -->
-            <div class="md:col-span-7 lg:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-8 text-center md:text-left">
+            <div class="md:col-span-7 lg:col-span-8 grid grid-cols-3 gap-2 sm:gap-4 md:gap-8 w-full">
                 
                 <!-- Column 1 -->
-                <div class="flex flex-col items-center md:items-start">
-                    <h2 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6"> {{ __('app.footer_platform') }} </h2>
-                    <ul class="flex flex-col items-center md:items-start gap-4">
-                        <li><a href="{{ route('kursus') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_courses') }}</a></li>
-                        <li><a href="{{ route('online-bootcamp') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_bootcamp_online') }}</a></li>
-                        <li><a href="{{ route('offline-bootcamp') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_bootcamp_offline') }}</a></li>
-                        <li><a href="{{ route('mentor') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_mentor') }}</a></li>
-                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_job_board') }}</a></li>
-                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_community') }}</a></li>
+                <div class="flex flex-col items-start text-left">
+                    <h2 class="text-[11px] md:text-[13px] font-bold tracking-[0.1em] md:tracking-[0.15em] text-gray-400 uppercase mb-4 md:mb-6"> {{ __('app.footer_platform') }} </h2>
+                    <ul class="flex flex-col items-start gap-3 md:gap-4">
+                        <li><a href="{{ route('kursus') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_courses') }}</a></li>
+                        <li><a href="{{ route('online-bootcamp') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_bootcamp_online') }}</a></li>
+                        <li><a href="{{ route('offline-bootcamp') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_bootcamp_offline') }}</a></li>
+                        <li><a href="{{ route('mentor') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_mentor') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_job_board') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_community') }}</a></li>
                     </ul>
                 </div>
                 
                 <!-- Column 2 -->
-                <div class="flex flex-col items-center md:items-start">
-                    <h2 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6"> {{ __('app.footer_company') }} </h2>
-                    <ul class="flex flex-col items-center md:items-start gap-4">
-                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_about') }}</a></li>
-                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_career') }}</a></li>
-                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_blog') }}</a></li>
-                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_press') }}</a></li>
-                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_partner') }}</a></li>
+                <div class="flex flex-col items-center text-center">
+                    <h2 class="text-[11px] md:text-[13px] font-bold tracking-[0.1em] md:tracking-[0.15em] text-gray-400 uppercase mb-4 md:mb-6"> {{ __('app.footer_company') }} </h2>
+                    <ul class="flex flex-col items-center gap-3 md:gap-4">
+                        <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_about') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_career') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_blog') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_press') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_partner') }}</a></li>
                     </ul>
                 </div>
                 
                 <!-- Column 3 -->
-                <div class="flex flex-col items-center md:items-start col-span-2 md:col-span-1">
-                    <h2 class="text-[13px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-6"> {{ __('app.footer_support') }} </h2>
-                    <ul class="flex flex-col items-center md:items-start gap-4">
-                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_help') }}</a></li>
-                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_privacy') }}</a></li>
-                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_terms') }}</a></li>
-                        <li><a href="{{ url('/') }}" class="text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_status') }}</a></li>
+                <div class="flex flex-col items-end text-right">
+                    <h2 class="text-[11px] md:text-[13px] font-bold tracking-[0.1em] md:tracking-[0.15em] text-gray-400 uppercase mb-4 md:mb-6"> {{ __('app.footer_support') }} </h2>
+                    <ul class="flex flex-col items-end gap-3 md:gap-4">
+                        <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_help') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_privacy') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_terms') }}</a></li>
+                        <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_status') }}</a></li>
                     </ul>
                 </div>
                 

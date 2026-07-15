@@ -76,7 +76,7 @@
                     <input type="hidden" name="remove_banner" id="remove-banner-input" value="0">
                     @if(isset($event) && $event->banner_url)
                         <div class="mb-3 relative inline-block" id="image-preview-container">
-                            <img id="image-preview" src="{{ str_starts_with($event->banner_url, 'http') ? $event->banner_url : asset($event->banner_url) }}" :alt="__('app.banner')" class="h-32 object-cover rounded-lg border border-gray-200">
+                            <img decoding="async" loading="lazy" alt="" id="image-preview" src="{{ str_starts_with($event->banner_url, 'http') ? $event->banner_url : asset($event->banner_url) }}" :alt="__('app.banner')" class="h-32 object-cover rounded-lg border border-gray-200">
                             <button type="button" onclick="removeImagePreview()" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition-colors" title="{{ __('app.remove_photo') }}">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                             </button>
@@ -135,7 +135,7 @@
                         previewDiv.id = 'image-preview-container';
                         previewDiv.className = 'mb-3 relative inline-block';
                         previewDiv.innerHTML = `
-                            <img id="image-preview" src="" class="h-32 object-cover rounded-lg border border-gray-200" alt="">
+                            <img decoding="async" loading="lazy" id="image-preview" src="" class="h-32 object-cover rounded-lg border border-gray-200" alt="">
                             <button type="button" onclick="removeImagePreview()" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition-colors" title="{{ __('app.remove_photo') }}">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                             </button>

@@ -62,7 +62,7 @@
                     <input type="hidden" name="remove_photo" id="remove-photo-input" value="0">
                     @if(isset($user) && $user->profile_photo)
                         <div class="mb-3 relative inline-block" id="photo-preview-container">
-                            <img id="photo-preview" src="{{ str_starts_with($user->profile_photo, 'http') ? $user->profile_photo : asset($user->profile_photo) }}" alt="{{ __('app.profile_photo') }}" class="h-24 w-24 object-cover rounded-full border border-gray-200">
+                            <img decoding="async" loading="lazy" alt="" id="photo-preview" src="{{ str_starts_with($user->profile_photo, 'http') ? $user->profile_photo : asset($user->profile_photo) }}" alt="{{ __('app.profile_photo') }}" class="h-24 w-24 object-cover rounded-full border border-gray-200">
                             <button type="button" onclick="removePhotoPreview()" class="absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition-colors" title="{{ __('app.remove_photo') }}">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                             </button>
@@ -120,7 +120,7 @@
                         previewDiv.id = 'photo-preview-container';
                         previewDiv.className = 'mb-3 relative inline-block';
                         previewDiv.innerHTML = `
-                            <img id="photo-preview" src="" class="h-24 w-24 object-cover rounded-full border border-gray-200" alt="">
+                            <img decoding="async" loading="lazy" id="photo-preview" src="" class="h-24 w-24 object-cover rounded-full border border-gray-200" alt="">
                             <button type="button" onclick="removePhotoPreview()" class="absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition-colors" title="{{ __('app.remove_photo') }}">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                             </button>

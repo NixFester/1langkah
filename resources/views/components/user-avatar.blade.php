@@ -34,7 +34,7 @@ $bgClasses = match($bgColor) {
 @endphp
 
 @if($photo)
-    <img src="{{ $photo }}"
+    <img decoding="async" loading="lazy" src="{{ $photo }}"
          alt="{{ $name }}"
          class="rounded-full object-cover shadow-sm {{ $sizeClasses }} {{ $class }}">
 @else

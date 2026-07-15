@@ -5,7 +5,7 @@
 ])
 
 @if(count($pictures) === 0)
-    <div class="p-8 text-center">
+    <div class="p-6 md:p-8 text-center">
         <p class="text-gray-500 text-sm">{{ __('app.no_pictures') }}</p>
     </div>
 @else
@@ -13,7 +13,7 @@
         @foreach($pictures as $picture)
             <div class="bg-white rounded-xl border border-gray-200 overflow-hidden relative group">
                 <div class="aspect-video bg-gray-100">
-                    <img src="{{ $picture->url ?? $picture->image_url }}"
+                    <img decoding="async" loading="lazy" alt="" src="{{ $picture->url ?? $picture->image_url }}"
                          alt="{{ $picture->description ?? 'Image' }}"
                          class="w-full h-full object-cover"
                          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 60%27%3E%3Crect fill=%27%23f3f4f6%27 width=%27100%27 height=%2760%27/%3E%3Ctext x=%2750%27 y=%2735%27 text-anchor=%27middle%27 fill=%27%239ca3af%27 font-family=%27sans-serif%27 font-size=%2712%27%3E{{ __('app.picture_not_found') }}%3C/text%3E%3C/svg%3E'">

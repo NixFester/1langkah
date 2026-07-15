@@ -18,7 +18,7 @@
     <!-- Banner -->
     <div class="relative h-40 overflow-hidden {{ $compact ? 'h-32' : 'h-40' }}" style="background-color: {{ $color }}20;">
         @if(!empty($event['banner_url']))
-            <img src="{{ str_starts_with($event['banner_url'], 'http') ? $event['banner_url'] : asset($event['banner_url']) }}" alt="{{ $event['title'] }}"
+            <img decoding="async" loading="lazy" src="{{ str_starts_with($event['banner_url'], 'http') ? $event['banner_url'] : asset($event['banner_url']) }}" alt="{{ $event['title'] }}"
                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
         @else
             <div class="absolute inset-0 flex items-center justify-center">

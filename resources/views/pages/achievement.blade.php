@@ -15,7 +15,7 @@
                 <p class="text-white/80 text-sm">{{ __('app.achievements_subtitle') }}</p>
             </div>
             <div class="text-center">
-                <div class="text-4xl font-bold">{{ $totalEarned }}</div>
+                <div class="text-3xl md:text-4xl font-bold">{{ $totalEarned }}</div>
                 <div class="text-sm text-white/80">{{ __('app.from') }} {{ $totalAvailable }} {{ __('app.achievements') }}</div>
             </div>
         </div>

@@ -31,7 +31,7 @@
         <div class="relative z-10 mt-6 sm:mt-0 hidden sm:block">
             <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white/20 p-1 relative">
                 @if(auth()->user()->profile_photo)
-                <img src="{{ auth()->user()->profile_photo }}" alt="Profile" class="w-full h-full rounded-full object-cover bg-red-900" fetchpriority="high">
+                <img decoding="async" loading="lazy" alt="" src="{{ auth()->user()->profile_photo }}" alt="Profile" class="w-full h-full rounded-full object-cover bg-red-900" fetchpriority="high">
                 @else
                 <div class="w-full h-full rounded-full bg-red-800 flex items-center justify-center text-white text-3xl font-bold">
                     {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}
@@ -117,7 +117,7 @@
                         </div>
                         <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden flex-shrink-0">
                             @if($user['avatar'])
-                                <img src="{{ $user['avatar'] }}" alt="{{ $user['name'] }}" class="w-full h-full object-cover">
+                                <img decoding="async" loading="lazy" src="{{ $user['avatar'] }}" alt="{{ $user['name'] }}" class="w-full h-full object-cover">
                             @else
                                 <span class="text-blue-600 font-bold text-xs">{{ substr($user['name'] ?? 'U', 0, 1) }}</span>
                             @endif
@@ -147,7 +147,7 @@
                     <a href="{{ route('detail-kursus', ['id' => $course['id']]) }}" class="block border border-gray-100 rounded-xl overflow-hidden hover:shadow-lg hover:border-gray-200 transition-all bg-gray-50/50 group">
                         <div class="h-28 bg-gray-200 relative overflow-hidden">
                             @if(!empty($course['thumbnail']))
-                            <img src="{{ $course['thumbnail'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="">
+                            <img decoding="async" loading="lazy" src="{{ $course['thumbnail'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="">
                             @else
                             <div class="w-full h-full group-hover:scale-105 transition-transform duration-500" style="background: linear-gradient(135deg, {{ $course['color'] ?? '#dc2626' }}, {{ $course['color'] ?? '#dc2626' }}cc);"></div>
                             @endif
@@ -202,7 +202,7 @@
                     <a href="{{ route('detail-event', ['id' => $event['id']]) }}" class="flex items-start gap-3 p-2 -mx-2 rounded-xl hover:bg-gray-50 transition-colors">
                         <div class="w-12 h-12 rounded-xl flex flex-col items-center justify-center text-white flex-shrink-0 overflow-hidden" style="background-color: {{ $event['color'] ?? '#cc0000' }}">
                             @if(!empty($event['banner_url']))
-                                <img src="{{ str_starts_with($event['banner_url'], 'http') ? $event['banner_url'] : asset($event['banner_url']) }}" alt="{{ $event['title'] }}" class="w-full h-full object-cover">
+                                <img decoding="async" loading="lazy" src="{{ str_starts_with($event['banner_url'], 'http') ? $event['banner_url'] : asset($event['banner_url']) }}" alt="{{ $event['title'] }}" class="w-full h-full object-cover">
                             @else
                                 <span class="text-xs font-bold text-center leading-tight">{!! str_replace(' ', '<br>', $event['date']) !!}</span>
                             @endif
@@ -254,7 +254,7 @@
                     <a href="{{ route('detail-kursus', ['id' => $course['id']]) }}" class="flex gap-3 items-center hover:bg-gray-50 p-2 -mx-2 rounded-xl transition-colors">
                         <div class="w-16 h-16 rounded-lg bg-gray-100 flex-shrink-0 overflow-hidden relative">
                             @if(!empty($course['thumbnail']))
-                            <img src="{{ $course['thumbnail'] }}" class="w-full h-full object-cover" alt="">
+                            <img decoding="async" loading="lazy" src="{{ $course['thumbnail'] }}" class="w-full h-full object-cover" alt="">
                             @else
                             <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, {{ $course['color'] ?? '#dc2626' }}, {{ $course['color'] ?? '#dc2626' }}cc);">
                                 <x-icon name="book" class="w-5 h-5 text-white" />

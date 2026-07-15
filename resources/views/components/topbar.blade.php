@@ -73,7 +73,7 @@
         {{-- Avatar & User Info --}}
         <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;margin-left:8px;" aria-label="Profile Settings">
             @if($authUser && $authUser->profile_photo)
-            <img src="{{ $authUser->profile_photo }}" alt="Profile" style="width:36px; height:36px; border-radius:50%; object-fit:cover; flex-shrink:0; background:#cc0000; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <img decoding="async" loading="lazy" alt="" src="{{ $authUser->profile_photo }}" alt="Profile" style="width:36px; height:36px; border-radius:50%; object-fit:cover; flex-shrink:0; background:#cc0000; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             @else
             <div class="avatar" style="background:linear-gradient(135deg, #cc0000, #990000); width:36px; height:36px; font-size:14px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; flex-shrink:0; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">{{ $initials }}</div>
             @endif

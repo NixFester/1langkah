@@ -18,7 +18,7 @@
             $avatarUrl = $m['profile_photo'] ?? "https://randomuser.me/api/portraits/{$genderPath}/{$picId}.jpg";
         @endphp
         <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-white shadow-md">
-            <img src="{{ $avatarUrl }}" alt="{{ $m['name'] }}" class="w-full h-full object-cover">
+            <img decoding="async" loading="lazy" src="{{ $avatarUrl }}" alt="{{ $m['name'] }}" class="w-full h-full object-cover">
         </div>
         <div class="w-3 h-3 rounded-full {{ $isOnline ? 'bg-[#00c853]' : 'bg-gray-300' }} mt-1"></div>
     </div>

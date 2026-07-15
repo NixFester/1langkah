@@ -30,7 +30,7 @@ $level = $course['level'] ?? '';
     {{-- Thumbnail --}}
     <div class="w-16 h-12 rounded-lg bg-gray-100 flex-shrink-0 overflow-hidden">
         @if($thumbnail)
-            <img src="{{ $thumbnail }}" class="w-full h-full object-cover" alt="">
+            <img decoding="async" loading="lazy" src="{{ $thumbnail }}" class="w-full h-full object-cover" alt="">
         @else
             <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, {{ $color }}, {{ $color }}cc);">
                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

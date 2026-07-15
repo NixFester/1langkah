@@ -39,7 +39,7 @@ if (auth()->check() && $isRegistered) {
 <div class="-mx-7 -mt-7 relative bg-slate-900 pt-20 pb-28 px-12 overflow-hidden">
     <div class="absolute inset-0 z-0">
         @if(!empty($event['banner_url']))
-        <img src="{{ $event['banner_url'] }}" alt="{{ $event['title'] }}" class="w-full h-full object-cover opacity-30">
+        <img decoding="async" loading="lazy" src="{{ $event['banner_url'] }}" alt="{{ $event['title'] }}" class="w-full h-full object-cover opacity-30">
         @else
         <div class="w-full h-full" style="background: linear-gradient(135deg, {{ $event['color'] ?? '#cc0000' }} 0%, {{ $event['color'] ?? '#cc0000' }}66 100%);"></div>
         @endif
@@ -53,7 +53,7 @@ if (auth()->check() && $isRegistered) {
             @endif
         </div>
 
-        <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-5 leading-tight tracking-tight">{{ $event['title'] }}</h1>
+        <h1 class="text-[28px] sm:text-3xl md:text-5xl font-extrabold text-white mb-5 leading-tight tracking-tight">{{ $event['title'] }}</h1>
 
         @if(!empty($event['short_description']))
         <p class="text-lg text-gray-300 mb-8 max-w-3xl leading-relaxed">{{ $event['short_description'] }}</p>
@@ -224,7 +224,7 @@ if (auth()->check() && $isRegistered) {
                             <p class="text-sm text-gray-600 mt-2">{{ __('app.ticket_scan_desc') }}</p>
                         </div>
                         <div class="rounded-2xl bg-white p-3 border border-red-100 shadow-sm">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data={{ urlencode($ticketCode) }}" alt="Ticket QR" class="w-32 h-32 object-contain">
+                            <img decoding="async" loading="lazy" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data={{ urlencode($ticketCode) }}" alt="Ticket QR" class="w-32 h-32 object-contain">
                         </div>
                     </div>
                     <div class="mt-4 rounded-xl border border-red-100 bg-white/80 p-4">

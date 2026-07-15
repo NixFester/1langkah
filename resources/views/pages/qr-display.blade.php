@@ -19,9 +19,9 @@
         </div>
 
         <!-- QR Code Display -->
-        <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-lg">
+        <div class="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-lg">
             <div class="mb-6">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{ urlencode($qrCode) }}"
+                <img decoding="async" loading="lazy" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{ urlencode($qrCode) }}"
                      alt="QR Code"
                      class="mx-auto rounded-xl shadow-md">
             </div>

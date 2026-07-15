@@ -38,8 +38,37 @@
         }
 
         return bootcamps;
+    },
+    currentPage: 1,
+    perPage: 12,
+    get totalPages() {
+        return Math.ceil(this.displayedBootcamps.length / this.perPage) || 1;
+    },
+    get paginatedBootcamps() {
+        const start = (this.currentPage - 1) * this.perPage;
+        return this.displayedBootcamps.slice(start, start + this.perPage);
+    },
+    changePage(page) {
+        if (page >= 1 && page <= this.totalPages) {
+            this.currentPage = page;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    },
+    get pageNumbers() {
+        let pages = [];
+        for (let i = 1; i <= this.totalPages; i++) {
+            if (i === 1 || i === this.totalPages || Math.abs(i - this.currentPage) <= 1) {
+                if (pages.length > 0 && i - pages[pages.length - 1] > 1) {
+                    pages.push('...');
+                }
+                pages.push(i);
+            }
+        }
+        return pages;
     }
-}" class="w-full px-2 pb-8">
+}" 
+x-init="$watch('searchQuery', () => currentPage = 1); $watch('sortBy', () => currentPage = 1)"
+class="w-full px-2 pb-8">
 
     <!-- Header -->
     <div class="mb-6 -mt-2">
@@ -78,16 +107,16 @@
     </x-alert-banner>
 
     <!-- Results Count -->
-    <x-results-count model="displayedBootcamps" label="bootcamp" />
+    <x-results-count model="paginatedBootcamps" totalModel="displayedBootcamps" label="bootcamp" />
 
     <!-- Bootcamp Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <template x-for="(b, index) in displayedBootcamps" :key="b.id">
+        <template x-for="(b, index) in paginatedBootcamps" :key="b.id">
             <a :href="'/bootcamp/online/' + b.id" class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-[0_2px_12px_rgb(0,0,0,0.04)] hover:shadow-lg transition-shadow group flex flex-col h-full cursor-pointer">
                 <!-- Thumbnail -->
                 <div class="relative w-full aspect-[16/10] bg-gray-100 overflow-hidden">
                     <template x-if="b.thumbnail">
-                        <img :src="b.thumbnail" :alt="b.title" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <img decoding="async" loading="lazy" :src="b.thumbnail" :alt="b.title" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                     </template>
                     <template x-if="!b.thumbnail">
                         <div class="w-full h-full" :style="'background:linear-gradient(135deg,' + (b.color || '#dc2626') + ',' + (b.color || '#dc2626') + 'cc)'"></div>
@@ -141,6 +170,35 @@
                 </div>
             </a>
         </template>
+    </div>
+
+    <!-- Pagination -->
+    <div x-show="totalPages > 1" class="flex justify-center mt-8 pb-4" style="display: none;">
+        <nav class="flex items-center gap-1 sm:gap-2">
+            <!-- Prev Button -->
+            <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1" 
+                class="p-2 sm:px-3 sm:py-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+
+            <!-- Page Numbers -->
+            <template x-for="(page, index) in pageNumbers" :key="index">
+                <div>
+                    <button x-show="page !== '...'" @click="changePage(page)" 
+                        :class="currentPage === page ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'"
+                        class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg border flex items-center justify-center text-sm font-medium transition-colors"
+                        x-text="page">
+                    </button>
+                    <span x-show="page === '...'" class="px-1 sm:px-2 text-gray-400">...</span>
+                </div>
+            </template>
+
+            <!-- Next Button -->
+            <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages" 
+                class="p-2 sm:px-3 sm:py-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </nav>
     </div>
 
     <!-- Empty State -->

@@ -30,7 +30,7 @@
     <!-- Icon -->
     <div class="w-14 h-14 rounded-2xl {{ $colors['bg'] }} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform p-3">
         @if(str_starts_with($icon, 'images/'))
-            <img src="{{ asset($icon) }}" alt="{{ $title }}" class="w-full h-full object-contain">
+            <img decoding="async" loading="lazy" src="{{ asset($icon) }}" alt="{{ $title }}" class="w-full h-full object-contain">
         @else
             {!! $icon !!}
         @endif

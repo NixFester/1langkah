@@ -88,7 +88,7 @@
         <h2 class="font-bold text-gray-900 mb-4">{{ __('app.today_attendance_records') }}</h2>
 
         @if($records->isEmpty())
-            <div class="p-8 text-center">
+            <div class="p-6 md:p-8 text-center">
                 <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -118,7 +118,7 @@
                                     <td class="px-6 py-4">
                                         <div class="flex items-center gap-3">
                                             @if($record->user?->profile_photo)
-                                                <img src="{{ $record->user->profile_photo }}" alt="{{ $record->user->name }}"
+                                                <img decoding="async" loading="lazy" alt="" src="{{ $record->user->profile_photo }}" alt="{{ $record->user->name }}"
                                                      class="w-8 h-8 rounded-full object-cover">
                                             @else
                                                 <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">

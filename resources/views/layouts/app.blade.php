@@ -9,6 +9,7 @@
     <link rel="dns-prefetch" href="https://ui-avatars.com">
     <title>@yield('title', __('app.1langkah_dashboard'))</title>
     <meta name="description" content="{{ __('app.1langkah_meta_desc') ?? '1Langkah Dashboard' }}">
+    <meta name="theme-color" content="#dc2626">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>

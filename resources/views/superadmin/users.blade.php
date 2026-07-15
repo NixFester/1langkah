@@ -70,7 +70,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="4" class="px-6 py-12">
+                <td colspan="4" class="px-6 py-8 md:py-12">
                     <x-empty-state :message="__('app.no_user')" icon="users" />
                 </td>
             </tr>

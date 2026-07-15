@@ -25,7 +25,7 @@
                  :class="activeChat === 1 ? 'bg-red-50 border-red-100 shadow-sm' : 'border-transparent hover:bg-gray-50'" 
                  class="flex items-center gap-3 p-3 rounded-2xl cursor-pointer transition-all duration-200 border relative group">
                 <div class="relative flex-shrink-0">
-                    <img src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-11 h-11 rounded-full object-cover shadow-sm" alt="">
+                    <img decoding="async" loading="lazy" src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-11 h-11 rounded-full object-cover shadow-sm" alt="">
                     <div class="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red-600 border-2 border-white rounded-full"></div>
                 </div>
                 <div class="flex-1 min-w-0">
@@ -45,7 +45,7 @@
                  :class="activeChat === 2 ? 'bg-red-50 border-red-100 shadow-sm' : 'border-transparent hover:bg-gray-50'" 
                  class="flex items-center gap-3 p-3 rounded-2xl cursor-pointer transition-all duration-200 border relative group">
                 <div class="relative flex-shrink-0">
-                    <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=random" class="w-11 h-11 rounded-full object-cover shadow-sm opacity-90" alt="">
+                    <img decoding="async" loading="lazy" src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=random" class="w-11 h-11 rounded-full object-cover shadow-sm opacity-90" alt="">
                 </div>
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between mb-0.5">
@@ -73,7 +73,7 @@
                 
                 <template x-if="activeChat === 1">
                     <div class="flex items-center gap-3">
-                        <img src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-10 h-10 rounded-full object-cover shadow-sm" alt="">
+                        <img decoding="async" loading="lazy" src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-10 h-10 rounded-full object-cover shadow-sm" alt="">
                         <div>
                             <div class="flex items-center gap-2">
                                 <div class="font-bold text-gray-900 text-[15px]">Rudi Yesaya</div>
@@ -85,7 +85,7 @@
                 </template>
                 <template x-if="activeChat === 2">
                     <div class="flex items-center gap-3">
-                        <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=random" class="w-10 h-10 rounded-full object-cover shadow-sm" alt="">
+                        <img decoding="async" loading="lazy" src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=random" class="w-10 h-10 rounded-full object-cover shadow-sm" alt="">
                         <div>
                             <div class="flex items-center gap-2">
                                 <div class="font-bold text-gray-900 text-[15px]">Sarah Johnson</div>
@@ -120,7 +120,7 @@
 
                     <!-- Message Received -->
                     <div class="flex items-end gap-3 max-w-[85%]">
-                        <img src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-8 h-8 rounded-full mb-1 shadow-sm" alt="">
+                        <img decoding="async" loading="lazy" src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-8 h-8 rounded-full mb-1 shadow-sm" alt="">
                         <div class="flex flex-col gap-1">
                             <span class="text-[11px] font-bold text-gray-500 ml-1">Rudi Yesaya</span>
                             <div class="bg-white p-4 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
@@ -145,7 +145,7 @@
 
                     <!-- Message Received (Latest) -->
                     <div class="flex items-end gap-3 max-w-[85%]">
-                        <img src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-8 h-8 rounded-full mb-1 shadow-sm" alt="">
+                        <img decoding="async" loading="lazy" src="https://ui-avatars.com/api/?name=Rudi+Yesaya&background=random" class="w-8 h-8 rounded-full mb-1 shadow-sm" alt="">
                         <div class="flex flex-col gap-1">
                             <span class="text-[11px] font-bold text-gray-500 ml-1">Rudi Yesaya</span>
                             <div class="bg-white p-4 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
@@ -167,7 +167,7 @@
 
                     <!-- Message Received -->
                     <div class="flex items-end gap-3 max-w-[85%]">
-                        <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=random" class="w-8 h-8 rounded-full mb-1 shadow-sm" alt="">
+                        <img decoding="async" loading="lazy" src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=random" class="w-8 h-8 rounded-full mb-1 shadow-sm" alt="">
                         <div class="flex flex-col gap-1">
                             <span class="text-[11px] font-bold text-gray-500 ml-1">Sarah Johnson</span>
                             <div class="bg-white p-4 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">

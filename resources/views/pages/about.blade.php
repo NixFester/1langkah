@@ -4,7 +4,7 @@
 
 @section('body')
 <!-- Navbar -->
-<nav class="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-3 md:py-4 bg-[#050304]/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between">
+<nav class="fixed top-0 left-0 right-0 z-50 px-6 lg:px-12 py-3 md:py-4 bg-[#050304]/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between">
     <!-- Logo -->
     <a href="{{ route('landing') }}" class="flex items-center" aria-label="Beranda 1Langkah">
         <svg aria-hidden="true" width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +40,7 @@
     </a>
     
     <!-- Links -->
-    <div class="hidden md:flex items-center gap-8 text-[15px] font-medium text-gray-300">
+    <div class="hidden md:flex items-center gap-4 xl:gap-8 text-[14px] xl:text-[15px] font-medium text-gray-300">
         <a href="{{ route('kursus') }}" class="hover:text-white transition-colors">{{ __('app.nav_courses') }}</a>
         <a href="{{ route('online-bootcamp') }}" class="hover:text-white transition-colors">{{ __('app.nav_bootcamp') }}</a>
         <a href="{{ route('mentor') }}" class="hover:text-white transition-colors">{{ __('app.nav_mentor') }}</a>
@@ -49,24 +49,25 @@
     </div>
 
     <!-- Actions -->
-    <div class="flex items-center gap-2 sm:gap-4">
+    <div class="flex items-center gap-2 sm:gap-3 lg:gap-4">
         <!-- Language Switcher -->
         <button type="button" disabled class="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/5 border border-white/10 text-[11px] sm:text-[12px] font-bold text-white cursor-not-allowed opacity-50" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
         </button>
         
-        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-2.5 text-[13px] sm:text-[14px] font-medium text-[#d1d5db] border border-white/10 rounded-full hover:bg-white/5 transition-colors">
+        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 lg:px-6 py-2 sm:py-2.5 text-[13px] lg:text-[14px] font-medium text-[#d1d5db] border border-white/10 rounded-full hover:bg-white/5 transition-colors">
             {{ __('app.login') }}
         </a>
-        <a href="{{ route('signup') }}" class="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-2.5 text-[13px] sm:text-[14px] font-semibold text-white bg-gradient-to-b from-[#D10000] to-[#8B0000] rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_20px_rgba(209,0,0,0.4)] whitespace-nowrap hover:from-[#b30000] hover:to-[#6b0000] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_25px_rgba(209,0,0,0.6)] transition-all">
-            {{ __('app.register_free') }}
+        <a href="{{ route('signup') }}" class="inline-flex items-center justify-center px-4 lg:px-6 py-2 sm:py-2.5 text-[13px] lg:text-[14px] font-semibold text-white bg-gradient-to-b from-[#D10000] to-[#8B0000] rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_20px_rgba(209,0,0,0.4)] whitespace-nowrap hover:from-[#b30000] hover:to-[#6b0000] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_25px_rgba(209,0,0,0.6)] transition-all">
+            <span class="lg:hidden">{{ __('app.register') }}</span>
+            <span class="hidden lg:inline">{{ __('app.register_free') }}</span>
         </a>
     </div>
 </nav><!-- Main Content -->
 <main class="w-full flex flex-col overflow-x-hidden bg-[#050304] text-white">
     
     <!-- 1. HERO SECTION -->
-    <section class="relative min-h-screen min-h-[100svh] w-full flex flex-col justify-center px-6 md:px-12 py-24 z-10 overflow-hidden">
+    <section class="relative min-h-screen min-h-[100svh] w-full flex flex-col justify-center px-6 md:px-12 py-16 md:py-24 z-10 overflow-hidden">
         
         <!-- Random Red Gradients / Orbs -->
         <div class="absolute top-[10%] left-[10%] w-[400px] h-[400px] bg-[#D10000]/25 rounded-full blur-[100px] pointer-events-none"></div>
@@ -81,7 +82,7 @@
                 <span class="text-[12px] font-bold tracking-[0.2em] text-white uppercase">Mengenal 1Langkah</span>
             </div>
             
-            <h1 class="text-5xl md:text-7xl lg:text-[84px] font-black mb-8 tracking-tighter leading-[1.05]">
+            <h1 class="text-[34px] sm:text-4xl md:text-7xl lg:text-[84px] font-black mb-6 md:mb-8 tracking-tighter leading-[1.05]">
                 Menghapus Jarak<br/>
                 <span class="text-transparent bg-clip-text relative inline-block" style="background-image: linear-gradient(98deg, #FF6B6B 0%, #D10000 35%, #FF4500 65%, #FFB347 100%);">
                     Antara Bakat & Industri.
@@ -106,13 +107,13 @@
     </section>
 
     <!-- 2. CERITA KAMI (Our Story) -->
-    <section class="py-24 relative z-10 border-t border-slate-200 bg-white">
+    <section class="py-16 md:py-24 relative z-10 border-t border-slate-200 bg-white">
         <div class="max-w-[1400px] mx-auto px-6 md:px-12">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
                 <!-- Image / Graphic placeholder -->
                 <div class="relative rounded-[2.5rem] overflow-hidden border border-slate-200 group">
                     <div class="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Tim 1Langkah Berkolaborasi" class="w-full h-full object-cover aspect-square md:aspect-[4/3] group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                    <img decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Tim 1Langkah Berkolaborasi" class="w-full h-full object-cover aspect-square md:aspect-[4/3] group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     
                     <div class="absolute bottom-8 left-8 right-8 z-20">
                         <div class="bg-white/90 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-xl">
@@ -132,7 +133,7 @@
                 <!-- Text Content -->
                 <div>
                     <h2 class="text-[12px] font-bold tracking-[0.2em] text-red-400 uppercase mb-4">Awal Mula</h2>
-                    <h2 class="text-4xl md:text-5xl font-black mb-6 tracking-tight text-slate-900">Lebih dari sekadar<br/> platform kelas online.</h2>
+                    <h2 class="text-[28px] sm:text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-900 leading-tight">Lebih dari sekadar<br/> platform kelas online.</h2>
                     
                     <div class="space-y-6 text-slate-600 text-lg leading-relaxed">
                         <p>
@@ -159,7 +160,7 @@
     </section>
 
     <!-- 3. KEUNGGULAN (Why Us Grid) -->
-    <section class="py-24 md:py-32 bg-[#050304] relative overflow-hidden border-t border-white/5">
+    <section class="py-16 md:py-32 bg-[#050304] relative overflow-hidden border-t border-white/5">
         <!-- Subtle Red Glow Background -->
         <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-[#FF0000]/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
         <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#D10000]/10 blur-[100px] rounded-full pointer-events-none z-0"></div>
@@ -167,7 +168,7 @@
         <div class="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
             <div class="text-center max-w-3xl mx-auto mb-20">
                 <h2 class="text-[12px] font-bold tracking-[0.2em] text-red-500 uppercase mb-4">Nilai Inti Kami</h2>
-                <h2 class="text-4xl md:text-5xl font-black mb-6 tracking-tight">Apa yang membuat 1Langkah berbeda?</h2>
+                <h2 class="text-[28px] sm:text-3xl md:text-5xl font-black mb-6 tracking-tight leading-tight">Apa yang membuat 1Langkah berbeda?</h2>
                 <p class="text-gray-400 text-lg">Kami tidak bersaing dalam jumlah video, kami berfokus mutlak pada dampak karir dan pembentukan *skill* yang teruji.</p>
             </div>
             
@@ -218,33 +219,33 @@
     </section>
 
     <!-- 4. PENCAPAIAN / STATS -->
-    <section class="py-24 border-t border-slate-200 bg-white relative">
+    <section class="py-16 md:py-24 border-t border-slate-200 bg-white relative">
         <!-- Grid Pattern overlay (lighter for white background) -->
         <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgc3Ryb2tlPSIjZTJlOGYwIiBzdHJva2Utb3BhY2l0eT0iMC44IiBmaWxsPSJub25lIj48cGF0aCBkPSJNMCA2MGg2ME02MCAwZi02MCIvPjwvZz48L3N2Zz4=')] opacity-70"></div>
         
         <div class="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
             <div class="flex flex-col md:flex-row items-center justify-between border-b border-slate-200 pb-12 mb-12">
                 <div class="mb-6 md:mb-0">
-                    <h2 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">Dampak Nyata.</h2>
+                    <h2 class="text-[28px] sm:text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">Dampak Nyata.</h2>
                     <p class="text-slate-500 mt-2 text-lg font-medium">Angka yang merepresentasikan perjalanan kami sejauh ini.</p>
                 </div>
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
                 <div>
-                    <div class="text-5xl md:text-6xl font-black text-slate-900 mb-2 font-mono">99K<span class="text-[#D10000]">+</span></div>
+                    <div class="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 mb-2 font-mono">99K<span class="text-[#D10000]">+</span></div>
                     <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">Alumni Sukses</div>
                 </div>
                 <div>
-                    <div class="text-5xl md:text-6xl font-black text-slate-900 mb-2 font-mono">1.2M</div>
+                    <div class="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 mb-2 font-mono">1.2M</div>
                     <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">Jam Belajar</div>
                 </div>
                 <div>
-                    <div class="text-5xl md:text-6xl font-black text-slate-900 mb-2 font-mono">500<span class="text-[#D10000]">+</span></div>
+                    <div class="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 mb-2 font-mono">500<span class="text-[#D10000]">+</span></div>
                     <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">Mentor Industri</div>
                 </div>
                 <div>
-                    <div class="text-5xl md:text-6xl font-black text-[#D10000] mb-2 font-mono">95%</div>
+                    <div class="text-4xl sm:text-5xl md:text-6xl font-black text-[#D10000] mb-2 font-mono">95%</div>
                     <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">Rasio Pekerjaan</div>
                 </div>
             </div>
@@ -252,12 +253,12 @@
     </section>
 
     <!-- 5. CTA SECTION -->
-    <section class="py-24 md:py-32 bg-[#0a0a0a] relative overflow-hidden border-t border-white/5">
+    <section class="py-16 md:py-32 bg-[#0a0a0a] relative overflow-hidden border-t border-white/5">
         <!-- Subtle Red Glow Background -->
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#FF0000]/20 blur-[120px] rounded-full pointer-events-none z-0"></div>
 
         <div class="max-w-[1400px] mx-auto px-6 md:px-12 text-center relative z-10 flex flex-col items-center">
-            <h2 class="text-4xl md:text-6xl font-black mb-6 tracking-tight text-white">Siap mengakselerasi karirmu?</h2>
+            <h2 class="text-[28px] sm:text-3xl md:text-6xl font-black mb-6 tracking-tight text-white leading-tight">Siap mengakselerasi karirmu?</h2>
             <p class="text-lg text-gray-400 mb-10 max-w-2xl mx-auto">Bergabung dengan puluhan ribu pelajar lainnya dan mulai melangkah menuju keahlian profesional yang sebenarnya.</p>
             <a href="{{ route('signup') }}" class="inline-flex items-center justify-center px-10 py-5 text-[16px] font-bold text-white bg-gradient-to-b from-[#D10000] to-[#8B0000] rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_20px_rgba(209,0,0,0.6)] hover:scale-105 transition-transform duration-300">
                 {{ __('app.register_free') }} Sekarang
