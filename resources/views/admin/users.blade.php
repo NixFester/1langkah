@@ -17,14 +17,14 @@
 
     <!-- DATA TABLE -->
     <x-data-table :paginator="$users">
-        <template #thead>
+        <thead>
             <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wider">
                 <th class="px-6 py-4 font-bold">{{ __('app.user') }}</th>
                 <th class="px-6 py-4 font-bold">{{ __('app.role') }}</th>
                 <th class="px-6 py-4 font-bold">{{ __('app.joined') }}</th>
                 <th class="px-6 py-4 font-bold text-right">{{ __('app.action') }}</th>
             </tr>
-        </template>
+        </thead>
 
         @forelse($users as $user)
         <tr class="hover:bg-gray-50 transition-colors">

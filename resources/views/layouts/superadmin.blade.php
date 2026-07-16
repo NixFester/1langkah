@@ -56,7 +56,7 @@
     <!-- Mobile overlay -->
     <div x-show="sidebarMobileOpen" @click="sidebarMobileOpen = false" class="fixed inset-0 bg-gray-900/50 z-[95] lg:hidden" style="display: none;" x-transition.opacity></div>
 
-    <x-sidebar :active-page="$activePage ?? 'dashboard'" />
+    <x-sidebar :active-page="Route::currentRouteName() ?? 'dashboard'" />
 
     <div class="main-content">
         <x-topbar />

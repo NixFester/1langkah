@@ -7,7 +7,7 @@
     <x-flash-messages />
 
     <x-data-table :paginator="$students">
-        <template #thead>
+        <thead>
             <tr class="bg-gray-50">
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.student') }}</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.course') }}</th>
@@ -15,7 +15,7 @@
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.last_activity') }}</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.action') }}</th>
             </tr>
-        </template>
+        </thead>
 
         @forelse($students as $data)
             <tr class="hover:bg-gray-50">

@@ -12,8 +12,8 @@
         {{ $slot }}
 
         <div class="flex items-center gap-2">
-            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium text-sm transition-colors">
-                Filter
+            <button type="submit" class="px-4 py-2 bg-[#cc0000] text-white rounded-lg hover:bg-red-700 font-medium text-sm transition-colors shadow-sm">
+                {{ __('app.filter') }}
             </button>
             @if(request()->hasAny(['status', 'date_from', 'date_to']))
                 <a href="{{ url()->current() }}" class="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">

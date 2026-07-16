@@ -38,19 +38,19 @@
         $roleNavGroups = [
             'superadmin' => [
                 'label' => __('app.superadmin'),
-                'icon' => 'shield',
-                'color' => '#7c3aed',
+                'icon' => 'superadmin',
+                'color' => '#D10000',
                 'items' => [
-                    ['id' => 'dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'superadmin.dashboard'],
-                    ['id' => 'users', 'icon' => 'users', 'label' => __('app.manage_users'), 'route' => 'superadmin.users'],
-                    ['id' => 'audit-logs', 'icon' => 'shield', 'label' => __('app.audit_log'), 'route' => 'superadmin.audit-logs'],
-                    ['id' => 'system-stats', 'icon' => 'chart', 'label' => __('app.system_stats'), 'route' => 'superadmin.system-stats'],
+                    ['id' => 'superadmin.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'superadmin.dashboard'],
+                    ['id' => 'superadmin.users', 'icon' => 'users', 'label' => __('app.manage_users'), 'route' => 'superadmin.users'],
+                    ['id' => 'superadmin.audit-logs', 'icon' => 'shield', 'label' => __('app.audit_log'), 'route' => 'superadmin.audit-logs'],
+                    ['id' => 'superadmin.system-stats', 'icon' => 'barChart', 'label' => __('app.system_stats'), 'route' => 'superadmin.system-stats'],
                 ]
             ],
             'admin' => [
                 'label' => __('app.admin'),
-                'icon' => 'settings',
-                'color' => '#ef4444',
+                'icon' => 'admin',
+                'color' => '#D10000',
                 'items' => [
                     ['id' => 'admin.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'admin.dashboard'],
                     ['id' => 'admin.users', 'icon' => 'users', 'label' => __('app.manage_users'), 'route' => 'admin.users'],
@@ -63,29 +63,29 @@
             ],
             'keuangan' => [
                 'label' => __('app.finance'),
-                'icon' => 'credit-card',
-                'color' => '#f59e0b',
+                'icon' => 'keuangan',
+                'color' => '#D10000',
                 'items' => [
                     ['id' => 'keuangan.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'keuangan.dashboard'],
-                    ['id' => 'keuangan.verifications', 'icon' => 'credit-card', 'label' => __('app.payment_verification'), 'route' => 'keuangan.verifications'],
+                    ['id' => 'keuangan.verifications', 'icon' => 'creditCard', 'label' => __('app.payment_verification'), 'route' => 'keuangan.verifications'],
                     ['id' => 'keuangan.enrollments', 'icon' => 'users', 'label' => __('app.enrollments'), 'route' => 'keuangan.enrollments'],
-                    ['id' => 'keuangan.reports', 'icon' => 'chart', 'label' => __('app.revenue_report'), 'route' => 'keuangan.reports'],
+                    ['id' => 'keuangan.reports', 'icon' => 'barChart', 'label' => __('app.revenue_report'), 'route' => 'keuangan.reports'],
                 ]
             ],
             'marketing' => [
                 'label' => __('app.marketing'),
-                'icon' => 'megaphone',
-                'color' => '#ec4899',
+                'icon' => 'marketing',
+                'color' => '#D10000',
                 'items' => [
                     ['id' => 'marketing.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'marketing.dashboard'],
-                    ['id' => 'marketing.promo-codes', 'icon' => 'ticket', 'label' => __('app.promo_codes'), 'route' => 'marketing.promo-codes'],
-                    ['id' => 'marketing.analytics', 'icon' => 'chart', 'label' => __('app.analytics'), 'route' => 'marketing.analytics'],
+                    ['id' => 'marketing.promo-codes', 'icon' => 'award', 'label' => __('app.promo_codes'), 'route' => 'marketing.promo-codes'],
+                    ['id' => 'marketing.analytics', 'icon' => 'barChart', 'label' => __('app.analytics'), 'route' => 'marketing.analytics'],
                 ]
             ],
             'mentor' => [
                 'label' => __('app.mentor'),
-                'icon' => 'user',
-                'color' => '#3b82f6',
+                'icon' => 'mentor',
+                'color' => '#D10000',
                 'items' => [
                     ['id' => 'mentor.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'mentor.dashboard'],
                     ['id' => 'mentor.profile.edit', 'icon' => 'user', 'label' => __('app.edit_profile'), 'route' => 'mentor.profile.edit'],
@@ -113,29 +113,29 @@
     // Superadmin routes
     elseif ($isSuperAdminRoute) {
         $navItems = [
-            ['id' => 'dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'superadmin.dashboard'],
-            ['id' => 'users', 'icon' => 'users', 'label' => __('app.manage_users'), 'route' => 'superadmin.users'],
-            ['id' => 'audit-logs', 'icon' => 'shield', 'label' => __('app.audit_log'), 'route' => 'superadmin.audit-logs'],
-            ['id' => 'system-stats', 'icon' => 'chart', 'label' => __('app.system_stats'), 'route' => 'superadmin.system-stats'],
+            ['id' => 'superadmin.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'superadmin.dashboard'],
+            ['id' => 'superadmin.users', 'icon' => 'users', 'label' => __('app.manage_users'), 'route' => 'superadmin.users'],
+            ['id' => 'superadmin.audit-logs', 'icon' => 'shield', 'label' => __('app.audit_log'), 'route' => 'superadmin.audit-logs'],
+            ['id' => 'superadmin.system-stats', 'icon' => 'barChart', 'label' => __('app.system_stats'), 'route' => 'superadmin.system-stats'],
             ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => __('app.back_to_app'), 'route' => 'dashboard'],
         ];
     }
     // Keuangan routes
     elseif ($isKeuanganRoute) {
         $navItems = [
-            ['id' => 'dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'keuangan.dashboard'],
-            ['id' => 'verifications', 'icon' => 'credit-card', 'label' => __('app.payment_verification'), 'route' => 'keuangan.verifications'],
-            ['id' => 'enrollments', 'icon' => 'users', 'label' => __('app.enrollments'), 'route' => 'keuangan.enrollments'],
-            ['id' => 'reports', 'icon' => 'chart', 'label' => __('app.revenue_report'), 'route' => 'keuangan.reports'],
+            ['id' => 'keuangan.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'keuangan.dashboard'],
+            ['id' => 'keuangan.verifications', 'icon' => 'creditCard', 'label' => __('app.payment_verification'), 'route' => 'keuangan.verifications'],
+            ['id' => 'keuangan.enrollments', 'icon' => 'users', 'label' => __('app.enrollments'), 'route' => 'keuangan.enrollments'],
+            ['id' => 'keuangan.reports', 'icon' => 'barChart', 'label' => __('app.revenue_report'), 'route' => 'keuangan.reports'],
             ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => __('app.back_to_app'), 'route' => 'dashboard'],
         ];
     }
     // Marketing routes
     elseif ($isMarketingRoute) {
         $navItems = [
-            ['id' => 'dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'marketing.dashboard'],
-            ['id' => 'promo-codes', 'icon' => 'ticket', 'label' => __('app.promo_codes'), 'route' => 'marketing.promo-codes'],
-            ['id' => 'analytics', 'icon' => 'chart', 'label' => __('app.analytics'), 'route' => 'marketing.analytics'],
+            ['id' => 'marketing.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'marketing.dashboard'],
+            ['id' => 'marketing.promo-codes', 'icon' => 'award', 'label' => __('app.promo_codes'), 'route' => 'marketing.promo-codes'],
+            ['id' => 'marketing.analytics', 'icon' => 'barChart', 'label' => __('app.analytics'), 'route' => 'marketing.analytics'],
             ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => __('app.back_to_app'), 'route' => 'dashboard'],
         ];
     }
@@ -290,10 +290,10 @@
                         <button
                             @click="activeGroup === '{{ $groupKey }}' ? activeGroup = null : activeGroup = '{{ $groupKey }}'"
                             class="nav-item"
-                            style="width: 100%; justify-content: space-between; margin-bottom: 2px; {{ $activeGroup === $groupKey ? 'background-color: ' . $group['color'] . '20; border-left: 3px solid ' . $group['color'] . ';' : '' }}"
+                            style="width: 100%; justify-content: space-between; margin-bottom: 2px; {{ $activeGroup === $groupKey ? 'background-color: #ffe4e6; border-left: 3px solid #cc0000; color: #cc0000;' : '' }}"
                         >
                             <div style="display:flex; align-items:center; gap:10px;">
-                                <x-icon :name="$group['icon']" style="color: {{ $group['color'] }};" />
+                                <x-icon :name="$group['icon']" style="{{ $activeGroup === $groupKey ? 'color: #cc0000;' : 'color: inherit;' }}" />
                                 <span class="sidebar-text" style="font-size: 14px; font-weight: 500;">{{ $group['label'] }}</span>
                             </div>
                             <svg class="sidebar-text transition-transform duration-200" :class="activeGroup === '{{ $groupKey }}' ? 'rotate-180' : ''" style="width:16px; height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -308,8 +308,8 @@
                                     @endphp
                                     <a href="{{ route($item['route'] ?? 'dashboard') }}"
                                        class="nav-item"
-                                       style="padding: 8px 14px; border-radius: 9999px; margin-bottom: 0; {{ $isItemActive ? 'background-color: ' . $group['color'] . '; color: white; font-weight: 600;' : 'color: inherit;' }}">
-                                        <x-icon :name="$item['icon']" style="width:15px;height:15px; {{ $isItemActive ? 'color: white;' : '' }}" />
+                                       style="padding: 8px 14px; border-radius: 9999px; margin-bottom: 0; {{ $isItemActive ? 'background-color: #ffe4e6; color: #cc0000; font-weight: 600;' : 'color: inherit;' }}">
+                                        <x-icon :name="$item['icon']" style="width:15px;height:15px; {{ $isItemActive ? 'color: #cc0000;' : '' }}" />
                                         <span style="font-size: 13px;">{{ $item['label'] }}</span>
                                     </a>
                                 @endforeach
@@ -351,9 +351,9 @@
 
             @if($isDropdown)
                 <div x-data="{ open: {{ $isParentActive ? 'true' : 'false' }} }" class="nav-section" style="padding: 0 12px;">
-                    <button @click="open = !open" class="nav-item" style="width: 100%; justify-content: space-between; margin-bottom: 2px;">
+                    <button @click="open = !open" class="nav-item" style="width: 100%; justify-content: space-between; margin-bottom: 2px; {{ $isParentActive ? 'background-color: #ffe4e6; border-left: 3px solid #cc0000; color: #cc0000;' : '' }}">
                         <div style="display:flex; align-items:center; gap:10px;">
-                            <x-icon :name="$item['icon']" />
+                            <x-icon :name="$item['icon']" style="{{ $isParentActive ? 'color: #cc0000;' : 'color: inherit;' }}" />
                             <span class="sidebar-text" style="font-size: 14px; font-weight: 500;">{{ $item['label'] }}</span>
                         </div>
                         <svg class="sidebar-text transition-transform duration-200" :class="open ? 'rotate-180' : ''" style="width:16px; height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>

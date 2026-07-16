@@ -17,7 +17,7 @@
 
     <!-- DATA TABLE -->
     <x-data-table :paginator="$quizzes">
-        <template #thead>
+        <thead>
             <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wider">
                 <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">{{ __('app.quiz') }}</th>
                 <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">{{ __('app.course') }}</th>
@@ -27,7 +27,7 @@
                 <th class="px-4 md:px-6 py-3 md:py-4 font-bold whitespace-nowrap">{{ __('app.status') }}</th>
                 <th class="px-4 md:px-6 py-3 md:py-4 font-bold text-right whitespace-nowrap">{{ __('app.action') }}</th>
             </tr>
-        </template>
+        </thead>
 
         @forelse($quizzes as $quiz)
         <tr class="hover:bg-gray-50 transition-colors">

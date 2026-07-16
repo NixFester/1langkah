@@ -249,6 +249,7 @@ return [
     'course_detail' => 'Detail Kursus',
     'students' => 'siswa',
     'overview' => 'Overview',
+    'overview_system' => 'Ringkasan sistem dan metrik utama',
     'curriculum' => 'Curriculum',
     'photos' => 'Photos',
     'reviews' => 'Reviews',

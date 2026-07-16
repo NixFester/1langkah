@@ -1,63 +1,71 @@
 @extends('layouts.marketing')
 
 @section('title', __('app.promo_codes_title'))
-@section('header_title', __('app.promo_codes_title'))
 
 @section('content')
+<div class="w-full px-2 pb-8 space-y-6">
+
+    <!-- PAGE HEADER -->
+    <x-page-header
+        :title="__('app.promo_codes_title')"
+        :description="__('app.overview_system')"
+        actionRoute="{{ route('marketing.promo-codes.create') }}"
+        :actionLabel="__('app.create_new_promo')"
+    >
+        <x-slot name="actionIcon">
+            <x-icon name="promo" class="w-4 h-4" />
+        </x-slot>
+    </x-page-header>
+
     <x-flash-messages />
 
-    {{-- Header with Filters & Action --}}
-    <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-        <form method="GET" class="flex gap-2">
-            <select aria-label="Status" name="status" class="border border-gray-300 rounded-lg px-4 py-2">
+    {{-- Filters --}}
+    <x-filter-form>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.status') }}</label>
+            <select aria-label="Status" name="status" class="border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-[#cc0000] focus:border-[#cc0000] w-full">
                 <option value="">{{ __('app.all_status') }}</option>
                 <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>{{ __('app.active_status') }}</option>
                 <option value="expired" {{ request('status') === 'expired' ? 'selected' : '' }}>{{ __('app.expired') }}</option>
                 <option value="maxed" {{ request('status') === 'maxed' ? 'selected' : '' }}>{{ __('app.maxed_out') }}</option>
             </select>
-            <button type="submit" class="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700">{{ __('app.filter') }}</button>
-        </form>
-        <a href="{{ route('marketing.promo-codes.create') }}" class="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 font-medium flex items-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            {{ __('app.create_new_promo') }}
-        </a>
-    </div>
+        </div>
+    </x-filter-form>
 
+    <!-- DATA TABLE -->
     <x-data-table :paginator="$promos">
-        <template #thead>
-            <tr class="bg-gray-50">
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.code') }}</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.name') }}</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.type') }}</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.used') }}</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.status') }}</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.action') }}</th>
+        <thead>
+            <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wider">
+                <th class="px-4 md:px-6 py-4 font-bold text-left">{{ __('app.code') }}</th>
+                <th class="px-4 md:px-6 py-4 font-bold text-left">{{ __('app.name') }}</th>
+                <th class="px-4 md:px-6 py-4 font-bold text-left">{{ __('app.type') }}</th>
+                <th class="px-4 md:px-6 py-4 font-bold text-left">{{ __('app.used') }}</th>
+                <th class="px-4 md:px-6 py-4 font-bold text-left">{{ __('app.status') }}</th>
+                <th class="px-4 md:px-6 py-4 font-bold text-left">{{ __('app.action') }}</th>
             </tr>
-        </template>
+        </thead>
 
         @forelse($promos as $promo)
-            <tr class="hover:bg-gray-50">
-                <td class="px-6 py-4">
-                    <span class="px-2 py-1 bg-pink-100 text-pink-700 rounded font-bold text-sm">{{ $promo->code }}</span>
+            <tr class="hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-0">
+                <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-sm">
+                    <span class="px-2.5 py-1 bg-red-100 text-red-700 rounded-lg font-bold">{{ $promo->code }}</span>
                 </td>
-                <td class="px-6 py-4 text-gray-800">{{ $promo->name }}</td>
-                <td class="px-6 py-4 text-gray-800">{{ $promo->type_label }}</td>
-                <td class="px-6 py-4">
+                <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-sm text-gray-800 font-medium">{{ $promo->name }}</td>
+                <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-sm text-gray-500">{{ $promo->type_label }}</td>
+                <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-sm">
                     <div class="flex items-center gap-2">
-                        <span class="text-gray-800">{{ $promo->used_count }}</span>
+                        <span class="font-medium text-gray-800">{{ $promo->used_count }}</span>
                         @if($promo->max_uses)
-                            <span class="text-gray-400">/ {{ $promo->max_uses }}</span>
-                            <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
-                                <div class="h-full bg-pink-500" style="width: {{ min(100, $promo->usage_percentage) }}%"></div>
+                            <span class="text-gray-400 text-xs">/ {{ $promo->max_uses }}</span>
+                            <div class="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-red-500 rounded-full" style="width: {{ min(100, $promo->usage_percentage) }}%"></div>
                             </div>
                         @else
-                            <span class="text-gray-400">/ ∞</span>
+                            <span class="text-gray-400 text-xs">/ ∞</span>
                         @endif
                     </div>
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-sm">
                     @if($promo->is_active && $promo->isValid())
                         <x-stat-badge status="active" />
                     @elseif($promo->expires_at && $promo->expires_at->lt(now()))
@@ -66,28 +74,30 @@
                         <x-stat-badge status="inactive" />
                     @endif
                 </td>
-                <td class="px-6 py-4">
-                    <div class="flex items-center gap-2">
-                        <a href="{{ route('marketing.promo-codes.edit', $promo) }}" class="text-blue-600 hover:text-blue-700 text-sm">{{ __('app.edit') }}</a>
+                <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-sm">
+                    <div class="flex items-center gap-3">
+                        <a href="{{ route('marketing.promo-codes.edit', $promo) }}" class="text-blue-600 hover:text-blue-800 font-medium transition-colors">{{ __('app.edit') }}</a>
                         <form action="{{ route('marketing.promo-codes.toggle', $promo) }}" method="POST" class="inline">
                             @csrf
-                            <button type="submit" class="text-gray-600 hover:text-gray-800 text-sm">
+                            <button type="submit" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
                                 {{ $promo->is_active ? __('app.deactivate') : __('app.activate') }}
                             </button>
                         </form>
                         <form action="{{ route('marketing.promo-codes.destroy', $promo) }}" method="POST" class="inline" onsubmit="return confirm('{{ __('app.delete_confirm') }}')">
                             @csrf @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:text-red-700 text-sm">{{ __('app.delete') }}</button>
+                            <button type="submit" class="text-red-600 hover:text-red-800 font-medium transition-colors">{{ __('app.delete') }}</button>
                         </form>
                     </div>
                 </td>
             </tr>
         @empty
             <tr>
-                <td colspan="6" class="px-6 py-8 md:py-12">
-                    <x-empty-state :message="__('app.no_promo_codes')" icon="promo" />
+                <td colspan="6" class="px-4 md:px-6 py-8 md:py-12 text-center">
+                    <x-empty-state :message="__('app.no_promo_codes')" icon="folder" />
                 </td>
             </tr>
         @endforelse
     </x-data-table>
+
+</div>
 @endsection

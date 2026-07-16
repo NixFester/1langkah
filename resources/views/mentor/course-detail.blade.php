@@ -7,12 +7,12 @@
     <x-flash-messages />
     <x-back-button route="{{ route('mentor.my-courses') }}" />
 
-    {{-- Stats --}}
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <x-stat-card :label="__('app.total_students')" :value="$totalStudents" color="blue" />
-        <x-stat-card :label="__('app.completed')" :value="$completedStudents" color="green" />
-        <x-stat-card :label="__('app.avg_progress')" :value="$avgProgress . '%'" color="purple" />
-        <x-stat-card :label="__('app.rating')" :value="$avgRating" color="amber" />
+    {{-- Stats Cards --}}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+        <x-stat-card :label="__('app.total_students')" :value="$totalStudents" icon="users" color="blue" />
+        <x-stat-card :label="__('app.completed')" :value="$completedStudents" icon="checkCircle" color="green" />
+        <x-stat-card :label="__('app.avg_progress')" :value="$avgProgress . '%'" icon="barChart" color="purple" />
+        <x-stat-card :label="__('app.rating')" :value="$avgRating" icon="star" color="amber" />
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">

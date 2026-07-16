@@ -52,7 +52,7 @@
         <x-stat-card :value="$stats['users'] ?? 0" :label="__('app.total_users')" icon="users" color="blue" />
         <x-stat-card :value="$stats['courses'] ?? 0" :label="__('app.total_courses')" icon="book" color="purple" />
         <x-stat-card :value="$stats['bootcamps'] ?? 0" :label="__('app.bootcamps')" icon="award" color="amber" />
-        <x-stat-card :value="$stats['revenue'] ?? 'Rp 0'" label="Revenue Mock" color="green" />
+        <x-stat-card :value="$stats['revenue'] ?? 'Rp 0'" :label="__('app.revenue')" icon="barChart" color="green" />
     </div>
 
     <!-- MAIN GRID SECTION -->

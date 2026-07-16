@@ -29,7 +29,7 @@
 
     {{-- Table --}}
     <x-data-table :paginator="$verifications">
-        <template #thead>
+        <thead>
             <tr class="bg-gray-50">
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.student') }}</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.course') }}</th>
@@ -38,7 +38,7 @@
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.date') }}</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.action') }}</th>
             </tr>
-        </template>
+        </thead>
 
         @forelse($verifications as $v)
             <tr class="hover:bg-gray-50">

@@ -53,7 +53,7 @@
         body.sidebar-collapsed .sidebar-logo-link svg { flex-shrink: 0; }
     </style>
 </head>
-<body x-data="{ sidebarCollapsed: false, sidebarMobileOpen: false }" :class="{ 'sidebar-collapsed': sidebarCollapsed, 'sidebar-mobile-open': sidebarMobileOpen }">
+<body x-data="{ sidebarCollapsed: false, sidebarMobileOpen: false }" :class="{ 'sidebar-collapsed': sidebarCollapsed, 'sidebar-mobile-open': sidebarMobileOpen, 'overflow-hidden': sidebarMobileOpen }">
     <!-- Mobile overlay -->
     <div x-show="sidebarMobileOpen" @click="sidebarMobileOpen = false" class="fixed inset-0 bg-gray-900/50 z-[95] lg:hidden" style="display: none;" x-transition.opacity></div>
 

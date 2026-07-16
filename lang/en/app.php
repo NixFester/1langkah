@@ -249,6 +249,7 @@ return [
     'course_detail' => 'Course Detail',
     'students' => 'students',
     'overview' => 'Overview',
+    'overview_system' => 'System overview and key metrics',
     'curriculum' => 'Curriculum',
     'photos' => 'Photos',
     'reviews' => 'Reviews',

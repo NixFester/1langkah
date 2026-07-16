@@ -67,10 +67,10 @@
 
 <!-- Hero & Partners Full Screen Wrapper -->
 <main id="main-content">
-<div class="min-h-screen min-h-[100svh] min-h-[100dvh] w-full flex flex-col overflow-x-hidden bg-[#050304]">
+<div class="min-h-screen w-full flex flex-col overflow-x-hidden bg-[#050304]" style="min-height: 100svh; min-height: 100dvh;">
     
     <!-- Hero -->
-    <section class="relative flex-1 w-full flex flex-col justify-center px-6 md:px-12 pt-[75px] lg:pt-[90px] pb-4 lg:pb-6 z-10">
+    <section class="relative flex-1 w-full flex flex-col justify-center px-6 md:px-12 pb-4 lg:pb-6 z-10" style="padding-top: 70px;">
     <!-- Red gradient glow in background -->
     <div class="absolute top-0 right-[15%] w-[600px] h-[600px] bg-[#FF0000]/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
 

@@ -17,7 +17,7 @@
 
     <!-- DATA TABLE -->
     <x-data-table :paginator="$bootcamps">
-        <template #thead>
+        <thead>
             <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wider">
                 <th class="px-6 py-4 font-bold">{{ __('app.bootcamp') }}</th>
                 <th class="px-6 py-4 font-bold">{{ __('app.type') }}</th>
@@ -25,7 +25,7 @@
                 <th class="px-6 py-4 font-bold">{{ __('app.price') }}</th>
                 <th class="px-6 py-4 font-bold text-right">{{ __('app.action') }}</th>
             </tr>
-        </template>
+        </thead>
 
         @forelse($bootcamps as $bootcamp)
         <tr class="hover:bg-gray-50 transition-colors">
