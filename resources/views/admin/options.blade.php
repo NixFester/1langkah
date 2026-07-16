@@ -47,7 +47,7 @@
     </div>
     
     <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse table-fixed">
+        <table class="w-full text-left border-collapse table-fixed" style="min-width: 750px;">
             <thead>
                 <tr class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
                     <th class="w-[20%] px-4 sm:px-5 py-3 font-bold whitespace-nowrap text-left">{{ __('app.key') }}</th>

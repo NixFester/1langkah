@@ -271,7 +271,7 @@
 <footer class="bg-[#050304] py-12 border-t border-white/10 mt-auto relative z-10">
     <div class="max-w-[1400px] mx-auto px-6 md:px-12 text-center">
         <div class="text-gray-400 text-[14px] font-medium">
-            &copy; {{ date('Y') }} 1Langkah. All rights reserved. 
+            &copy; 2026 1Langkah Technologies. All rights reserved. | Developed by <a href="https://elc.my.id" target="_blank" class="text-blue-400 underline hover:text-blue-300">ELCoding.id</a>
             <span class="mx-3 text-white/20">|</span> 
             <a href="{{ url('/') }}" class="hover:text-white transition-colors">Privacy Policy</a> 
             <span class="mx-3 text-white/20">|</span> 

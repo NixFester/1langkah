@@ -1,5 +1,5 @@
 <!-- Admin Page Header Component -->
-<div class="bg-white rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between shadow-[0_2px_10px_rgb(0,0,0,0.02)] border border-gray-100">
+<div class="bg-white rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between shadow-[0_2px_10px_rgb(0,0,0,0.02)] border border-gray-100">
     <div>
         <h1 class="text-2xl font-bold text-gray-900">{{ $title }}</h1>
         <p class="text-sm text-gray-500 mt-1">{{ $description ?? '' }}</p>
@@ -9,7 +9,7 @@
             {{ $count }} {{ __('app.total') }}
         </span>
     @elseif(isset($actionRoute))
-        <div class="mt-4 sm:mt-0">
+        <div class="mt-4 sm:mt-0 self-center sm:self-auto">
             <a href="{{ $actionRoute }}"
                class="bg-[#cc0000] hover:bg-red-700 text-white font-bold py-2.5 px-5 rounded-full text-sm transition-colors shadow-lg shadow-red-200 flex items-center gap-2">
                 @if(isset($actionIcon))

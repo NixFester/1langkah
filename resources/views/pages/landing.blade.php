@@ -1093,7 +1093,7 @@
         
         <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center">
             <div class="text-[13px] text-gray-400 md:text-left">
-                &copy; {{ date('Y') }} 1Langkah Technologies. {{ __('app.all_rights_reserved') }} | {{ __('app.developed_by') }} <a href="https://elc.my.id" target="_blank" class="text-blue-400 underline hover:text-blue-300">ELCoding.id</a>
+                &copy; 2026 1Langkah Technologies. All rights reserved. | Developed by <a href="https://elc.my.id" target="_blank" class="text-blue-400 underline hover:text-blue-300">ELCoding.id</a>
             </div>
             <div class="text-[13px] text-gray-400 md:text-right">
                 {!! __('app.footer_made_in') !!}

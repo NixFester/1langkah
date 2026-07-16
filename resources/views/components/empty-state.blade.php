@@ -1,5 +1,6 @@
 <!-- Empty State Component -->
 @props([
+    'title' => null,
     'message' => __('app.no_data'),
     'icon' => 'inbox',
     'actionRoute' => null,
@@ -11,7 +12,7 @@
 $alignClass = $center ? 'justify-center' : 'justify-start';
 @endphp
 
-<div class="text-center py-8 md:py-12 px-6">
+<div {{ $attributes->merge(['class' => 'text-center py-8 md:py-12 px-6']) }}>
     <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 mx-auto mb-4">
         @switch($icon)
             @case('inbox')
@@ -45,6 +46,9 @@ $alignClass = $center ? 'justify-center' : 'justify-start';
                 </svg>
         @endswitch
     </div>
+    @if($title)
+        <h3 class="text-lg font-bold text-gray-900 mb-1">{{ $title }}</h3>
+    @endif
     <p class="text-gray-500 text-sm">{{ $message }}</p>
 
     @if(isset($actionRoute))

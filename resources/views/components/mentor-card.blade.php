@@ -7,9 +7,9 @@
     $isOnline = $m['id'] % 2 !== 0; 
 @endphp
 
-<div class="bg-white border border-gray-100 rounded-[24px] p-6 shadow-[0_2px_12px_rgb(0,0,0,0.03)] hover:shadow-lg transition-shadow flex flex-col h-full relative">
+<div class="bg-white border border-gray-100 rounded-[24px] p-4 sm:p-6 shadow-[0_2px_12px_rgb(0,0,0,0.03)] hover:shadow-lg transition-shadow flex flex-col h-full relative">
     <!-- Top Row: Avatar & Status Dot -->
-    <div class="flex justify-between items-start mb-5">
+    <div class="flex justify-between items-start mb-3 sm:mb-5">
         @php
             $firstName = explode(' ', $m['name'])[0];
             $isWoman = in_array($firstName, ['Siti', 'Dewi', 'Sari', 'Rina', 'Ani', 'Nisa', 'Lina', 'Wati']);
@@ -29,7 +29,7 @@
     <p class="text-[13px] font-semibold text-[#dc2626] mb-3">{{ $m['company'] }}</p>
 
     <!-- Rating -->
-    <div class="flex items-center gap-2 mb-4 text-[13px]">
+    <div class="flex items-center gap-2 mb-3 sm:mb-4 text-[13px]">
         <div class="flex text-[#fbbf24] gap-0.5">
             @php $rating = round($m['rating']); @endphp
             @for($i=1; $i<=5; $i++)
@@ -46,7 +46,7 @@
     </div>
 
     <!-- Tags -->
-    <div class="flex flex-wrap items-start content-start gap-2 mb-8 min-h-[56px]">
+    <div class="flex flex-wrap items-start content-start gap-2 mb-4 sm:mb-8 sm:min-h-[56px]">
         @foreach($m['expertise'] as $skill)
             <span class="px-2.5 py-1 bg-red-50 border border-red-200 text-[#dc2626] text-[11px] font-medium rounded-full">{{ $skill }}</span>
         @endforeach

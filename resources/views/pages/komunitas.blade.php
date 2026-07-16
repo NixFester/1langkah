@@ -56,17 +56,18 @@
     @if($posts->count() > 0)
     <div class="space-y-4">
         @foreach($posts as $post)
-        <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex gap-4">
+        <div class="bg-white border border-gray-100 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex gap-2 sm:gap-4">
                 <!-- Vote Column -->
-                <div class="flex flex-col items-center gap-1 pt-1" x-data="{}">
+                <div class="flex flex-col items-center gap-0 sm:gap-1 pt-1 shrink-0 w-8 sm:w-10" x-data="{}">
                     <button onclick="votePost({{ $post->id }}, 'up', this)"
-                            class="p-1.5 rounded-lg hover:bg-red-50 transition-colors {{ isset($userVotes[$post->id]) && $userVotes[$post->id] === true ? 'text-red-600' : 'text-gray-400 hover:text-red-500' }}">
+                            class="p-1 sm:p-1.5 rounded-lg hover:bg-red-50 transition-colors {{ isset($userVotes[$post->id]) && $userVotes[$post->id] === true ? 'text-red-600' : 'text-gray-400 hover:text-red-500' }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                     </button>
-                    <span class="font-bold text-sm text-gray-700" id="vote-score-{{ $post->id }}">{{ $post->score }}</span>
+                    </button>
+                    <span class="font-bold text-xs sm:text-sm text-gray-700" id="vote-score-{{ $post->id }}">{{ $post->score }}</span>
                     <button onclick="votePost({{ $post->id }}, 'down', this)"
-                            class="p-1.5 rounded-lg hover:bg-red-50 transition-colors {{ isset($userVotes[$post->id]) && $userVotes[$post->id] === false ? 'text-red-600' : 'text-gray-400 hover:text-red-600' }}">
+                            class="p-1 sm:p-1.5 rounded-lg hover:bg-red-50 transition-colors {{ isset($userVotes[$post->id]) && $userVotes[$post->id] === false ? 'text-red-600' : 'text-gray-400 hover:text-red-600' }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                 </div>
@@ -74,24 +75,24 @@
                 <!-- Content Column -->
                 <div class="flex-1 min-w-0">
                     <!-- Author Info -->
-                    <div class="flex items-center gap-2 mb-2">
-                        <img decoding="async" loading="lazy" alt="" src="{{ $post->user->profile_photo ?? 'https://i.pravatar.cc/150?img=1' }}"
+                    <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2">
+                        <img decoding="async" loading="lazy" src="{{ $post->user->profile_photo ?? 'https://i.pravatar.cc/150?img=1' }}"
                              alt="{{ $post->user->name }}"
-                             class="w-6 h-6 rounded-full object-cover">
-                        <span class="text-sm font-medium text-gray-700">{{ $post->user->name }}</span>
-                        <span class="text-gray-300">•</span>
-                        <span class="text-sm text-gray-500">{{ $post->created_at->diffForHumans() }}</span>
+                             class="w-5 h-5 sm:w-6 sm:h-6 rounded-full object-cover">
+                        <span class="text-xs sm:text-sm font-medium text-gray-700">{{ $post->user->name }}</span>
+                        <span class="text-gray-300 hidden sm:inline">•</span>
+                        <span class="text-[11px] sm:text-sm text-gray-500">{{ $post->created_at->diffForHumans() }}</span>
                     </div>
 
                     <!-- Title -->
                     <a href="{{ route('komunitas.show', $post->id) }}" class="block group">
-                        <h2 class="font-bold text-gray-900 text-lg mb-2 group-hover:text-red-600 transition-colors line-clamp-2">
+                        <h2 class="font-bold text-gray-900 text-base sm:text-lg mb-1.5 sm:mb-2 group-hover:text-red-600 transition-colors line-clamp-2 leading-snug">
                             {{ $post->title }}
                         </h2>
                     </a>
 
                     <!-- Content Preview -->
-                    <p class="text-sm text-gray-600 mb-3 line-clamp-3">
+                    <p class="text-sm text-gray-600 mb-3 line-clamp-2 sm:line-clamp-3">
                         {{ Str::limit(strip_tags($post->content), 200) }}
                     </p>
 
@@ -112,18 +113,20 @@
                     @endif
 
                     <!-- Meta Info -->
-                    <div class="flex items-center gap-4 text-sm text-gray-500">
-                        <a href="{{ route('komunitas.show', $post->id) }}" class="flex items-center gap-1.5 hover:text-red-600 transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                            <span class="font-medium">{{ $post->reply_count }} {{ __('app.comments_count') }}</span>
-                        </a>
-                        <span class="flex items-center gap-1.5">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
-                            <span class="font-medium">{{ $post->upvotes }}</span>
-                        </span>
+                    <div class="flex flex-wrap items-center justify-between sm:justify-start gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mt-1 sm:mt-0">
+                        <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+                            <a href="{{ route('komunitas.show', $post->id) }}" class="flex items-center gap-1.5 hover:text-red-600 transition-colors">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                                <span class="font-medium whitespace-nowrap">{{ $post->reply_count }} <span class="hidden sm:inline">{{ __('app.comments_count') }}</span><span class="sm:hidden">Komentar</span></span>
+                            </a>
+                            <span class="hidden sm:flex items-center gap-1.5">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+                                <span class="font-medium">{{ $post->upvotes }}</span>
+                            </span>
+                        </div>
                         <button onclick="showReportModal('post', {{ $post->id }})" class="flex items-center gap-1.5 hover:text-red-600 transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                            {{ __('app.report') }}
+                            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            <span>{{ __('app.report') }}</span>
                         </button>
                     </div>
                 </div>
