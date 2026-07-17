@@ -235,6 +235,7 @@ class ProgressService
                 // Send notification for course completed
                 $this->getNotificationService()->courseCompleted($userId, $course->title, $courseId);
                 // award XP for course completed
+                $user = User::find($userId);
                 app(AchievementService::class)->checkAndAward($user, AchievementService::TRIGGER_COURSE_COMPLETED);
 
             }
