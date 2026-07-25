@@ -61,7 +61,7 @@
     $viewBox = '0 0 24 24';
     $paths = '';
 
-    $customIconPath = public_path("assets/icons/{$name}.svg");
+    $customIconPath = base_path("public/assets/icons/{$name}.svg");
     if (file_exists($customIconPath)) {
         $content = file_get_contents($customIconPath);
         if (preg_match("/viewBox=\"([^\"]+)\"/", $content, $match)) {
