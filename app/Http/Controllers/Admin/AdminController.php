@@ -175,15 +175,19 @@ class AdminController extends Controller
             'mentor_id' => 'nullable|exists:mentors,id',
             'description' => 'nullable|string',
             'short_description' => 'nullable|string|max:255',
-            'thumbnail_url' => 'nullable|url|max:500',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        // Handle thumbnail URL
-        if (! empty($data['thumbnail_url'])) {
-            $data['thumbnail_url'] = trim($data['thumbnail_url']);
-        }
-
         $course = Course::create($data);
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('pictures', 'public');
+            $course->pictures()->create([
+                'type' => 'thumbnail',
+                'url' => '/storage/' . $path,
+                'order' => 1,
+            ]);
+        }
 
         // Create chapters if provided
         if ($request->has('chapters')) {
@@ -230,9 +234,27 @@ class AdminController extends Controller
             'mentor_id' => 'nullable|exists:mentors,id',
             'description' => 'nullable|string',
             'short_description' => 'nullable|string|max:255',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         $course->update($data);
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('pictures', 'public');
+            $picture = $course->pictures()->where('type', 'thumbnail')->first();
+            if ($picture) {
+                if (str_starts_with($picture->url, '/storage/')) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $picture->url));
+                }
+                $picture->update(['url' => '/storage/' . $path]);
+            } else {
+                $course->pictures()->create([
+                    'type' => 'thumbnail',
+                    'url' => '/storage/' . $path,
+                    'order' => 1,
+                ]);
+            }
+        }
 
         return redirect()->route('admin.courses.manage', $course)->with('success', __('app.msg_success_kursus_berhasil_diperbarui'));
     }
@@ -361,9 +383,19 @@ class AdminController extends Controller
             'mentor_id' => 'nullable|exists:mentors,id',
             'description' => 'nullable|string',
             'short_description' => 'nullable|string|max:255',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         $bootcamp = Bootcamp::create($data);
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('pictures', 'public');
+            $bootcamp->pictures()->create([
+                'type' => 'thumbnail',
+                'url' => '/storage/' . $path,
+                'order' => 1,
+            ]);
+        }
 
         // Create sessions if provided
         if ($request->has('sessions')) {
@@ -407,9 +439,27 @@ class AdminController extends Controller
             'mentor_id' => 'nullable|exists:mentors,id',
             'description' => 'nullable|string',
             'short_description' => 'nullable|string|max:255',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         $bootcamp->update($data);
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('pictures', 'public');
+            $picture = $bootcamp->pictures()->where('type', 'thumbnail')->first();
+            if ($picture) {
+                if (str_starts_with($picture->url, '/storage/')) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $picture->url));
+                }
+                $picture->update(['url' => '/storage/' . $path]);
+            } else {
+                $bootcamp->pictures()->create([
+                    'type' => 'thumbnail',
+                    'url' => '/storage/' . $path,
+                    'order' => 1,
+                ]);
+            }
+        }
 
         return redirect()->route('admin.bootcamps')->with('success', __('app.msg_success_bootcamp_berhasil_diperbarui'));
     }

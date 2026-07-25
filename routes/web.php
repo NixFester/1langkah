@@ -76,6 +76,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/pembayaran/proses', [PageController::class, 'processPayment'])->name('pembayaran.proses');
     Route::get('/pengaturan', [PageController::class, 'pengaturan'])->name('pengaturan');
     Route::post('/pengaturan', [PageController::class, 'updatePengaturan'])->name('pengaturan.update');
+    Route::post('/api/settings/avatar', [PageController::class, 'updateAvatar'])->name('api.settings.avatar');
 
     // Rating submission (web route with session auth)
     Route::post('/ratings/course', [RatingController::class, 'rateCourse'])->name('ratings.course');

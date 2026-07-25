@@ -33,7 +33,7 @@
 
     <!-- COURSE DETAILS FORM CARD -->
     <x-form-card :title="__('app.course_details')">
-        <form method="POST" action="{{ isset($course) ? route('admin.courses.update', $course) : route('admin.courses.store') }}" class="space-y-6">
+        <form method="POST" action="{{ isset($course) ? route('admin.courses.update', $course) : route('admin.courses.store') }}" class="space-y-6" enctype="multipart/form-data">
             @csrf
             @if(isset($course))
                 @method('PATCH')
@@ -114,6 +114,14 @@
                     :placeholder="__('app.course_short_desc_placeholder')"
                     :value="$course->short_description ?? null"
                 />
+
+                <div class="mb-4">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.thumbnail') ?? 'Thumbnail' }}</label>
+                    <input aria-label="Thumbnail" type="file" name="thumbnail" accept="image/*" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-2 transition-colors">
+                    @if(isset($course) && $course->pictures?->where('type', 'thumbnail')->first())
+                        <div class="mt-2 text-sm text-gray-500">Thumbnail saat ini sudah ada. Upload baru untuk mengganti.</div>
+                    @endif
+                </div>
 
                 <x-form-input
                     name="description"

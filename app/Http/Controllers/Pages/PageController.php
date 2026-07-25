@@ -18,6 +18,7 @@ use App\Models\UserActivityLog;
 use App\Models\UserSetting;
 use App\Models\VideoProgress;
 use App\Services\CatalogService;
+use Illuminate\Support\Facades\Storage;
 use App\Services\NotificationService;
 use App\Services\XpService;
 use Carbon\Carbon;
@@ -164,6 +165,33 @@ class PageController extends Controller
         $user->save();
 
         return back()->with('success', __('app.msg_success_profil_berhasil_diperbarui'));
+    }
+
+    public function updateAvatar(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        $user = auth()->user();
+
+        if ($user->profile_photo && str_starts_with($user->profile_photo, '/storage/')) {
+            $oldPath = str_replace('/storage/', '', $user->profile_photo);
+            if (Storage::disk('public')->exists($oldPath)) {
+                Storage::disk('public')->delete($oldPath);
+            }
+        }
+
+        $path = $request->file('avatar')->store('users', 'public');
+        $user->profile_photo = '/storage/' . $path;
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'avatar_url' => asset($user->profile_photo),
+            ]
+        ]);
     }
 
     public function pesan(): View
