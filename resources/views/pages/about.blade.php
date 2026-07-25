@@ -225,60 +225,38 @@
         
         <div class="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
             <!-- Leadership Part -->
-            <div class="text-center max-w-3xl mx-auto mb-10">
-                <h2 class="text-[12px] font-bold tracking-[0.2em] text-red-500 uppercase mb-3">{{ __('app.about_leadership_badge') }}</h2>
-                <h2 class="text-[24px] sm:text-2xl md:text-4xl font-black mb-4 tracking-tight text-slate-900 leading-tight">{{ __('app.about_leadership_title') }}</h2>
-            </div>
-            
-            <div class="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm rounded-[2rem] p-6 md:p-10 shadow-2xl border border-slate-100 relative overflow-hidden mb-20">
-                <div class="absolute top-0 right-0 w-48 h-48 bg-[#D10000]/5 blur-[60px] rounded-full pointer-events-none"></div>
-                <div class="flex flex-col md:flex-row items-center gap-8 relative z-10">
-                    <div class="w-full md:w-1/3 flex justify-center">
-                        <div class="relative w-36 h-36 md:w-48 md:h-48 rounded-full p-1.5 border-[3px] border-slate-100 shadow-xl bg-white">
-                            <img src="https://attaulkarim.id/wp-content/uploads/2025/06/Atta_Ul_Karim_Potrait.jpg" alt="{{ __('app.about_leadership_name') }}" class="w-full h-full object-cover rounded-full object-top">
+            <div class="mx-auto max-w-7xl pb-20 mt-16">
+                <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+                    
+                    <!-- Content -->
+                    <div class="flex flex-col justify-center h-full text-center lg:text-left">
+                        <div class="text-base/7 text-gray-700 max-w-xl mx-auto lg:mx-0">
+                            <p class="text-[12px] font-bold tracking-[0.2em] text-red-600 uppercase">{{ __('app.about_leadership_badge') }}</p>
+                            <h2 class="mt-3 text-3xl md:text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">{{ __('app.about_leadership_title') }}</h2>
+                            
+                            <div class="mt-8 text-lg leading-relaxed text-gray-600 font-medium border-l-4 border-red-500 pl-6 text-left">
+                                {!! Str::inlineMarkdown(__('app.about_leadership_desc')) !!}
+                            </div>
+                            
+                            <div class="mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-6">
+                                <div class="text-left">
+                                    <h3 class="text-lg font-black text-gray-900">{{ __('app.about_leadership_name') }}</h3>
+                                    <p class="text-[11px] font-bold text-red-600 uppercase tracking-widest mt-1">{{ __('app.about_leadership_role') }}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="w-full md:w-2/3 text-center md:text-left">
-                        <h3 class="text-2xl md:text-3xl font-black text-slate-900 mb-1.5">{{ __('app.about_leadership_name') }}</h3>
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-100 text-red-600 font-bold text-xs md:text-sm mb-4">
-                            {{ __('app.about_leadership_role') }}
+                    
+                    <!-- Image -->
+                    <div class="w-full flex justify-center lg:justify-end">
+                        <div class="w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl ring-1 ring-gray-900/10 bg-gray-100">
+                            <img class="w-full h-auto object-cover" src="https://attaulkarim.id/wp-content/uploads/2025/06/Atta_Ul_Karim_Potrait.jpg" alt="{{ __('app.about_leadership_name') }}">
                         </div>
-                        <p class="text-base text-slate-600 leading-relaxed">
-                            {!! Str::inlineMarkdown(__('app.about_leadership_desc')) !!}
-                        </p>
                     </div>
+
                 </div>
             </div>
 
-            <!-- Divider -->
-            <div class="w-24 h-1 bg-gradient-to-r from-[#D10000]/20 via-[#D10000] to-[#D10000]/20 mx-auto rounded-full mb-16"></div>
-
-            <!-- Stats Part -->
-            <div class="flex flex-col md:flex-row items-center justify-between pb-10 mb-10">
-                <div class="text-center w-full max-w-3xl mx-auto">
-                    <h2 class="text-[28px] sm:text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">{{ __('app.about_stats_title') }}</h2>
-                    <p class="text-slate-500 mt-3 text-lg font-medium">{{ __('app.about_stats_desc') }}</p>
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 max-w-6xl mx-auto text-center">
-                <div>
-                    <div class="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 mb-2 font-mono">99K<span class="text-[#D10000]">+</span></div>
-                    <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">{{ __('app.about_stats_1') }}</div>
-                </div>
-                <div>
-                    <div class="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 mb-2 font-mono">1.2M</div>
-                    <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">{{ __('app.about_stats_2') }}</div>
-                </div>
-                <div>
-                    <div class="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 mb-2 font-mono">500<span class="text-[#D10000]">+</span></div>
-                    <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">{{ __('app.about_stats_3') }}</div>
-                </div>
-                <div>
-                    <div class="text-4xl sm:text-5xl md:text-6xl font-black text-[#D10000] mb-2 font-mono">95%</div>
-                    <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">{{ __('app.about_stats_4') }}</div>
-                </div>
-            </div>
         </div>
     </section>
 
