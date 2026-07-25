@@ -1863,11 +1863,12 @@ return [
     'about_enterprise_btn' => 'Pelajari Enterprise',
     
     // About Leadership
-    'about_leadership_badge' => 'Kepemimpinan',
+    'about_leadership_badge' => 'Leadership',
     'about_leadership_title' => 'Dewan Penasihat',
     'about_leadership_name' => 'Atta Ul Karim',
     'about_leadership_role' => 'Chairman, International Creatives Exchange (ICE)',
-    'about_leadership_desc' => 'Sebagai tokoh di balik International Creatives Exchange (ICE), Atta Ul Karim membawa visi besarnya ke dalam 1Langkah: menghubungkan potensi talenta lokal dengan panggung industri global. Kepemimpinan beliau memastikan setiap program di 1Langkah tidak hanya sebatas pendidikan teoretis, melainkan sebuah jembatan nyata menuju karir profesional, investasi, dan kolaborasi strategis tingkat internasional.',
+    'about_leadership_quote' => '"Bagi saya, kesuksesan sejati diukur dari seberapa besar manfaat yang bisa kita berikan bagi orang lain."',
+    'about_leadership_desc' => 'Sebagai tokoh di balik International Creatives Exchange (ICE), Atta Ul Karim membawa visi besarnya ke dalam 1Langkah: menjembatani talenta lokal dengan panggung industri global. Di bawah kepemimpinannya, setiap program dirancang bukan sekadar pendidikan teoretis, melainkan batu loncatan nyata menuju karir profesional, investasi, dan kolaborasi strategis tingkat internasional.',
 
     'about_stats_title' => 'Dampak Nyata.',
     'about_stats_desc' => 'Angka yang merepresentasikan perjalanan kami sejauh ini.',

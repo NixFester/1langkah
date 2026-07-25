@@ -1867,7 +1867,8 @@ return [
     'about_leadership_title' => 'Our Advisory Board',
     'about_leadership_name' => 'Atta Ul Karim',
     'about_leadership_role' => 'Chairman, International Creatives Exchange (ICE)',
-    'about_leadership_desc' => 'As the driving force behind the International Creatives Exchange (ICE), Atta Ul Karim brings his grand vision to 1Langkah: connecting local talent potential with the global industry stage. His leadership ensures that every program at 1Langkah is not merely theoretical education, but a real bridge towards professional careers, investments, and strategic collaborations on an international level.',
+    'about_leadership_quote' => '"For me, true success is measured by how much benefit we can provide to others."',
+    'about_leadership_desc' => 'As the visionary behind the International Creatives Exchange (ICE), Atta Ul Karim brings his grand mission to 1Langkah: bridging local talents with the global industry stage. Under his leadership, every program is designed not merely as theoretical education, but as a tangible stepping stone toward professional careers, investments, and international strategic collaborations.',
 
     'about_stats_title' => 'Real Impact.',
     'about_stats_desc' => 'Numbers that represent our journey so far.',

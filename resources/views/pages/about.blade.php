@@ -232,17 +232,18 @@
                     <div class="flex flex-col justify-center h-full text-center lg:text-left">
                         <div class="text-base/7 text-gray-700 max-w-xl mx-auto lg:mx-0">
                             <p class="text-[12px] font-bold tracking-[0.2em] text-red-600 uppercase">{{ __('app.about_leadership_badge') }}</p>
-                            <h2 class="mt-3 text-3xl md:text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">{{ __('app.about_leadership_title') }}</h2>
-                            
-                            <div class="mt-8 text-lg leading-relaxed text-gray-600 font-medium border-l-4 border-red-500 pl-6 text-left">
-                                {!! Str::inlineMarkdown(__('app.about_leadership_desc')) !!}
+                            <h2 class="mt-3 text-3xl md:text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">{{ __('app.about_leadership_name') }}</h2>
+                            <p class="text-sm font-bold text-gray-500 tracking-widest mt-2">{{ __('app.about_leadership_role') }}</p>
+                            <!-- Quote Section -->
+                            <div class="mt-8">
+                                <blockquote class="text-xl md:text-2xl font-bold leading-relaxed text-slate-900 italic border-l-4 border-red-600 pl-6 text-left">
+                                    {{ __('app.about_leadership_quote') }}
+                                </blockquote>
                             </div>
                             
-                            <div class="mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-6">
-                                <div class="text-left">
-                                    <h3 class="text-lg font-black text-gray-900">{{ __('app.about_leadership_name') }}</h3>
-                                    <p class="text-[11px] font-bold text-red-600 uppercase tracking-widest mt-1">{{ __('app.about_leadership_role') }}</p>
-                                </div>
+                            <!-- Description -->
+                            <div class="mt-8 text-lg leading-relaxed text-gray-600 text-left">
+                                {!! Str::inlineMarkdown(__('app.about_leadership_desc')) !!}
                             </div>
                         </div>
                     </div>
