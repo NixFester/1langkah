@@ -51,9 +51,9 @@
     <!-- Actions -->
     <div class="flex items-center gap-2 sm:gap-3 lg:gap-4">
         <!-- Language Switcher -->
-        <button type="button" disabled class="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/5 border border-white/10 text-[11px] sm:text-[12px] font-bold text-white cursor-not-allowed opacity-50" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
+        <a href="{{ route('lang.switch', app()->getLocale() == 'id' ? 'en' : 'id') }}" class="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 text-[11px] sm:text-[12px] font-bold text-white transition-colors" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
-        </button>
+        </a>
         
         <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 lg:px-6 py-2 sm:py-2.5 text-[13px] lg:text-[14px] font-medium text-[#d1d5db] border border-white/10 rounded-full hover:bg-white/5 transition-colors">
             {{ __('app.login') }}
@@ -79,28 +79,28 @@
             <!-- Breadcrumb Badge -->
             <div class="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8 shadow-2xl">
                 <span class="w-2 h-2 rounded-full bg-[#D10000] animate-pulse"></span>
-                <span class="text-[12px] font-bold tracking-[0.2em] text-white uppercase">Mengenal 1Langkah</span>
+                <span class="text-[12px] font-bold tracking-[0.2em] text-white uppercase">{{ __('app.about_hero_badge') }}</span>
             </div>
             
             <h1 class="text-[34px] sm:text-4xl md:text-7xl lg:text-[84px] font-black mb-6 md:mb-8 tracking-tighter leading-[1.05]">
-                Menghapus Jarak<br/>
+                {{ __('app.about_hero_title1') }}<br/>
                 <span class="text-transparent bg-clip-text relative inline-block" style="background-image: linear-gradient(98deg, #FF6B6B 0%, #D10000 35%, #FF4500 65%, #FFB347 100%);">
-                    Antara Bakat & Industri.
+                    {{ __('app.about_hero_title2') }}
                     <div class="absolute -bottom-2 left-0 w-full h-[4px] bg-gradient-to-r from-transparent via-[#D10000] to-transparent opacity-50 rounded-full"></div>
                 </span>
             </h1>
             
             <p class="text-lg md:text-xl text-gray-400 leading-relaxed max-w-3xl mx-auto mb-12 font-medium">
-                1Langkah adalah ekosistem pendidikan bertenaga AI yang merevolusi cara Anda belajar. Kami hadir untuk membekali Anda dengan kurikulum nyata, mentor elit, dan keterampilan yang langsung dapat diterapkan di perusahaan teknologi terdepan.
+                {{ __('app.about_hero_desc') }}
             </p>
             
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
                 <a href="{{ route('signup') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-[15px] font-bold text-white bg-gradient-to-b from-[#D10000] to-[#8B0000] rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_20px_rgba(209,0,0,0.4)] hover:scale-105 transition-transform duration-300">
-                    Mulai Perjalanan Anda
+                    {{ __('app.about_btn_start') }}
                     <svg class="w-5 h-5 ml-2 -mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </a>
                 <a href="{{ route('kursus') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-[15px] font-bold text-white border border-white/10 bg-white/5 rounded-full hover:bg-white/10 transition-colors duration-300">
-                    Jelajahi Program
+                    {{ __('app.about_btn_explore') }}
                 </a>
             </div>
         </div>
@@ -122,8 +122,8 @@
                                     <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                                 </div>
                                 <div>
-                                    <div class="text-slate-900 font-bold text-lg">Lahir dari Keresahan</div>
-                                    <p class="text-sm text-slate-600">Kami melihat jutaan talenta yang kesulitan menembus batas industri.</p>
+                                    <div class="text-slate-900 font-bold text-lg">{{ app()->getLocale() == 'en' ? 'Born from Restlessness' : 'Lahir dari Keresahan' }}</div>
+                                    <p class="text-sm text-slate-600">{{ app()->getLocale() == 'en' ? 'We saw millions of talents struggling to break into the industry.' : 'Kami melihat jutaan talenta yang kesulitan menembus batas industri.' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -132,25 +132,25 @@
                 
                 <!-- Text Content -->
                 <div>
-                    <h2 class="text-[12px] font-bold tracking-[0.2em] text-red-400 uppercase mb-4">Awal Mula</h2>
-                    <h2 class="text-[28px] sm:text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-900 leading-tight">Lebih dari sekadar<br/> platform kelas online.</h2>
+                    <h2 class="text-[12px] font-bold tracking-[0.2em] text-red-400 uppercase mb-4">{{ __('app.about_story_badge') }}</h2>
+                    <h2 class="text-[28px] sm:text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-900 leading-tight">{!! __('app.about_story_title') !!}</h2>
                     
                     <div class="space-y-6 text-slate-600 text-lg leading-relaxed">
                         <p>
-                            Berdiri dengan visi sederhana namun menantang: **Mendemokratisasi pendidikan teknologi.** Kami menyadari bahwa kurikulum kampus seringkali tertinggal dari pergerakan industri yang sangat cepat. Akibatnya, jutaan sarjana lulus dengan keahlian yang tidak relevan dengan kebutuhan pasar.
+                            {!! Str::inlineMarkdown(__('app.about_story_p1')) !!}
                         </p>
                         <p>
-                            1Langkah tidak hanya memberikan materi video. Kami menciptakan ekosistem bimbingan langsung (mentoring), penilaian proyek secara *real-time* oleh pakar, dan sistem *bootcamp* intensif.
+                            {!! Str::inlineMarkdown(__('app.about_story_p2')) !!}
                         </p>
                         
                         <div class="pt-6 border-t border-slate-200 flex items-center gap-8">
                             <div>
                                 <div class="text-3xl font-black text-slate-900 mb-1">2023</div>
-                                <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tahun Berdiri</div>
+                                <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">{{ __('app.about_story_year_title') }}</div>
                             </div>
                             <div>
                                 <div class="text-3xl font-black text-red-400 mb-1">Jakarta</div>
-                                <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">Kantor Pusat</div>
+                                <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">{{ __('app.about_story_hq_title') }}</div>
                             </div>
                         </div>
                     </div>
@@ -167,9 +167,9 @@
 
         <div class="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
             <div class="text-center max-w-3xl mx-auto mb-20">
-                <h2 class="text-[12px] font-bold tracking-[0.2em] text-red-500 uppercase mb-4">Nilai Inti Kami</h2>
-                <h2 class="text-[28px] sm:text-3xl md:text-5xl font-black mb-6 tracking-tight leading-tight">Apa yang membuat 1Langkah berbeda?</h2>
-                <p class="text-gray-400 text-lg">Kami tidak bersaing dalam jumlah video, kami berfokus mutlak pada dampak karir dan pembentukan *skill* yang teruji.</p>
+                <h2 class="text-[12px] font-bold tracking-[0.2em] text-red-500 uppercase mb-4">{{ __('app.about_why_badge') }}</h2>
+                <h2 class="text-[28px] sm:text-3xl md:text-5xl font-black mb-6 tracking-tight leading-tight">{{ __('app.about_why_title') }}</h2>
+                <p class="text-gray-400 text-lg">{!! Str::inlineMarkdown(__('app.about_why_desc')) !!}</p>
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -178,8 +178,8 @@
                     <div class="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#D10000]/20 group-hover:border-[#D10000]/30 transition-colors">
                         <svg class="w-7 h-7 text-white group-hover:text-[#D10000] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                     </div>
-                    <h2 class="text-xl font-bold text-white mb-3">Kurikulum Tervalidasi</h2>
-                    <p class="text-gray-400 leading-relaxed text-sm">Setiap materi disusun bersama dan disetujui langsung oleh para *engineer* dan *manager* dari perusahaan top Asia Tenggara.</p>
+                    <h2 class="text-xl font-bold text-white mb-3">{{ __('app.about_why_1_title') }}</h2>
+                    <p class="text-gray-400 leading-relaxed text-sm">{!! Str::inlineMarkdown(__('app.about_why_1_desc')) !!}</p>
                 </div>
                 
                 <!-- Card 2 -->
@@ -187,8 +187,8 @@
                     <div class="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#D10000]/20 group-hover:border-[#D10000]/30 transition-colors">
                         <svg class="w-7 h-7 text-white group-hover:text-[#D10000] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                     </div>
-                    <h2 class="text-xl font-bold text-white mb-3">Mentoring 1-on-1 Ekstensif</h2>
-                    <p class="text-gray-400 leading-relaxed text-sm">Bukan sekadar belajar mandiri. Dapatkan *feedback* teknis yang tajam dari mentor eksklusif setiap minggu.</p>
+                    <h2 class="text-xl font-bold text-white mb-3">{{ __('app.about_why_2_title') }}</h2>
+                    <p class="text-gray-400 leading-relaxed text-sm">{!! Str::inlineMarkdown(__('app.about_why_2_desc')) !!}</p>
                 </div>
                 
                 <!-- Card 3 -->
@@ -196,8 +196,8 @@
                     <div class="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#D10000]/20 group-hover:border-[#D10000]/30 transition-colors">
                         <svg class="w-7 h-7 text-white group-hover:text-[#D10000] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
                     </div>
-                    <h2 class="text-xl font-bold text-white mb-3">AI Learning Assistant</h2>
-                    <p class="text-gray-400 leading-relaxed text-sm">Tersangkut *bug* jam 3 pagi? AI asisten kami siap membantu analisis *error* pada *code* Anda dalam hitungan detik.</p>
+                    <h2 class="text-xl font-bold text-white mb-3">{{ __('app.about_why_3_title') }}</h2>
+                    <p class="text-gray-400 leading-relaxed text-sm">{!! Str::inlineMarkdown(__('app.about_why_3_desc')) !!}</p>
                 </div>
                 
                 <!-- Card 4 (Full Width Span) -->
@@ -205,48 +205,78 @@
                     <div class="absolute right-0 top-0 w-64 h-64 bg-[#D10000]/10 blur-[80px] rounded-full pointer-events-none"></div>
                     <div class="relative z-10 max-w-2xl">
                         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-red-500/30 bg-red-500/10 mb-4">
-                            <span class="text-[10px] font-bold tracking-[0.15em] text-red-400 uppercase">Tingkat Perusahaan</span>
+                            <span class="text-[10px] font-bold tracking-[0.15em] text-red-400 uppercase">{{ __('app.about_enterprise_badge') }}</span>
                         </div>
-                        <h2 class="text-2xl md:text-3xl font-black text-white mb-4">Pelatihan Skala Enterprise</h2>
-                        <p class="text-gray-400 text-lg">Solusi *training* khusus untuk perusahaan (B2B) yang ingin meningkatkan kapasitas teknis karyawannya melalui manajemen *dashboard* terpusat yang komprehensif.</p>
+                        <h2 class="text-2xl md:text-3xl font-black text-white mb-4">{{ __('app.about_enterprise_title') }}</h2>
+                        <p class="text-gray-400 text-lg">{!! Str::inlineMarkdown(__('app.about_enterprise_desc')) !!}</p>
                     </div>
                     <a href="{{ url('/') }}" class="relative z-10 whitespace-nowrap inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white bg-white/10 border border-white/20 rounded-full hover:bg-white/20 transition-all">
-                        Pelajari Enterprise
+                        {{ __('app.about_enterprise_btn') }}
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 4. PENCAPAIAN / STATS -->
-    <section class="py-16 md:py-24 border-t border-slate-200 bg-white relative">
-        <!-- Grid Pattern overlay (lighter for white background) -->
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgc3Ryb2tlPSIjZTJlOGYwIiBzdHJva2Utb3BhY2l0eT0iMC44IiBmaWxsPSJub25lIj48cGF0aCBkPSJNMCA2MGg2ME02MCAwZi02MCIvPjwvZz48L3N2Zz4=')] opacity-70"></div>
+    <!-- 4. LEADERSHIP & IMPACT -->
+    <section class="py-16 md:py-24 relative z-10 border-t border-slate-200 bg-white overflow-hidden">
+        <!-- Subtle Grid Pattern overlay -->
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgc3Ryb2tlPSIjZTJlOGYwIiBzdHJva2Utb3BhY2l0eT0iMC44IiBmaWxsPSJub25lIj48cGF0aCBkPSJNMCA2MGg2ME02MCAwZi02MCIvPjwvZz48L3N2Zz4=')] opacity-50 pointer-events-none"></div>
         
         <div class="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
-            <div class="flex flex-col md:flex-row items-center justify-between border-b border-slate-200 pb-12 mb-12">
-                <div class="mb-6 md:mb-0">
-                    <h2 class="text-[28px] sm:text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">Dampak Nyata.</h2>
-                    <p class="text-slate-500 mt-2 text-lg font-medium">Angka yang merepresentasikan perjalanan kami sejauh ini.</p>
+            <!-- Leadership Part -->
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <h2 class="text-[12px] font-bold tracking-[0.2em] text-red-500 uppercase mb-3">{{ __('app.about_leadership_badge') }}</h2>
+                <h2 class="text-[24px] sm:text-2xl md:text-4xl font-black mb-4 tracking-tight text-slate-900 leading-tight">{{ __('app.about_leadership_title') }}</h2>
+            </div>
+            
+            <div class="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm rounded-[2rem] p-6 md:p-10 shadow-2xl border border-slate-100 relative overflow-hidden mb-20">
+                <div class="absolute top-0 right-0 w-48 h-48 bg-[#D10000]/5 blur-[60px] rounded-full pointer-events-none"></div>
+                <div class="flex flex-col md:flex-row items-center gap-8 relative z-10">
+                    <div class="w-full md:w-1/3 flex justify-center">
+                        <div class="relative w-36 h-36 md:w-48 md:h-48 rounded-full p-1.5 border-[3px] border-slate-100 shadow-xl bg-white">
+                            <img src="https://attaulkarim.id/wp-content/uploads/2025/06/Atta_Ul_Karim_Potrait.jpg" alt="{{ __('app.about_leadership_name') }}" class="w-full h-full object-cover rounded-full object-top">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3 text-center md:text-left">
+                        <h3 class="text-2xl md:text-3xl font-black text-slate-900 mb-1.5">{{ __('app.about_leadership_name') }}</h3>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-100 text-red-600 font-bold text-xs md:text-sm mb-4">
+                            {{ __('app.about_leadership_role') }}
+                        </div>
+                        <p class="text-base text-slate-600 leading-relaxed">
+                            {!! Str::inlineMarkdown(__('app.about_leadership_desc')) !!}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="w-24 h-1 bg-gradient-to-r from-[#D10000]/20 via-[#D10000] to-[#D10000]/20 mx-auto rounded-full mb-16"></div>
+
+            <!-- Stats Part -->
+            <div class="flex flex-col md:flex-row items-center justify-between pb-10 mb-10">
+                <div class="text-center w-full max-w-3xl mx-auto">
+                    <h2 class="text-[28px] sm:text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">{{ __('app.about_stats_title') }}</h2>
+                    <p class="text-slate-500 mt-3 text-lg font-medium">{{ __('app.about_stats_desc') }}</p>
                 </div>
             </div>
             
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 max-w-6xl mx-auto text-center">
                 <div>
                     <div class="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 mb-2 font-mono">99K<span class="text-[#D10000]">+</span></div>
-                    <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">Alumni Sukses</div>
+                    <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">{{ __('app.about_stats_1') }}</div>
                 </div>
                 <div>
                     <div class="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 mb-2 font-mono">1.2M</div>
-                    <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">Jam Belajar</div>
+                    <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">{{ __('app.about_stats_2') }}</div>
                 </div>
                 <div>
                     <div class="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 mb-2 font-mono">500<span class="text-[#D10000]">+</span></div>
-                    <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">Mentor Industri</div>
+                    <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">{{ __('app.about_stats_3') }}</div>
                 </div>
                 <div>
                     <div class="text-4xl sm:text-5xl md:text-6xl font-black text-[#D10000] mb-2 font-mono">95%</div>
-                    <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">Rasio Pekerjaan</div>
+                    <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">{{ __('app.about_stats_4') }}</div>
                 </div>
             </div>
         </div>
@@ -258,10 +288,10 @@
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#FF0000]/20 blur-[120px] rounded-full pointer-events-none z-0"></div>
 
         <div class="max-w-[1400px] mx-auto px-6 md:px-12 text-center relative z-10 flex flex-col items-center">
-            <h2 class="text-[28px] sm:text-3xl md:text-6xl font-black mb-6 tracking-tight text-white leading-tight">Siap mengakselerasi karirmu?</h2>
-            <p class="text-lg text-gray-400 mb-10 max-w-2xl mx-auto">Bergabung dengan puluhan ribu pelajar lainnya dan mulai melangkah menuju keahlian profesional yang sebenarnya.</p>
+            <h2 class="text-[28px] sm:text-3xl md:text-6xl font-black mb-6 tracking-tight text-white leading-tight">{{ __('app.about_cta_title') }}</h2>
+            <p class="text-lg text-gray-400 mb-10 max-w-2xl mx-auto">{{ __('app.about_cta_desc') }}</p>
             <a href="{{ route('signup') }}" class="inline-flex items-center justify-center px-10 py-5 text-[16px] font-bold text-white bg-gradient-to-b from-[#D10000] to-[#8B0000] rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_20px_rgba(209,0,0,0.6)] hover:scale-105 transition-transform duration-300">
-                {{ __('app.register_free') }} Sekarang
+                {{ __('app.about_cta_btn') }}
             </a>
         </div>
     </section>

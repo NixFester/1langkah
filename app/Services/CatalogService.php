@@ -71,12 +71,28 @@ class CatalogService
             'formatted_price' => $c->formatted_price ?? '',
             'progress' => $c->progress ?? 0,
             'color' => $c->color ?? '#dc2626',
-            'thumbnail' => $c->pictures?->where('type', 'thumbnail')->first()?->url,
-            'gallery' => $c->pictures?->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray() ?? [],
+            'thumbnail' => $c->pictures?->where('type', 'thumbnail')->first()?->url ?? $this->getDummyImage($c->id, 'course'),
+            'gallery' => count($gallery = $c->pictures?->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray() ?? []) > 0
+                ? $gallery
+                : [$this->getDummyImage($c->id * 2, 'gallery'), $this->getDummyImage($c->id * 2 + 1, 'gallery')],
             'resources' => $resources,
             'benefits' => $benefits,
             'curriculum' => $curriculum,
         ];
+    }
+    private function getDummyImage(int $id, string $type): string
+    {
+        $images = [
+            'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600&auto=format&fit=crop&fm=webp',
+            'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=600&auto=format&fit=crop&fm=webp',
+            'https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=600&auto=format&fit=crop&fm=webp',
+            'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=600&auto=format&fit=crop&fm=webp',
+            'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=600&auto=format&fit=crop&fm=webp',
+            'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=600&auto=format&fit=crop&fm=webp',
+            'https://images.unsplash.com/photo-1515378960530-7c0da6229cf3?q=80&w=600&auto=format&fit=crop&fm=webp',
+        ];
+        
+        return $images[$id % count($images)];
     }
 
     private function mapOnlineBootcamp(Bootcamp $b): array
@@ -99,8 +115,10 @@ class CatalogService
             'price' => $b->price,
             'formatted_price' => $b->formatted_price ?? '',
             'color' => $b->color,
-            'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url,
-            'gallery' => $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray(),
+            'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url ?? $this->getDummyImage($b->id, 'online'),
+            'gallery' => count($gallery = $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray()) > 0 
+                ? $gallery 
+                : [$this->getDummyImage($b->id * 2, 'gallery'), $this->getDummyImage($b->id * 2 + 1, 'gallery')],
             'enrolledCount' => $enrolledCount,
             'availableSlots' => $availableSlots,
             'totalSlots' => $totalSlots,
@@ -144,8 +162,10 @@ class CatalogService
             'icon' => $attrs['icon'] ?? 'graduation-cap',
             'benefits' => $benefits,
             'jadwal_kelas' => $jadwalKelas,
-            'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url,
-            'gallery' => $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray(),
+            'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url ?? $this->getDummyImage($b->id, 'offline'),
+            'gallery' => count($gallery = $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray()) > 0 
+                ? $gallery 
+                : [$this->getDummyImage($b->id * 2, 'gallery'), $this->getDummyImage($b->id * 2 + 1, 'gallery')],
             'enrolledCount' => $enrolledCount,
             'availableSlots' => $availableSlots,
             'totalSlots' => $totalSlots,
@@ -194,7 +214,7 @@ class CatalogService
             'max_participants' => $e->max_participants,
             'registered_count' => $e->registered_count ?? 0,
             'color' => $e->color ?? '#cc0000',
-            'banner_url' => $e->banner_url,
+            'banner_url' => $e->banner_url ?? $this->getDummyImage($e->id, 'event'),
             'start_day' => $startDt->day,
             'start_month' => $startDt->month,
             'start_year' => $startDt->year,
@@ -251,7 +271,7 @@ class CatalogService
                 'lessons' => $ch->lessons,
                 'duration' => $ch->duration,
                 'video_url' => $ch->video_url,
-                'thumbnail_url' => $ch->thumbnail_url,
+                'thumbnail_url' => $ch->thumbnail_url ?? $this->getDummyImage($ch->id, 'chapter'),
                 'description' => $ch->description,
             ])
             ->toArray();
@@ -487,7 +507,7 @@ class CatalogService
                 'is_completed' => $isCompleted,
                 'completed' => $completedChapters,
                 'total' => $totalChapters,
-                'thumbnail' => $course->pictures?->where('type', 'thumbnail')->first()?->url,
+                'thumbnail' => $course->pictures?->where('type', 'thumbnail')->first()?->url ?? $this->getDummyImage($course->id, 'course'),
                 'enrolled_at' => $enrollment->created_at,
             ];
         })->values()->toArray();
@@ -532,7 +552,7 @@ class CatalogService
                 'progress' => $progress,
                 'sessions' => $totalSessions,
                 'attended' => $clickedSessions,
-                'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url,
+                'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url ?? $this->getDummyImage($bootcamp->id, 'bootcamp'),
                 'enrolled_at' => $enrollment->created_at,
             ];
         })->values()->toArray();
@@ -624,7 +644,7 @@ class CatalogService
                 'time' => $dt->format('H:i').' WIB',
                 'type' => $e->type,
                 'color' => $e->color ?? '#cc0000',
-                'banner_url' => $e->banner_url,
+                'banner_url' => $e->banner_url ?? $this->getDummyImage($e->id, 'event'),
             ];
         })->toArray();
     }

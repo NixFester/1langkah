@@ -24,7 +24,7 @@
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     <!-- Language Switcher -->
-                    <a href="javascript:void(0)" class="flex items-center justify-center w-8 h-8 rounded-full bg-[#fdfdfc] dark:bg-[#161615] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] border border-[#e3e3e0] dark:border-[#3E3E3A] text-xs font-bold cursor-not-allowed opacity-50" title="Switch Language">
+                    <a href="{{ route('lang.switch', app()->getLocale() == 'id' ? 'en' : 'id') }}" class="flex items-center justify-center w-8 h-8 rounded-full bg-[#fdfdfc] dark:bg-[#161615] hover:bg-gray-100 dark:hover:bg-gray-800 shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] border border-[#e3e3e0] dark:border-[#3E3E3A] text-xs font-bold transition-colors" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
                         {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
                     </a>
                     

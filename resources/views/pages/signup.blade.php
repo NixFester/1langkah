@@ -9,9 +9,9 @@
     
     <!-- Language Switcher Mobile -->
     <div class="absolute top-4 right-4 z-50">
-        <button type="button" disabled class="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-gray-200 text-xs font-bold text-gray-700 cursor-not-allowed opacity-50 shadow-sm" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
+        <a href="{{ route('lang.switch', app()->getLocale() == 'id' ? 'en' : 'id') }}" class="flex items-center justify-center w-8 h-8 rounded-full bg-white hover:bg-gray-50 border border-gray-200 text-xs font-bold text-gray-700 transition-colors shadow-sm" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
-        </button>
+        </a>
     </div>
 
     <div class="w-full h-full overflow-y-auto flex flex-col px-5 py-4 mx-auto items-center">
@@ -128,9 +128,9 @@
     
     <!-- Language Switcher Desktop -->
     <div class="absolute top-6 right-8 z-50">
-        <button type="button" disabled class="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 cursor-not-allowed opacity-50 shadow-sm" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
+        <a href="{{ route('lang.switch', app()->getLocale() == 'id' ? 'en' : 'id') }}" class="flex items-center justify-center w-10 h-10 rounded-full bg-white hover:bg-gray-50 border border-gray-200 text-sm font-bold text-gray-700 transition-colors shadow-sm" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
-        </button>
+        </a>
     </div>
 
     <!-- Left Column (Dark Theme) -->

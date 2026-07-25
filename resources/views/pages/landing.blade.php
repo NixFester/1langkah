@@ -51,9 +51,9 @@
     <!-- Actions -->
     <div class="flex items-center gap-2 sm:gap-3 lg:gap-4">
         <!-- Language Switcher -->
-        <button type="button" disabled class="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/5 border border-white/10 text-[11px] sm:text-[12px] font-bold text-white cursor-not-allowed opacity-50" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
+        <a href="{{ route('lang.switch', app()->getLocale() == 'id' ? 'en' : 'id') }}" class="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 text-[11px] sm:text-[12px] font-bold text-white transition-colors" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
             {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
-        </button>
+        </a>
         
         <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 lg:px-6 py-2 sm:py-2.5 text-[13px] lg:text-[14px] font-medium text-[#d1d5db] border border-white/10 rounded-full hover:bg-white/5 transition-colors">
             {{ __('app.login') }}

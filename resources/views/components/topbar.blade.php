@@ -40,9 +40,9 @@
 
         {{-- Language Switcher --}}
         <div style="position:relative; margin-right: 8px;">
-            <button type="button" disabled class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-xs font-bold text-gray-700 cursor-not-allowed opacity-50" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
+            <a href="{{ route('lang.switch', app()->getLocale() == 'id' ? 'en' : 'id') }}" class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-xs font-bold text-gray-700 transition-colors" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
                 {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
-            </button>
+            </a>
         </div>
 
         {{-- Bell + Notification Overlay --}}
@@ -88,9 +88,9 @@
     <div class="topbar-right" style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:12px;">
         {{-- Language Switcher --}}
         <div style="position:relative; margin-right: 8px;">
-            <button type="button" disabled class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-xs font-bold text-gray-700 cursor-not-allowed opacity-50" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
+            <a href="{{ route('lang.switch', app()->getLocale() == 'id' ? 'en' : 'id') }}" class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-xs font-bold text-gray-700 transition-colors" title="Switch Language" aria-label="{{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }} - Switch Language">
                 {{ strtoupper(app()->getLocale()) == 'EN' ? 'EN' : 'ID' }}
-            </button>
+            </a>
         </div>
         
         <a href="{{ route('login') }}" style="font-size:14px;font-weight:600;color:var(--text-secondary);text-decoration:none;padding:8px 16px;">{{ __('app.login') }}</a>
