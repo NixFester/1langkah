@@ -38,7 +38,7 @@
                         <circle cx="12" cy="13" r="3"></circle>
                     </svg>
                 </label>
-                <input type="file" id="avatar_upload_main" name="avatar" accept="image/jpeg,image/png,image/jpg" style="display:none;" onchange="uploadAvatar(this)">
+                <input type="file" id="avatar_upload_main" name="avatar" accept="image/*" style="display:none;" onchange="uploadAvatar(this)">
             </div>
             <div style="font-size:18px;font-weight:700;margin-bottom:4px">{{ $u->name }}</div>
             <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">{{ $u->email }}</div>

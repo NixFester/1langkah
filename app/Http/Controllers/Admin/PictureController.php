@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Bootcamp;
 use App\Models\Course;
 use App\Models\Picture;
+use App\Services\ImageService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +16,7 @@ class PictureController extends Controller
     public function store(Request $request, string $type, int $id): RedirectResponse
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'image' => 'required|image|max:20480',
             'type' => 'required|in:thumbnail,gallery',
             'description' => 'nullable|string|max:255',
         ]);
@@ -24,8 +25,7 @@ class PictureController extends Controller
         $modelType = $type === 'course' ? Course::class : Bootcamp::class;
         $model = $modelType::findOrFail($id);
 
-        $path = $request->file('image')->store('pictures', 'public');
-        $url = '/storage/'.$path;
+        $url = ImageService::uploadAndCompress($request->file('image'), 'pictures', 1200, 80);
 
         // Create picture with uploaded file URL
         Picture::create([

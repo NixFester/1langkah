@@ -18,6 +18,7 @@ use App\Models\UserActivityLog;
 use App\Models\UserSetting;
 use App\Models\VideoProgress;
 use App\Services\CatalogService;
+use App\Services\ImageService;
 use Illuminate\Support\Facades\Storage;
 use App\Services\NotificationService;
 use App\Services\XpService;
@@ -170,7 +171,7 @@ class PageController extends Controller
     public function updateAvatar(Request $request): \Illuminate\Http\JsonResponse
     {
         $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'avatar' => 'required|image|max:20480',
         ]);
 
         $user = auth()->user();
@@ -182,8 +183,7 @@ class PageController extends Controller
             }
         }
 
-        $path = $request->file('avatar')->store('users', 'public');
-        $user->profile_photo = '/storage/' . $path;
+        $user->profile_photo = ImageService::uploadAndCompress($request->file('avatar'), 'users', 800, 80);
         $user->save();
 
         return response()->json([

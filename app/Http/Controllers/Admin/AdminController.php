@@ -12,6 +12,7 @@ use App\Models\Event;
 use App\Models\Option;
 use App\Models\Resource;
 use App\Models\User;
+use App\Services\ImageService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -69,7 +70,7 @@ class AdminController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|'.Option::getValidationRule('user_role'),
-            'profile_photo_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'profile_photo_file' => 'nullable|image|max:20480',
         ]);
 
         if ($request->hasFile('profile_photo_file')) {
@@ -97,7 +98,7 @@ class AdminController extends Controller
             'email' => 'required|email|unique:users,email,'.$user->id,
             'password' => 'nullable|string|min:8|confirmed',
             'role' => 'required|'.Option::getValidationRule('user_role'),
-            'profile_photo_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'profile_photo_file' => 'nullable|image|max:20480',
         ]);
 
         if ($request->hasFile('profile_photo_file')) {
@@ -175,16 +176,16 @@ class AdminController extends Controller
             'mentor_id' => 'nullable|exists:mentors,id',
             'description' => 'nullable|string',
             'short_description' => 'nullable|string|max:255',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'thumbnail' => 'nullable|image|max:20480',
         ]);
 
         $course = Course::create($data);
 
         if ($request->hasFile('thumbnail')) {
-            $path = $request->file('thumbnail')->store('pictures', 'public');
+            $url = ImageService::uploadAndCompress($request->file('thumbnail'), 'pictures', 1200, 80);
             $course->pictures()->create([
                 'type' => 'thumbnail',
-                'url' => '/storage/' . $path,
+                'url' => $url,
                 'order' => 1,
             ]);
         }
@@ -234,23 +235,23 @@ class AdminController extends Controller
             'mentor_id' => 'nullable|exists:mentors,id',
             'description' => 'nullable|string',
             'short_description' => 'nullable|string|max:255',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'thumbnail' => 'nullable|image|max:20480',
         ]);
 
         $course->update($data);
 
         if ($request->hasFile('thumbnail')) {
-            $path = $request->file('thumbnail')->store('pictures', 'public');
+            $url = ImageService::uploadAndCompress($request->file('thumbnail'), 'pictures', 1200, 80);
             $picture = $course->pictures()->where('type', 'thumbnail')->first();
             if ($picture) {
                 if (str_starts_with($picture->url, '/storage/')) {
                     \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $picture->url));
                 }
-                $picture->update(['url' => '/storage/' . $path]);
+                $picture->update(['url' => $url]);
             } else {
                 $course->pictures()->create([
                     'type' => 'thumbnail',
-                    'url' => '/storage/' . $path,
+                    'url' => $url,
                     'order' => 1,
                 ]);
             }
@@ -383,16 +384,16 @@ class AdminController extends Controller
             'mentor_id' => 'nullable|exists:mentors,id',
             'description' => 'nullable|string',
             'short_description' => 'nullable|string|max:255',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'thumbnail' => 'nullable|image|max:20480',
         ]);
 
         $bootcamp = Bootcamp::create($data);
 
         if ($request->hasFile('thumbnail')) {
-            $path = $request->file('thumbnail')->store('pictures', 'public');
+            $url = ImageService::uploadAndCompress($request->file('thumbnail'), 'pictures', 1200, 80);
             $bootcamp->pictures()->create([
                 'type' => 'thumbnail',
-                'url' => '/storage/' . $path,
+                'url' => $url,
                 'order' => 1,
             ]);
         }
@@ -439,23 +440,23 @@ class AdminController extends Controller
             'mentor_id' => 'nullable|exists:mentors,id',
             'description' => 'nullable|string',
             'short_description' => 'nullable|string|max:255',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'thumbnail' => 'nullable|image|max:20480',
         ]);
 
         $bootcamp->update($data);
 
         if ($request->hasFile('thumbnail')) {
-            $path = $request->file('thumbnail')->store('pictures', 'public');
+            $url = ImageService::uploadAndCompress($request->file('thumbnail'), 'pictures', 1200, 80);
             $picture = $bootcamp->pictures()->where('type', 'thumbnail')->first();
             if ($picture) {
                 if (str_starts_with($picture->url, '/storage/')) {
                     \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $picture->url));
                 }
-                $picture->update(['url' => '/storage/' . $path]);
+                $picture->update(['url' => $url]);
             } else {
                 $bootcamp->pictures()->create([
                     'type' => 'thumbnail',
-                    'url' => '/storage/' . $path,
+                    'url' => $url,
                     'order' => 1,
                 ]);
             }
@@ -519,12 +520,11 @@ class AdminController extends Controller
             'max_participants' => 'nullable|integer|min:1',
             'color' => 'nullable|string|max:20',
             'banner_url' => 'nullable|url|max:255',
-            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'banner_image' => 'nullable|image|max:20480',
         ]);
 
         if ($request->hasFile('banner_image')) {
-            $path = $request->file('banner_image')->store('events', 'public');
-            $data['banner_url'] = '/storage/'.$path;
+            $data['banner_url'] = ImageService::uploadAndCompress($request->file('banner_image'), 'events', 1200, 80);
         }
 
         $data['slug'] = Str::slug($data['title']).'-'.time();
@@ -559,15 +559,14 @@ class AdminController extends Controller
             'max_participants' => 'nullable|integer|min:1',
             'color' => 'nullable|string|max:20',
             'banner_url' => 'nullable|url|max:255',
-            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'banner_image' => 'nullable|image|max:20480',
         ]);
 
         if ($request->hasFile('banner_image')) {
             if ($event->banner_url && str_starts_with($event->banner_url, '/storage/')) {
                 Storage::disk('public')->delete(str_replace('/storage/', '', $event->banner_url));
             }
-            $path = $request->file('banner_image')->store('events', 'public');
-            $data['banner_url'] = '/storage/'.$path;
+            $data['banner_url'] = ImageService::uploadAndCompress($request->file('banner_image'), 'events', 1200, 80);
         } elseif ($request->boolean('remove_banner')) {
             if ($event->banner_url && str_starts_with($event->banner_url, '/storage/')) {
                 Storage::disk('public')->delete(str_replace('/storage/', '', $event->banner_url));
