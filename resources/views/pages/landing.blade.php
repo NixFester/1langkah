@@ -71,9 +71,10 @@
     
     <!-- Hero -->
     <section class="relative flex-1 w-full flex flex-col justify-center px-6 md:px-12 pb-4 lg:pb-6 z-10" style="padding-top: 70px;">
-    <!-- Red gradient glow in background -->
-    <div class="absolute top-0 right-[15%] w-[600px] h-[600px] bg-[#FF0000]/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
-
+    
+    <!-- Red gradient glow in top left corner -->
+    <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-[#FF0000]/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
+    
     <div class="max-w-[1400px] mx-auto w-full relative z-10 flex flex-col flex-1 justify-center min-h-0">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 xl:gap-8 items-center">
             
@@ -122,29 +123,13 @@
 
             </div>
 
-            <!-- Right side: Illustrative Dashboard Mockup -->
+            <!-- Right side: Image -->
             <div class="relative z-10 hidden lg:flex items-center justify-center w-full min-h-0">
-                <div class="relative w-full max-w-[500px] xl:max-w-[580px] mx-auto origin-center lg:mt-2 xl:mt-4 -mb-16 lg:-mb-24 xl:-mb-24">
-                    <!-- Floating Pills -->
-                    <div class="absolute left-[2%] top-[25%] px-4 py-1.5 lg:px-5 lg:py-2 bg-transparent backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_7s_ease-in-out_infinite]">React</div>
-                    <div class="absolute left-[5%] top-[45%] px-4 py-1.5 lg:px-5 lg:py-2 bg-transparent backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_8s_ease-in-out_infinite_reverse]">Python</div>
-                    <div class="absolute right-[5%] top-[20%] px-4 py-1.5 lg:px-5 lg:py-2 bg-transparent backdrop-blur-sm border border-white/10 rounded-full text-white text-[11px] lg:text-[13px] font-semibold z-30 shadow-2xl animate-[float_6s_ease-in-out_infinite]">AI/ML</div>
-
-                    <!-- Main Dashboard Image -->
-                    <img loading="lazy" fetchpriority="high" decoding="async" width="1200" height="800" src="{{ asset('assets/icons/main_dashboard_image.svg') }}" alt="1Langkah Platform" class="w-full relative z-10">
-                    
-                    <!-- Sertifikat (Top Right) -->
-                    <img loading="lazy" fetchpriority="high" decoding="async" width="244" height="100" src="{{ asset('assets/icons/sertifikat.svg') }}" alt="Sertifikat" class="absolute right-[0%] top-[-4%] w-[244px] z-20 animate-[float_6s_ease-in-out_infinite]">
-                    
-                    <!-- Rudi Yesaya (Bottom Left) -->
-                    <img loading="lazy" fetchpriority="high" decoding="async" width="232" height="80" src="{{ asset('assets/icons/rudi-yesaya.svg') }}" alt="Mentor" class="absolute left-[2%] bottom-[12%] w-[232px] z-20 animate-[float_8s_ease-in-out_infinite_reverse]">
-                    
-                    <!-- Skill Passport (Bottom Right) -->
-                    <img loading="lazy" fetchpriority="high" decoding="async" width="222" height="120" src="{{ asset('assets/icons/skill-passport.svg') }}" alt="Skill Passport" class="absolute right-[2%] bottom-[18%] w-[222px] z-20 animate-[float_7s_ease-in-out_infinite_1s]">
-                </div>
-
+                <div class="relative w-full max-w-[600px] xl:max-w-[700px] mx-auto origin-center lg:mt-2 xl:mt-4 lg:-mb-12 xl:-mb-16">
+                    <img loading="lazy" fetchpriority="high" decoding="async" src="{{ asset('images/hero.svg') }}" alt="1Langkah Platform" class="w-full h-auto object-contain mix-blend-lighten opacity-90 relative z-10">
                 </div>
             </div>
+        </div>
 
         <!-- Bottom Stats Row -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-4 xl:gap-8 items-center w-full relative z-20 pt-2 lg:pt-4">
@@ -152,77 +137,25 @@
             <!-- Stats (Left Column) -->
             <div class="flex items-start justify-between sm:justify-center lg:justify-start gap-2 sm:gap-6 lg:gap-8 xl:gap-14 w-full">
                 <div class="text-center lg:text-left flex-1 sm:flex-none">
-                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">2000</div>
-                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">pelajar</div>
+                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">2000+</div>
+                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">Pelajar Aktif</div>
+                </div>
+                <div class="text-center lg:text-left flex-1 sm:flex-none">
+                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">20+</div>
+                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">Kursus Premium</div>
                 </div>
                 <div class="text-center lg:text-left flex-1 sm:flex-none">
                     <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">10+</div>
-                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">Kursus</div>
-                </div>
-                <div class="text-center lg:text-left flex-1 sm:flex-none">
-                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">95%</div>
-                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">Puas</div>
+                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">Mentor Aktif</div>
                 </div>
             </div>
 
-            <!-- Ratings (Right Column) -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 w-full">
-                <div class="flex -space-x-3">
-                    <img loading="lazy" decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_1.svg') }}" alt="User">
-                    <img loading="lazy" decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_2.svg') }}" alt="User">
-                    <img loading="lazy" decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_3.svg') }}" alt="User">
-                    <img loading="lazy" decoding="async" width="40" height="40" class="w-10 h-10 rounded-full border-2 border-[#070707] object-cover" src="{{ asset('assets/images/users/user_4.svg') }}" alt="User">
-                    <div class="w-10 h-10 rounded-full border-2 border-[#070707] bg-[#dc2626] flex items-center justify-center text-[10px] font-bold text-white z-10">+99K</div>
-                </div>
-                <div class="text-center sm:text-left">
-                    <div class="flex items-center justify-center sm:justify-start gap-1 text-[#eab308] mb-0.5">
-                        <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <span class="text-white font-bold ml-1.5 text-sm">4.9</span>
-                    </div>
-                    <div class="text-gray-400 text-[11px] font-medium">{{ __('app.from_100k_students') }}</div>
-                </div>
-
-            </div>
+            <!-- Ratings (Right Column) - Removed as per design -->
         </div>
     </div>
     </section>
     
-    <!-- Partners -->
-    <section class="py-3 lg:py-5 bg-transparent border-t border-white/5 relative z-20 overflow-hidden">
-        <div class="max-w-[1400px] mx-auto text-center px-6 md:px-12">
-            <p class="text-[9px] lg:text-[10px] font-bold tracking-[0.2em] text-gray-400 uppercase mb-3 lg:mb-5">{{ __('app.trusted_by') }}</p>
-        </div>
-        <div class="relative flex overflow-x-hidden lg:overflow-visible group max-w-full lg:justify-center">
-            <!-- First Set -->
-            <div class="flex shrink-0 animate-marquee lg:animate-none lg:flex-wrap items-center justify-around lg:justify-center gap-12 lg:gap-6 xl:gap-12 px-6 lg:px-8 min-w-full lg:min-w-0 text-gray-500">
-                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">GOJEK</span>
-                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">SHOPEE</span>
-                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">TRAVELOKA</span>
-                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">GRAB</span>
-                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">BUKALAPAK</span>
-                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">PERTAMINA</span>
-                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">BCA</span>
-                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">TELKOM</span>
-                <span class="text-sm lg:text-base xl:text-lg font-bold text-[#9ca3af]">BLIBLI</span>
-            </div>
-            <!-- Second Set (Duplicate for seamless loop) -->
-            <div aria-hidden="true" class="flex lg:hidden shrink-0 animate-marquee items-center justify-around gap-12 px-6 min-w-full text-gray-500">
-                <span class="text-sm font-bold text-[#9ca3af]">GOJEK</span>
-                <span class="text-sm font-bold text-[#9ca3af]">SHOPEE</span>
-                <span class="text-sm font-bold text-[#9ca3af]">TRAVELOKA</span>
-                <span class="text-sm font-bold text-[#9ca3af]">GRAB</span>
-                <span class="text-sm font-bold text-[#9ca3af]">BUKALAPAK</span>
-                <span class="text-sm font-bold text-[#9ca3af]">PERTAMINA</span>
-                <span class="text-sm font-bold text-[#9ca3af]">BCA</span>
-                <span class="text-sm font-bold text-[#9ca3af]">TELKOM</span>
-                <span class="text-sm font-bold text-[#9ca3af]">BLIBLI</span>
-            </div>
-        </div>
-    </section>
+    <!-- Partners section removed as per user request -->
 </div>
 
 <!-- Features (Section 2) -->

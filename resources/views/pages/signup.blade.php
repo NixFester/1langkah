@@ -198,7 +198,7 @@
             <!-- Stats -->
             <div class="flex items-center gap-10">
                 <div>
-                    <div class="text-[22px] font-extrabold text-white mb-0.5">2000</div>
+                    <div class="text-[22px] font-extrabold text-white mb-0.5">2000+</div>
                     <div class="text-[12px] text-gray-400 font-medium">{{ __('app.stats_students') }}</div>
                 </div>
                 <div>

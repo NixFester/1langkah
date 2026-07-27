@@ -6,9 +6,9 @@
 <div class="w-full px-0 sm:px-2 pb-8 space-y-4 sm:space-y-6">
 
     <!-- HERO SECTION -->
-    <div class="bg-gradient-to-br from-[#cc0000] to-[#aa0000] rounded-2xl sm:rounded-3xl p-6 sm:p-10 flex flex-col sm:flex-row items-center justify-between relative overflow-hidden shadow-lg sm:shadow-xl">
-        <!-- Glow effect -->
-        <div class="absolute -right-20 -top-20 w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] bg-red-500 rounded-full blur-[60px] sm:blur-[80px] pointer-events-none opacity-40"></div>
+    <div class="bg-black rounded-2xl sm:rounded-3xl p-6 sm:p-10 flex flex-col sm:flex-row items-center justify-between relative overflow-hidden shadow-lg sm:shadow-xl bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('images/dashboard-hero.png') }}');">
+        <!-- Overlay for text readability -->
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent"></div>
 
         <div class="relative z-10 text-white w-full sm:w-2/3 space-y-3 sm:space-y-4">
             <div class="text-white/90 font-medium flex items-center gap-2 text-sm sm:text-base">
