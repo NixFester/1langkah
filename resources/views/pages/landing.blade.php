@@ -144,15 +144,15 @@
             <div class="flex items-start justify-between sm:justify-center lg:justify-start gap-2 sm:gap-6 lg:gap-8 xl:gap-14 w-full">
                 <div class="text-center lg:text-left flex-1 sm:flex-none">
                     <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">2000+</div>
-                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">Pelajar Aktif</div>
-                </div>
-                <div class="text-center lg:text-left flex-1 sm:flex-none">
-                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">20+</div>
-                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">Kursus Premium</div>
+                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">{{ __('app.stats_students') }}</div>
                 </div>
                 <div class="text-center lg:text-left flex-1 sm:flex-none">
                     <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">10+</div>
-                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">Mentor Aktif</div>
+                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">{{ __('app.stats_courses') }}</div>
+                </div>
+                <div class="text-center lg:text-left flex-1 sm:flex-none">
+                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">95%</div>
+                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">{{ __('app.stats_completion') }}</div>
                 </div>
             </div>
 
