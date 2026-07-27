@@ -112,8 +112,8 @@ class UserSettingController extends Controller
         }
 
         // Store new avatar
-        $path = $request->file('avatar')->store('avatars', 'public');
-        $settings->avatar = $path;
+        $url = \App\Services\ImageService::uploadAndCompress($request->file('avatar'), 'avatars', 800, 80);
+        $settings->avatar = str_replace('/storage/', '', $url);
         $settings->save();
 
         return response()->json([

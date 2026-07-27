@@ -481,7 +481,7 @@ return [
     'testimonial_3_desc' => 'Portfolio dilirik 3 perusahaan top',
     'stats_students' => 'Pelajar',
     'stats_courses' => 'Kursus',
-    'stats_completion' => 'Completion',
+    'stats_completion' => 'Puas',
 
     // Mentoring Sessions
     'my_sessions_title' => 'Sesi Mentoring Saya - 1Langkah',
@@ -1478,13 +1478,13 @@ return [
     'leadership_management' => 'Leadership & Management Excellence',
     'price_6_5_jt' => 'Rp 6.5jt',
 
-    'login_ai_platform' => 'PLATFORM PENGALAMAN BELAJAR BERBASIS AI',
+    'login_ai_platform' => 'AI-POWERED LEARNING EXPERIENCE PLATFORM',
     'login_testi_1' => 'Pindah karir ke tech dalam 6 bulan',
     'login_testi_2' => 'Diterima jadi Data Scientist di Gojek',
     'login_testi_3' => 'Portfolio dilirik 3 perusahaan top',
     'login_stat_students' => 'Pelajar',
     'login_stat_courses' => 'Kursus',
-    'login_stat_completion' => 'Kelulusan',
+    'login_stat_completion' => 'Puas',
 
     // JS Alerts & Feedbacks
     'select_rating_first' => 'Pilih rating terlebih dahulu',

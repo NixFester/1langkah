@@ -30,16 +30,23 @@ class ImageService
         try {
             $manager = new ImageManager(new Driver());
             
-            // Read the image
-            $image = $manager->read($file->getRealPath());
+            // Read the image (v4 syntax)
+            $image = $manager->decodePath($file->getRealPath());
             
             // Scale down if width is greater than max width
             if ($image->width() > $maxWidth) {
                 $image->scaleDown(width: $maxWidth);
             }
             
-            // Encode to WebP
-            $encoded = $image->toWebp($quality);
+            $maxFileSize = 100 * 1024; // 100 KB
+            $currentQuality = $quality;
+            $encoded = null;
+
+            // Loop to compress until file size is under 500KB or quality drops too low
+            do {
+                $encoded = $image->encode(new \Intervention\Image\Encoders\WebpEncoder($currentQuality));
+                $currentQuality -= 10;
+            } while (strlen((string) $encoded) > $maxFileSize && $currentQuality >= 20);
             
             // Generate random filename
             $filename = Str::random(40) . '.webp';
@@ -50,6 +57,7 @@ class ImageService
             
             return '/storage/' . $path;
         } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Image compress error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
             // Fallback: If GD is not installed or compression fails, just store the raw file
             $path = $file->store($directory, 'public');
             return '/storage/' . $path;

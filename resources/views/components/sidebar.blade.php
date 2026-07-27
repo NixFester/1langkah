@@ -413,7 +413,7 @@
             <div class="flex items-center w-full" style="padding: 0 16px;">
                 <a href="{{ route('pengaturan') }}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px;flex:1;">
                     @if($authUser && $authUser->profile_photo)
-                    <img decoding="async" loading="lazy" alt="" src="{{ $authUser->profile_photo }}" alt="Profile" style="width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+                    <img fetchpriority="high" alt="" src="{{ $authUser->profile_photo }}" alt="Profile" style="width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;">
                     @else
                     <div class="avatar" style="background:linear-gradient(135deg,var(--primary),#b91c1c);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:16px;">
                         {{ strtoupper(substr($authUser->name ?? 'A', 0, 2)) }}

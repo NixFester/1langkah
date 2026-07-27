@@ -481,7 +481,7 @@ return [
     'testimonial_3_desc' => 'Portfolio noticed by 3 top companies',
     'stats_students' => 'Students',
     'stats_courses' => 'Courses',
-    'stats_completion' => 'Completion',
+    'stats_completion' => 'Satisfaction',
 
     // Mentoring Sessions
     'my_sessions_title' => 'My Mentoring Sessions - 1Langkah',
@@ -1484,7 +1484,7 @@ return [
     'login_testi_3' => 'Portfolio noticed by 3 top companies',
     'login_stat_students' => 'Students',
     'login_stat_courses' => 'Courses',
-    'login_stat_completion' => 'Completion',
+    'login_stat_completion' => 'Satisfaction',
 
     // JS Alerts & Feedbacks
     'select_rating_first' => 'Please select a rating first',

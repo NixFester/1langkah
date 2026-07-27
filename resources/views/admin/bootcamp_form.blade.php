@@ -156,7 +156,7 @@
 
     @if(isset($bootcamp))
     <!-- SESSIONS SECTION -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
         <!-- ADD SESSION -->
         <x-form-card :title="__('app.add_session_schedule')" :subtitle="__('app.meeting_url_required_online')" class="lg:col-span-1 h-fit">
@@ -272,7 +272,7 @@
 
         <!-- PICTURES GRID -->
         <x-picture-grid :pictures="$bootcamp->pictures()->orderBy('type')->get()" />
-    </x-admin.form-card>
+    </x-form-card>
     @endif
 
 </div>

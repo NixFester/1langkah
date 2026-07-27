@@ -152,20 +152,16 @@
             <!-- Stats (Left Column) -->
             <div class="flex items-start justify-between sm:justify-center lg:justify-start gap-2 sm:gap-6 lg:gap-8 xl:gap-14 w-full">
                 <div class="text-center lg:text-left flex-1 sm:flex-none">
-                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">100K+</div>
-                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">{{ __('app.active_students') }}</div>
+                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">2000</div>
+                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">pelajar</div>
                 </div>
                 <div class="text-center lg:text-left flex-1 sm:flex-none">
-                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">800+</div>
-                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">{{ __('app.premium_courses') }}</div>
-                </div>
-                <div class="text-center lg:text-left flex-1 sm:flex-none">
-                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">500+</div>
-                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">{{ __('app.active_mentors') }}</div>
+                    <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">10+</div>
+                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">Kursus</div>
                 </div>
                 <div class="text-center lg:text-left flex-1 sm:flex-none">
                     <div class="text-[15px] sm:text-[18px] lg:text-[22px] xl:text-[26px] font-bold text-white mb-0 lg:mb-1 tracking-tight">95%</div>
-                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">{{ __('app.pass_rate') }}</div>
+                    <div class="text-[9px] sm:text-[10.5px] lg:text-[12px] xl:text-[13px] font-medium text-gray-400 leading-[1.2] mt-0.5 sm:mt-0">Puas</div>
                 </div>
             </div>
 
@@ -981,10 +977,7 @@
                 <svg aria-hidden="true" class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 {{ __('app.free_forever') }}
             </div>
-            <div class="flex items-center gap-2 text-[13px] text-gray-400 font-medium">
-                <svg aria-hidden="true" class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                {{ __('app.no_credit_card') }}
-            </div>
+
             <div class="flex items-center gap-2 text-[13px] text-gray-400 font-medium">
                 <svg aria-hidden="true" class="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 {{ __('app.cancel_anytime') }}
@@ -1009,7 +1002,7 @@
             <!-- Brand Column -->
             <div class="md:col-span-5 lg:col-span-4 flex flex-col items-center md:items-start text-center md:text-left">
                 <!-- Logo -->
-                <a href="{{ route('landing') }}" class="flex items-center mb-6" aria-label="Beranda 1Langkah">
+                <a href="{{ route('landing') }}" class="flex items-center mb-4" aria-label="Beranda 1Langkah">
                     <svg aria-hidden="true" width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_306_8219_footer)">
                             <path d="M22.3789 27.1026H16.3237V7.52808H22.3789V27.1026Z" fill="#D10000"/>
@@ -1042,24 +1035,42 @@
                     </svg>
                 </a>
                 
-                <!-- Description -->
-                <p class="text-[15px] text-gray-400 leading-relaxed max-w-[320px] mb-6">
-                    {{ __('app.footer_desc') }}
-                </p>
+
+
+                <!-- Google Maps Embed -->
+                <div class="mb-4 w-full overflow-hidden rounded-2xl border border-white/10 shadow-lg relative group bg-[#111111] p-1">
+                    <a href="https://www.google.com/maps/dir//International+creatives+exchange,+Gedung+AlBarkat,+Jl.+RS.+Fatmawati+Raya+No.28AA+lt.2,+RT.1%2FRW.5,+Cipete+Sel.,+Kec.+Cilandak,+Kota+Jakarta+Selatan,+Daerah+Khusus+Ibukota+Jakarta+12410/@-6.2841065,106.8020795,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x2e69f10072703139:0x6b650f6695b19fc6!2m2!1d106.7976132!2d-6.2698547?entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" aria-label="Open in Google Maps" class="absolute inset-1 z-10 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl">
+                        <span class="px-5 py-2.5 bg-white/10 backdrop-blur-md rounded-full text-white text-[11px] font-bold border border-white/20 flex items-center gap-2 shadow-xl">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            Buka di Google Maps
+                        </span>
+                    </a>
+                    <div class="w-full h-[90px] rounded-xl overflow-hidden relative">
+                        <iframe 
+                            src="https://maps.google.com/maps?q=-6.2698547,106.7976132&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0; filter: invert(90%) hue-rotate(180deg) brightness(85%) contrast(85%);" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
 
                 <!-- Contact & Address for Verification -->
-                <div class="flex flex-col gap-2 mt-4 text-[13px] text-gray-400 text-center md:text-left">
+                <div class="mt-auto flex flex-col gap-1.5 text-[13px] text-gray-400 text-center md:text-left w-full">
                     <div class="flex items-start justify-center md:justify-start gap-2">
                         <svg class="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        <span>Jl. Jend. Sudirman Kav. 52-53, Senayan, Kebayoran Baru, Jakarta Selatan, 12190</span>
+                        <span>International Creatives Exchange, Gedung AlBarkat, Jl. RS. Fatmawati Raya No.28AA lt.2, RT.1/RW.5, Cipete Sel., Kec. Cilandak, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12410</span>
                     </div>
                     <div class="flex items-center justify-center md:justify-start gap-2 mt-1">
                         <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                        <span>+62 811-1234-5678</span>
+                        <span>+62 896-3725-9300</span>
                     </div>
                     <div class="flex items-center justify-center md:justify-start gap-2 mt-1">
                         <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        <span>support@1langkah.id</span>
+                        <span>halo@1langkah.com</span>
                     </div>
                 </div>
             </div>
@@ -1069,8 +1080,8 @@
                 
                 <!-- Column 1 -->
                 <div class="flex flex-col items-start text-left">
-                    <h2 class="text-[11px] md:text-[13px] font-bold tracking-[0.1em] md:tracking-[0.15em] text-gray-400 uppercase mb-4 md:mb-6"> {{ __('app.footer_platform') }} </h2>
-                    <ul class="flex flex-col items-start gap-3 md:gap-4">
+                    <h2 class="text-[11px] md:text-[13px] font-bold tracking-[0.1em] md:tracking-[0.15em] text-gray-400 uppercase mb-5 md:mb-8"> {{ __('app.footer_platform') }} </h2>
+                    <ul class="flex flex-col items-start gap-5 md:gap-7">
                         <li><a href="{{ route('kursus') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_courses') }}</a></li>
                         <li><a href="{{ route('online-bootcamp') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_bootcamp_online') }}</a></li>
                         <li><a href="{{ route('offline-bootcamp') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_bootcamp_offline') }}</a></li>
@@ -1082,8 +1093,8 @@
                 
                 <!-- Column 2 -->
                 <div class="flex flex-col items-center text-center">
-                    <h2 class="text-[11px] md:text-[13px] font-bold tracking-[0.1em] md:tracking-[0.15em] text-gray-400 uppercase mb-4 md:mb-6"> {{ __('app.footer_company') }} </h2>
-                    <ul class="flex flex-col items-center gap-3 md:gap-4">
+                    <h2 class="text-[11px] md:text-[13px] font-bold tracking-[0.1em] md:tracking-[0.15em] text-gray-400 uppercase mb-5 md:mb-8"> {{ __('app.footer_company') }} </h2>
+                    <ul class="flex flex-col items-center gap-5 md:gap-7">
                         <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_about') }}</a></li>
                         <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_career') }}</a></li>
                         <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_blog') }}</a></li>
@@ -1094,8 +1105,8 @@
                 
                 <!-- Column 3 -->
                 <div class="flex flex-col items-end text-right">
-                    <h2 class="text-[11px] md:text-[13px] font-bold tracking-[0.1em] md:tracking-[0.15em] text-gray-400 uppercase mb-4 md:mb-6"> {{ __('app.footer_support') }} </h2>
-                    <ul class="flex flex-col items-end gap-3 md:gap-4">
+                    <h2 class="text-[11px] md:text-[13px] font-bold tracking-[0.1em] md:tracking-[0.15em] text-gray-400 uppercase mb-5 md:mb-8"> {{ __('app.footer_support') }} </h2>
+                    <ul class="flex flex-col items-end gap-5 md:gap-7">
                         <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_help') }}</a></li>
                         <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_privacy') }}</a></li>
                         <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_terms') }}</a></li>

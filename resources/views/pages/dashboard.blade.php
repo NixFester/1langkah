@@ -31,7 +31,7 @@
         <div class="relative z-10 mt-6 sm:mt-0 hidden sm:block">
             <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white/20 p-1 relative">
                 @if(auth()->user()->profile_photo)
-                <img decoding="async" loading="lazy" alt="" src="{{ auth()->user()->profile_photo }}" alt="Profile" class="w-full h-full rounded-full object-cover bg-red-900" fetchpriority="high">
+                <img alt="" src="{{ auth()->user()->profile_photo }}" alt="Profile" class="w-full h-full rounded-full object-cover bg-red-900" fetchpriority="high">
                 @else
                 <div class="w-full h-full rounded-full bg-red-800 flex items-center justify-center text-white text-3xl font-bold">
                     {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}
@@ -51,10 +51,11 @@
     </div>
 
     <!-- GRID LAYOUT SECTION -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <!-- ROW 1 -->
-        <!-- Gamification (XP & Leaderboard) -->
+        <!-- Gamification (XP & Leaderboard) - HIDDEN -->
+        @if(false)
         <div class="flex flex-col gap-6 lg:col-span-1 order-1 lg:order-none">
             
             <!-- XP & Level Widget -->
@@ -138,11 +139,12 @@
             </div>
             @endif
         </div>
+        @endif
 
         <!-- Lanjutkan Belajar -->
-        <div class="lg:col-span-1 order-2 lg:order-none">
+        <div class="lg:col-span-2 order-1 lg:order-1">
             <x-card-panel :title="__('app.continue_learning')" :actionRoute="route('kursus-saya')" :actionLabel="__('app.see_all')" class="h-full">
-                <div class="grid grid-cols-1 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     @forelse(array_slice($activeCourses ?? [], 0, 3) as $course)
                     <a href="{{ route('detail-kursus', ['id' => $course['id']]) }}" class="block border border-gray-100 rounded-xl overflow-hidden hover:shadow-lg hover:border-gray-200 transition-all bg-gray-50/50 group">
                         <div class="h-28 bg-gray-200 relative overflow-hidden">
@@ -173,9 +175,9 @@
         </div>
 
         <!-- Bootcamp Saya -->
-        <div class="lg:col-span-1 order-3 lg:order-none">
+        <div class="lg:col-span-2 order-3 lg:order-3">
             <x-card-panel :title="__('app.my_bootcamps')" :actionRoute="route('bootcamps-saya')" :actionLabel="__('app.view')" class="h-full">
-                <div class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     @forelse(array_slice($myBootcamps ?? [], 0, 3) as $bootcamp)
                     <x-list-item
                         :href="route($bootcamp['type'] === 'online' ? 'detail-online-bootcamp' : 'detail-offline-bootcamp', ['id' => $bootcamp['id']])"
@@ -195,7 +197,7 @@
         </div>
 
         <!-- Events Mendatang -->
-        <div class="lg:col-span-1 order-5 lg:order-none">
+        <div class="lg:col-span-1 order-2 lg:order-2">
             <x-card-panel :title="__('app.upcoming_events')" :actionRoute="route('event')" :actionLabel="__('app.view')" class="h-full">
                 <div class="space-y-4">
                     @forelse($upcomingEvents ?? [] as $event)
@@ -224,7 +226,7 @@
 
         <!-- ROW 2 -->
         <!-- Prestasi & Badge -->
-        <div class="lg:col-span-1 order-4 lg:order-none">
+        <div class="lg:col-span-1 order-4 lg:order-4">
             <x-card-panel :title="__('app.achievements')" :actionRoute="route('achievement')" :actionLabel="__('app.all')" class="h-full">
                 <div class="space-y-3">
                     @if(!empty($userAchievements) && $userAchievements->count() > 0)
@@ -247,7 +249,7 @@
         </div>
 
         <!-- Rekomendasi Kursus -->
-        <div class="lg:col-span-2 order-6 lg:order-none">
+        <div class="lg:col-span-2 order-5 lg:order-5">
             <x-card-panel :title="__('app.course_recommendations')" :actionRoute="route('kursus')" :actionLabel="__('app.explore')" class="h-full">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     @forelse(array_slice($recommendedCourses ?? [], 0, 4) as $course)
@@ -275,7 +277,7 @@
                         </div>
                     </a>
                     @empty
-                    <div class="col-span-2">
+                    <div class="sm:col-span-2">
                         <x-empty-state :message="__('app.no_recommendations')" icon="sparkles" />
                     </div>
                     @endforelse
@@ -284,7 +286,7 @@
         </div>
 
         <!-- Aktivitas Terbaru -->
-        <div class="lg:col-span-1 order-7 lg:order-none">
+        <div class="lg:col-span-1 order-6 lg:order-6">
             <x-card-panel :title="__('app.activity')" class="h-full">
                 <div class="space-y-4">
                     @forelse(array_slice($recentActivities ?? [], 0, 4) as $activity)

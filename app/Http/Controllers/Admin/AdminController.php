@@ -74,8 +74,7 @@ class AdminController extends Controller
         ]);
 
         if ($request->hasFile('profile_photo_file')) {
-            $path = $request->file('profile_photo_file')->store('users', 'public');
-            $data['profile_photo'] = '/storage/'.$path;
+            $data['profile_photo'] = \App\Services\ImageService::uploadAndCompress($request->file('profile_photo_file'), 'users', 800, 80);
         }
 
         $data['password'] = bcrypt($data['password']);
@@ -105,8 +104,7 @@ class AdminController extends Controller
             if ($user->profile_photo && str_starts_with($user->profile_photo, '/storage/')) {
                 Storage::disk('public')->delete(str_replace('/storage/', '', $user->profile_photo));
             }
-            $path = $request->file('profile_photo_file')->store('users', 'public');
-            $data['profile_photo'] = '/storage/'.$path;
+            $data['profile_photo'] = \App\Services\ImageService::uploadAndCompress($request->file('profile_photo_file'), 'users', 800, 80);
         } elseif ($request->boolean('remove_photo')) {
             if ($user->profile_photo && str_starts_with($user->profile_photo, '/storage/')) {
                 Storage::disk('public')->delete(str_replace('/storage/', '', $user->profile_photo));

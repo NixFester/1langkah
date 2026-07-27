@@ -32,9 +32,11 @@
                     {{ $portfolio['user']['bio'] ?: __('app.user_portfolio_desc') }}
                 </p>
                 <div class="flex flex-wrap justify-center md:justify-start gap-4 mt-4">
+                    @if(false)
                     <div class="bg-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm">
                         <span class="font-bold">{{ $portfolio['user']['xp'] ?? 0 }}</span> XP
                     </div>
+                    @endif
                     <div class="bg-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm">
                         {{ __('app.joined') }} {{ $portfolio['user']['joined_at'] ?? '' }}
                     </div>

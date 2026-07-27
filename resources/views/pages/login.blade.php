@@ -158,7 +158,7 @@
         </a>
 
         <!-- Content Area -->
-        <div class="relative z-10 flex-1 flex flex-col justify-center">
+        <div class="relative z-10 flex flex-col justify-start">
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#5c1313] bg-[#3a0808] w-fit mb-6">
                 <svg class="w-3.5 h-3.5 text-[#FF7070]" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_306_7921)"><path d="M4.96847 7.74988C4.92383 7.57684 4.83364 7.41893 4.70728 7.29257C4.58092 7.16621 4.42301 7.07602 4.24997 7.03138L1.18247 6.24038C1.13014 6.22553 1.08407 6.19401 1.05128 6.1506C1.01848 6.1072 1.00073 6.05428 1.00073 5.99988C1.00073 5.94548 1.01848 5.89256 1.05128 5.84916C1.08407 5.80575 1.13014 5.77423 1.18247 5.75938L4.24997 4.96788C4.42294 4.92328 4.58082 4.83317 4.70717 4.7069C4.83353 4.58063 4.92375 4.42282 4.96847 4.24988L5.75947 1.18238C5.77417 1.12984 5.80566 1.08355 5.84913 1.05058C5.8926 1.0176 5.94566 0.999756 6.00022 0.999756C6.05478 0.999756 6.10784 1.0176 6.15131 1.05058C6.19478 1.08355 6.22627 1.12984 6.24097 1.18238L7.03147 4.24988C7.07611 4.42292 7.1663 4.58083 7.29266 4.70719C7.41902 4.83355 7.57693 4.92374 7.74997 4.96838L10.8175 5.75888C10.8702 5.77343 10.9167 5.80488 10.9499 5.84842C10.983 5.89195 11.001 5.94516 11.001 5.99988C11.001 6.0546 10.983 6.10781 10.9499 6.15134C10.9167 6.19488 10.8702 6.22633 10.8175 6.24088L7.74997 7.03138C7.57693 7.07602 7.41902 7.16621 7.29266 7.29257C7.1663 7.41893 7.07611 7.57684 7.03147 7.74988L6.24047 10.8174C6.22577 10.8699 6.19428 10.9162 6.15081 10.9492C6.10734 10.9822 6.05428 11 5.99972 11C5.94516 11 5.8921 10.9822 5.84863 10.9492C5.80516 10.9162 5.77367 10.8699 5.75897 10.8174L4.96847 7.74988Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 1.5V3.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 2.5H9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 8.5V9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.5 9H1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_306_7921"><rect width="12" height="12" fill="white"/></clipPath></defs></svg>
@@ -177,60 +177,16 @@
                 {{ __('app.cta_desc') }}
             </p>
 
-            <!-- Testimonials Stack -->
-            <div class="flex flex-col gap-3 mb-12 max-w-[440px]">
-                <!-- Card 1 -->
-                <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
-                    <div class="flex items-center gap-4">
-                        <img decoding="async" loading="lazy" src="https://i.pravatar.cc/100?img=1" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
-                        <div class="text-[13px] font-medium text-gray-400">{{ __('app.login_testi_1') }}</div>
-                    </div>
-                    <div class="flex items-center gap-0.5 text-[#ffb800]">
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                    </div>
-                </div>
-                <!-- Card 2 -->
-                <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
-                    <div class="flex items-center gap-4">
-                        <img decoding="async" loading="lazy" src="https://i.pravatar.cc/100?img=11" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
-                        <div class="text-[13px] font-medium text-gray-400">{{ __('app.login_testi_2') }}</div>
-                    </div>
-                    <div class="flex items-center gap-0.5 text-[#ffb800]">
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                    </div>
-                </div>
-                <!-- Card 3 -->
-                <div class="flex items-center justify-between bg-[#1a0a0a] border border-[#2a1313] rounded-2xl p-3.5">
-                    <div class="flex items-center gap-4">
-                        <img decoding="async" loading="lazy" src="https://i.pravatar.cc/100?img=5" alt="Testimonial User Avatar" class="w-10 h-10 rounded-full object-cover">
-                        <div class="text-[13px] font-medium text-gray-400">{{ __('app.login_testi_3') }}</div>
-                    </div>
-                    <div class="flex items-center gap-0.5 text-[#ffb800]">
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                    </div>
-                </div>
-            </div>
+
             
             <!-- Stats -->
             <div class="flex items-center gap-10">
                 <div>
-                    <div class="text-[22px] font-extrabold text-white mb-0.5">100K+</div>
+                    <div class="text-[22px] font-extrabold text-white mb-0.5">2000</div>
                     <div class="text-[12px] text-gray-400 font-medium">{{ __('app.login_stat_students') }}</div>
                 </div>
                 <div>
-                    <div class="text-[22px] font-extrabold text-white mb-0.5">800+</div>
+                    <div class="text-[22px] font-extrabold text-white mb-0.5">10+</div>
                     <div class="text-[12px] text-gray-400 font-medium">{{ __('app.login_stat_courses') }}</div>
                 </div>
                 <div>
