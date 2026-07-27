@@ -125,8 +125,14 @@
 
             <!-- Right side: Image -->
             <div class="relative z-10 hidden lg:flex items-center justify-center w-full min-h-0">
-                <div class="relative w-full max-w-[600px] xl:max-w-[700px] mx-auto origin-center lg:mt-2 xl:mt-4 lg:-mb-12 xl:-mb-16">
-                    <img loading="lazy" fetchpriority="high" decoding="async" src="{{ asset('images/hero.svg') }}" alt="1Langkah Platform" class="w-full h-auto object-contain mix-blend-lighten opacity-90 relative z-10">
+                <div class="relative w-full max-w-[600px] xl:max-w-[700px] mx-auto origin-center lg:mt-2 xl:mt-4 lg:-mb-12 xl:-mb-16 rounded-3xl overflow-hidden">
+                    <img loading="lazy" fetchpriority="high" decoding="async" src="{{ asset('images/landing-hero.png') }}" alt="1Langkah Platform" class="w-full h-auto object-contain mix-blend-lighten opacity-90 relative z-10">
+                    
+                    <!-- Overlays to blend edges into the #050304 background -->
+                    <div class="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-[#050304] to-transparent z-20 pointer-events-none"></div>
+                    <div class="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-[#050304] to-transparent z-20 pointer-events-none"></div>
+                    <div class="absolute inset-x-0 top-0 h-1/6 bg-gradient-to-b from-[#050304] to-transparent z-20 pointer-events-none"></div>
+                    <div class="absolute inset-y-0 right-0 w-1/6 bg-gradient-to-l from-[#050304] to-transparent z-20 pointer-events-none"></div>
                 </div>
             </div>
         </div>
