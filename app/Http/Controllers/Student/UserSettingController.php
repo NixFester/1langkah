@@ -101,7 +101,7 @@ class UserSettingController extends Controller
     public function uploadAvatar(Request $request): JsonResponse
     {
         $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'avatar' => 'required|image|max:20480',
         ]);
 
         $settings = UserSetting::findOrCreateForUser(auth()->id());

@@ -1499,6 +1499,7 @@ return [
     'privacy_saved_success' => 'Privacy settings saved successfully!',
     'privacy_saved_fail' => 'Failed to save privacy settings',
     'avatar_upload_success' => 'Avatar uploaded successfully!',
+    'compressing_image' => 'Compressing image...',
     'avatar_upload_fail' => 'Failed to upload avatar',
 
     'stat_val_cities' => '3 Cities',

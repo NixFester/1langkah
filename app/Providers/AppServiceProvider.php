@@ -68,6 +68,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
+        if (env('APP_ENV') !== 'local') {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         // Register Options facade alias
         $this->app->alias('options', Options::class);
 

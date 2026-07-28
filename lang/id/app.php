@@ -1499,6 +1499,7 @@ return [
     'privacy_saved_success' => 'Pengaturan privasi berhasil disimpan!',
     'privacy_saved_fail' => 'Gagal menyimpan pengaturan',
     'avatar_upload_success' => 'Avatar berhasil diupload!',
+    'compressing_image' => 'Sedang mengompres gambar...',
     'avatar_upload_fail' => 'Gagal upload avatar',
 
     'stat_val_cities' => '3 Kota',
