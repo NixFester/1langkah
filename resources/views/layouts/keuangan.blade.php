@@ -9,8 +9,10 @@
     <link rel="dns-prefetch" href="https://ui-avatars.com">
     <title>@yield('title', __('app.finance_1langkah'))</title>
     <meta name="description" content="{{ __("app.1langkah_meta_desc") ?? "1Langkah Platform" }}">
+    <meta name="view-transition" content="same-origin">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://instant.page/5.2.0" type="module" integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxK3jCUbO6202Gf6rZfvFkuRx"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @stack('styles')
     <style>
