@@ -78,8 +78,7 @@
         <div class="max-w-[1400px] mx-auto w-full text-center relative z-10">
             <!-- Breadcrumb Badge -->
             <div class="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8 shadow-2xl">
-                <span class="w-2 h-2 rounded-full bg-[#D10000] animate-pulse"></span>
-                <span class="text-[12px] font-bold tracking-[0.2em] text-white uppercase">{{ __('app.about_hero_badge') }}</span>
+                <span class="text-[12px] font-bold tracking-[0.2em] text-[#D10000] uppercase">{{ __('app.about_hero_badge') }}</span>
             </div>
             
             <h1 class="text-[34px] sm:text-4xl md:text-7xl lg:text-[84px] font-black mb-6 md:mb-8 tracking-tighter leading-[1.05]">
@@ -132,7 +131,7 @@
                 
                 <!-- Text Content -->
                 <div>
-                    <h2 class="text-[12px] font-bold tracking-[0.2em] text-red-400 uppercase mb-4">{{ __('app.about_story_badge') }}</h2>
+                    <h2 class="text-[12px] font-bold tracking-[0.2em] text-[#D10000] uppercase mb-4">{{ __('app.about_story_badge') }}</h2>
                     <h2 class="text-[28px] sm:text-3xl md:text-5xl font-black mb-6 tracking-tight text-slate-900 leading-tight">{!! __('app.about_story_title') !!}</h2>
                     
                     <div class="space-y-6 text-slate-600 text-lg leading-relaxed">
@@ -149,7 +148,7 @@
                                 <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">{{ __('app.about_story_year_title') }}</div>
                             </div>
                             <div>
-                                <div class="text-3xl font-black text-red-400 mb-1">Jakarta</div>
+                                <div class="text-3xl font-black text-[#D10000] mb-1">Jakarta</div>
                                 <div class="text-sm font-bold text-slate-500 uppercase tracking-widest">{{ __('app.about_story_hq_title') }}</div>
                             </div>
                         </div>
