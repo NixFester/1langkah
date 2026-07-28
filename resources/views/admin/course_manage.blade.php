@@ -349,7 +349,7 @@
                             <option value="thumbnail">Thumbnail</option>
                         </select>
                     </div>
-                    <x-form-input name="description" :label="__('app.description')" placeholder="{{ __('app.image_desc_optional') ?? 'Deskripsi gambar (opsional)' }}" />
+                    <x-form-input name="description" :label="__('app.description')" :placeholder="__('app.image_desc_optional') ?? 'Deskripsi gambar (opsional)'" />
                 </div>
                 <div class="mt-4 flex justify-end">
                     <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-full text-sm transition-colors flex items-center gap-2">

@@ -79,7 +79,7 @@ class="w-full px-2 pb-8">
     <!-- Search & Sort Bar -->
     <div class="mb-6">
         <x-search-filter-bar
-            placeholder="{{ __('app.online_search_placeholder') }}"
+            :placeholder="__('app.online_search_placeholder')"
             :sort-options="[
                 'newest' => __('app.sort_newest'),
                 'price_low' => __('app.sort_price_low'),
@@ -91,8 +91,8 @@ class="w-full px-2 pb-8">
     <!-- Alert / Info Banner -->
     <x-alert-banner
         type="info"
-        title="{{ __('app.banner_online_title') }}"
-        message="{{ __('app.banner_online_desc') }}"
+        :title="__('app.banner_online_title')"
+        :message="__('app.banner_online_desc')"
         :stats="[
             ['value' => '7–10', 'label' => __('app.stat_meetings')],
             ['value' => __('app.stat_val_2_hours'), 'label' => __('app.stat_per_session')],
@@ -204,8 +204,8 @@ class="w-full px-2 pb-8">
     <!-- Empty State -->
     <x-empty-state
         x-show="displayedBootcamps.length === 0"
-        title="{{ __('app.empty_bootcamp_title') }}"
-        message="{{ __('app.empty_search_desc') }}"
+        :title="__('app.empty_bootcamp_title')"
+        :message="__('app.empty_search_desc')"
     />
 </div>
 @endsection
