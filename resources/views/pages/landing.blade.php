@@ -161,7 +161,52 @@
     </div>
     </section>
     
-    <!-- Partners section removed as per user request -->
+    <!-- Partners Section -->
+    <div class="w-full bg-black/20 border-t border-white/5 py-8 mt-auto relative z-20 overflow-hidden">
+        <style>
+            @keyframes marquee {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+            }
+            .animate-marquee {
+                display: flex;
+                width: max-content;
+                animation: marquee 15s linear infinite;
+            }
+            @media (min-width: 1230px) {
+                .animate-marquee {
+                    width: 100%;
+                    animation: none;
+                    flex-wrap: nowrap;
+                    justify-content: space-between;
+                }
+                .duplicate-partners {
+                    display: none !important;
+                }
+                .marquee-gap {
+                    gap: 0 !important;
+                }
+            }
+        </style>
+        <div class="max-w-[1400px] mx-auto px-6 md:px-12">
+            <div class="flex overflow-hidden">
+                <div class="animate-marquee marquee-gap gap-10 md:gap-14 items-center w-full">
+                    @php
+                        $partners = ['BMP.svg', 'ICA.svg', 'INTENATIONAL CREATIVES EXCHANGE.svg', 'NCR.svg', 'negerikami.svg', 'pakindo.svg', 'tradeindonesia.svg', 'tuturbangsa.svg'];
+                    @endphp
+                    <!-- Original Set -->
+                    @foreach($partners as $partner)
+                        <img src="{{ asset('assets/partners/' . $partner) }}" alt="Partner" class="w-20 sm:w-24 md:w-28 lg:w-32 h-10 md:h-12 lg:h-16 object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    @endforeach
+                    
+                    <!-- Duplicate Set for Mobile & Tablet Seamless Scrolling -->
+                    @foreach($partners as $partner)
+                        <img src="{{ asset('assets/partners/' . $partner) }}" alt="Partner" class="duplicate-partners w-20 sm:w-24 md:w-28 h-10 md:h-12 object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Features (Section 2) -->
