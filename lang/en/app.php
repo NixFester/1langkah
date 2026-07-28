@@ -579,11 +579,13 @@ return [
     'total' => 'Total',
     'already_enrolled_start' => 'Already Enrolled — Start Learning',
     'pay_now_mock' => 'Pay Now (Mock)',
+    'pay_now' => 'Pay Now',
     'demo_click' => '⚡ Demo: Click to directly enroll without payment',
     'secure_transaction' => 'Secure & encrypted transaction',
     'money_back_guarantee' => '7-day money back guarantee',
     'instant_access' => 'Instant access after payment',
     'accepted_payment_methods' => 'Accepted payment methods',
+    'secure_payment_via_xendit' => '🔒 Secure payment via Xendit',
 
     // Settings module
     'account_settings' => 'Account Settings',
@@ -1862,7 +1864,7 @@ return [
     'about_enterprise_title' => 'Enterprise Scale Training',
     'about_enterprise_desc' => 'Tailored B2B training solutions for companies aiming to elevate their employees\' technical capacities via a comprehensive centralized dashboard.',
     'about_enterprise_btn' => 'Learn Enterprise',
-    
+
     // About Leadership
     'about_leadership_badge' => 'Leadership',
     'about_leadership_title' => 'Our Advisory Board',

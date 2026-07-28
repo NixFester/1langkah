@@ -19,13 +19,15 @@ use App\Models\UserSetting;
 use App\Models\VideoProgress;
 use App\Services\CatalogService;
 use App\Services\ImageService;
-use Illuminate\Support\Facades\Storage;
 use App\Services\NotificationService;
+use App\Services\Payment\PaymentService;
 use App\Services\XpService;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PageController extends Controller
@@ -168,7 +170,7 @@ class PageController extends Controller
         return back()->with('success', __('app.msg_success_profil_berhasil_diperbarui'));
     }
 
-    public function updateAvatar(Request $request): \Illuminate\Http\JsonResponse
+    public function updateAvatar(Request $request): JsonResponse
     {
         $request->validate([
             'avatar' => 'required|image|max:20480',
@@ -190,7 +192,7 @@ class PageController extends Controller
             'success' => true,
             'data' => [
                 'avatar_url' => asset($user->profile_photo),
-            ]
+            ],
         ]);
     }
 
@@ -702,8 +704,8 @@ class PageController extends Controller
     }
 
     /**
-     * Process mock payment and auto-enroll the user
-     * (This is a mock payment - no actual payment is processed)
+     * Process payment using the configured payment driver
+     * (Supports mock and xendit drivers based on PAYMENT_DRIVER config)
      */
     public function processPayment(Request $request): RedirectResponse
     {
@@ -713,24 +715,66 @@ class PageController extends Controller
 
         // Handle mentor session booking
         if ($itemKind === 'mentor_session') {
-            $bookingData = session('pending_mentor_session');
+            return $this->processMentorSessionPayment($request, $user);
+        }
 
-            if (! $bookingData) {
-                return redirect()->route('dashboard')->with('error', __('app.msg_error_data_booking_tidak_ditemukan_silakan_pes'));
-            }
+        // Handle event registration
+        if ($itemKind === 'event_registration') {
+            return $this->processEventPayment($request, $user);
+        }
 
-            // Check if user already has an active session
-            $existingSession = MentorSession::where('user_id', $user->id)
-                ->whereIn('status', [MentorSession::STATUS_PENDING, MentorSession::STATUS_ACTIVE])
-                ->first();
+        // Handle course/bootcamp enrollment
+        return $this->processEnrollmentPayment($request, $user);
+    }
 
-            if ($existingSession) {
-                session()->forget('pending_mentor_session');
+    /**
+     * Process mentor session payment
+     */
+    private function processMentorSessionPayment(Request $request, $user): RedirectResponse
+    {
+        $bookingData = session('pending_mentor_session');
 
-                return redirect()->route('my-sessions')->with('error', __('app.msg_error_anda_masih_memiliki_sesi_mentoring_yang_'));
-            }
+        if (! $bookingData) {
+            return redirect()->route('dashboard')->with('error', __('app.msg_error_data_booking_tidak_ditemukan_silakan_pes'));
+        }
 
-            // Create the mentor session
+        // Check if user already has an active session
+        $existingSession = MentorSession::where('user_id', $user->id)
+            ->whereIn('status', [MentorSession::STATUS_PENDING, MentorSession::STATUS_ACTIVE])
+            ->first();
+
+        if ($existingSession) {
+            session()->forget('pending_mentor_session');
+
+            return redirect()->route('my-sessions')->with('error', __('app.msg_error_anda_masih_memiliki_sesi_mentoring_yang_'));
+        }
+
+        // Get price from booking data
+        $amount = (int) str_replace(['Rp ', '.', ','], '', $bookingData['price'] ?? 0);
+
+        // Create payment via PaymentService
+        $paymentService = app(PaymentService::class);
+        $paymentResult = $paymentService->createPayment(
+            $user,
+            'mentor_session',
+            $bookingData['mentor_id'],
+            $amount,
+            'Sesi Mentoring',
+            [
+                'mentor_id' => $bookingData['mentor_id'],
+                'mentor_name' => $bookingData['mentor_name'],
+                'booked_date' => $bookingData['booked_date'],
+                'booked_time' => $bookingData['booked_time'],
+                'notes' => $bookingData['notes'] ?? null,
+            ]
+        );
+
+        if (! $paymentResult['success']) {
+            return redirect()->route('pembayaran')->with('error', $paymentResult['error'] ?? 'Payment failed');
+        }
+
+        // For mock driver, process immediately
+        if ($paymentService->isMockDriver()) {
             $session = MentorSession::create([
                 'user_id' => $user->id,
                 'mentor_id' => $bookingData['mentor_id'],
@@ -740,37 +784,77 @@ class PageController extends Controller
                 'status' => MentorSession::STATUS_PENDING,
             ]);
 
-            // Clear session data
             session()->forget('pending_mentor_session');
 
             return redirect()->route('my-sessions')->with('success', __('app.msg_success_sesi_mentoring_berhasil_dipesan_mentor_a'));
         }
 
-        // Handle event registration
-        if ($itemKind === 'event_registration') {
-            $registrationData = session('pending_event_registration');
+        // For Xendit, redirect to checkout
+        if ($paymentService->requiresRedirect() && ! empty($paymentResult['checkout_url'])) {
+            // Store transaction ID in session for webhook processing
+            session(['pending_payment_transaction' => [
+                'external_id' => $paymentResult['external_id'],
+                'payment_id' => $paymentResult['payment_id'] ?? null,
+                'driver' => 'xendit',
+                'item_type' => 'mentor_session',
+            ]]);
 
-            if (! $registrationData) {
-                return redirect()->route('dashboard')->with('error', __('app.msg_error_data_pendaftaran_tidak_ditemukan_silakan'));
-            }
+            return redirect($paymentResult['checkout_url']);
+        }
 
-            $event = Event::find($registrationData['event_id']);
-            if (! $event) {
-                return redirect()->route('dashboard')->with('error', __('app.msg_error_event_tidak_ditemukan'));
-            }
+        return redirect()->route('pembayaran')->with('error', 'Unable to process payment');
+    }
 
-            // Check if already registered
-            $existingReg = EventRegistration::where('user_id', $user->id)
-                ->where('event_id', $event->id)
-                ->first();
+    /**
+     * Process event registration payment
+     */
+    private function processEventPayment(Request $request, $user): RedirectResponse
+    {
+        $registrationData = session('pending_event_registration');
 
-            if ($existingReg) {
-                session()->forget('pending_event_registration');
+        if (! $registrationData) {
+            return redirect()->route('dashboard')->with('error', __('app.msg_error_data_pendaftaran_tidak_ditemukan_silakan'));
+        }
 
-                return redirect()->route('detail-event', $event->id)->with('info', __('app.msg_info_anda_sudah_terdaftar_di_event_ini'));
-            }
+        $event = Event::find($registrationData['event_id']);
+        if (! $event) {
+            return redirect()->route('dashboard')->with('error', __('app.msg_error_event_tidak_ditemukan'));
+        }
 
-            // Create registration
+        // Check if already registered
+        $existingReg = EventRegistration::where('user_id', $user->id)
+            ->where('event_id', $event->id)
+            ->first();
+
+        if ($existingReg) {
+            session()->forget('pending_event_registration');
+
+            return redirect()->route('detail-event', $event->id)->with('info', __('app.msg_info_anda_sudah_terdaftar_di_event_ini'));
+        }
+
+        // Get price
+        $amount = (int) str_replace(['Rp ', '.', ','], '', $registrationData['price'] ?? 0);
+
+        // Create payment via PaymentService
+        $paymentService = app(PaymentService::class);
+        $paymentResult = $paymentService->createPayment(
+            $user,
+            'event',
+            $event->id,
+            $amount,
+            'Pendaftaran Event: '.$event->title,
+            [
+                'event_id' => $event->id,
+                'event_title' => $event->title,
+            ]
+        );
+
+        if (! $paymentResult['success']) {
+            return redirect()->route('pembayaran')->with('error', $paymentResult['error'] ?? 'Payment failed');
+        }
+
+        // For mock driver, process immediately
+        if ($paymentService->isMockDriver()) {
             $ticketCode = 'EVT-'.strtoupper(uniqid()).'-'.date('Ymd');
             EventRegistration::create([
                 'user_id' => $user->id,
@@ -780,20 +864,39 @@ class PageController extends Controller
                 'registered_at' => now(),
             ]);
 
-            // Update registered count
             $event->increment('registered_count');
-
-            // Clear session data
             session()->forget('pending_event_registration');
 
             return redirect()->route('detail-event', $event->id)->with('success', __('app.msg_success_berhasil_terdaftar_di_event'));
         }
 
-        // Handle course/bootcamp enrollment
+        // For Xendit, redirect to checkout
+        if ($paymentService->requiresRedirect() && ! empty($paymentResult['checkout_url'])) {
+            session(['pending_payment_transaction' => [
+                'external_id' => $paymentResult['external_id'],
+                'payment_id' => $paymentResult['payment_id'] ?? null,
+                'driver' => 'xendit',
+                'item_type' => 'event',
+            ]]);
+
+            return redirect($paymentResult['checkout_url']);
+        }
+
+        return redirect()->route('pembayaran')->with('error', 'Unable to process payment');
+    }
+
+    /**
+     * Process course/bootcamp enrollment payment
+     */
+    private function processEnrollmentPayment(Request $request, $user): RedirectResponse
+    {
         $request->validate([
             'item_id' => ['required', 'integer'],
             'item_kind' => ['required', 'string', 'in:course,online,offline'],
         ]);
+
+        $itemKind = $request->input('item_kind');
+        $itemId = $request->input('item_id');
 
         // Determine the purchasable type
         $purchasableType = match ($itemKind) {
@@ -812,30 +915,83 @@ class PageController extends Controller
                 ->with('info', __('app.msg_info_kamu_sudah_terdaftar_di_item_ini'));
         }
 
-        // Get item name for notification
-        $itemName = $this->getItemName($itemKind, $itemId);
+        // Get item details
+        $item = $this->getItemDetails($itemKind, $itemId);
+        if (! $item) {
+            return redirect()->back()->with('error', __('app.msg_error_item_tidak_ditemukan'));
+        }
 
-        // Create enrollment (mock payment - always successful)
-        Enrollment::create([
-            'user_id' => $user->id,
-            'purchasable_type' => $purchasableType,
-            'purchasable_id' => $itemId,
-            'status' => 'active',
-        ]);
+        // Get amount
+        $amount = (int) ($item['price_raw'] ?? $item['price'] ?? 0);
 
-        // Log activity
-        UserActivityLog::create([
-            'user_id' => $user->id,
-            'action' => 'enrolled',
-            'loggable_type' => $purchasableType,
-            'loggable_id' => $itemId,
-        ]);
+        // Create payment via PaymentService
+        $paymentService = app(PaymentService::class);
+        $paymentResult = $paymentService->createPayment(
+            $user,
+            $itemKind,
+            $itemId,
+            $amount,
+            $item['title'],
+            [
+                'item_type' => $itemKind,
+                'item_id' => $itemId,
+                'item_title' => $item['title'],
+            ]
+        );
 
-        // Send notification
-        app(NotificationService::class)->enrolled($user->id, $itemName, $itemKind, $itemId);
+        if (! $paymentResult['success']) {
+            return redirect()->route('pembayaran', ['id' => $itemId])->with('error', $paymentResult['error'] ?? 'Payment failed');
+        }
 
-        return redirect()->to($this->getEnrollmentRedirectUrl($itemKind, $itemId))
-            ->with('success', __('app.msg_registered_item', ['item' => $itemName]));
+        // For mock driver, process enrollment immediately
+        if ($paymentService->isMockDriver()) {
+            Enrollment::create([
+                'user_id' => $user->id,
+                'purchasable_type' => $purchasableType,
+                'purchasable_id' => $itemId,
+                'status' => 'active',
+            ]);
+
+            UserActivityLog::create([
+                'user_id' => $user->id,
+                'action' => 'enrolled',
+                'loggable_type' => $purchasableType,
+                'loggable_id' => $itemId,
+            ]);
+
+            app(NotificationService::class)->enrolled($user->id, $item['title'], $itemKind, $itemId);
+
+            return redirect()->to($this->getEnrollmentRedirectUrl($itemKind, $itemId))
+                ->with('success', __('app.msg_registered_item', ['item' => $item['title']]));
+        }
+
+        // For Xendit, redirect to checkout
+        if ($paymentService->requiresRedirect() && ! empty($paymentResult['checkout_url'])) {
+            session(['pending_payment_transaction' => [
+                'external_id' => $paymentResult['external_id'],
+                'payment_id' => $paymentResult['payment_id'] ?? null,
+                'driver' => 'xendit',
+                'item_type' => $itemKind,
+                'item_id' => $itemId,
+            ]]);
+
+            return redirect($paymentResult['checkout_url']);
+        }
+
+        return redirect()->route('pembayaran', ['id' => $itemId])->with('error', 'Unable to process payment');
+    }
+
+    /**
+     * Get item details for payment
+     */
+    private function getItemDetails(string $itemKind, int $itemId): ?array
+    {
+        return match ($itemKind) {
+            'course' => $this->catalog->course($itemId),
+            'online' => $this->catalog->onlineBootcamp($itemId),
+            'offline' => $this->catalog->offlineBootcamp($itemId),
+            default => null,
+        };
     }
 
     /**

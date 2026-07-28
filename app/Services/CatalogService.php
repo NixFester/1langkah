@@ -68,6 +68,7 @@ class CatalogService
             'enrolled_count' => $enrolledCount,
             'enrolledCount' => $enrolledCount,
             'price' => $c->price ?? '',
+            'price_raw' => $this->extractNumericPrice($c->price),
             'formatted_price' => $c->formatted_price ?? '',
             'progress' => $c->progress ?? 0,
             'color' => $c->color ?? '#dc2626',
@@ -80,6 +81,7 @@ class CatalogService
             'curriculum' => $curriculum,
         ];
     }
+
     private function getDummyImage(int $id, string $type): string
     {
         $images = [
@@ -91,7 +93,7 @@ class CatalogService
             'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=600&auto=format&fit=crop&fm=webp',
             'https://images.unsplash.com/photo-1515378960530-7c0da6229cf3?q=80&w=600&auto=format&fit=crop&fm=webp',
         ];
-        
+
         return $images[$id % count($images)];
     }
 
@@ -113,11 +115,12 @@ class CatalogService
             'startDate' => $b->start_date,
             'sessions' => $b->sessions_info,
             'price' => $b->price,
+            'price_raw' => $this->extractNumericPrice($b->price),
             'formatted_price' => $b->formatted_price ?? '',
             'color' => $b->color,
             'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url ?? $this->getDummyImage($b->id, 'online'),
-            'gallery' => count($gallery = $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray()) > 0 
-                ? $gallery 
+            'gallery' => count($gallery = $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray()) > 0
+                ? $gallery
                 : [$this->getDummyImage($b->id * 2, 'gallery'), $this->getDummyImage($b->id * 2 + 1, 'gallery')],
             'enrolledCount' => $enrolledCount,
             'availableSlots' => $availableSlots,
@@ -157,14 +160,15 @@ class CatalogService
             'startDate' => $b->start_date,
             'location' => $b->location,
             'price' => $b->price,
+            'price_raw' => $this->extractNumericPrice($b->price),
             'formatted_price' => $b->formatted_price ?? '',
             'color' => $b->color,
             'icon' => $attrs['icon'] ?? 'graduation-cap',
             'benefits' => $benefits,
             'jadwal_kelas' => $jadwalKelas,
             'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url ?? $this->getDummyImage($b->id, 'offline'),
-            'gallery' => count($gallery = $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray()) > 0 
-                ? $gallery 
+            'gallery' => count($gallery = $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray()) > 0
+                ? $gallery
                 : [$this->getDummyImage($b->id * 2, 'gallery'), $this->getDummyImage($b->id * 2 + 1, 'gallery')],
             'enrolledCount' => $enrolledCount,
             'availableSlots' => $availableSlots,
@@ -426,6 +430,35 @@ class CatalogService
         }
 
         return (string) $price;
+    }
+
+    /**
+     * Extract numeric price value from price string
+     * Handles formats like "Rp 599.000", "599000", "gratis", etc.
+     */
+    private function extractNumericPrice(string|int|null $price): int
+    {
+        if ($price === null || $price === '') {
+            return 0;
+        }
+
+        $priceStr = (string) $price;
+
+        // Check for free/gratis
+        if (strtolower(trim($priceStr)) === 'gratis' || trim($priceStr) === '0') {
+            return 0;
+        }
+
+        // Remove "Rp", spaces, and dots (thousand separators)
+        $cleaned = preg_replace('/[Rp\s.]/', '', $priceStr);
+
+        // Handle comma as decimal separator (e.g., "599,000")
+        $cleaned = str_replace(',', '.', $cleaned);
+
+        // Extract numeric part
+        $numericValue = (int) filter_var($cleaned, FILTER_SANITIZE_NUMBER_INT);
+
+        return $numericValue ?: 0;
     }
 
     private function generateWaLink(?string $phone): string

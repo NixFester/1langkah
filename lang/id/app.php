@@ -579,11 +579,13 @@ return [
     'total' => 'Total',
     'already_enrolled_start' => 'Sudah Terdaftar — Mulai Belajar',
     'pay_now_mock' => 'Bayar Sekarang (Mock)',
+    'pay_now' => 'Bayar Sekarang',
     'demo_click' => '⚡ Demo: Klik untuk langsung terdaftar tanpa pembayaran',
     'secure_transaction' => 'Transaksi aman & terenkripsi',
     'money_back_guarantee' => 'Garansi uang kembali 7 hari',
     'instant_access' => 'Akses langsung setelah pembayaran',
     'accepted_payment_methods' => 'Metode pembayaran diterima',
+    'secure_payment_via_xendit' => '🔒 Pembayaran aman via Xendit',
 
     // Settings module
     'account_settings' => 'Pengaturan Akun',
@@ -1862,7 +1864,7 @@ return [
     'about_enterprise_title' => 'Pelatihan Skala Enterprise',
     'about_enterprise_desc' => 'Solusi *training* khusus untuk perusahaan (B2B) yang ingin meningkatkan kapasitas teknis karyawannya melalui manajemen *dashboard* terpusat yang komprehensif.',
     'about_enterprise_btn' => 'Pelajari Enterprise',
-    
+
     // About Leadership
     'about_leadership_badge' => 'Leadership',
     'about_leadership_title' => 'Dewan Penasihat',
