@@ -72,7 +72,7 @@ class CatalogService
             'progress' => $c->progress ?? 0,
             'color' => $c->color ?? '#dc2626',
             'thumbnail' => $c->pictures?->where('type', 'thumbnail')->first()?->url ?? $this->getDummyImage($c->id, 'course'),
-            'gallery' => count($gallery = $c->pictures?->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray() ?? []) > 0
+            'gallery' => count($gallery = $c->pictures?->where('type', 'gallery')->sortBy('order')->pluck('url')->values()->toArray() ?? []) > 0
                 ? $gallery
                 : [$this->getDummyImage($c->id * 2, 'gallery'), $this->getDummyImage($c->id * 2 + 1, 'gallery')],
             'resources' => $resources,
@@ -89,7 +89,7 @@ class CatalogService
             'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=600&auto=format&fit=crop&fm=webp',
             'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=600&auto=format&fit=crop&fm=webp',
             'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=600&auto=format&fit=crop&fm=webp',
-            'https://images.unsplash.com/photo-1515378960530-7c0da6229cf3?q=80&w=600&auto=format&fit=crop&fm=webp',
+            'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600&auto=format&fit=crop&fm=webp',
         ];
         
         return $images[$id % count($images)];
@@ -116,7 +116,7 @@ class CatalogService
             'formatted_price' => $b->formatted_price ?? '',
             'color' => $b->color,
             'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url ?? $this->getDummyImage($b->id, 'online'),
-            'gallery' => count($gallery = $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray()) > 0 
+            'gallery' => count($gallery = $pictures->where('type', 'gallery')->sortBy('order')->pluck('url')->values()->toArray()) > 0 
                 ? $gallery 
                 : [$this->getDummyImage($b->id * 2, 'gallery'), $this->getDummyImage($b->id * 2 + 1, 'gallery')],
             'enrolledCount' => $enrolledCount,
@@ -163,7 +163,7 @@ class CatalogService
             'benefits' => $benefits,
             'jadwal_kelas' => $jadwalKelas,
             'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url ?? $this->getDummyImage($b->id, 'offline'),
-            'gallery' => count($gallery = $pictures->where('type', 'array')->sortBy('order')->pluck('url')->values()->toArray()) > 0 
+            'gallery' => count($gallery = $pictures->where('type', 'gallery')->sortBy('order')->pluck('url')->values()->toArray()) > 0 
                 ? $gallery 
                 : [$this->getDummyImage($b->id * 2, 'gallery'), $this->getDummyImage($b->id * 2 + 1, 'gallery')],
             'enrolledCount' => $enrolledCount,
