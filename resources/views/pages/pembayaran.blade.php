@@ -171,7 +171,7 @@
                         {{ __('app.already_enrolled_start') }}
                     </a>
                 @else
-                    {{-- Not enrolled - show mock payment form --}}
+                    {{-- Not enrolled - show payment form --}}
                     <form action="{{ route('pembayaran.proses') }}" method="POST">
                         @csrf
                         <input type="hidden" name="item_id" value="{{ $itemId }}">
@@ -180,12 +180,22 @@
                                 style="width: 100%; height: 52px; border-radius: 999px; background-color: #cc0000; color: white; font-weight: 700; font-size: 16px; border: none; cursor: pointer; transition: background-color 0.2s;"
                                 onmouseover="this.style.backgroundColor='#a30000'"
                                 onmouseout="this.style.backgroundColor='#cc0000'">
-                            {{ __('app.pay_now_mock') }}
+                            @if(config('payment.driver') === 'xendit')
+                                {{ __('app.pay_now') }}
+                            @else
+                                {{ __('app.pay_now_mock') }}
+                            @endif
                         </button>
                     </form>
-                    <p style="font-size: 12px; color: #9ca3af; text-align: center; margin-top: 12px;">
-                        {{ __('app.demo_click') }}
-                    </p>
+                    @if(config('payment.driver') === 'xendit')
+                        <p style="font-size: 12px; color: #9ca3af; text-align: center; margin-top: 12px;">
+                            {{ __('app.secure_payment_via_xendit') }}
+                        </p>
+                    @else
+                        <p style="font-size: 12px; color: #9ca3af; text-align: center; margin-top: 12px;">
+                            {{ __('app.demo_click') }}
+                        </p>
+                    @endif
                 @endif
 
                 <!-- Benefits -->

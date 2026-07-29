@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\LeaderboardController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ProgressController;
 use App\Http\Controllers\Api\RatingController;
+use App\Http\Controllers\Api\XenditWebhookController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Mentor\MentorAttendanceController;
 use App\Http\Controllers\Mentor\MentorBootcampController;
@@ -135,6 +136,9 @@ Route::middleware('auth')->group(function () {
 
 // ── Public portfolio (shareable link) ────────────────────────────────────────
 Route::get('/portfolio/{userId}', [PortfolioController::class, 'public'])->name('portfolio.public');
+
+// ── Payment Webhooks (no auth - called by external services) ──────────────────
+Route::post('/webhook/xendit', [XenditWebhookController::class, 'handle'])->name('webhook.xendit');
 
 // ── QR Display page (for admin to show QR to students) ───────────────────────
 Route::get('/qr/{code}', [QrController::class, 'display'])->name('scan.qr');
