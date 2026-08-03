@@ -22,16 +22,10 @@
         <button @click="sidebarMobileOpen = true" class="lg:hidden text-gray-500 hover:text-gray-900 focus:outline-none flex items-center justify-center p-1.5 sm:p-1 -ml-1.5 sm:ml-0 rounded-md hover:bg-gray-100 transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
         </button>
-        @hasSection('header_title')
-            <div style="font-size:20px;font-weight:700;color:var(--text-primary);" class="hidden sm:block">
-                @yield('header_title')
-            </div>
-        @endif
     </div>
 
     <!-- Tengah -->
     <div class="topbar-search hidden md:block" style="flex:0 1 auto;width:100%;max-width:480px;">
-        <input aria-label="{{ __('app.search_placeholder') }}" class="input input-search" placeholder="{{ __('app.search_placeholder') }}" style="width:100%; height:42px; border-radius:999px; border:1px solid #e5e7eb; background-color:#ffffff; padding-left:44px; font-size:14px; color:#374151; box-shadow:0 1px 2px rgba(0,0,0,0.02); transition:all 0.2s;" onfocus="this.style.borderColor='#d10000';this.style.boxShadow='0 0 0 3px rgba(209,0,0,0.1)';" onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='0 1px 2px rgba(0,0,0,0.02)';" />
     </div>
 
     @auth
