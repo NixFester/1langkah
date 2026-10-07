@@ -74,7 +74,7 @@ class AdminController extends Controller
         ]);
 
         if ($request->hasFile('profile_photo_file')) {
-            $data['profile_photo'] = \App\Services\ImageService::uploadAndCompress($request->file('profile_photo_file'), 'users', 800, 80);
+            $data['profile_photo'] = ImageService::uploadAndCompress($request->file('profile_photo_file'), 'users', 800, 80);
         }
 
         $data['password'] = bcrypt($data['password']);
@@ -104,7 +104,7 @@ class AdminController extends Controller
             if ($user->profile_photo && str_starts_with($user->profile_photo, '/storage/')) {
                 Storage::disk('public')->delete(str_replace('/storage/', '', $user->profile_photo));
             }
-            $data['profile_photo'] = \App\Services\ImageService::uploadAndCompress($request->file('profile_photo_file'), 'users', 800, 80);
+            $data['profile_photo'] = ImageService::uploadAndCompress($request->file('profile_photo_file'), 'users', 800, 80);
         } elseif ($request->boolean('remove_photo')) {
             if ($user->profile_photo && str_starts_with($user->profile_photo, '/storage/')) {
                 Storage::disk('public')->delete(str_replace('/storage/', '', $user->profile_photo));
@@ -243,7 +243,7 @@ class AdminController extends Controller
             $picture = $course->pictures()->where('type', 'thumbnail')->first();
             if ($picture) {
                 if (str_starts_with($picture->url, '/storage/')) {
-                    \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $picture->url));
+                    Storage::disk('public')->delete(str_replace('/storage/', '', $picture->url));
                 }
                 $picture->update(['url' => $url]);
             } else {
@@ -448,7 +448,7 @@ class AdminController extends Controller
             $picture = $bootcamp->pictures()->where('type', 'thumbnail')->first();
             if ($picture) {
                 if (str_starts_with($picture->url, '/storage/')) {
-                    \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $picture->url));
+                    Storage::disk('public')->delete(str_replace('/storage/', '', $picture->url));
                 }
                 $picture->update(['url' => $url]);
             } else {
@@ -585,5 +585,144 @@ class AdminController extends Controller
         $event->delete();
 
         return back()->with('success', __('app.msg_success_event_berhasil_dihapus'));
+    }
+
+    /* ── Content Moderation ─────────────────────────────────────────── */
+
+    /**
+     * Pending courses for review
+     */
+    public function pendingCourses(): View
+    {
+        $courses = Course::whereNotNull('mentor_id')
+            ->orWhere('mentor_name', '!=', '')
+            ->latest()
+            ->paginate(15);
+
+        $stats = [
+            'pending' => Course::where('status', Course::STATUS_PENDING)->count(),
+            'approved_today' => Course::where('status', Course::STATUS_APPROVED)
+                ->whereDate('reviewed_at', today())->count(),
+            'rejected_today' => Course::where('status', Course::STATUS_REJECTED)
+                ->whereDate('reviewed_at', today())->count(),
+            'total' => Course::whereNotNull('mentor_id')->count(),
+        ];
+
+        return view('admin.content.pending_courses', compact('courses', 'stats'));
+    }
+
+    /**
+     * Approve a course
+     */
+    public function approveCourse(Course $course): RedirectResponse
+    {
+        $course->approve(auth()->id());
+
+        return back()->with('success', 'Course approved successfully.');
+    }
+
+    /**
+     * Reject a course
+     */
+    public function rejectCourse(Request $request, Course $course): RedirectResponse
+    {
+        $request->validate([
+            'reason' => 'required|string|max:1000',
+        ]);
+
+        $course->reject(auth()->id(), $request->reason);
+
+        return back()->with('success', 'Course rejected.');
+    }
+
+    /**
+     * Pending bootcamps for review
+     */
+    public function pendingBootcamps(): View
+    {
+        $bootcamps = Bootcamp::whereNotNull('mentor_id')
+            ->orWhere('mentor_name', '!=', '')
+            ->latest()
+            ->paginate(15);
+
+        $stats = [
+            'pending' => Bootcamp::where('status', Bootcamp::STATUS_PENDING)->count(),
+            'approved_today' => Bootcamp::where('status', Bootcamp::STATUS_APPROVED)
+                ->whereDate('reviewed_at', today())->count(),
+            'rejected_today' => Bootcamp::where('status', Bootcamp::STATUS_REJECTED)
+                ->whereDate('reviewed_at', today())->count(),
+            'total' => Bootcamp::whereNotNull('mentor_id')->count(),
+        ];
+
+        return view('admin.content.pending_bootcamps', compact('bootcamps', 'stats'));
+    }
+
+    /**
+     * Approve a bootcamp
+     */
+    public function approveBootcamp(Bootcamp $bootcamp): RedirectResponse
+    {
+        $bootcamp->approve(auth()->id());
+
+        return back()->with('success', 'Bootcamp approved successfully.');
+    }
+
+    /**
+     * Reject a bootcamp
+     */
+    public function rejectBootcamp(Request $request, Bootcamp $bootcamp): RedirectResponse
+    {
+        $request->validate([
+            'reason' => 'required|string|max:1000',
+        ]);
+
+        $bootcamp->reject(auth()->id(), $request->reason);
+
+        return back()->with('success', 'Bootcamp rejected.');
+    }
+
+    /**
+     * Pending events for review
+     */
+    public function pendingEvents(): View
+    {
+        $events = Event::where('is_mentor_created', true)
+            ->latest()
+            ->paginate(15);
+
+        $stats = [
+            'pending' => Event::where('moderation_status', Event::MODERATION_PENDING)->count(),
+            'approved_today' => Event::where('moderation_status', Event::MODERATION_APPROVED)
+                ->whereDate('moderation_reviewed_at', today())->count(),
+            'rejected_today' => Event::where('moderation_status', Event::MODERATION_REJECTED)
+                ->whereDate('moderation_reviewed_at', today())->count(),
+            'total' => Event::where('is_mentor_created', true)->count(),
+        ];
+
+        return view('admin.content.pending_events', compact('events', 'stats'));
+    }
+
+    /**
+     * Approve an event
+     */
+    public function approveEvent(Event $event): RedirectResponse
+    {
+        $event->approve(auth()->id());
+
+        return back()->with('success', 'Event approved successfully.');
+    }
+
+    /**
+     * Reject an event
+     */
+    public function rejectEvent(Request $request, Event $event): RedirectResponse
+    {
+        $request->validate([
+            'reason' => 'required|string|max:1000',
+        ]);
+
+        $event->reject(auth()->id(), $request->reason);
+
+        return back()->with('success', 'Event rejected.');
     }
 }

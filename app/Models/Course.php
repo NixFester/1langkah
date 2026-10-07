@@ -30,6 +30,10 @@ class Course extends Model
         'benefits',
         'curriculum',
         'resources',
+        'status',
+        'admin_notes',
+        'reviewed_by',
+        'reviewed_at',
     ];
 
     protected $casts = [
@@ -40,6 +44,7 @@ class Course extends Model
         'benefits' => 'array',
         'curriculum' => 'array',
         'resources' => 'array',
+        'reviewed_at' => 'datetime',
     ];
 
     protected $appends = [
@@ -224,5 +229,121 @@ class Course extends Model
         }
 
         return (string) $this->price;
+    }
+
+    // ── Moderation Status ─────────────────────────────────────────────────────
+
+    public const STATUS_PENDING = 'pending';
+
+    public const STATUS_APPROVED = 'approved';
+
+    public const STATUS_REJECTED = 'rejected';
+
+    /**
+     * Get the user who reviewed this course
+     */
+    public function reviewer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'reviewed_by');
+    }
+
+    /**
+     * Scope: Only pending courses
+     */
+    public function scopePending($query)
+    {
+        return $query->where('status', self::STATUS_PENDING);
+    }
+
+    /**
+     * Scope: Only approved courses
+     */
+    public function scopeApproved($query)
+    {
+        return $query->where('status', self::STATUS_APPROVED);
+    }
+
+    /**
+     * Scope: Only rejected courses
+     */
+    public function scopeRejected($query)
+    {
+        return $query->where('status', self::STATUS_REJECTED);
+    }
+
+    /**
+     * Scope: Visible courses (approved only for public display)
+     */
+    public function scopeVisible($query)
+    {
+        return $query->where('status', self::STATUS_APPROVED);
+    }
+
+    /**
+     * Check if course is pending
+     */
+    public function isPending(): bool
+    {
+        return $this->status === self::STATUS_PENDING;
+    }
+
+    /**
+     * Check if course is approved
+     */
+    public function isApproved(): bool
+    {
+        return $this->status === self::STATUS_APPROVED;
+    }
+
+    /**
+     * Check if course is rejected
+     */
+    public function isRejected(): bool
+    {
+        return $this->status === self::STATUS_REJECTED;
+    }
+
+    /**
+     * Check if course is visible (approved)
+     */
+    public function isVisible(): bool
+    {
+        return $this->isApproved();
+    }
+
+    /**
+     * Approve this course
+     */
+    public function approve(?int $reviewerId = null, ?string $notes = null): bool
+    {
+        return $this->update([
+            'status' => self::STATUS_APPROVED,
+            'reviewed_by' => $reviewerId,
+            'reviewed_at' => now(),
+            'admin_notes' => $notes,
+        ]);
+    }
+
+    /**
+     * Reject this course
+     */
+    public function reject(?int $reviewerId = null, ?string $reason = null): bool
+    {
+        return $this->update([
+            'status' => self::STATUS_REJECTED,
+            'reviewed_by' => $reviewerId,
+            'reviewed_at' => now(),
+            'admin_notes' => $reason,
+        ]);
+    }
+
+    /**
+     * Submit for review (set to pending)
+     */
+    public function submitForReview(): bool
+    {
+        return $this->update([
+            'status' => self::STATUS_PENDING,
+        ]);
     }
 }

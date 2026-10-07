@@ -100,14 +100,15 @@ class MentorEventController extends Controller
             'max_participants' => $validated['max_participants'] ?? null,
             'banner_url' => $validated['banner_url'] ?? null,
             'color' => $validated['color'] ?? '#3B82F6',
-            'status' => 'upcoming',
+            'status' => 'draft', // Start as draft until approved
+            'moderation_status' => Event::MODERATION_PENDING, // Set to pending for admin review
             'created_by' => $user->id,
             'mentor_id' => $mentorProfile->id,
             'is_mentor_created' => true,
         ]);
 
         return redirect()->route('mentor.events.edit', $event)
-            ->with('success', __('app.msg_success_event_berhasil_dibuat'));
+            ->with('success', __('app.msg_success_event_berhasil_dibuat_pending'));
     }
 
     /**

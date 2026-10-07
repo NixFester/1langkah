@@ -217,6 +217,19 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/quizzes/{quiz}/questions/{question}/answers', [App\Http\Controllers\Admin\QuizController::class, 'addAnswer'])->name('quizzes.answers.add');
     Route::put('/quizzes/{quiz}/questions/{question}/answers/{answer}', [App\Http\Controllers\Admin\QuizController::class, 'updateAnswer'])->name('quizzes.answers.update');
     Route::delete('/quizzes/{quiz}/questions/{question}/answers/{answer}', [App\Http\Controllers\Admin\QuizController::class, 'deleteAnswer'])->name('quizzes.answers.delete');
+
+    // Content Moderation
+    Route::get('/content/courses/pending', [AdminController::class, 'pendingCourses'])->name('content.courses.pending');
+    Route::post('/content/courses/{course}/approve', [AdminController::class, 'approveCourse'])->name('content.courses.approve');
+    Route::post('/content/courses/{course}/reject', [AdminController::class, 'rejectCourse'])->name('content.courses.reject');
+
+    Route::get('/content/bootcamps/pending', [AdminController::class, 'pendingBootcamps'])->name('content.bootcamps.pending');
+    Route::post('/content/bootcamps/{bootcamp}/approve', [AdminController::class, 'approveBootcamp'])->name('content.bootcamps.approve');
+    Route::post('/content/bootcamps/{bootcamp}/reject', [AdminController::class, 'rejectBootcamp'])->name('content.bootcamps.reject');
+
+    Route::get('/content/events/pending', [AdminController::class, 'pendingEvents'])->name('content.events.pending');
+    Route::post('/content/events/{event}/approve', [AdminController::class, 'approveEvent'])->name('content.events.approve');
+    Route::post('/content/events/{event}/reject', [AdminController::class, 'rejectEvent'])->name('content.events.reject');
 });
 
 // ── Superadmin-only ──────────────────────────────────────────────────────────

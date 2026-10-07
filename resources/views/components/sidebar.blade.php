@@ -173,8 +173,11 @@
         $navItems = [
             ['id' => 'admin.dashboard', 'icon' => 'grid', 'label' => __('app.dashboard'), 'route' => 'admin.dashboard'],
             ['id' => 'admin.users', 'icon' => 'users', 'label' => __('app.manage_users'), 'route' => 'admin.users'],
+            ['id' => 'admin.content.courses.pending', 'icon' => 'clock', 'label' => __('app.pending_courses'), 'route' => 'admin.content.courses.pending'],
             ['id' => 'admin.courses', 'icon' => 'book', 'label' => __('app.manage_courses'), 'route' => 'admin.courses'],
+            ['id' => 'admin.content.bootcamps.pending', 'icon' => 'clock', 'label' => __('app.pending_bootcamps'), 'route' => 'admin.content.bootcamps.pending'],
             ['id' => 'admin.bootcamps', 'icon' => 'award', 'label' => __('app.manage_bootcamps'), 'route' => 'admin.bootcamps'],
+            ['id' => 'admin.content.events.pending', 'icon' => 'clock', 'label' => __('app.pending_events'), 'route' => 'admin.content.events.pending'],
             ['id' => 'admin.events', 'icon' => 'calendar', 'label' => __('app.manage_events'), 'route' => 'admin.events'],
             ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'admin.quizzes'],
             ['id' => 'admin.options', 'icon' => 'settings', 'label' => __('app.settings'), 'route' => 'admin.options'],

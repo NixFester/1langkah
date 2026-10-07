@@ -80,6 +80,7 @@ class CatalogService
             'curriculum' => $curriculum,
         ];
     }
+
     private function getDummyImage(int $id, string $type): string
     {
         $images = [
@@ -91,7 +92,7 @@ class CatalogService
             'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=600&auto=format&fit=crop&fm=webp',
             'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600&auto=format&fit=crop&fm=webp',
         ];
-        
+
         return $images[$id % count($images)];
     }
 
@@ -116,8 +117,8 @@ class CatalogService
             'formatted_price' => $b->formatted_price ?? '',
             'color' => $b->color,
             'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url ?? $this->getDummyImage($b->id, 'online'),
-            'gallery' => count($gallery = $pictures->where('type', 'gallery')->sortBy('order')->pluck('url')->values()->toArray()) > 0 
-                ? $gallery 
+            'gallery' => count($gallery = $pictures->where('type', 'gallery')->sortBy('order')->pluck('url')->values()->toArray()) > 0
+                ? $gallery
                 : [$this->getDummyImage($b->id * 2, 'gallery'), $this->getDummyImage($b->id * 2 + 1, 'gallery')],
             'enrolledCount' => $enrolledCount,
             'availableSlots' => $availableSlots,
@@ -163,8 +164,8 @@ class CatalogService
             'benefits' => $benefits,
             'jadwal_kelas' => $jadwalKelas,
             'thumbnail' => $pictures->where('type', 'thumbnail')->first()?->url ?? $this->getDummyImage($b->id, 'offline'),
-            'gallery' => count($gallery = $pictures->where('type', 'gallery')->sortBy('order')->pluck('url')->values()->toArray()) > 0 
-                ? $gallery 
+            'gallery' => count($gallery = $pictures->where('type', 'gallery')->sortBy('order')->pluck('url')->values()->toArray()) > 0
+                ? $gallery
                 : [$this->getDummyImage($b->id * 2, 'gallery'), $this->getDummyImage($b->id * 2 + 1, 'gallery')],
             'enrolledCount' => $enrolledCount,
             'availableSlots' => $availableSlots,
@@ -248,7 +249,7 @@ class CatalogService
 
     public function courses(): array
     {
-        return Course::with('pictures')->get()
+        return Course::with('pictures')->visible()->get()
             ->map(fn ($c) => $this->mapCourse($c))->values()->toArray();
     }
 
@@ -280,9 +281,9 @@ class CatalogService
     public function bootcamps(): array
     {
         return [
-            'online' => Bootcamp::with('pictures')->where('type', 'online')->get()
+            'online' => Bootcamp::with('pictures')->visible()->where('type', 'online')->get()
                 ->map(fn ($b) => $this->mapOnlineBootcamp($b))->values()->toArray(),
-            'offline' => Bootcamp::with('pictures')->where('type', 'offline')->get()
+            'offline' => Bootcamp::with('pictures')->visible()->where('type', 'offline')->get()
                 ->map(fn ($b) => $this->mapOfflineBootcamp($b))->values()->toArray(),
         ];
     }
@@ -704,12 +705,14 @@ class CatalogService
         $startOfMonth = Carbon::createFromDate($year, $month, 1)->startOfMonth();
         $endOfMonth = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
-        $events = Event::where('start_date', '>=', $startOfMonth)
+        $events = Event::visible()
+            ->where('start_date', '>=', $startOfMonth)
             ->where('start_date', '<=', $endOfMonth)
             ->orderBy('start_date')
             ->get();
 
-        $bootcamps = Bootcamp::where('start_date', '>=', $startOfMonth->toDateTimeString())
+        $bootcamps = Bootcamp::visible()
+            ->where('start_date', '>=', $startOfMonth->toDateTimeString())
             ->where('start_date', '<=', $endOfMonth->toDateTimeString())
             ->orderBy('start_date')
             ->get();
@@ -756,7 +759,7 @@ class CatalogService
 
     public function events(): array
     {
-        return Event::with('registeredUsers')
+        return Event::with('registeredUsers')->visible()
             ->orderBy('start_date', 'desc')
             ->get()
             ->map(fn ($e) => $this->mapEvent($e))

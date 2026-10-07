@@ -91,10 +91,13 @@ class MentorCourseController extends Controller
         $data['mentor_name'] = $user->name;
         $data['mentor_id'] = $mentorProfile?->id;
 
+        // Set status to pending for admin review
+        $data['status'] = Course::STATUS_PENDING;
+
         $course = Course::create($data);
 
         return redirect()->route('mentor.courses.edit', $course)
-            ->with('success', __('app.msg_success_kursus_berhasil_dibuat'));
+            ->with('success', __('app.msg_success_kursus_berhasil_dibuat_pending'));
     }
 
     /**

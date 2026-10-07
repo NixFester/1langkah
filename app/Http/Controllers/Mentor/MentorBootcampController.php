@@ -96,6 +96,9 @@ class MentorBootcampController extends Controller
         $data['mentor_name'] = $user->name;
         $data['mentor_id'] = $mentorProfile?->id;
 
+        // Set status to pending for admin review
+        $data['status'] = Bootcamp::STATUS_PENDING;
+
         $bootcamp = Bootcamp::create($data);
 
         // Create sessions if provided
@@ -115,7 +118,7 @@ class MentorBootcampController extends Controller
         }
 
         return redirect()->route('mentor.bootcamps.edit', $bootcamp)
-            ->with('success', __('app.msg_success_bootcamp_berhasil_dibuat'));
+            ->with('success', __('app.msg_success_bootcamp_berhasil_dibuat_pending'));
     }
 
     /**
