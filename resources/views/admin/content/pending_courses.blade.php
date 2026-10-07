@@ -11,7 +11,7 @@
             <h1 class="text-2xl font-bold text-gray-900">Pending Courses</h1>
             <p class="text-sm text-gray-500 mt-1">Review and approve courses submitted by mentors</p>
         </div>
-        <a href="{{ route('admin.courses.index') }}" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+        <a href="{{ route('admin.courses') }}" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
             <x-icon name="arrow-left" class="w-4 h-4" />
             Back to All Courses
         </a>
