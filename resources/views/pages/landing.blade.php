@@ -163,6 +163,32 @@
     
     <!-- Partners Section -->
     <div class="w-full bg-black/20 border-t border-white/5 py-8 mt-auto relative z-20 overflow-hidden">
+        <svg aria-hidden="true" class="absolute w-0 h-0 overflow-hidden" focusable="false">
+            <defs>
+                <filter id="partner-dark-bg" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="matrix" values="
+                        -1  0  0  0  1
+                         0 -1  0  0  1
+                         0  0 -1  0  1
+                         0  0  0  1  0" result="inv" />
+                    <feComponentTransfer in="SourceGraphic" result="isBlack">
+                        <feFuncR type="discrete" tableValues="1 0 0 0 0" />
+                        <feFuncG type="discrete" tableValues="1 0 0 0 0" />
+                        <feFuncB type="discrete" tableValues="1 0 0 0 0" />
+                    </feComponentTransfer>
+                    <feColorMatrix in="isBlack" type="matrix" values="
+                        0 0 0 0 0
+                        0 0 0 0 0
+                        0 0 0 0 0
+                        0.333 0.333 0.334 0 0" result="blackAlpha" />
+                    <feComposite in="inv" in2="blackAlpha" operator="in" result="whiteText" />
+                    <feMerge>
+                        <feMergeNode in="SourceGraphic" />
+                        <feMergeNode in="whiteText" />
+                    </feMerge>
+                </filter>
+            </defs>
+        </svg>
         <style>
             @keyframes marquee {
                 0% { transform: translateX(0); }
@@ -171,38 +197,55 @@
             .animate-marquee {
                 display: flex;
                 width: max-content;
-                animation: marquee 15s linear infinite;
+                animation: marquee 25s linear infinite;
             }
-            @media (min-width: 1230px) {
-                .animate-marquee {
-                    width: 100%;
-                    animation: none;
-                    flex-wrap: nowrap;
-                    justify-content: space-between;
-                }
-                .duplicate-partners {
-                    display: none !important;
-                }
-                .marquee-gap {
-                    gap: 0 !important;
-                }
+            .animate-marquee:hover {
+                animation-play-state: paused;
+            }
+            .partner-logo {
+                filter: url(#partner-dark-bg) grayscale(100%);
+                opacity: 0.6;
+                transition: filter 0.3s ease, opacity 0.3s ease;
+            }
+            .partner-link:hover .partner-logo,
+            .partner-link:focus-visible .partner-logo,
+            .partner-link:active .partner-logo {
+                filter: url(#partner-dark-bg) grayscale(0%);
+                opacity: 1;
             }
         </style>
         <div class="max-w-[1400px] mx-auto px-6 md:px-12">
             <div class="flex overflow-hidden">
-                <div class="animate-marquee marquee-gap gap-10 md:gap-14 items-center w-full">
+                <div class="animate-marquee items-center">
                     @php
-                        $partners = ['BMP.svg', 'ICA.svg', 'INTENATIONAL CREATIVES EXCHANGE.svg', 'NCR.svg', 'negerikami.svg', 'pakindo.svg', 'tradeindonesia.svg', 'tuturbangsa.svg'];
+                        $partners = [
+                            ['name' => 'Bakti Merah Putih', 'logo' => 'BMP.svg', 'url' => 'https://baktimerahputih.id/'],
+                            ['name' => 'Indonesia Creative Awards', 'logo' => 'ICA.svg', 'url' => 'https://indonesiaawards.id/'],
+                            ['name' => 'International Creatives Exchange', 'logo' => 'INTENATIONAL CREATIVES EXCHANGE.png', 'url' => 'https://ice.or.id/'],
+                            ['name' => 'Nusantara Creator Rising', 'logo' => 'NCR.svg', 'url' => 'https://nusantaracreatorrising.id/'],
+                            ['name' => 'Negeri Kami', 'logo' => 'negerikami.svg', 'url' => 'https://negerikami.id/'],
+                            ['name' => 'Pakindo', 'logo' => 'pakindo.webp', 'url' => 'https://pakistanindonesia.com/'],
+                            ['name' => 'Trade Indonesia', 'logo' => 'tradeindonesia.svg', 'url' => 'https://tradeindonesia.co.id/'],
+                            ['name' => 'Tutur Bangsa', 'logo' => 'tuturbangsa.svg', 'url' => 'https://tuturbangsa.com/'],
+                        ];
                     @endphp
                     <!-- Original Set -->
-                    @foreach($partners as $partner)
-                        <img src="{{ asset('assets/partners/' . $partner) }}" alt="Partner" class="w-20 sm:w-24 md:w-28 lg:w-32 h-10 md:h-12 lg:h-16 object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-                    @endforeach
-                    
-                    <!-- Duplicate Set for Mobile & Tablet Seamless Scrolling -->
-                    @foreach($partners as $partner)
-                        <img src="{{ asset('assets/partners/' . $partner) }}" alt="Partner" class="duplicate-partners w-20 sm:w-24 md:w-28 h-10 md:h-12 object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-                    @endforeach
+                    <div class="flex items-center gap-10 md:gap-14 lg:gap-16 pr-10 md:pr-14 lg:pr-16 shrink-0">
+                        @foreach($partners as $partner)
+                            <a href="{{ $partner['url'] }}" target="_blank" rel="noopener noreferrer" class="partner-link inline-flex items-center justify-center shrink-0" title="{{ $partner['name'] }}">
+                                <img src="{{ asset('assets/partners/' . $partner['logo']) }}" alt="{{ $partner['name'] }}" class="partner-logo w-20 sm:w-24 md:w-28 lg:w-32 h-10 md:h-12 lg:h-16 object-contain shrink-0">
+                            </a>
+                        @endforeach
+                    </div>
+
+                    <!-- Duplicate Set for Seamless Horizontal Scrolling -->
+                    <div class="flex items-center gap-10 md:gap-14 lg:gap-16 pr-10 md:pr-14 lg:pr-16 shrink-0" aria-hidden="true">
+                        @foreach($partners as $partner)
+                            <a href="{{ $partner['url'] }}" target="_blank" rel="noopener noreferrer" tabindex="-1" class="partner-link inline-flex items-center justify-center shrink-0" title="{{ $partner['name'] }}">
+                                <img src="{{ asset('assets/partners/' . $partner['logo']) }}" alt="" class="partner-logo w-20 sm:w-24 md:w-28 lg:w-32 h-10 md:h-12 lg:h-16 object-contain shrink-0">
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
