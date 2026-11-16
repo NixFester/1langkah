@@ -18,6 +18,15 @@ class UserSetting extends Model
         'timezone',
     ];
 
+    protected $attributes = [
+        'notification_preferences' => '{"email_course_updates":true,"email_bootcamp_reminders":true,"email_event_announcements":true,"email_forum_replies":true,"email_achievements":true,"email_weekly_progress":false,"push_course_updates":true,"push_bootcamp_reminders":true,"push_forum_replies":true}',
+        'show_profile_publicly' => true,
+        'show_progress_publicly' => true,
+        'allow_mentor_contact' => true,
+        'preferred_language' => 'id',
+        'timezone' => 'Asia/Jakarta',
+    ];
+
     protected function casts(): array
     {
         return [

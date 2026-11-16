@@ -253,6 +253,18 @@ class CatalogService
             ->map(fn ($c) => $this->mapCourse($c))->values()->toArray();
     }
 
+    public function recentCourses(int $limit = 3): array
+    {
+        return Course::with('pictures')
+            ->visible()
+            ->latest()
+            ->take($limit)
+            ->get()
+            ->map(fn ($c) => $this->mapCourse($c))
+            ->values()
+            ->toArray();
+    }
+
     public function course(int $id): ?array
     {
         $c = Course::with('pictures')->find($id);
@@ -345,6 +357,19 @@ class CatalogService
             ->map(function ($mentor) {
                 return $this->mapMentorData($mentor);
             })
+            ->values()
+            ->toArray();
+    }
+
+    public function recentMentors(int $limit = 4): array
+    {
+        return Mentor::whereNotNull('user_id')
+            ->whereHas('user', fn ($q) => $q->where('role', 'mentor'))
+            ->with(['user', 'schedules', 'courses.ratings', 'bootcamps.ratings'])
+            ->latest()
+            ->take($limit)
+            ->get()
+            ->map(fn ($mentor) => $this->mapMentorData($mentor))
             ->values()
             ->toArray();
     }

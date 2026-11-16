@@ -41,8 +41,8 @@ class PageController extends Controller
     public function landing(): View
     {
         return view('pages.landing', [
-            'courses' => $this->catalog->courses(),
-            'mentors' => array_slice($this->catalog->mentors(), 0, 4),
+            'courses' => $this->catalog->recentCourses(3),
+            'mentors' => $this->catalog->recentMentors(4),
             'testimonials' => $this->catalog->testimonials(),
             'bootcamp' => $this->catalog->onlineBootcamp(101),
         ]);

@@ -16,18 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('avatar')->nullable();
 
-            // Notification preferences (JSON for flexibility)
-            $table->json('notification_preferences')->default(json_encode([
-                'email_course_updates' => true,
-                'email_bootcamp_reminders' => true,
-                'email_event_announcements' => true,
-                'email_forum_replies' => true,
-                'email_achievements' => true,
-                'email_weekly_progress' => false,
-                'push_course_updates' => true,
-                'push_bootcamp_reminders' => true,
-                'push_forum_replies' => true,
-            ]));
+            // Notification preferences (JSON for flexibility; defaults handled in UserSetting model as MySQL disallows literal defaults on JSON columns)
+            $table->json('notification_preferences')->nullable();
 
             // Privacy settings
             $table->boolean('show_profile_publicly')->default(true);

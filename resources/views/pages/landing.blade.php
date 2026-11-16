@@ -398,143 +398,74 @@
 
         <!-- Course Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            
-            <!-- Card 1 -->
-            <div class="bg-white rounded-[20px] border border-gray-200/60 overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group flex flex-col cursor-pointer">
-                <!-- Image Wrapper -->
-                <div class="relative h-[140px] md:h-[210px] w-full overflow-hidden bg-gray-100">
-                    <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600&auto=format&fit=crop&fm=webp" alt="Coding" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    <!-- Top Left Badges -->
-                    <div class="absolute top-4 left-4 flex gap-2">
-                        <span class="px-3 py-1 bg-white text-orange-700 text-[11px] font-bold rounded-full shadow-sm"> {{ __('app.course_bestseller') }} </span>
-                        <span class="px-3 py-1 bg-white text-slate-600 text-[11px] font-bold rounded-full shadow-sm"> {{ __('app.course_intermediate') }} </span>
-                    </div>
-                    <!-- Bookmark -->
-                    <button aria-label="{{ __('app.save') }}" class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-sm hover:text-orange-800 transition-colors">
-                        <img loading="lazy" decoding="async" src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="" aria-hidden="true">
-                    </button>
-                    <!-- Progress Bar (inside image bottom) -->
-                    <div class="absolute bottom-0 left-0 h-2 bg-emerald-500 z-10" style="width: 68%;"></div>
-                </div>
-                <!-- Card Body -->
-                <div class="p-3.5 md:p-6 flex flex-col flex-1">
-                    <span class="inline-flex items-center px-2 md:px-2.5 py-0.5 md:py-1 rounded-md text-[10px] md:text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-3 md:mb-4"> {{ __('app.course_programming') }} </span>
-                    <h2 class="text-[14.5px] md:text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">Full-Stack Web Development Bootcamp</a></h2>
-                    <p class="text-[11.5px] md:text-[13px] text-slate-600 mb-3 md:mb-4">Rudi Yesaya · Google</p>
-                    
-                    <div class="flex items-center gap-2 mb-4 md:mb-6 mt-auto">
-                        <div class="flex text-amber-400">
-                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            @forelse($courses as $course)
+                @php
+                    $rating = (float) ($course['rating'] ?? 0);
+                    $enrolledCount = (int) ($course['enrolled_count'] ?? $course['students'] ?? 0);
+                    $isFree = in_array($course['formatted_price'] ?? '', ['Gratis', 'Free', __('app.free')], true);
+                @endphp
+                <div class="relative bg-white rounded-[20px] border border-gray-200/60 overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group flex flex-col cursor-pointer">
+                    <!-- Image Wrapper -->
+                    <div class="relative h-[140px] md:h-[210px] w-full overflow-hidden bg-gray-100">
+                        @if(!empty($course['thumbnail']))
+                            <img loading="lazy" decoding="async" src="{{ $course['thumbnail'] }}" alt="{{ $course['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        @else
+                            <div class="w-full h-full" style="background: linear-gradient(135deg, {{ $course['color'] ?? '#dc2626' }}, {{ $course['color'] ?? '#dc2626' }}dd);"></div>
+                        @endif
+                        <!-- Top Left Badges -->
+                        <div class="absolute top-4 left-4 flex gap-2">
+                            @if(!empty($course['badge']))
+                                <span class="px-3 py-1 bg-white text-orange-700 text-[11px] font-bold rounded-full shadow-sm">{{ $course['badge'] }}</span>
+                            @endif
+                            <span class="px-3 py-1 bg-white text-slate-600 text-[11px] font-bold rounded-full shadow-sm">{{ $course['level'] ?? 'Beginner' }}</span>
                         </div>
-                        <span class="text-[13px] font-bold text-slate-700">4.9</span>
-                        <span class="text-[13px] text-slate-500">(12,840)</span>
+                        <!-- Bookmark -->
+                        <button type="button" aria-label="{{ __('app.save') }}" class="absolute top-4 right-4 z-10 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-sm hover:text-orange-800 transition-colors">
+                            <img loading="lazy" decoding="async" src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="" aria-hidden="true">
+                        </button>
                     </div>
-                    
-                    <!-- Footer -->
-                    <div class="pt-4 md:pt-5 border-t border-gray-100 flex items-center justify-between">
-                        <div class="flex items-center gap-1.5 text-slate-600 text-[13px] font-medium">
-                            <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            48h
-                        </div>
-                        <div class="text-[13px] font-bold text-emerald-700">{{ __('app.progress_done', ['percent' => 68]) }}</div>
-                    </div>
-                </div>
-            </div>
+                    <!-- Card Body -->
+                    <div class="p-3.5 md:p-6 flex flex-col flex-1">
+                        @if(!empty($course['category']))
+                            <span class="inline-flex items-center px-2 md:px-2.5 py-0.5 md:py-1 rounded-md text-[10px] md:text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-3 md:mb-4">{{ $course['category'] }}</span>
+                        @endif
+                        <h2 class="text-[14.5px] md:text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2">
+                            <a href="{{ route('detail-kursus', $course['id']) }}" class="after:absolute after:inset-0">{{ $course['title'] }}</a>
+                        </h2>
+                        @if(!empty($course['mentor']))
+                            <p class="text-[11.5px] md:text-[13px] text-slate-600 mb-3 md:mb-4">{{ $course['mentor'] }}@if(!empty($course['mentorCompany'])) · {{ $course['mentorCompany'] }}@endif</p>
+                        @endif
 
-            <!-- Card 2 -->
-            <div class="bg-white rounded-[20px] border border-gray-200/60 overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group flex flex-col cursor-pointer">
-                <!-- Image Wrapper -->
-                <div class="relative h-[140px] md:h-[210px] w-full overflow-hidden bg-gray-100">
-                    <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=600&auto=format&fit=crop&fm=webp" alt="Design" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    <!-- Top Left Badges -->
-                    <div class="absolute top-4 left-4 flex gap-2">
-                        <span class="px-3 py-1 bg-white text-red-700 text-[11px] font-bold rounded-full shadow-sm"> {{ __('app.course_new') }} </span>
-                        <span class="px-3 py-1 bg-white text-slate-600 text-[11px] font-bold rounded-full shadow-sm"> {{ __('app.course_beginner') }} </span>
-                    </div>
-                    <!-- Bookmark -->
-                    <button aria-label="{{ __('app.save') }}" class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-sm hover:text-orange-800 transition-colors">
-                        <img loading="lazy" decoding="async" src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="" aria-hidden="true">
-                    </button>
-                </div>
-                <!-- Card Body -->
-                <div class="p-3.5 md:p-6 flex flex-col flex-1">
-                    <span class="inline-flex items-center px-2 md:px-2.5 py-0.5 md:py-1 rounded-md text-[10px] md:text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-3 md:mb-4"> {{ __('app.course_design') }} </span>
-                    <h2 class="text-[14.5px] md:text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">UI/UX Design Mastery</a></h2>
-                    <p class="text-[11.5px] md:text-[13px] text-slate-600 mb-3 md:mb-4">Sari Dewi · Tokopedia</p>
-                    
-                    <div class="flex items-center gap-2 mb-4 md:mb-6 mt-auto">
-                        <div class="flex text-amber-400">
-                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg aria-hidden="true" class="w-4 h-4 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <div class="flex items-center gap-2 mb-4 md:mb-6 mt-auto">
+                            <div class="flex text-amber-400">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <svg aria-hidden="true" class="w-4 h-4 {{ $i <= floor($rating) ? 'text-amber-400' : 'text-amber-200' }}" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                @endfor
+                            </div>
+                            <span class="text-[13px] font-bold text-slate-700">{{ number_format($rating, 1) }}</span>
+                            <span class="text-[13px] text-slate-500">({{ number_format($enrolledCount) }})</span>
                         </div>
-                        <span class="text-[13px] font-bold text-slate-700">4.8</span>
-                        <span class="text-[13px] text-slate-500">(9,210)</span>
-                    </div>
-                    
-                    <!-- Footer -->
-                    <div class="pt-4 md:pt-5 border-t border-gray-100 flex items-center justify-between">
-                        <div class="flex items-center gap-1.5 text-slate-600 text-[13px] font-medium">
-                            <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            32h
-                        </div>
-                        <div class="text-[17px] font-bold text-slate-900">Rp 499.000</div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Card 3 -->
-            <div class="bg-white rounded-[20px] border border-gray-200/60 overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all group flex flex-col cursor-pointer">
-                <!-- Image Wrapper -->
-                <div class="relative h-[140px] md:h-[210px] w-full overflow-hidden bg-gray-100">
-                    <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=600&auto=format&fit=crop&fm=webp" alt="AI Network" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    <!-- Top Left Badges -->
-                    <div class="absolute top-4 left-4 flex gap-2">
-                        <span class="px-3 py-1 bg-white text-red-700 text-[11px] font-bold rounded-full shadow-sm"> {{ __('app.course_hot') }} </span>
-                        <span class="px-3 py-1 bg-white text-slate-600 text-[11px] font-bold rounded-full shadow-sm"> {{ __('app.course_advanced') }} </span>
-                    </div>
-                    <!-- Bookmark -->
-                    <button aria-label="{{ __('app.save') }}" class="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-sm hover:text-orange-800 transition-colors">
-                        <img loading="lazy" decoding="async" src="{{ asset('assets/icons/bookmark.svg') }}" class="w-4 h-4" alt="" aria-hidden="true">
-                    </button>
-                    <!-- Progress Bar (inside image bottom) -->
-                    <div class="absolute bottom-0 left-0 h-2 bg-emerald-500 z-10" style="width: 23%;"></div>
-                </div>
-                <!-- Card Body -->
-                <div class="p-3.5 md:p-6 flex flex-col flex-1">
-                    <span class="inline-flex items-center px-2 md:px-2.5 py-0.5 md:py-1 rounded-md text-[10px] md:text-[11px] font-bold text-red-700 bg-red-50 w-fit mb-3 md:mb-4"> {{ __('app.course_ai') }} </span>
-                    <h2 class="text-[14.5px] md:text-[19px] font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#D10000] transition-colors line-clamp-2"><a href="{{ route('kursus') }}">AI & Machine Learning Fundamentals</a></h2>
-                    <p class="text-[11.5px] md:text-[13px] text-slate-600 mb-3 md:mb-4">Andi Wijaya · Gojek</p>
-                    
-                    <div class="flex items-center gap-2 mb-4 md:mb-6 mt-auto">
-                        <div class="flex text-amber-400">
-                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <!-- Footer -->
+                        <div class="pt-4 md:pt-5 border-t border-gray-100 flex items-center justify-between">
+                            <div class="flex items-center gap-1.5 text-slate-600 text-[13px] font-medium">
+                                <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                <span>{{ number_format($enrolledCount) }} {{ __('app.enrolled') }}</span>
+                            </div>
+                            <div class="text-[17px] font-bold {{ $isFree ? 'text-emerald-600' : 'text-slate-900' }}">{{ $course['formatted_price'] ?: __('app.free') }}</div>
                         </div>
-                        <span class="text-[13px] font-bold text-slate-700">4.9</span>
-                        <span class="text-[13px] text-slate-500">(15,300)</span>
-                    </div>
-                    
-                    <!-- Footer -->
-                    <div class="pt-4 md:pt-5 border-t border-gray-100 flex items-center justify-between">
-                        <div class="flex items-center gap-1.5 text-slate-600 text-[13px] font-medium">
-                            <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            60h
-                        </div>
-                        <div class="text-[13px] font-bold text-emerald-700">{{ __('app.progress_done', ['percent' => 23]) }}</div>
                     </div>
                 </div>
-            </div>
-
+            @empty
+                <div class="col-span-full bg-white rounded-[20px] border border-gray-200/60 p-10 text-center shadow-sm">
+                    <svg aria-hidden="true" class="w-12 h-12 mx-auto text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <p class="text-[16px] font-bold text-slate-900 mb-1">{{ __('app.course_not_found') }}</p>
+                    <a href="{{ route('kursus') }}" class="inline-flex items-center gap-1.5 text-sm font-bold text-[#D10000] hover:text-[#b30000] mt-2">
+                        {{ __('app.explore_courses') }}
+                        <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    </a>
+                </div>
+            @endforelse
         </div>
     </div>
 </section>
@@ -650,122 +581,68 @@
 
         <!-- 4 Mentor Cards Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            <!-- Card 1 -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow relative flex flex-col cursor-pointer group">
-                <!-- Status Dot -->
-                <div class="absolute top-6 right-6 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-50"></div>
-                
-                <!-- Avatar -->
-                <img loading="lazy" decoding="async" width="60" height="60" src="https://i.pravatar.cc/150?u=rudi" alt="Rudi Yesaya, Google Senior Dev" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
-                
-                <!-- Info -->
-                <h2 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Rudi Yesaya</h2>
-                <p class="text-[13px] text-slate-600 mb-1">Senior Software Engineer</p>
-                <p class="text-[13px] font-bold text-[#D10000] mb-5">Google</p>
-                
-                <!-- Rating -->
-                <div class="flex items-center gap-2 mb-6 mt-auto">
-                    <div class="flex text-amber-400">
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    </div>
-                    <span class="text-[13px] font-bold text-slate-800">4.9</span>
-                </div>
-                
-                <!-- Footer -->
-                <div class="flex items-center justify-between">
-                    <span class="text-[13px] font-medium text-slate-500">{{ __('app.price_per_session', ['price' => 'Rp 150.000']) }}</span>
-                    <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
-                        {{ __('app.book_mentor') }}
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Card 2 -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow relative flex flex-col cursor-pointer group">
-                <div class="absolute top-6 right-6 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-50"></div>
-                <img loading="lazy" decoding="async" width="60" height="60" src="https://i.pravatar.cc/150?u=sari" alt="Sari Dewi, Lead Product Designer" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
-                <h2 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Sari Dewi</h2>
-                <p class="text-[13px] text-slate-600 mb-1">Lead Product Designer</p>
-                <p class="text-[13px] font-bold text-[#D10000] mb-5">Tokopedia</p>
-                
-                <div class="flex items-center gap-2 mb-6 mt-auto">
-                    <div class="flex text-amber-400">
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    </div>
-                    <span class="text-[13px] font-bold text-slate-800">4.8</span>
-                </div>
-                
-                <div class="flex items-center justify-between">
-                    <span class="text-[13px] font-medium text-slate-500">{{ __('app.price_per_session', ['price' => 'Rp 120.000']) }}</span>
-                    <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
-                        {{ __('app.book_mentor') }}
-                    </button>
-                </div>
-            </div>
+            @forelse($mentors as $m)
+                @php
+                    $isAvailable = $m['is_today_available'] ?? true;
+                    $mentorRating = (float) ($m['rating'] ?? 0);
+                    $mentorRoundedRating = round($mentorRating);
+                    $mentorInitials = !empty($m['initials']) ? $m['initials'] : strtoupper(substr($m['name'], 0, 2));
+                    $mentorUrl = route('profil-mentor', ['id' => $m['id']]);
+                @endphp
+                <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow relative flex flex-col cursor-pointer group">
+                    <!-- Status Dot -->
+                    <div class="absolute top-6 right-6 w-2.5 h-2.5 rounded-full {{ $isAvailable ? 'bg-emerald-500 ring-4 ring-emerald-50' : 'bg-slate-300 ring-4 ring-slate-100' }}"></div>
 
-            <!-- Card 3 -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow relative flex flex-col cursor-pointer group">
-                <div class="absolute top-6 right-6 w-2.5 h-2.5 rounded-full bg-slate-300 ring-4 ring-slate-100"></div>
-                <img loading="lazy" decoding="async" width="60" height="60" src="https://i.pravatar.cc/150?u=andi" alt="Andi Wijaya, ML Engineer" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
-                <h2 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Andi Wijaya</h2>
-                <p class="text-[13px] text-slate-600 mb-1">ML Engineer</p>
-                <p class="text-[13px] font-bold text-[#D10000] mb-5">Gojek</p>
-                
-                <div class="flex items-center gap-2 mb-6 mt-auto">
-                    <div class="flex text-amber-400">
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    </div>
-                    <span class="text-[13px] font-bold text-slate-800">4.9</span>
-                </div>
-                
-                <div class="flex items-center justify-between">
-                    <span class="text-[13px] font-medium text-slate-500">{{ __('app.price_per_session', ['price' => 'Rp 200.000']) }}</span>
-                    <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
-                        {{ __('app.book_mentor') }}
-                    </button>
-                </div>
-            </div>
+                    <!-- Avatar -->
+                    @if(!empty($m['profile_photo']))
+                        <img loading="lazy" decoding="async" width="60" height="60" src="{{ str_starts_with($m['profile_photo'], 'http') || str_starts_with($m['profile_photo'], '/') ? $m['profile_photo'] : asset($m['profile_photo']) }}" alt="{{ $m['name'] }}" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
+                    @else
+                        <div class="w-[60px] h-[60px] rounded-[18px] flex items-center justify-center text-white font-extrabold text-lg mb-5 shadow-sm" style="background-color: {{ $m['color'] ?? '#D10000' }};">
+                            {{ $mentorInitials }}
+                        </div>
+                    @endif
 
-            <!-- Card 4 -->
-            <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow relative flex flex-col cursor-pointer group">
-                <div class="absolute top-6 right-6 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-50"></div>
-                <img loading="lazy" decoding="async" width="60" height="60" src="https://i.pravatar.cc/150?u=rina" alt="Rina Kusuma, Head of Marketing" class="w-[60px] h-[60px] rounded-[18px] object-cover mb-5 shadow-sm">
-                <h2 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">Rina Kusuma</h2>
-                <p class="text-[13px] text-slate-600 mb-1">Head of Marketing</p>
-                <p class="text-[13px] font-bold text-[#D10000] mb-5">Shopee</p>
-                
-                <div class="flex items-center gap-2 mb-6 mt-auto">
-                    <div class="flex text-amber-400">
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg aria-hidden="true" class="w-3.5 h-3.5 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    </div>
-                    <span class="text-[13px] font-bold text-slate-800">4.7</span>
-                </div>
-                
-                <div class="flex items-center justify-between">
-                    <span class="text-[13px] font-medium text-slate-500">{{ __('app.price_per_session', ['price' => 'Rp 100.000']) }}</span>
-                    <button class="px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm">
-                        {{ __('app.book_mentor') }}
-                    </button>
-                </div>
-            </div>
+                    <!-- Info -->
+                    <h2 class="text-lg font-bold text-slate-900 mb-0.5 group-hover:text-[#D10000] transition-colors">
+                        <a href="{{ $mentorUrl }}" class="after:absolute after:inset-0">{{ $m['name'] }}</a>
+                    </h2>
+                    @if(!empty($m['role']))
+                        <p class="text-[13px] text-slate-600 mb-1">{{ $m['role'] }}</p>
+                    @endif
+                    @if(!empty($m['company']))
+                        <p class="text-[13px] font-bold text-[#D10000] mb-5">{{ $m['company'] }}</p>
+                    @else
+                        <div class="mb-5"></div>
+                    @endif
 
+                    <!-- Rating -->
+                    <div class="flex items-center gap-2 mb-6 mt-auto">
+                        <div class="flex text-amber-400">
+                            @for($i = 1; $i <= 5; $i++)
+                                <svg aria-hidden="true" class="w-3.5 h-3.5 {{ $i <= $mentorRoundedRating ? 'text-amber-400' : 'text-amber-200' }}" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            @endfor
+                        </div>
+                        <span class="text-[13px] font-bold text-slate-800">{{ number_format($mentorRating, 1) }}</span>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="text-[13px] font-medium text-slate-500">{{ __('app.price_per_session', ['price' => $m['formatted_price'] ?? __('app.free')]) }}</span>
+                        <a href="{{ $mentorUrl }}" class="relative z-10 px-5 py-2 bg-[#cc0000] hover:bg-[#aa0000] text-white text-[13px] font-bold rounded-full transition-colors shadow-sm shrink-0">
+                            {{ __('app.book_mentor') }}
+                        </a>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-full bg-white rounded-3xl p-10 border border-gray-100 text-center shadow-sm">
+                    <p class="text-base font-bold text-slate-900 mb-1">{{ __('app.mentor_marketplace') }}</p>
+                    <p class="text-sm text-slate-500 mb-4">{{ __('app.mentor_marketplace_desc') }}</p>
+                    <a href="{{ route('mentor') }}" class="inline-flex items-center gap-1.5 text-sm font-bold text-[#D10000] hover:text-[#b30000]">
+                        {{ __('app.find_mentor') }}
+                        <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    </a>
+                </div>
+            @endforelse
         </div>
 
         <!-- CTA Button -->
