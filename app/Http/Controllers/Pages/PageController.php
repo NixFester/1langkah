@@ -44,7 +44,7 @@ class PageController extends Controller
             'courses' => $this->catalog->recentCourses(3),
             'mentors' => $this->catalog->recentMentors(4),
             'testimonials' => $this->catalog->testimonials(),
-            'bootcamp' => $this->catalog->onlineBootcamp(101),
+            'bootcamp' => $this->catalog->recentBootcamp(),
         ]);
     }
 

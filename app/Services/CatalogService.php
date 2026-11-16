@@ -314,6 +314,22 @@ class CatalogService
         return $b ? $this->mapOfflineBootcamp($b) : null;
     }
 
+    public function recentBootcamp(): ?array
+    {
+        $b = Bootcamp::with('pictures')->visible()->latest()->first();
+
+        if (! $b) {
+            return null;
+        }
+
+        $mapped = $b->type === 'offline'
+            ? $this->mapOfflineBootcamp($b)
+            : $this->mapOnlineBootcamp($b);
+        $mapped['type'] = $b->type;
+
+        return $mapped;
+    }
+
     /** Returns sessions for a specific bootcamp. */
     public function onlineSessions(int $bootcampId): array
     {
@@ -347,25 +363,53 @@ class CatalogService
         ];
     }
 
+    private function syncMentorProfiles(): void
+    {
+        $unlinkedMentors = User::where('role', 'mentor')
+            ->whereDoesntHave('mentor')
+            ->get();
+
+        foreach ($unlinkedMentors as $user) {
+            Mentor::create([
+                'user_id' => $user->id,
+                'name' => $user->name,
+                'role' => 'Mentor',
+                'company' => '',
+                'price' => '0',
+                'rating' => 0,
+                'sessions_count' => 0,
+                'initials' => strtoupper(substr($user->name, 0, 2)),
+                'color' => '#3b82f6',
+                'expertise' => [],
+                'bio' => $user->bio ?? '',
+                'linkedin_url' => '',
+                'phone' => '',
+            ]);
+        }
+    }
+
+    private function mentorQuery()
+    {
+        $this->syncMentorProfiles();
+
+        return Mentor::where(function ($query) {
+            $query->whereHas('user', fn ($q) => $q->where('role', 'mentor'))
+                ->orWhereNull('user_id');
+        })->with(['user', 'schedules', 'courses.ratings', 'bootcamps.ratings']);
+    }
+
     public function mentors(): array
     {
-        // Fetch mentors from Mentor model where user_id is not null (properly linked)
-        return Mentor::whereNotNull('user_id')
-            ->whereHas('user', fn ($q) => $q->where('role', 'mentor'))
-            ->with('user')
+        return $this->mentorQuery()
             ->get()
-            ->map(function ($mentor) {
-                return $this->mapMentorData($mentor);
-            })
+            ->map(fn ($mentor) => $this->mapMentorData($mentor))
             ->values()
             ->toArray();
     }
 
     public function recentMentors(int $limit = 4): array
     {
-        return Mentor::whereNotNull('user_id')
-            ->whereHas('user', fn ($q) => $q->where('role', 'mentor'))
-            ->with(['user', 'schedules', 'courses.ratings', 'bootcamps.ratings'])
+        return $this->mentorQuery()
             ->latest()
             ->take($limit)
             ->get()
@@ -376,10 +420,14 @@ class CatalogService
 
     public function mentor(int $id): ?array
     {
-        // Find mentor by user_id (not Mentor.id)
+        $this->syncMentorProfiles();
+
+        $relations = ['user', 'schedules', 'courses.ratings', 'bootcamps.ratings'];
+
         $mentor = Mentor::where('user_id', $id)
-            ->with(['user', 'schedules', 'courses.ratings', 'bootcamps.ratings'])
-            ->first();
+            ->with($relations)
+            ->first()
+            ?? Mentor::with($relations)->find($id);
 
         if (! $mentor) {
             return null;
@@ -419,7 +467,7 @@ class CatalogService
         $isTodayAvailable = collect($schedules)->contains(fn ($s) => $s['day'] === $todayDayNum && $s['is_available']);
 
         return [
-            'id' => $mentor->user_id,
+            'id' => $mentor->user_id ?? $mentor->id,
             'name' => $mentor->name,
             'role' => $mentor->role,
             'company' => $mentor->company,

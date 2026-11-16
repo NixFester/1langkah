@@ -528,28 +528,59 @@
             
             <!-- Right Column: Image Card -->
             <div class="hidden lg:block w-full lg:w-[45%]">
-                <div class="relative w-full h-[400px] md:h-[480px] rounded-[2rem] overflow-hidden shadow-2xl">
-                    <!-- Base Image -->
-                    <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1000&auto=format&fit=crop&fm=webp" alt="Bootcamp Class" class="w-full h-full object-cover">
-                    <!-- Purple Tint Overlay -->
-                    <div class="absolute inset-0 bg-[#4c1d95]/40 mix-blend-multiply"></div>
-                    <!-- Soft gradient to bottom -->
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                    
-                    <!-- Glassmorphism Floating Bar -->
-                    <div class="absolute bottom-5 left-5 right-5 bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <div>
-                            <h2 class="text-lg font-bold text-white mb-1.5 leading-snug">{{ __('app.leadership_management') }}</h2>
-                            <div class="flex items-center gap-1.5 text-[13px] text-gray-300">
-                                <svg aria-hidden="true" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                                <span>{{ __('app.participants_count', ['count' => 18]) }} · {{ __('app.starts_on', ['date' => '11 Agu 2025']) }}</span>
+                @if($bootcamp)
+                    @php
+                        $bootcampUrl = ($bootcamp['type'] ?? 'online') === 'offline'
+                            ? route('detail-offline-bootcamp', $bootcamp['id'])
+                            : route('detail-online-bootcamp', $bootcamp['id']);
+                        $bootcampParticipants = $bootcamp['participants'] ?? $bootcamp['totalSlots'] ?? 0;
+                    @endphp
+                    <div class="relative w-full h-[400px] md:h-[480px] rounded-[2rem] overflow-hidden shadow-2xl group">
+                        <!-- Base Image -->
+                        <img loading="lazy" decoding="async" src="{{ $bootcamp['thumbnail'] }}" alt="{{ $bootcamp['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <!-- Purple Tint Overlay -->
+                        <div class="absolute inset-0 bg-[#4c1d95]/40 mix-blend-multiply"></div>
+                        <!-- Soft gradient to bottom -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+
+                        <!-- Glassmorphism Floating Bar -->
+                        <div class="absolute bottom-5 left-5 right-5 bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <h2 class="text-lg font-bold text-white mb-1.5 leading-snug">
+                                    <a href="{{ $bootcampUrl }}" class="after:absolute after:inset-0 hover:text-[#d8b4fe] transition-colors">{{ $bootcamp['title'] }}</a>
+                                </h2>
+                                <div class="flex items-center gap-1.5 text-[13px] text-gray-300">
+                                    <svg aria-hidden="true" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                    <span>{{ __('app.participants_count', ['count' => $bootcampParticipants]) }}@if(!empty($bootcamp['startDate'])) · {{ __('app.starts_on') }} {{ $bootcamp['startDate'] }}@endif</span>
+                                </div>
+                            </div>
+                            <div class="text-[15px] font-bold text-[#d8b4fe] whitespace-nowrap">
+                                {{ $bootcamp['formatted_price'] ?: __('app.free') }}
                             </div>
                         </div>
-                        <div class="text-[15px] font-bold text-[#d8b4fe] whitespace-nowrap">
-                            {{ __('app.price_6_5_jt') }}
+                    </div>
+                @else
+                    <div class="relative w-full h-[400px] md:h-[480px] rounded-[2rem] overflow-hidden shadow-2xl">
+                        <!-- Base Image -->
+                        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1000&auto=format&fit=crop&fm=webp" alt="Bootcamp Class" class="w-full h-full object-cover">
+                        <!-- Purple Tint Overlay -->
+                        <div class="absolute inset-0 bg-[#4c1d95]/40 mix-blend-multiply"></div>
+                        <!-- Soft gradient to bottom -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+
+                        <!-- Glassmorphism Floating Bar -->
+                        <div class="absolute bottom-5 left-5 right-5 bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <div class="text-[11px] font-bold tracking-[0.15em] text-[#d8b4fe] uppercase mb-1">{{ __('app.bootcamp_badge') }}</div>
+                                <h2 class="text-lg font-bold text-white leading-snug">{{ __('app.no_bootcamps') }}</h2>
+                            </div>
+                            <a href="{{ route('online-bootcamp') }}" class="inline-flex items-center gap-1.5 text-[14px] font-bold text-[#d8b4fe] hover:text-white whitespace-nowrap transition-colors">
+                                {{ __('app.see_bootcamp_schedule') }}
+                                <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                            </a>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
             
         </div>
@@ -636,7 +667,7 @@
             @empty
                 <div class="col-span-full bg-white rounded-3xl p-10 border border-gray-100 text-center shadow-sm">
                     <p class="text-base font-bold text-slate-900 mb-1">{{ __('app.mentor_marketplace') }}</p>
-                    <p class="text-sm text-slate-500 mb-4">{{ __('app.mentor_marketplace_desc') }}</p>
+                    <p class="text-sm text-slate-500 mb-4">{{ app()->getLocale() === 'id' ? 'Belum ada mentor yang tersedia saat ini.' : 'No mentors are available yet.' }}</p>
                     <a href="{{ route('mentor') }}" class="inline-flex items-center gap-1.5 text-sm font-bold text-[#D10000] hover:text-[#b30000]">
                         {{ __('app.find_mentor') }}
                         <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
@@ -648,7 +679,7 @@
         <!-- CTA Button -->
         <div class="mt-14 text-center">
             <a href="{{ route('mentor') }}" class="inline-flex items-center gap-2 px-9 py-4 bg-[#b90000] hover:bg-[#990000] text-white font-bold text-[15px] rounded-full shadow-[0_12px_35px_rgba(185,0,0,0.35)] hover:shadow-[0_15px_45px_rgba(185,0,0,0.5)] transition-all transform hover:-translate-y-1">
-                {{ __('app.see_all_mentors') }}
+                {{ __('app.find_mentor') }}
                 <svg aria-hidden="true" class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
             </a>
         </div>

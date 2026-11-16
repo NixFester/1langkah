@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Mentor;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -57,10 +58,28 @@ class ProductionReadyUserSeeder extends Seeder
         ];
 
         foreach ($users as $userData) {
-            User::updateOrCreate(
+            $user = User::updateOrCreate(
                 ['email' => $userData['email']],
                 $userData
             );
+
+            if ($user->role === 'mentor') {
+                Mentor::updateOrCreate(
+                    ['user_id' => $user->id],
+                    [
+                        'name' => $user->name,
+                        'role' => 'Course Mentor & Instructor',
+                        'company' => '1Langkah',
+                        'price' => '0',
+                        'rating' => 5.0,
+                        'sessions_count' => 0,
+                        'initials' => strtoupper(substr($user->name, 0, 2)),
+                        'color' => '#3b82f6',
+                        'expertise' => [],
+                        'bio' => $user->bio,
+                    ]
+                );
+            }
         }
     }
 }
