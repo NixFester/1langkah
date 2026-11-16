@@ -50,6 +50,9 @@ Route::get('lang/{locale}', function ($locale) {
 
 Route::get('/', [PageController::class, 'landing'])->name('landing');
 Route::view('/about', 'pages.about')->name('about');
+Route::view('/privacy-policy', 'pages.privacy-policy')->name('privacy-policy');
+Route::view('/privacy', 'pages.privacy-policy');
+Route::view('/terms', 'pages.terms')->name('terms');
 
 Route::get('/kursus', [PageController::class, 'kursus'])->name('kursus');
 Route::get('/kursus/{id}', [PageController::class, 'detailKursus'])->name('detail-kursus');

@@ -386,7 +386,7 @@ return [
     'learn_more' => 'Pelajari lebih lanjut',
     'popular_courses_badge' => 'KURSUS TERPOPULER',
     'start_learning_now' => 'Mulai belajar sekarang',
-    'see_all_courses' => 'Lihat 800+ kursus',
+    'see_all_courses' => 'Lihat semua kursus',
     'bootcamp_badge' => 'ONLINE & OFFLINE BOOTCAMP',
     'bootcamp_title_1' => 'Belajar intensif dengan',
     'bootcamp_title_2' => 'instruktur terbaik.',

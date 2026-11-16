@@ -281,9 +281,9 @@
         <div class="text-gray-400 text-[14px] font-medium">
             &copy; 2026 1Langkah Technologies. All rights reserved. | Developed by <a href="https://elc.my.id" target="_blank" class="text-blue-400 underline hover:text-blue-300">ELCoding.id</a>
             <span class="mx-3 text-white/20">|</span> 
-            <a href="{{ url('/') }}" class="hover:text-white transition-colors">Privacy Policy</a> 
+            <a href="{{ route('privacy-policy') }}" class="hover:text-white transition-colors">Privacy Policy</a> 
             <span class="mx-3 text-white/20">|</span> 
-            <a href="{{ url('/') }}" class="hover:text-white transition-colors">Terms of Service</a>
+            <a href="{{ route('terms') }}" class="hover:text-white transition-colors">Terms of Service</a>
         </div>
     </div>
 </footer>

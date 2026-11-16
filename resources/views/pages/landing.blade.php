@@ -1043,8 +1043,8 @@
                     <h2 class="text-[11px] md:text-[13px] font-bold tracking-[0.1em] md:tracking-[0.15em] text-gray-400 uppercase mb-5 md:mb-8"> {{ __('app.footer_support') }} </h2>
                     <ul class="flex flex-col items-end gap-5 md:gap-7">
                         <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_help') }}</a></li>
-                        <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_privacy') }}</a></li>
-                        <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_terms') }}</a></li>
+                        <li><a href="{{ route('privacy-policy') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_privacy') }}</a></li>
+                        <li><a href="{{ route('terms') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_terms') }}</a></li>
                         <li><a href="{{ url('/') }}" class="text-[13px] md:text-[15px] text-gray-400 hover:text-white transition-colors">{{ __('app.nav_status') }}</a></li>
                     </ul>
                 </div>
