@@ -95,13 +95,37 @@
                 <div class="section-title" style="margin-bottom:18px">{{ __('app.profile_info') }}</div>
 
                 <div class="input-group" style="margin-bottom:16px">
-                    <label>{{ __('app.full_name') }}</label>
+                    <label>{{ __('app.full_name') }} <span style="color:var(--primary)">*</span></label>
                     <input aria-label="Name" class="input" name="name" value="{{ old('name', $u->name) }}" required />
                 </div>
                 <div class="input-group" style="margin-bottom:16px">
-                    <label>Email</label>
+                    <label>Email <span style="color:var(--primary)">*</span></label>
                     <input aria-label="Email" class="input" type="email" name="email" value="{{ old('email', $u->email) }}" required />
                 </div>
+                @if($u->isStudent())
+                <div class="input-group" style="margin-bottom:16px">
+                    <label>{{ __('app.phone_label') }} <span style="color:var(--primary)">*</span></label>
+                    <input aria-label="{{ __('app.phone_label') }}" class="input" type="tel" name="phone" value="{{ old('phone', $u->phone) }}" placeholder="{{ __('app.phone_placeholder') }}" required />
+                </div>
+                <div class="grid-2" style="gap:16px;margin-bottom:16px">
+                    <div class="input-group" style="margin-bottom:0">
+                        <label>{{ __('app.birth_place') }}</label>
+                        <input aria-label="{{ __('app.birth_place') }}" class="input" type="text" name="birth_place" value="{{ old('birth_place', $u->birth_place) }}" placeholder="{{ __('app.birth_place_placeholder') }}" />
+                    </div>
+                    <div class="input-group" style="margin-bottom:0">
+                        <label>{{ __('app.birth_date') }}</label>
+                        <input aria-label="{{ __('app.birth_date') }}" class="input" type="date" name="birth_date" value="{{ old('birth_date', $u->birth_date ? $u->birth_date->format('Y-m-d') : '') }}" />
+                    </div>
+                </div>
+                <div class="input-group" style="margin-bottom:16px">
+                    <label>{{ __('app.full_address') }}</label>
+                    <textarea aria-label="{{ __('app.full_address') }}" class="input" name="address" rows="2" placeholder="{{ __('app.full_address_placeholder') }}">{{ old('address', $u->address) }}</textarea>
+                </div>
+                <div class="input-group" style="margin-bottom:16px">
+                    <label>{{ __('app.study_purpose_label') }}</label>
+                    <input aria-label="{{ __('app.study_purpose_label') }}" class="input" type="text" name="purpose" value="{{ old('purpose', $u->purpose) }}" placeholder="{{ __('app.study_purpose_placeholder') }}" />
+                </div>
+                @endif
                 <div class="input-group" style="margin-bottom:0">
                     <label>{{ __('app.bio') }}</label>
                     <textarea aria-label="'{{ __('app.bio_placeholder') }}'" class="input" name="bio" rows="3" :placeholder="'{{ __('app.bio_placeholder') }}'">{{ old('bio', $u->bio) }}</textarea>

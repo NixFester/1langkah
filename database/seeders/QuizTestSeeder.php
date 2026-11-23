@@ -21,6 +21,11 @@ class QuizTestSeeder extends Seeder
                 ['email' => 'student@email.com'],
                 [
                     'name' => 'Budi Santoso',
+                    'phone' => '081234567890',
+                    'birth_place' => 'Jakarta',
+                    'birth_date' => '2001-05-14',
+                    'address' => 'Jl. Sudirman No. 45, Jakarta Selatan',
+                    'purpose' => 'Pengembangan Karir & Kepemimpinan',
                     'password' => bcrypt('password'),
                     'role' => 'student',
                 ]
@@ -30,6 +35,11 @@ class QuizTestSeeder extends Seeder
                 ['email' => 'student@gmail.com'],
                 [
                     'name' => 'Budi Santoso',
+                    'phone' => '081234567890',
+                    'birth_place' => 'Jakarta',
+                    'birth_date' => '2001-05-14',
+                    'address' => 'Jl. Sudirman No. 45, Jakarta Selatan',
+                    'purpose' => 'Pengembangan Karir & Kepemimpinan',
                     'password' => bcrypt('password'),
                     'role' => 'student',
                 ]

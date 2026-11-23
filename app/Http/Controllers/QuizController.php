@@ -195,10 +195,10 @@ class QuizController extends Controller
             $validated = [
                 'participant_name' => $request->input('participant_name') ?: $user->name,
                 'google_email' => $request->input('google_email') ?: $defaultGoogleEmail,
-                'birth_place' => $request->input('birth_place') ?: '-',
-                'birth_date' => $request->input('birth_date') ?: null,
-                'address' => $request->input('address') ?: '-',
-                'whatsapp' => $request->input('whatsapp') ?: '-',
+                'birth_place' => $request->input('birth_place') ?: ($user->birth_place ?: '-'),
+                'birth_date' => $request->input('birth_date') ?: ($user->birth_date ? $user->birth_date->format('Y-m-d') : null),
+                'address' => $request->input('address') ?: ($user->address ?: '-'),
+                'whatsapp' => $request->input('whatsapp') ?: ($user->phone ?: '-'),
             ];
         } else {
             $validated = $request->validate([
@@ -219,6 +219,24 @@ class QuizController extends Controller
                 'whatsapp' => 'required|string|max:30',
                 'answers' => 'nullable|array',
             ]);
+        }
+
+        // Sync personal data back to user profile if not yet set
+        $userUpdates = [];
+        if (empty($user->phone) && ! empty($validated['whatsapp']) && $validated['whatsapp'] !== '-') {
+            $userUpdates['phone'] = $validated['whatsapp'];
+        }
+        if (empty($user->birth_place) && ! empty($validated['birth_place']) && $validated['birth_place'] !== '-') {
+            $userUpdates['birth_place'] = $validated['birth_place'];
+        }
+        if (empty($user->birth_date) && ! empty($validated['birth_date'])) {
+            $userUpdates['birth_date'] = $validated['birth_date'];
+        }
+        if (empty($user->address) && ! empty($validated['address']) && $validated['address'] !== '-') {
+            $userUpdates['address'] = $validated['address'];
+        }
+        if (! empty($userUpdates)) {
+            $user->update($userUpdates);
         }
 
         $quiz->load(['questions.answers']);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pages;
 
+use App\Helpers\StringHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Bootcamp;
 use App\Models\Completion;
@@ -80,28 +81,139 @@ class PageController extends Controller
 
     public function signup(): View
     {
-        return view('pages.signup');
+        return view('pages.signup', [
+            'googleData' => session('google_signup_data'),
+        ]);
     }
 
     public function signupSubmit(Request $request): RedirectResponse
     {
-        $request->validate([
+        $googleData = $request->session()->get('google_signup_data');
+
+        if ($googleData && ! empty($googleData['email'])) {
+            $request->merge(['email' => $googleData['email']]);
+        }
+
+        $rules = [
             'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'min:8'],
-        ]);
+            'phone' => ['required', 'string', 'min:9', 'max:30', 'regex:/^[0-9+\-\s()]+$/'],
+            'birth_place' => ['required', 'string', 'max:255'],
+            'birth_date' => ['required', 'date'],
+            'address' => ['required', 'string', 'max:1000'],
+            'purpose' => ['required', 'string', 'max:255'],
+            'password' => $googleData ? ['nullable', 'min:8'] : ['required', 'min:8'],
+        ];
+
+        $messages = [
+            'phone.required' => 'Nomor HP / WhatsApp wajib diisi.',
+            'phone.min' => 'Nomor HP / WhatsApp minimal 9 digit.',
+            'phone.regex' => 'Format Nomor HP / WhatsApp tidak valid.',
+            'birth_place.required' => 'Tempat lahir wajib diisi.',
+            'birth_date.required' => 'Tanggal lahir wajib diisi.',
+            'address.required' => 'Alamat lengkap wajib diisi.',
+            'purpose.required' => 'Tujuan belajar wajib diisi.',
+        ];
+
+        $request->validate($rules, $messages);
+
+        $fullName = trim($request->first_name.' '.($request->last_name ?? ''));
+
+        $baseUsername = StringHelper::generateUsername($fullName);
+        $username = StringHelper::makeUsernameUnique(
+            StringHelper::sanitizeUsername($baseUsername),
+            fn ($u) => User::where('username', $u)->exists()
+        );
+
+        $password = $request->filled('password')
+            ? $request->password
+            : StringHelper::generatePassword($username);
 
         $user = User::create([
-            'name' => $request->first_name.' '.$request->last_name,
+            'name' => $fullName,
+            'username' => $username,
             'email' => $request->email,
-            'password' => $request->password,   // cast auto-hashes it
+            'phone' => trim($request->phone),
+            'birth_place' => trim($request->birth_place),
+            'birth_date' => $request->birth_date,
+            'address' => trim($request->address),
+            'purpose' => trim($request->purpose),
+            'password' => $password,
+            'profile_photo' => $googleData['avatar'] ?? null,
+            'role' => 'student',
         ]);
+
+        $request->session()->forget('google_signup_data');
 
         Auth::login($user);
         $request->session()->regenerate();
 
         return redirect()->intended(route('dashboard'));
+    }
+
+    public function completeProfile(): View|RedirectResponse
+    {
+        $user = Auth::user();
+
+        if (! $user->isStudent()) {
+            return redirect()->to($user->getDashboardRoute());
+        }
+
+        $nameParts = preg_split('/\s+/', trim($user->name ?? ''), 2);
+
+        return view('pages.signup', [
+            'isCompletingProfile' => true,
+            'authUser' => $user,
+            'googleData' => [
+                'name' => $user->name,
+                'first_name' => $nameParts[0] ?? $user->name,
+                'last_name' => $nameParts[1] ?? '',
+                'email' => $user->email,
+                'avatar' => $user->profile_photo,
+            ],
+        ]);
+    }
+
+    public function completeProfileSubmit(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        if (! $user->isStudent()) {
+            return redirect()->to($user->getDashboardRoute());
+        }
+
+        $request->validate([
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['nullable', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'min:9', 'max:30', 'regex:/^[0-9+\-\s()]+$/'],
+            'birth_place' => ['required', 'string', 'max:255'],
+            'birth_date' => ['required', 'date'],
+            'address' => ['required', 'string', 'max:1000'],
+            'purpose' => ['required', 'string', 'max:255'],
+        ], [
+            'phone.required' => 'Nomor HP / WhatsApp wajib diisi.',
+            'phone.min' => 'Nomor HP / WhatsApp minimal 9 digit.',
+            'phone.regex' => 'Format Nomor HP / WhatsApp tidak valid.',
+            'birth_place.required' => 'Tempat lahir wajib diisi.',
+            'birth_date.required' => 'Tanggal lahir wajib diisi.',
+            'address.required' => 'Alamat lengkap wajib diisi.',
+            'purpose.required' => 'Tujuan belajar wajib diisi.',
+        ]);
+
+        $fullName = trim($request->first_name.' '.($request->last_name ?? ''));
+
+        $user->update([
+            'name' => $fullName,
+            'phone' => trim($request->phone),
+            'birth_place' => trim($request->birth_place),
+            'birth_date' => $request->birth_date,
+            'address' => trim($request->address),
+            'purpose' => trim($request->purpose),
+        ]);
+
+        return redirect()->intended($user->getDashboardRoute())
+            ->with('success', 'Data diri dan nomor HP berhasil disimpan.');
     }
 
     public function logout(Request $request): RedirectResponse
@@ -147,6 +259,13 @@ class PageController extends Controller
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email,'.$user->id],
+            'phone' => $user->isStudent()
+                ? ['required', 'string', 'min:9', 'max:30', 'regex:/^[0-9+\-\s()]+$/']
+                : ['nullable', 'string', 'min:9', 'max:30', 'regex:/^[0-9+\-\s()]+$/'],
+            'birth_place' => ['nullable', 'string', 'max:255'],
+            'birth_date' => ['nullable', 'date'],
+            'address' => ['nullable', 'string', 'max:1000'],
+            'purpose' => ['nullable', 'string', 'max:255'],
             'bio' => ['nullable', 'string', 'max:500'],
         ];
 
@@ -155,10 +274,29 @@ class PageController extends Controller
             $rules['password_confirmation'] = ['same:password'];
         }
 
-        $request->validate($rules);
+        $request->validate($rules, [
+            'phone.required' => 'Nomor HP / WhatsApp wajib diisi.',
+            'phone.min' => 'Nomor HP / WhatsApp minimal 9 digit.',
+            'phone.regex' => 'Format Nomor HP / WhatsApp tidak valid.',
+        ]);
 
         $user->name = $request->name;
         $user->email = $request->email;
+        if ($request->has('phone')) {
+            $user->phone = $request->filled('phone') ? trim($request->phone) : null;
+        }
+        if ($request->has('birth_place')) {
+            $user->birth_place = $request->birth_place;
+        }
+        if ($request->has('birth_date')) {
+            $user->birth_date = $request->birth_date ?: null;
+        }
+        if ($request->has('address')) {
+            $user->address = $request->address;
+        }
+        if ($request->has('purpose')) {
+            $user->purpose = $request->purpose;
+        }
         $user->bio = $request->bio;
 
         if ($request->filled('password')) {

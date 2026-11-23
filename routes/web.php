@@ -37,6 +37,7 @@ Route::middleware('guest')->group(function () {
     // Google OAuth Routes
     Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('auth.google');
     Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('auth.google.callback');
+    Route::get('/auth/google/cancel', [GoogleAuthController::class, 'cancelGoogleSignup'])->name('auth.google.cancel');
 });
 
 // ── Publicly browsable (no auth required) ────────────────────────────────────
@@ -72,6 +73,9 @@ Route::post('/event/{id}/register', [PageController::class, 'registerEvent'])->n
 
 // ── Auth-protected ────────────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {
+    Route::get('/lengkapi-data-diri', [PageController::class, 'completeProfile'])->name('complete-profile');
+    Route::post('/lengkapi-data-diri', [PageController::class, 'completeProfileSubmit'])->name('complete-profile.submit');
+
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
     Route::get('/kursus-saya', [PageController::class, 'kursusSaya'])->name('kursus-saya');
     Route::get('/bootcamp-saya', [PageController::class, 'bootcampsSaya'])->name('bootcamps-saya');

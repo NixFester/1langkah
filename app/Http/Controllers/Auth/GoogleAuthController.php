@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Helpers\StringHelper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -22,71 +21,66 @@ class GoogleAuthController extends Controller
 
     /**
      * Handle Google OAuth callback
-     * If user exists with this email -> login
-     * If no user -> register with Google data
+     * - If user exists and has completed personal data -> login & redirect to dashboard
+     * - If user exists (student) but has not filled personal data / phone -> login & redirect to complete-profile form
+     * - If no user exists -> store Google profile in session and redirect to signup form to fill mandatory personal data & phone number
      */
     public function callback(Request $request): RedirectResponse
     {
         try {
-            // Get Google user data
             $googleUser = Socialite::driver('google')->user();
 
-            // Check if user exists with this email
             $existingUser = User::where('email', $googleUser->email)->first();
 
             if ($existingUser) {
-                // User exists -> login
+                if (! $existingUser->profile_photo && $googleUser->avatar) {
+                    $existingUser->update(['profile_photo' => $googleUser->avatar]);
+                }
+
                 $this->loginUser($existingUser, $request);
+
+                if ($existingUser->isStudent() && ! $existingUser->hasCompletedPersonalData()) {
+                    return redirect()->route('complete-profile')
+                        ->with('google_notice', 'Silakan lengkapi formulir data diri dan nomor HP Anda terlebih dahulu sebelum melanjutkan.');
+                }
 
                 return $this->redirectAfterAuth($existingUser);
             }
 
-            // No user exists -> register new user
-            $newUser = $this->registerGoogleUser($googleUser);
-            $this->loginUser($newUser, $request);
+            // New user registering with Google -> must fill personal data & phone number on signup form
+            $fullName = trim($googleUser->name ?? $googleUser->nickname ?? 'User');
+            $nameParts = preg_split('/\s+/', $fullName, 2);
+            $firstName = $nameParts[0] ?? $fullName;
+            $lastName = $nameParts[1] ?? '';
 
-            return $this->redirectAfterAuth($newUser);
+            $request->session()->put('google_signup_data', [
+                'name' => $fullName,
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'email' => $googleUser->email,
+                'avatar' => $googleUser->avatar,
+                'google_id' => $googleUser->id,
+            ]);
+
+            return redirect()->route('signup')
+                ->with('google_notice', 'Akun Google ('.$googleUser->email.') berhasil terhubung! Silakan lengkapi formulir data diri dan nomor HP Anda untuk menyelesaikan pendaftaran.');
 
         } catch (\Exception $e) {
-            // Log the error and redirect back with error message
             \Log::error('Google OAuth Error: '.$e->getMessage());
 
             return redirect()->route('login')
-                ->withErrors(['email' => 'Terjadi kesalahan saat login dengan Google. Silakan coba lagi.']);
+                ->withErrors(['email' => 'Terjadi kesalahan saat autentikasi dengan Google. Silakan coba lagi.']);
         }
     }
 
     /**
-     * Register a new user from Google data
+     * Cancel Google signup session and return to normal signup form
      */
-    private function registerGoogleUser($googleUser): User
+    public function cancelGoogleSignup(Request $request): RedirectResponse
     {
-        // Get full name from Google
-        $fullName = $googleUser->name ?? $googleUser->nickname ?? 'User';
+        $request->session()->forget('google_signup_data');
 
-        // Generate romanized username (max 12 characters)
-        $baseUsername = StringHelper::generateUsername($fullName);
-
-        // Make username unique if it already exists
-        $username = StringHelper::makeUsernameUnique(
-            StringHelper::sanitizeUsername($baseUsername),
-            fn ($u) => User::where('username', $u)->exists()
-        );
-
-        // Generate password from username
-        $password = StringHelper::generatePassword($username);
-
-        // Create the user
-        $user = User::create([
-            'name' => $fullName,
-            'username' => $username,
-            'email' => $googleUser->email,
-            'password' => $password,
-            'profile_photo' => $googleUser->avatar,
-            'role' => 'student',
-        ]);
-
-        return $user;
+        return redirect()->route('signup');
     }
 
     /**

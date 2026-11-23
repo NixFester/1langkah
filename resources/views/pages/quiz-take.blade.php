@@ -189,7 +189,7 @@
                         {{ __('app.birth_place') }} <span class="text-red-500">*</span>
                     </label>
                     <input type="text" id="birth_place" name="birth_place"
-                        value="{{ old('birth_place', $lastPersonalInfo->birth_place ?? '') }}"
+                        value="{{ old('birth_place', $lastPersonalInfo->birth_place ?? $user->birth_place ?? '') }}"
                         placeholder="{{ __('app.birth_place_placeholder') }}"
                         required
                         class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 outline-none transition-all bg-gray-50 focus:bg-white">
@@ -201,18 +201,18 @@
                         {{ __('app.birth_date') }} <span class="text-red-500">*</span>
                     </label>
                     <input type="date" id="birth_date" name="birth_date"
-                        value="{{ old('birth_date', isset($lastPersonalInfo?->birth_date) ? $lastPersonalInfo->birth_date->format('Y-m-d') : '') }}"
+                        value="{{ old('birth_date', isset($lastPersonalInfo?->birth_date) ? $lastPersonalInfo->birth_date->format('Y-m-d') : (isset($user?->birth_date) ? $user->birth_date->format('Y-m-d') : '')) }}"
                         required
                         class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 outline-none transition-all bg-gray-50 focus:bg-white">
                 </div>
 
-                <!-- No WhatsApp -->
+                <!-- No WhatsApp / Nomor HP -->
                 <div class="sm:col-span-2">
                     <label for="whatsapp" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
                         {{ __('app.whatsapp_number') }} <span class="text-red-500">*</span>
                     </label>
                     <input type="tel" id="whatsapp" name="whatsapp"
-                        value="{{ old('whatsapp', $lastPersonalInfo->whatsapp ?? '') }}"
+                        value="{{ old('whatsapp', $lastPersonalInfo->whatsapp ?? $user->phone ?? '') }}"
                         placeholder="{{ __('app.whatsapp_placeholder') }}"
                         required
                         class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 outline-none transition-all bg-gray-50 focus:bg-white">
@@ -226,7 +226,7 @@
                     <textarea id="address" name="address" rows="2"
                         placeholder="{{ __('app.full_address_placeholder') }}"
                         required
-                        class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 outline-none resize-y transition-all bg-gray-50 focus:bg-white">{{ old('address', $lastPersonalInfo->address ?? '') }}</textarea>
+                        class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 outline-none resize-y transition-all bg-gray-50 focus:bg-white">{{ old('address', $lastPersonalInfo->address ?? $user->address ?? '') }}</textarea>
                 </div>
             </div>
         </div>

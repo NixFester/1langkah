@@ -22,6 +22,11 @@ class User extends Authenticatable
         'name',
         'username',
         'email',
+        'phone',
+        'birth_place',
+        'birth_date',
+        'address',
+        'purpose',
         'password',
         'role',
         'profile_photo',
@@ -49,11 +54,23 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'birth_date' => 'date',
             'password' => 'hashed',
             'role' => 'string',
             'xp' => 'integer',
             'level' => 'integer',
         ];
+    }
+
+    /**
+     * Check whether the user has completed required personal data & phone number.
+     */
+    public function hasCompletedPersonalData(): bool
+    {
+        return ! empty($this->phone)
+            && ! empty($this->birth_place)
+            && ! empty($this->birth_date)
+            && ! empty($this->address);
     }
 
     // ── Relationships ────────────────────────────────────────────────────────
