@@ -211,12 +211,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/options/{option}', [OptionController::class, 'update'])->name('options.update');
     Route::delete('/options/{option}', [OptionController::class, 'destroy'])->name('options.destroy');
 
-    // Quiz Management (Manage Global Quiz & Discount Codes)
+    // Course Quiz Management
     Route::get('/quizzes', [App\Http\Controllers\Admin\QuizController::class, 'index'])->name('quizzes');
-    Route::post('/quizzes/global-config', [App\Http\Controllers\Admin\QuizController::class, 'updateGlobalConfig'])->name('quizzes.global-config.update');
-    Route::post('/quizzes/promos', [App\Http\Controllers\Admin\QuizController::class, 'storePromo'])->name('quizzes.promos.store');
-    Route::post('/quizzes/promos/{promo}/toggle', [App\Http\Controllers\Admin\QuizController::class, 'togglePromo'])->name('quizzes.promos.toggle');
-    Route::delete('/quizzes/promos/{promo}', [App\Http\Controllers\Admin\QuizController::class, 'destroyPromo'])->name('quizzes.promos.destroy');
     Route::get('/quizzes/results', [App\Http\Controllers\Admin\QuizController::class, 'allResults'])->name('quizzes.all-results');
     Route::get('/quizzes/results/export-csv', [App\Http\Controllers\Admin\QuizController::class, 'exportAllCsv'])->name('quizzes.all-results.export-csv');
     Route::get('/quizzes/results/export-pdf', [App\Http\Controllers\Admin\QuizController::class, 'exportAllPdf'])->name('quizzes.all-results.export-pdf');
@@ -228,6 +224,16 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/quizzes/{quiz}/results', [App\Http\Controllers\Admin\QuizController::class, 'results'])->name('quizzes.results');
     Route::get('/quizzes/{quiz}/results/export-csv', [App\Http\Controllers\Admin\QuizController::class, 'exportCsv'])->name('quizzes.results.export-csv');
     Route::get('/quizzes/{quiz}/results/export-pdf', [App\Http\Controllers\Admin\QuizController::class, 'exportPdf'])->name('quizzes.results.export-pdf');
+
+    // Manage Global Quiz (Separate from Course Quizzes)
+    Route::get('/global-quiz', [App\Http\Controllers\Admin\GlobalQuizController::class, 'index'])->name('global-quiz');
+    Route::post('/global-quiz/config', [App\Http\Controllers\Admin\GlobalQuizController::class, 'updateConfig'])->name('global-quiz.config.update');
+    Route::post('/global-quiz/store', [App\Http\Controllers\Admin\GlobalQuizController::class, 'store'])->name('global-quiz.store');
+    Route::post('/global-quiz/promos', [App\Http\Controllers\Admin\GlobalQuizController::class, 'storePromo'])->name('global-quiz.promos.store');
+    Route::post('/global-quiz/promos/{promo}/toggle', [App\Http\Controllers\Admin\GlobalQuizController::class, 'togglePromo'])->name('global-quiz.promos.toggle');
+    Route::delete('/global-quiz/promos/{promo}', [App\Http\Controllers\Admin\GlobalQuizController::class, 'destroyPromo'])->name('global-quiz.promos.destroy');
+    Route::get('/global-quiz/results/export-csv', [App\Http\Controllers\Admin\GlobalQuizController::class, 'exportCsv'])->name('global-quiz.results.export-csv');
+    Route::get('/global-quiz/results/export-pdf', [App\Http\Controllers\Admin\GlobalQuizController::class, 'exportPdf'])->name('global-quiz.results.export-pdf');
 
     // Quiz Questions Management
     Route::get('/quizzes/{quiz}/questions', [App\Http\Controllers\Admin\QuizController::class, 'questions'])->name('quizzes.questions');

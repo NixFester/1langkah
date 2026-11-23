@@ -91,7 +91,7 @@ class QuizTestSeeder extends Seeder
         $quiz = Quiz::updateOrCreate(
             ['id' => 1],
             [
-                'course_id' => $course->id,
+                'course_id' => null,
                 'is_global' => true,
                 'title' => 'Tes Psikologi & Pemetaan 4 Kepribadian Global 1Langkah',
                 'description' => 'Temukan arketipe kepribadian dominan Anda: The Strategic Architect, The Visionary Catalyst, The Empathetic Guardian, atau The Dynamic Explorer. Mode Preview membuka 10 dari 20 soal (Batas Waktu Testing: 1 Menit). Buka analisis superpower, blind spots, rekomendasi karir, dan seluruh 20 soal dengan pembayaran Rp 30.000.',

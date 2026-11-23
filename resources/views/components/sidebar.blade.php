@@ -57,8 +57,8 @@
                     ['id' => 'admin.courses', 'icon' => 'book', 'label' => __('app.manage_courses'), 'route' => 'admin.courses'],
                     ['id' => 'admin.bootcamps', 'icon' => 'award', 'label' => __('app.manage_bootcamps'), 'route' => 'admin.bootcamps'],
                     ['id' => 'admin.events', 'icon' => 'calendar', 'label' => __('app.manage_events'), 'route' => 'admin.events'],
-                    ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => 'Manage Global Quiz', 'route' => 'admin.quizzes'],
-                    ['id' => 'admin.quizzes.all-results', 'icon' => 'barChart', 'label' => __('app.quiz_results_export'), 'route' => 'admin.quizzes.all-results'],
+                    ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'admin.quizzes'],
+                    ['id' => 'admin.global-quiz', 'icon' => 'award', 'label' => 'Manage Global Quiz', 'route' => 'admin.global-quiz'],
                     ['id' => 'admin.options', 'icon' => 'settings', 'label' => __('app.settings'), 'route' => 'admin.options'],
                 ]
             ],
@@ -182,8 +182,8 @@
             ['id' => 'admin.bootcamps', 'icon' => 'award', 'label' => __('app.manage_bootcamps'), 'route' => 'admin.bootcamps'],
             ['id' => 'admin.content.events.pending', 'icon' => 'clock', 'label' => __('app.pending_events'), 'route' => 'admin.content.events.pending'],
             ['id' => 'admin.events', 'icon' => 'calendar', 'label' => __('app.manage_events'), 'route' => 'admin.events'],
-            ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => 'Manage Global Quiz', 'route' => 'admin.quizzes'],
-            ['id' => 'admin.quizzes.all-results', 'icon' => 'barChart', 'label' => __('app.quiz_results_export'), 'route' => 'admin.quizzes.all-results'],
+            ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'admin.quizzes'],
+            ['id' => 'admin.global-quiz', 'icon' => 'award', 'label' => 'Manage Global Quiz', 'route' => 'admin.global-quiz'],
             ['id' => 'admin.options', 'icon' => 'settings', 'label' => __('app.settings'), 'route' => 'admin.options'],
             ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => __('app.back_to_app'), 'route' => 'dashboard'],
         ];
