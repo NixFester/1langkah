@@ -7,23 +7,40 @@ use App\Models\Course;
 use App\Models\Quiz;
 use App\Models\QuizAnswer;
 use App\Models\QuizQuestion;
+use App\Models\TestAttempt;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class QuizController extends Controller
 {
     /**
      * Display list of quizzes
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $quizzes = Quiz::with('course', 'questions')
-            ->withCount('questions')
-            ->latest()
-            ->paginate(15);
+        $courses = Course::orderBy('title')->get();
 
-        return view('admin.quizzes', compact('quizzes'));
+        $quizzes = Quiz::with('course', 'questions')
+            ->withCount(['questions', 'attempts'])
+            ->when($request->filled('search'), function ($q) use ($request) {
+                $search = $request->input('search');
+                $q->where(function ($sub) use ($search) {
+                    $sub->where('title', 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%")
+                        ->orWhereHas('course', fn ($c) => $c->where('title', 'like', "%{$search}%"));
+                });
+            })
+            ->when($request->filled('course_id'), fn ($q) => $q->where('course_id', $request->input('course_id')))
+            ->when($request->filled('type'), fn ($q) => $q->where('type', $request->input('type')))
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
+
+        $totalAttempts = TestAttempt::whereNotNull('completed_at')->count();
+
+        return view('admin.quizzes', compact('quizzes', 'courses', 'totalAttempts'));
     }
 
     /**
@@ -41,19 +58,27 @@ class QuizController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $isGlobal = $request->boolean('is_global', false);
+
         $data = $request->validate([
-            'course_id' => 'required|exists:courses,id',
+            'course_id' => $isGlobal ? 'nullable|exists:courses,id' : 'required|exists:courses,id',
+            'is_global' => 'nullable|boolean',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'type' => 'required|in:pre_test,post_test,chapter_quiz',
             'chapter_id' => 'nullable|exists:chapters,id',
             'passing_score' => 'nullable|integer|min:0|max:100',
             'time_limit_minutes' => 'nullable|integer|min:1',
+            'free_question_limit' => 'nullable|integer|min:1',
+            'unlock_price' => 'nullable|integer|min:0',
             'is_active' => 'nullable|boolean',
             'order' => 'nullable|integer|min:0',
         ]);
 
+        $data['is_global'] = $isGlobal;
         $data['is_active'] = $request->boolean('is_active', true);
+        $data['free_question_limit'] = $data['free_question_limit'] ?? 10;
+        $data['unlock_price'] = $data['unlock_price'] ?? 30000;
 
         Quiz::create($data);
 
@@ -76,19 +101,27 @@ class QuizController extends Controller
      */
     public function update(Request $request, Quiz $quiz): RedirectResponse
     {
+        $isGlobal = $request->boolean('is_global', false);
+
         $data = $request->validate([
-            'course_id' => 'required|exists:courses,id',
+            'course_id' => $isGlobal ? 'nullable|exists:courses,id' : 'required|exists:courses,id',
+            'is_global' => 'nullable|boolean',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'type' => 'required|in:pre_test,post_test,chapter_quiz',
             'chapter_id' => 'nullable|exists:chapters,id',
             'passing_score' => 'nullable|integer|min:0|max:100',
             'time_limit_minutes' => 'nullable|integer|min:1',
+            'free_question_limit' => 'nullable|integer|min:1',
+            'unlock_price' => 'nullable|integer|min:0',
             'is_active' => 'nullable|boolean',
             'order' => 'nullable|integer|min:0',
         ]);
 
+        $data['is_global'] = $isGlobal;
         $data['is_active'] = $request->boolean('is_active', true);
+        $data['free_question_limit'] = $data['free_question_limit'] ?? 10;
+        $data['unlock_price'] = $data['unlock_price'] ?? 30000;
 
         $quiz->update($data);
 
@@ -233,5 +266,245 @@ class QuizController extends Controller
         $answer->delete();
 
         return redirect()->route('admin.quizzes.questions', $quiz)->with('success', __('app.msg_success_answer_berhasil_dihapus'));
+    }
+
+    /**
+     * Build query for quiz attempts (single quiz or all quizzes)
+     */
+    private function getQuizAttemptsQuery(?Quiz $quiz = null, ?Request $request = null)
+    {
+        $query = TestAttempt::with(['user', 'quiz.course', 'testable'])
+            ->whereNotNull('completed_at');
+
+        if ($quiz) {
+            $query->where(function ($q) use ($quiz) {
+                $q->where('quiz_id', $quiz->id)
+                    ->orWhere(function ($sub) use ($quiz) {
+                        $sub->whereNull('quiz_id')
+                            ->where('testable_type', Course::class)
+                            ->where('testable_id', $quiz->course_id)
+                            ->where('test_type', $quiz->type);
+                    });
+            });
+        } elseif ($request && $request->filled('quiz_id')) {
+            $selectedQuiz = Quiz::find($request->input('quiz_id'));
+            if ($selectedQuiz) {
+                $query->where(function ($q) use ($selectedQuiz) {
+                    $q->where('quiz_id', $selectedQuiz->id)
+                        ->orWhere(function ($sub) use ($selectedQuiz) {
+                            $sub->whereNull('quiz_id')
+                                ->where('testable_type', Course::class)
+                                ->where('testable_id', $selectedQuiz->course_id)
+                                ->where('test_type', $selectedQuiz->type);
+                        });
+                });
+            }
+        }
+
+        if ($request) {
+            if ($request->filled('course_id')) {
+                $courseId = $request->input('course_id');
+                $query->where(function ($q) use ($courseId) {
+                    $q->where(function ($sub) use ($courseId) {
+                        $sub->where('testable_type', Course::class)
+                            ->where('testable_id', $courseId);
+                    })->orWhereHas('quiz', fn ($qz) => $qz->where('course_id', $courseId));
+                });
+            }
+
+            if ($request->filled('status')) {
+                if ($request->input('status') === 'passed') {
+                    $query->where('passed', true);
+                } elseif ($request->input('status') === 'failed') {
+                    $query->where('passed', false);
+                }
+            }
+
+            if ($request->filled('date_from')) {
+                $query->whereDate('completed_at', '>=', $request->input('date_from'));
+            }
+
+            if ($request->filled('date_to')) {
+                $query->whereDate('completed_at', '<=', $request->input('date_to'));
+            }
+
+            if ($request->filled('search')) {
+                $search = trim($request->input('search'));
+                $numericId = preg_replace('/^QUIZ-/i', '', $search);
+                $query->where(function ($q) use ($search, $numericId) {
+                    $q->where('participant_name', 'like', "%{$search}%")
+                        ->orWhere('whatsapp', 'like', "%{$search}%")
+                        ->orWhere('address', 'like', "%{$search}%")
+                        ->orWhere('birth_place', 'like', "%{$search}%")
+                        ->orWhereHas('user', function ($u) use ($search) {
+                            $u->where('name', 'like', "%{$search}%")
+                                ->orWhere('email', 'like', "%{$search}%");
+                        });
+
+                    if (is_numeric($numericId)) {
+                        $q->orWhere('id', (int) $numericId)
+                            ->orWhere('user_id', (int) $numericId);
+                    }
+                });
+            }
+        }
+
+        return $query->latest('completed_at');
+    }
+
+    /**
+     * View all quiz results across all quizzes (central hub)
+     */
+    public function allResults(Request $request): View
+    {
+        $courses = Course::orderBy('title')->get();
+        $quizzesList = Quiz::with('course')->orderBy('title')->get();
+
+        $baseQuery = $this->getQuizAttemptsQuery(null, $request);
+        $statsQuery = clone $baseQuery;
+        $allMatching = $statsQuery->get();
+
+        $stats = [
+            'total' => $allMatching->count(),
+            'passed' => $allMatching->where('passed', true)->count(),
+            'failed' => $allMatching->where('passed', false)->count(),
+            'avg_score' => $allMatching->count() > 0 ? round($allMatching->avg('score'), 1) : 0,
+        ];
+
+        $attempts = $baseQuery->paginate(20)->withQueryString();
+        $quiz = $request->filled('quiz_id') ? Quiz::with('course')->find($request->input('quiz_id')) : null;
+
+        return view('admin.quiz_results', compact('quiz', 'attempts', 'courses', 'quizzesList', 'stats'));
+    }
+
+    /**
+     * View quiz results & participant personal data for a specific quiz
+     */
+    public function results(Request $request, Quiz $quiz): View
+    {
+        $quiz->load('course');
+        $courses = Course::orderBy('title')->get();
+        $quizzesList = Quiz::with('course')->orderBy('title')->get();
+
+        $baseQuery = $this->getQuizAttemptsQuery($quiz, $request);
+        $statsQuery = clone $baseQuery;
+        $allMatching = $statsQuery->get();
+
+        $stats = [
+            'total' => $allMatching->count(),
+            'passed' => $allMatching->where('passed', true)->count(),
+            'failed' => $allMatching->where('passed', false)->count(),
+            'avg_score' => $allMatching->count() > 0 ? round($allMatching->avg('score'), 1) : 0,
+        ];
+
+        $attempts = $baseQuery->paginate(20)->withQueryString();
+
+        return view('admin.quiz_results', compact('quiz', 'attempts', 'courses', 'quizzesList', 'stats'));
+    }
+
+    /**
+     * Stream CSV download for attempts
+     */
+    private function streamAttemptsCsv($attempts, ?Quiz $quiz = null): StreamedResponse
+    {
+        $slug = $quiz ? \Illuminate\Support\Str::slug($quiz->title) : 'semua-quiz';
+        $filename = 'data-peserta-hasil-quiz-'.$slug.'-'.date('Y-m-d').'.csv';
+
+        return response()->streamDownload(function () use ($attempts, $quiz) {
+            $output = fopen('php://output', 'w');
+            fwrite($output, "\xEF\xBB\xBF");
+
+            fputcsv($output, [
+                'No',
+                'ID Attempt',
+                'ID User',
+                'Nama Peserta',
+                'Email Google',
+                'Tempat, Tanggal Lahir (TTL)',
+                'Alamat',
+                'No. WhatsApp',
+                'Quiz',
+                'Kursus / Tipe',
+                'Skor (%)',
+                'Soal Terjawab',
+                'Total Soal',
+                'Status Bayar (Rp 30.000)',
+                'Tipe Kepribadian',
+                'Tanggal Selesai',
+            ]);
+
+            foreach ($attempts as $index => $attempt) {
+                $quizTitle = $quiz?->title ?? $attempt->quiz?->title ?? ucfirst(str_replace('_', ' ', $attempt->test_type));
+                $courseTitle = $quiz?->course?->title ?? $attempt->quiz?->course?->title ?? ($attempt->quiz?->is_global ? 'Tes Psikologi Global' : ($attempt->testable?->title ?? '-'));
+                $answeredCount = is_array($attempt->answers) ? count($attempt->answers) : $attempt->correct_answers;
+
+                fputcsv($output, [
+                    $index + 1,
+                    'QUIZ-'.$attempt->id,
+                    $attempt->user_id,
+                    $attempt->participant_name ?? $attempt->user?->name ?? '-',
+                    $attempt->google_email ?? $attempt->user?->email ?? '-',
+                    $attempt->formatted_ttl,
+                    $attempt->address ?? '-',
+                    $attempt->whatsapp ?? '-',
+                    $quizTitle,
+                    $courseTitle,
+                    number_format((float) $attempt->score, 2),
+                    $answeredCount,
+                    $attempt->total_questions,
+                    $attempt->is_paid ? 'LUNAS (Rp '.number_format($attempt->payment_amount ?: 30000, 0, ',', '.').')' : 'PREVIEW (Belum Bayar)',
+                    $attempt->personality_profile['archetype'] ?? '-',
+                    $attempt->completed_at?->format('d/m/Y H:i') ?? '-',
+                ]);
+            }
+
+            fclose($output);
+        }, $filename, [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+        ]);
+    }
+
+    /**
+     * Export all/filtered quiz results to CSV
+     */
+    public function exportAllCsv(Request $request): StreamedResponse
+    {
+        $attempts = $this->getQuizAttemptsQuery(null, $request)->get();
+        $quiz = $request->filled('quiz_id') ? Quiz::with('course')->find($request->input('quiz_id')) : null;
+
+        return $this->streamAttemptsCsv($attempts, $quiz);
+    }
+
+    /**
+     * Export single quiz results to CSV
+     */
+    public function exportCsv(Request $request, Quiz $quiz): StreamedResponse
+    {
+        $quiz->load('course');
+        $attempts = $this->getQuizAttemptsQuery($quiz, $request)->get();
+
+        return $this->streamAttemptsCsv($attempts, $quiz);
+    }
+
+    /**
+     * Export all/filtered quiz results to printable PDF view
+     */
+    public function exportAllPdf(Request $request): View
+    {
+        $attempts = $this->getQuizAttemptsQuery(null, $request)->get();
+        $quiz = $request->filled('quiz_id') ? Quiz::with('course')->find($request->input('quiz_id')) : null;
+
+        return view('exports.quiz-results-pdf', compact('quiz', 'attempts'));
+    }
+
+    /**
+     * Export single quiz results to printable PDF view
+     */
+    public function exportPdf(Request $request, Quiz $quiz): View
+    {
+        $quiz->load('course');
+        $attempts = $this->getQuizAttemptsQuery($quiz, $request)->get();
+
+        return view('exports.quiz-results-pdf', compact('quiz', 'attempts'));
     }
 }

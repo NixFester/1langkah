@@ -28,10 +28,17 @@
             @endif
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="md:col-span-2 bg-red-50/60 border border-red-100 rounded-2xl p-4">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" name="is_global" id="is_global" value="1" {{ old('is_global', isset($quiz) ? $quiz->is_global : false) ? 'checked' : '' }} class="rounded border-gray-300 text-red-600 shadow-sm focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50">
+                        <span class="ml-2 text-sm font-extrabold text-gray-900">Tes Psikologi / Kepribadian Global (Untuk Seluruh Siswa Tanpa Perlu Enroll Kursus)</span>
+                    </label>
+                </div>
+
                 <div class="md:col-span-2">
-                    <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.course') }} <span class="text-red-500">*</span></label>
-                    <select aria-label="Course Id" name="course_id" required class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
-                        <option value="">{{ __('app.select_course') }}</option>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.course') }} (Kosongkan jika Tes Global)</label>
+                    <select aria-label="Course Id" name="course_id" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 cursor-pointer transition-colors">
+                        <option value="">-- Tes Global (Semua Siswa) --</option>
                         @foreach($courses as $course)
                             <option value="{{ $course->id }}" {{ old('course_id', isset($quiz) ? $quiz->course_id : '') == $course->id ? 'selected' : '' }}>
                                 {{ $course->title }}
@@ -71,6 +78,17 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('app.time_limit_optional') }}</label>
                     <input aria-label="Time Limit Minutes" type="number" name="time_limit_minutes" value="{{ old('time_limit_minutes', isset($quiz) ? $quiz->time_limit_minutes : '') }}" min="1" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors" :placeholder="__('app.example_60')">
                     <p class="text-xs text-gray-500 mt-1">{{ __('app.leave_blank_no_time_limit') }}</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Batas Soal Gratis (Mode Preview)</label>
+                    <input aria-label="Free Question Limit" type="number" name="free_question_limit" value="{{ old('free_question_limit', isset($quiz) ? $quiz->free_question_limit : 10) }}" min="1" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
+                    <p class="text-xs text-gray-500 mt-1">Misal: 10 dari 20 soal terbuka sebelum bayar.</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Harga Buka Full Akses (Rp)</label>
+                    <input aria-label="Unlock Price" type="number" name="unlock_price" value="{{ old('unlock_price', isset($quiz) ? $quiz->unlock_price : 30000) }}" min="0" class="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-red-500 focus:border-red-500 block p-3 transition-colors">
                 </div>
 
                 <div>

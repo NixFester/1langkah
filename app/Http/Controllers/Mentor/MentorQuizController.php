@@ -8,9 +8,11 @@ use App\Models\Mentor;
 use App\Models\Quiz;
 use App\Models\QuizAnswer;
 use App\Models\QuizQuestion;
+use App\Models\TestAttempt;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MentorQuizController extends Controller
 {
@@ -41,17 +43,28 @@ class MentorQuizController extends Controller
     /**
      * Display list of quizzes for mentor's courses
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         $courseIds = $this->getMentorCourseIds();
+        $courses = Course::whereIn('id', $courseIds)->orderBy('title')->get();
 
         $quizzes = Quiz::with('course', 'questions')
-            ->withCount('questions')
+            ->withCount(['questions', 'attempts'])
             ->whereIn('course_id', $courseIds)
+            ->when($request->filled('search'), function ($q) use ($request) {
+                $search = $request->input('search');
+                $q->where(function ($sub) use ($search) {
+                    $sub->where('title', 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%");
+                });
+            })
+            ->when($request->filled('course_id'), fn ($q) => $q->where('course_id', $request->input('course_id')))
+            ->when($request->filled('type'), fn ($q) => $q->where('type', $request->input('type')))
             ->latest()
-            ->paginate(15);
+            ->paginate(15)
+            ->withQueryString();
 
-        return view('mentor.quizzes.index', compact('quizzes'));
+        return view('mentor.quizzes.index', compact('quizzes', 'courses'));
     }
 
     /**
@@ -316,5 +329,264 @@ class MentorQuizController extends Controller
         $answer->delete();
 
         return redirect()->route('mentor.quizzes.questions', $quiz)->with('success', __('app.msg_success_answer_berhasil_dihapus'));
+    }
+
+    /**
+     * Build query for quiz attempts
+     */
+    private function getQuizAttemptsQuery(?Quiz $quiz = null, ?Request $request = null)
+    {
+        $courseIds = $this->getMentorCourseIds();
+
+        $query = TestAttempt::with(['user', 'quiz.course', 'testable'])
+            ->whereNotNull('completed_at')
+            ->where(function ($q) use ($courseIds) {
+                $q->where(function ($sub) use ($courseIds) {
+                    $sub->where('testable_type', Course::class)
+                        ->whereIn('testable_id', $courseIds);
+                })->orWhereHas('quiz', fn ($qz) => $qz->whereIn('course_id', $courseIds));
+            });
+
+        if ($quiz) {
+            $query->where(function ($q) use ($quiz) {
+                $q->where('quiz_id', $quiz->id)
+                    ->orWhere(function ($sub) use ($quiz) {
+                        $sub->whereNull('quiz_id')
+                            ->where('testable_type', Course::class)
+                            ->where('testable_id', $quiz->course_id)
+                            ->where('test_type', $quiz->type);
+                    });
+            });
+        } elseif ($request && $request->filled('quiz_id')) {
+            $selectedQuiz = Quiz::whereIn('course_id', $courseIds)->find($request->input('quiz_id'));
+            if ($selectedQuiz) {
+                $query->where(function ($q) use ($selectedQuiz) {
+                    $q->where('quiz_id', $selectedQuiz->id)
+                        ->orWhere(function ($sub) use ($selectedQuiz) {
+                            $sub->whereNull('quiz_id')
+                                ->where('testable_type', Course::class)
+                                ->where('testable_id', $selectedQuiz->course_id)
+                                ->where('test_type', $selectedQuiz->type);
+                        });
+                });
+            }
+        }
+
+        if ($request) {
+            if ($request->filled('course_id')) {
+                $courseId = $request->input('course_id');
+                $query->where(function ($q) use ($courseId) {
+                    $q->where(function ($sub) use ($courseId) {
+                        $sub->where('testable_type', Course::class)
+                            ->where('testable_id', $courseId);
+                    })->orWhereHas('quiz', fn ($qz) => $qz->where('course_id', $courseId));
+                });
+            }
+
+            if ($request->filled('status')) {
+                if ($request->input('status') === 'passed') {
+                    $query->where('passed', true);
+                } elseif ($request->input('status') === 'failed') {
+                    $query->where('passed', false);
+                }
+            }
+
+            if ($request->filled('date_from')) {
+                $query->whereDate('completed_at', '>=', $request->input('date_from'));
+            }
+
+            if ($request->filled('date_to')) {
+                $query->whereDate('completed_at', '<=', $request->input('date_to'));
+            }
+
+            if ($request->filled('search')) {
+                $search = trim($request->input('search'));
+                $numericId = preg_replace('/^QUIZ-/i', '', $search);
+                $query->where(function ($q) use ($search, $numericId) {
+                    $q->where('participant_name', 'like', "%{$search}%")
+                        ->orWhere('whatsapp', 'like', "%{$search}%")
+                        ->orWhere('address', 'like', "%{$search}%")
+                        ->orWhere('birth_place', 'like', "%{$search}%")
+                        ->orWhereHas('user', function ($u) use ($search) {
+                            $u->where('name', 'like', "%{$search}%")
+                                ->orWhere('email', 'like', "%{$search}%");
+                        });
+
+                    if (is_numeric($numericId)) {
+                        $q->orWhere('id', (int) $numericId)
+                            ->orWhere('user_id', (int) $numericId);
+                    }
+                });
+            }
+        }
+
+        return $query->latest('completed_at');
+    }
+
+    /**
+     * View all quiz results for mentor's courses
+     */
+    public function allResults(Request $request): View
+    {
+        $courseIds = $this->getMentorCourseIds();
+        $courses = Course::whereIn('id', $courseIds)->orderBy('title')->get();
+        $quizzesList = Quiz::with('course')->whereIn('course_id', $courseIds)->orderBy('title')->get();
+
+        $baseQuery = $this->getQuizAttemptsQuery(null, $request);
+        $statsQuery = clone $baseQuery;
+        $allMatching = $statsQuery->get();
+
+        $stats = [
+            'total' => $allMatching->count(),
+            'passed' => $allMatching->where('passed', true)->count(),
+            'failed' => $allMatching->where('passed', false)->count(),
+            'avg_score' => $allMatching->count() > 0 ? round($allMatching->avg('score'), 1) : 0,
+        ];
+
+        $attempts = $baseQuery->paginate(20)->withQueryString();
+        $quiz = $request->filled('quiz_id') ? Quiz::with('course')->whereIn('course_id', $courseIds)->find($request->input('quiz_id')) : null;
+
+        return view('mentor.quizzes.results', compact('quiz', 'attempts', 'courses', 'quizzesList', 'stats'));
+    }
+
+    /**
+     * View quiz results & participant personal data
+     */
+    public function results(Request $request, Quiz $quiz): View
+    {
+        if (! $this->canManageQuiz($quiz)) {
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_quiz_ini'));
+        }
+
+        $quiz->load('course');
+        $courseIds = $this->getMentorCourseIds();
+        $courses = Course::whereIn('id', $courseIds)->orderBy('title')->get();
+        $quizzesList = Quiz::with('course')->whereIn('course_id', $courseIds)->orderBy('title')->get();
+
+        $baseQuery = $this->getQuizAttemptsQuery($quiz, $request);
+        $statsQuery = clone $baseQuery;
+        $allMatching = $statsQuery->get();
+
+        $stats = [
+            'total' => $allMatching->count(),
+            'passed' => $allMatching->where('passed', true)->count(),
+            'failed' => $allMatching->where('passed', false)->count(),
+            'avg_score' => $allMatching->count() > 0 ? round($allMatching->avg('score'), 1) : 0,
+        ];
+
+        $attempts = $baseQuery->paginate(20)->withQueryString();
+
+        return view('mentor.quizzes.results', compact('quiz', 'attempts', 'courses', 'quizzesList', 'stats'));
+    }
+
+    /**
+     * Stream CSV download for attempts
+     */
+    private function streamAttemptsCsv($attempts, ?Quiz $quiz = null): StreamedResponse
+    {
+        $slug = $quiz ? \Illuminate\Support\Str::slug($quiz->title) : 'semua-quiz';
+        $filename = 'data-peserta-hasil-quiz-'.$slug.'-'.date('Y-m-d').'.csv';
+
+        return response()->streamDownload(function () use ($attempts, $quiz) {
+            $output = fopen('php://output', 'w');
+            fwrite($output, "\xEF\xBB\xBF");
+
+            fputcsv($output, [
+                'No',
+                'ID Attempt',
+                'ID User',
+                'Nama Peserta',
+                'Tempat, Tanggal Lahir (TTL)',
+                'Alamat',
+                'No. WhatsApp',
+                'Quiz',
+                'Kursus',
+                'Skor (%)',
+                'Jawaban Benar',
+                'Total Soal',
+                'Status',
+                'Tanggal Selesai',
+            ]);
+
+            foreach ($attempts as $index => $attempt) {
+                $quizTitle = $quiz?->title ?? $attempt->quiz?->title ?? ucfirst(str_replace('_', ' ', $attempt->test_type));
+                $courseTitle = $quiz?->course?->title ?? $attempt->quiz?->course?->title ?? $attempt->testable?->title ?? '-';
+
+                fputcsv($output, [
+                    $index + 1,
+                    'QUIZ-'.$attempt->id,
+                    $attempt->user_id,
+                    $attempt->participant_name ?? $attempt->user?->name ?? '-',
+                    $attempt->formatted_ttl,
+                    $attempt->address ?? '-',
+                    $attempt->whatsapp ?? '-',
+                    $quizTitle,
+                    $courseTitle,
+                    number_format((float) $attempt->score, 2),
+                    $attempt->correct_answers,
+                    $attempt->total_questions,
+                    $attempt->passed ? 'LULUS' : 'TIDAK LULUS',
+                    $attempt->completed_at?->format('d/m/Y H:i') ?? '-',
+                ]);
+            }
+
+            fclose($output);
+        }, $filename, [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+        ]);
+    }
+
+    /**
+     * Export all/filtered quiz results to CSV
+     */
+    public function exportAllCsv(Request $request): StreamedResponse
+    {
+        $attempts = $this->getQuizAttemptsQuery(null, $request)->get();
+        $courseIds = $this->getMentorCourseIds();
+        $quiz = $request->filled('quiz_id') ? Quiz::with('course')->whereIn('course_id', $courseIds)->find($request->input('quiz_id')) : null;
+
+        return $this->streamAttemptsCsv($attempts, $quiz);
+    }
+
+    /**
+     * Export quiz results to CSV
+     */
+    public function exportCsv(Request $request, Quiz $quiz): StreamedResponse
+    {
+        if (! $this->canManageQuiz($quiz)) {
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_quiz_ini'));
+        }
+
+        $quiz->load('course');
+        $attempts = $this->getQuizAttemptsQuery($quiz, $request)->get();
+
+        return $this->streamAttemptsCsv($attempts, $quiz);
+    }
+
+    /**
+     * Export all/filtered quiz results to printable PDF view
+     */
+    public function exportAllPdf(Request $request): View
+    {
+        $attempts = $this->getQuizAttemptsQuery(null, $request)->get();
+        $courseIds = $this->getMentorCourseIds();
+        $quiz = $request->filled('quiz_id') ? Quiz::with('course')->whereIn('course_id', $courseIds)->find($request->input('quiz_id')) : null;
+
+        return view('exports.quiz-results-pdf', compact('quiz', 'attempts'));
+    }
+
+    /**
+     * Export quiz results to printable PDF view
+     */
+    public function exportPdf(Request $request, Quiz $quiz): View
+    {
+        if (! $this->canManageQuiz($quiz)) {
+            abort(403, __('app.msg_abort_anda_tidak_memiliki_akses_ke_quiz_ini'));
+        }
+
+        $quiz->load('course');
+        $attempts = $this->getQuizAttemptsQuery($quiz, $request)->get();
+
+        return view('exports.quiz-results-pdf', compact('quiz', 'attempts'));
     }
 }

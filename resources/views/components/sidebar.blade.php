@@ -58,6 +58,7 @@
                     ['id' => 'admin.bootcamps', 'icon' => 'award', 'label' => __('app.manage_bootcamps'), 'route' => 'admin.bootcamps'],
                     ['id' => 'admin.events', 'icon' => 'calendar', 'label' => __('app.manage_events'), 'route' => 'admin.events'],
                     ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'admin.quizzes'],
+                    ['id' => 'admin.quizzes.all-results', 'icon' => 'barChart', 'label' => __('app.quiz_results_export'), 'route' => 'admin.quizzes.all-results'],
                     ['id' => 'admin.options', 'icon' => 'settings', 'label' => __('app.settings'), 'route' => 'admin.options'],
                 ]
             ],
@@ -92,6 +93,7 @@
                     ['id' => 'mentor.my-courses', 'icon' => 'award', 'label' => __('app.my_courses'), 'route' => 'mentor.my-courses'],
                     ['id' => 'mentor.courses.index', 'icon' => 'folder', 'label' => __('app.manage_courses'), 'route' => 'mentor.courses.index'],
                     ['id' => 'mentor.quizzes.index', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'mentor.quizzes.index'],
+                    ['id' => 'mentor.quizzes.all-results', 'icon' => 'barChart', 'label' => __('app.quiz_results_export'), 'route' => 'mentor.quizzes.all-results'],
                     ['id' => 'mentor.sessions.index', 'icon' => 'video', 'label' => __('app.mentoring_sessions'), 'route' => 'mentor.sessions.index'],
                     ['id' => 'mentor.bootcamps.index', 'icon' => 'target', 'label' => __('app.my_bootcamps'), 'route' => 'mentor.bootcamps.index'],
                     ['id' => 'mentor.events', 'icon' => 'calendar', 'label' => __('app.my_events'), 'route' => 'mentor.events'],
@@ -159,6 +161,7 @@
                 ['id' => 'mentor.my-courses', 'icon' => 'award', 'label' => __('app.my_courses'), 'route' => 'mentor.my-courses'],
                 ['id' => 'mentor.courses.index', 'icon' => 'folder', 'label' => __('app.manage_courses'), 'route' => 'mentor.courses.index'],
                 ['id' => 'mentor.quizzes.index', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'mentor.quizzes.index'],
+                ['id' => 'mentor.quizzes.all-results', 'icon' => 'barChart', 'label' => __('app.quiz_results_export'), 'route' => 'mentor.quizzes.all-results'],
                 ['id' => 'mentor.sessions.index', 'icon' => 'video', 'label' => __('app.mentoring_sessions'), 'route' => 'mentor.sessions.index'],
                 ['id' => 'mentor.bootcamps.index', 'icon' => 'target', 'label' => __('app.my_bootcamps'), 'route' => 'mentor.bootcamps.index'],
                 ['id' => 'mentor.events', 'icon' => 'calendar', 'label' => __('app.my_events'), 'route' => 'mentor.events'],
@@ -180,6 +183,7 @@
             ['id' => 'admin.content.events.pending', 'icon' => 'clock', 'label' => __('app.pending_events'), 'route' => 'admin.content.events.pending'],
             ['id' => 'admin.events', 'icon' => 'calendar', 'label' => __('app.manage_events'), 'route' => 'admin.events'],
             ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'admin.quizzes'],
+            ['id' => 'admin.quizzes.all-results', 'icon' => 'barChart', 'label' => __('app.quiz_results_export'), 'route' => 'admin.quizzes.all-results'],
             ['id' => 'admin.options', 'icon' => 'settings', 'label' => __('app.settings'), 'route' => 'admin.options'],
             ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => __('app.back_to_app'), 'route' => 'dashboard'],
         ];
@@ -350,6 +354,8 @@
                 $isActive = $item['id'] === $activePage;
                 if ($item['id'] === 'mentor' && $activePage === 'profil-mentor') $isActive = true;
                 if ($item['id'] === 'komunitas' && in_array($activePage, ['komunitas', 'komunitas.show', 'komunitas.create'])) $isActive = true;
+                if ($item['id'] === 'admin.quizzes.all-results' && in_array($activePage, ['admin.quizzes.all-results', 'admin.quizzes.results'])) $isActive = true;
+                if ($item['id'] === 'mentor.quizzes.all-results' && in_array($activePage, ['mentor.quizzes.all-results', 'mentor.quizzes.results'])) $isActive = true;
             @endphp
 
             @if($isDropdown)

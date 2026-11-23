@@ -13,20 +13,26 @@ class Quiz extends Model
 
     protected $fillable = [
         'course_id',
+        'is_global',
         'title',
         'description',
         'type',
         'chapter_id',
         'passing_score',
         'time_limit_minutes',
+        'free_question_limit',
+        'unlock_price',
         'is_active',
         'order',
     ];
 
     protected $casts = [
+        'is_global' => 'boolean',
         'is_active' => 'boolean',
         'passing_score' => 'integer',
         'time_limit_minutes' => 'integer',
+        'free_question_limit' => 'integer',
+        'unlock_price' => 'integer',
         'order' => 'integer',
     ];
 
@@ -45,6 +51,11 @@ class Quiz extends Model
     public function questions(): HasMany
     {
         return $this->hasMany(QuizQuestion::class)->orderBy('order');
+    }
+
+    public function attempts(): HasMany
+    {
+        return $this->hasMany(TestAttempt::class);
     }
 
     // ── Helpers ──────────────────────────────────────────────────────────────

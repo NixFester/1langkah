@@ -112,8 +112,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/quiz', [QuizController::class, 'index'])->name('quiz.index');
     Route::get('/quiz/history', [QuizController::class, 'history'])->name('quiz.history');
     Route::get('/quiz/start/{quiz}', [QuizController::class, 'start'])->name('quiz.start');
+    Route::post('/quiz/prepay/{quiz}', [QuizController::class, 'prePay'])->name('quiz.prepay');
     Route::post('/quiz/submit/{quiz}', [QuizController::class, 'submit'])->name('quiz.submit');
     Route::get('/quiz/result/{attempt}', [QuizController::class, 'result'])->name('quiz.result');
+    Route::post('/quiz/result/{attempt}/pay', [QuizController::class, 'payResult'])->name('quiz.result.pay');
     Route::get('/quiz/api/questions/{quiz}', [QuizController::class, 'apiQuestions'])->name('quiz.api.questions');
 
     // Achievements
@@ -204,11 +206,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Quiz Management
     Route::get('/quizzes', [App\Http\Controllers\Admin\QuizController::class, 'index'])->name('quizzes');
+    Route::get('/quizzes/results', [App\Http\Controllers\Admin\QuizController::class, 'allResults'])->name('quizzes.all-results');
+    Route::get('/quizzes/results/export-csv', [App\Http\Controllers\Admin\QuizController::class, 'exportAllCsv'])->name('quizzes.all-results.export-csv');
+    Route::get('/quizzes/results/export-pdf', [App\Http\Controllers\Admin\QuizController::class, 'exportAllPdf'])->name('quizzes.all-results.export-pdf');
     Route::get('/quizzes/create', [App\Http\Controllers\Admin\QuizController::class, 'create'])->name('quizzes.create');
     Route::post('/quizzes', [App\Http\Controllers\Admin\QuizController::class, 'store'])->name('quizzes.store');
     Route::get('/quizzes/{quiz}/edit', [App\Http\Controllers\Admin\QuizController::class, 'edit'])->name('quizzes.edit');
     Route::put('/quizzes/{quiz}', [App\Http\Controllers\Admin\QuizController::class, 'update'])->name('quizzes.update');
     Route::delete('/quizzes/{quiz}', [App\Http\Controllers\Admin\QuizController::class, 'destroy'])->name('quizzes.destroy');
+    Route::get('/quizzes/{quiz}/results', [App\Http\Controllers\Admin\QuizController::class, 'results'])->name('quizzes.results');
+    Route::get('/quizzes/{quiz}/results/export-csv', [App\Http\Controllers\Admin\QuizController::class, 'exportCsv'])->name('quizzes.results.export-csv');
+    Route::get('/quizzes/{quiz}/results/export-pdf', [App\Http\Controllers\Admin\QuizController::class, 'exportPdf'])->name('quizzes.results.export-pdf');
 
     // Quiz Questions Management
     Route::get('/quizzes/{quiz}/questions', [App\Http\Controllers\Admin\QuizController::class, 'questions'])->name('quizzes.questions');
@@ -370,11 +378,17 @@ Route::middleware(['auth', 'mentor'])->prefix('mentor')->name('mentor.')->group(
 
     // Mentor Quiz Management
     Route::get('/quizzes', [MentorQuizController::class, 'index'])->name('quizzes.index');
+    Route::get('/quizzes/results', [MentorQuizController::class, 'allResults'])->name('quizzes.all-results');
+    Route::get('/quizzes/results/export-csv', [MentorQuizController::class, 'exportAllCsv'])->name('quizzes.all-results.export-csv');
+    Route::get('/quizzes/results/export-pdf', [MentorQuizController::class, 'exportAllPdf'])->name('quizzes.all-results.export-pdf');
     Route::get('/quizzes/create', [MentorQuizController::class, 'create'])->name('quizzes.create');
     Route::post('/quizzes', [MentorQuizController::class, 'store'])->name('quizzes.store');
     Route::get('/quizzes/{quiz}/edit', [MentorQuizController::class, 'edit'])->name('quizzes.edit');
     Route::patch('/quizzes/{quiz}', [MentorQuizController::class, 'update'])->name('quizzes.update');
     Route::delete('/quizzes/{quiz}', [MentorQuizController::class, 'destroy'])->name('quizzes.destroy');
+    Route::get('/quizzes/{quiz}/results', [MentorQuizController::class, 'results'])->name('quizzes.results');
+    Route::get('/quizzes/{quiz}/results/export-csv', [MentorQuizController::class, 'exportCsv'])->name('quizzes.results.export-csv');
+    Route::get('/quizzes/{quiz}/results/export-pdf', [MentorQuizController::class, 'exportPdf'])->name('quizzes.results.export-pdf');
 
     // Quiz Questions Management
     Route::get('/quizzes/{quiz}/questions', [MentorQuizController::class, 'questions'])->name('quizzes.questions');
