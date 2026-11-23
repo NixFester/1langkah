@@ -50,14 +50,11 @@
             </div>
 
             <div class="space-y-3">
-                <!-- CTA 1: Bayar Sekarang (Mock Payment Rp 30.000) -->
-                <form action="{{ route('quiz.prepay', $quiz) }}" method="POST" class="w-full">
-                    @csrf
-                    <button type="submit" class="w-full py-3.5 px-6 bg-[#cc0000] hover:bg-red-700 text-white font-extrabold rounded-2xl transition-all shadow-lg shadow-red-600/25 flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
-                        <span>Bayar Sekarang & Buka Semua Soal (Rp {{ number_format($unlockPrice, 0, ',', '.') }})</span>
-                    </button>
-                </form>
+                <!-- CTA 1: Bayar Sekarang (Halaman Checkout + Kode Diskon) -->
+                <a href="{{ route('quiz.checkout', $quiz) }}" class="w-full py-3.5 px-6 bg-[#cc0000] hover:bg-red-700 text-white font-extrabold rounded-2xl transition-all shadow-lg shadow-red-600/25 flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+                    <span>Bayar Sekarang & Buka Semua Soal (Rp {{ number_format($unlockPrice, 0, ',', '.') }})</span>
+                </a>
 
                 <!-- CTA 2: Mulai Tes (Mode Preview) -->
                 <button @click="startTestNow()" type="button" class="w-full py-3.5 px-6 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold rounded-2xl transition-colors text-sm sm:text-base cursor-pointer">
@@ -110,12 +107,9 @@
             <div class="font-extrabold text-amber-950 mb-0.5">🔒 Anda sedang mengerjakan dalam Mode Preview ({{ $freeLimit }} dari {{ $totalQuestions }} Soal)</div>
             <p>Soal nomor {{ $freeLimit + 1 }} s/d {{ $totalQuestions }} serta Rangkuman Kepribadian Penuh dikunci. Bayar <strong>Rp {{ number_format($unlockPrice, 0, ',', '.') }}</strong> untuk membuka seluruh soal & laporan lengkap.</p>
         </div>
-        <form action="{{ route('quiz.prepay', $quiz) }}" method="POST" class="flex-shrink-0 w-full sm:w-auto">
-            @csrf
-            <button type="submit" class="w-full sm:w-auto px-5 py-2.5 bg-[#cc0000] hover:bg-red-700 text-white text-xs font-extrabold rounded-full transition-all shadow-sm whitespace-nowrap cursor-pointer">
-                Bayar Rp {{ number_format($unlockPrice, 0, ',', '.') }} (Buka Semua)
-            </button>
-        </form>
+        <a href="{{ route('quiz.checkout', $quiz) }}" class="flex-shrink-0 w-full sm:w-auto text-center px-5 py-2.5 bg-[#cc0000] hover:bg-red-700 text-white text-xs font-extrabold rounded-full transition-all shadow-sm whitespace-nowrap cursor-pointer">
+            Checkout Rp {{ number_format($unlockPrice, 0, ',', '.') }} (Buka Semua)
+        </a>
     </div>
     @endif
 

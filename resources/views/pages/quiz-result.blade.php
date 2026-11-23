@@ -206,13 +206,10 @@
                     </p>
                 </div>
 
-                <form action="{{ route('quiz.result.pay', $attempt) }}" method="POST" class="w-full md:w-auto flex-shrink-0">
-                    @csrf
-                    <button type="submit" class="w-full md:w-auto px-6 py-3.5 bg-white hover:bg-gray-100 text-[#cc0000] font-extrabold rounded-xl transition-all shadow-md text-sm flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span>Bayar Sekarang Rp {{ number_format($unlockPrice, 0, ',', '.') }}</span>
-                    </button>
-                </form>
+                <a href="{{ route('quiz.checkout', ['quiz' => $quiz?->id ?? 1, 'attempt' => $attempt->id]) }}" class="w-full md:w-auto flex-shrink-0 px-6 py-3.5 bg-white hover:bg-gray-100 text-[#cc0000] font-extrabold rounded-xl transition-all shadow-md text-sm flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Checkout & Bayar Rp {{ number_format($unlockPrice, 0, ',', '.') }}</span>
+                </a>
             </div>
         </div>
         @endif
@@ -256,12 +253,9 @@
                 <p class="text-xs sm:text-sm text-gray-500 max-w-md mx-auto mt-1 mb-5">
                     Sesuai ketentuan tes psikologi, rincian jawaban yang telah Anda isi beserta soal #{{ $freeLimit + 1 }}–#{{ $totalQuestions }} dikunci dan baru ditampilkan setelah pembayaran Rp {{ number_format($unlockPrice, 0, ',', '.') }}.
                 </p>
-                <form action="{{ route('quiz.result.pay', $attempt) }}" method="POST" class="inline-block">
-                    @csrf
-                    <button type="submit" class="px-6 py-3 bg-[#cc0000] hover:bg-red-700 text-white text-xs sm:text-sm font-extrabold rounded-full transition-all shadow-sm cursor-pointer">
-                        Bayar Rp {{ number_format($unlockPrice, 0, ',', '.') }} untuk Membuka Semua Jawaban
-                    </button>
-                </form>
+                <a href="{{ route('quiz.checkout', ['quiz' => $quiz?->id ?? 1, 'attempt' => $attempt->id]) }}" class="inline-block px-6 py-3 bg-[#cc0000] hover:bg-red-700 text-white text-xs sm:text-sm font-extrabold rounded-full transition-all shadow-sm cursor-pointer">
+                    Checkout Rp {{ number_format($unlockPrice, 0, ',', '.') }} untuk Membuka Semua Jawaban
+                </a>
             </div>
         @else
             <!-- Unlocked Answers List -->

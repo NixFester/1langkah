@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\PromoCode;
 use App\Models\Quiz;
 use App\Models\QuizAnswer;
 use App\Models\QuizQuestion;
@@ -16,11 +17,36 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class QuizController extends Controller
 {
     /**
-     * Display list of quizzes
+     * Display Manage Global Quiz hub (Default: Current Global Quiz Configuration + Discount Codes + Quiz List)
      */
     public function index(Request $request): View
     {
         $courses = Course::orderBy('title')->get();
+
+        // Ensure default "CONTOH" discount code exists for testing
+        if (! PromoCode::whereRaw('UPPER(code) = ?', ['CONTOH'])->exists()) {
+            PromoCode::create([
+                'code' => 'CONTOH',
+                'name' => 'Diskon Testing Quiz 50%',
+                'type' => PromoCode::TYPE_PERCENTAGE,
+                'value' => 50,
+                'max_uses' => null,
+                'used_count' => 0,
+                'min_purchase' => 0,
+                'is_active' => true,
+                'created_by' => auth()->id(),
+                'description' => 'Kode diskon contoh untuk testing checkout pembayaran Tes Psikologi Global',
+            ]);
+        }
+
+        // Primary Global Quiz Configuration
+        $globalQuiz = Quiz::withCount(['questions', 'attempts'])
+            ->where('is_global', true)
+            ->orderBy('order')
+            ->first() ?? Quiz::withCount(['questions', 'attempts'])->first();
+
+        // Discount / Promo Codes List
+        $promoCodes = PromoCode::latest()->get();
 
         $quizzes = Quiz::with('course', 'questions')
             ->withCount(['questions', 'attempts'])
@@ -40,7 +66,95 @@ class QuizController extends Controller
 
         $totalAttempts = TestAttempt::whereNotNull('completed_at')->count();
 
-        return view('admin.quizzes', compact('quizzes', 'courses', 'totalAttempts'));
+        return view('admin.quizzes', compact('quizzes', 'courses', 'totalAttempts', 'globalQuiz', 'promoCodes'));
+    }
+
+    /**
+     * Save Current Global Quiz Configuration directly from the Manage Global Quiz default page
+     */
+    public function updateGlobalConfig(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'quiz_id' => 'nullable|exists:quizzes,id',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'unlock_price' => 'required|integer|min:0',
+            'free_question_limit' => 'required|integer|min:1',
+            'time_limit_minutes' => 'required|integer|min:1',
+            'passing_score' => 'required|integer|min:0|max:100',
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        $globalQuiz = $request->filled('quiz_id')
+            ? Quiz::find($request->input('quiz_id'))
+            : Quiz::where('is_global', true)->first();
+
+        $payload = [
+            'title' => $data['title'],
+            'description' => $data['description'] ?? null,
+            'is_global' => true,
+            'unlock_price' => $data['unlock_price'],
+            'free_question_limit' => $data['free_question_limit'],
+            'time_limit_minutes' => $data['time_limit_minutes'],
+            'passing_score' => $data['passing_score'],
+            'is_active' => $request->boolean('is_active', true),
+            'type' => $globalQuiz?->type ?? 'pre_test',
+        ];
+
+        if ($globalQuiz) {
+            $globalQuiz->update($payload);
+        } else {
+            Quiz::create($payload);
+        }
+
+        return redirect()->route('admin.quizzes')
+            ->with('success', 'Konfigurasi Global Quiz berhasil disimpan!');
+    }
+
+    /**
+     * Store a new Discount / Promo Code from Manage Global Quiz page
+     */
+    public function storePromo(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'code' => 'required|string|max:50|unique:promo_codes,code',
+            'name' => 'required|string|max:255',
+            'type' => 'required|in:percentage,fixed_amount',
+            'value' => 'required|integer|min:1',
+            'max_uses' => 'nullable|integer|min:1',
+        ]);
+
+        $data['code'] = strtoupper(trim($data['code']));
+        $data['is_active'] = true;
+        $data['created_by'] = auth()->id();
+
+        PromoCode::create($data);
+
+        return redirect()->route('admin.quizzes', ['tab' => 'promos'])
+            ->with('success', "Kode diskon {$data['code']} berhasil ditambahkan!");
+    }
+
+    /**
+     * Toggle Discount Code active status
+     */
+    public function togglePromo(PromoCode $promo): RedirectResponse
+    {
+        $promo->update(['is_active' => ! $promo->is_active]);
+
+        return redirect()->route('admin.quizzes', ['tab' => 'promos'])
+            ->with('success', "Status kode diskon {$promo->code} berhasil diperbarui.");
+    }
+
+    /**
+     * Delete Discount Code
+     */
+    public function destroyPromo(PromoCode $promo): RedirectResponse
+    {
+        $code = $promo->code;
+        $promo->delete();
+
+        return redirect()->route('admin.quizzes', ['tab' => 'promos'])
+            ->with('success', "Kode diskon {$code} berhasil dihapus.");
     }
 
     /**

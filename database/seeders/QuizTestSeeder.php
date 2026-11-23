@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\PromoCode;
 use App\Models\Quiz;
 use App\Models\QuizAnswer;
 use App\Models\QuizQuestion;
@@ -15,6 +16,28 @@ class QuizTestSeeder extends Seeder
 {
     public function run(): void
     {
+        // 0. Seed "CONTOH" Discount Code for Quiz Checkout Testing
+        $creator = User::first() ?? User::withoutEvents(fn () => User::create([
+            'name' => 'Admin',
+            'email' => 'admin@email.com',
+            'password' => bcrypt('admin'),
+            'role' => 'admin',
+        ]));
+
+        PromoCode::updateOrCreate(
+            ['code' => 'CONTOH'],
+            [
+                'name' => 'Diskon Testing Quiz 50% (Rp 15.000)',
+                'type' => PromoCode::TYPE_PERCENTAGE,
+                'value' => 50,
+                'max_uses' => null,
+                'used_count' => 0,
+                'min_purchase' => 0,
+                'is_active' => true,
+                'created_by' => $creator->id,
+                'description' => 'Kode diskon contoh untuk testing checkout pembayaran Tes Psikologi Global',
+            ]
+        );
         // 1. Create Test Students with Google Accounts (@gmail.com)
         $student = User::withoutEvents(function () {
             User::updateOrCreate(

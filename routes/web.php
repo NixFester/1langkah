@@ -116,6 +116,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/quiz', [QuizController::class, 'index'])->name('quiz.index');
     Route::get('/quiz/history', [QuizController::class, 'history'])->name('quiz.history');
     Route::get('/quiz/start/{quiz}', [QuizController::class, 'start'])->name('quiz.start');
+    Route::get('/quiz/checkout/{quiz}', [QuizController::class, 'checkout'])->name('quiz.checkout');
+    Route::post('/quiz/checkout/{quiz}/apply-promo', [QuizController::class, 'applyPromo'])->name('quiz.checkout.promo');
+    Route::post('/quiz/checkout/{quiz}/process', [QuizController::class, 'processCheckout'])->name('quiz.checkout.process');
     Route::post('/quiz/prepay/{quiz}', [QuizController::class, 'prePay'])->name('quiz.prepay');
     Route::post('/quiz/submit/{quiz}', [QuizController::class, 'submit'])->name('quiz.submit');
     Route::get('/quiz/result/{attempt}', [QuizController::class, 'result'])->name('quiz.result');
@@ -208,8 +211,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/options/{option}', [OptionController::class, 'update'])->name('options.update');
     Route::delete('/options/{option}', [OptionController::class, 'destroy'])->name('options.destroy');
 
-    // Quiz Management
+    // Quiz Management (Manage Global Quiz & Discount Codes)
     Route::get('/quizzes', [App\Http\Controllers\Admin\QuizController::class, 'index'])->name('quizzes');
+    Route::post('/quizzes/global-config', [App\Http\Controllers\Admin\QuizController::class, 'updateGlobalConfig'])->name('quizzes.global-config.update');
+    Route::post('/quizzes/promos', [App\Http\Controllers\Admin\QuizController::class, 'storePromo'])->name('quizzes.promos.store');
+    Route::post('/quizzes/promos/{promo}/toggle', [App\Http\Controllers\Admin\QuizController::class, 'togglePromo'])->name('quizzes.promos.toggle');
+    Route::delete('/quizzes/promos/{promo}', [App\Http\Controllers\Admin\QuizController::class, 'destroyPromo'])->name('quizzes.promos.destroy');
     Route::get('/quizzes/results', [App\Http\Controllers\Admin\QuizController::class, 'allResults'])->name('quizzes.all-results');
     Route::get('/quizzes/results/export-csv', [App\Http\Controllers\Admin\QuizController::class, 'exportAllCsv'])->name('quizzes.all-results.export-csv');
     Route::get('/quizzes/results/export-pdf', [App\Http\Controllers\Admin\QuizController::class, 'exportAllPdf'])->name('quizzes.all-results.export-pdf');

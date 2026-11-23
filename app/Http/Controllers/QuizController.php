@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\QuizResultMail;
 use App\Models\Course;
 use App\Models\PaymentTransaction;
+use App\Models\PromoCode;
 use App\Models\Quiz;
 use App\Models\TestAttempt;
 use App\Services\AchievementService;
@@ -137,40 +138,168 @@ class QuizController extends Controller
     }
 
     /**
-     * Pre-pay (Mock Payment Rp 30.000) from the pre-test notification modal before starting the test
+     * Show dedicated Checkout Page for Quiz Payment (with discount/promo code support like "CONTOH")
      */
-    public function prePay(Request $request, Quiz $quiz): RedirectResponse
+    public function checkout(Request $request, Quiz $quiz): View
     {
         $user = Auth::user();
-        $amount = $quiz->unlock_price ?: 30000;
+        $attemptId = $request->query('attempt');
+        $attempt = $attemptId
+            ? TestAttempt::where('user_id', $user->id)->find($attemptId)
+            : null;
+
+        $basePrice = $quiz->unlock_price ?: 30000;
+        $activePromos = PromoCode::available()->latest()->take(5)->get();
+
+        return view('pages.quiz-checkout', [
+            'quiz' => $quiz,
+            'attempt' => $attempt,
+            'basePrice' => $basePrice,
+            'activePromos' => $activePromos,
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * AJAX: Validate & calculate promo/discount code on Quiz Checkout page
+     */
+    public function applyPromo(Request $request, Quiz $quiz): JsonResponse
+    {
+        $code = strtoupper(trim((string) $request->input('promo_code')));
+        $basePrice = (float) ($quiz->unlock_price ?: 30000);
+
+        if ($code === '') {
+            return response()->json([
+                'valid' => false,
+                'message' => 'Masukkan kode diskon terlebih dahulu.',
+            ], 422);
+        }
+
+        $promo = PromoCode::whereRaw('UPPER(code) = ?', [$code])->first();
+
+        if (! $promo || ! $promo->isValid()) {
+            return response()->json([
+                'valid' => false,
+                'message' => 'Kode diskon tidak ditemukan atau sudah tidak berlaku.',
+            ], 422);
+        }
+
+        if ($promo->min_purchase && $basePrice < (float) $promo->min_purchase) {
+            return response()->json([
+                'valid' => false,
+                'message' => 'Minimal transaksi untuk kode ini adalah Rp '.number_format((float) $promo->min_purchase, 0, ',', '.').'.',
+            ], 422);
+        }
+
+        $discount = (int) round($promo->calculateDiscount($basePrice));
+        $finalPrice = max(0, (int) $basePrice - $discount);
+
+        return response()->json([
+            'valid' => true,
+            'code' => $promo->code,
+            'name' => $promo->name,
+            'type_label' => $promo->type_label,
+            'base_price' => (int) $basePrice,
+            'discount' => $discount,
+            'final_price' => $finalPrice,
+            'formatted_discount' => '- Rp '.number_format($discount, 0, ',', '.'),
+            'formatted_final' => 'Rp '.number_format($finalPrice, 0, ',', '.'),
+            'message' => "Kode diskon {$promo->code} ({$promo->name}) berhasil diterapkan!",
+        ]);
+    }
+
+    /**
+     * Process Mock Payment from Quiz Checkout page (supports both pre-test unlock and result unlock)
+     */
+    public function processCheckout(Request $request, Quiz $quiz): RedirectResponse
+    {
+        $user = Auth::user();
+        $basePrice = (float) ($quiz->unlock_price ?: 30000);
+        $code = strtoupper(trim((string) $request->input('promo_code')));
+        $paymentMethod = $request->input('payment_method', 'qris');
+        $attemptId = $request->input('attempt_id');
+
+        $discount = 0;
+        $appliedPromo = null;
+
+        if ($code !== '') {
+            $promo = PromoCode::whereRaw('UPPER(code) = ?', [$code])->first();
+            if ($promo && $promo->isValid()) {
+                $discount = (int) round($promo->calculateDiscount($basePrice));
+                $appliedPromo = $promo;
+                $promo->incrementUsage();
+            }
+        }
+
+        $finalAmount = max(0, (int) $basePrice - $discount);
+
+        $attempt = $attemptId
+            ? TestAttempt::where('user_id', $user->id)->find($attemptId)
+            : null;
 
         PaymentTransaction::create([
             'user_id' => $user->id,
-            'external_id' => 'MOCK-QUIZ-PRE-'.strtoupper(Str::random(8)),
+            'external_id' => 'MOCK-QUIZ-CHK-'.strtoupper(Str::random(8)),
             'payment_id' => 'PAY-'.strtoupper(Str::random(10)),
             'driver' => 'mock',
-            'item_type' => Quiz::class,
-            'item_id' => $quiz->id,
-            'amount' => $amount,
+            'item_type' => $attempt ? TestAttempt::class : Quiz::class,
+            'item_id' => $attempt ? $attempt->id : $quiz->id,
+            'amount' => $finalAmount,
             'status' => 'PAID',
             'item_name' => 'Akses Penuh '.$quiz->title,
-            'metadata' => ['quiz_id' => $quiz->id, 'type' => 'pre_test_unlock'],
+            'metadata' => [
+                'quiz_id' => $quiz->id,
+                'attempt_id' => $attempt?->id,
+                'payment_method' => $paymentMethod,
+                'original_price' => (int) $basePrice,
+                'discount_amount' => $discount,
+                'promo_code' => $appliedPromo?->code,
+            ],
             'paid_at' => now(),
         ]);
 
-        // Also mark any previous attempts for this quiz as paid
+        // Unlock all existing attempts for this user & quiz
         TestAttempt::where('user_id', $user->id)
             ->where('quiz_id', $quiz->id)
             ->update([
                 'is_paid' => true,
                 'paid_at' => now(),
-                'payment_amount' => $amount,
+                'payment_amount' => $finalAmount,
             ]);
 
+        // Mark session prepaid so student can answer all 20 questions
         session()->put("quiz_prepaid_{$quiz->id}_{$user->id}", true);
 
+        $promoNote = $appliedPromo
+            ? " (Diskon {$appliedPromo->code}: -Rp ".number_format($discount, 0, ',', '.').')'
+            : '';
+
+        if ($attempt) {
+            $attempt->refresh();
+            $quiz->load('questions.answers');
+
+            try {
+                $recipient = $attempt->google_email ?: $user->email;
+                Mail::to($recipient)->send(new QuizResultMail($attempt, $quiz, true));
+                $attempt->update(['email_sent_at' => now()]);
+            } catch (\Throwable $e) {
+                \Log::warning('Failed to send full quiz result email after checkout: '.$e->getMessage());
+            }
+
+            return redirect()->route('quiz.result', $attempt)
+                ->with('success', 'Pembayaran Rp '.number_format($finalAmount, 0, ',', '.').$promoNote.' berhasil! Rangkuman kepribadian penuh & seluruh rincian jawaban kini terbuka dan telah dikirim ke email Google Anda.');
+        }
+
         return redirect()->route('quiz.start', ['quiz' => $quiz->id, 'started' => 1])
-            ->with('success', 'Pembayaran Mock Rp '.number_format($amount, 0, ',', '.').' berhasil! Seluruh soal dan laporan kepribadian penuh telah dibuka.');
+            ->with('success', 'Pembayaran Rp '.number_format($finalAmount, 0, ',', '.').$promoNote.' berhasil! Seluruh soal dan laporan kepribadian penuh telah dibuka.');
+    }
+
+    /**
+     * Pre-pay (Mock Payment Rp 30.000) from the pre-test notification modal before starting the test
+     */
+    public function prePay(Request $request, Quiz $quiz): RedirectResponse
+    {
+        return redirect()->route('quiz.checkout', $quiz);
     }
 
     /**
@@ -374,7 +503,7 @@ class QuizController extends Controller
     }
 
     /**
-     * Mock Payment (Rp 30.000) on Result Page to unlock full personality summary, all answers, and send Full Email
+     * Redirect to Quiz Checkout Page from Result Page
      */
     public function payResult(Request $request, TestAttempt $attempt): RedirectResponse
     {
@@ -384,47 +513,9 @@ class QuizController extends Controller
             abort(403);
         }
 
-        $quiz = $attempt->quiz_id ? Quiz::with('questions.answers')->find($attempt->quiz_id) : null;
-        $amount = $quiz?->unlock_price ?: ($attempt->payment_amount ?: 30000);
+        $quizId = $attempt->quiz_id ?: $attempt->testable_id;
 
-        if (! $attempt->is_paid) {
-            PaymentTransaction::create([
-                'user_id' => $user->id,
-                'external_id' => 'MOCK-QUIZ-RES-'.strtoupper(Str::random(8)),
-                'payment_id' => 'PAY-'.strtoupper(Str::random(10)),
-                'driver' => 'mock',
-                'item_type' => TestAttempt::class,
-                'item_id' => $attempt->id,
-                'amount' => $amount,
-                'status' => 'PAID',
-                'item_name' => 'Buka Hasil Penuh '.($quiz?->title ?? 'Tes Psikologi'),
-                'metadata' => ['attempt_id' => $attempt->id, 'quiz_id' => $quiz?->id],
-                'paid_at' => now(),
-            ]);
-
-            $attempt->update([
-                'is_paid' => true,
-                'paid_at' => now(),
-                'payment_amount' => $amount,
-            ]);
-        }
-
-        // Also grant prepaid flag in case they immediately retake to answer all 20 questions
-        if ($quiz) {
-            session()->put("quiz_prepaid_{$quiz->id}_{$user->id}", true);
-        }
-
-        // Send FULL REPORT email to student's Google account upon payment
-        try {
-            $recipient = $attempt->google_email ?: $user->email;
-            Mail::to($recipient)->send(new QuizResultMail($attempt, $quiz, true));
-            $attempt->update(['email_sent_at' => now()]);
-        } catch (\Throwable $e) {
-            \Log::warning('Failed to send full quiz result email: '.$e->getMessage());
-        }
-
-        return redirect()->route('quiz.result', $attempt)
-            ->with('success', 'Pembayaran Mock Rp '.number_format($amount, 0, ',', '.').' berhasil! Rangkuman kepribadian penuh & seluruh rincian jawaban kini terbuka dan telah dikirim ke email Google Anda ('.($attempt->google_email ?: $user->email).').');
+        return redirect()->route('quiz.checkout', ['quiz' => $quizId, 'attempt' => $attempt->id]);
     }
 
     /**
