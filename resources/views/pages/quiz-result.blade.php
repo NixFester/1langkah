@@ -61,9 +61,12 @@
             </div>
 
             <div class="text-center sm:text-left flex-1">
-                <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold {{ $profile['badge_color'] }} mb-2">
-                    Tipe Kepribadian: {{ $profile['archetype'] }}
+                <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold {{ $profile['badge_color'] }} mb-1.5">
+                    {{ $profile['archetype'] }}
                 </div>
+                @if(!empty($profile['tagline']))
+                <p class="text-xs sm:text-sm italic font-semibold text-gray-600 mb-1">{{ $profile['tagline'] }}</p>
+                @endif
                 <h1 class="text-xl sm:text-2xl font-extrabold text-gray-900">
                     {{ $quiz->title ?? 'Tes Psikologi & Kepribadian' }}
                 </h1>
@@ -73,38 +76,112 @@
             </div>
         </div>
 
+        <!-- 4 Personality Dimensions Bar -->
+        @if(!empty($profile['dimensions']))
+        <div class="mt-6 bg-gray-50 rounded-2xl p-5 border border-gray-100">
+            <div class="text-xs font-extrabold text-gray-500 uppercase tracking-wider mb-3">Komposisi 4 Dimensi Kepribadian Anda</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                @foreach($profile['dimensions'] as $dimLabel => $dimPercent)
+                <div>
+                    <div class="flex justify-between text-xs font-bold text-gray-800 mb-1">
+                        <span>{{ $dimLabel }}</span>
+                        <span>{{ $loop->first || $attempt->is_paid ? $dimPercent . '%' : '🔒 ??%' }}</span>
+                    </div>
+                    <div class="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="h-full rounded-full {{ $loop->first ? 'bg-[#cc0000]' : ($attempt->is_paid ? 'bg-gray-800' : 'bg-gray-300') }}" style="width: {{ $loop->first || $attempt->is_paid ? $dimPercent : 35 }}%"></div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
         <!-- Personality Summary Section (Preview vs Full Paid) -->
         <div class="mt-6">
-            <h2 class="text-base font-extrabold text-gray-900 mb-2 flex items-center gap-2">
+            <h2 class="text-base font-extrabold text-gray-900 mb-3 flex items-center gap-2">
                 <span>🧠 Rangkuman Analisis Kepribadian</span>
                 @if(!$attempt->is_paid)
                     <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800">Preview Singkat</span>
                 @else
-                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800">Laporan Lengkap</span>
+                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800">Laporan Lengkap Terbuka</span>
                 @endif
             </h2>
 
             @if($attempt->is_paid)
-                <!-- FULL PERSONALITY SUMMARY (PAID) -->
-                <div class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-5 text-sm text-gray-800 leading-relaxed space-y-3">
-                    <p class="font-semibold text-emerald-950">{{ $profile['preview'] }}</p>
-                    <p>{{ $profile['full_summary'] }}</p>
+                <!-- FULL PERSONALITY SUMMARY & GIMMICKS (PAID) -->
+                <div class="space-y-4">
+                    <div class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-5 text-sm text-gray-800 leading-relaxed space-y-2">
+                        <p class="font-bold text-emerald-950">{{ $profile['preview'] }}</p>
+                        <p>{{ $profile['full_summary'] }}</p>
+                    </div>
+
+                    @if(!empty($profile['superpower']))
+                    <div class="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-4 text-sm">
+                        <div class="text-xs font-extrabold text-indigo-700 uppercase tracking-wider mb-1">⚡ Superpower Utama</div>
+                        <div class="font-bold text-gray-900">{{ $profile['superpower'] }}</div>
+                    </div>
+                    @endif
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white border border-emerald-200 rounded-2xl p-4">
+                            <div class="text-xs font-extrabold text-emerald-700 uppercase tracking-wider mb-2">💪 Kekuatan Utama (Strengths)</div>
+                            <ul class="space-y-1.5 text-xs sm:text-sm text-gray-700 list-disc list-inside">
+                                @foreach($profile['strengths'] ?? [] as $str)
+                                    <li>{{ $str }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                        <div class="bg-white border border-amber-200 rounded-2xl p-4">
+                            <div class="text-xs font-extrabold text-amber-700 uppercase tracking-wider mb-2">⚠️ Titik Buta (Blind Spots)</div>
+                            <ul class="space-y-1.5 text-xs sm:text-sm text-gray-700 list-disc list-inside">
+                                @foreach($profile['blind_spots'] ?? [] as $bs)
+                                    <li>{{ $bs }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-xs sm:text-sm">
+                            <div class="text-xs font-extrabold text-gray-500 uppercase tracking-wider mb-1">🏢 Gaya Kerja & Lingkungan Ideal</div>
+                            <p class="text-gray-800 leading-relaxed">{{ $profile['work_style'] ?? '-' }}</p>
+                            @if(!empty($profile['partner_match']))
+                                <div class="mt-2 pt-2 border-t border-gray-200 text-xs text-gray-600">
+                                    <strong>Partner Kolaborasi Terbaik:</strong> {{ $profile['partner_match'] }}
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-xs sm:text-sm">
+                            <div class="text-xs font-extrabold text-gray-500 uppercase tracking-wider mb-2">🎯 Rekomendasi Jalur Karir</div>
+                            <div class="flex flex-wrap gap-1.5">
+                                @foreach($profile['careers'] ?? [] as $career)
+                                    <span class="px-3 py-1 bg-white border border-gray-200 rounded-full text-xs font-bold text-gray-800">{{ $career }}</span>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
                 </div>
             @else
-                <!-- PREVIEW ONLY + BLURRED LOCKED FULL SUMMARY -->
+                <!-- PREVIEW ONLY + BLURRED LOCKED FULL SUMMARY & GIMMICKS -->
                 <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 text-sm text-gray-800 leading-relaxed">
                     <p class="font-medium text-gray-900 mb-3">{{ $profile['preview'] }}</p>
 
                     <div class="relative mt-4 pt-4 border-t border-gray-200 overflow-hidden rounded-xl">
-                        <div class="blur-[5px] select-none pointer-events-none text-gray-500 text-xs sm:text-sm leading-relaxed">
-                            {{ $profile['full_summary'] }}
+                        <div class="blur-[5px] select-none pointer-events-none text-gray-500 text-xs sm:text-sm leading-relaxed space-y-3">
+                            <p>{{ $profile['full_summary'] }}</p>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="p-3 bg-white rounded-lg border"><strong>⚡ Superpower:</strong> {{ $profile['superpower'] ?? '' }}</div>
+                                <div class="p-3 bg-white rounded-lg border"><strong>🎯 Rekomendasi Karir:</strong> {{ implode(', ', $profile['careers'] ?? []) }}</div>
+                            </div>
                         </div>
                         <div class="absolute inset-0 bg-gradient-to-b from-white/40 via-white/85 to-white flex flex-col items-center justify-center p-4 text-center">
                             <span class="text-xs font-extrabold text-amber-800 bg-amber-100 px-3 py-1 rounded-full mb-1">
-                                🔒 Analisis Kepribadian Lengkap Masih Terkunci
+                                🔒 Superpower, Kekuatan, Blind Spots & Rekomendasi Karir Masih Terkunci
                             </span>
                             <p class="text-xs text-gray-600 max-w-md">
-                                Lakukan pembayaran Rp {{ number_format($unlockPrice, 0, ',', '.') }} untuk membaca analisis kekuatan, area pengembangan, dan rincian seluruh jawaban Anda.
+                                Lakukan pembayaran Rp {{ number_format($unlockPrice, 0, ',', '.') }} untuk membuka analisis 4 dimensi kepribadian, kekuatan, blind spots, kecocokan karir, dan seluruh jawaban Anda.
                             </p>
                         </div>
                     </div>

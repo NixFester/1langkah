@@ -28,14 +28,30 @@
 
             <div style="border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 20px;">
                 <div style="font-size: 12px; color: #6b7280; text-transform: uppercase; font-weight: bold;">Tipe Kepribadian & Skor</div>
-                <h2 style="margin: 6px 0; font-size: 18px; color: #111827;">{{ $profile['archetype'] }} ({{ number_format((float) $attempt->score, 0) }}%)</h2>
+                <h2 style="margin: 6px 0 2px 0; font-size: 18px; color: #111827;">{{ $profile['archetype'] }} ({{ number_format((float) $attempt->score, 0) }}%)</h2>
+                @if(!empty($profile['tagline']))
+                    <div style="font-size: 13px; color: #4b5563; font-style: italic; margin-bottom: 8px;">{{ $profile['tagline'] }}</div>
+                @endif
                 <p style="font-size: 14px; color: #374151; line-height: 1.6; margin-bottom: 0;">
                     @if($isFullReport)
-                        {{ $attempt->personality_summary ?: $profile['full_summary'] }}
+                        {{ $profile['full_summary'] }}
                     @else
                         {{ $profile['preview'] }}
                     @endif
                 </p>
+
+                @if($isFullReport)
+                    @if(!empty($profile['superpower']))
+                        <div style="margin-top: 12px; padding: 10px 12px; background: #eef2ff; border-radius: 8px; font-size: 13px;">
+                            <strong>⚡ Superpower Utama:</strong> {{ $profile['superpower'] }}
+                        </div>
+                    @endif
+                    @if(!empty($profile['careers']))
+                        <div style="margin-top: 8px; font-size: 13px; color: #374151;">
+                            <strong>🎯 Rekomendasi Karir:</strong> {{ implode(', ', $profile['careers']) }}
+                        </div>
+                    @endif
+                @endif
             </div>
 
             @if(!$isFullReport)
