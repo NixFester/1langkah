@@ -63,6 +63,7 @@ class XenditPaymentDriver implements PaymentDriverInterface
 
         try {
             $response = Http::withBasicAuth($apiKey, '')
+                ->withOptions(['verify' => (bool) config('payment.xendit.verify_ssl', true)])
                 ->timeout(30)
                 ->post("{$this->baseUrl}/v2/invoices", $payload);
 
@@ -137,6 +138,7 @@ class XenditPaymentDriver implements PaymentDriverInterface
 
         try {
             $response = Http::withBasicAuth($apiKey, '')
+                ->withOptions(['verify' => (bool) config('payment.xendit.verify_ssl', true)])
                 ->timeout(30)
                 ->get("{$this->baseUrl}/v2/invoices/{$externalId}");
 
@@ -236,6 +238,8 @@ class XenditPaymentDriver implements PaymentDriverInterface
             'online', 'offline' => "{$baseUrl}/bootcamp/{$itemId}",
             'event' => "{$baseUrl}/event/{$itemId}",
             'mentor_session' => "{$baseUrl}/my-sessions",
+            'quiz' => "{$baseUrl}/quiz/start/{$itemId}?started=1",
+            'quiz_attempt' => "{$baseUrl}/quiz/result/{$itemId}",
             default => "{$baseUrl}/dashboard",
         };
     }

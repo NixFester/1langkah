@@ -9,6 +9,7 @@ use App\Models\PromoCode;
 use App\Models\Quiz;
 use App\Models\TestAttempt;
 use App\Services\AchievementService;
+use App\Services\Payment\PaymentService;
 use App\Services\XpService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -237,24 +238,66 @@ class QuizController extends Controller
             ? TestAttempt::where('user_id', $user->id)->find($attemptId)
             : null;
 
+        $paymentService = app(PaymentService::class);
+        $metadata = [
+            'quiz_id' => $quiz->id,
+            'attempt_id' => $attempt?->id,
+            'payment_method' => $paymentMethod,
+            'original_price' => (int) $basePrice,
+            'discount_amount' => $discount,
+            'promo_code' => $appliedPromo?->code,
+        ];
+
+        // Use Xendit when configured and amount > 0
+        if ($finalAmount > 0 && ! $paymentService->isMockDriver()) {
+            $itemType = $attempt ? 'quiz_attempt' : 'quiz';
+            $itemId = $attempt ? $attempt->id : $quiz->id;
+
+            $paymentResult = $paymentService->createPayment(
+                $user,
+                $itemType,
+                $itemId,
+                $finalAmount,
+                'Akses Penuh '.$quiz->title,
+                $metadata
+            );
+
+            if (! $paymentResult['success']) {
+                return redirect()->route('quiz.checkout', array_filter([
+                    'quiz' => $quiz->id,
+                    'attempt' => $attempt?->id,
+                ]))->with('error', $paymentResult['error'] ?? 'Gagal membuat invoice pembayaran Xendit.');
+            }
+
+            if ($paymentService->requiresRedirect() && ! empty($paymentResult['checkout_url'])) {
+                session(['pending_payment_transaction' => [
+                    'external_id' => $paymentResult['external_id'],
+                    'payment_id' => $paymentResult['payment_id'] ?? null,
+                    'driver' => $paymentService->getDriverName(),
+                    'item_type' => $itemType,
+                    'item_id' => $itemId,
+                ]]);
+
+                return redirect($paymentResult['checkout_url']);
+            }
+
+            return redirect()->route('quiz.checkout', array_filter([
+                'quiz' => $quiz->id,
+                'attempt' => $attempt?->id,
+            ]))->with('error', 'Unable to process payment');
+        }
+
         PaymentTransaction::create([
             'user_id' => $user->id,
-            'external_id' => 'MOCK-QUIZ-CHK-'.strtoupper(Str::random(8)),
+            'external_id' => ($finalAmount === 0 ? 'FREE-QUIZ-CHK-' : 'MOCK-QUIZ-CHK-').strtoupper(Str::random(8)),
             'payment_id' => 'PAY-'.strtoupper(Str::random(10)),
-            'driver' => 'mock',
+            'driver' => $finalAmount === 0 ? 'promo' : 'mock',
             'item_type' => $attempt ? TestAttempt::class : Quiz::class,
             'item_id' => $attempt ? $attempt->id : $quiz->id,
             'amount' => $finalAmount,
             'status' => 'PAID',
             'item_name' => 'Akses Penuh '.$quiz->title,
-            'metadata' => [
-                'quiz_id' => $quiz->id,
-                'attempt_id' => $attempt?->id,
-                'payment_method' => $paymentMethod,
-                'original_price' => (int) $basePrice,
-                'discount_amount' => $discount,
-                'promo_code' => $appliedPromo?->code,
-            ],
+            'metadata' => $metadata,
             'paid_at' => now(),
         ]);
 

@@ -165,7 +165,7 @@
                     <span class="text-2xl font-black text-[#cc0000]" x-text="formattedFinal">Rp {{ number_format($basePrice, 0, ',', '.') }}</span>
                 </div>
 
-                <!-- Submit Mock Payment Form -->
+                <!-- Submit Payment Form -->
                 <form action="{{ route('quiz.checkout.process', $quiz) }}" method="POST">
                     @csrf
                     <input type="hidden" name="promo_code" :value="appliedCode">
@@ -176,12 +176,20 @@
 
                     <button type="submit" class="w-full py-4 px-6 rounded-full bg-[#cc0000] hover:bg-red-700 text-white font-extrabold text-base transition-all shadow-lg shadow-red-600/25 flex items-center justify-center gap-2 cursor-pointer">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span>Bayar Sekarang (Mock Payment)</span>
+                        @if(config('payment.driver') === 'xendit')
+                            <span>Bayar Sekarang</span>
+                        @else
+                            <span>Bayar Sekarang (Mock Payment)</span>
+                        @endif
                     </button>
                 </form>
 
                 <p class="text-xs text-gray-400 text-center mt-3">
-                    Mode Testing Mock Payment: Mengklik tombol di atas akan otomatis melunasi pembayaran dan membuka seluruh hasil tes.
+                    @if(config('payment.driver') === 'xendit')
+                        Pembayaran aman diproses melalui Xendit. Anda akan diarahkan ke halaman checkout Xendit.
+                    @else
+                        Mode Testing Mock Payment: Mengklik tombol di atas akan otomatis melunasi pembayaran dan membuka seluruh hasil tes.
+                    @endif
                 </p>
 
                 <!-- Benefits -->

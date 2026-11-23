@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\QuizResultMail;
 use App\Models\Bootcamp;
 use App\Models\Course;
 use App\Models\Enrollment;
@@ -10,12 +11,16 @@ use App\Models\Event;
 use App\Models\EventRegistration;
 use App\Models\MentorSession;
 use App\Models\PaymentTransaction;
+use App\Models\Quiz;
+use App\Models\TestAttempt;
 use App\Models\UserActivityLog;
 use App\Services\NotificationService;
 use App\Services\Payment\PaymentService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class XenditWebhookController extends Controller
 {
@@ -118,6 +123,13 @@ class XenditWebhookController extends Controller
         // Handle event registration
         if ($itemType === 'event') {
             $this->processEventRegistration($transaction);
+
+            return;
+        }
+
+        // Handle quiz / quiz attempt unlock
+        if (in_array($itemType, ['quiz', 'quiz_attempt'], true)) {
+            $this->processQuizUnlock($transaction);
 
             return;
         }
@@ -247,6 +259,61 @@ class XenditWebhookController extends Controller
             'user_id' => $userId,
             'item_type' => $transaction->item_type,
             'item_id' => $itemId,
+        ]);
+    }
+
+    /**
+     * Process quiz unlock after Xendit payment.
+     */
+    private function processQuizUnlock(PaymentTransaction $transaction): void
+    {
+        $userId = $transaction->user_id;
+        $metadata = $transaction->metadata ?? [];
+        $quizId = $metadata['quiz_id'] ?? ($transaction->item_type === 'quiz' ? $transaction->item_id : null);
+        $attemptId = $metadata['attempt_id'] ?? ($transaction->item_type === 'quiz_attempt' ? $transaction->item_id : null);
+
+        if (! $quizId && $attemptId) {
+            $attempt = TestAttempt::find($attemptId);
+            $quizId = $attempt?->quiz_id;
+        }
+
+        if (! $quizId) {
+            Log::error('Xendit webhook: Missing quiz_id for quiz unlock', [
+                'transaction_id' => $transaction->id,
+            ]);
+
+            return;
+        }
+
+        TestAttempt::where('user_id', $userId)
+            ->where('quiz_id', $quizId)
+            ->update([
+                'is_paid' => true,
+                'paid_at' => Carbon::now(),
+                'payment_amount' => $transaction->amount,
+            ]);
+
+        if ($attemptId) {
+            $attempt = TestAttempt::with('user')->find($attemptId);
+            $quiz = Quiz::with('questions.answers')->find($quizId);
+
+            if ($attempt && $quiz && ! $attempt->email_sent_at) {
+                try {
+                    $recipient = $attempt->google_email ?: $attempt->user?->email;
+                    if ($recipient) {
+                        Mail::to($recipient)->send(new QuizResultMail($attempt, $quiz, true));
+                        $attempt->update(['email_sent_at' => Carbon::now()]);
+                    }
+                } catch (\Throwable $e) {
+                    Log::warning('Xendit webhook: Failed to send quiz result email: '.$e->getMessage());
+                }
+            }
+        }
+
+        Log::info('Quiz unlocked via webhook', [
+            'user_id' => $userId,
+            'quiz_id' => $quizId,
+            'attempt_id' => $attemptId,
         ]);
     }
 

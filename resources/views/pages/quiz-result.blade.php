@@ -189,13 +189,13 @@
             @endif
         </div>
 
-        <!-- CTA MOCK PAYMENT CARD (Shown when unpaid) -->
+        <!-- CTA PAYMENT CARD (Shown when unpaid) -->
         @if(!$attempt->is_paid)
         <div class="mt-6 bg-gradient-to-br from-red-600 to-[#990000] rounded-2xl p-6 text-white shadow-lg">
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div class="space-y-1">
                     <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-white/20 text-white uppercase">
-                        Mock Payment • Otomatis Lunas
+                        {{ config('payment.driver') === 'xendit' ? 'Pembayaran Aman • Xendit' : 'Mock Payment • Otomatis Lunas' }}
                     </div>
                     <h3 class="text-lg sm:text-xl font-extrabold">Buka Rangkuman Kepribadian Penuh & Semua Jawaban</h3>
                     <p class="text-xs sm:text-sm text-red-100 leading-relaxed">

@@ -22,9 +22,10 @@ return [
     |
     */
     'xendit' => [
-        'api_key' => env('XENDIT_API_KEY'),
-        'callback_token' => env('XENDIT_CALLBACK_TOKEN'),
+        'api_key' => env('XENDIT_API_KEY', env('XENDIT_SECRET_KEY')),
+        'callback_token' => env('XENDIT_CALLBACK_TOKEN', env('XENDIT_WEBHOOK_TOKEN')),
         'environment' => env('XENDIT_ENVIRONMENT', 'development'), // "development" or "production"
+        'verify_ssl' => env('XENDIT_VERIFY_SSL', true),
     ],
 
     /*
