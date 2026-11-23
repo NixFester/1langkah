@@ -6,6 +6,7 @@ use App\Contracts\Payment\PaymentDriverInterface;
 use App\Models\PaymentTransaction;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class XenditPaymentDriver implements PaymentDriverInterface
@@ -35,20 +36,26 @@ class XenditPaymentDriver implements PaymentDriverInterface
 
         $externalId = $this->generateExternalId($itemType, $itemId, $user->id);
 
+        $nameParts = preg_split('/\s+/', trim((string) $user->name), 2);
+        $givenNames = $user->first_name ?: ($nameParts[0] ?? 'Customer');
+        $surname = $user->last_name ?: ($nameParts[1] ?? null);
+
+        $customer = array_filter([
+            'given_names' => $givenNames,
+            'surname' => $surname,
+            'email' => $user->email,
+            'mobile_number' => $user->phone ?: null,
+        ], fn ($value) => $value !== null && $value !== '');
+
         $payload = [
             'external_id' => $externalId,
             'amount' => $amount,
             'description' => "Payment for {$itemName}",
-            'customer' => [
-                'given_names' => $user->first_name ?? explode(' ', $user->name)[0],
-                'surname' => $user->last_name ?? (isset(explode(' ', $user->name)[1]) ? explode(' ', $user->name)[1] : ''),
-                'email' => $user->email,
-                'mobile_number' => $user->phone ?? null,
-            ],
+            'customer' => $customer,
             'customer_notification_preference' => [
-                'invoice_created' => ['email_enabled' => true, 'sms_enabled' => false],
-                'invoice_reminder' => ['email_enabled' => true, 'sms_enabled' => false],
-                'invoice_paid' => ['email_enabled' => true, 'sms_enabled' => true],
+                'invoice_created' => ['email'],
+                'invoice_reminder' => ['email'],
+                'invoice_paid' => ['email'],
             ],
             'success_redirect_url' => $this->getSuccessRedirectUrl($itemType, $itemId),
             'failure_redirect_url' => $this->getFailureRedirectUrl(),
@@ -98,6 +105,12 @@ class XenditPaymentDriver implements PaymentDriverInterface
                     'message' => 'Invoice created successfully',
                 ];
             }
+
+            Log::error('Xendit invoice creation failed', [
+                'status' => $response->status(),
+                'body' => $response->json() ?? $response->body(),
+                'external_id' => $externalId,
+            ]);
 
             return [
                 'success' => false,

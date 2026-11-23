@@ -50,50 +50,17 @@
         <!-- Left Column -->
         <div style="flex: 1; min-width: 320px; display: flex; flex-direction: column; gap: 24px;">
             
-            <!-- Payment Methods Card -->
+            <!-- Xendit Redirect Notice Card -->
             <div class="bg-white border border-gray-100 shadow-sm" style="border-radius: 20px; padding: 28px;">
-                <h2 class="font-bold text-gray-900" style="font-size: 20px; margin-bottom: 24px;">{{ __('app.choose_payment_method') }}</h2>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;" x-data="{ selected: '' }">
-                    <!-- Virtual Account -->
-                    <div @click="selected = 'va'" :style="selected === 'va' ? 'border-color: #cc0000; background-color: #fffafb;' : 'border-color: #e5e7eb;'" style="border: 1.5px solid; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s;">
-                        <div style="width: 44px; height: 44px; border-radius: 50%; background-color: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #6b7280;">
-                            <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                        </div>
-                        <div>
-                            <div style="font-weight: 700; font-size: 15px; color: #111827;">{{ __('app.virtual_account') }}</div>
-                            <div style="font-size: 13px; color: #9ca3af; margin-top: 2px;">{{ __('app.transfer_via_atm') }}</div>
-                        </div>
+                <div style="display: flex; align-items: flex-start; gap: 16px;">
+                    <div style="width: 48px; height: 48px; border-radius: 14px; background-color: #fef2f2; color: #cc0000; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                     </div>
-                    <!-- Kartu Debit / Kredit -->
-                    <div @click="selected = 'cc'" :style="selected === 'cc' ? 'border-color: #cc0000; background-color: #fffafb;' : 'border-color: #e5e7eb;'" style="border: 1.5px solid; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s;">
-                        <div style="width: 44px; height: 44px; border-radius: 50%; background-color: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #6b7280;">
-                            <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-                        </div>
-                        <div>
-                            <div style="font-weight: 700; font-size: 15px; color: #111827;">{{ __('app.credit_debit_card') }}</div>
-                            <div style="font-size: 13px; color: #9ca3af; margin-top: 2px;">{{ __('app.visa_mastercard') }}</div>
-                        </div>
-                    </div>
-                    <!-- E-Wallet -->
-                    <div @click="selected = 'ewallet'" :style="selected === 'ewallet' ? 'border-color: #cc0000; background-color: #fffafb;' : 'border-color: #e5e7eb;'" style="border: 1.5px solid; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s;">
-                        <div style="width: 44px; height: 44px; border-radius: 50%; background-color: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #6b7280;">
-                            <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                        </div>
-                        <div>
-                            <div style="font-weight: 700; font-size: 15px; color: #111827;">{{ __('app.ewallet') }}</div>
-                            <div style="font-size: 13px; color: #9ca3af; margin-top: 2px; line-height: 1.4;">GoPay, OVO, DANA,<br>ShopeePay</div>
-                        </div>
-                    </div>
-                    <!-- QRIS -->
-                    <div @click="selected = 'qris'" :style="selected === 'qris' ? 'border-color: #cc0000; background-color: #fffafb;' : 'border-color: #e5e7eb;'" style="border: 1.5px solid; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s;">
-                        <div style="width: 44px; height: 44px; border-radius: 50%; background-color: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #6b7280;">
-                            <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
-                        </div>
-                        <div>
-                            <div style="font-weight: 700; font-size: 15px; color: #111827;">QRIS</div>
-                            <div style="font-size: 13px; color: #9ca3af; margin-top: 2px;">{{ __('app.qris_scan') }}</div>
-                        </div>
+                    <div>
+                        <h2 class="font-bold text-gray-900" style="font-size: 20px; margin-bottom: 8px;">Pembayaran via Xendit</h2>
+                        <p style="font-size: 14px; color: #4b5563; line-height: 1.6; margin: 0;">
+                            Anda akan dialihkan ke pembayaran Xendit untuk memilih metode pembayaran yang tersedia (QRIS, Virtual Account, E-Wallet, atau Kartu Kredit/Debit) dan menyelesaikan transaksi secara aman.
+                        </p>
                     </div>
                 </div>
             </div>

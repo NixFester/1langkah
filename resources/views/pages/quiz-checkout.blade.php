@@ -22,53 +22,17 @@
         <!-- Left Column: Payment Methods & Discount Code -->
         <div class="lg:col-span-7 space-y-6">
 
-            <!-- Payment Methods Card -->
+            <!-- Xendit Redirect Notice Card -->
             <div class="bg-white border border-gray-200 rounded-3xl p-6 sm:p-8 shadow-sm">
-                <h2 class="text-lg font-extrabold text-gray-900 mb-4">{{ __('app.choose_payment_method') }}</h2>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <!-- QRIS -->
-                    <div @click="paymentMethod = 'qris'" :class="paymentMethod === 'qris' ? 'border-[#cc0000] bg-red-50/40 ring-2 ring-red-500/10' : 'border-gray-200 hover:bg-gray-50'" class="border-2 rounded-2xl p-4 flex items-center gap-3.5 cursor-pointer transition-all">
-                        <div class="w-11 h-11 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 text-gray-700">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
-                        </div>
-                        <div>
-                            <div class="font-bold text-sm text-gray-900">QRIS</div>
-                            <div class="text-xs text-gray-500">{{ __('app.qris_scan') }}</div>
-                        </div>
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-red-50 text-[#cc0000] flex items-center justify-center flex-shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                     </div>
-
-                    <!-- E-Wallet -->
-                    <div @click="paymentMethod = 'ewallet'" :class="paymentMethod === 'ewallet' ? 'border-[#cc0000] bg-red-50/40 ring-2 ring-red-500/10' : 'border-gray-200 hover:bg-gray-50'" class="border-2 rounded-2xl p-4 flex items-center gap-3.5 cursor-pointer transition-all">
-                        <div class="w-11 h-11 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 text-gray-700">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                        </div>
-                        <div>
-                            <div class="font-bold text-sm text-gray-900">{{ __('app.ewallet') }}</div>
-                            <div class="text-xs text-gray-500">GoPay, OVO, DANA, ShopeePay</div>
-                        </div>
-                    </div>
-
-                    <!-- Virtual Account -->
-                    <div @click="paymentMethod = 'va'" :class="paymentMethod === 'va' ? 'border-[#cc0000] bg-red-50/40 ring-2 ring-red-500/10' : 'border-gray-200 hover:bg-gray-50'" class="border-2 rounded-2xl p-4 flex items-center gap-3.5 cursor-pointer transition-all">
-                        <div class="w-11 h-11 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 text-gray-700">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                        </div>
-                        <div>
-                            <div class="font-bold text-sm text-gray-900">{{ __('app.virtual_account') }}</div>
-                            <div class="text-xs text-gray-500">BCA, Mandiri, BNI, BRI</div>
-                        </div>
-                    </div>
-
-                    <!-- Kartu Debit / Kredit -->
-                    <div @click="paymentMethod = 'cc'" :class="paymentMethod === 'cc' ? 'border-[#cc0000] bg-red-50/40 ring-2 ring-red-500/10' : 'border-gray-200 hover:bg-gray-50'" class="border-2 rounded-2xl p-4 flex items-center gap-3.5 cursor-pointer transition-all">
-                        <div class="w-11 h-11 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 text-gray-700">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-                        </div>
-                        <div>
-                            <div class="font-bold text-sm text-gray-900">{{ __('app.credit_debit_card') }}</div>
-                            <div class="text-xs text-gray-500">{{ __('app.visa_mastercard') }}</div>
-                        </div>
+                    <div>
+                        <h2 class="text-lg font-extrabold text-gray-900">Pembayaran via Xendit</h2>
+                        <p class="text-sm text-gray-600 mt-1 leading-relaxed">
+                            Anda akan dialihkan ke pembayaran Xendit untuk memilih metode pembayaran yang tersedia (QRIS, Virtual Account, E-Wallet, atau Kartu Kredit/Debit) dan menyelesaikan transaksi secara aman.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -169,7 +133,6 @@
                 <form action="{{ route('quiz.checkout.process', $quiz) }}" method="POST">
                     @csrf
                     <input type="hidden" name="promo_code" :value="appliedCode">
-                    <input type="hidden" name="payment_method" :value="paymentMethod">
                     @if($attempt)
                         <input type="hidden" name="attempt_id" value="{{ $attempt->id }}">
                     @endif
@@ -218,7 +181,6 @@
 <script>
 function quizCheckout() {
     return {
-        paymentMethod: 'qris',
         promoInput: '',
         appliedCode: '',
         basePrice: {{ (int) $basePrice }},
