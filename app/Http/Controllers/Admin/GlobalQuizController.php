@@ -21,23 +21,6 @@ class GlobalQuizController extends Controller
      */
     public function index(Request $request): View
     {
-        // Ensure default "CONTOH" discount code exists for testing
-        if (! PromoCode::whereRaw('UPPER(code) = ?', ['CONTOH'])->exists()) {
-            $creatorId = auth()->id() ?? User::first()?->id ?? 1;
-            PromoCode::create([
-                'code' => 'CONTOH',
-                'name' => 'Diskon Testing Global Quiz 50%',
-                'type' => PromoCode::TYPE_PERCENTAGE,
-                'value' => 50,
-                'max_uses' => null,
-                'used_count' => 0,
-                'min_purchase' => 0,
-                'is_active' => true,
-                'created_by' => $creatorId,
-                'description' => 'Kode diskon contoh untuk testing checkout pembayaran Tes Psikologi Global',
-            ]);
-        }
-
         // All Global Quizzes (separate from course quizzes)
         $globalQuizzes = Quiz::where('is_global', true)
             ->withCount(['questions', 'attempts'])

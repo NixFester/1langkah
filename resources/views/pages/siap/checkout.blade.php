@@ -253,6 +253,9 @@ function siapCheckout() {
         },
 
         removePromo(errorMsg = '') {
+            if (!errorMsg) {
+                this.promoInput = '';
+            }
             this.appliedCode = '';
             this.promoDiscount = 0;
             this.finalPrice = this.basePrice;

@@ -26,22 +26,6 @@ class SiapAdminController extends Controller
      */
     public function index(Request $request): View
     {
-        if (! PromoCode::whereRaw('UPPER(code) = ?', ['CONTOH'])->exists()) {
-            $creatorId = auth()->id() ?? User::first()?->id ?? 1;
-            PromoCode::create([
-                'code' => 'CONTOH',
-                'name' => 'Diskon Testing SIAP 50%',
-                'type' => PromoCode::TYPE_PERCENTAGE,
-                'value' => 50,
-                'max_uses' => null,
-                'used_count' => 0,
-                'min_purchase' => 0,
-                'is_active' => true,
-                'created_by' => $creatorId,
-                'description' => 'Kode diskon contoh untuk testing checkout asesmen SIAP 1Langkah',
-            ]);
-        }
-
         $assessments = SiapAssessment::withCount(['questions', 'attempts'])
             ->orderBy('sort_order')
             ->get();
