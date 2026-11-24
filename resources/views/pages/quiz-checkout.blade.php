@@ -13,14 +13,50 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             {{ __('app.back') }}
         </a>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Checkout Pembayaran Tes Psikologi</h1>
-        <p class="text-sm text-gray-500 mt-1">Buka akses penuh {{ $quiz->questions->count() }} soal, analisis 4 dimensi kepribadian, superpower, rekomendasi karir, dan pengiriman laporan lengkap ke email Google Anda.</p>
+        <h1 class="text-xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Checkout Pembayaran Tes Psikologi</h1>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
         <!-- Left Column: Payment Methods & Discount Code -->
         <div class="lg:col-span-7 space-y-6">
+
+            <!-- Detailed Benefits Card -->
+            <div class="bg-white border border-gray-200 rounded-3xl p-5 sm:p-8 shadow-sm">
+                <h2 class="text-lg font-extrabold text-gray-900 mb-1">Yang Anda Dapatkan</h2>
+                <p class="text-sm text-gray-500 mb-5">Buka akses penuh Tes Psikologi &amp; Kepribadian untuk hasil yang lengkap.</p>
+
+                <div class="space-y-4">
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0 text-lg">📝</div>
+                        <div>
+                            <div class="font-bold text-sm text-gray-900">Akses seluruh {{ $quiz->questions->count() }} soal</div>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Mode preview hanya membuka {{ $quiz->free_question_limit ?: 10 }} soal pertama. Dengan akses penuh, semua soal terbuka sehingga hasil lebih akurat.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0 text-lg">🧠</div>
+                        <div>
+                            <div class="font-bold text-sm text-gray-900">Rangkuman kepribadian lengkap</div>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Komposisi 4 dimensi kepribadian, superpower, kekuatan utama, titik buta, gaya kerja ideal, dan rekomendasi jalur karir.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0 text-lg">🔍</div>
+                        <div>
+                            <div class="font-bold text-sm text-gray-900">Rincian seluruh jawaban</div>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Lihat kembali setiap jawaban yang Anda pilih. Tanpa pembayaran, jawaban Anda tetap terkunci.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0 text-lg">📩</div>
+                        <div>
+                            <div class="font-bold text-sm text-gray-900">Laporan dikirim ke email Google</div>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Hasil lengkap otomatis dikirim ke email Google Anda setelah pembayaran berhasil.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Xendit Redirect Notice Card -->
             <div class="bg-white border border-gray-200 rounded-3xl p-6 sm:p-8 shadow-sm">
@@ -154,22 +190,6 @@
                         Mode Testing Mock Payment: Mengklik tombol di atas akan otomatis melunasi pembayaran dan membuka seluruh hasil tes.
                     @endif
                 </p>
-
-                <!-- Benefits -->
-                <div class="mt-6 pt-5 border-t border-gray-100 space-y-2.5 text-xs text-gray-500">
-                    <div class="flex items-center gap-2">
-                        <span class="text-emerald-600 font-bold">✓</span>
-                        <span>Buka seluruh {{ $quiz->questions->count() }} soal tanpa dikunci</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-emerald-600 font-bold">✓</span>
-                        <span>Analisis 4 Dimensi Kepribadian, Superpower, Strengths & Blind Spots</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-emerald-600 font-bold">✓</span>
-                        <span>Rincian seluruh jawaban & pengiriman otomatis ke Email Google Anda</span>
-                    </div>
-                </div>
             </div>
         </div>
 

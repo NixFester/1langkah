@@ -20,53 +20,65 @@
     <x-flash-messages />
 
     <!-- PRE-TEST NOTIFICATION MODAL (CTA: Bayar Sekarang Rp 30.000 / Mulai Tes Preview) -->
-    <div x-show="showStartModal" style="display: {{ $showPreTestModal ? 'flex' : 'none' }};" class="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm" x-transition.opacity>
-        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-gray-100" @click.stop>
+    <div x-show="showStartModal" style="display: {{ $showPreTestModal ? 'flex' : 'none' }};" class="fixed inset-0 z-[110] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-gray-900/60 backdrop-blur-sm" x-transition.opacity>
+        <div class="bg-white rounded-t-3xl sm:rounded-3xl w-full sm:max-w-lg max-h-[92vh] overflow-y-auto p-5 sm:p-8 shadow-2xl border border-gray-100" @click.stop>
             <div class="flex items-center gap-3 mb-4">
-                <div class="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center flex-shrink-0 border border-red-100">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div class="w-11 h-11 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center flex-shrink-0 border border-red-100 text-xl">
+                    💭
                 </div>
-                <div>
+                <div class="min-w-0">
                     <span class="inline-flex px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-red-100 text-red-700 uppercase tracking-wider">
-                        Informasi Tes Psikologi Global
+                        Sebelum Memulai
                     </span>
-                    <h2 class="text-xl font-extrabold text-gray-900 mt-0.5">{{ $quiz->title }}</h2>
+                    <h2 class="text-lg sm:text-xl font-extrabold text-gray-900 mt-0.5 leading-snug">Tips Mengisi Tes Kepribadian</h2>
                 </div>
             </div>
 
-            <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200/80 space-y-2.5 text-sm text-gray-700 mb-6">
-                <div class="flex items-start gap-2.5">
-                    <span class="text-red-600 font-bold">⏱</span>
-                    <span><strong>Batas Waktu {{ $quiz->time_limit_minutes ?? 1 }} Menit:</strong> Saat waktu habis, tes akan <strong>otomatis berakhir</strong> dan hasil dikirim ke <strong>Email Akun Google (@gmail.com)</strong> Anda.</span>
-                </div>
-                <div class="flex items-start gap-2.5">
-                    <span class="text-amber-600 font-bold">🔒</span>
-                    <span><strong>Mode Preview ({{ $freeLimit }} dari {{ $totalQuestions }} Soal):</strong> Tanpa pembayaran, Anda hanya dapat mengisi <strong>{{ $freeLimit }} soal pertama</strong> dan hanya menerima <strong>Hasil Preview</strong>.</span>
-                </div>
-                <div class="flex items-start gap-2.5">
-                    <span class="text-emerald-600 font-bold">✨</span>
-                    <span><strong>Full Akses (Rp {{ number_format($unlockPrice, 0, ',', '.') }}):</strong> Buka seluruh <strong>{{ $totalQuestions }} soal</strong>, dapatkan <strong>Rangkuman Kepribadian Penuh</strong>, dan rincian semua jawaban di layar & email Anda.</span>
-                </div>
+            <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+                Tidak ada jawaban benar atau salah. Hasil paling akurat didapat jika Anda menjawab sebagai diri sendiri.
+            </p>
+
+            <ul class="bg-gray-50 rounded-2xl p-4 border border-gray-200/80 space-y-3 text-sm text-gray-700 mb-4">
+                <li class="flex items-start gap-3">
+                    <span class="text-lg leading-none">🤝</span>
+                    <span><strong>Jawab jujur &amp; apa adanya.</strong> Pilih yang paling menggambarkan kebiasaan Anda, bukan yang terdengar paling ideal.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-lg leading-none">💡</span>
+                    <span><strong>Ikuti jawaban pertama yang terlintas.</strong> Jangan terlalu lama menimbang atau berpura-pura menjadi orang lain.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-lg leading-none">🧘</span>
+                    <span><strong>Jangan terburu-buru.</strong> Baca setiap pernyataan dengan tenang, lalu pilih satu jawaban.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-lg leading-none">🌿</span>
+                    <span><strong>Pilih situasi yang paling sering terjadi.</strong> Bayangkan diri Anda di keseharian, bukan saat kondisi tertentu saja.</span>
+                </li>
+            </ul>
+
+            <div class="flex items-center gap-2 text-xs text-gray-500 mb-5">
+                <span>⏱</span>
+                <span>Waktu pengerjaan <strong class="text-gray-800">{{ $quiz->time_limit_minutes ?? 1 }} menit</strong>. Hasil dikirim ke email Google Anda.</span>
             </div>
 
-            <div class="space-y-3">
-                <!-- CTA 1: Bayar Sekarang (Halaman Checkout + Kode Diskon) -->
-                <a href="{{ route('quiz.checkout', $quiz) }}" class="w-full py-3.5 px-6 bg-[#cc0000] hover:bg-red-700 text-white font-extrabold rounded-2xl transition-all shadow-lg shadow-red-600/25 flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
-                    <span>Bayar Sekarang & Buka Semua Soal (Rp {{ number_format($unlockPrice, 0, ',', '.') }})</span>
+            <div class="space-y-2.5">
+                <!-- CTA: Bayar Sekarang -> halaman checkout -->
+                <a href="{{ route('quiz.checkout', $quiz) }}" class="w-full py-3.5 px-6 bg-[#cc0000] hover:bg-red-700 text-white font-extrabold rounded-2xl transition-all shadow-lg shadow-red-600/25 flex items-center justify-center text-sm sm:text-base cursor-pointer">
+                    Bayar Sekarang
                 </a>
 
-                <!-- CTA 2: Mulai Tes (Mode Preview) -->
+                <!-- CTA: Mulai Tes -->
                 <button @click="startTestNow()" type="button" class="w-full py-3.5 px-6 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold rounded-2xl transition-colors text-sm sm:text-base cursor-pointer">
-                    Mulai Tes Sekarang (Mode Preview {{ $freeLimit }} Soal) &rarr;
+                    Mulai Tes
                 </button>
             </div>
         </div>
     </div>
 
     <!-- Quiz Info Header (Sticky so timer is always visible) -->
-    <div class="sticky top-16 z-40 bg-white/95 backdrop-blur-md rounded-2xl shadow-sm border border-gray-200 p-5 sm:p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div class="flex-1">
+    <div class="sticky top-16 z-40 bg-white/95 backdrop-blur-md rounded-2xl shadow-sm border border-gray-200 p-3 sm:p-6 mb-6 sm:mb-8 flex flex-row md:flex-row justify-between items-center gap-3 sm:gap-4">
+        <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center gap-2 mb-1">
                 @if($quiz->is_global)
                     <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-red-100 text-red-700 uppercase">Tes Psikologi Global</span>
@@ -77,19 +89,19 @@
                     <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-amber-100 text-amber-800">🔒 Mode Preview ({{ $freeLimit }}/{{ $totalQuestions }} Soal)</span>
                 @endif
             </div>
-            <h1 class="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">{{ $quiz->title }}</h1>
+            <h1 class="text-sm sm:text-2xl font-extrabold text-gray-900 tracking-tight truncate sm:whitespace-normal">{{ $quiz->title }}</h1>
             @if($quiz->description)
-            <p class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-2xl mt-0.5">{{ $quiz->description }}</p>
+            <p class="hidden sm:block text-gray-500 text-xs sm:text-sm leading-relaxed max-w-2xl mt-0.5">{{ $quiz->description }}</p>
             @endif
         </div>
 
-        <div class="flex items-center gap-4 sm:gap-6 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-3 md:pt-0 border-gray-100">
-            <div class="text-left md:text-right">
-                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">{{ __('app.progress') }}</div>
-                <div class="text-sm font-bold text-gray-900"><span id="answered-count">0</span> / {{ $freeLimit }} Soal Aktif</div>
+        <div class="flex items-center gap-3 sm:gap-6 flex-shrink-0">
+            <div class="text-right">
+                <div class="hidden sm:block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">{{ __('app.progress') }}</div>
+                <div class="text-xs sm:text-sm font-bold text-gray-900 whitespace-nowrap"><span id="answered-count">0</span>/{{ $freeLimit }}<span class="hidden sm:inline"> Soal Aktif</span></div>
             </div>
             @if($quiz->time_limit_minutes)
-            <div class="bg-red-50 border border-red-200 rounded-xl px-4 py-2.5 flex items-center gap-3">
+            <div class="bg-red-50 border border-red-200 rounded-xl px-3 sm:px-4 py-1.5 sm:py-2.5 flex items-center gap-2 sm:gap-3">
                 <div class="relative flex h-2.5 w-2.5">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
@@ -102,13 +114,12 @@
 
     <!-- Banner Upgrade Full Access if currently in Preview Mode -->
     @if($quiz->is_global && !$isPaidAccess)
-    <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4 sm:p-5 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div class="text-xs sm:text-sm text-amber-900">
-            <div class="font-extrabold text-amber-950 mb-0.5">🔒 Anda sedang mengerjakan dalam Mode Preview ({{ $freeLimit }} dari {{ $totalQuestions }} Soal)</div>
-            <p>Soal nomor {{ $freeLimit + 1 }} s/d {{ $totalQuestions }} serta Rangkuman Kepribadian Penuh dikunci. Bayar <strong>Rp {{ number_format($unlockPrice, 0, ',', '.') }}</strong> untuk membuka seluruh soal & laporan lengkap.</p>
+    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3.5 sm:p-4 mb-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div class="text-xs sm:text-sm text-amber-900 font-semibold">
+            🔒 Mode Preview: {{ $freeLimit }} dari {{ $totalQuestions }} soal terbuka
         </div>
-        <a href="{{ route('quiz.checkout', $quiz) }}" class="flex-shrink-0 w-full sm:w-auto text-center px-5 py-2.5 bg-[#cc0000] hover:bg-red-700 text-white text-xs font-extrabold rounded-full transition-all shadow-sm whitespace-nowrap cursor-pointer">
-            Checkout Rp {{ number_format($unlockPrice, 0, ',', '.') }} (Buka Semua)
+        <a href="{{ route('quiz.checkout', $quiz) }}" class="flex-shrink-0 text-center px-5 py-2.5 bg-[#cc0000] hover:bg-red-700 text-white text-sm font-extrabold rounded-full transition-all shadow-sm whitespace-nowrap cursor-pointer">
+            Bayar Sekarang
         </a>
     </div>
     @endif
@@ -239,10 +250,8 @@
                     <div class="w-11 h-11 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mb-2 shadow-sm">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                     </div>
-                    <div class="text-sm font-extrabold text-gray-900">Soal #{{ $index + 1 }} Terkunci (Mode Preview)</div>
-                    <p class="text-xs text-gray-600 max-w-md mt-1 mb-3">
-                        Bayar <strong>Rp {{ number_format($unlockPrice, 0, ',', '.') }}</strong> untuk membuka soal #{{ $freeLimit + 1 }}–#{{ $totalQuestions }} beserta hasil rangkuman kepribadian penuh.
-                    </p>
+                    <div class="text-sm font-extrabold text-gray-900">Soal #{{ $index + 1 }} Terkunci</div>
+                    <a href="{{ route('quiz.checkout', $quiz) }}" class="mt-2 inline-flex px-4 py-2 bg-[#cc0000] hover:bg-red-700 text-white text-xs font-extrabold rounded-full">Bayar Sekarang</a>
                 </div>
                 @endif
 

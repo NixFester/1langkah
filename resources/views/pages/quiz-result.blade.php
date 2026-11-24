@@ -191,24 +191,15 @@
 
         <!-- CTA PAYMENT CARD (Shown when unpaid) -->
         @if(!$attempt->is_paid)
-        <div class="mt-6 bg-gradient-to-br from-red-600 to-[#990000] rounded-2xl p-6 text-white shadow-lg">
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="mt-6 bg-gradient-to-br from-red-600 to-[#990000] rounded-2xl p-5 sm:p-6 text-white shadow-lg">
+            <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
                 <div class="space-y-1">
-                    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-white/20 text-white uppercase">
-                        {{ config('payment.driver') === 'xendit' ? 'Pembayaran Aman • Xendit' : 'Mock Payment • Otomatis Lunas' }}
-                    </div>
-                    <h3 class="text-lg sm:text-xl font-extrabold">Buka Rangkuman Kepribadian Penuh & Semua Jawaban</h3>
-                    <p class="text-xs sm:text-sm text-red-100 leading-relaxed">
-                        Dengan membayar <strong>Rp {{ number_format($unlockPrice, 0, ',', '.') }}</strong>, Anda langsung mendapatkan:
-                        <br>• Rangkuman analisis kepribadian penuh & dikirim ke email Google Anda
-                        <br>• Melihat seluruh rincian jawaban & kunci jawaban ({{ $totalQuestions }} soal)
-                        <br>• Akses penuh untuk mengisi seluruh {{ $totalQuestions }} soal tanpa dikunci
-                    </p>
+                    <h3 class="text-lg sm:text-xl font-extrabold">Buka Hasil Lengkap Anda</h3>
+                    <p class="text-xs sm:text-sm text-red-100">Lihat analisis kepribadian secara penuh.</p>
                 </div>
 
-                <a href="{{ route('quiz.checkout', ['quiz' => $quiz?->id ?? 1, 'attempt' => $attempt->id]) }}" class="w-full md:w-auto flex-shrink-0 px-6 py-3.5 bg-white hover:bg-gray-100 text-[#cc0000] font-extrabold rounded-xl transition-all shadow-md text-sm flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span>Checkout & Bayar Rp {{ number_format($unlockPrice, 0, ',', '.') }}</span>
+                <a href="{{ route('quiz.checkout', ['quiz' => $quiz?->id ?? 1, 'attempt' => $attempt->id]) }}" class="w-full md:w-auto flex-shrink-0 px-6 py-3.5 bg-white hover:bg-gray-100 text-[#cc0000] font-extrabold rounded-xl transition-all shadow-md text-sm flex items-center justify-center cursor-pointer whitespace-nowrap">
+                    Bayar Sekarang
                 </a>
             </div>
         </div>
