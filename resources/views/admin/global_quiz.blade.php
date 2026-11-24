@@ -16,7 +16,7 @@
                 Tes Psikologi & Kepribadian Global
             </div>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Manage Global Quiz</h1>
-            <p class="text-sm text-gray-500 mt-0.5">Konfigurasi Tes Psikologi Global (terpisah dari kuis kursus), daftar kode diskon (<code class="font-bold text-red-600">CONTOH</code>), buat quiz baru, & rekap hasil peserta.</p>
+            <p class="text-sm text-gray-500 mt-0.5">Konfigurasi Tes Psikologi Global (terpisah dari kuis kursus), daftar kode diskon (<code class="font-bold text-red-600">EDUCREATIVEFEST2026</code>), buat quiz baru, & rekap hasil peserta.</p>
         </div>
 
         <div class="flex flex-wrap items-center gap-2.5">
@@ -231,7 +231,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- TAB 2: LIST OF DISCOUNT CODES (Includes "CONTOH")                         -->
+    <!-- TAB 2: LIST OF DISCOUNT CODES (Includes "EDUCREATIVEFEST2026")            -->
     <!-- ========================================================================= -->
     <div x-show="activeTab === 'promos'" style="display: none;" class="space-y-6">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -245,7 +245,7 @@
                     @csrf
                     <div>
                         <label class="block text-xs font-bold text-gray-700 uppercase mb-1.5">Kode Diskon <span class="text-red-500">*</span></label>
-                        <input type="text" name="code" placeholder="Contoh: CONTOH / DISKON50" required
+                        <input type="text" name="code" placeholder="Contoh: EDUCREATIVEFEST2026" required
                             class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-extrabold uppercase tracking-wider text-gray-900 focus:bg-white focus:border-red-500 outline-none">
                     </div>
 
@@ -286,7 +286,7 @@
             <div class="lg:col-span-8 bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm">
                 <div class="px-6 py-5 border-b border-gray-100">
                     <h2 class="text-lg font-extrabold text-gray-900">List of Discount Codes</h2>
-                    <p class="text-xs text-gray-500">Kode diskon <code class="font-bold text-red-600">CONTOH</code> tersedia untuk pengujian potongan harga di halaman checkout.</p>
+                    <p class="text-xs text-gray-500">Kode diskon <code class="font-bold text-red-600">EDUCREATIVEFEST2026</code> tersedia untuk pengujian potongan harga di halaman checkout.</p>
                 </div>
 
                 <div class="overflow-x-auto">

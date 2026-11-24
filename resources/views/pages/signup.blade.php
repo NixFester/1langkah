@@ -83,6 +83,12 @@
                     </div>
                 @endif
 
+                @if (session('info'))
+                    <div class="bg-blue-50 border border-blue-200 rounded-2xl p-3 mb-4 text-[12.5px] text-blue-800 font-medium">
+                        {{ session('info') }}
+                    </div>
+                @endif
+
                 <!-- Form -->
                 <form method="POST" action="{{ $formAction }}">
                     @csrf
@@ -339,6 +345,12 @@
             @if (session('google_notice'))
                 <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3 mb-4 text-[12.5px] text-amber-800 font-medium">
                     {{ session('google_notice') }}
+                </div>
+            @endif
+
+            @if (session('info'))
+                <div class="bg-blue-50 border border-blue-200 rounded-2xl p-3 mb-4 text-[12.5px] text-blue-800 font-medium">
+                    {{ session('info') }}
                 </div>
             @endif
 

@@ -51,13 +51,8 @@
     <div class="sticky top-16 z-40 mb-6 rounded-2xl border border-stone-200 bg-white/95 p-4 shadow-sm backdrop-blur-md">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <div>
-                @if(!empty($assessment->badge) || $saveProgressUrl)
+                @if($saveProgressUrl)
                     <div class="flex items-center gap-2">
-                        @if(!empty($assessment->badge))
-                            <span class="rounded-full bg-red-50 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[#E50000]">
-                                {{ $assessment->badge }}
-                            </span>
-                        @endif
                         <span class="text-xs font-semibold text-slate-500" x-text="saveStatus"></span>
                     </div>
                 @endif
@@ -258,7 +253,7 @@
         <div x-show="showConfirm" style="display: none;" class="mt-6 rounded-2xl border border-red-200 bg-white p-6 shadow-sm">
             <h3 class="font-display text-lg font-semibold text-[#292C33]">Siap mengenali potensimu?</h3>
             <p class="my-3 text-sm leading-6 text-slate-600">
-                Pastikan semua jawaban dan data jati dirimu sudah lengkap. {{ $assessment->disclaimer }}
+                <strong class="text-amber-800">Pengerjaan hanya dapat dilakukan 1x.</strong> Pastikan semua jawaban dan data jati dirimu sudah lengkap. {{ $assessment->disclaimer }}
             </p>
             <div class="flex flex-wrap gap-3">
                 <button type="submit" :disabled="submitting || answeredCount < questions.length"

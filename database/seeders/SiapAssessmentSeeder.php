@@ -42,11 +42,13 @@ class SiapAssessmentSeeder extends Seeder
 
     private function seedDefaultPromo(): void
     {
-        if (! PromoCode::whereRaw('UPPER(code) = ?', ['CONTOH'])->exists()) {
-            $creatorId = User::first()?->id ?? 1;
-            PromoCode::create([
-                'code' => 'CONTOH',
-                'name' => 'Diskon Testing SIAP 50%',
+        PromoCode::whereRaw('UPPER(code) = ?', ['CONTOH'])->delete();
+
+        $creatorId = User::first()?->id ?? 1;
+        $promo = PromoCode::firstOrCreate(
+            ['code' => 'EDUCREATIVEFEST2026'],
+            [
+                'name' => 'Voucher Edu Creative Fest 2026',
                 'type' => PromoCode::TYPE_PERCENTAGE,
                 'value' => 50,
                 'max_uses' => null,
@@ -54,7 +56,19 @@ class SiapAssessmentSeeder extends Seeder
                 'min_purchase' => 0,
                 'is_active' => true,
                 'created_by' => $creatorId,
-                'description' => 'Kode diskon contoh untuk testing checkout asesmen SIAP 1Langkah',
+                'description' => 'Kode voucher Edu Creative Fest 2026 untuk asesmen SIAP 1Langkah',
+            ]
+        );
+
+        if (! $promo->wasRecentlyCreated) {
+            $promo->update([
+                'name' => 'Voucher Edu Creative Fest 2026',
+                'type' => PromoCode::TYPE_PERCENTAGE,
+                'value' => 50,
+                'max_uses' => null,
+                'min_purchase' => 0,
+                'is_active' => true,
+                'description' => 'Kode voucher Edu Creative Fest 2026 untuk asesmen SIAP 1Langkah',
             ]);
         }
     }

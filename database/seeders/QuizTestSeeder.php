@@ -16,7 +16,9 @@ class QuizTestSeeder extends Seeder
 {
     public function run(): void
     {
-        // 0. Seed "CONTOH" Discount Code for Quiz Checkout Testing
+        // 0. Seed "EDUCREATIVEFEST2026" Discount Code for Quiz Checkout
+        PromoCode::whereRaw('UPPER(code) = ?', ['CONTOH'])->delete();
+
         $creator = User::first() ?? User::withoutEvents(fn () => User::create([
             'name' => 'Admin',
             'email' => 'admin@email.com',
@@ -24,10 +26,10 @@ class QuizTestSeeder extends Seeder
             'role' => 'admin',
         ]));
 
-        PromoCode::updateOrCreate(
-            ['code' => 'CONTOH'],
+        $promo = PromoCode::firstOrCreate(
+            ['code' => 'EDUCREATIVEFEST2026'],
             [
-                'name' => 'Diskon Testing Quiz 50% (Rp 15.000)',
+                'name' => 'Voucher Edu Creative Fest 2026',
                 'type' => PromoCode::TYPE_PERCENTAGE,
                 'value' => 50,
                 'max_uses' => null,
@@ -35,9 +37,21 @@ class QuizTestSeeder extends Seeder
                 'min_purchase' => 0,
                 'is_active' => true,
                 'created_by' => $creator->id,
-                'description' => 'Kode diskon contoh untuk testing checkout pembayaran Tes Psikologi Global',
+                'description' => 'Kode voucher Edu Creative Fest 2026 untuk asesmen SIAP 1Langkah',
             ]
         );
+
+        if (! $promo->wasRecentlyCreated) {
+            $promo->update([
+                'name' => 'Voucher Edu Creative Fest 2026',
+                'type' => PromoCode::TYPE_PERCENTAGE,
+                'value' => 50,
+                'max_uses' => null,
+                'min_purchase' => 0,
+                'is_active' => true,
+                'description' => 'Kode voucher Edu Creative Fest 2026 untuk asesmen SIAP 1Langkah',
+            ]);
+        }
         // 1. Create Test Students with Google Accounts (@gmail.com)
         $student = User::withoutEvents(function () {
             User::updateOrCreate(

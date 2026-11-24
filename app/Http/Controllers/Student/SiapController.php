@@ -137,6 +137,13 @@ class SiapController extends Controller
      */
     public function take(SiapAssessment $assessment): View|RedirectResponse
     {
+        if (! Auth::check()) {
+            session()->put('url.intended', route('siap.take', $assessment));
+
+            return redirect()->route('signup')
+                ->with('info', 'Silakan daftar dan lengkapi data diri Anda terlebih dahulu sebelum mengerjakan asesmen. Setelah selesai, Anda akan otomatis diarahkan kembali ke halaman pengerjaan asesmen.');
+        }
+
         $user = Auth::user();
         $guestToken = $this->getGuestToken();
 
@@ -211,6 +218,15 @@ class SiapController extends Controller
      */
     public function saveProgress(Request $request, SiapAssessment $assessment): JsonResponse
     {
+        if (! Auth::check()) {
+            session()->put('url.intended', route('siap.take', $assessment));
+
+            return response()->json([
+                'saved' => false,
+                'redirect' => route('signup'),
+            ], 401);
+        }
+
         $user = Auth::user();
         $guestToken = $this->getGuestToken();
 
@@ -260,6 +276,13 @@ class SiapController extends Controller
      */
     public function submit(Request $request, SiapAssessment $assessment): RedirectResponse
     {
+        if (! Auth::check()) {
+            session()->put('url.intended', route('siap.take', $assessment));
+
+            return redirect()->route('signup')
+                ->with('info', 'Silakan daftar dan lengkapi data diri Anda terlebih dahulu sebelum mengerjakan asesmen.');
+        }
+
         $user = Auth::user();
         $guestToken = $this->getGuestToken();
 
@@ -798,7 +821,7 @@ class SiapController extends Controller
         if ($product === SiapOrder::PRODUCT_SUPER_FINGER) {
             return [
                 'name' => 'Super Finger Assessment',
-                'subtitle' => 'Analisis sidik jari (Nature | Genotipe) di lokasi mitra resmi 1Langkah. Kode redeem diterbitkan otomatis setelah pembayaran.',
+                'subtitle' => 'Analisis sidik jari di lokasi mitra resmi 1Langkah. Kode redeem diterbitkan otomatis setelah pembayaran.',
                 'normal_price' => $pricing['super_finger_normal'],
                 'promo_price' => $pricing['super_finger_promo'],
                 'assessment' => null,

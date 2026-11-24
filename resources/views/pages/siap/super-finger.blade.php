@@ -1,7 +1,7 @@
 @extends('layouts.app', ['activePage' => 'siap.index'])
 
 @section('title', 'Super Finger — SIAP 1Langkah')
-@section('header_title', 'Super Finger (Nature | Genotipe)')
+@section('header_title', 'Super Finger')
 
 @section('content')
 <div class="mx-auto max-w-[1400px] px-1 pb-12 sm:px-2">
@@ -20,7 +20,6 @@
     <!-- Hero -->
     <section class="grid items-center gap-6 rounded-3xl bg-[#EAF1F8] p-7 md:grid-cols-2 md:p-10">
         <div>
-            <span class="text-sm font-semibold text-blue-800">NATURE · GENOTIPE</span>
             <h1 class="my-4 font-display text-3xl font-semibold leading-tight text-[#292C33]">
                 Setiap Sidik Jari Punya Cerita.<br>Kenali Potensi Hebatmu!
             </h1>
@@ -33,17 +32,17 @@
         </div>
     </section>
 
-    <!-- Nature vs Nurture (5 Core cards omitted per Figma revision) -->
+    <!-- Dua pendekatan -->
     <h2 class="mb-4 mt-8 font-display text-xl font-semibold text-[#292C33]">Dua pendekatan, saling melengkapi</h2>
     <div class="grid gap-4 md:grid-cols-2">
         <div class="rounded-2xl border border-stone-200/80 bg-white p-6">
-            <h3 class="font-semibold text-[#292C33]">Nature (Genotipe)</h3>
+            <h3 class="font-semibold text-[#292C33]">Super Finger (Analisis Sidik Jari)</h3>
             <p class="mt-2 text-sm leading-6 text-slate-600">
                 Eksplorasi kecenderungan potensi dasar melalui asesmen sidik jari di lokasi mitra resmi 1Langkah.
             </p>
         </div>
         <div class="rounded-2xl border border-stone-200/80 bg-white p-6">
-            <h3 class="font-semibold text-[#292C33]">Nurture (Asesmen Online)</h3>
+            <h3 class="font-semibold text-[#292C33]">Asesmen Online SIAP</h3>
             <p class="mt-2 text-sm leading-6 text-slate-600">
                 Kenali kecerdasan dan pola perilaku yang berkembang melalui pengalaman, lingkungan, pola asuh, dan pergaulan lewat Multiple Intelligence Test &amp; Psycho Geometric Test.
             </p>

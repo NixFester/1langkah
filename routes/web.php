@@ -89,6 +89,9 @@ Route::prefix('siap')->name('siap.')->group(function () {
     Route::get('/order/{order}/success', [SiapController::class, 'orderSuccess'])->name('order.success');
 });
 
+// Quiz start redirects guests cleanly to /signup and returns them after registration
+Route::get('/quiz/start/{quiz}', [QuizController::class, 'start'])->name('quiz.start');
+
 // ── Auth-protected ────────────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {
     Route::get('/lengkapi-data-diri', [PageController::class, 'completeProfile'])->name('complete-profile');
@@ -133,7 +136,6 @@ Route::middleware('auth')->group(function () {
     // Quiz for users
     Route::get('/quiz', [QuizController::class, 'index'])->name('quiz.index');
     Route::get('/quiz/history', [QuizController::class, 'history'])->name('quiz.history');
-    Route::get('/quiz/start/{quiz}', [QuizController::class, 'start'])->name('quiz.start');
     Route::get('/quiz/checkout/{quiz}', [QuizController::class, 'checkout'])->name('quiz.checkout');
     Route::post('/quiz/checkout/{quiz}/apply-promo', [QuizController::class, 'applyPromo'])->name('quiz.checkout.promo');
     Route::post('/quiz/checkout/{quiz}/process', [QuizController::class, 'processCheckout'])->name('quiz.checkout.process');

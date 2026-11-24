@@ -61,11 +61,6 @@
             @endphp
             <article class="flex flex-col overflow-hidden rounded-[20px] border border-stone-200 bg-white shadow-sm">
                 <div class="relative flex h-[174px] items-center justify-center overflow-hidden {{ $headerBg }}">
-                    @if(!empty($assessment->badge))
-                        <span class="absolute left-5 top-4 z-10 rounded-full bg-white px-2.5 py-1 text-xs font-semibold tracking-wide {{ $pillText }}">
-                            {{ $assessment->badge }}
-                        </span>
-                    @endif
                     @if($isPsycho)
                         <div class="mt-5 flex items-center gap-3">
                             @foreach([
@@ -134,9 +129,6 @@
         <!-- Super Finger Card -->
         <article class="flex flex-col overflow-hidden rounded-[20px] border border-stone-200 bg-white shadow-sm">
             <div class="relative bg-[#EAF1F8]">
-                <span class="absolute left-5 top-4 z-10 rounded-full bg-white px-2.5 py-1 text-xs font-semibold tracking-wide text-[#4B7199]">
-                    NATURE <span class="mx-1 text-blue-300">|</span> GENOTIPE
-                </span>
                 <x-siap.finger-art />
                 <span class="absolute bottom-4 right-5 rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-[#4B7199]">
                     5 core kecerdasan

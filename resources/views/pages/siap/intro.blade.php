@@ -19,11 +19,6 @@
 
     <!-- Hero Title -->
     <div class="max-w-3xl">
-        @if(!empty($assessment->badge))
-            <span class="mb-3 inline-flex items-center gap-2 rounded-full border border-red-100 bg-red-50 px-3 py-1 text-xs font-semibold text-[#E50000]">
-                {{ $assessment->badge }}
-            </span>
-        @endif
         <h1 class="font-display text-2xl font-semibold leading-snug tracking-tight text-[#292C33] md:text-3xl">
             {{ $assessment->isForcedChoice() ? 'Kenali Kecenderungan Dirimu Lewat Lima Bentuk!' : 'Setiap Anak Itu Cerdas dengan Caranya Sendiri!' }}
         </h1>
@@ -45,9 +40,6 @@
                         <span class="flex h-11 w-11 items-center justify-center rounded-xl" style="background-color: {{ $category->color }}18; color: {{ $category->color }}">
                             <x-icon :name="$category->icon ?: 'sparkles'" class="h-6 w-6" />
                         </span>
-                    @endif
-                    @if($category->code)
-                        <span class="rounded-full bg-stone-100 px-2.5 py-0.5 text-xs font-bold text-stone-600">Pilihan {{ $category->code }}</span>
                     @endif
                 </div>
                 <h2 class="font-semibold text-[#292C33]">{{ $category->name }}</h2>
@@ -122,6 +114,13 @@
                         </div>
                     </li>
                 @endforeach
+                <li class="flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-3.5">
+                    <x-icon name="shieldCheck" class="mt-0.5 h-5 w-5 shrink-0 text-amber-700" />
+                    <div>
+                        <h3 class="text-sm font-bold text-amber-900">Pengerjaan hanya dapat dilakukan 1x</h3>
+                        <p class="mt-1 text-sm leading-6 text-amber-800">Pastikan kamu siap sebelum memulai. Setiap asesmen hanya dapat dikerjakan satu kali dan tidak dapat diulang.</p>
+                    </div>
+                </li>
             </ul>
             <div class="flex flex-wrap justify-end gap-3">
                 <button type="button" @click="open = false"

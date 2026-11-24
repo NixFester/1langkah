@@ -84,6 +84,13 @@ class QuizController extends Controller
      */
     public function start(Quiz $quiz): View|RedirectResponse
     {
+        if (! Auth::check()) {
+            session()->put('url.intended', route('quiz.start', $quiz));
+
+            return redirect()->route('signup')
+                ->with('info', 'Silakan daftar dan lengkapi data diri Anda terlebih dahulu sebelum mengerjakan kuis. Setelah selesai, Anda akan otomatis diarahkan kembali ke halaman pengerjaan kuis.');
+        }
+
         $user = Auth::user();
 
         if (! $this->canAccessQuiz($user, $quiz)) {

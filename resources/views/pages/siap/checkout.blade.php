@@ -5,7 +5,7 @@
 
 @php
     $bundleBenefits = [
-        'Tes Multiple Intelligence Test, Psycho Geometric Test, dan genotipe (Super Finger)',
+        'Tes Multiple Intelligence Test, Psycho Geometric Test, dan Super Finger',
         'Sertifikat asesmen dan merchandise resmi 1Langkah',
         'Private mentoring 1 sesi (2 jam)',
         'Mapping arah karier dan akademisi',
@@ -119,7 +119,7 @@
                 </h2>
                 <div class="mt-3 flex flex-col gap-2.5 sm:flex-row">
                     <input type="text" x-model="promoInput" @keydown.enter.prevent="applyPromoCode()"
-                        placeholder="Masukkan kode diskon (contoh: CONTOH)"
+                        placeholder="Masukkan kode voucher / promo"
                         class="min-h-12 flex-1 rounded-xl border border-stone-300 bg-stone-50 px-4 text-sm font-bold uppercase tracking-wider text-stone-900 focus:border-red-600 focus:bg-white focus:outline-none">
                     <button type="button" @click="applyPromoCode()" :disabled="loadingPromo"
                         class="min-h-12 cursor-pointer rounded-xl bg-stone-900 px-5 text-sm font-semibold text-white hover:bg-black disabled:opacity-50">

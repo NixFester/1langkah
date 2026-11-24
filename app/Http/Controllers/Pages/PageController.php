@@ -68,10 +68,10 @@ class PageController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            // Redirect to role-specific dashboard (matches role-flow-diagrams.md section 1)
+            // Redirect to intended page (e.g. quiz/SIAP) or role-specific dashboard
             $user = Auth::user();
 
-            return redirect()->to($user->getDashboardRoute());
+            return redirect()->intended($user->getDashboardRoute());
         }
 
         return back()

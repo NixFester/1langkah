@@ -601,7 +601,7 @@
                 @csrf
                 <div>
                     <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Kode Promo</label>
-                    <input type="text" name="code" required placeholder="CONTOH50"
+                    <input type="text" name="code" required placeholder="EDUCREATIVEFEST2026"
                         class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-mono font-bold uppercase tracking-wider focus:bg-white focus:border-[#cc0000] outline-none">
                 </div>
                 <div>
