@@ -45,7 +45,7 @@
         <div class="rounded-2xl border border-stone-200/80 bg-white p-6">
             <h3 class="font-semibold text-[#292C33]">Nurture (Fenotipe)</h3>
             <p class="mt-2 text-sm leading-6 text-slate-600">
-                Kenali kecerdasan dan pola perilaku yang berkembang melalui pengalaman, lingkungan, pola asuh, dan pergaulan lewat Psycho Geometric &amp; Multiple Intelligence.
+                Kenali kecerdasan dan pola perilaku yang berkembang melalui pengalaman, lingkungan, pola asuh, dan pergaulan lewat Multiple Intelligence Test &amp; Psycho Geometric Test.
             </p>
         </div>
     </div>

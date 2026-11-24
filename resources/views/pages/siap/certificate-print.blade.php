@@ -57,6 +57,10 @@
                 <div class="profile-pill">{{ $certificate->description }}</div>
             @endif
 
+            <p style="font-size: 12px; font-weight: 700; color: #92400e; background: #fffbeb; border: 1px solid #fde68a; display: inline-block; padding: 6px 14px; border-radius: 999px; margin: 0 0 24px 0;">
+                Berlaku untuk peserta Psikogeometrik saja.
+            </p>
+
             <div class="footer">
                 <div>
                     <div>No. Sertifikat: <strong>{{ $certificate->certificate_number }}</strong></div>

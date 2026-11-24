@@ -18,6 +18,11 @@
     </div>
 
     <!-- Certificates Section -->
+    <div class="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs sm:text-sm font-semibold text-amber-900 flex items-center gap-2.5">
+        <x-icon name="award" class="h-4 w-4 shrink-0 text-amber-700" />
+        <span>Berlaku untuk peserta Psikogeometrik saja.</span>
+    </div>
+
     @if($certificates->isEmpty())
         <section class="mx-auto max-w-2xl rounded-3xl border border-stone-200 bg-white p-8 text-center md:p-12">
             <span class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-blue-50 text-blue-700">

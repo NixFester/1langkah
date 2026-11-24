@@ -2,7 +2,7 @@
 
 @php
     $benefits = [
-        'Tes fenotipe (Psycho Geometric & Multiple Intelligence) dan genotipe (Super Finger)',
+        'Tes fenotipe (Multiple Intelligence Test & Psycho Geometric Test) dan genotipe (Super Finger)',
         'Sertifikat asesmen dan merchandise resmi 1Langkah',
         'Private mentoring 1 sesi (2 jam)',
         'Mapping arah karier dan akademisi',

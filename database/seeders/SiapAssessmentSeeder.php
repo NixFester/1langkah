@@ -64,10 +64,10 @@ class SiapAssessmentSeeder extends Seeder
         $assessment = SiapAssessment::updateOrCreate(
             ['slug' => 'psycho-geometric'],
             [
-                'title' => 'Psycho Geometric (Siswa SMA)',
+                'title' => 'Psycho Geometric Test',
                 'badge' => 'NURTURE | FENOTIPE',
                 'subtitle' => 'Eksplorasi 5 kecenderungan kepribadian & gaya belajarmu berbasis lima bentuk geometri.',
-                'description' => 'Adaptasi eksploratif berbasis lima bentuk geometri (Square, Triangle, Rectangle, Circle, Squiggle) untuk memahami kecenderungan perilaku, gaya belajar, komunikasi, dan potensi akademik-karier siswa SMA.',
+                'description' => 'Adaptasi eksploratif berbasis lima bentuk geometri (Square, Triangle, Rectangle, Circle, Squiggle) untuk memahami kecenderungan perilaku, gaya belajar, komunikasi, dan potensi akademik-karier peserta.',
                 'scoring_type' => SiapAssessment::SCORING_FORCED_CHOICE,
                 'question_count' => 25,
                 'time_limit_minutes' => 5,
@@ -75,7 +75,7 @@ class SiapAssessmentSeeder extends Seeder
                 'unlock_price' => 35000,
                 'disclaimer' => 'Ini adalah materi adaptasi/pengembangan, bukan publikasi resmi atau interpretasi tervalidasi dari Susan Dellinger. Psycho Geometric bukan diagnosis dan tidak boleh digunakan sendirian untuk menentukan jurusan, pekerjaan, penerimaan, atau seleksi. Rekomendasi akademik/karier harus mempertimbangkan minat, kemampuan, nilai, pengalaman, kondisi, serta informasi lain.',
                 'is_active' => true,
-                'sort_order' => 1,
+                'sort_order' => 2,
             ]
         );
 
@@ -448,7 +448,7 @@ class SiapAssessmentSeeder extends Seeder
         $assessment = SiapAssessment::updateOrCreate(
             ['slug' => 'multiple-intelligence'],
             [
-                'title' => 'Multiple Intelligence',
+                'title' => 'Multiple Intelligence Test',
                 'badge' => 'NURTURE | FENOTIPE',
                 'subtitle' => 'Kenali 8 jenis kecerdasan yang berkembang melalui pengalaman dan lingkunganmu.',
                 'description' => 'Menurut teori Multiple Intelligences Howard Gardner, kecerdasan manusia tidak hanya diukur dari kemampuan akademik. Setiap individu memiliki kombinasi 8 jenis kecerdasan yang unik.',
@@ -459,7 +459,7 @@ class SiapAssessmentSeeder extends Seeder
                 'unlock_price' => 35000,
                 'disclaimer' => 'Hasil ini adalah eksplorasi kecenderungan kecerdasan, bukan diagnosis psikologis, pengukuran IQ, atau penentu mutlak pilihan jurusan dan karier.',
                 'is_active' => true,
-                'sort_order' => 2,
+                'sort_order' => 1,
             ]
         );
 
