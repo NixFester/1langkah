@@ -175,7 +175,7 @@ class SiapAssessmentService
                 'max_score' => $max,
                 'percentage' => $percentage,
             ];
-        })->sortByDesc('percentage')->values()->all();
+        })->sort(fn ($a, $b) => ($b['percentage'] <=> $a['percentage']) ?: ($b['raw_score'] <=> $a['raw_score']))->values()->all();
 
         $topScore = $scores[0]['percentage'] ?? 0;
         $primarySlugs = [];
@@ -191,6 +191,10 @@ class SiapAssessmentService
             $primaryNames[] = $scores[0]['name'];
         }
 
+        $topThreeCutoff = (int) ($scores[2]['percentage'] ?? 0);
+        $hasTopTie = count($primarySlugs) > 1
+            || ($topThreeCutoff > 0 && collect($scores)->slice(3)->contains(fn ($item) => (int) ($item['percentage'] ?? 0) === $topThreeCutoff));
+
         $isCombination = count($primarySlugs) > 1;
         $dominantLabel = $isCombination
             ? 'Profil Kombinasi: '.implode(' + ', $primaryNames)
@@ -200,6 +204,7 @@ class SiapAssessmentService
             'scores' => $scores,
             'dominant_profile' => [
                 'is_combination' => $isCombination,
+                'has_top_tie' => $hasTopTie,
                 'primary_slugs' => $primarySlugs,
                 'label' => $dominantLabel,
                 'top_percentage' => $topScore,
@@ -258,8 +263,14 @@ class SiapAssessmentService
             ];
         }
 
-        $topThree = array_slice($scores, 0, 3);
-        $topCats = collect($topThree)
+        $topThreeCutoff = (int) ($scores[2]['percentage'] ?? 0);
+        $topItems = collect($scores)->take(3);
+        if ($topThreeCutoff > 0) {
+            $tiedAtThird = collect($scores)->slice(3)->filter(fn ($s) => (int) ($s['percentage'] ?? 0) === $topThreeCutoff);
+            $topItems = $topItems->concat($tiedAtThird);
+        }
+
+        $topCats = $topItems
             ->map(fn ($s) => $categoriesBySlug->get($s['slug'] ?? ''))
             ->filter()
             ->values();
@@ -268,28 +279,58 @@ class SiapAssessmentService
             return [];
         }
 
-        $first = $topCats->first();
-        $firstActivity = strtolower((string) ($first->details['activity'] ?? 'aktivitas eksplorasi'));
-        $majors = $topCats->map(fn ($c) => $c->details['major'] ?? null)->filter()->implode(' · ');
-        $activities = $topCats->map(fn ($c) => $c->details['activity'] ?? null)->filter()->implode(' · ');
-        $labels = $topCats->map(fn ($c) => strtolower((string) $c->label))->filter()->implode(', ');
+        $formatBulletList = function (string $key, ?string $suffix = null) use ($topCats): string {
+            $lines = $topCats->map(function ($cat) use ($key) {
+                $items = (array) ($cat->details[$key] ?? []);
+                $picked = collect($items)->filter()->take(2)->implode('; ');
+
+                return $picked !== '' ? "{$cat->name}: {$picked}" : null;
+            })->filter();
+
+            if ($suffix && $lines->isNotEmpty()) {
+                $lines->push($suffix);
+            }
+
+            return $lines->isNotEmpty() ? $lines->implode("\n") : '-';
+        };
+
+        $formatTextField = function (string $key) use ($topCats): string {
+            $lines = $topCats->map(function ($cat) use ($key) {
+                $val = trim((string) ($cat->details[$key] ?? ''));
+
+                return $val !== '' ? "{$cat->name}: {$val}" : null;
+            })->filter();
+
+            return $lines->isNotEmpty() ? $lines->implode("\n") : '-';
+        };
 
         return [
             [
-                'focus' => 'Cara belajar',
-                'recommendation' => "Coba {$firstActivity} di tempat yang nyaman. Gunakan jeda singkat setiap 25 menit.",
+                'focus' => 'Personal Strength',
+                'recommendation' => $formatBulletList('personal_strength'),
             ],
             [
-                'focus' => 'Pilihan jurusan',
-                'recommendation' => $majors ?: '-',
+                'focus' => 'Learning Style & Learning Strategy',
+                'recommendation' => $formatBulletList(
+                    'learning_style',
+                    'Catatan: Strategi di atas adalah pilihan untuk dicoba, bukan tipe belajar permanen.'
+                ),
             ],
             [
-                'focus' => 'Aktivitas pengembangan',
-                'recommendation' => $activities ?: '-',
+                'focus' => 'Academic Exploration',
+                'recommendation' => $formatTextField('academic_exploration'),
             ],
             [
-                'focus' => 'Eksplorasi masa depan',
-                'recommendation' => "Buat proyek kecil yang menggabungkan {$labels}. Diskusikan pengalamanmu dengan guru atau orang tua.",
+                'focus' => 'Career Exploration',
+                'recommendation' => $formatTextField('career_exploration'),
+            ],
+            [
+                'focus' => 'Entrepreneurship Potential',
+                'recommendation' => $formatTextField('entrepreneurship_potential'),
+            ],
+            [
+                'focus' => 'Praktik Sehari-hari',
+                'recommendation' => $formatBulletList('daily_practice'),
             ],
         ];
     }

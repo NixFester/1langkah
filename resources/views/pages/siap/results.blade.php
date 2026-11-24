@@ -4,7 +4,7 @@
 @section('header_title', 'Hasil Asesmen SIAP')
 
 @section('content')
-<div class="mx-auto max-w-[1400px] px-1 pb-12 sm:px-2">
+<div x-data="{ showUpgrade: false }" class="mx-auto max-w-[1400px] px-1 pb-12 sm:px-2">
     <x-flash-messages />
 
     <!-- Breadcrumb -->
@@ -41,7 +41,7 @@
             $dominantProfile = $attempt->dominant_profile ?? [];
             $isCombination = (bool) ($dominantProfile['is_combination'] ?? false);
             $unlockPrice = $assessment?->unlock_price ?: 35000;
-            $normalPrice = $assessment?->normal_price ?: 125000;
+            $normalPrice = $assessment?->normal_price ?: 150000;
             $checkoutUrl = route('siap.checkout', [
                 'product' => 'assessment_full',
                 'assessment' => $assessment?->id,
@@ -145,6 +145,12 @@
                         Persentase dihitung dari skor jawaban dibanding skor maksimum setiap kategori. Semua orang memiliki kedelapan kecerdasan.
                     @endif
                 </p>
+
+                @if(!$assessment?->isForcedChoice() && $attempt->is_full_unlocked && !empty($dominantProfile['has_top_tie']))
+                    <p class="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2 text-xs text-amber-800">
+                        Terdapat skor seri pada kecenderungan teratas. Seluruh area dengan skor yang sama ditampilkan secara transparan.
+                    </p>
+                @endif
             </section>
 
             <!-- Right Column: Dominant #1 + Paywall CTA -->
@@ -182,52 +188,40 @@
                             <p class="mt-4 rounded-xl bg-white/75 p-3 text-xs leading-6 text-slate-700">
                                 <strong>Love Language:</strong> {{ $topCategory->details['love_language'] }}
                             </p>
-                        @elseif(!empty($topCategory->details['activity']))
-                            <p class="mt-4 text-sm font-medium text-[#292C33]">
-                                Coba: {{ strtolower($topCategory->details['activity']) }}.
+                        @elseif(!empty($topCategory->details['daily_practice'][0]) || !empty($topCategory->details['activity']))
+                            <p class="mt-4 rounded-xl bg-white/75 p-3 text-xs leading-6 text-slate-700">
+                                <strong>Coba praktikkan:</strong> {{ $topCategory->details['daily_practice'][0] ?? $topCategory->details['activity'] }}
                             </p>
                         @endif
                     </div>
                 @endif
 
                 @if(!$attempt->is_full_unlocked)
-                    <div class="rounded-2xl border border-red-200 bg-white p-6 shadow-sm">
-                        <span class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600">
-                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="10" width="12" height="12" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg>
-                        </span>
-                        <h3 class="font-display text-xl font-semibold text-[#292C33]">Buka Seluruh Hasil Analisis &amp; Sertifikat!</h3>
-                        <p class="my-3 text-sm leading-6 text-slate-600">
-                            Buka paket hasil lengkap untuk melihat diagram dominasi kedua hingga terakhir, panduan lengkap (Love Language, gaya belajar, komunikasi, kerja tim, karier &amp; latihan mingguan), serta Sertifikat Asesmen SIAP.
-                        </p>
-                        <p class="mb-4 text-xl font-bold text-red-600">
-                            Rp{{ number_format($unlockPrice, 0, ',', '.') }}
-                            <span class="text-sm font-normal text-slate-500 line-through">Rp{{ number_format($normalPrice, 0, ',', '.') }}</span>
-                        </p>
-                        <div class="flex flex-col gap-2.5">
-                            <a href="{{ $checkoutUrl }}"
-                                class="flex min-h-12 w-full items-center justify-center rounded-xl bg-[#E50000] px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-700">
-                                Buka Hasil Lengkap – Rp{{ number_format($unlockPrice, 0, ',', '.') }}
-                            </a>
-                            <a href="{{ route('siap.checkout', ['product' => 'bundle_siap', 'assessment' => $assessment?->id, 'attempt' => $attempt->id]) }}"
-                                class="flex min-h-11 w-full items-center justify-center rounded-xl border border-red-200 bg-[#FFF3F0] px-4 py-2.5 text-xs font-semibold text-red-700 hover:bg-red-100">
-                                Atau pilih Paket Lengkap SIAP (Rp{{ number_format($pricing['bundle_price'], 0, ',', '.') }})
-                            </a>
-                        </div>
-                    </div>
+                    <button type="button" @click="showUpgrade = true"
+                        class="flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-4">
+                        <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="6" y="10" width="12" height="12" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg>
+                        <span>Lihat Hasil Lengkap</span>
+                    </button>
                 @endif
             </div>
         </div>
 
         <!-- PAID ONLY: All Category Detail Cards (NEVER rendered in DOM when unpaid) -->
         @if($attempt->is_full_unlocked)
+            @php
+                $topThreeCutoff = (int) ($scores[2]['percentage'] ?? 0);
+            @endphp
             <div class="mt-8 grid gap-5 md:grid-cols-2">
                 @foreach($scores as $i => $s)
                     @php
                         $cat = $categoriesBySlug->get($s['slug'] ?? '');
                         $details = $cat?->details ?? [];
+                        $isHighlighted = $assessment?->isForcedChoice()
+                            ? ($i < 3)
+                            : ($i < 3 || ($topThreeCutoff > 0 && (int) ($s['percentage'] ?? 0) === $topThreeCutoff));
                     @endphp
                     @if($cat)
-                        <section class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+                        <section class="rounded-2xl border bg-white p-6 shadow-sm {{ $isHighlighted && !$assessment?->isForcedChoice() ? 'border-red-200' : 'border-stone-200' }}">
                             <div class="flex items-start justify-between gap-3">
                                 <div class="flex items-center gap-3">
                                     @if($cat->symbol)
@@ -240,7 +234,12 @@
                                         </span>
                                     @endif
                                     <div>
-                                        <h3 class="font-semibold text-[#292C33]">{{ $cat->name }}</h3>
+                                        <h3 class="font-semibold text-[#292C33]">
+                                            @if(!empty($details['short_code']))
+                                                <span class="mr-1 font-mono text-xs text-slate-400">{{ $details['short_code'] }}</span>
+                                            @endif
+                                            {{ $cat->name }}
+                                        </h3>
                                         @if($cat->label)
                                             <p class="text-xs font-medium" style="color: {{ $cat->color }}">{{ $cat->label }}</p>
                                         @endif
@@ -278,17 +277,75 @@
                                     @endforeach
                                 </dl>
                             @else
-                                <div class="mt-4 space-y-2 border-t border-stone-100 pt-4 text-sm leading-6 text-slate-700">
-                                    @if(!empty($details['activity']))
-                                        <p><strong>Karakteristik &amp; aktivitas:</strong> {{ $details['activity'] }}.</p>
+                                @if(!$isHighlighted)
+                                    <details class="mt-4 border-t border-stone-100 pt-3">
+                                        <summary class="cursor-pointer select-none text-xs font-semibold text-[#E50000] hover:underline">
+                                            Lihat interpretasi lengkap (7 komponen)
+                                        </summary>
+                                @endif
+                                <dl class="{{ $isHighlighted ? 'mt-4 border-t border-stone-100 pt-4' : 'mt-3 pt-2' }} space-y-3 text-xs sm:text-sm leading-6 text-slate-700">
+                                    @if(!empty($details['personal_strength']))
+                                        <div>
+                                            <dt class="font-semibold text-[#292C33]">Personal Strength</dt>
+                                            <dd class="mt-1 text-slate-600">
+                                                <ul class="list-inside list-disc space-y-1">
+                                                    @foreach((array) $details['personal_strength'] as $point)
+                                                        <li>{{ $point }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </dd>
+                                        </div>
                                     @endif
-                                    @if(!empty($details['major']))
-                                        <p><strong>Pilihan jurusan relevan:</strong> {{ $details['major'] }}.</p>
+
+                                    @if(!empty($details['learning_style']))
+                                        <div>
+                                            <dt class="font-semibold text-[#292C33]">Learning Style &amp; Learning Strategy</dt>
+                                            <dd class="mt-1 text-slate-600">
+                                                <ul class="list-inside list-disc space-y-1">
+                                                    @foreach((array) $details['learning_style'] as $tip)
+                                                        <li>{{ $tip }}</li>
+                                                    @endforeach
+                                                </ul>
+                                                <p class="mt-1 text-xs italic text-slate-500">Strategi yang dapat dicoba, bukan tipe belajar permanen.</p>
+                                            </dd>
+                                        </div>
                                     @endif
-                                    @if(!empty($details['development_tips']))
-                                        <p><strong>Pengembangan:</strong> {{ $details['development_tips'] }}</p>
+
+                                    @foreach([
+                                        'Academic Exploration' => 'academic_exploration',
+                                        'Career Exploration' => 'career_exploration',
+                                        'Entrepreneurship Potential' => 'entrepreneurship_potential',
+                                    ] as $secTitle => $secKey)
+                                        @if(!empty($details[$secKey]))
+                                            <div>
+                                                <dt class="font-semibold text-[#292C33]">{{ $secTitle }}</dt>
+                                                <dd class="text-slate-600">{{ $details[$secKey] }}</dd>
+                                            </div>
+                                        @endif
+                                    @endforeach
+
+                                    @if(!empty($details['daily_practice']))
+                                        <div>
+                                            <dt class="font-semibold text-[#292C33]">Praktik Sehari-hari untuk Menguatkan Potensi</dt>
+                                            <dd class="mt-1 text-slate-600">
+                                                <ul class="list-inside list-disc space-y-1">
+                                                    @foreach((array) $details['daily_practice'] as $practice)
+                                                        <li>{{ $practice }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </dd>
+                                        </div>
                                     @endif
-                                </div>
+
+                                    @if(!empty($details['note']))
+                                        <p class="rounded-xl bg-stone-50 px-3 py-2 text-xs text-slate-500">
+                                            <strong>Catatan:</strong> {{ $details['note'] }}
+                                        </p>
+                                    @endif
+                                </dl>
+                                @if(!$isHighlighted)
+                                    </details>
+                                @endif
                             @endif
                         </section>
                     @endif
@@ -325,7 +382,7 @@
                                 @foreach($recommendations as $row)
                                     <tr class="even:bg-red-50/40">
                                         <th scope="row" class="px-6 py-5 align-top font-semibold text-red-800">{{ $row['focus'] }}</th>
-                                        <td class="px-6 py-5 leading-7 text-slate-700">{{ $row['recommendation'] }}</td>
+                                        <td class="whitespace-pre-line px-6 py-5 leading-7 text-slate-700">{{ $row['recommendation'] }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -349,6 +406,46 @@
                 &larr; Kembali ke Menu Asesmen
             </a>
         </div>
+
+        @if(!$attempt->is_full_unlocked)
+            <!-- Upgrade Dialog Modal -->
+            <div x-show="showUpgrade" style="display: none;" @keydown.escape.window="showUpgrade = false" @click="showUpgrade = false"
+                class="fixed inset-0 z-[110] flex items-center justify-center overflow-y-auto bg-stone-950/50 p-5 backdrop-blur-sm"
+                x-transition.opacity>
+                <div @click.stop role="dialog" aria-modal="true" aria-labelledby="upgrade-title" aria-describedby="upgrade-description"
+                    class="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-3xl bg-white p-6 text-stone-800 shadow-2xl md:p-8">
+                    <span class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-red-600">
+                        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="6" y="10" width="12" height="12" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg>
+                    </span>
+                    <h2 id="upgrade-title" class="font-display text-2xl font-semibold leading-snug text-[#292C33]">
+                        Buka Seluruh Hasil Kecerdasanmu!
+                    </h2>
+                    <p id="upgrade-description" class="mt-3 text-sm leading-7 text-slate-600">
+                        Kenali potensimu, temukan arahmu. Buka {{ $assessment?->isForcedChoice() ? '5' : '8' }} hasil kecerdasan lengkap beserta penjelasan dan rekomendasi personal.
+                    </p>
+                    <p class="my-5 rounded-xl bg-red-50 p-4 text-sm leading-7 text-red-900">
+                        Mulai eksplorasi bahasa cinta, gaya belajar dan komunikasi, hingga inspirasi jurusan kuliah, karier, dan bisnis.
+                    </p>
+                    <p class="text-sm text-slate-600">
+                        Bahan refleksi, bukan penentu mutlak masa depanmu.
+                    </p>
+                    <div class="my-6 flex flex-wrap items-baseline gap-3">
+                        <strong class="font-display text-3xl text-red-600">Rp{{ number_format($unlockPrice, 0, ',', '.') }}</strong>
+                        <span class="text-sm text-slate-600 line-through">Rp{{ number_format($normalPrice, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="flex flex-wrap justify-end gap-3">
+                        <button type="button" @click="showUpgrade = false"
+                            class="min-h-12 cursor-pointer rounded-xl border border-stone-200 bg-white px-5 py-3 text-sm font-semibold text-stone-800 hover:bg-stone-50">
+                            Nanti Saja
+                        </button>
+                        <a href="{{ $checkoutUrl }}"
+                            class="inline-flex min-h-12 items-center justify-center rounded-xl bg-[#E50000] px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-700">
+                            Buka Hasil Lengkap – Rp{{ number_format($unlockPrice, 0, ',', '.') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @endif
     @endif
 </div>
 @endsection

@@ -811,7 +811,7 @@ class SiapController extends Controller
             return [
                 'name' => $assessment->title.' – Full Result',
                 'subtitle' => 'Buka seluruh diagram dominasi, analisis lengkap setiap dimensi, rekomendasi belajar-karier, dan Sertifikat Asesmen SIAP.',
-                'normal_price' => (int) ($assessment->normal_price ?: 125000),
+                'normal_price' => (int) ($assessment->normal_price ?: 150000),
                 'promo_price' => (int) ($assessment->unlock_price ?: 35000),
                 'assessment' => $assessment,
                 'attempt' => $attempt,
