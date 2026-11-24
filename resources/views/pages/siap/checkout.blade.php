@@ -134,18 +134,6 @@
                         <button x-show="promoValid" type="button" @click="removePromo()" class="ml-2 cursor-pointer underline">Hapus</button>
                     </div>
                 </template>
-
-                @if($activePromos->isNotEmpty())
-                    <div class="mt-4 flex flex-wrap items-center gap-2 border-t border-stone-100 pt-3 text-xs text-slate-500">
-                        <span>Kode tersedia:</span>
-                        @foreach($activePromos as $p)
-                            <button type="button" @click="promoInput = '{{ $p->code }}'; applyPromoCode()"
-                                class="cursor-pointer rounded-full border border-red-200 bg-red-50 px-3 py-1 font-bold text-[#E50000] hover:bg-red-100">
-                                {{ $p->code }} ({{ $p->type_label }})
-                            </button>
-                        @endforeach
-                    </div>
-                @endif
             </div>
         </div>
 
