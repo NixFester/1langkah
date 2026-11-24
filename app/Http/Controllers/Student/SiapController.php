@@ -504,7 +504,6 @@ class SiapController extends Controller
             'participant_name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'parent_whatsapp' => 'required|string|max:30',
-            'payment_method' => 'nullable|string|max:32',
             'parental_consent' => 'accepted',
             'promo_code' => 'nullable|string|max:50',
         ], [
@@ -539,7 +538,7 @@ class SiapController extends Controller
             'email' => $validated['email'],
             'parent_whatsapp' => $validated['parent_whatsapp'],
             'parental_consent' => true,
-            'payment_method' => $validated['payment_method'] ?? 'QRIS',
+            'payment_method' => $finalAmount === 0 ? 'promo' : config('payment.driver', 'xendit'),
             'normal_price' => $resolved['normal_price'],
             'discount_amount' => $totalDiscount,
             'final_price' => $finalAmount,

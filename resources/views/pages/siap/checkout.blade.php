@@ -61,9 +61,8 @@
         @if($attempt)
             <input type="hidden" name="attempt_id" value="{{ $attempt->id }}">
         @endif
-        <input type="hidden" name="payment_method" :value="method">
 
-        <!-- Left Column: Participant Data, Payment Method & Promo Code -->
+        <!-- Left Column: Participant Data, Xendit Notice & Promo Code -->
         <div class="space-y-6">
             <div class="space-y-5 rounded-2xl border border-stone-200 bg-white p-6">
                 <h2 class="font-display text-lg font-semibold text-[#292C33]">Data Peserta</h2>
@@ -91,28 +90,26 @@
                         class="mt-2 min-h-12 w-full rounded-xl border border-stone-300 px-4 text-sm focus:border-red-600 focus:outline-none">
                 </label>
 
-                <fieldset>
-                    <legend class="mb-3 text-sm font-semibold text-[#292C33]">Metode pembayaran</legend>
-                    <div class="flex flex-wrap gap-2">
-                        @foreach(['QRIS', 'Virtual Account', 'E-Wallet'] as $pm)
-                            <button type="button" @click="method = '{{ $pm }}'"
-                                :aria-pressed="method === '{{ $pm }}'"
-                                class="min-h-12 cursor-pointer rounded-xl border px-4 text-sm font-medium transition"
-                                :class="method === '{{ $pm }}' ? 'border-red-600 bg-red-50 font-semibold text-red-700' : 'border-stone-200 text-stone-700 hover:bg-stone-50'">
-                                {{ $pm }}
-                            </button>
-                        @endforeach
-                    </div>
-                    @if(config('payment.driver') === 'xendit')
-                        <p class="mt-2 text-xs text-slate-500">Anda akan diarahkan ke halaman checkout resmi Xendit untuk menyelesaikan pembayaran.</p>
-                    @endif
-                </fieldset>
-
                 <label class="flex min-h-11 items-start gap-3 text-sm leading-6 text-slate-700">
                     <input required type="checkbox" name="parental_consent" value="1" {{ old('parental_consent') ? 'checked' : '' }}
                         class="mt-1.5 h-4 w-4 accent-red-600">
                     <span>Saya menyetujui pembelian asesmen ini dan memiliki izin orang tua/wali jika berusia di bawah umur.</span>
                 </label>
+            </div>
+
+            <!-- Xendit Payment Notice Card -->
+            <div class="rounded-2xl border border-stone-200 bg-white p-6">
+                <div class="flex items-start gap-4">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-[#E50000]">
+                        <x-icon name="shieldCheck" class="h-6 w-6" />
+                    </div>
+                    <div>
+                        <h2 class="font-display text-base font-semibold text-[#292C33]">Pembayaran via Xendit</h2>
+                        <p class="mt-1 text-sm leading-6 text-slate-600">
+                            Anda akan diarahkan ke halaman checkout Xendit untuk memilih metode pembayaran yang tersedia (QRIS, Virtual Account, E-Wallet, atau Kartu Kredit/Debit) dan menyelesaikan transaksi secara aman.
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <!-- Promo Code Card -->
@@ -202,9 +199,9 @@
 
             <p class="mt-4 text-center text-xs text-slate-500">
                 @if(config('payment.driver') === 'xendit')
-                    Diproses aman via Xendit (<span x-text="method"></span>)
+                    Pembayaran aman diproses melalui Xendit. Anda akan diarahkan ke halaman checkout Xendit.
                 @else
-                    Mode Mock Payment aktif · transaksi via <span x-text="method"></span> langsung dikonfirmasi
+                    Mode Mock Payment aktif · pembayaran akan langsung dikonfirmasi.
                 @endif
             </p>
         </div>
@@ -217,7 +214,6 @@
 function siapCheckout() {
     const basePrice = {{ (int) $promoPrice }};
     return {
-        method: 'QRIS',
         promoInput: '',
         appliedCode: '',
         basePrice,
