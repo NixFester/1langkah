@@ -14,7 +14,7 @@ interface PaymentDriverInterface
      * @param  array<string, mixed>  $metadata  Additional metadata
      * @return array<string, mixed> payment details including 'success', 'checkout_url', 'external_id', 'error'
      */
-    public function createPayment(User $user, string $itemType, int $itemId, int $amount, string $itemName, array $metadata = []): array;
+    public function createPayment(?User $user, string $itemType, int $itemId, int $amount, string $itemName, array $metadata = []): array;
 
     /**
      * Get the status of a payment by external ID.

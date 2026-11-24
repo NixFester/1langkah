@@ -19,9 +19,11 @@
 
     <!-- Hero Title -->
     <div class="max-w-3xl">
-        <span class="mb-3 inline-flex items-center gap-2 rounded-full border border-red-100 bg-red-50 px-3 py-1 text-xs font-semibold text-[#E50000]">
-            {{ $assessment->badge }}
-        </span>
+        @if(!empty($assessment->badge))
+            <span class="mb-3 inline-flex items-center gap-2 rounded-full border border-red-100 bg-red-50 px-3 py-1 text-xs font-semibold text-[#E50000]">
+                {{ $assessment->badge }}
+            </span>
+        @endif
         <h1 class="font-display text-2xl font-semibold leading-snug tracking-tight text-[#292C33] md:text-3xl">
             {{ $assessment->isForcedChoice() ? 'Kenali Kecenderungan Dirimu Lewat Lima Bentuk!' : 'Setiap Anak Itu Cerdas dengan Caranya Sendiri!' }}
         </h1>
@@ -61,15 +63,15 @@
     <div class="flex flex-wrap items-center justify-between gap-5 rounded-2xl bg-[#EAF3F5] p-6">
         <div class="space-y-1 text-sm leading-6 text-[#292C33]">
             <p class="font-semibold">
-                {{ $assessment->question_count }} pertanyaan · Batas waktu {{ $assessment->time_limit_minutes }} menit
+                {{ $assessment->question_count }} pertanyaan
             </p>
             <p class="text-slate-600">
                 Tidak ada jawaban benar atau salah. Jawab secara spontan dan jujur sesuai kebiasaanmu.
             </p>
             @if($latestCompleted)
                 <p class="text-xs font-semibold text-[#3F6F76]">
-                    Terakhir diselesaikan {{ $latestCompleted->completed_at?->diffForHumans() }} ·
-                    <a href="{{ route('siap.results', $latestCompleted) }}" class="underline hover:text-[#E50000]">Lihat hasil sebelumnya</a>
+                    Diselesaikan {{ $latestCompleted->completed_at?->diffForHumans() }} ·
+                    <a href="{{ route('siap.results', $latestCompleted) }}" class="underline hover:text-[#E50000]">Lihat hasil asesmen</a>
                 </p>
             @endif
         </div>
@@ -79,10 +81,17 @@
                 class="inline-flex min-h-12 items-center justify-center rounded-xl border border-stone-200 bg-white px-5 py-3 text-sm font-semibold text-stone-800 transition hover:bg-stone-50">
                 Kembali
             </a>
-            <button type="button" @click="openModal()"
-                class="inline-flex min-h-12 cursor-pointer items-center justify-center rounded-xl bg-[#E50000] px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-4">
-                {{ $inProgressAttempt ? 'Lanjutkan Pengisian Asesmen' : 'Mulai Pengisian Asesmen' }}
-            </button>
+            @if($latestCompleted)
+                <a href="{{ route('siap.results', $latestCompleted) }}"
+                    class="inline-flex min-h-12 items-center justify-center rounded-xl bg-stone-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-black">
+                    Lihat Hasil Asesmen
+                </a>
+            @else
+                <button type="button" @click="openModal()"
+                    class="inline-flex min-h-12 cursor-pointer items-center justify-center rounded-xl bg-[#E50000] px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-4">
+                    {{ $inProgressAttempt ? 'Lanjutkan Pengisian Asesmen' : 'Mulai Pengisian Asesmen' }}
+                </button>
+            @endif
         </div>
     </div>
 
@@ -97,13 +106,13 @@
             </span>
             <h2 id="start-title" class="font-display text-2xl font-semibold text-[#292C33]">Siap mengenal dirimu lebih dekat?</h2>
             <p id="start-description" class="mt-3 text-sm leading-7 text-slate-600">
-                Sebelum mulai, yuk siapkan diri agar kamu bisa mengisi asesmen dengan nyaman. Timer {{ $assessment->time_limit_minutes }} menit akan berjalan saat tes dimulai.
+                Sebelum mulai, yuk siapkan diri dan lengkapi data dirimu agar hasil asesmen dapat dikirim ke email Google kamu.
             </p>
             <ul class="my-6 space-y-4">
                 @foreach([
                     ['Pastikan internetmu stabil', 'Pilih tempat yang nyaman dengan koneksi internet yang baik.'],
                     ['Jawab dengan jujur', 'Pilih yang paling sesuai dengan dirimu. Tidak ada jawaban benar atau salah.'],
-                    ['Tidak perlu terburu-buru, namun perhatikan waktu', 'Baca setiap pernyataan dengan tenang. Jawaban otomatis tersimpan dan terkirim saat waktu ' . $assessment->time_limit_minutes . ' menit berakhir.'],
+                    ['Tidak perlu terburu-buru', 'Baca setiap pertanyaan dengan tenang dan isi sesuai kebiasaanmu.'],
                 ] as [$itemTitle, $itemText])
                     <li class="flex items-start gap-3">
                         <x-icon name="check" class="mt-1 h-5 w-5 text-green-700" />

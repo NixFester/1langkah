@@ -12,13 +12,13 @@ class MockPaymentDriver implements PaymentDriverInterface
     /**
      * Create a mock payment (always succeeds immediately).
      */
-    public function createPayment(User $user, string $itemType, int $itemId, int $amount, string $itemName, array $metadata = []): array
+    public function createPayment(?User $user, string $itemType, int $itemId, int $amount, string $itemName, array $metadata = []): array
     {
         $externalId = 'MOCK-'.strtoupper(uniqid()).'-'.time();
 
         // Create transaction record
         PaymentTransaction::create([
-            'user_id' => $user->id,
+            'user_id' => $user?->id,
             'external_id' => $externalId,
             'payment_id' => $externalId,
             'driver' => 'mock',

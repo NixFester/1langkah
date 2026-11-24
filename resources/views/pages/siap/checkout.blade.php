@@ -5,7 +5,7 @@
 
 @php
     $bundleBenefits = [
-        'Tes fenotipe (Multiple Intelligence Test & Psycho Geometric Test) dan genotipe (Super Finger)',
+        'Tes Multiple Intelligence Test, Psycho Geometric Test, dan genotipe (Super Finger)',
         'Sertifikat asesmen dan merchandise resmi 1Langkah',
         'Private mentoring 1 sesi (2 jam)',
         'Mapping arah karier dan akademisi',
@@ -70,14 +70,14 @@
                 <label class="block text-sm font-medium text-[#292C33]">
                     Nama peserta <span class="text-red-500">*</span>
                     <input type="text" name="participant_name" required
-                        value="{{ old('participant_name', $lastAttemptInfo?->participant_name ?? $user->name) }}"
+                        value="{{ old('participant_name', $lastAttemptInfo?->participant_name ?? $user?->name) }}"
                         class="mt-2 min-h-12 w-full rounded-xl border border-stone-300 px-4 text-sm focus:border-red-600 focus:outline-none">
                 </label>
 
                 <label class="block text-sm font-medium text-[#292C33]">
                     Email <span class="text-red-500">*</span>
                     <input type="email" name="email" required
-                        value="{{ old('email', $lastAttemptInfo?->google_email ?? $user->email) }}"
+                        value="{{ old('email', $lastAttemptInfo?->google_email ?? $user?->email) }}"
                         placeholder="nama@gmail.com"
                         class="mt-2 min-h-12 w-full rounded-xl border border-stone-300 px-4 text-sm focus:border-red-600 focus:outline-none">
                 </label>
@@ -85,7 +85,7 @@
                 <label class="block text-sm font-medium text-[#292C33]">
                     WhatsApp orang tua / wali (atau peserta) <span class="text-red-500">*</span>
                     <input type="tel" name="parent_whatsapp" required
-                        value="{{ old('parent_whatsapp', $lastAttemptInfo?->whatsapp ?? $user->phone) }}"
+                        value="{{ old('parent_whatsapp', $lastAttemptInfo?->whatsapp ?? $user?->phone) }}"
                         placeholder="08xxxxxxxxxx"
                         class="mt-2 min-h-12 w-full rounded-xl border border-stone-300 px-4 text-sm focus:border-red-600 focus:outline-none">
                 </label>

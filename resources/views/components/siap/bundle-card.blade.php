@@ -2,7 +2,7 @@
 
 @php
     $benefits = [
-        'Tes fenotipe (Multiple Intelligence Test & Psycho Geometric Test) dan genotipe (Super Finger)',
+        'Tes Multiple Intelligence Test, Psycho Geometric Test, dan genotipe (Super Finger)',
         'Sertifikat asesmen dan merchandise resmi 1Langkah',
         'Private mentoring 1 sesi (2 jam)',
         'Mapping arah karier dan akademisi',
@@ -20,7 +20,7 @@
         <div class="min-w-0">
             <span class="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-xs font-semibold tracking-wide text-red-700">
                 <x-icon name="sparkles" class="h-4 w-4" />
-                FENOTIPE + GENOTIPE
+                PAKET LENGKAP SIAP
             </span>
             <h2 class="mt-4 font-display text-2xl font-semibold text-[#292C33]">Paket Lengkap SIAP</h2>
             <p class="mt-3 text-sm leading-7 text-slate-700">
@@ -46,7 +46,7 @@
                 @endforeach
             </ul>
             <p class="mt-5 border-t border-stone-100 pt-4 text-xs leading-5 text-slate-600">
-                Termasuk akses hasil lengkap asesmen fenotipe dan kode redeem Super Finger. Pengiriman merchandise, jadwal mentoring, mapping, dan voucher dikoordinasikan oleh tim 1Langkah.
+                Termasuk akses hasil lengkap asesmen SIAP dan kode redeem Super Finger. Pengiriman merchandise, jadwal mentoring, mapping, dan voucher dikoordinasikan oleh tim 1Langkah.
             </p>
         </div>
     </div>

@@ -42,6 +42,7 @@
     <!-- Links -->
     <div class="hidden md:flex items-center gap-4 xl:gap-8 text-[14px] xl:text-[15px] font-medium text-gray-300">
         <a href="{{ route('kursus') }}" class="hover:text-white transition-colors">{{ __('app.nav_courses') }}</a>
+        <a href="{{ route('siap.index') }}" class="hover:text-white transition-colors">SIAP</a>
         <a href="{{ route('online-bootcamp') }}" class="hover:text-white transition-colors">{{ __('app.nav_bootcamp') }}</a>
         <a href="{{ route('mentor') }}" class="hover:text-white transition-colors">{{ __('app.nav_mentor') }}</a>
         <a href="{{ url('/') }}" class="hover:text-white transition-colors">{{ __('app.nav_enterprise') }}</a>

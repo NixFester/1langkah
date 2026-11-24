@@ -24,6 +24,7 @@ class SiapOrder extends Model
 
     protected $fillable = [
         'user_id',
+        'guest_token',
         'siap_assessment_id',
         'siap_attempt_id',
         'payment_transaction_id',

@@ -5,7 +5,7 @@
 
 @php
     $bundleBenefits = [
-        'Tes fenotipe (Multiple Intelligence Test & Psycho Geometric Test) dan genotipe (Super Finger)',
+        'Tes Multiple Intelligence Test, Psycho Geometric Test, dan genotipe (Super Finger)',
         'Sertifikat asesmen dan merchandise resmi 1Langkah',
         'Private mentoring 1 sesi (2 jam)',
         'Mapping arah karier dan akademisi',
@@ -25,7 +25,7 @@
         <h1 class="font-display text-2xl font-semibold text-[#292C33] md:text-3xl">Pembayaran Berhasil!</h1>
         <p class="mt-3 text-sm leading-7 text-slate-600">
             @if($order->isBundle())
-                Pembelian <strong>Paket Lengkap SIAP</strong> berhasil! Akses hasil lengkap asesmen fenotipe telah terbuka. Gunakan kode di bawah untuk tes genotipe Super Finger di mitra resmi 1Langkah.
+                Pembelian <strong>Paket Lengkap SIAP</strong> berhasil! Akses hasil lengkap asesmen SIAP telah terbuka. Gunakan kode di bawah untuk tes genotipe Super Finger di mitra resmi 1Langkah.
             @elseif($order->product_type === \App\Models\SiapOrder::PRODUCT_SUPER_FINGER)
                 Terima kasih! Pembelian <strong>Super Finger Assessment</strong> berhasil. Tunjukkan kode di bawah kepada petugas mitra resmi 1Langkah saat melakukan asesmen sidik jari.
             @else
@@ -47,7 +47,7 @@
                 <p class="my-4 text-xs leading-6 text-slate-600">
                     Tim 1Langkah akan menghubungi WhatsApp/Email Anda untuk koordinasi pengiriman merchandise, penjadwalan mentoring 2 jam, mapping karier-akademisi, serta voucher diskon kursus.
                 </p>
-                @if($hasCompletedAnyFenotipe)
+                @if($hasCompletedAnyAssessment)
                     <a href="{{ route('siap.results') }}"
                         class="inline-flex min-h-11 items-center rounded-xl bg-[#E50000] px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-700">
                         Lihat Hasil Lengkap
@@ -55,7 +55,7 @@
                 @elseif($firstAssessment)
                     <a href="{{ route('siap.intro', $firstAssessment) }}"
                         class="inline-flex min-h-11 items-center rounded-xl bg-[#E50000] px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-700">
-                        Mulai Tes Fenotipe Sekarang
+                        Mulai Asesmen Sekarang
                     </a>
                 @endif
             </div>

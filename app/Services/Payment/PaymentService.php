@@ -19,7 +19,7 @@ class PaymentService
     /**
      * Create a payment for the given item.
      */
-    public function createPayment(User $user, string $itemType, int $itemId, int $amount, string $itemName, array $metadata = []): array
+    public function createPayment(?User $user, string $itemType, int $itemId, int $amount, string $itemName, array $metadata = []): array
     {
         return $this->driver->createPayment($user, $itemType, $itemId, $amount, $itemName, $metadata);
     }

@@ -65,7 +65,7 @@ class SiapAssessmentSeeder extends Seeder
             ['slug' => 'psycho-geometric'],
             [
                 'title' => 'Psycho Geometric Test',
-                'badge' => 'NURTURE | FENOTIPE',
+                'badge' => null,
                 'subtitle' => 'Eksplorasi 5 kecenderungan kepribadian & gaya belajarmu berbasis lima bentuk geometri.',
                 'description' => 'Adaptasi eksploratif berbasis lima bentuk geometri (Square, Triangle, Rectangle, Circle, Squiggle) untuk memahami kecenderungan perilaku, gaya belajar, komunikasi, dan potensi akademik-karier peserta.',
                 'scoring_type' => SiapAssessment::SCORING_FORCED_CHOICE,
@@ -449,7 +449,7 @@ class SiapAssessmentSeeder extends Seeder
             ['slug' => 'multiple-intelligence'],
             [
                 'title' => 'Multiple Intelligence Test',
-                'badge' => 'NURTURE | FENOTIPE',
+                'badge' => null,
                 'subtitle' => 'Kenali 8 jenis kecerdasan yang berkembang melalui pengalaman dan lingkunganmu.',
                 'description' => 'Menurut teori Multiple Intelligences Howard Gardner, kecerdasan manusia tidak hanya diukur dari kemampuan akademik. Setiap individu memiliki kombinasi 8 jenis kecerdasan yang unik.',
                 'scoring_type' => SiapAssessment::SCORING_LIKERT,

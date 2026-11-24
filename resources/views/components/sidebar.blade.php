@@ -214,18 +214,16 @@
             'subItems' => $belajarSubItems
         ];
 
-        if ($isAuth) {
-            $navItems[] = [
-                'id' => 'siap',
-                'icon' => 'sparkles',
-                'label' => 'SIAP',
-                'subItems' => [
-                    ['id' => 'siap.index', 'icon' => 'sparkles', 'label' => 'Asesmen', 'route' => 'siap.index'],
-                    ['id' => 'siap.results', 'icon' => 'barChart', 'label' => 'Hasil Asesmen', 'route' => 'siap.results'],
-                    ['id' => 'siap.certificates', 'icon' => 'award', 'label' => 'Sertifikat Asesmen', 'route' => 'siap.certificates'],
-                ],
-            ];
-        }
+        $navItems[] = [
+            'id' => 'siap',
+            'icon' => 'sparkles',
+            'label' => 'SIAP',
+            'subItems' => [
+                ['id' => 'siap.index', 'icon' => 'sparkles', 'label' => 'Asesmen', 'route' => 'siap.index'],
+                ['id' => 'siap.results', 'icon' => 'barChart', 'label' => 'Hasil Asesmen', 'route' => 'siap.results'],
+                ['id' => 'siap.certificates', 'icon' => 'award', 'label' => 'Sertifikat Asesmen', 'route' => 'siap.certificates'],
+            ],
+        ];
 
         if ($isAuth) {
             $navItems[] = ['id' => 'event', 'icon' => 'calendar', 'label' => __('app.event'), 'route' => 'event'];

@@ -64,7 +64,7 @@ class Certificate extends Model
      * Create a certificate for a user
      */
     public static function createForUser(
-        User $user,
+        ?User $user,
         string $title,
         string $certifiableType,
         int $certifiableId,
@@ -72,7 +72,7 @@ class Certificate extends Model
         ?\DateTime $validUntil = null
     ): self {
         return self::create([
-            'user_id' => $user->id,
+            'user_id' => $user?->id,
             'certificate_number' => self::generateCertificateNumber(),
             'title' => $title,
             'description' => $description,

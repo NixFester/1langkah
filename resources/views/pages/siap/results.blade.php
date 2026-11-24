@@ -348,9 +348,6 @@
             <a href="{{ route('siap.index') }}" class="inline-flex min-h-11 items-center rounded-xl border border-stone-200 bg-white px-5 py-2.5 text-sm font-semibold text-stone-800 hover:bg-stone-50">
                 &larr; Kembali ke Menu Asesmen
             </a>
-            <a href="{{ route('siap.intro', $assessment) }}" class="inline-flex min-h-11 items-center rounded-xl bg-stone-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-black">
-                Kerjakan Ulang Asesmen &rarr;
-            </a>
         </div>
     @endif
 </div>

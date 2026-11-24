@@ -43,7 +43,7 @@
         <section>
             <div class="mb-5">
                 <h1 class="font-display text-2xl font-semibold text-[#292C33]">Sertifikat Asesmen Kamu</h1>
-                <p class="mt-1 text-sm text-slate-600">Sertifikat resmi hasil asesmen fenotipe SIAP 1Langkah.</p>
+                <p class="mt-1 text-sm text-slate-600">Sertifikat resmi hasil asesmen SIAP 1Langkah.</p>
             </div>
 
             <div class="grid gap-5 md:grid-cols-2">

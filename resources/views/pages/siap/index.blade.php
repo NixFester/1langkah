@@ -61,9 +61,11 @@
             @endphp
             <article class="flex flex-col overflow-hidden rounded-[20px] border border-stone-200 bg-white shadow-sm">
                 <div class="relative flex h-[174px] items-center justify-center overflow-hidden {{ $headerBg }}">
-                    <span class="absolute left-5 top-4 z-10 rounded-full bg-white px-2.5 py-1 text-xs font-semibold tracking-wide {{ $pillText }}">
-                        {{ $assessment->badge }}
-                    </span>
+                    @if(!empty($assessment->badge))
+                        <span class="absolute left-5 top-4 z-10 rounded-full bg-white px-2.5 py-1 text-xs font-semibold tracking-wide {{ $pillText }}">
+                            {{ $assessment->badge }}
+                        </span>
+                    @endif
                     @if($isPsycho)
                         <div class="mt-5 flex items-center gap-3">
                             @foreach([
@@ -98,10 +100,6 @@
                             <x-icon name="book" class="h-4 w-4" />
                             {{ $assessment->question_count }} pertanyaan
                         </span>
-                        <span class="flex items-center gap-1.5">
-                            <x-icon name="clock" class="h-4 w-4" />
-                            {{ $assessment->time_limit_minutes }} menit
-                        </span>
                     </div>
 
                     <div class="mt-auto space-y-3 border-t border-stone-100 pt-4">
@@ -115,17 +113,19 @@
                                 <span class="font-semibold {{ $completedAttempt->is_full_unlocked ? 'text-emerald-700' : 'text-amber-700' }}">
                                     {{ $completedAttempt->is_full_unlocked ? '✓ Hasil Lengkap Terbuka' : '🔒 Mode Preview' }}
                                 </span>
-                                <a href="{{ route('siap.results', $completedAttempt) }}" class="font-bold text-[#E50000] hover:underline">
-                                    Lihat Hasil &rarr;
-                                </a>
                             </div>
+                            <a href="{{ route('siap.results', $completedAttempt) }}"
+                                class="flex min-h-12 w-full items-center justify-center gap-3 rounded-xl bg-stone-900 px-4 text-sm font-semibold text-white transition hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700">
+                                <span>Lihat Hasil Asesmen</span>
+                                <x-icon name="arrowRight" class="h-4 w-4" />
+                            </a>
+                        @else
+                            <a href="{{ route('siap.intro', $assessment) }}"
+                                class="flex min-h-12 w-full items-center justify-center gap-3 rounded-xl bg-[#E50000] px-4 text-sm font-semibold text-white transition hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700">
+                                <span>{{ $inProgress ? 'Lanjutkan Asesmen' : 'Mulai Asesmen' }}</span>
+                                <x-icon name="arrowRight" class="h-4 w-4" />
+                            </a>
                         @endif
-
-                        <a href="{{ route('siap.intro', $assessment) }}"
-                            class="flex min-h-12 w-full items-center justify-center gap-3 rounded-xl bg-[#E50000] px-4 text-sm font-semibold text-white transition hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700">
-                            <span>{{ $inProgress ? 'Lanjutkan Asesmen' : ($completedAttempt ? 'Kerjakan Ulang Asesmen' : 'Mulai Asesmen') }}</span>
-                            <x-icon name="arrowRight" class="h-4 w-4" />
-                        </a>
                     </div>
                 </div>
             </article>

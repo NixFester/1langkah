@@ -12,7 +12,7 @@
         'google_email',
         $draft->google_email
             ?? $lastPersonalInfo?->google_email
-            ?? (\Illuminate\Support\Str::endsWith(strtolower($user->email ?? ''), ['@gmail.com', '@googlemail.com']) ? $user->email : '')
+            ?? ($user && \Illuminate\Support\Str::endsWith(strtolower($user->email ?? ''), ['@gmail.com', '@googlemail.com']) ? $user->email : '')
     );
 
     $questionsPayload = $questionsList->map(function ($q, $idx) {
@@ -33,12 +33,11 @@
     ];
 
     $initialBiodata = [
-        'participant_name' => old('participant_name', $draft->participant_name ?? $user->name ?? ''),
+        'participant_name' => old('participant_name', $draft->participant_name ?? $user?->name ?? ''),
         'google_email' => $defaultGoogleEmail,
-        'birth_place' => old('birth_place', $draft->birth_place ?? $user->birth_place ?? ''),
-        'birth_date' => old('birth_date', $draft->birth_date?->format('Y-m-d') ?? $user->birth_date?->format('Y-m-d') ?? ''),
-        'whatsapp' => old('whatsapp', $draft->whatsapp ?? $user->phone ?? ''),
-        'address' => old('address', $draft->address ?? $user->address ?? ''),
+        'birth_date' => old('birth_date', $draft->birth_date?->format('Y-m-d') ?? $user?->birth_date?->format('Y-m-d') ?? ''),
+        'whatsapp' => old('whatsapp', $draft->whatsapp ?? $user?->phone ?? ''),
+        'address' => old('address', $draft->address ?? $user?->address ?? ''),
     ];
 
     $saveProgressUrl = route('siap.save', $assessment);
@@ -48,34 +47,27 @@
 <div x-data="siapQuizRunner()" class="mx-auto max-w-3xl px-1 pb-16 sm:px-2">
     <x-flash-messages />
 
-    <!-- Sticky Timer & Progress Header -->
+    <!-- Sticky Progress Header (No Timer) -->
     <div class="sticky top-16 z-40 mb-6 rounded-2xl border border-stone-200 bg-white/95 p-4 shadow-sm backdrop-blur-md">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <div>
-                <div class="flex items-center gap-2">
-                    <span class="rounded-full bg-red-50 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[#E50000]">
-                        {{ $assessment->badge }}
-                    </span>
-                    <span class="text-xs font-semibold text-slate-500" x-text="saveStatus"></span>
-                </div>
+                @if(!empty($assessment->badge) || $saveProgressUrl)
+                    <div class="flex items-center gap-2">
+                        @if(!empty($assessment->badge))
+                            <span class="rounded-full bg-red-50 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[#E50000]">
+                                {{ $assessment->badge }}
+                            </span>
+                        @endif
+                        <span class="text-xs font-semibold text-slate-500" x-text="saveStatus"></span>
+                    </div>
+                @endif
                 <h1 class="mt-1 font-display text-base font-semibold text-[#292C33] sm:text-lg">{{ $assessment->title }}</h1>
             </div>
 
-            <div class="flex items-center gap-3">
-                <div class="text-right">
-                    <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Terjawab</div>
-                    <div class="text-sm font-bold text-[#292C33]">
-                        <span x-text="answeredCount"></span>/{{ $totalQuestions }}
-                    </div>
-                </div>
-                <div class="flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-3.5 py-2">
-                    <span class="relative flex h-2.5 w-2.5">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-600"></span>
-                    </span>
-                    <span class="font-mono text-lg font-extrabold text-red-600" id="siap-timer-display"
-                        x-text="formatTime(timeRemaining)"
-                        :class="{ 'animate-pulse text-red-700': timeRemaining <= 30 }"></span>
+            <div class="text-right">
+                <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Terjawab</div>
+                <div class="text-sm font-bold text-[#292C33]">
+                    <span x-text="answeredCount"></span>/{{ $totalQuestions }}
                 </div>
             </div>
         </div>
@@ -96,7 +88,6 @@
     <form action="{{ route('siap.submit', $assessment) }}" method="POST" id="siapQuizForm" @submit="handleFormSubmit($event)">
         @csrf
         <input type="hidden" name="time_spent_seconds" :value="timeSpent">
-        <input type="hidden" name="auto_submitted" id="siap_auto_submitted" value="0">
 
         @if($errors->any())
             <div class="mb-6 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
@@ -109,7 +100,7 @@
             </div>
         @endif
 
-        <!-- Biodata Card (Collapsible once valid) -->
+        <!-- Biodata Card -->
         <div class="mb-6 rounded-3xl border border-stone-200 bg-white p-5 shadow-sm sm:p-6">
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
@@ -117,8 +108,8 @@
                         <x-icon name="user" class="h-5 w-5" />
                     </span>
                     <div>
-                        <h2 class="text-sm font-bold text-[#292C33] sm:text-base">Data Diri Peserta &amp; Pengiriman Email</h2>
-                        <p class="text-xs text-slate-500">Wajib diisi agar hasil tes terkirim otomatis ke akun Google Anda.</p>
+                        <h2 class="text-sm font-bold text-[#292C33] sm:text-base">Data Jati Diri Peserta &amp; Pengiriman Email</h2>
+                        <p class="text-xs text-slate-500">Wajib diisi agar hasil asesmen dapat dicatat dan dikirim ke akun Google Anda.</p>
                     </div>
                 </div>
                 <button type="button" @click="showBiodata = !showBiodata"
@@ -134,7 +125,7 @@
                     </label>
                     <input type="text" id="participant_name" name="participant_name" required
                         x-model="biodata.participant_name"
-                        placeholder="Nama lengkap siswa"
+                        placeholder="Nama lengkap peserta"
                         class="min-h-11 w-full rounded-xl border border-stone-200 bg-stone-50 px-3.5 text-sm text-stone-900 focus:border-red-500 focus:bg-white focus:outline-none">
                 </div>
 
@@ -151,16 +142,6 @@
                 </div>
 
                 <div>
-                    <label for="birth_place" class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-700">
-                        Tempat Lahir <span class="text-red-500">*</span>
-                    </label>
-                    <input type="text" id="birth_place" name="birth_place" required
-                        x-model="biodata.birth_place"
-                        placeholder="Kota kelahiran"
-                        class="min-h-11 w-full rounded-xl border border-stone-200 bg-stone-50 px-3.5 text-sm text-stone-900 focus:border-red-500 focus:bg-white focus:outline-none">
-                </div>
-
-                <div>
                     <label for="birth_date" class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-700">
                         Tanggal Lahir <span class="text-red-500">*</span>
                     </label>
@@ -169,7 +150,7 @@
                         class="min-h-11 w-full rounded-xl border border-stone-200 bg-stone-50 px-3.5 text-sm text-stone-900 focus:border-red-500 focus:bg-white focus:outline-none">
                 </div>
 
-                <div class="sm:col-span-2">
+                <div>
                     <label for="whatsapp" class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-700">
                         Nomor WhatsApp <span class="text-red-500">*</span>
                     </label>
@@ -191,7 +172,7 @@
             </div>
         </div>
 
-        <!-- Hidden serialized inputs for ALL answers so 1-by-1 view still posts everything -->
+        <!-- Hidden serialized inputs for ALL answers -->
         <template x-for="q in questions" :key="'hidden-' + q.id">
             <input type="hidden" :name="`answers[${q.id}]`" :value="answers[q.id] ?? ''">
         </template>
@@ -277,7 +258,7 @@
         <div x-show="showConfirm" style="display: none;" class="mt-6 rounded-2xl border border-red-200 bg-white p-6 shadow-sm">
             <h3 class="font-display text-lg font-semibold text-[#292C33]">Siap mengenali potensimu?</h3>
             <p class="my-3 text-sm leading-6 text-slate-600">
-                Pastikan semua jawaban dan data dirimu sudah lengkap. {{ $assessment->disclaimer }}
+                Pastikan semua jawaban dan data jati dirimu sudah lengkap. {{ $assessment->disclaimer }}
             </p>
             <div class="flex flex-wrap gap-3">
                 <button type="submit" :disabled="submitting || answeredCount < questions.length"
@@ -304,7 +285,6 @@ function siapQuizRunner() {
     const hasCompleteBiodata = Boolean(
         initialBiodata.participant_name &&
         initialBiodata.google_email &&
-        initialBiodata.birth_place &&
         initialBiodata.birth_date &&
         initialBiodata.whatsapp &&
         initialBiodata.address
@@ -318,12 +298,10 @@ function siapQuizRunner() {
         biodata: initialBiodata,
         showBiodata: !hasCompleteBiodata || {{ $errors->any() ? 'true' : 'false' }},
         currentIndex: firstUnanswered === -1 ? 0 : firstUnanswered,
-        timeRemaining: {{ (int) $remainingSeconds }},
         timeSpent: 0,
         interval: null,
         showConfirm: false,
         submitting: false,
-        isAutoSubmitting: false,
         saveStatus: '',
 
         get currentQuestion() {
@@ -335,27 +313,9 @@ function siapQuizRunner() {
         },
 
         init() {
-            this.startCountdown();
-        },
-
-        startCountdown() {
-            if (this.interval) clearInterval(this.interval);
             this.interval = setInterval(() => {
-                if (this.timeRemaining > 0) {
-                    this.timeRemaining--;
-                    this.timeSpent++;
-                }
-                if (this.timeRemaining <= 0) {
-                    this.autoSubmitOnTimeUp();
-                }
+                this.timeSpent++;
             }, 1000);
-        },
-
-        formatTime(seconds) {
-            if (seconds < 0) return '00:00';
-            const m = Math.floor(seconds / 60);
-            const s = seconds % 60;
-            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
         },
 
         selectAnswer(questionId, value) {
@@ -395,10 +355,6 @@ function siapQuizRunner() {
         },
 
         handleFormSubmit(e) {
-            if (this.isAutoSubmitting) {
-                return true;
-            }
-
             const form = document.getElementById('siapQuizForm');
             if (form && !form.checkValidity()) {
                 this.showBiodata = true;
@@ -416,22 +372,6 @@ function siapQuizRunner() {
             if (this.interval) clearInterval(this.interval);
             this.submitting = true;
             return true;
-        },
-
-        autoSubmitOnTimeUp() {
-            if (this.interval) clearInterval(this.interval);
-            if (this.isAutoSubmitting) return;
-            this.isAutoSubmitting = true;
-
-            const autoInput = document.getElementById('siap_auto_submitted');
-            if (autoInput) autoInput.value = '1';
-
-            const form = document.getElementById('siapQuizForm');
-            if (form) {
-                form.querySelectorAll('[required]').forEach(el => el.removeAttribute('required'));
-                form.noValidate = true;
-                form.submit();
-            }
         }
     };
 }

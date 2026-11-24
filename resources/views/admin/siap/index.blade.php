@@ -155,7 +155,7 @@
                                     @endif
                                 </div>
                                 <p class="text-xs text-gray-500 mt-1">
-                                    {{ $item->questions_count }} Soal · {{ $item->time_limit_minutes }} Menit · Unlock Rp{{ number_format($item->unlock_price, 0, ',', '.') }}
+                                    {{ $item->questions_count }} Soal · Unlock Rp{{ number_format($item->unlock_price, 0, ',', '.') }}
                                 </p>
                             </div>
                         </a>
@@ -226,15 +226,7 @@
                                 class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 focus:bg-white focus:border-[#cc0000] focus:ring-4 focus:ring-red-500/10 outline-none transition">{{ old('description', $currentAssessment->description) }}</textarea>
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Batas Waktu</label>
-                                <div class="relative">
-                                    <input type="number" name="time_limit_minutes" min="1" max="180" value="{{ old('time_limit_minutes', $currentAssessment->time_limit_minutes) }}" required
-                                        class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-4 pr-14 py-3 text-sm font-bold text-gray-900 focus:bg-white focus:border-[#cc0000] outline-none">
-                                    <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400">Menit</span>
-                                </div>
-                            </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Harga Normal</label>
                                 <div class="relative">

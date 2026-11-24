@@ -295,11 +295,23 @@ class SiapAssessmentService
     }
 
     /**
-     * Check whether the user already owns full access for the given assessment.
+     * Check whether the actor (user or guest token) already owns full access for the given assessment.
      */
-    public function userHasUnlockedAssessment(User $user, SiapAssessment $assessment): bool
+    public function userHasUnlockedAssessment(?User $user, SiapAssessment $assessment, ?string $guestToken = null): bool
     {
-        $hasBundle = SiapOrder::where('user_id', $user->id)
+        if (! $user && ! $guestToken) {
+            return false;
+        }
+
+        $actorFilter = function ($query) use ($user, $guestToken) {
+            if ($user) {
+                $query->where('user_id', $user->id);
+            } else {
+                $query->where('guest_token', $guestToken);
+            }
+        };
+
+        $hasBundle = SiapOrder::where($actorFilter)
             ->where('product_type', SiapOrder::PRODUCT_BUNDLE)
             ->where('status', SiapOrder::STATUS_PAID)
             ->exists();
@@ -308,7 +320,7 @@ class SiapAssessmentService
             return true;
         }
 
-        $hasAssessmentOrder = SiapOrder::where('user_id', $user->id)
+        $hasAssessmentOrder = SiapOrder::where($actorFilter)
             ->where('product_type', SiapOrder::PRODUCT_ASSESSMENT_FULL)
             ->where('siap_assessment_id', $assessment->id)
             ->where('status', SiapOrder::STATUS_PAID)
@@ -318,7 +330,7 @@ class SiapAssessmentService
             return true;
         }
 
-        return SiapAttempt::where('user_id', $user->id)
+        return SiapAttempt::where($actorFilter)
             ->where('siap_assessment_id', $assessment->id)
             ->where('is_full_unlocked', true)
             ->exists();
@@ -353,8 +365,7 @@ class SiapAssessmentService
             return null;
         }
 
-        $existing = Certificate::where('user_id', $attempt->user_id)
-            ->where('certifiable_type', SiapAttempt::class)
+        $existing = Certificate::where('certifiable_type', SiapAttempt::class)
             ->where('certifiable_id', $attempt->id)
             ->first();
 
@@ -404,10 +415,24 @@ class SiapAssessmentService
 
         $user = $order->user;
 
+        $actorAttemptQuery = function () use ($order) {
+            return SiapAttempt::where('status', SiapAttempt::STATUS_COMPLETED)
+                ->where(function ($q) use ($order) {
+                    if ($order->user_id) {
+                        $q->where('user_id', $order->user_id);
+                    } elseif ($order->guest_token) {
+                        $q->where('guest_token', $order->guest_token);
+                    } elseif ($order->siap_attempt_id) {
+                        $q->where('id', $order->siap_attempt_id);
+                    } else {
+                        $q->whereRaw('1 = 0');
+                    }
+                });
+        };
+
         if ($order->product_type === SiapOrder::PRODUCT_ASSESSMENT_FULL) {
-            $attempts = SiapAttempt::where('user_id', $order->user_id)
+            $attempts = $actorAttemptQuery()
                 ->where('siap_assessment_id', $order->siap_assessment_id)
-                ->where('status', SiapAttempt::STATUS_COMPLETED)
                 ->get();
 
             foreach ($attempts as $attempt) {
@@ -426,9 +451,7 @@ class SiapAssessmentService
                 $this->sendResultEmail($targetAttempt->fresh(), true);
             }
         } elseif ($order->product_type === SiapOrder::PRODUCT_BUNDLE) {
-            $attempts = SiapAttempt::where('user_id', $order->user_id)
-                ->where('status', SiapAttempt::STATUS_COMPLETED)
-                ->get();
+            $attempts = $actorAttemptQuery()->get();
 
             foreach ($attempts as $attempt) {
                 if (! $attempt->is_full_unlocked) {

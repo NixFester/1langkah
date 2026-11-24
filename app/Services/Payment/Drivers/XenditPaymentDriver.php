@@ -23,7 +23,7 @@ class XenditPaymentDriver implements PaymentDriverInterface
     /**
      * Create an invoice payment via Xendit.
      */
-    public function createPayment(User $user, string $itemType, int $itemId, int $amount, string $itemName, array $metadata = []): array
+    public function createPayment(?User $user, string $itemType, int $itemId, int $amount, string $itemName, array $metadata = []): array
     {
         $apiKey = config('payment.xendit.api_key');
 
@@ -34,17 +34,19 @@ class XenditPaymentDriver implements PaymentDriverInterface
             ];
         }
 
-        $externalId = $this->generateExternalId($itemType, $itemId, $user->id);
+        $actorId = $user?->id ?? 0;
+        $externalId = $this->generateExternalId($itemType, $itemId, $actorId);
 
-        $nameParts = preg_split('/\s+/', trim((string) $user->name), 2);
-        $givenNames = $user->first_name ?: ($nameParts[0] ?? 'Customer');
-        $surname = $user->last_name ?: ($nameParts[1] ?? null);
+        $rawName = trim((string) ($user?->name ?: ($metadata['customer_name'] ?? 'Peserta SIAP')));
+        $nameParts = preg_split('/\s+/', $rawName, 2);
+        $givenNames = $user?->first_name ?: ($nameParts[0] ?? 'Customer');
+        $surname = $user?->last_name ?: ($nameParts[1] ?? null);
 
         $customer = array_filter([
             'given_names' => $givenNames,
             'surname' => $surname,
-            'email' => $user->email,
-            'mobile_number' => $user->phone ?: null,
+            'email' => $user?->email ?: ($metadata['customer_email'] ?? null),
+            'mobile_number' => $user?->phone ?: ($metadata['customer_phone'] ?? null),
         ], fn ($value) => $value !== null && $value !== '');
 
         $payload = [
@@ -63,7 +65,7 @@ class XenditPaymentDriver implements PaymentDriverInterface
             'metadata' => array_merge($metadata, [
                 'item_type' => $itemType,
                 'item_id' => $itemId,
-                'user_id' => $user->id,
+                'user_id' => $user?->id,
                 'item_name' => $itemName,
             ]),
         ];
@@ -79,7 +81,7 @@ class XenditPaymentDriver implements PaymentDriverInterface
 
                 // Create transaction record
                 PaymentTransaction::create([
-                    'user_id' => $user->id,
+                    'user_id' => $user?->id,
                     'external_id' => $data['external_id'] ?? $externalId,
                     'payment_id' => $data['id'] ?? null,
                     'driver' => 'xendit',
@@ -91,7 +93,7 @@ class XenditPaymentDriver implements PaymentDriverInterface
                     'metadata' => array_merge($metadata, [
                         'item_type' => $itemType,
                         'item_id' => $itemId,
-                        'user_id' => $user->id,
+                        'user_id' => $user?->id,
                         'item_name' => $itemName,
                     ]),
                 ]);

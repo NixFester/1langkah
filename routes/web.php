@@ -72,6 +72,23 @@ Route::get('/event', [PageController::class, 'event'])->name('event');
 Route::get('/event/{id}', [PageController::class, 'detailEvent'])->name('detail-event');
 Route::post('/event/{id}/register', [PageController::class, 'registerEvent'])->name('event.register')->middleware('auth');
 
+// SIAP Assessment System (Publicly accessible like /kursus — guest identity via session guest_token + biodata)
+Route::prefix('siap')->name('siap.')->group(function () {
+    Route::get('/', [SiapController::class, 'index'])->name('index');
+    Route::get('/super-finger', [SiapController::class, 'superFinger'])->name('super-finger');
+    Route::get('/hasil/{attempt?}', [SiapController::class, 'results'])->name('results');
+    Route::get('/sertifikat', [SiapController::class, 'certificates'])->name('certificates');
+    Route::get('/sertifikat/{certificate}/cetak', [SiapController::class, 'printCertificate'])->name('certificates.print');
+    Route::get('/asesmen/{assessment}', [SiapController::class, 'intro'])->name('intro');
+    Route::get('/asesmen/{assessment}/tes', [SiapController::class, 'take'])->name('take');
+    Route::post('/asesmen/{assessment}/save', [SiapController::class, 'saveProgress'])->name('save');
+    Route::post('/asesmen/{assessment}/submit', [SiapController::class, 'submit'])->name('submit');
+    Route::get('/checkout/{product}', [SiapController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout/{product}/apply-promo', [SiapController::class, 'applyPromo'])->name('checkout.promo');
+    Route::post('/checkout/{product}/process', [SiapController::class, 'processCheckout'])->name('checkout.process');
+    Route::get('/order/{order}/success', [SiapController::class, 'orderSuccess'])->name('order.success');
+});
+
 // ── Auth-protected ────────────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {
     Route::get('/lengkapi-data-diri', [PageController::class, 'completeProfile'])->name('complete-profile');
@@ -128,23 +145,6 @@ Route::middleware('auth')->group(function () {
 
     // Achievements
     Route::get('/achievement', [AchievementController::class, 'index'])->name('achievement');
-
-    // SIAP Assessment System (Psycho Geometric, Multiple Intelligence, Super Finger, Paket Lengkap)
-    Route::prefix('siap')->name('siap.')->group(function () {
-        Route::get('/', [SiapController::class, 'index'])->name('index');
-        Route::get('/super-finger', [SiapController::class, 'superFinger'])->name('super-finger');
-        Route::get('/hasil/{attempt?}', [SiapController::class, 'results'])->name('results');
-        Route::get('/sertifikat', [SiapController::class, 'certificates'])->name('certificates');
-        Route::get('/sertifikat/{certificate}/cetak', [SiapController::class, 'printCertificate'])->name('certificates.print');
-        Route::get('/asesmen/{assessment}', [SiapController::class, 'intro'])->name('intro');
-        Route::get('/asesmen/{assessment}/tes', [SiapController::class, 'take'])->name('take');
-        Route::post('/asesmen/{assessment}/save', [SiapController::class, 'saveProgress'])->name('save');
-        Route::post('/asesmen/{assessment}/submit', [SiapController::class, 'submit'])->name('submit');
-        Route::get('/checkout/{product}', [SiapController::class, 'checkout'])->name('checkout');
-        Route::post('/checkout/{product}/apply-promo', [SiapController::class, 'applyPromo'])->name('checkout.promo');
-        Route::post('/checkout/{product}/process', [SiapController::class, 'processCheckout'])->name('checkout.process');
-        Route::get('/order/{order}/success', [SiapController::class, 'orderSuccess'])->name('order.success');
-    });
 
     // Notifications
     Route::get('/api/notifications', [NotificationController::class, 'index'])->name('api.notifications');

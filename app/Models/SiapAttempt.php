@@ -17,6 +17,7 @@ class SiapAttempt extends Model
 
     protected $fillable = [
         'user_id',
+        'guest_token',
         'siap_assessment_id',
         'status',
         'participant_name',
