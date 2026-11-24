@@ -59,19 +59,11 @@ class QuizController extends Controller
     }
 
     /**
-     * Show available quizzes (Global Psychology Tests + Course Quizzes)
+     * Show available quizzes (Course Quizzes only — Global assessments moved to SIAP)
      */
     public function index(): View|RedirectResponse
     {
         $user = Auth::user();
-
-        $globalQuizzes = Quiz::where('is_active', true)
-            ->where(function ($q) {
-                $q->where('is_global', true)->orWhereNull('course_id');
-            })
-            ->withCount('questions')
-            ->orderBy('order')
-            ->get();
 
         $quizzes = Quiz::where('is_active', true)
             ->where('is_global', false)
@@ -82,7 +74,6 @@ class QuizController extends Controller
             ->groupBy('course_id');
 
         return view('pages.quizzes', [
-            'globalQuizzes' => $globalQuizzes,
             'quizzesByCourse' => $quizzes,
             'user' => $user,
         ]);
@@ -362,8 +353,8 @@ class QuizController extends Controller
             ? $user->email
             : ($request->input('google_email') ?: $user->email);
 
-        if ($isAutoSubmit) {
-            // When time expires, guarantee submission succeeds even if some fields were left blank
+        if ($isAutoSubmit || ! $quiz->is_global) {
+            // Course quizzes and auto-submitted timers should not fail on optional personal biodata
             $validated = [
                 'participant_name' => $request->input('participant_name') ?: $user->name,
                 'google_email' => $request->input('google_email') ?: $defaultGoogleEmail,

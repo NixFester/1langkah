@@ -1,0 +1,671 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Option;
+use App\Models\PromoCode;
+use App\Models\SiapAssessment;
+use App\Models\SiapCategory;
+use App\Models\SiapQuestion;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+
+class SiapAssessmentSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $this->seedPricingOptions();
+        $this->seedDefaultPromo();
+        $this->seedPsychoGeometric();
+        $this->seedMultipleIntelligence();
+    }
+
+    private function seedPricingOptions(): void
+    {
+        $defaults = [
+            ['key' => 'siap_super_finger_normal_price', 'label' => '350000', 'sort_order' => 1],
+            ['key' => 'siap_super_finger_price', 'label' => '99000', 'sort_order' => 2],
+            ['key' => 'siap_bundle_price', 'label' => '500000', 'sort_order' => 3],
+        ];
+
+        foreach ($defaults as $opt) {
+            Option::firstOrCreate(
+                ['category' => 'siap_pricing', 'key' => $opt['key']],
+                [
+                    'label' => $opt['label'],
+                    'sort_order' => $opt['sort_order'],
+                    'is_active' => true,
+                ]
+            );
+        }
+    }
+
+    private function seedDefaultPromo(): void
+    {
+        if (! PromoCode::whereRaw('UPPER(code) = ?', ['CONTOH'])->exists()) {
+            $creatorId = User::first()?->id ?? 1;
+            PromoCode::create([
+                'code' => 'CONTOH',
+                'name' => 'Diskon Testing SIAP 50%',
+                'type' => PromoCode::TYPE_PERCENTAGE,
+                'value' => 50,
+                'max_uses' => null,
+                'used_count' => 0,
+                'min_purchase' => 0,
+                'is_active' => true,
+                'created_by' => $creatorId,
+                'description' => 'Kode diskon contoh untuk testing checkout asesmen SIAP 1Langkah',
+            ]);
+        }
+    }
+
+    private function seedPsychoGeometric(): void
+    {
+        $assessment = SiapAssessment::updateOrCreate(
+            ['slug' => 'psycho-geometric'],
+            [
+                'title' => 'Psycho Geometric (Siswa SMA)',
+                'badge' => 'NURTURE | FENOTIPE',
+                'subtitle' => 'Eksplorasi 5 kecenderungan kepribadian & gaya belajarmu berbasis lima bentuk geometri.',
+                'description' => 'Adaptasi eksploratif berbasis lima bentuk geometri (Square, Triangle, Rectangle, Circle, Squiggle) untuk memahami kecenderungan perilaku, gaya belajar, komunikasi, dan potensi akademik-karier siswa SMA.',
+                'scoring_type' => SiapAssessment::SCORING_FORCED_CHOICE,
+                'question_count' => 25,
+                'time_limit_minutes' => 5,
+                'normal_price' => 125000,
+                'unlock_price' => 35000,
+                'disclaimer' => 'Ini adalah materi adaptasi/pengembangan, bukan publikasi resmi atau interpretasi tervalidasi dari Susan Dellinger. Psycho Geometric bukan diagnosis dan tidak boleh digunakan sendirian untuk menentukan jurusan, pekerjaan, penerimaan, atau seleksi. Rekomendasi akademik/karier harus mempertimbangkan minat, kemampuan, nilai, pengalaman, kondisi, serta informasi lain.',
+                'is_active' => true,
+                'sort_order' => 1,
+            ]
+        );
+
+        $categoriesData = [
+            [
+                'slug' => 'square',
+                'code' => 'A',
+                'name' => 'Square (Kotak)',
+                'label' => 'Terstruktur • Teliti • Sistematis',
+                'symbol' => '■',
+                'color' => '#4783C8',
+                'icon' => 'grid',
+                'description' => 'Cenderung menyukai keteraturan, kejelasan, konsistensi, dan langkah yang terencana. Biasanya nyaman ketika tujuan, aturan, serta ekspektasi dijelaskan dengan rinci. Dalam situasi baru, ia dapat mengamati dan mengumpulkan informasi sebelum bertindak.',
+                'details' => [
+                    'love_language' => 'Memberi dan menerima hadiah. Hadiah dapat dimaknai sebagai tanda perhatian, ingatan, dan penghargaan. Bukan semata nilai atau harga barang; perhatian pada pilihan dan makna hadiah dapat terasa penting.',
+                    'personal_strength' => 'Teliti; terorganisasi; konsisten; dapat diandalkan; memperhatikan detail; kuat dalam mengikuti prosedur; mampu menjaga kualitas dan menyelesaikan tugas secara bertahap.',
+                    'learning_style' => 'Cenderung terbantu oleh materi runtut, contoh konkret, catatan terstruktur, dan target belajar yang jelas. Strategi: gunakan agenda belajar, checklist, rangkuman bertingkat, tabel perbandingan, latihan berulang, serta pecah tugas besar menjadi tahapan kecil. Sisipkan latihan terbuka agar tidak terpaku pada satu cara.',
+                    'communication_style' => 'Cenderung menyukai komunikasi jelas, spesifik, runtut, dan berbasis fakta. Sampaikan tujuan, konteks, tenggat, dan langkah yang diharapkan. Hindari instruksi terlalu samar; tetap latih fleksibilitas saat informasi belum lengkap.',
+                    'teamwork_style' => 'Sering kuat sebagai perencana, pencatat, penjaga kualitas, atau pengelola detail. Membantu tim dengan pembagian tugas, jadwal, dokumentasi, dan tindak lanjut. Perlu memberi ruang bagi ide spontan serta menerima bahwa tidak semua proses berjalan persis sesuai rencana.',
+                    'academic_exploration' => 'Matematika, Akuntansi, Administrasi, Sains Laboratorium, Pengelolaan Data, Dokumentasi, Teknik',
+                    'career_exploration' => 'Analis data pemula, Akuntansi/Keuangan, Administrasi, Quality Control, Dokumentasi, Perencanaan Operasional, Laboratorium, Pengelolaan Arsip',
+                    'entrepreneurship_potential' => 'Berpotensi kuat pada usaha yang membutuhkan konsistensi operasional, pencatatan, standar layanan/produk, pengelolaan stok, dan kontrol kualitas. Tantangan pengembangan: berani menguji ide sebelum semuanya sempurna, merespons perubahan pasar, dan mengambil keputusan saat data belum lengkap.',
+                    'practice' => '(1) Susun rencana satu proyek dan checklist-nya; (2) Selesaikan satu tugas dengan standar kualitas; (3) Coba satu metode baru tanpa menunggu semua detail sempurna; (4) Berikan apresiasi melalui hadiah kecil yang bermakna; (5) Evaluasi apa yang perlu dipertahankan dan diubah.',
+                ],
+                'sort_order' => 1,
+            ],
+            [
+                'slug' => 'triangle',
+                'code' => 'B',
+                'name' => 'Triangle (Segitiga)',
+                'label' => 'Berorientasi tujuan • Tegas • Penggerak',
+                'symbol' => '▲',
+                'color' => '#DF2020',
+                'icon' => 'target',
+                'description' => 'Cenderung berorientasi pada tujuan, hasil, tantangan, dan kemajuan. Dapat menikmati situasi yang memberi kesempatan mengambil inisiatif, membuat keputusan, dan melihat dampak tindakan. Perlu menjaga keseimbangan antara kecepatan, proses, dan kebutuhan orang lain.',
+                'details' => [
+                    'love_language' => 'Memberi dan menerima pelayanan (Acts of Service). Perhatian dapat dirasakan melalui tindakan nyata yang membantu, meringankan beban, atau membuat sesuatu berjalan. Bentuk pelayanan sederhana dan tepat sasaran bisa lebih bermakna daripada janji.',
+                    'personal_strength' => 'Berani mengambil inisiatif; fokus pada target; tegas; kompetitif secara konstruktif; cepat bertindak; berorientasi solusi; mampu menggerakkan orang menuju hasil.',
+                    'learning_style' => 'Cenderung terbantu oleh target yang menantang, pembelajaran berbasis proyek, studi kasus, kompetisi sehat, dan penerapan langsung. Strategi: tetapkan target terukur, gunakan batas waktu realistis, kerjakan soal aplikasi, presentasikan hasil, dan lakukan refleksi agar proses belajar tidak hanya mengejar nilai.',
+                    'communication_style' => 'Cenderung langsung, ringkas, tegas, dan berorientasi keputusan. Sampaikan inti, pilihan, risiko, serta rekomendasi. Latih mendengar sampai tuntas, memeriksa pemahaman, dan menyampaikan ketegasan tanpa merendahkan.',
+                    'teamwork_style' => 'Sering mengambil peran pengarah, koordinator, atau pengambil keputusan. Membantu tim menjaga fokus dan momentum. Perlu membagi ruang bicara, mendelegasikan, menghargai proses, dan memastikan keputusan mempertimbangkan masukan anggota.',
+                    'academic_exploration' => 'Kewirausahaan, Manajemen, Ekonomi, Debat, Olahraga, Teknik Terapan, Proyek Kompetitif',
+                    'career_exploration' => 'Pengembangan bisnis, Manajemen proyek, Penjualan konsultatif, Operasi, Kepemimpinan organisasi, Bidang teknik berbasis target, Manajemen produk',
+                    'entrepreneurship_potential' => 'Berpotensi pada aktivitas yang membutuhkan keberanian menawarkan solusi, menetapkan target, mengambil keputusan, dan mengembangkan pasar. Tantangan: memvalidasi kebutuhan pelanggan, mengelola risiko, mendengar umpan balik, serta tidak mengorbankan kualitas dan etika demi kecepatan.',
+                    'practice' => '(1) Tetapkan satu target SMART; (2) Pimpin satu tugas kecil; (3) Lakukan satu tindakan pelayanan tanpa diminta; (4) Minta masukan dari anggota tim dan dengarkan tanpa menyela; (5) Evaluasi hasil sekaligus proses dan dampaknya pada orang lain.',
+                ],
+                'sort_order' => 2,
+            ],
+            [
+                'slug' => 'rectangle',
+                'code' => 'C',
+                'name' => 'Rectangle (Persegi Panjang)',
+                'label' => 'Eksploratif • Transisi • Mencari arah',
+                'symbol' => '▭',
+                'color' => '#D18637',
+                'icon' => 'compass',
+                'description' => 'Dalam kerangka ini, Rectangle dipahami sebagai fase transisi atau pencarian arah, bukan label kepribadian yang kaku. Seseorang mungkin sedang mencoba peran, minat, atau cara baru; merasa belum mantap; atau sedang menata ulang prioritas. Fase ini dapat menjadi kesempatan mengenali diri dan bertumbuh.',
+                'details' => [
+                    'love_language' => 'Memberi dan menerima sentuhan (Physical Touch), sesuai pemetaan yang digunakan dalam asesmen ini. Sentuhan yang aman, pantas, disepakati, dan sesuai konteks—misalnya tos atau tepukan dukungan—dapat menjadi tanda kedekatan. Hormati batas pribadi dan budaya setiap orang.',
+                    'personal_strength' => 'Terbuka pada perubahan; mau mencoba; adaptif; peka terhadap pengalaman baru; berpotensi menemukan perspektif berbeda; mampu belajar dari proses pencarian. Kekuatan ini berkembang ketika eksplorasi disertai refleksi dan komitmen bertahap.',
+                    'learning_style' => 'Dapat terbantu oleh variasi metode, percobaan singkat, pilihan topik, dan umpan balik berkala. Strategi: lakukan eksperimen belajar 1–2 minggu, catat energi dan kemajuan, gunakan portofolio, minta umpan balik, lalu pilih satu kebiasaan inti untuk dijaga. Hindari terlalu sering berganti strategi tanpa evaluasi.',
+                    'communication_style' => 'Mungkin sedang mencari cara paling nyaman untuk menyampaikan pikiran. Beri waktu untuk merumuskan jawaban, gunakan pertanyaan terbuka, dan periksa apakah pesan dipahami. Latih menyatakan kebutuhan, batas, serta keputusan sementara dengan jelas.',
+                    'teamwork_style' => 'Dapat berkontribusi sebagai anggota yang fleksibel, penguji pendekatan, atau pengamat proses. Membantu tim melihat alternatif dan menyesuaikan diri. Perlu memperjelas komitmen, tenggat, dan tanggung jawab agar eksplorasi tidak berubah menjadi ketidakpastian bagi tim.',
+                    'academic_exploration' => 'Kelas Pilihan Lintas Rumpun, Klub Minat, Proyek Lintas Bidang, Riset Eksploratif Minat',
+                    'career_exploration' => 'Job shadowing, Wawancara profesi, Magang singkat sesuai usia, Proyek sukarela, Simulasi pekerjaan lintas bidang',
+                    'entrepreneurship_potential' => 'Dapat menemukan peluang melalui pengalaman mencoba dan melihat masalah dari sudut baru. Mulai dari eksperimen kecil: wawancara calon pengguna, prototipe sederhana, dan uji coba terbatas. Tantangan: memilih satu masalah prioritas, menyelesaikan siklus uji, dan tidak terlalu cepat berpindah ide.',
+                    'practice' => '(1) Pilih satu minat untuk dieksplorasi; (2) Lakukan eksperimen kecil selama tujuh hari; (3) Catat apa yang memberi energi dan apa yang sulit; (4) Tetapkan satu komitmen yang akan diselesaikan; (5) Hormati batas sentuhan diri sendiri dan orang lain.',
+                ],
+                'sort_order' => 3,
+            ],
+            [
+                'slug' => 'circle',
+                'code' => 'D',
+                'name' => 'Circle (Lingkaran)',
+                'label' => 'Empatik • Kolaboratif • Relasional',
+                'symbol' => '●',
+                'color' => '#439D8A',
+                'icon' => 'users',
+                'description' => 'Cenderung memperhatikan hubungan, suasana, dan kebutuhan orang lain. Dapat menikmati kerja sama, mendengarkan, serta membangun rasa kebersamaan. Penting menjaga keseimbangan antara kepedulian kepada orang lain dan kemampuan menyampaikan kebutuhan diri.',
+                'details' => [
+                    'love_language' => 'Memberi dan menerima kalimat pujian (Words of Affirmation). Pengakuan yang tulus, spesifik, dan jujur dapat terasa bermakna. Apresiasi tidak harus berlebihan; menyebut usaha atau kontribusi secara konkret sering lebih kuat daripada pujian umum.',
+                    'personal_strength' => 'Empatik; pendengar yang baik; suportif; mampu membangun relasi; kooperatif; peka terhadap suasana kelompok; dapat menjadi penghubung dan penjaga keharmonisan.',
+                    'learning_style' => 'Cenderung terbantu oleh diskusi, belajar berpasangan/kelompok, tutor sebaya, dan mengaitkan materi dengan pengalaman manusia. Strategi: diskusi terarah, saling mengajar, kelompok belajar dengan peran jelas, refleksi tertulis, dan sesi belajar mandiri agar pemahaman tidak hanya bergantung pada kelompok.',
+                    'communication_style' => 'Cenderung hangat, suportif, dan memperhatikan perasaan lawan bicara. Gunakan bahasa yang menghargai dan mendengarkan aktif. Latih menyampaikan ketidaksetujuan, kritik, dan batas secara jujur tanpa selalu menghindari konflik.',
+                    'teamwork_style' => 'Sering kuat sebagai fasilitator, pendukung, mediator, atau penjaga kolaborasi. Membantu anggota merasa dilibatkan. Perlu berani mengambil keputusan sulit, membagi beban secara adil, dan tidak mengambil alih semua pekerjaan demi menjaga suasana.',
+                    'academic_exploration' => 'Pendidikan, Psikologi, Komunikasi, Bahasa, Kesehatan Masyarakat, Layanan Sosial, Ilmu Sosial',
+                    'career_exploration' => 'Pendidikan, Layanan pelanggan, Komunikasi, Hubungan komunitas, Sumber daya manusia, Fasilitasi, Pendampingan, Layanan kesehatan/sosial',
+                    'entrepreneurship_potential' => 'Berpotensi membangun usaha berbasis komunitas, layanan, pengalaman pelanggan, edukasi, atau solusi kebutuhan sehari-hari. Kekuatan dapat muncul dari kemampuan memahami pelanggan dan membangun kepercayaan. Tantangan: menetapkan harga, membuat batas layanan, mengelola konflik, dan mengambil keputusan berbasis data.',
+                    'practice' => '(1) Berikan satu pujian yang spesifik dan tulus; (2) Dengarkan teman tanpa buru-buru memberi solusi; (3) Sampaikan satu kebutuhan atau batas dengan sopan; (4) Ambil peran kolaboratif dalam tugas; (5) Sisihkan waktu untuk belajar mandiri.',
+                ],
+                'sort_order' => 4,
+            ],
+            [
+                'slug' => 'squiggle',
+                'code' => 'E',
+                'name' => 'Squiggle (Garis Bergelombang)',
+                'label' => 'Kreatif • Imajinatif • Eksperimental',
+                'symbol' => '〰',
+                'color' => '#8065CF',
+                'icon' => 'sparkles',
+                'description' => 'Cenderung tertarik pada gagasan, kemungkinan, kreativitas, dan cara pandang yang tidak biasa. Dapat menikmati kebebasan bereksperimen dan menghubungkan ide dari berbagai bidang. Perlu strategi untuk mengubah inspirasi menjadi langkah konkret dan hasil yang selesai.',
+                'details' => [
+                    'love_language' => 'Memberi dan menerima waktu berkualitas (Quality Time). Kehadiran penuh, perhatian tanpa terdistraksi, dan pengalaman bersama dapat terasa bermakna. Kualitas interaksi lebih penting daripada sekadar berada di tempat yang sama.',
+                    'personal_strength' => 'Imajinatif; menghasilkan banyak ide; fleksibel; ingin tahu; melihat hubungan yang tidak biasa; berani bereksperimen; mampu menawarkan alternatif dan pendekatan kreatif.',
+                    'learning_style' => 'Cenderung terbantu oleh proyek kreatif, eksplorasi, visualisasi, eksperimen, pertanyaan terbuka, dan hubungan lintas topik. Strategi: gunakan mind map, prototipe, tugas pilihan, brainstorming dengan batas waktu, lalu pilih satu ide dan selesaikan dengan tahapan serta tenggat yang jelas.',
+                    'communication_style' => 'Cenderung ekspresif, asosiatif, dan suka membahas kemungkinan. Gunakan cerita, analogi, sketsa, atau contoh visual. Latih merangkum inti, menyusun urutan, dan membedakan ide yang menarik dari ide yang siap dijalankan.',
+                    'teamwork_style' => 'Sering berkontribusi sebagai penggagas ide, kreator konsep, atau pemecah kebuntuan. Membantu tim melihat peluang baru. Perlu mendokumentasikan ide, menerima batasan, menyepakati prioritas, dan bekerja bersama anggota yang menjaga implementasi.',
+                    'academic_exploration' => 'Seni, Desain, Media, Teknologi Kreatif, Arsitektur, Komunikasi, Penulisan, Inovasi, Riset Eksploratif',
+                    'career_exploration' => 'Desain grafis/produk, Konten kreatif, Penulisan, Periklanan, Multimedia, Pengembangan produk, UX, Seni pertunjukan, Inovasi',
+                    'entrepreneurship_potential' => 'Berpotensi menciptakan konsep, produk, pengalaman, atau cara promosi yang berbeda. Dapat unggul pada ideasi dan diferensiasi. Tantangan: menguji kebutuhan pasar, menghitung biaya, menentukan pelanggan sasaran, menjaga konsistensi, dan menuntaskan ide menjadi produk yang bernilai.',
+                    'practice' => '(1) Catat 10 ide tanpa menilai; (2) Pilih satu ide paling realistis; (3) Buat prototipe atau contoh sederhana; (4) Luangkan waktu berkualitas tanpa gawai bersama orang terdekat; (5) Minta umpan balik dan selesaikan satu revisi.',
+                ],
+                'sort_order' => 5,
+            ],
+        ];
+
+        foreach ($categoriesData as $cat) {
+            SiapCategory::updateOrCreate(
+                [
+                    'siap_assessment_id' => $assessment->id,
+                    'slug' => $cat['slug'],
+                ],
+                $cat
+            );
+        }
+
+        $questionsData = [
+            1 => [
+                'text' => 'Ketika mendapatkan tugas kelompok, biasanya saya akan ...',
+                'A' => 'Membuat pembagian tugas dan menyusun jadwal kerja.',
+                'B' => 'Mengambil inisiatif untuk memimpin kelompok.',
+                'C' => 'Mencari tahu terlebih dahulu apa yang sebenarnya harus dilakukan.',
+                'D' => 'Memastikan semua anggota merasa nyaman dan dilibatkan.',
+                'E' => 'Mencari ide menarik agar tugas menjadi lebih kreatif.',
+            ],
+            2 => [
+                'text' => 'Ketika menghadapi masalah yang sulit, saya cenderung ...',
+                'A' => 'Mengumpulkan informasi dan menganalisisnya secara runtut.',
+                'B' => 'Segera menentukan langkah dan bergerak mencari solusi.',
+                'C' => 'Memikirkan beberapa kemungkinan sebelum memilih tindakan.',
+                'D' => 'Berdiskusi dengan orang yang saya percaya.',
+                'E' => 'Mencoba pendekatan yang belum pernah dilakukan.',
+            ],
+            3 => [
+                'text' => 'Aktivitas sekolah yang paling menarik bagi saya adalah ...',
+                'A' => 'Menyusun laporan, merapikan data, atau membuat rangkuman.',
+                'B' => 'Mengikuti lomba, memimpin kegiatan, atau mengejar target.',
+                'C' => 'Mencoba berbagai kegiatan untuk mengetahui minat saya.',
+                'D' => 'Menjadi bagian dari kegiatan sosial atau kerja kelompok.',
+                'E' => 'Membuat karya, eksperimen, atau proyek kreatif.',
+            ],
+            4 => [
+                'text' => 'Jika guru memberi tugas dengan instruksi yang kurang jelas, saya akan ...',
+                'A' => 'Meminta penjelasan rinci agar langkah-langkahnya jelas.',
+                'B' => 'Menentukan sendiri langkah yang paling efektif lalu mulai bekerja.',
+                'C' => 'Mencoba memahami tugas sambil mencari arah yang paling sesuai.',
+                'D' => 'Bertanya kepada guru atau teman agar tidak salah memahami.',
+                'E' => 'Mengembangkan ide sendiri selama tetap sesuai tujuan tugas.',
+            ],
+            5 => [
+                'text' => 'Saat belajar untuk ujian, saya paling nyaman ...',
+                'A' => 'Membuat jadwal dan belajar secara bertahap.',
+                'B' => 'Menetapkan target nilai dan fokus pada materi penting.',
+                'C' => 'Mengubah cara belajar jika cara sebelumnya kurang cocok.',
+                'D' => 'Belajar bersama teman dan saling menjelaskan.',
+                'E' => 'Menggunakan cara kreatif seperti mind map, simulasi, atau cerita.',
+            ],
+            6 => [
+                'text' => 'Dalam sebuah tim, peran yang paling sering saya ambil adalah ...',
+                'A' => 'Mengatur detail, alur kerja, dan memastikan semuanya rapi.',
+                'B' => 'Mengarahkan tim agar tujuan tercapai.',
+                'C' => 'Menyesuaikan diri dengan kebutuhan tim yang sedang berkembang.',
+                'D' => 'Menjaga komunikasi dan membantu anggota bekerja sama.',
+                'E' => 'Mengusulkan gagasan baru dan alternatif yang berbeda.',
+            ],
+            7 => [
+                'text' => 'Jika rencana akhir pekan tiba-tiba berubah, saya biasanya ...',
+                'A' => 'Menyusun ulang jadwal agar kegiatan tetap teratur.',
+                'B' => 'Segera menentukan rencana pengganti.',
+                'C' => 'Mengamati pilihan yang ada sebelum memutuskan.',
+                'D' => 'Mempertimbangkan keinginan orang-orang yang ikut.',
+                'E' => 'Menganggapnya kesempatan mencoba hal spontan.',
+            ],
+            8 => [
+                'text' => 'Ketika ada teman yang mengalami kesulitan, saya cenderung ...',
+                'A' => 'Membantu menyusun langkah praktis untuk menyelesaikannya.',
+                'B' => 'Mendorongnya segera mengambil tindakan.',
+                'C' => 'Membantunya melihat pilihan-pilihan yang mungkin.',
+                'D' => 'Mendengarkan dan membuatnya merasa didukung.',
+                'E' => 'Mengajaknya melihat masalah dari sudut pandang baru.',
+            ],
+            9 => [
+                'text' => 'Hal yang paling membuat saya puas setelah menyelesaikan tugas adalah ...',
+                'A' => 'Semua bagian selesai dengan rapi dan sesuai standar.',
+                'B' => 'Target tercapai dan hasilnya terlihat nyata.',
+                'C' => 'Saya mendapat pemahaman baru tentang diri atau kemampuan saya.',
+                'D' => 'Semua orang merasa terbantu dan bekerja dengan baik.',
+                'E' => 'Hasilnya unik, orisinal, atau berbeda dari biasanya.',
+            ],
+            10 => [
+                'text' => 'Saat harus mengambil keputusan penting, saya biasanya ...',
+                'A' => 'Membandingkan fakta dan mempertimbangkan konsekuensinya.',
+                'B' => 'Memilih opsi yang paling mendukung tujuan saya.',
+                'C' => 'Memberi waktu untuk mengenali apa yang paling tepat bagi saya.',
+                'D' => 'Mempertimbangkan dampaknya terhadap orang lain.',
+                'E' => 'Memikirkan kemungkinan baru yang belum dipertimbangkan.',
+            ],
+            11 => [
+                'text' => 'Jika diminta membuat presentasi, saya akan ...',
+                'A' => 'Menyusun kerangka, data, dan urutan materi dengan rapi.',
+                'B' => 'Menentukan pesan utama agar audiens terdorong bertindak.',
+                'C' => 'Mencoba beberapa konsep sebelum memilih format.',
+                'D' => 'Membuat materi yang mudah dipahami dan melibatkan audiens.',
+                'E' => 'Menggunakan ide visual atau cara penyampaian yang tidak biasa.',
+            ],
+            12 => [
+                'text' => 'Dalam pertemanan, saya paling menghargai ...',
+                'A' => 'Kejujuran, konsistensi, dan dapat dipercaya.',
+                'B' => 'Sikap berani, mandiri, dan saling mendukung untuk maju.',
+                'C' => 'Ruang untuk berubah dan menjadi diri sendiri.',
+                'D' => 'Kepedulian, kebersamaan, dan saling memahami.',
+                'E' => 'Keterbukaan terhadap ide dan pengalaman baru.',
+            ],
+            13 => [
+                'text' => 'Ketika menerima kritik, reaksi awal saya biasanya ...',
+                'A' => 'Memeriksa bagian mana yang perlu diperbaiki secara spesifik.',
+                'B' => 'Menjadikannya tantangan untuk menunjukkan kemampuan.',
+                'C' => 'Memikirkan apakah kritik itu sesuai dengan kondisi saya.',
+                'D' => 'Memperhatikan cara penyampaian dan maksud orang tersebut.',
+                'E' => 'Mengambil inspirasi untuk mencoba cara yang berbeda.',
+            ],
+            14 => [
+                'text' => 'Jika diberi kesempatan memilih proyek sekolah, saya tertarik pada proyek yang ...',
+                'A' => 'Memiliki prosedur, data, dan hasil yang terukur.',
+                'B' => 'Menantang dan memiliki target yang jelas.',
+                'C' => 'Memberi kesempatan mencoba bidang baru.',
+                'D' => 'Bermanfaat bagi banyak orang atau komunitas.',
+                'E' => 'Membebaskan saya bereksperimen dan berkreasi.',
+            ],
+            15 => [
+                'text' => 'Ketika bekerja dengan tenggat waktu yang dekat, saya akan ...',
+                'A' => 'Membuat daftar prioritas dan mengerjakan satu per satu.',
+                'B' => 'Fokus pada hasil utama dan bergerak cepat.',
+                'C' => 'Menilai ulang cara kerja agar bisa menyesuaikan keadaan.',
+                'D' => 'Berkoordinasi agar tidak ada anggota yang tertinggal.',
+                'E' => 'Mencari jalan pintas kreatif tanpa mengabaikan tujuan.',
+            ],
+            16 => [
+                'text' => 'Saya lebih mudah memahami sesuatu ketika ...',
+                'A' => 'Penjelasannya runtut, jelas, dan disertai contoh.',
+                'B' => 'Saya tahu tujuan dan manfaat yang ingin dicapai.',
+                'C' => 'Saya diberi kesempatan mengeksplorasi dan mencoba.',
+                'D' => 'Saya bisa berdiskusi dan bertukar pemahaman.',
+                'E' => 'Saya melihat gambaran besar dan menghubungkan berbagai ide.',
+            ],
+            17 => [
+                'text' => 'Jika terjadi perbedaan pendapat dalam kelompok, saya cenderung ...',
+                'A' => 'Mengajak semua pihak kembali pada aturan dan fakta.',
+                'B' => 'Mendorong kelompok memilih keputusan dan melanjutkan.',
+                'C' => 'Membuka kemungkinan kompromi atau cara baru.',
+                'D' => 'Menjembatani komunikasi agar semua pihak didengar.',
+                'E' => 'Mengusulkan sudut pandang alternatif.',
+            ],
+            18 => [
+                'text' => 'Kegiatan ekstrakurikuler yang mungkin paling saya nikmati adalah ...',
+                'A' => 'Klub sains, jurnalistik data, atau kegiatan yang terorganisasi.',
+                'B' => 'OSIS, olahraga kompetitif, atau kepanitiaan yang menantang.',
+                'C' => 'Mencoba beberapa klub untuk menemukan yang cocok.',
+                'D' => 'Relawan, kelompok sosial, atau kegiatan kebersamaan.',
+                'E' => 'Seni, desain, musik, teater, atau inovasi.',
+            ],
+            19 => [
+                'text' => 'Saat mempelajari keterampilan baru, saya biasanya ...',
+                'A' => 'Mengikuti panduan dan berlatih secara bertahap.',
+                'B' => 'Menentukan standar kemampuan lalu berlatih untuk mencapainya.',
+                'C' => 'Bereksperimen sampai menemukan cara yang cocok.',
+                'D' => 'Belajar bersama orang lain atau meminta umpan balik.',
+                'E' => 'Mencoba berbagai teknik dan menggabungkannya secara kreatif.',
+            ],
+            20 => [
+                'text' => 'Jika memiliki waktu luang untuk membuat sesuatu, saya lebih mungkin ...',
+                'A' => 'Membuat sesuatu yang berguna dan tertata.',
+                'B' => 'Membuat proyek yang punya target atau hasil nyata.',
+                'C' => 'Mencoba hal yang sedang ingin saya kenali lebih jauh.',
+                'D' => 'Membuat sesuatu yang bisa dinikmati atau membantu orang lain.',
+                'E' => 'Membuat karya orisinal berdasarkan imajinasi.',
+            ],
+            21 => [
+                'text' => 'Dalam mencapai cita-cita, hal yang paling membantu saya adalah ...',
+                'A' => 'Rencana yang jelas dan kebiasaan yang konsisten.',
+                'B' => 'Ambisi, keberanian, dan target yang menantang.',
+                'C' => 'Kesempatan mengevaluasi dan menyesuaikan arah.',
+                'D' => 'Dukungan, relasi, dan lingkungan yang positif.',
+                'E' => 'Kebebasan berinovasi dan mencoba peluang baru.',
+            ],
+            22 => [
+                'text' => 'Ketika membaca informasi baru, saya paling tertarik pada ...',
+                'A' => 'Fakta, struktur, dan detail yang dapat diperiksa.',
+                'B' => 'Kesimpulan dan cara menerapkannya untuk mencapai hasil.',
+                'C' => 'Berbagai kemungkinan yang bisa saya pelajari lebih lanjut.',
+                'D' => 'Kisah manusia dan dampaknya bagi kehidupan.',
+                'E' => 'Ide unik dan hubungan yang tidak biasa.',
+            ],
+            23 => [
+                'text' => 'Jika menjadi ketua kegiatan sekolah, prioritas saya adalah ...',
+                'A' => 'Memastikan tugas, jadwal, dan prosedur berjalan baik.',
+                'B' => 'Membawa tim mencapai target kegiatan.',
+                'C' => 'Menyesuaikan rencana berdasarkan situasi yang berkembang.',
+                'D' => 'Menjaga semangat, komunikasi, dan kebersamaan tim.',
+                'E' => 'Membuat kegiatan menarik dengan konsep segar.',
+            ],
+            24 => [
+                'text' => 'Saya merasa paling bersemangat ketika ...',
+                'A' => 'Berhasil menyelesaikan sesuatu dengan teliti dan benar.',
+                'B' => 'Berhasil mengatasi tantangan dan mencapai sasaran.',
+                'C' => 'Menemukan hal baru tentang minat dan kemampuan saya.',
+                'D' => 'Merasa terhubung dan bisa memberi manfaat bagi orang lain.',
+                'E' => 'Menghasilkan ide atau karya yang belum pernah terpikirkan.',
+            ],
+            25 => [
+                'text' => 'Jika membayangkan masa depan, saya ingin ...',
+                'A' => 'Memiliki kehidupan yang terencana dan stabil.',
+                'B' => 'Mencapai prestasi, memimpin, atau membangun sesuatu.',
+                'C' => 'Tetap punya ruang untuk mengeksplorasi pilihan hidup.',
+                'D' => 'Menjalani kehidupan yang bermakna bersama orang lain.',
+                'E' => 'Menciptakan hal baru dan menjalani jalan yang khas.',
+            ],
+        ];
+
+        $letterMap = [
+            'A' => 'square',
+            'B' => 'triangle',
+            'C' => 'rectangle',
+            'D' => 'circle',
+            'E' => 'squiggle',
+        ];
+
+        foreach ($questionsData as $order => $q) {
+            $options = [];
+            foreach ($letterMap as $letter => $slug) {
+                $options[] = [
+                    'key' => $letter,
+                    'category_slug' => $slug,
+                    'text' => $q[$letter],
+                ];
+            }
+
+            SiapQuestion::updateOrCreate(
+                [
+                    'siap_assessment_id' => $assessment->id,
+                    'sort_order' => $order,
+                ],
+                [
+                    'siap_category_id' => null,
+                    'question_text' => $q['text'],
+                    'options' => $options,
+                    'is_active' => true,
+                ]
+            );
+        }
+
+        // Remove any stray questions beyond 25
+        SiapQuestion::where('siap_assessment_id', $assessment->id)
+            ->where('sort_order', '>', 25)
+            ->delete();
+    }
+
+    private function seedMultipleIntelligence(): void
+    {
+        $assessment = SiapAssessment::updateOrCreate(
+            ['slug' => 'multiple-intelligence'],
+            [
+                'title' => 'Multiple Intelligence',
+                'badge' => 'NURTURE | FENOTIPE',
+                'subtitle' => 'Kenali 8 jenis kecerdasan yang berkembang melalui pengalaman dan lingkunganmu.',
+                'description' => 'Menurut teori Multiple Intelligences Howard Gardner, kecerdasan manusia tidak hanya diukur dari kemampuan akademik. Setiap individu memiliki kombinasi 8 jenis kecerdasan yang unik.',
+                'scoring_type' => SiapAssessment::SCORING_LIKERT,
+                'question_count' => 32,
+                'time_limit_minutes' => 15,
+                'normal_price' => 125000,
+                'unlock_price' => 35000,
+                'disclaimer' => 'Hasil ini adalah eksplorasi kecenderungan kecerdasan, bukan diagnosis psikologis, pengukuran IQ, atau penentu mutlak pilihan jurusan dan karier.',
+                'is_active' => true,
+                'sort_order' => 2,
+            ]
+        );
+
+        // 8 categories x 4 questions each = 32 questions total
+        $categoriesData = [
+            [
+                'slug' => 'linguistic',
+                'name' => 'Linguistic Intelligence',
+                'label' => 'Bahasa & cerita',
+                'color' => '#8065CF',
+                'icon' => 'book',
+                'description' => 'Kamu senang bermain dengan kata, membaca, menulis, dan bercerita.',
+                'details' => [
+                    'activity' => 'Menulis jurnal dan membaca cerita',
+                    'major' => 'Sastra, Komunikasi, Pendidikan Bahasa',
+                    'development_tips' => 'Jadwalkan membaca 15 menit sehari, tulis jurnal refleksi, atau ikuti klub debat dan penulisan kreatif.',
+                ],
+                'questions' => [
+                    'Saya senang membaca buku atau membuat cerita.',
+                    'Saya mudah menjelaskan ide dengan kata-kata.',
+                    'Saya senang bermain tebak kata.',
+                    'Saya suka menuliskan pengalaman saya.',
+                ],
+                'sort_order' => 1,
+            ],
+            [
+                'slug' => 'logical-mathematical',
+                'name' => 'Logical-Mathematical Intelligence',
+                'label' => 'Logika & angka',
+                'color' => '#4783C8',
+                'icon' => 'chart',
+                'description' => 'Kamu tertarik pada pola, penalaran, angka, dan pemecahan masalah.',
+                'details' => [
+                    'activity' => 'Bermain teka-teki logika dan eksperimen',
+                    'major' => 'Teknik, Matematika, Akuntansi',
+                    'development_tips' => 'Latih pemecahan masalah dengan puzzle logika, eksperimen sains sederhana, atau proyek analisis data.',
+                ],
+                'questions' => [
+                    'Saya suka memecahkan teka-teki atau soal matematika.',
+                    'Saya senang mencari pola dalam angka.',
+                    'Saya ingin tahu alasan di balik suatu kejadian.',
+                    'Saya menikmati permainan strategi.',
+                ],
+                'sort_order' => 2,
+            ],
+            [
+                'slug' => 'spatial',
+                'name' => 'Spatial Intelligence',
+                'label' => 'Gambar & ruang',
+                'color' => '#D18637',
+                'icon' => 'grid',
+                'description' => 'Kamu mudah memahami gambar, bentuk, warna, dan ruang.',
+                'details' => [
+                    'activity' => 'Membuat mind map, menggambar, dan merakit model',
+                    'major' => 'DKV, Arsitektur, Desain Produk',
+                    'development_tips' => 'Gunakan mind map berwarna saat belajar, buat sketsa konsep, atau coba desain visual digital.',
+                ],
+                'questions' => [
+                    'Saya mudah membayangkan bentuk atau gambar dalam pikiran.',
+                    'Saya senang menggambar atau membuat desain.',
+                    'Saya mudah memahami peta dan arah.',
+                    'Saya suka menyusun balok atau puzzle.',
+                ],
+                'sort_order' => 3,
+            ],
+            [
+                'slug' => 'bodily-kinesthetic',
+                'name' => 'Bodily-Kinesthetic Intelligence',
+                'label' => 'Gerak & aktivitas',
+                'color' => '#CF6A64',
+                'icon' => 'award',
+                'description' => 'Kamu senang belajar melalui gerakan dan pengalaman langsung.',
+                'details' => [
+                    'activity' => 'Olahraga, menari, dan praktik langsung',
+                    'major' => 'Olahraga, Seni Pertunjukan',
+                    'development_tips' => 'Pelajari materi lewat praktik langsung, simulasi, eksperimen fisik, atau jeda gerak aktif saat belajar.',
+                ],
+                'questions' => [
+                    'Saya senang melakukan aktivitas fisik atau olahraga.',
+                    'Saya lebih mudah belajar dengan mempraktikkan langsung.',
+                    'Saya senang membuat kerajinan dengan tangan.',
+                    'Saya mudah mengikuti gerakan tari atau olahraga.',
+                ],
+                'sort_order' => 4,
+            ],
+            [
+                'slug' => 'musical',
+                'name' => 'Musical Intelligence',
+                'label' => 'Musik & irama',
+                'color' => '#B365A1',
+                'icon' => 'bell',
+                'description' => 'Kamu peka terhadap irama, melodi, dan pola suara.',
+                'details' => [
+                    'activity' => 'Mencoba alat musik dan membuat lagu',
+                    'major' => 'Musik, Seni, Produksi Musik',
+                    'development_tips' => 'Gunakan irama atau mnemonik lagu untuk menghafal konsep, dan eksplorasi alat musik atau produksi audio.',
+                ],
+                'questions' => [
+                    'Saya mudah mengingat lagu dan irama.',
+                    'Saya suka bernyanyi atau memainkan alat musik.',
+                    'Saya sering mengetukkan jari mengikuti irama.',
+                    'Saya dapat membedakan nada yang berbeda.',
+                ],
+                'sort_order' => 5,
+            ],
+            [
+                'slug' => 'interpersonal',
+                'name' => 'Interpersonal Intelligence',
+                'label' => 'Teman & kolaborasi',
+                'color' => '#439D8A',
+                'icon' => 'users',
+                'description' => 'Kamu senang memahami orang lain dan bekerja bersama.',
+                'details' => [
+                    'activity' => 'Diskusi kelompok dan kegiatan relawan',
+                    'major' => 'Psikologi, Pendidikan, Hubungan Masyarakat',
+                    'development_tips' => 'Aktiflah di diskusi kelompok, kegiatan organisasi/relawan, dan latih empati dalam komunikasi tim.',
+                ],
+                'questions' => [
+                    'Saya senang membantu teman yang sedang kesulitan.',
+                    'Saya nyaman bekerja dalam kelompok.',
+                    'Saya memahami perasaan teman dari ekspresinya.',
+                    'Saya senang berkenalan dengan orang baru.',
+                ],
+                'sort_order' => 6,
+            ],
+            [
+                'slug' => 'intrapersonal',
+                'name' => 'Intrapersonal Intelligence',
+                'label' => 'Diri & refleksi',
+                'color' => '#5A80B5',
+                'icon' => 'sparkles',
+                'description' => 'Kamu suka mengenali emosi, tujuan, dan motivasi dirimu.',
+                'details' => [
+                    'activity' => 'Refleksi harian dan merancang tujuan pribadi',
+                    'major' => 'Psikologi, Filsafat, Pendidikan',
+                    'development_tips' => 'Luangkan waktu evaluasi diri mingguan, tulis target pribadi, dan amati hal yang membuatmu bersemangat.',
+                ],
+                'questions' => [
+                    'Saya suka memikirkan kelebihan dan kekurangan diri sendiri.',
+                    'Saya tahu kegiatan yang membuat saya bahagia.',
+                    'Saya senang menetapkan tujuan untuk diri sendiri.',
+                    'Saya meluangkan waktu untuk merenung.',
+                ],
+                'sort_order' => 7,
+            ],
+            [
+                'slug' => 'naturalistic',
+                'name' => 'Naturalistic Intelligence',
+                'label' => 'Alam & lingkungan',
+                'color' => '#71934B',
+                'icon' => 'globe',
+                'description' => 'Kamu tertarik pada alam, tumbuhan, hewan, dan lingkungan.',
+                'details' => [
+                    'activity' => 'Berkebun dan mengamati alam sekitar',
+                    'major' => 'Biologi, Kehutanan, Ilmu Lingkungan',
+                    'development_tips' => 'Lakukan observasi lingkungan sekitar, rawat tanaman/hewan, atau ikut proyek pelestarian alam.',
+                ],
+                'questions' => [
+                    'Saya senang mengamati hewan, tumbuhan, atau alam sekitar.',
+                    'Saya suka merawat tanaman atau hewan.',
+                    'Saya tertarik mengenali jenis tumbuhan dan hewan.',
+                    'Saya peduli menjaga kebersihan lingkungan.',
+                ],
+                'sort_order' => 8,
+            ],
+        ];
+
+        $categoryModels = [];
+        foreach ($categoriesData as $cat) {
+            $questions = $cat['questions'];
+            unset($cat['questions']);
+
+            $model = SiapCategory::updateOrCreate(
+                [
+                    'siap_assessment_id' => $assessment->id,
+                    'slug' => $cat['slug'],
+                ],
+                $cat
+            );
+            $categoryModels[] = ['model' => $model, 'questions' => $questions];
+        }
+
+        // Interleave round-by-round (4 rounds x 8 categories = 32 questions)
+        $order = 1;
+        for ($round = 0; $round < 4; $round++) {
+            foreach ($categoryModels as $item) {
+                if (isset($item['questions'][$round])) {
+                    SiapQuestion::updateOrCreate(
+                        [
+                            'siap_assessment_id' => $assessment->id,
+                            'sort_order' => $order,
+                        ],
+                        [
+                            'siap_category_id' => $item['model']->id,
+                            'question_text' => $item['questions'][$round],
+                            'options' => null,
+                            'is_active' => true,
+                        ]
+                    );
+                    $order++;
+                }
+            }
+        }
+
+        SiapQuestion::where('siap_assessment_id', $assessment->id)
+            ->where('sort_order', '>', 32)
+            ->delete();
+    }
+}

@@ -58,7 +58,7 @@
                     ['id' => 'admin.bootcamps', 'icon' => 'award', 'label' => __('app.manage_bootcamps'), 'route' => 'admin.bootcamps'],
                     ['id' => 'admin.events', 'icon' => 'calendar', 'label' => __('app.manage_events'), 'route' => 'admin.events'],
                     ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'admin.quizzes'],
-                    ['id' => 'admin.global-quiz', 'icon' => 'award', 'label' => 'Manage Global Quiz', 'route' => 'admin.global-quiz'],
+                    ['id' => 'admin.siap.index', 'icon' => 'sparkles', 'label' => 'Manage SIAP', 'route' => 'admin.siap.index'],
                     ['id' => 'admin.options', 'icon' => 'settings', 'label' => __('app.settings'), 'route' => 'admin.options'],
                 ]
             ],
@@ -183,7 +183,7 @@
             ['id' => 'admin.content.events.pending', 'icon' => 'clock', 'label' => __('app.pending_events'), 'route' => 'admin.content.events.pending'],
             ['id' => 'admin.events', 'icon' => 'calendar', 'label' => __('app.manage_events'), 'route' => 'admin.events'],
             ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'admin.quizzes'],
-            ['id' => 'admin.global-quiz', 'icon' => 'award', 'label' => 'Manage Global Quiz', 'route' => 'admin.global-quiz'],
+            ['id' => 'admin.siap.index', 'icon' => 'sparkles', 'label' => 'Manage SIAP', 'route' => 'admin.siap.index'],
             ['id' => 'admin.options', 'icon' => 'settings', 'label' => __('app.settings'), 'route' => 'admin.options'],
             ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => __('app.back_to_app'), 'route' => 'dashboard'],
         ];
@@ -213,6 +213,19 @@
             'id' => 'belajar', 'icon' => 'belajar', 'label' => __('app.learning'),
             'subItems' => $belajarSubItems
         ];
+
+        if ($isAuth) {
+            $navItems[] = [
+                'id' => 'siap',
+                'icon' => 'sparkles',
+                'label' => 'SIAP',
+                'subItems' => [
+                    ['id' => 'siap.index', 'icon' => 'sparkles', 'label' => 'Asesmen', 'route' => 'siap.index'],
+                    ['id' => 'siap.results', 'icon' => 'barChart', 'label' => 'Hasil Asesmen', 'route' => 'siap.results'],
+                    ['id' => 'siap.certificates', 'icon' => 'award', 'label' => 'Sertifikat Asesmen', 'route' => 'siap.certificates'],
+                ],
+            ];
+        }
 
         if ($isAuth) {
             $navItems[] = ['id' => 'event', 'icon' => 'calendar', 'label' => __('app.event'), 'route' => 'event'];
@@ -348,6 +361,7 @@
                         if ($subItem['id'] === 'online-bootcamp' && in_array($activePage, ['online-bootcamp', 'detail-online-bootcamp'])) $isParentActive = true;
                         if ($subItem['id'] === 'offline-bootcamp' && in_array($activePage, ['offline-bootcamp', 'detail-offline-bootcamp'])) $isParentActive = true;
                         if (in_array($subItem['id'], ['quiz', 'quizzes']) && (Str::startsWith($activePage, 'quiz.') || Str::startsWith($activePage, 'quizzes'))) $isParentActive = true;
+                        if (Str::startsWith($subItem['id'], 'siap.') && Str::startsWith($activePage, 'siap.')) $isParentActive = true;
                     }
                 }
 
@@ -379,6 +393,7 @@
                                     if ($subItem['id'] === 'offline-bootcamp' && in_array($activePage, ['offline-bootcamp', 'detail-offline-bootcamp'])) $isSubActive = true;
                                     if ($subItem['id'] === 'bootcamps-saya' && in_array($activePage, ['bootcamps-saya'])) $isSubActive = true;
                                     if (in_array($subItem['id'], ['quiz', 'quizzes']) && (Str::startsWith($activePage, 'quiz.') || Str::startsWith($activePage, 'quizzes'))) $isSubActive = true;
+                                    if ($subItem['id'] === 'siap.index' && in_array($activePage, ['siap.index', 'siap.intro', 'siap.take', 'siap.super-finger', 'siap.checkout', 'siap.order.success'])) $isSubActive = true;
 
                                     $linkHref = isset($subItem['url']) ? $subItem['url'] : route($subItem['route'] ?? 'dashboard');
                                 @endphp

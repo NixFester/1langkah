@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
             // ── Gamification Defaults (XP Rewards & Achievements) ────────────
             XpRewardsSeeder::class,
             AchievementSeeder::class,
+
+            // ── SIAP Assessments (Psycho Geometric + Multiple Intelligence) ───
+            SiapAssessmentSeeder::class,
         ]);
     }
 }

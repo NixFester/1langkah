@@ -23,6 +23,7 @@ use App\Http\Controllers\Pages\PageController;
 use App\Http\Controllers\Pages\PortfolioController;
 use App\Http\Controllers\Pages\QrController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\Student\SiapController;
 use App\Http\Controllers\Superadmin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -128,6 +129,23 @@ Route::middleware('auth')->group(function () {
     // Achievements
     Route::get('/achievement', [AchievementController::class, 'index'])->name('achievement');
 
+    // SIAP Assessment System (Psycho Geometric, Multiple Intelligence, Super Finger, Paket Lengkap)
+    Route::prefix('siap')->name('siap.')->group(function () {
+        Route::get('/', [SiapController::class, 'index'])->name('index');
+        Route::get('/super-finger', [SiapController::class, 'superFinger'])->name('super-finger');
+        Route::get('/hasil/{attempt?}', [SiapController::class, 'results'])->name('results');
+        Route::get('/sertifikat', [SiapController::class, 'certificates'])->name('certificates');
+        Route::get('/sertifikat/{certificate}/cetak', [SiapController::class, 'printCertificate'])->name('certificates.print');
+        Route::get('/asesmen/{assessment}', [SiapController::class, 'intro'])->name('intro');
+        Route::get('/asesmen/{assessment}/tes', [SiapController::class, 'take'])->name('take');
+        Route::post('/asesmen/{assessment}/save', [SiapController::class, 'saveProgress'])->name('save');
+        Route::post('/asesmen/{assessment}/submit', [SiapController::class, 'submit'])->name('submit');
+        Route::get('/checkout/{product}', [SiapController::class, 'checkout'])->name('checkout');
+        Route::post('/checkout/{product}/apply-promo', [SiapController::class, 'applyPromo'])->name('checkout.promo');
+        Route::post('/checkout/{product}/process', [SiapController::class, 'processCheckout'])->name('checkout.process');
+        Route::get('/order/{order}/success', [SiapController::class, 'orderSuccess'])->name('order.success');
+    });
+
     // Notifications
     Route::get('/api/notifications', [NotificationController::class, 'index'])->name('api.notifications');
     Route::get('/api/notifications/count', [NotificationController::class, 'count'])->name('api.notifications.count');
@@ -225,8 +243,26 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/quizzes/{quiz}/results/export-csv', [App\Http\Controllers\Admin\QuizController::class, 'exportCsv'])->name('quizzes.results.export-csv');
     Route::get('/quizzes/{quiz}/results/export-pdf', [App\Http\Controllers\Admin\QuizController::class, 'exportPdf'])->name('quizzes.results.export-pdf');
 
-    // Manage Global Quiz (Separate from Course Quizzes)
-    Route::get('/global-quiz', [App\Http\Controllers\Admin\GlobalQuizController::class, 'index'])->name('global-quiz');
+    // Manage SIAP Assessments (Replaced Global Quiz Prototype)
+    Route::prefix('siap')->name('siap.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Admin\SiapAdminController::class, 'index'])->name('index');
+        Route::post('/config', [App\Http\Controllers\Admin\SiapAdminController::class, 'updateConfig'])->name('config.update');
+        Route::post('/pricing', [App\Http\Controllers\Admin\SiapAdminController::class, 'updatePricing'])->name('pricing.update');
+        Route::get('/assessments/{assessment}/questions', [App\Http\Controllers\Admin\SiapAdminController::class, 'questions'])->name('questions');
+        Route::post('/assessments/{assessment}/questions', [App\Http\Controllers\Admin\SiapAdminController::class, 'storeQuestion'])->name('questions.store');
+        Route::put('/assessments/{assessment}/questions/{question}', [App\Http\Controllers\Admin\SiapAdminController::class, 'updateQuestion'])->name('questions.update');
+        Route::delete('/assessments/{assessment}/questions/{question}', [App\Http\Controllers\Admin\SiapAdminController::class, 'deleteQuestion'])->name('questions.delete');
+        Route::post('/redeem', [App\Http\Controllers\Admin\SiapAdminController::class, 'redeemCode'])->name('redeem');
+        Route::patch('/orders/{order}/fulfillment', [App\Http\Controllers\Admin\SiapAdminController::class, 'updateFulfillment'])->name('orders.fulfillment');
+        Route::post('/promos', [App\Http\Controllers\Admin\SiapAdminController::class, 'storePromo'])->name('promos.store');
+        Route::post('/promos/{promo}/toggle', [App\Http\Controllers\Admin\SiapAdminController::class, 'togglePromo'])->name('promos.toggle');
+        Route::delete('/promos/{promo}', [App\Http\Controllers\Admin\SiapAdminController::class, 'destroyPromo'])->name('promos.destroy');
+        Route::get('/results/export-csv', [App\Http\Controllers\Admin\SiapAdminController::class, 'exportCsv'])->name('results.export-csv');
+        Route::get('/results/export-pdf', [App\Http\Controllers\Admin\SiapAdminController::class, 'exportPdf'])->name('results.export-pdf');
+    });
+
+    // Legacy Global Quiz -> redirect to Manage SIAP
+    Route::get('/global-quiz', fn () => redirect()->route('admin.siap.index'))->name('global-quiz');
     Route::post('/global-quiz/config', [App\Http\Controllers\Admin\GlobalQuizController::class, 'updateConfig'])->name('global-quiz.config.update');
     Route::post('/global-quiz/store', [App\Http\Controllers\Admin\GlobalQuizController::class, 'store'])->name('global-quiz.store');
     Route::post('/global-quiz/promos', [App\Http\Controllers\Admin\GlobalQuizController::class, 'storePromo'])->name('global-quiz.promos.store');

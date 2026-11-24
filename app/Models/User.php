@@ -90,6 +90,16 @@ class User extends Authenticatable
         return $this->hasMany(TestAttempt::class);
     }
 
+    public function siapAttempts()
+    {
+        return $this->hasMany(SiapAttempt::class);
+    }
+
+    public function siapOrders()
+    {
+        return $this->hasMany(SiapOrder::class);
+    }
+
     public function completions()
     {
         return $this->hasMany(Completion::class);

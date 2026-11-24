@@ -7,6 +7,9 @@
     <link rel="dns-prefetch" href="https://images.unsplash.com">
     <link rel="dns-prefetch" href="https://i.pravatar.cc">
     <link rel="dns-prefetch" href="https://ui-avatars.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <title>@yield('title', __('app.1langkah_dashboard'))</title>
     <meta name="description" content="{{ __('app.1langkah_meta_desc') ?? '1Langkah Dashboard' }}">
     <meta name="theme-color" content="#dc2626">

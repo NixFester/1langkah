@@ -253,6 +253,7 @@ class XenditPaymentDriver implements PaymentDriverInterface
             'mentor_session' => "{$baseUrl}/my-sessions",
             'quiz' => "{$baseUrl}/quiz/start/{$itemId}?started=1",
             'quiz_attempt' => "{$baseUrl}/quiz/result/{$itemId}",
+            'siap_order' => "{$baseUrl}/siap/order/{$itemId}/success",
             default => "{$baseUrl}/dashboard",
         };
     }

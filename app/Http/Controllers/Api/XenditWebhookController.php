@@ -12,10 +12,12 @@ use App\Models\EventRegistration;
 use App\Models\MentorSession;
 use App\Models\PaymentTransaction;
 use App\Models\Quiz;
+use App\Models\SiapOrder;
 use App\Models\TestAttempt;
 use App\Models\UserActivityLog;
 use App\Services\NotificationService;
 use App\Services\Payment\PaymentService;
+use App\Services\SiapAssessmentService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -130,6 +132,18 @@ class XenditWebhookController extends Controller
         // Handle quiz / quiz attempt unlock
         if (in_array($itemType, ['quiz', 'quiz_attempt'], true)) {
             $this->processQuizUnlock($transaction);
+
+            return;
+        }
+
+        // Handle SIAP assessment / Super Finger / Bundle orders
+        if ($itemType === 'siap_order') {
+            $siapOrder = SiapOrder::find($itemId);
+            if ($siapOrder) {
+                app(SiapAssessmentService::class)->fulfillPaidOrder($siapOrder);
+            } else {
+                Log::error('Xendit webhook: SiapOrder not found', ['order_id' => $itemId]);
+            }
 
             return;
         }
