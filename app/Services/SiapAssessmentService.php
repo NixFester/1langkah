@@ -151,7 +151,7 @@ class SiapAssessmentService
             }
             $counts[$question->siap_category_id] = ($counts[$question->siap_category_id] ?? 0) + 1;
             $val = (int) ($answers[$question->id] ?? $answers[(string) $question->id] ?? 0);
-            if ($val >= 1 && $val <= 5) {
+            if ($val >= 1 && $val <= 4) {
                 $sums[$question->siap_category_id] = ($sums[$question->siap_category_id] ?? 0) + $val;
             }
         }
@@ -159,7 +159,7 @@ class SiapAssessmentService
         $scores = $assessment->categories->map(function ($cat) use ($sums, $counts) {
             $raw = $sums[$cat->id] ?? 0;
             $qCount = max(1, $counts[$cat->id] ?? 4);
-            $max = $qCount * 5;
+            $max = $qCount * 4;
             $percentage = (int) round(($raw / $max) * 100);
 
             return [

@@ -25,11 +25,10 @@
     })->values();
 
     $likertChoices = [
-        ['value' => 1, 'label' => 'Tidak Pernah'],
-        ['value' => 2, 'label' => 'Jarang'],
-        ['value' => 3, 'label' => 'Kadang-kadang'],
-        ['value' => 4, 'label' => 'Sering'],
-        ['value' => 5, 'label' => 'Sangat Sering'],
+        ['value' => 1, 'label' => 'Sangat Tidak Sesuai'],
+        ['value' => 2, 'label' => 'Tidak Sesuai'],
+        ['value' => 3, 'label' => 'Sesuai'],
+        ['value' => 4, 'label' => 'Sangat Sesuai'],
     ];
 
     $initialBiodata = [

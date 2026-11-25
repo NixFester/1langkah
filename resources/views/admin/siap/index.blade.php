@@ -198,7 +198,7 @@
                     </div>
                     @if($currentAssessment)
                         <span class="rounded-full bg-gray-100 px-3 py-1 text-xs font-bold text-gray-600">
-                            {{ $currentAssessment->isForcedChoice() ? 'Pilihan A–E' : 'Skala Likert 1–5' }}
+                            {{ $currentAssessment->isForcedChoice() ? 'Pilihan A–E' : 'Skala Likert 1–4' }}
                         </span>
                     @endif
                 </div>
