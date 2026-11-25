@@ -516,7 +516,7 @@
                                     <span class="font-mono text-xs font-bold text-gray-400">#{{ $order->id }}</span>
                                     <span class="font-bold text-gray-900">{{ $order->product_name }}</span>
                                     <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold {{ $order->isPaid() ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800' }}">
-                                        {{ strtoupper($order->status) }}
+                                        {{ $order->isPaid() ? 'VERIFIED (PAID)' : strtoupper($order->status) }}
                                     </span>
                                 </div>
                                 <div class="text-xs text-gray-500">
@@ -528,6 +528,19 @@
                             </div>
 
                             <div class="flex flex-wrap items-center gap-2.5">
+                                @if(! $order->isPaid())
+                                    <form action="{{ route('admin.siap.orders.verify', $order) }}" method="POST"
+                                        onsubmit="return confirm('Verifikasi pembayaran pesanan #{{ $order->id }} ({{ $order->participant_name }}) secara manual? Hasil lengkap / kode redeem akan langsung diaktifkan.');">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit"
+                                            class="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 px-3.5 py-2 text-xs font-bold text-white shadow-sm transition cursor-pointer">
+                                            <x-icon name="check" class="w-3.5 h-3.5" />
+                                            <span>Verifikasi Pembayaran</span>
+                                        </button>
+                                    </form>
+                                @endif
+
                                 @if($order->redeem_code)
                                     <div class="flex items-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-3 py-1.5">
                                         <span class="font-mono text-xs font-extrabold text-blue-900">{{ $order->redeem_code }}</span>

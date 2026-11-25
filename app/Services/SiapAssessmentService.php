@@ -522,7 +522,11 @@ class SiapAssessmentService
                     'siap_order_paid',
                     'Pembayaran SIAP Berhasil',
                     $message,
-                    route('siap.order.success', $order)
+                    [
+                        'icon' => 'check-circle',
+                        'color' => 'emerald',
+                        'link' => route('siap.order.success', $order),
+                    ]
                 );
             } catch (\Throwable $e) {
                 Log::warning('Failed to create SIAP notification: '.$e->getMessage());

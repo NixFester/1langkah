@@ -24,6 +24,11 @@ return Application::configure(basePath: dirname(__DIR__))
             CleanupSiapSimulation::class,
         ]);
 
+        $middleware->validateCsrfTokens(except: [
+            'webhook/xendit',
+            'webhook/*',
+        ]);
+
         $middleware->redirectGuestsTo('/login');
         // Redirect user based on role to their appropriate dashboard (matches role-flow-diagrams.md)
         $middleware->redirectUsersTo(function () {

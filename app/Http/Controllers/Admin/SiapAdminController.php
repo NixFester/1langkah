@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Option;
+use App\Models\PaymentTransaction;
 use App\Models\PromoCode;
 use App\Models\SiapAssessment;
 use App\Models\SiapAttempt;
@@ -284,6 +285,33 @@ class SiapAdminController extends Controller
 
         return redirect()->route('admin.siap.index', ['tab' => 'orders'])
             ->with($result['success'] ? 'success' : 'error', $result['message']);
+    }
+
+    /**
+     * Manually verify a pending SIAP order (e.g. if Xendit webhook callback was missed)
+     * and trigger full fulfillment (unlock results, redeem code, certificate, email).
+     */
+    public function verifyOrder(SiapOrder $order): RedirectResponse
+    {
+        if ($order->isPaid()) {
+            return redirect()->route('admin.siap.index', ['tab' => 'orders'])
+                ->with('info', "Pesanan #ORDER-{$order->id} sudah berstatus terverifikasi (PAID).");
+        }
+
+        if ($order->payment_transaction_id) {
+            $tx = PaymentTransaction::find($order->payment_transaction_id);
+            if ($tx && ! $tx->isPaid()) {
+                $tx->update([
+                    'status' => 'PAID',
+                    'paid_at' => $tx->paid_at ?? now(),
+                ]);
+            }
+        }
+
+        $this->siapService->fulfillPaidOrder($order);
+
+        return redirect()->route('admin.siap.index', ['tab' => 'orders'])
+            ->with('success', "Pembayaran untuk {$order->participant_name} (#ORDER-{$order->id}) berhasil diverifikasi secara manual.");
     }
 
     /**

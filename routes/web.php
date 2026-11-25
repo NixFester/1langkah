@@ -259,6 +259,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::put('/assessments/{assessment}/questions/{question}', [App\Http\Controllers\Admin\SiapAdminController::class, 'updateQuestion'])->name('questions.update');
         Route::delete('/assessments/{assessment}/questions/{question}', [App\Http\Controllers\Admin\SiapAdminController::class, 'deleteQuestion'])->name('questions.delete');
         Route::post('/redeem', [App\Http\Controllers\Admin\SiapAdminController::class, 'redeemCode'])->name('redeem');
+        Route::patch('/orders/{order}/verify', [App\Http\Controllers\Admin\SiapAdminController::class, 'verifyOrder'])->name('orders.verify');
         Route::patch('/orders/{order}/fulfillment', [App\Http\Controllers\Admin\SiapAdminController::class, 'updateFulfillment'])->name('orders.fulfillment');
         Route::post('/promos', [App\Http\Controllers\Admin\SiapAdminController::class, 'storePromo'])->name('promos.store');
         Route::post('/promos/{promo}/toggle', [App\Http\Controllers\Admin\SiapAdminController::class, 'togglePromo'])->name('promos.toggle');
