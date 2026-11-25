@@ -592,6 +592,7 @@ class SiapController extends Controller
             'parental_consent.accepted' => 'Persetujuan peserta / orang tua atau wali wajib dicentang.',
         ]);
 
+        $isSimulation = session()->has('siap_simulation');
         $basePrice = (float) $resolved['promo_price'];
         $code = strtoupper(trim((string) ($validated['promo_code'] ?? '')));
         $promoDiscount = 0;
@@ -602,7 +603,9 @@ class SiapController extends Controller
             if ($promo && $promo->isValid() && (! $promo->min_purchase || $basePrice >= (float) $promo->min_purchase)) {
                 $promoDiscount = (int) round($promo->calculateDiscount($basePrice));
                 $appliedPromo = $promo;
-                $promo->incrementUsage();
+                if (! $isSimulation) {
+                    $promo->incrementUsage();
+                }
             }
         }
 
@@ -621,7 +624,7 @@ class SiapController extends Controller
             'email' => $validated['email'],
             'parent_whatsapp' => $validated['parent_whatsapp'],
             'parental_consent' => true,
-            'payment_method' => $finalAmount === 0 ? 'promo' : config('payment.driver', 'xendit'),
+            'payment_method' => $finalAmount === 0 ? 'promo' : ($isSimulation ? 'xendit_sandbox' : config('payment.driver', 'xendit')),
             'normal_price' => $resolved['normal_price'],
             'discount_amount' => $totalDiscount,
             'final_price' => $finalAmount,
@@ -640,17 +643,29 @@ class SiapController extends Controller
             'customer_name' => $order->participant_name,
             'customer_email' => $order->email,
             'customer_phone' => $order->parent_whatsapp,
+            'use_sandbox' => $isSimulation,
+            'is_sandbox' => $isSimulation,
+            'is_simulation' => $isSimulation,
         ];
 
-        if ($finalAmount > 0 && ! $paymentService->isMockDriver()) {
-            $paymentResult = $paymentService->createPayment(
-                $user,
-                'siap_order',
-                $order->id,
-                $finalAmount,
-                $resolved['name'],
-                $metadata
-            );
+        if ($finalAmount > 0 && ($isSimulation || ! $paymentService->isMockDriver())) {
+            $paymentResult = $isSimulation
+                ? app(\App\Services\Payment\Drivers\XenditPaymentDriver::class)->createPayment(
+                    $user,
+                    'siap_order',
+                    $order->id,
+                    $finalAmount,
+                    $resolved['name'],
+                    $metadata
+                )
+                : $paymentService->createPayment(
+                    $user,
+                    'siap_order',
+                    $order->id,
+                    $finalAmount,
+                    $resolved['name'],
+                    $metadata
+                );
 
             if (! $paymentResult['success']) {
                 return redirect()->route('siap.checkout', array_filter([
@@ -667,7 +682,7 @@ class SiapController extends Controller
                 }
             }
 
-            if ($paymentService->requiresRedirect() && ! empty($paymentResult['checkout_url'])) {
+            if (($isSimulation || $paymentService->requiresRedirect()) && ! empty($paymentResult['checkout_url'])) {
                 return redirect($paymentResult['checkout_url']);
             }
 
@@ -712,6 +727,24 @@ class SiapController extends Controller
 
         if (! $this->actorOwns($order, $user, $guestToken)) {
             abort(403);
+        }
+
+        if ($order->isPending() && $order->payment_transaction_id) {
+            $tx = PaymentTransaction::find($order->payment_transaction_id);
+            if ($tx && $tx->driver === 'xendit') {
+                $statusResult = app(\App\Services\Payment\Drivers\XenditPaymentDriver::class)
+                    ->getPaymentStatus($tx->external_id);
+                $remoteStatus = strtoupper((string) ($statusResult['status'] ?? ''));
+
+                if (! empty($statusResult['success']) && in_array($remoteStatus, ['PAID', 'SETTLED'], true)) {
+                    $tx->update([
+                        'status' => 'PAID',
+                        'paid_at' => $tx->paid_at ?? now(),
+                    ]);
+                    $this->siapService->fulfillPaidOrder($order);
+                    $order->refresh();
+                }
+            }
         }
 
         $order->load(['assessment', 'attempt']);

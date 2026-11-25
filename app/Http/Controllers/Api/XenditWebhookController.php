@@ -37,15 +37,16 @@ class XenditWebhookController extends Controller
 
         Log::info('Xendit webhook received', ['payload' => $payload]);
 
-        // Validate callback token if configured
-        $callbackToken = config('payment.xendit.callback_token');
-        if ($callbackToken) {
-            $providedToken = $request->header('x-callback-token');
-            if ($providedToken !== $callbackToken) {
-                Log::warning('Xendit webhook: Invalid callback token');
+        // Validate callback token if configured (supports both production and sandbox tokens)
+        $prodToken = config('payment.xendit.callback_token');
+        $sandboxToken = config('payment.xendit.sandbox_callback_token');
+        $providedToken = $request->header('x-callback-token');
 
-                return response()->json(['success' => false, 'message' => 'Invalid callback token'], 401);
-            }
+        $configuredTokens = array_filter([$prodToken, $sandboxToken], fn ($t) => ! empty($t));
+        if (! empty($configuredTokens) && ! in_array($providedToken, $configuredTokens, true)) {
+            Log::warning('Xendit webhook: Invalid callback token');
+
+            return response()->json(['success' => false, 'message' => 'Invalid callback token'], 401);
         }
 
         $eventType = $payload['event'] ?? null;
@@ -71,8 +72,23 @@ class XenditWebhookController extends Controller
             return response()->json(['success' => false, 'message' => 'Transaction not found'], 404);
         }
 
-        // Only process paid invoices
-        if ($status !== 'PAID') {
+        $isSandboxTx = (bool) ($transaction->metadata['is_sandbox'] ?? false)
+            || str_starts_with($transaction->external_id, '1LANGKAH-SANDBOX-');
+
+        if ($isSandboxTx && $sandboxToken && $providedToken !== $sandboxToken) {
+            Log::warning('Xendit webhook: Sandbox transaction requires sandbox callback token', ['external_id' => $externalId]);
+
+            return response()->json(['success' => false, 'message' => 'Invalid callback token'], 401);
+        }
+
+        if (! $isSandboxTx && $prodToken && $providedToken !== $prodToken) {
+            Log::warning('Xendit webhook: Production transaction requires production callback token', ['external_id' => $externalId]);
+
+            return response()->json(['success' => false, 'message' => 'Invalid callback token'], 401);
+        }
+
+        // Only process paid/settled invoices
+        if (! in_array(strtoupper((string) $status), ['PAID', 'SETTLED'], true)) {
             Log::info('Xendit webhook: Ignoring non-paid status', ['status' => $status]);
 
             return response()->json(['success' => true, 'message' => 'Status not relevant']);

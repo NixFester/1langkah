@@ -67,6 +67,7 @@
     <div class="main-content">
         <x-topbar />
         <main class="page-content fade-in">
+            <x-siap-simulation-banner />
             @yield('content')
         </main>
     </div>

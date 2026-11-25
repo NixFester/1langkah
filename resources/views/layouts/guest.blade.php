@@ -26,6 +26,11 @@
     @stack('styles')
 </head>
 <body class="bg-[#0a0a0a] text-[#fdfdfc] font-sans antialiased selection:bg-[#dc2626] selection:text-white">
+    @if(session()->has('siap_simulation'))
+        <div class="relative z-[60] mx-auto max-w-4xl px-4 pt-3">
+            <x-siap-simulation-banner />
+        </div>
+    @endif
     @yield('body')
 
     @stack('scripts')

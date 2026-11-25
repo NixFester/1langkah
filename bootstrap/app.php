@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CleanupSiapSimulation;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsKeuangan;
 use App\Http\Middleware\IsMarketing;
@@ -20,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
             SetLocale::class,
+            CleanupSiapSimulation::class,
         ]);
 
         $middleware->redirectGuestsTo('/login');

@@ -24,6 +24,8 @@ return [
     'xendit' => [
         'api_key' => env('XENDIT_API_KEY', env('XENDIT_SECRET_KEY')),
         'callback_token' => env('XENDIT_CALLBACK_TOKEN', env('XENDIT_WEBHOOK_TOKEN')),
+        'sandbox_api_key' => env('XENDIT_API_SANDBOX'),
+        'sandbox_callback_token' => env('XENDIT_WEBOHOOK_SANDBOX_TOKEN', env('XENDIT_WEBHOOK_SANDBOX_TOKEN')),
         'environment' => env('XENDIT_ENVIRONMENT', 'development'), // "development" or "production"
         'verify_ssl' => env('XENDIT_VERIFY_SSL', true),
     ],

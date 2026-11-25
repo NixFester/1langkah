@@ -59,6 +59,7 @@
                     ['id' => 'admin.events', 'icon' => 'calendar', 'label' => __('app.manage_events'), 'route' => 'admin.events'],
                     ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'admin.quizzes'],
                     ['id' => 'admin.siap.index', 'icon' => 'sparkles', 'label' => 'Manage SIAP', 'route' => 'admin.siap.index'],
+                    ['id' => 'admin.siap.simulate', 'icon' => 'target', 'label' => __('app.siap_simulate_menu'), 'route' => 'admin.siap.simulate'],
                     ['id' => 'admin.options', 'icon' => 'settings', 'label' => __('app.settings'), 'route' => 'admin.options'],
                 ]
             ],
@@ -184,6 +185,7 @@
             ['id' => 'admin.events', 'icon' => 'calendar', 'label' => __('app.manage_events'), 'route' => 'admin.events'],
             ['id' => 'admin.quizzes', 'icon' => 'quiz', 'label' => __('app.manage_quizzes'), 'route' => 'admin.quizzes'],
             ['id' => 'admin.siap.index', 'icon' => 'sparkles', 'label' => 'Manage SIAP', 'route' => 'admin.siap.index'],
+            ['id' => 'admin.siap.simulate', 'icon' => 'target', 'label' => __('app.siap_simulate_menu'), 'route' => 'admin.siap.simulate'],
             ['id' => 'admin.options', 'icon' => 'settings', 'label' => __('app.settings'), 'route' => 'admin.options'],
             ['id' => 'back-to-app', 'icon' => 'arrowRight', 'label' => __('app.back_to_app'), 'route' => 'dashboard'],
         ];

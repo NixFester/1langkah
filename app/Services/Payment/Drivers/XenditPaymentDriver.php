@@ -25,17 +25,22 @@ class XenditPaymentDriver implements PaymentDriverInterface
      */
     public function createPayment(?User $user, string $itemType, int $itemId, int $amount, string $itemName, array $metadata = []): array
     {
-        $apiKey = config('payment.xendit.api_key');
+        $useSandbox = (bool) ($metadata['use_sandbox'] ?? false);
+        $apiKey = $useSandbox
+            ? config('payment.xendit.sandbox_api_key')
+            : config('payment.xendit.api_key');
 
         if (empty($apiKey)) {
             return [
                 'success' => false,
-                'error' => 'Xendit API key not configured',
+                'error' => $useSandbox
+                    ? 'Xendit Sandbox API key (XENDIT_API_SANDBOX) not configured'
+                    : 'Xendit API key not configured',
             ];
         }
 
         $actorId = $user?->id ?? 0;
-        $externalId = $this->generateExternalId($itemType, $itemId, $actorId);
+        $externalId = $this->generateExternalId($itemType, $itemId, $actorId, $useSandbox);
 
         $rawName = trim((string) ($user?->name ?: ($metadata['customer_name'] ?? 'Peserta SIAP')));
         $nameParts = preg_split('/\s+/', $rawName, 2);
@@ -67,6 +72,7 @@ class XenditPaymentDriver implements PaymentDriverInterface
                 'item_id' => $itemId,
                 'user_id' => $user?->id,
                 'item_name' => $itemName,
+                'is_sandbox' => $useSandbox,
             ]),
         ];
 
@@ -95,6 +101,7 @@ class XenditPaymentDriver implements PaymentDriverInterface
                         'item_id' => $itemId,
                         'user_id' => $user?->id,
                         'item_name' => $itemName,
+                        'is_sandbox' => $useSandbox,
                     ]),
                 ]);
 
@@ -140,7 +147,11 @@ class XenditPaymentDriver implements PaymentDriverInterface
             ];
         }
 
-        $apiKey = config('payment.xendit.api_key');
+        $useSandbox = (bool) ($transaction->metadata['is_sandbox'] ?? false)
+            || str_starts_with($transaction->external_id, '1LANGKAH-SANDBOX-');
+        $apiKey = $useSandbox
+            ? config('payment.xendit.sandbox_api_key')
+            : config('payment.xendit.api_key');
 
         if (empty($apiKey)) {
             return [
@@ -152,10 +163,11 @@ class XenditPaymentDriver implements PaymentDriverInterface
         }
 
         try {
+            $invoiceId = $transaction->payment_id ?: $externalId;
             $response = Http::withBasicAuth($apiKey, '')
                 ->withOptions(['verify' => (bool) config('payment.xendit.verify_ssl', true)])
                 ->timeout(30)
-                ->get("{$this->baseUrl}/v2/invoices/{$externalId}");
+                ->get("{$this->baseUrl}/v2/invoices/{$invoiceId}");
 
             if ($response->successful()) {
                 $data = $response->json();
@@ -236,9 +248,11 @@ class XenditPaymentDriver implements PaymentDriverInterface
     /**
      * Generate a unique external ID for the payment.
      */
-    private function generateExternalId(string $itemType, int $itemId, int $userId): string
+    private function generateExternalId(string $itemType, int $itemId, int $userId, bool $useSandbox = false): string
     {
-        return strtoupper("1LANGKAH-{$itemType}-{$itemId}-{$userId}-".Str::random(8));
+        $prefix = $useSandbox ? '1LANGKAH-SANDBOX' : '1LANGKAH';
+
+        return strtoupper("{$prefix}-{$itemType}-{$itemId}-{$userId}-".Str::random(8));
     }
 
     /**

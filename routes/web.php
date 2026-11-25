@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\OptionController;
 use App\Http\Controllers\Admin\PictureController;
+use App\Http\Controllers\Admin\SiapSimulationController;
 use App\Http\Controllers\Api\LeaderboardController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ProgressController;
@@ -87,6 +88,7 @@ Route::prefix('siap')->name('siap.')->group(function () {
     Route::post('/checkout/{product}/apply-promo', [SiapController::class, 'applyPromo'])->name('checkout.promo');
     Route::post('/checkout/{product}/process', [SiapController::class, 'processCheckout'])->name('checkout.process');
     Route::get('/order/{order}/success', [SiapController::class, 'orderSuccess'])->name('order.success');
+    Route::post('/simulation/exit', [SiapSimulationController::class, 'exit'])->name('simulation.exit');
 });
 
 // Quiz start redirects guests cleanly to /signup and returns them after registration
@@ -248,6 +250,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Manage SIAP Assessments (Replaced Global Quiz Prototype)
     Route::prefix('siap')->name('siap.')->group(function () {
         Route::get('/', [App\Http\Controllers\Admin\SiapAdminController::class, 'index'])->name('index');
+        Route::get('/simulate', [SiapSimulationController::class, 'entry'])->name('simulate');
+        Route::post('/simulate/start', [SiapSimulationController::class, 'start'])->name('simulate.start');
         Route::post('/config', [App\Http\Controllers\Admin\SiapAdminController::class, 'updateConfig'])->name('config.update');
         Route::post('/pricing', [App\Http\Controllers\Admin\SiapAdminController::class, 'updatePricing'])->name('pricing.update');
         Route::get('/assessments/{assessment}/questions', [App\Http\Controllers\Admin\SiapAdminController::class, 'questions'])->name('questions');
