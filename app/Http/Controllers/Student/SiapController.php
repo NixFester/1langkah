@@ -181,12 +181,16 @@ class SiapController extends Controller
                 ->first();
         }
 
+        $isSimulation = session()->has(\App\Services\SiapSimulationService::SESSION_KEY)
+            && $user
+            && app(\App\Services\SiapSimulationService::class)->isSimulationUser($user);
+
         if (! $draft) {
             $defaultGoogleEmail = ($user && Str::endsWith(strtolower((string) $user->email), ['@gmail.com', '@googlemail.com']))
                 ? $user->email
                 : ($lastPersonalInfo?->google_email ?? '');
 
-            if ($defaultGoogleEmail === '' && $user && app(\App\Services\SiapSimulationService::class)->isSimulationUser($user)) {
+            if ($defaultGoogleEmail === '' && $isSimulation) {
                 $adminId = session(\App\Services\SiapSimulationService::SESSION_KEY.'.admin_id');
                 $adminUser = $adminId ? User::find((int) $adminId) : null;
                 $defaultGoogleEmail = ($adminUser && Str::endsWith(strtolower((string) $adminUser->email), ['@gmail.com', '@googlemail.com']))
@@ -205,8 +209,12 @@ class SiapController extends Controller
                 'birth_date' => $lastPersonalInfo?->birth_date ?? $user?->birth_date,
                 'address' => $lastPersonalInfo?->address ?? $user?->address,
                 'whatsapp' => $lastPersonalInfo?->whatsapp ?? $user?->phone,
-                'answers' => [],
+                'answers' => $isSimulation ? $this->buildSimulationAnswers($assessment) : [],
                 'started_at' => now(),
+            ]);
+        } elseif ($isSimulation && empty($draft->answers)) {
+            $draft->update([
+                'answers' => $this->buildSimulationAnswers($assessment),
             ]);
         }
 
@@ -737,7 +745,7 @@ class SiapController extends Controller
             abort(403);
         }
 
-        if ($order->isPending() && $order->payment_transaction_id) {
+        if ($order->status === SiapOrder::STATUS_PENDING && $order->payment_transaction_id) {
             $tx = PaymentTransaction::find($order->payment_transaction_id);
             if ($tx && $tx->driver === 'xendit') {
                 $statusResult = app(\App\Services\Payment\Drivers\XenditPaymentDriver::class)
@@ -887,5 +895,37 @@ class SiapController extends Controller
         }
 
         return null;
+    }
+
+    /**
+     * Pre-populate realistic answers for every active question during Admin Simulation Mode.
+     *
+     * @return array<int, int|string>
+     */
+    private function buildSimulationAnswers(SiapAssessment $assessment): array
+    {
+        $answers = [];
+        $questions = $assessment->questions->values();
+
+        if ($assessment->isForcedChoice()) {
+            $pattern = [0, 1, 0, 2, 0, 3, 4];
+            foreach ($questions as $idx => $question) {
+                $options = is_array($question->options) ? array_values($question->options) : [];
+                if ($options === []) {
+                    continue;
+                }
+                $pickIdx = $pattern[$idx % count($pattern)] % count($options);
+                $answers[$question->id] = $options[$pickIdx]['key'] ?? 'A';
+            }
+
+            return $answers;
+        }
+
+        $likertPattern = [4, 4, 3, 2, 3, 4, 2, 3];
+        foreach ($questions as $idx => $question) {
+            $answers[$question->id] = $likertPattern[$idx % count($likertPattern)];
+        }
+
+        return $answers;
     }
 }

@@ -188,6 +188,19 @@
             </div>
         </div>
 
+        @if(session()->has(\App\Services\SiapSimulationService::SESSION_KEY))
+            <div class="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-900 shadow-sm">
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex h-2 w-2 rounded-full bg-amber-500"></span>
+                    <span>Mode Simulasi: seluruh jawaban tes telah terisi otomatis. Anda masih bisa mengubah jawaban atau langsung menyelesaikannya.</span>
+                </div>
+                <button type="button" @click="showConfirm = true"
+                    class="cursor-pointer rounded-xl bg-amber-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-amber-700">
+                    Selesaikan &amp; Lihat Hasil →
+                </button>
+            </div>
+        @endif
+
         <!-- Hidden serialized inputs for ALL answers -->
         <template x-for="q in questions" :key="'hidden-' + q.id">
             <input type="hidden" :name="`answers[${q.id}]`" :value="answers[q.id] ?? ''">

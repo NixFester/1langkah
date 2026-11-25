@@ -91,7 +91,7 @@
                 </label>
 
                 <label class="flex min-h-11 items-start gap-3 text-sm leading-6 text-slate-700">
-                    <input required type="checkbox" name="parental_consent" value="1" {{ old('parental_consent') ? 'checked' : '' }}
+                    <input required type="checkbox" name="parental_consent" value="1" {{ (old('parental_consent') || session()->has(\App\Services\SiapSimulationService::SESSION_KEY)) ? 'checked' : '' }}
                         class="mt-1.5 h-4 w-4 accent-red-600">
                     <span>Saya menyetujui pembelian asesmen ini dan memiliki izin orang tua/wali jika berusia di bawah umur.</span>
                 </label>

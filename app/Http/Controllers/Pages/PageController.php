@@ -162,15 +162,24 @@ class PageController extends Controller
 
         $nameParts = preg_split('/\s+/', trim($user->name ?? ''), 2);
 
+        $displayUser = clone $user;
+        if (session()->has(\App\Services\SiapSimulationService::SESSION_KEY)) {
+            $displayUser->phone = $displayUser->phone ?: '081234567890';
+            $displayUser->birth_place = $displayUser->birth_place ?: 'Jakarta';
+            $displayUser->birth_date = $displayUser->birth_date ?: \Carbon\Carbon::parse('2008-05-15');
+            $displayUser->address = $displayUser->address ?: 'Jl. Simulasi Pendidikan No. 10, Jakarta Selatan';
+            $displayUser->reason = $displayUser->reason ?: 'Eksplorasi Minat & Potensi Diri';
+        }
+
         return view('pages.signup', [
             'isCompletingProfile' => true,
-            'authUser' => $user,
+            'authUser' => $displayUser,
             'googleData' => [
-                'name' => $user->name,
-                'first_name' => $nameParts[0] ?? $user->name,
+                'name' => $displayUser->name,
+                'first_name' => $nameParts[0] ?? $displayUser->name,
                 'last_name' => $nameParts[1] ?? '',
-                'email' => $user->email,
-                'avatar' => $user->profile_photo,
+                'email' => $displayUser->email,
+                'avatar' => $displayUser->profile_photo,
             ],
         ]);
     }
