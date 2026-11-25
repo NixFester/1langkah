@@ -168,7 +168,7 @@ class PageController extends Controller
             $displayUser->birth_place = $displayUser->birth_place ?: 'Jakarta';
             $displayUser->birth_date = $displayUser->birth_date ?: \Carbon\Carbon::parse('2008-05-15');
             $displayUser->address = $displayUser->address ?: 'Jl. Simulasi Pendidikan No. 10, Jakarta Selatan';
-            $displayUser->reason = $displayUser->reason ?: 'Eksplorasi Minat & Potensi Diri';
+            $displayUser->purpose = $displayUser->purpose ?: 'Eksplorasi Minat & Potensi Diri';
         }
 
         return view('pages.signup', [
