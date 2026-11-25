@@ -7,6 +7,7 @@ use App\Models\PaymentTransaction;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 class XenditPaymentDriver implements PaymentDriverInterface
@@ -260,7 +261,13 @@ class XenditPaymentDriver implements PaymentDriverInterface
      */
     private function getSuccessRedirectUrl(string $itemType, int $itemId): string
     {
-        $baseUrl = config('app.url');
+        if ($itemType === 'siap_order') {
+            return URL::temporarySignedRoute('siap.order.success', now()->addHours(24), ['order' => $itemId]);
+        }
+
+        $baseUrl = (! app()->runningInConsole() && request())
+            ? request()->getSchemeAndHttpHost()
+            : config('app.url');
 
         return match ($itemType) {
             'course' => "{$baseUrl}/kursus/{$itemId}",
@@ -269,7 +276,6 @@ class XenditPaymentDriver implements PaymentDriverInterface
             'mentor_session' => "{$baseUrl}/my-sessions",
             'quiz' => "{$baseUrl}/quiz/start/{$itemId}?started=1",
             'quiz_attempt' => "{$baseUrl}/quiz/result/{$itemId}",
-            'siap_order' => "{$baseUrl}/siap/order/{$itemId}/success",
             default => "{$baseUrl}/dashboard",
         };
     }
@@ -279,6 +285,10 @@ class XenditPaymentDriver implements PaymentDriverInterface
      */
     private function getFailureRedirectUrl(): string
     {
-        return config('app.url').'/pembayaran';
+        $baseUrl = (! app()->runningInConsole() && request())
+            ? request()->getSchemeAndHttpHost()
+            : config('app.url');
+
+        return $baseUrl.'/pembayaran';
     }
 }

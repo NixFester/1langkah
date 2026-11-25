@@ -11,9 +11,17 @@
     $defaultGoogleEmail = old(
         'google_email',
         $draft->google_email
-            ?? $lastPersonalInfo?->google_email
-            ?? ($user && \Illuminate\Support\Str::endsWith(strtolower($user->email ?? ''), ['@gmail.com', '@googlemail.com']) ? $user->email : '')
+            ?: $lastPersonalInfo?->google_email
+            ?: ($user && \Illuminate\Support\Str::endsWith(strtolower($user->email ?? ''), ['@gmail.com', '@googlemail.com']) ? $user->email : '')
     );
+
+    if ($defaultGoogleEmail === '' && $user && app(\App\Services\SiapSimulationService::class)->isSimulationUser($user)) {
+        $adminId = session(\App\Services\SiapSimulationService::SESSION_KEY . '.admin_id');
+        $adminUser = $adminId ? \App\Models\User::find((int) $adminId) : null;
+        $defaultGoogleEmail = ($adminUser && \Illuminate\Support\Str::endsWith(strtolower($adminUser->email ?? ''), ['@gmail.com', '@googlemail.com']))
+            ? $adminUser->email
+            : 'simulasi.siswa@gmail.com';
+    }
 
     $questionsPayload = $questionsList->map(function ($q, $idx) {
         return [
@@ -79,7 +87,7 @@
         </div>
     </div>
 
-    <form action="{{ route('siap.submit', $assessment) }}" method="POST" id="siapQuizForm" @submit="handleFormSubmit($event)">
+    <form action="{{ route('siap.submit', $assessment) }}" method="POST" id="siapQuizForm" novalidate @submit="handleFormSubmit($event)">
         @csrf
         <input type="hidden" name="time_spent_seconds" :value="timeSpent">
 
@@ -94,8 +102,22 @@
             </div>
         @endif
 
-        <!-- Biodata Card -->
-        <div class="mb-6 rounded-3xl border border-stone-200 bg-white p-5 shadow-sm sm:p-6">
+        <!-- Compact Bar When Biodata Is Already Auto-Filled & Hidden -->
+        <div x-show="!showBiodata" style="display: none;"
+            class="mb-6 flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-stone-200 bg-white px-4 py-3 text-xs text-slate-600 shadow-sm">
+            <span class="font-medium text-stone-700">
+                Data diri terisi otomatis (<strong x-text="biodata.participant_name"></strong> · <span x-text="biodata.google_email"></span>)
+            </span>
+            <button type="button" @click="showBiodata = true"
+                class="cursor-pointer font-semibold text-[#E50000] hover:underline">
+                Ubah
+            </button>
+        </div>
+
+        <!-- Biodata Card (hidden automatically when complete) -->
+        <div x-show="showBiodata" x-transition
+            @if(!empty($initialBiodata['participant_name']) && !empty($initialBiodata['google_email']) && !empty($initialBiodata['birth_date']) && !empty($initialBiodata['whatsapp']) && !empty($initialBiodata['address']) && !$errors->any()) style="display: none;" @endif
+            class="mb-6 rounded-3xl border border-stone-200 bg-white p-5 shadow-sm sm:p-6">
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
                     <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-[#E50000]">
@@ -106,13 +128,13 @@
                         <p class="text-xs text-slate-500">Wajib diisi agar hasil asesmen dapat dicatat dan dikirim ke akun Google Anda.</p>
                     </div>
                 </div>
-                <button type="button" @click="showBiodata = !showBiodata"
+                <button type="button" @click="showBiodata = false"
                     class="cursor-pointer rounded-full border border-stone-200 px-3.5 py-1.5 text-xs font-semibold text-stone-700 hover:bg-stone-50">
-                    <span x-text="showBiodata ? 'Sembunyikan' : 'Edit Data Diri'"></span>
+                    Sembunyikan
                 </button>
             </div>
 
-            <div x-show="showBiodata" x-transition class="mt-5 grid grid-cols-1 gap-4 border-t border-stone-100 pt-5 sm:grid-cols-2">
+            <div class="mt-5 grid grid-cols-1 gap-4 border-t border-stone-100 pt-5 sm:grid-cols-2">
                 <div>
                     <label for="participant_name" class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-700">
                         Nama Lengkap <span class="text-red-500">*</span>
@@ -181,7 +203,7 @@
 
             @if($assessment->isForcedChoice())
                 <div class="space-y-3">
-                    <template x-for="opt in currentQuestion.options" :key="opt.key">
+                    <template x-for="(opt, optIdx) in currentQuestion.options" :key="opt.key">
                         <button type="button"
                             @click="selectAnswer(currentQuestion.id, opt.key)"
                             :aria-pressed="answers[currentQuestion.id] === opt.key"
@@ -190,7 +212,7 @@
                                 ? 'border-red-600 bg-red-50 font-semibold text-red-800'
                                 : 'border-stone-200 text-stone-800 hover:bg-stone-50'">
                             <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-current text-xs font-bold"
-                                x-text="opt.key"></span>
+                                x-text="optIdx + 1"></span>
                             <span class="flex-1 leading-snug" x-text="opt.text"></span>
                             <span x-show="answers[currentQuestion.id] === opt.key" class="ml-auto shrink-0 text-red-600">
                                 <x-icon name="check" class="h-5 w-5" />
@@ -290,6 +312,7 @@ function siapQuizRunner() {
         questions,
         answers: initialAnswers || {},
         biodata: initialBiodata,
+        hasCompleteBiodata,
         showBiodata: !hasCompleteBiodata || {{ $errors->any() ? 'true' : 'false' }},
         currentIndex: firstUnanswered === -1 ? 0 : firstUnanswered,
         timeSpent: 0,
@@ -351,9 +374,16 @@ function siapQuizRunner() {
         handleFormSubmit(e) {
             const form = document.getElementById('siapQuizForm');
             if (form && !form.checkValidity()) {
-                this.showBiodata = true;
                 e.preventDefault();
-                this.$nextTick(() => form.reportValidity());
+                this.showBiodata = true;
+                this.$nextTick(() => {
+                    const invalidEl = form.querySelector(':invalid');
+                    if (invalidEl) {
+                        invalidEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        invalidEl.focus({ preventScroll: true });
+                    }
+                    form.reportValidity();
+                });
                 return false;
             }
 

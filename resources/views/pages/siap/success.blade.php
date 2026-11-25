@@ -91,6 +91,12 @@
         @endif
 
         <div class="mt-6 flex flex-wrap justify-center gap-3">
+            @if($order->product_type === \App\Models\SiapOrder::PRODUCT_ASSESSMENT_FULL && $order->attempt)
+                <a href="{{ route('siap.results', $order->attempt) }}"
+                    class="inline-flex min-h-12 items-center rounded-xl bg-[#E50000] px-5 py-3 text-sm font-semibold text-white hover:bg-red-700">
+                    Lihat Hasil Lengkap
+                </a>
+            @endif
             <a href="{{ route('siap.certificates') }}"
                 class="inline-flex min-h-12 items-center rounded-xl border border-stone-200 bg-white px-5 py-3 text-sm font-semibold text-stone-800 hover:bg-stone-50">
                 Lihat Sertifikat &amp; Riwayat

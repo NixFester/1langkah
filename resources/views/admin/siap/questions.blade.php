@@ -30,7 +30,7 @@
                     {{ $assessment->questions->count() }} Soal
                 </span>
                 <span class="px-2.5 py-1 rounded-full bg-gray-100 text-xs font-semibold text-gray-700">
-                    {{ $assessment->isForcedChoice() ? 'Pilihan A–E (5 Bentuk)' : 'Skala Likert 1–4 (8 Kecerdasan)' }}
+                    {{ $assessment->isForcedChoice() ? 'Pilihan 1–5 (5 Bentuk)' : 'Skala Likert 1–4 (8 Kecerdasan)' }}
                 </span>
             </div>
         </div>

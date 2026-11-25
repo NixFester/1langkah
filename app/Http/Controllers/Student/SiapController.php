@@ -186,6 +186,14 @@ class SiapController extends Controller
                 ? $user->email
                 : ($lastPersonalInfo?->google_email ?? '');
 
+            if ($defaultGoogleEmail === '' && $user && app(\App\Services\SiapSimulationService::class)->isSimulationUser($user)) {
+                $adminId = session(\App\Services\SiapSimulationService::SESSION_KEY.'.admin_id');
+                $adminUser = $adminId ? User::find((int) $adminId) : null;
+                $defaultGoogleEmail = ($adminUser && Str::endsWith(strtolower((string) $adminUser->email), ['@gmail.com', '@googlemail.com']))
+                    ? $adminUser->email
+                    : 'simulasi.siswa@gmail.com';
+            }
+
             $draft = SiapAttempt::create([
                 'user_id' => $user?->id,
                 'guest_token' => $user ? null : $guestToken,
@@ -720,12 +728,12 @@ class SiapController extends Controller
     /**
      * Payment Success & Redeem Code Display Page.
      */
-    public function orderSuccess(SiapOrder $order): View
+    public function orderSuccess(Request $request, SiapOrder $order): View
     {
         $user = Auth::user();
         $guestToken = $this->getGuestToken();
 
-        if (! $this->actorOwns($order, $user, $guestToken)) {
+        if (! $request->hasValidSignature() && ! $this->actorOwns($order, $user, $guestToken)) {
             abort(403);
         }
 
